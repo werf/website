@@ -24,27 +24,78 @@ toc: false
 В начале каждой главы мы показываем, **какие файлы будут затронуты**:
 
 {% filesused title="Файлы, упомянутые в главе" %}
-- .helm/templates/deployment.yaml
-- .helm/templates/ingress.yaml
-- .helm/templates/service.yaml
-- .helm/values.yaml
-- .helm/secret-values.yaml
+- just/an/example.yaml
+- of/files.yaml
+- like.yml
+- many.yml
+- others.yml
 {% endfilesused %}
 
 Для вещей, выходящих за рампки повествования, но полезных для саморазвития, предусмотрены **схлопытвающиеся блоки**, например:
 
-{% offtopic title="Что делать, если вы не работали с Helm?" %}
+{% offtopic title="Нажми сюда чтобы узнать больше" %}
 
-Мы не будем вдаваться в подробности [разработки yaml манифестов с помощью Helm для Kubernetes](https://habr.com/ru/company/flant/blog/423239/). Осветим лишь отдельные её части, которые касаются данного приложения и werf в целом. Если у вас есть вопросы о том как именно описываются объекты Kubernetes, советуем посетить страницы документации по Kubernetes с его [концептами](https://kubernetes.io/ru/docs/concepts/) и страницы документации по разработке [шаблонов](https://helm.sh/docs/chart_template_guide/) в Helm.
+Это просто пример блока, который может раскрываться. Здесь, внутри, будет дополнительная информация для самых любознательных и желающих разобраться в матчасти.
+
 {% endofftopic %}
 
-В коде можно регулярно встретить **блоки с кодом**. Обратите внимание, что они **почти всегда отображают только часть файла**. Куда вставлять этот кусок текста — объясняется в тексте гайда, а также вы можете нажать на ссылку (в приведённом ниже примере - `deployment.yaml`) и перейти к github с полным исходным кодом файла.
+В коде можно регулярно встретить **блоки с кодом**. Обратите внимание, что они **почти всегда отображают только часть файла**. Куда вставлять этот кусок текста — объясняется в тексте гайда, а также вы можете нажать на ссылку (в приведённом ниже примере - `deployment.yaml`) и перейти к github с полным исходным кодом файла. Пропущенный текст обозначается с помощью `<...>`:
 
 {% snippetcut name="deployment.yaml" url="#" %}
 {% raw %}
 ```yaml
+git:
+  <...>
+  stageDependencies:
+    install:
+    - package.json
+```
+{% endraw %}
+{% endsnippetcut %}
+
+Мы против бездумного копирования файлов, но для того, чтобы вам было проще разобраться — в некоторых точках гайда есть **milestone-ы с полным кодом файлов на текущий момент**. Таким образом вы можете свериться с образцом:
+
+<div class="tabs">
+  <a href="javascript:void(0)" class="tabs__btn active" onclick="openTab(event, 'tabs__btn', 'tabs__content', 'example_1')">example_1.yaml</a>
+  <a href="javascript:void(0)" class="tabs__btn" onclick="openTab(event, 'tabs__btn', 'tabs__content', 'example_2')">example_2.yaml</a>
+</div>
+
+<div id="example_1" class="tabs__content active">
+{% snippetcut name="example_1.yaml" url="#" limited="true" %}
+{% raw %}
+```yaml
       containers:
-      - name: basicapp
+      - name: example_1
+        command:
+         - java
+         - -jar
+         - /app/target/demo-1.0.jar $JAVA_OPT
+      containers:
+      - name: example_1
+        command:
+         - java
+         - -jar
+         - /app/target/demo-1.0.jar $JAVA_OPT
+               containers:
+      - name: example_1
+        command:
+         - java
+         - -jar
+         - /app/target/demo-1.0.jar $JAVA_OPT
+      containers:
+      - name: example_1
+        command:
+         - java
+         - -jar
+         - /app/target/demo-1.0.jar $JAVA_OPT
+      containers:
+      - name: example_1
+        command:
+         - java
+         - -jar
+         - /app/target/demo-1.0.jar $JAVA_OPT
+               containers:
+      - name: example_1
         command:
          - java
          - -jar
@@ -53,7 +104,28 @@ toc: false
 ```
 {% endraw %}
 {% endsnippetcut %}
-
+</div>
+<div id="example_2" class="tabs__content">
+{% snippetcut name="example_2.yaml" url="#" limited="true" %}
+{% raw %}
+```yaml
+      containers:
+      - name: example_2
+        command:
+         - java
+         - -jar
+         - /app/target/demo-1.0.jar $JAVA_OPT
+      containers:
+      - name: example_2
+        command:
+         - java
+         - -jar
+         - /app/target/demo-1.0.jar $JAVA_OPT
+{{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
+```
+{% endraw %}
+{% endsnippetcut %}
+</div>
 
 <div>
     <a href="010_preparing.html" class="nav-btn">Далее: Подготовка к работе</a>
