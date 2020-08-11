@@ -1,0 +1,15 @@
+company_name: Flant
+company_url: https://flant.ru
+url: https://werf.io
+site_lang: en
+baseurl: /applications_guide_en
+
+exclude:
+- applications_guide_ru/
+
+include:
+- applications_guide_en/
+
+breadcrumbs:
+  hometext: "Home"
+
