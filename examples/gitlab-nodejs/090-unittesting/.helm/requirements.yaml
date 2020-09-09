@@ -1,0 +1,17 @@
+dependencies:
+- name: redis
+  version: "10.6.10"
+  repository: https://charts.bitnami.com/bitnami
+  condition: redis.enabled
+- name: postgresql
+  version: "8.9.2"
+  repository: https://charts.bitnami.com/bitnami
+  condition: postgresql.enabled
+- name: rabbitmq
+  version: "6.25.5"
+  repository: https://charts.bitnami.com/bitnami
+  condition: rabbitmq.enabled
+- name: minio
+  version: "3.3.6"
+  repository: https://charts.bitnami.com/bitnami
+  condition: minio.enabled

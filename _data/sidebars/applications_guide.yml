@@ -1,0 +1,18 @@
+entries:
+  en:
+    f:
+      - title: Back to documentation
+        url: /index.html
+
+  ru:
+    f:
+      - title: Назад к документации
+        type: secondary
+        url: /index.html
+
+      - title: К выбору языка и CI-системы
+        type: secondary
+        url: /
+
+
+

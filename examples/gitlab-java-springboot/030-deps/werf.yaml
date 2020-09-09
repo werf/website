@@ -1,0 +1,33 @@
+project: werf-guided-project
+configVersion: 1
+---
+artifact: build
+from: maven:3-jdk-8
+git:
+- add: /
+  to: /app
+  stageDependencies:
+    beforeSetup:
+    - pom.xml
+    setup:
+    - src
+mount:
+- from: build_dir
+  to: /root/.m2/repository
+shell:
+  beforeSetup:
+    - cd /app
+    - mvn -B -f pom.xml dependency:resolve
+  setup:
+  - cd /app
+  - mvn -B -f pom.xml package
+---
+image: basicapp
+from: openjdk:8-jdk-alpine
+import:
+- artifact: build
+  add: /app/target/*.jar
+  to: /app/demo.jar
+  after: setup
+docker:
+  WORKDIR: /app

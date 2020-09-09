@@ -1,0 +1,56 @@
+project: werf-guided-project
+configVersion: 1
+---
+artifact: assets-built
+from: node:14-stretch
+shell:
+  beforeInstall:
+    - apt update
+    - apt install -y build-essential tzdata locales
+  install:
+    - cd /app && npm i
+  setup:
+    - cd /app && npm run build
+git:
+  - add: /
+    to: /app
+    stageDependencies:
+      install:
+        - package.json
+        - webpack-*
+      setup:
+        - "**/*"
+mount:
+  - from: build_dir
+    to: /var/cache/apt
+---
+image: "node-assets"
+from: nginx:stable-alpine
+docker:
+  EXPOSE: '80'
+shell:
+  beforeInstall:
+  - |
+    head -c -1 <<'EOF' > /etc/nginx/nginx.conf
+    {{ .Files.Get ".werf/nginx.conf" | nindent 4 }}
+    EOF
+import:
+  - artifact: assets-built
+    add: /app/dist
+    to: /www
+    after: setup
+---
+image: basicapp
+from: __________
+git:
+  - add: /
+    to: /app
+    __________
+shell:
+  beforeInstall:
+    - apt update
+    - apt install -y tzdata locales
+  install:
+    - cd /app && __________
+docker:
+  WORKDIR: /app

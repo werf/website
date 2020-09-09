@@ -1,0 +1,94 @@
+{{- $vars := include "app_vars" . | fromYaml }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  annotations:
+    werf.io/skip-logs: true
+    werf.io/failures-allowed-per-replica: 8
+spec:
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
+      initContainers:
+      - name: wait-postgres
+        image: alpine:3.6
+        command: ['/bin/sh', '-c', 'while ! getent ahostsv4 {{ pluck .Values.global.env .Values.app.postgresql.host | first | default .Values.app.postgresql.host._default }}; do sleep 1; done']
+      - name: wait-rabbitmq
+        image: alpine:3.6
+        command: ['/bin/sh', '-c', 'while ! getent ahostsv4 {{ pluck .Values.global.env .Values.app.rabbitmq.host | first | default .Values.app.rabbitmq.host._default }}; do sleep 1; done']
+      - name: wait-redis
+        image: alpine:3.6
+        command: ['/bin/sh', '-c', 'while ! getent ahostsv4 {{ pluck .Values.global.env .Values.app.postgresql.host | first | default .Values.app.postgresql.host._default }}; do sleep 1; done']
+      containers:
+      - name: {{ .Chart.Name }}
+{{ tuple "node" . | include "werf_container_image" | indent 8 }}
+        workingDir: /app
+        command: ["node","/app/dist/app.js"]
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+            scheme: HTTP
+          initialDelaySeconds: 90
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+            scheme: HTTP
+          initialDelaySeconds: 90
+          periodSeconds: 10
+        env:
+{{ tuple "node" . | include "werf_container_env" | indent 8 }}
+        - name: SESSION_REDIS
+          value: {{ $vars.redis_uri }}
+        - name: DATABASE_URL
+          value: {{ $vars.db_uri }}
+        - name: AMQP_URI
+          value: {{ $vars.rmq_uri }}
+        - name: CDN_PREFIX
+          value: {{ printf "%s%s" (pluck .Values.global.env .Values.app.cdn_prefix | first | default .Values.app.cdn_prefix._default) (pluck .Values.global.env .Values.app.s3.bucket | first | default .Values.app.s3.bucket._default) | quote }}
+        - name: S3_SSL
+          value: {{ pluck .Values.global.env .Values.app.s3.ssl | first | default .Values.app.s3.ssl._default | quote }}
+        - name: S3_ENDPOINT
+          value: {{ pluck .Values.global.env .Values.app.s3.host | first | default .Values.app.s3.host._default }}
+        - name: S3_PORT
+          value: {{ pluck .Values.global.env .Values.app.s3.port | first | default .Values.app.s3.port._default | quote }}
+        - name: S3_ACCESS_KEY
+          value: {{ pluck .Values.global.env .Values.app.s3.access_key | first | default .Values.app.s3.access_key._default }}
+        - name: S3_SECRET_KEY
+          value: {{ pluck .Values.global.env .Values.app.s3.secret_key | first | default .Values.app.s3.secret_key._default }}
+        - name: S3_BUCKET
+          value: {{ pluck .Values.global.env .Values.app.s3.bucket | first | default .Values.app.s3.bucket._default }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    prometheus.deckhouse.io/custom-target: nodejs-metrics
+spec:
+  selector:
+    app: {{ .Chart.Name }}
+  clusterIP: None
+  ports:
+  - name: http-metrics
+    port: 5000
+    targetPort: 5000
+    protocol: TCP

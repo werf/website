@@ -1,0 +1,16 @@
+project: werf-guided-project
+configVersion: 1
+---
+image: basicapp
+from: python:3.6-stretch
+git:
+- add: /
+  to: /app
+shell:
+  beforeInstall:
+  - apt update
+  - apt install -y tzdata locales
+  install:
+  - cd /app && pip install -r requirements.txt
+docker:
+  WORKDIR: /app

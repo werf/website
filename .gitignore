@@ -1,4 +1,5 @@
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
+.snippets-checker.py
+.debug.txt
+.idea
+_site
+.jekyll-cache

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/head %>
+  </head>
+  <body>
+    <% include partials/menu %> <% include partials/scripts %>
+    <script>
+        $(document).ready(function () {
+          $("#username").hide();
+          $("#login-submit").click(function (e) {
+            if ($(this).attr("value") === "Register") {
+              $.post(
+                "/register",
+                {
+                  user_name: $("#username").val(),
+                  user_email: $("#useremail").val(),
+                  user_password: $("#password").val(),
+                },
+                function (data) {
+                  if (data.error) {
+                    alert(data.message);
+                  } else {
+                    $("#username").hide();
+                    $("#login-submit").prop("value", "Log in");
+                  }
+                }
+              );
+            } else {
+              $.post(
+                "/login",
+                {
+                  user_email: $("#useremail").val(),
+                  user_password: $("#password").val(),
+                },
+                function (data) {
+                  if (!data.error) {
+                    window.location.href = "/profile";
+                  } else {
+                    alert(data.message);
+                  }
+                }
+              );
+            }
+          });
+          $("#reg").click(function (event) {
+            $("#username").show("slow");
+            $("#login-submit").prop("value", "Register");
+            event.preventDefault();
+          });
+        });
+      </script>
+    <div
+      class="form-group"
+      style="margin-top: 100px; width: 400px; margin-left: 50px;"
+    >
+      <input
+        type="text"
+        id="username"
+        placeholder="Name"
+        class="form-control"
+      /><br />
+      <input
+        type="text"
+        id="useremail"
+        placeholder="Email"
+        class="form-control"
+      /><br />
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        class="form-control"
+      /><br />
+      <input
+        type="button"
+        id="login-submit"
+        value="Log In"
+        class="btn btn-primary"
+      />&nbsp;<a href="" id="reg">Sign up here </a>
+    </div>
+  </body>
+</html>
