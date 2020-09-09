@@ -12,7 +12,7 @@ toc: false
 
 В этой главе мы настроим в нашем базовом приложении выполнение тестов/линтеров. Запуск тестов и линтеров - это отдельная стадия в pipelinе Gitlab CI для выполнения которых могут быть нужны определенные условия. Рассмотрим на примере стандартного механизма django - `unittest`.
 
-Нам нужно прописать выполнение задания отдельной стадией на нашем gitlab runner командной [werf run](https://ru.werf.io/documentation/cli/main/run.html).
+Нам нужно прописать выполнение задания отдельной стадией на нашем gitlab runner командной [werf run]({{ site.docsurl }}/documentation/cli/main/run.html).
 
 {% snippetcut name=".gitlab-ci.yml" url="#" %}
 {% raw %}

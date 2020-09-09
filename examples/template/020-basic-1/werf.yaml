@@ -1,0 +1,16 @@
+project: werf-guided-project
+configVersion: 1
+---
+image: basicapp
+from: __________
+git:
+- add: /
+  to: /app
+shell:
+  beforeInstall:
+  - apt update
+  - apt install -y tzdata locales
+  install:
+  - cd /app && __________
+docker:
+  WORKDIR: /app

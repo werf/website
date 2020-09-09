@@ -1,0 +1,25 @@
+postgresql:
+  enabled: true
+  postgresqlDatabase: guided-database
+  postgresqlUsername: guide-username
+  postgresqlHost: postgres
+  imageTag: "12"
+  login:
+    _default: postgresuser
+  port:
+    _default: postgresport
+  persistence:
+    enabled: true
+    storageClass: "local-storage"
+    accessModes:
+    - ReadWriteOnce
+    size: 8Gi
+
+app:
+  java_opt:
+    _default: "--debug"
+    production: ""
+  url:
+    _default: stage.example.com
+    prodiction: example.com
+

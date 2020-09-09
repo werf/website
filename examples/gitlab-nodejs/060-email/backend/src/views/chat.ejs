@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/head %>
+  </head>
+  <body>
+    <% include partials/menu %> <% include partials/scripts %>
+    <script src="../../socket.io/socket.io.js"></script>
+    <div id="chat_messages">
+      <ul id="messages"></ul>
+    </div>
+
+    <div>
+      <form role="form" class="chat" action="/" method="POST" id="chatForm">
+        <div class="input-group mb-3">
+          <input
+            id="txt"
+            type="text"
+            class="form-control"
+            aria-describedby="basic-addon2"
+            autocomplete="off"
+            autofocus="on"
+            placeholder="type your message here..."
+          />
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script src="/assets/main.js"></script>
+  </body>
+</html>

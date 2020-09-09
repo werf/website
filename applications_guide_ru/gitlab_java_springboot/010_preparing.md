@@ -59,7 +59,7 @@ toc: false
 Есть несколько вариантов установки и настройки раннера: он может быть установлен на отдельном сервере, на нескольких серверах или запускаться на динамически создаваемых узлах. В гайде будет рассматриваться самый простой сценарий — использование одного узла.
 
 {% offtopic title="Как быть с более сложными конфигурациями раннеров?" %}
-На данный момент Werf поддерживает [распределённый режим сборки](https://ru.werf.io/documentation/guides/switch_to_distributed_mode.html).
+На данный момент Werf поддерживает [распределённый режим сборки]({{ site.docsurl }}/documentation/guides/switch_to_distributed_mode.html).
 При необходимости есть возможность сделать образ с Werf и запускать его внутри docker. Готовый docker-образ со всем необходимым сейчас находится в разработке.
 
 Также в разработке находится механика параллельной сборки.
@@ -68,7 +68,7 @@ toc: false
 Требований не много:
 
 *   У раннера есть сетевая доступность до Kubernetes и до Registry
-*   Для пользователя, которого использует gitlab-runner, [установлен multiwerf](https://ru.werf.io/documentation/guides/installation.html#installing-multiwerf)
+*   Для пользователя, которого использует gitlab-runner, [установлен multiwerf]({{ site.docsurl }}/documentation/guides/installation.html#installing-multiwerf)
 *   Для пользователя, которого использует gitlab-runner, установлен kubectl и добавлен конфигурационный файл для подключения к Kubernetes.
 *   Gitlab-runner подключен к нашему Gitlab с тегом `werf`
 

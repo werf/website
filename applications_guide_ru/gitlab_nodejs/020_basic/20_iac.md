@@ -59,7 +59,7 @@ toc: false
 
 Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/demos/tree/master/applications-guide/gitlab-nodejs/examples).
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       containers:
@@ -70,21 +70,21 @@ toc: false
 {% endraw %}
 {% endsnippetcut %}
 
-Обратите внимание на вызов [`werf_container_image`](https://ru.werf.io/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image). Данная функция генерирует ключи `image` и `imagePullPolicy` со значениями, необходимыми для соответствующего контейнера Pod'а, что позволяет гарантировать перевыкат контейнера тогда, когда это нужно.
+Обратите внимание на вызов [`werf_container_image`]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image). Данная функция генерирует ключи `image` и `imagePullPolicy` со значениями, необходимыми для соответствующего контейнера Pod'а, что позволяет гарантировать перевыкат контейнера тогда, когда это нужно.
 
 {% offtopic title="А в чём проблема?" %}
 Kubernetes не знает ничего об изменении контейнера: он действует на основании описания объектов и сам выкачивает образы из Registry. Поэтому Kubernetes'у нужно в явном виде сообщать, что делать.
 
 werf складывает собранные образы в Registry с разными именами — в зависимости от выбранной стратегии тегирования и деплоя (подробнее это разобрано в главе про CI). Как следствие, в описание контейнера нужно пробрасывать правильный путь до образа, а также дополнительные аннотации, связанные со стратегией деплоя.
 
-Подробнее - можно посмотреть в [документации](https://ru.werf.io/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image).
+Подробнее - можно посмотреть в [документации]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image).
 {% endofftopic %}
 
 Для корректной работы приложения ему нужно узнать **переменные окружения**.
 
 Например, для Node.js это `DEBUG`.
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       env:
@@ -96,7 +96,7 @@ werf складывает собранные образы в Registry с раз�
 {% endraw %}
 {% endsnippetcut %}
 
-Обратите также внимание на функцию [`werf_container_env`](https://ru.werf.io/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_env): с её помощью werf вставляет в описание объекта служебные переменые окружения.
+Обратите также внимание на функцию [`werf_container_env`]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_env): с её помощью werf вставляет в описание объекта служебные переменые окружения.
 
 <a name="helm-values-yaml" />
 
@@ -104,7 +104,7 @@ werf складывает собранные образы в Registry с раз�
 
 Helm — шаблонизатор, который поддерживает множество инструментов для подстановки значений. Один из центральных способов — подставлять значения из файла `values.yaml`. Наша конструкция могла бы иметь вид:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       env:
@@ -117,7 +117,7 @@ Helm — шаблонизатор, который поддерживает мн�
 
 … или даже более сложный — для того, чтобы значение основывалось на текущем окружении:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       env:
@@ -128,7 +128,7 @@ Helm — шаблонизатор, который поддерживает мн�
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/values.yaml" %}
 ```yaml
 app:
   isDebug:
@@ -175,7 +175,7 @@ app.use(morgan("combined"));
 
 Наше приложение работает на стандартном порту `3000` — **откроем порт Pod'у**:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 ```yaml
         ports:
         - containerPort: 3000
@@ -185,7 +185,7 @@ app.use(morgan("combined"));
 
 Затем **пропишем Service**, чтобы к Pod'у могли обращаться другие приложения кластера:
 
-{% snippetcut name="service.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/templates/service.yaml" %}
+{% snippetcut name="service.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -206,7 +206,7 @@ spec:
 
 Обратите внимание на поле `selector` у Service: он должен совпадать с аналогичным полем у Deployment. Ошибки в этой части — самая частая проблема с настройкой маршрута до приложения.
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -237,7 +237,7 @@ spec:
 
 После этого можно настраивать **роутинг на Ingress**. Укажем, на какой домен, путь, сервис и порт направлять запросы:
 
-{% snippetcut name="ingress.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic/.helm/templates/ingress.yaml" %}
+{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
   rules:
@@ -268,7 +268,7 @@ spec:
 
 Этот вариант удобен для проброса, например, имени домена для каждого окружения:
 
-{% snippetcut name="ingress.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/templates/ingress.yaml" %}
+{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
   rules:
@@ -279,15 +279,15 @@ spec:
 
 <a name="secret-values-yaml" />Отдельная проблема — **хранение и задание секретных переменных**, например, учётных данных аутентификации для сторонних сервисов, API-ключей и т.п.
 
-Так как werf рассматривает Git как единственный источник правды, правильно хранить секретные переменные там же. Чтобы делать это корректно, мы [храним данные в шифрованном виде](https://ru.werf.io/documentation/reference/deploy_process/working_with_secrets.html). Подстановка значений из этого файла происходит при рендере шаблона, который также запускается при деплое.
+Так как werf рассматривает Git как единственный источник правды, правильно хранить секретные переменные там же. Чтобы делать это корректно, мы [храним данные в шифрованном виде]({{ site.docsurl }}/documentation/reference/deploy_process/working_with_secrets.html). Подстановка значений из этого файла происходит при рендере шаблона, который также запускается при деплое.
 
 Чтобы воспользоваться секретными переменными:
 
-* [сгенерируйте ключ](https://ru.werf.io/documentation/cli/management/helm/secret/generate_secret_key.html) (`werf helm secret generate-secret-key`);
+* [сгенерируйте ключ]({{ site.docsurl }}/documentation/cli/management/helm/secret/generate_secret_key.html) (`werf helm secret generate-secret-key`);
 * определите ключ в переменных окружения для приложения, в текущей сессии консоли (например, `export WERF_SECRET_KEY=634f76ead513e5959d0e03a992372b8e`);
 * пропишите полученный ключ в `Variables` для вашего репозитория в GitLab (раздел `Settings` → `CI/CD`), название переменной должно быть­`WERF_SECRET_KEY`:
 
-![](/images/applications-guide/020-werf-secret-key-in-gitlab.png)
+![](/applications_guide_ru/images/applications-guide/020-werf-secret-key-in-gitlab.png)
 
 После этого можно задать секретные переменные `access_key` и `secret_key`, например, для работы с S3. Зайдите в режим редактирования секретных значений:
 
@@ -310,7 +310,7 @@ app:
 
 После сохранения значения в файле зашифруются и примут примерно такой вид:
 
-{% snippetcut name="secret-values.yaml в зашифрованном виде" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/secret-values.yaml" %}
+{% snippetcut name="secret-values.yaml в зашифрованном виде" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/secret-values.yaml" %}
 ```yaml
 app:
   s3:
@@ -344,7 +344,7 @@ kubectl create secret docker-registry registrysecret -n <namespace> --docker-ser
 
 В каждом Deployment'е также указывается имя секрета:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
     spec:
@@ -383,7 +383,7 @@ kubectl get secret registrysecret -n kube-system -o json |
 * Установить переменную окружения `WERF_SECRET_KEY` со значением, [сгенерированным ранее в главе "Разное поведение в разных окружениях"](#secret-values-yaml);
 * Установить переменную окружения `WERF_ENV` с названием окружения, в которое будет осуществляться деплой. Вопрос разных окружений будет затронут подробнее в процессе создания CI-процесса, а сейчас — просто установим значение `staging`. **Важно удалить эту переменную в финальном варианте деплоя**: иначе деплой всегда будет идти в один и тот же namespace.
 
-Если вы всё правильно сделали, уже должны корректно отрабатывать команды [`werf helm render`](https://ru.werf.io/documentation/cli/management/helm/render.html) и [`werf deploy`](https://ru.werf.io/documentation/cli/main/deploy.html). _Примечание: при локальном запуске эти команды могут жаловаться на нехватку данных, которые в ином случае были бы проброшены из CI. Например, на данные о теге собранного образа. Это нормально._
+Если вы всё правильно сделали, уже должны корректно отрабатывать команды [`werf helm render`]({{ site.docsurl }}/documentation/cli/management/helm/render.html) и [`werf deploy`]({{ site.docsurl }}/documentation/cli/main/deploy.html). _Примечание: при локальном запуске эти команды могут жаловаться на нехватку данных, которые в ином случае были бы проброшены из CI. Например, на данные о теге собранного образа. Это нормально._
 
 {% offtopic title="Как вообще работает деплой?" %}
 
@@ -411,7 +411,7 @@ werf-guided-project-staging          Active               3h2m
 
 {% offtopic title="Как формируется имя namespace'а?" %}
 
-По шаблону `[[ project ]]-[[ env ]]`, где `[[ project ]]` — имя проекта, а `[[ env ]]` — имя окружения. Подробнее можно почитать [в документации](https://ru.werf.io/documentation/configuration/deploy_into_kubernetes.html#namespace-%D0%B2-kubernetes).
+По шаблону `[[ project ]]-[[ env ]]`, где `[[ project ]]` — имя проекта, а `[[ env ]]` — имя окружения. Подробнее можно почитать [в документации]({{ site.docsurl }}/documentation/configuration/deploy_into_kubernetes.html#namespace-%D0%B2-kubernetes).
 
 При необходимости namespace можно переназначить.
 

@@ -37,7 +37,7 @@ $ npm install minio --save
 
 … и настроим работу с MinIO S3 в приложении:
 
-{% snippetcut name="src/server/server.js" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/050-files/src/server/server.js" %}
+{% snippetcut name="src/server/server.js" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/050-files/src/server/server.js" %}
 ```js
 const Minio = require("minio");
 const S3_ENDPOINT = process.env.S3_ENDPOINT || "127.0.0.1";
@@ -60,7 +60,7 @@ var s3Client = new Minio.Client({
 ```
 {% endsnippetcut %}
 
-Для работы с S3 необходимо пробросить ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных](https://ru.werf.io/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic.html#secret-values-yaml).*
+Для работы с S3 необходимо пробросить ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных]({{ site.docsurl }}/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic.html#secret-values-yaml).*
 
 {% snippetcut name="secret-values.yaml (расшифрованный)" url="#" %}
 {% raw %}
@@ -77,7 +77,7 @@ app:
 
 Несекретные значения — храним в `values.yaml`:
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/050-files/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/050-files/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 app:
@@ -97,7 +97,7 @@ app:
 
 После того, как значения корректно прописаны и зашифрованы, можно пробросить соответствующие значения в Deployment:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/050-files/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/050-files/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: CDN_PREFIX

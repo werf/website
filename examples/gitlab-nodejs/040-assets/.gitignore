@@ -1,0 +1,14 @@
+.werf_secret_key
+.vscode/*
+.vscode
+.venv
+.venv/*
+node/node_modules
+node/node_modules/*
+.helm/charts/
+node/dist/*
+dist/*
+node_modules
+node_modules/*
+dist
+dist/*

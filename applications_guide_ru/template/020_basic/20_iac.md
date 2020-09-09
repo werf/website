@@ -63,14 +63,14 @@ toc: false
 {% endraw %}
 {% endsnippetcut %}
 
-Обратите внимание на вызов [`werf_container_image`](https://ru.werf.io/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image). Данная функция генерирует ключи `image` и `imagePullPolicy` со значениями, необходимыми для соответствующего контейнера пода и это позволяет гарантировать перевыкат контейнера тогда, когда это нужно.
+Обратите внимание на вызов [`werf_container_image`]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image). Данная функция генерирует ключи `image` и `imagePullPolicy` со значениями, необходимыми для соответствующего контейнера пода и это позволяет гарантировать перевыкат контейнера тогда, когда это нужно.
 
 {% offtopic title="А в чём проблема?" %}
 Kubernetes не знает ничего об изменении контейнера — он действует на основании описания объектов и сам выкачивает образы из Registry. Поэтому Kubernetes-у нужно в явном виде сообщать, что делать.
 
 Werf складывает собранные образы в Registry с разными именами, в зависимости от выбранной стратегии тегирования и деплоя — подробнее это мы разберём в главе про CI. И, как следствие, в описание контейнера нужно пробрасывать правильный путь до образа, а также дополнительные аннотации, связанные со стратегией деплоя.
 
-Подробнее - можно посмотреть в [документации](https://ru.werf.io/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image).
+Подробнее - можно посмотреть в [документации]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image).
 {% endofftopic %}
 
 Для корректной работы нашего приложения ему нужно узнать **переменные окружения**.
@@ -93,7 +93,7 @@ ____________
 ____________
 Мы задали значение для `____________` в явном виде — и это абсолютно не безопасный путь для хранения таких критичных данных. Мы разберём более правильный путь ниже, в главе "Разное поведение в разных окружениях".
 
-Обратите также внимание на функцию [`werf_container_env`](https://ru.werf.io/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_env) — с помощью неё Werf вставляет в описание объекта служебные переменые окружения.
+Обратите также внимание на функцию [`werf_container_env`]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_env) — с помощью неё Werf вставляет в описание объекта служебные переменые окружения.
 
 <a name="helm-values-yaml" />
 
@@ -272,15 +272,15 @@ spec:
 
 <a name="secret-values-yaml" />Отдельная проблема — **хранение и задание секретных переменных**, например, учётных данных аутентификации для сторонних сервисов, API-ключей и т.п.
 
-Так как Werf рассматривает git как единственный источник правды — правильно хранить секретные переменные там же. Чтобы делать это корректно — мы [храним данные в шифрованном виде](https://ru.werf.io/documentation/reference/deploy_process/working_with_secrets.html). Подстановка значений из этого файла происходит при рендере шаблона, который также запускается при деплое.
+Так как Werf рассматривает git как единственный источник правды — правильно хранить секретные переменные там же. Чтобы делать это корректно — мы [храним данные в шифрованном виде]({{ site.docsurl }}/documentation/reference/deploy_process/working_with_secrets.html). Подстановка значений из этого файла происходит при рендере шаблона, который также запускается при деплое.
 
 Чтобы продолжать дальше
 
-* [Сгенерируйте ключ](https://ru.werf.io/documentation/cli/management/helm/secret/generate_secret_key.html) (`werf helm secret generate-secret-key`)
+* [Сгенерируйте ключ]({{ site.docsurl }}/documentation/cli/management/helm/secret/generate_secret_key.html) (`werf helm secret generate-secret-key`)
 * Задайте ключ в переменных приложения, в текущей сессии консоли (например, `export WERF_SECRET_KEY=504a1a2b17042311681b1551aa0b8931z`)
 * Пропишите полученный ключ в Variables для вашего репозитория в Gitlab (раздел `Settings` - `CI/CD`), название переменной `WERF_SECRET_KEY`
 
-![](/images/applications-guide/020-werf-secret-key-in-gitlab.png)
+![](/applications_guide_ru/images/applications-guide/020-werf-secret-key-in-gitlab.png)
 
 После этого мы сможем задать секретную переменную____________. Зайдите в режим редактирования секретных значений:
 
@@ -321,7 +321,7 @@ app:
 * Установить переменную окружения `WERF_SECRET_KEY` со значением, [сгенерированным ранее в главе "Разное поведение в разных окружениях"](#secret-values-yaml)
 * Установить переменную окружения `WERF_ENV` с названием окружения, в которое будет осуществляться деплой. Вопроса разных окружений мы коснёмся подробнее, когда будем строить CI-процесс, сейчас — просто установим значение `staging`. **Важно удалить эту переменную в финальном варианте деплоя** — иначе деплой всегда будет идти в один и тот же namespace.
 
-Если вы всё правильно сделали, то вы у вас корректно будут отрабатывать команды [`werf helm render`](https://ru.werf.io/documentation/cli/management/helm/render.html) и [`werf deploy`](https://ru.werf.io/documentation/cli/main/deploy.html). _Примечание: при локальном запуске эти команды могут жаловаться на нехватку данных, которые в ином случае были бы проброшены из CI. Например, на данные о теге собранного образа. Это нормально._
+Если вы всё правильно сделали, то вы у вас корректно будут отрабатывать команды [`werf helm render`]({{ site.docsurl }}/documentation/cli/management/helm/render.html) и [`werf deploy`]({{ site.docsurl }}/documentation/cli/main/deploy.html). _Примечание: при локальном запуске эти команды могут жаловаться на нехватку данных, которые в ином случае были бы проброшены из CI. Например, на данные о теге собранного образа. Это нормально._
 
 {% offtopic title="Как вообще работает деплой" %}
 
@@ -347,7 +347,7 @@ werf-guided-project-staging          Active               3h2m
 
 {% offtopic title="Как формируется имя namespace-а?" %}
 
-По шаблону `[[ project ]]-[[ env ]]`, где `[[ project ]]` — имя проекта, а `[[ env ]]` — имя окружения. Подробнее можно почитать [в документации](https://ru.werf.io/documentation/configuration/deploy_into_kubernetes.html#namespace-%D0%B2-kubernetes)
+По шаблону `[[ project ]]-[[ env ]]`, где `[[ project ]]` — имя проекта, а `[[ env ]]` — имя окружения. Подробнее можно почитать [в документации]({{ site.docsurl }}/documentation/configuration/deploy_into_kubernetes.html#namespace-%D0%B2-kubernetes)
 
 При необходимости namespace можно переназначить.
 {% endofftopic %}

@@ -49,7 +49,7 @@ Kubernetes автоматически разворачивает приложе�
 
 Пропишем Helm-зависимости:
 
-{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/requirements.yaml" %}
+{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/requirements.yaml" %}
 {% raw %}
 ```yaml
 dependencies:
@@ -63,7 +63,7 @@ dependencies:
 
 Для того, чтобы werf при деплое загрузила необходимые нам сабчарты, нужно прописать в `.gitlab-ci.yml` работу с зависимостями:
 
-{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.gitlab-ci.yml" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 .base_deploy: &base_deploy
@@ -80,7 +80,7 @@ dependencies:
 
 Изучив [документацию сабчарта](https://github.com/bitnami/charts/tree/master/bitnami/postgresql#parameters), можно увидеть, что название основной базы данных, пользователя, хоста и пароля и даже версии PostgreSQL задаются через следующие переменные:
 
-{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -96,7 +96,7 @@ postgresql:
 
 Пароль от базы данных мы тоже конфигурируем, но храним его в секретных переменных. Для этого стоит использовать механизм секретных переменных. *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic/20_iac.html#secret-values-yaml).*
 
-{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/secret-values.yaml" %}
+{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/secret-values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -117,7 +117,7 @@ postgresql:
 
 Далее мы указываем настройки `persistence`, с помощью которых настроим хранилище для БД:
 
-{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -171,7 +171,7 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-Мы не будем подробно останавливаться на каждом параметре этой сущности, т.к. сама её настройка достойна отдельной главы. Для глубокого понимания вы можете обратиться к официальной документации Kubernetes.
+Мы не будем подробно останавливаться на каждом параметре этой сущности, т.к. сама её настройка достойна отдельной главы. Для глубокого понимания вы можете обратиться к [официальной документации Kubernetes](https://kubernetes.io/docs/concepts/storage/).
 
 Для того, чтобы PersistentVolume корректно создал хранилище, нужно правильно указать, **на каком узле** и **в какой директории** будет наш localstorage.
 
@@ -279,7 +279,7 @@ kubectl -n werf-guided-project-production edit pv posgresql-data
 
 Для подключения Node.js-приложения к PostgreSQL необходимо установить npm-пакет `pg` и сконфигурировать:
 
-{% snippetcut name="server.js" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/backend/src/server/server.js" %}
+{% snippetcut name="server.js" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/backend/src/server/server.js" %}
 {% raw %}
 ```js
 const pgconnectionString =
@@ -302,7 +302,7 @@ pool.on("error", (err, client) => {
 
 {% offtopic title="Как работает вынос части шаблона в блок?" %}
 
-{% snippetcut name=".helm/templates/_envs.tpl" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/_envs.tpl" %}
+{% snippetcut name=".helm/templates/_envs.tpl" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/_envs.tpl" %}
 {% raw %}
 ```yaml
 {{- define "database_envs" }}
@@ -316,7 +316,7 @@ pool.on("error", (err, client) => {
 
 Вставляя этот блок, не забывайте добавлять отступы с помощью функции `indent`:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 {{- include "database_envs" . | indent 8 }}
@@ -330,7 +330,7 @@ pool.on("error", (err, client) => {
 {% offtopic title="Какие значения прописываются в переменные окружения?" %}
 Будем **конфигурировать хост** через `values.yaml`:
 
-{% snippetcut name=".helm/templates/_envs.tpl" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/_envs.tpl" %}
+{% snippetcut name=".helm/templates/_envs.tpl" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/_envs.tpl" %}
 {% raw %}
 ```yaml
 - name: POSTGRESQL_HOST
@@ -341,7 +341,7 @@ pool.on("error", (err, client) => {
 
 **Конфигурируем логин и порт** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 - name: POSTGRESQL_LOGIN
@@ -352,7 +352,7 @@ pool.on("error", (err, client) => {
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -366,7 +366,7 @@ postgresql:
 
 **Конфигурируем пароль** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 - name: POSTGRESQL_PASSWORD
@@ -375,7 +375,7 @@ postgresql:
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="secret-values.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/secret-values.yaml" %}
+{% snippetcut name="secret-values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/secret-values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -433,7 +433,7 @@ node
 
 Также мы воспользуемся аннотациями Helm [`helm.sh/hook` и `helm.sh/weight`](https://helm.sh/docs/topics/charts_hooks/), чтобы Job выполнялся после того, как применится новая конфигурация.
 
-{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/job.yaml" %}
+{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/job.yaml" %}
 {% raw %}
 ```yaml
     "helm.sh/hook": post-install,post-upgrade
@@ -442,7 +442,7 @@ node
 {% endraw %}
 {% endsnippetcut %}
 
-Вопросы по настройке Job могут возникнуть уже на этапе, когда мы видим блок `annotations`. Он содержит в себе настройки для `helm`, которые определяют, когда именно нужно запускать Job (подробнее про них можно узнать в [документации Helm](https://v2.helm.sh/docs/charts_hooks/)).
+Вопросы по настройке Job могут возникнуть уже на этапе, когда мы видим блок `annotations`. Он содержит в себе настройки для Helm, которые определяют, когда именно нужно запускать Job (подробнее про них можно узнать в [документации Helm](https://v2.helm.sh/docs/charts_hooks/)).
 
 В данном случае первой аннотацией мы указываем, что Job нужно запускать только после того, как все объекты чарта будут загружены и запущены в Kubernetes.
 
@@ -452,7 +452,7 @@ node
 
 Так как состояние кластера постоянно меняется, нельзя быть уверенными, что на момент запуска миграций база работает и доступна. Поэтому в Job добавляется `initContainer`, который не даёт запуститься скрипту миграции, пока не станет доступна база данных:
 
-{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/job.yaml" %}
+{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/job.yaml" %}
 {% raw %}
 ```yaml
       initContainers:
@@ -468,7 +468,7 @@ node
 
 Остался непосредственный запуск миграции. В нём мы используем тот же самый образ, что и в ресурсе Deployment у приложения:
 
-{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/080-database/.helm/templates/job.yaml" %}
+{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/job.yaml" %}
 {% raw %}
 ```yaml
       - name: migration

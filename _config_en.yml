@@ -3,6 +3,7 @@ company_url: https://flant.ru
 url: https://werf.io
 site_lang: en
 baseurl: /applications_guide_en
+docsurl: https://werf.io
 
 exclude:
 - applications_guide_ru/

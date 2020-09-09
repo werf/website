@@ -10,7 +10,7 @@ toc: false
 
 Если у вас мало опыта с описанием объектов Kubernetes — учтите, что это может занять у вас больше времени, чем организация сборки и CI-процесса с помощью werf. Это нормально и мы постарались облегчить для вас этот процесс.
 
-Наше приложение будет состоять из одного docker образа собранного с помощью werf. В этом образе будет работать один основной процесс, который запустит ____________. Управлять маршрутизацией запросов к приложению будет Ingress в Kubernetes кластере. Мы реализуем два стенда: [production](https://ru.werf.io/documentation/reference/ci_cd_workflows_overview.html#production) и [staging](https://ru.werf.io/documentation/reference/ci_cd_workflows_overview.html#staging).
+Наше приложение будет состоять из одного docker образа собранного с помощью werf. В этом образе будет работать один основной процесс, который запустит ____________. Управлять маршрутизацией запросов к приложению будет Ingress в Kubernetes кластере. Мы реализуем два стенда: [production]({{ site.docsurl }}/documentation/reference/ci_cd_workflows_overview.html#production) и [staging]({{ site.docsurl }}/documentation/reference/ci_cd_workflows_overview.html#staging).
 
 <div>
     <a href="020_basic/10_build.html" class="nav-btn">Далее: Сборка</a>

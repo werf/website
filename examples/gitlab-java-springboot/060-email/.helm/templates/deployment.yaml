@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
+      containers:
+      - name: basicapp
+        command: ["java"]
+        args: ["-jar", "/app/demo.jar", "$JAVA_OPT"]
+{{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
+        workingDir: /app
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: JAVA_OPT
+          value: "{{ pluck .Values.global.env .Values.app.java_opt | first | default .Values.app.java_opt._default }}"
+        - name: SGAPIKEY
+          value: {{ pluck .Values.global.env .Values.app.sendgrid.apikey | first | default .Values.app.sendgrid.apikey._default | quote }}
+        - name: SGUSERNAME
+          value: {{ pluck .Values.global.env .Values.app.sendgrid.username | first | default .Values.app.sendgrid.username._default | quote }}
+        - name: SGPASSWORD
+          value: {{ pluck .Values.global.env .Values.app.sendgrid.password | first | default .Values.app.sendgrid.password._default | quote }}
+{{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}

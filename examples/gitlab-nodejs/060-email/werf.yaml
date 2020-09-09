@@ -1,0 +1,88 @@
+project: werf-guided-project
+configVersion: 1
+---
+artifact: assets-built
+from: node:14-stretch
+shell:
+  beforeInstall:
+  - apt update
+  - apt install -y build-essential tzdata locales
+  install:
+  - cd /app && npm i
+  setup:
+  - cd /app && npm run build
+git:
+  - add: /backend
+    to: /app
+    stageDependencies:
+      install:
+      - package.json
+      - webpack-*
+      setup:
+      - "src/*"
+mount:
+- from: build_dir
+  to: /var/cache/apt
+---
+image: node_assets
+from: nginx:stable-alpine
+docker:
+  EXPOSE: '80'
+ansible:
+  beforeInstall:
+  - name: Add nginx config
+    copy:
+      content: |
+{{ .Files.Get ".werf/nginx.conf" | indent 8 }}
+      dest: /etc/nginx/nginx.conf
+import:
+- artifact: assets-built
+  add: /app/dist
+  to: /www
+  after: setup
+---
+image: basicapp
+from: node:14-stretch
+docker:
+  WORKDIR: /app
+git:
+- add: /backend/src
+  to: /app/src
+- add: /backend/.gitignore
+  to: /app/.gitignore
+import:
+- artifact: assets-built
+  add: /app/node_modules
+  to: /app/node_modules
+  after: setup
+- artifact: assets-built
+  add: /app/dist/views
+  to: /app/dist/views
+  after: setup
+- artifact: assets-built
+  add: /app/dist/app.js
+  to: /app/dist/app.js
+  after: setup
+- artifact: assets-built
+  add: /app/package.json
+  to: /app/package.json
+  after: setup
+- artifact: assets-built
+  add: /app/package-lock.json
+  to: /app/package-lock.json
+  after: setup
+---
+image: consumer
+from: node:14-stretch
+git:
+- add: /consumer
+  to: /app
+  stageDependencies:
+    install:
+    - package.json
+ansible:
+  install:
+  - name: npm i
+    shell: npm i
+    args:
+      chdir: /app

@@ -1,0 +1,4 @@
+app:
+  java_opt:
+    _default: "--debug"
+    production: ""

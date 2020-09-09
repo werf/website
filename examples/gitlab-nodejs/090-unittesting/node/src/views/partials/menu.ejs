@@ -1,0 +1,16 @@
+<nav class="navbar sticky-top navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">ChatSite</a>
+    </div>
+    <% if (key) { %>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/">Let's chat <b><%= name %></a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right"><li class="active"><a href="/profile/"><span class="fa fa-user"></span> Hi you are login as <b><%= email %></a></li></ul>
+    <ul class="nav navbar-nav navbar-right"><li class="active"><a href="/logout/"><span class="fa fa-sign-out"></span> Logout</a></li></ul>
+    <% } else { %>
+    <ul class="nav navbar-nav navbar-right"><li class="active"><a href="/login/"><span class="fa fa-sign-in"></span> Login</a></li></ul>
+    <% } %>
+  </div>
+</nav>

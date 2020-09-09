@@ -57,10 +57,10 @@ toc: false
 
 ## Изменения в сборке
 
-Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого нужно собрать образ с nginx и забросить туда ассеты, предварительно собранные с помощью [механизма артефактов](https://ru.werf.io/documentation/configuration/stapel_artifact.html).
+Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого нужно собрать образ с nginx и забросить туда ассеты, предварительно собранные с помощью [механизма артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
 
 {% offtopic title="Что за артефакты?" %}
-[Артефакт](https://ru.werf.io/documentation/configuration/stapel_artifact.html) — это специальный образ, используемый в других артефактах или отдельных образах, описанных в конфигурации. Артефакт предназначен преимущественно для отделения ресурсов инструментов сборки от процесса сборки образа приложения. Примерами таких ресурсов могут быть программное обеспечение или данные, которые необходимы для сборки, но не нужны для запуска приложения, и т.п.
+[Артефакт]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html) — это специальный образ, используемый в других артефактах или отдельных образах, описанных в конфигурации. Артефакт предназначен преимущественно для отделения инструментов сборки и исходных кодов от финального скомпилированного результата. Так, в экосистеме NodeJS — это webpack, в Java — Maven, в C++ — make, в C# — MSBuild.
 
 Важный и сложный вопрос — это отладка образов, в которых используются артефакты. Представим себе артефакт:
 
@@ -78,12 +78,12 @@ from: ubuntu:latest
 ...
 ```
 
-Теперь можно выполнять отладку `my-simple-artifact` с помощью [интроспекции стадий](https://ru.werf.io/documentation/reference/development_and_debug/stage_introspection.html).
+Теперь можно выполнять отладку `my-simple-artifact` с помощью [интроспекции стадий]({{ site.docsurl }}/documentation/reference/development_and_debug/stage_introspection.html).
 {% endofftopic %}
 
 Начнём с создания артефакта: установим необходимые пакеты и выполним сборку ассетов. Генерация ассетов должна происходить в артефакте на стадии `setup`:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 artifact: assets-built
@@ -111,7 +111,7 @@ git:
 
 Чтобы это работало, необходимо добавить сценарий `build` и нужные зависимости в ваш `package.json`:
 
-{% snippetcut name="package.json" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/package.json" %}
+{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/package.json" %}
 {% raw %}
 ```yaml
     "build": "rm -rf dist && webpack --config webpack.config.js --mode development"
@@ -134,7 +134,7 @@ git:
 
 Теперь, когда артефакт собран, соберём образ с nginx:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -152,11 +152,11 @@ shell:
 {% endraw %}
 {% endsnippetcut %}
 
-_Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/.werf/nginx.conf)._
+_Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.werf/nginx.conf)._
 
 И пропишем в нём импорт из артефакта под названием `build`:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 import:
@@ -176,7 +176,7 @@ import:
 * `livenessProbe` и `readinessProbe`, которые будут проверять корректную работу контейнера в Pod'е,
 * команду `preStop` для корректного завершения процесса nginx, чтобы при выкате новой версии приложения корректно завершались активные сессии.
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       - name: node-assets
@@ -205,7 +205,7 @@ import:
 
 В описании Service также должен быть указан правильный порт:
 
-{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/.helm/templates/service.yaml" %}
+{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
   ports:
@@ -219,7 +219,7 @@ import:
 
 И в Ingress необходимо отправить запросы на правильный порт, чтобы они попадали на nginx:
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/040-assets/.helm/templates/ingress.yaml" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
       paths:

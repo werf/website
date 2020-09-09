@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/head %>
+  </head>
+  <body>
+    <% include partials/menu %> <% include partials/scripts %>
+    <script>
+      function onUploadBtnClick() {
+        var formData = new FormData($("#AvatarForm")[0]);
+        formData.append("avatar_file", $("#FormControlFile1")[0].files[0]);
+        $.ajax({
+          url: "/api/upload_avatar",
+          data: formData,
+          type: "POST",
+          contentType: false,
+          processData: false,
+          success: function (data) {
+            $.ajax({
+              url: "/api/get_avatar",
+              type: "GET",
+              contentType: false,
+              processData: false,
+              cache: false,
+              success: function (data) {
+                $("#avatarImg").prop("src", data.avatar);
+              },
+            });
+          },
+          error: function (data) {
+            alert(data["message"]);
+          },
+        });
+      }
+    </script>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h3>Avatar</h3>
+          <br />
+          <% if (key['avatarUrl']) { %>
+          <img
+            id="avatarImg"
+            src="<%= avatar %>"
+            alt="User Avatar"
+            width="189"
+            height="255"
+            class="img-rounded img-responsive"
+          />
+          <% } else { %>
+          <img
+            id="avatarImg"
+            src="https://placehold.it/189x255"
+            alt="User Avatar"
+            width="189"
+            height="255"
+            class="img-rounded img-responsive"
+          />
+          <% } %>
+          <form enctype="multipart/form-data">
+            <div class="input-group">
+              <input
+                type="file"
+                class="custom-file-input"
+                aria-describedby="inputGroupFileAddon01"
+                id="FormControlFile1"
+              />
+              <label class="custom-file-label" for="FormControlFile1"
+                >Choose file</label
+              >
+              <div class="input-group-append">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  id="AvatarUploadBtn"
+                  onclick="onUploadBtnClick()"
+                >
+                  Upload
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col">
+          <h3>User info</h3>
+          <br />
+          <p>Username: <%= key['name'] %></p>
+          <p>Email: <%= key['email'] %></p>
+          <p>Joined: <%= key['createdAt'] %></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

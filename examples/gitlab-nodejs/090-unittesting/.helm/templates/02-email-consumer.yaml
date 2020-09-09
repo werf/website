@@ -1,0 +1,34 @@
+{{- $vars := include "app_vars" . | fromYaml }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-email-consumer
+spec:
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-email-consumer
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-email-consumer
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
+      containers:
+      - name: {{ .Chart.Name }}
+{{ tuple "consumer" . | include "werf_container_image" | indent 8 }}
+        workingDir: /app
+        command: ["node","consumer.js"]
+        env:
+        - name: AMQP_URI
+          value: {{ $vars.rmq_uri }}
+        - name: MAILGUN_APIKEY
+          value: {{ pluck .Values.global.env .Values.app.mailgun_apikey | first | default .Values.app.mailgun_apikey._default }}
+        - name: MAILGUN_DOMAIN
+          value: {{ pluck .Values.global.env .Values.app.mailgun_domain | first | default .Values.app.mailgun_domain._default | quote }}
+{{ tuple "consumer" . | include "werf_container_env" | indent 8 }}
