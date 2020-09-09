@@ -1,5 +1,5 @@
 ---
-title: Юнит-тесты и Линтеры
+title: Юнит-тесты и линтеры
 sidebar: applications_guide
 guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/090_unittesting.html
@@ -10,9 +10,9 @@ toc: false
 - .gitlab-ci.yml
 {% endfilesused %}
 
-В этой главе мы настроим в нашем базовом приложении выполнение тестов/линтеров. Запуск тестов и линтеров - это отдельная стадия в pipelinе Gitlab CI для выполнения которых могут быть нужны определенные условия. Рассмотрим на примере [линтера ESLint](https://eslint.org/) - это линтер для языка программирования JavaScript, написанный на Node.js.
+В этой главе мы настроим в нашем базовом приложении выполнение тестов/линтеров. Запуск тестов и линтеров - это отдельная стадия в пайплайне Gitlab CI, для выполнения которой может требоваться соблюдение определенных условий. Рассмотрим на примере [линтера ESLint](https://eslint.org/) для языка программирования JavaScript (написан на Node.js).
 
-Нам нужно добавить эту зависимость в наше `package.json`, создать к нему конфигурационный файл `.eslintrc.json` и прописать выполнение задания отдельной стадией на нашем gitlab runner командной [werf run](https://ru.werf.io/documentation/cli/main/run.html).
+Требуется добавить эту зависимость в `package.json`, создать к нему конфигурационный файл `.eslintrc.json` и прописать выполнение задания отдельной стадией на GitLab Runner командой [werf run](https://ru.werf.io/documentation/cli/main/run.html).
 
 {% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/090-unittesting/.gitlab-ci.yml" %}
 {% raw %}
@@ -30,7 +30,7 @@ Run Tests:
 {% endraw %}
 {% endsnippetcut %}
 
-Созданную стадию нужно добавить в список стадий
+Созданную стадию нужно добавить в список стадий:
 
 {% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/090-final/.gitlab-ci.yml" %}
 {% raw %}
@@ -43,10 +43,10 @@ stages:
 {% endraw %}
 {% endsnippetcut %}
 
-Обратите внимание, что процесс будет выполняться на runner-е, внутри собранного контейнера, но без доступа к базе данных и каким-либо ресурсам Kubernetes-кластера.
+Обратите внимание, что процесс будет выполняться на runner'е, внутри собранного контейнера, но без доступа к базе данных и каким-либо ресурсам Kubernetes-кластера.
 
 {% offtopic title="А если нужно больше?" %}
-Если нужен доступ к ресурсам кластера или база данных — это уже не линтер: нужно собирать отдельный образ и прописывать сложный сценарий деплоя объектов Kubernetes. Эти кейсы выходят за рамки нашего гайда для начинающих.
+Если нужен доступ к ресурсам кластера или база данных — это уже не линтер: потребуется собрать отдельный образ и прописать сложный сценарий деплоя объектов Kubernetes. Эти случаи выходят за рамки нашего гайда для начинающих.
 {% endofftopic %}
 
 <div>

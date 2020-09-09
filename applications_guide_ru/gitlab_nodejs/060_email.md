@@ -14,15 +14,15 @@ toc: false
 
 В этой главе мы настроим в нашем базовом приложении работу с почтой.
 
-Для того чтобы использовать почту мы предлагаем лишь один вариант - использовать внешнее API. В нашем примере это [mailgun](https://www.mailgun.com/).
+Для того, чтобы использовать почту, мы предлагаем лишь один вариант - использовать внешний API. В нашем примере это [Mailgun](https://www.mailgun.com/).
 
-Для того, чтобы NodeJS приложение могло работать с mailgun необходимо установить и сконфигурировать зависимость и начать её использовать. Установим через `npm` зависимость:
+Для того, чтобы Node.js-приложение могло работать с Mailgun, необходимо установить и сконфигурировать зависимость и начать её использовать. Установим через `npm` зависимость:
 
 ```bash
 npm install mailgun-js
 ```
 
-И [сконфигурируем согласно документации](https://github.com/mailgun/mailgun-js#documentation) пакета
+И сконфигурируем согласно [документации пакета](https://github.com/mailgun/mailgun-js#documentation):
 
 {% snippetcut name="consumer.js" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/060-email/consumer/consumer.js" %}
 {% raw %}
@@ -58,7 +58,7 @@ const sendEmail = async (email) => {
 {% endraw %}
 {% endsnippetcut %}
 
-Для работы с mailgun необходимо пробросить в ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных](https://ru.werf.io/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, [когда мы делали базовое приложение](020_basic.html#secret-values-yaml)*
+Для работы с Mailgun необходимо пробросить в ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных](https://ru.werf.io/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic.html#secret-values-yaml).*
 
 {% snippetcut name="secret-values.yaml (расшифрованный)" url="#" %}
 {% raw %}
@@ -72,7 +72,7 @@ app:
 {% endraw %}
 {% endsnippetcut %}
 
-После того, как значения корректно прописаны и зашифрованы — мы можем пробросить соответствующие значения в Deployment.
+После того, как значения корректно прописаны и зашифрованы, можно пробросить соответствующие значения в Deployment:
 
 {% snippetcut name="deployment.yaml" url="https://github.com/werf/demos/blob/master/applications-guide/gitlab-nodejs/examples/060-email/.helm/templates/consumer.yaml" %}
 {% raw %}
@@ -86,5 +86,5 @@ app:
 {% endsnippetcut %}
 
 <div>
-    <a href="070_redis.html" class="nav-btn">Далее: Подключаем redis</a>
+    <a href="070_redis.html" class="nav-btn">Далее: Подключаем Redis</a>
 </div>
