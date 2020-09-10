@@ -19,7 +19,7 @@ toc: false
 
 В этой главе мы настроим в нашем базовом приложении продвинутую работу с базой данных, включающую в себя вопросы выполнения миграций. В качестве базы данных возьмём PostgreSQL.
 
-Мы не будем вносить изменения в сборку — будем использовать образы с DockerHub и конфигурировать их и инфраструктуру.
+Мы не будем вносить изменения в сборку — будем использовать образы с DockerHub, конфигурировать их и инфраструктуру.
 
 <a name="kubeconfig" />
 
@@ -27,26 +27,28 @@ toc: false
 
 Подключение базы данных само по себе не является сложной задачей, особенно если она находится вне Kubernetes. Особенность подключения заключается только лишь в указании логина, пароля, хоста, порта и названия самой базы данных внутри инстанса с БД в переменных окружения к вашему приложению.
 
-Мы же рассмотрим вариант с базой внутри нашего кластера, удобство такого способа в том, что мы можем невероятно быстро развернуть полноценное окружение для нашего приложения, однако предстоит решить непростую задачу конфигурирования базы данных, в том числе — вопрос конфигурирования места хранения данных базы.
+Мы же рассмотрим вариант с базой внутри Kubernetes-кластера. Удобство такого способа в том, что можно быстро развернуть полноценное окружение для нашего приложения. Однако предстоит решить непростую задачу конфигурирования базы данных, в том числе — вопрос конфигурирования места хранения данных базы.
 
 {% offtopic title="А что с местом хранения?" %}
-Kubernetes автоматически разворачивает приложение и переносит его с одного сервера на другой. А значит "по умолчанию" приложение может сначала сохранить данные на одном сервере, а потом быть запущено на другом и оказаться без данных. Хранилища нужно конфигурировать и связывать с приложением и есть несколько способов это сделать.
+Kubernetes автоматически разворачивает приложение и переносит его с одного сервера на другой. А значит, «по умолчанию» приложение может сначала сохранить данные на одном сервере, а потом быть запущено на другом и оказаться без данных. Хранилища нужно конфигурировать и связывать с приложением; есть несколько способов это сделать.
 {% endofftopic %}
 
-Есть два способа подключить нашу БД: прописать helm-чарт самостоятельно или подключить внешний чарт. Мы рассмотрим второй вариант, подключим PostgreSQL как внешний subchart.
+Есть два способа подключить нашу БД: прописать Helm-чарт самостоятельно или подключить внешний чарт. Мы рассмотрим второй вариант: подключим PostgreSQL как внешний subchart.
 
-Более того мы рассмотрим вопрос того каким образом можно обеспечить хранение данных для такой непостоянной сущности как под.
+Более того, мы рассмотрим вопрос того, каким образом можно обеспечить хранение данных для такой непостоянной сущности, как Pod в Kubernetes.
 
 Для этого нужно:
-1. Указать Postgres как зависимый сабчарт в requirements.yaml;
+1. Указать Postgres как зависимый сабчарт в `requirements.yaml`;
 2. Сконфигурировать в werf работу с зависимостями;
-3. Убедиться что ваш кластер настроен на работу с персистентным хранилищем;
+3. Убедиться, что кластер настроен на работу с персистентным хранилищем;
 3. Сконфигурировать подключённый сабчарт;
-5. Убедиться, что создаётся под с Postgres.
+5. Убедиться, что создаётся Pod с PostgreSQL.
 
-Пропишем helm-зависимости:
+### Конфигурирование чарта
 
-{% snippetcut name=".helm/requirements.yaml" url="#" %}
+Пропишем Helm-зависимости:
+
+{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/requirements.yaml" %}
 {% raw %}
 ```yaml
 dependencies:
@@ -58,41 +60,45 @@ dependencies:
 {% endraw %}
 {% endsnippetcut %}
 
-Для того чтобы werf при деплое загрузил необходимые нам сабчарты - нужно прописать в `.gitlab-ci.yml` работу с зависимостями
+Для того, чтобы werf при деплое загрузила необходимые нам сабчарты, нужно прописать в `.gitlab-ci.yml` работу с зависимостями:
 
-{% snippetcut name=".gitlab-ci.yml" url="#" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
-.base_deploy:
+.base_deploy: &base_deploy
   stage: deploy
   script:
     - werf helm repo init
     - werf helm dependency update
-    - werf deploy
+    - werf deploy --set "global.ci_url=$(cut -d / -f 3 <<< $CI_ENVIRONMENT_URL)"
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-Для того, чтобы подключённые сабчарты заработали — нужно указать настройки в `values.yaml`:
+Для того, чтобы подключённые сабчарты заработали, нужно указать настройки в `values.yaml`:
 
-Изучив [документацию](https://github.com/bitnami/charts/tree/master/bitnami/postgresql#parameters) к нашему сабчарту мы можем увидеть, что задать название основной базы данных, пользователя, хоста и пароля и даже версии postgres мы можем через следующие переменные:
+Изучив [документацию сабчарта](https://github.com/bitnami/charts/tree/master/bitnami/postgresql#parameters), можно увидеть, что название основной базы данных, пользователя, хоста и пароля и даже версии PostgreSQL задаются через следующие переменные:
 
-{% snippetcut name=".helm/values.yaml" url="#" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
   enabled: true
+<...>
+  _postgresqlHost:
+    _default: "werf-guided-project-staging-postgresql"
+    production: "werf-guided-project-production-postgresql"
   postgresqlDatabase: guided-database
   postgresqlUsername: guide-username
-  postgresqlHost: postgres
+  servicePort: 5432
   imageTag: "12"
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-Пароль от базы данных мы тоже конфигурируем, но хранить их нужно в секретных переменных. Для этого стоит использовать [механизм секретных переменных](#######TODO). *Вопрос работы с секретными переменными рассматривался подробнее, [когда мы делали базовое приложение](020_basic.html#secret-values-yaml)*.
+Пароль от базы данных мы тоже конфигурируем, но храним его в секретных переменных. Для этого стоит использовать механизм секретных переменных. *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic/20_iac.html#secret-values-yaml).*
 
-{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="#" %}
+{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 postgresql:
@@ -102,22 +108,22 @@ postgresql:
 {% endsnippetcut %}
 
 {% offtopic title="А где база будет хранить свои данные?" %}
-Наверное один из самых главных вопросов при разворачивании базы данных - это вопрос о месте её хранения. Каким образом мы можем сохранять данные в Kubernetes если контейнер по определению является чем-то не постоянным.
+Наверное, один из самых главных вопросов при разворачивании базы данных - это вопрос о месте её хранения. Каким образом мы можем сохранять данные в Kubernetes, если контейнер по определению является чем-то непостоянным?
 
-В качестве хранилища данных в kubernetes может быть настроен специальный [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/) который позвляет динамически создавать хранилища с помощью внешних ресурсов. Мы не будем подробно расписывать способы настройки этой сущности, т.к. её конфигурация может отличаться в зависимости от версии вашего кластера и места развертывания( на своих ресурсах или в облаке), предлагаем вам прокосультироваться по этому вопросу с людьми поддерживающими ваш кластер.
+В качестве хранилища данных в Kubernetes может быть настроен специальный [storage class](https://kubernetes.io/docs/concepts/storage/storage-classes/), который позвляет динамически создавать хранилища с помощью внешних ресурсов. Мы не будем подробно расписывать способы настройки этой сущности, т.к. её конфигурация может отличаться в зависимости от версии вашего кластера и места развертывания(на своих ресурсах или в облаке). Предлагаем лучше прокосультироваться по этому вопросу с людьми, поддерживающими ваш K8s-кластер.
 
-Хорошим и простым примером `storage-class` является `local-storage`, который мы и решили использовать в качестве типа хранилища для нашей базы данных.
+Хорошим и простым примером `storage-class` является `local-storage`, который и будет использоваться в качестве типа хранилища для нашей базы данных.
 
-`local-storage` позволяет хранить данные непосредственно на диске самих нод нашего кластера.
+`local-storage` позволяет хранить данные непосредственно на диске самих узлов кластера.
 {% endofftopic %}
 
-Далее мы указываем настройки `persistence`, с помощью которых мы настроим хранилище для нашей БД.
+Далее мы указываем настройки `persistence`, с помощью которых настроим хранилище для БД:
 
-{% snippetcut name=".helm/values.yaml" url="#" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
-  ....
+<...>
   persistence:
     enabled: true
     storageClass: "local-storage"
@@ -127,13 +133,16 @@ postgresql:
 ```
 {% endraw %}
 {% endsnippetcut %}
-На данный момент возможно осталась непонятной только одна настройка:
-`accessModes` - настройка которая определят тип доступа к нашему хранилищу. `ReadWriteOnce` - сообщает о том что к нашему хранилищу единовременно может обращаться только один под.
+На данный момент, возможно, осталась непонятной только одна настройка:
+* `accessModes` - эта настройка определят тип доступа к нашему хранилищу. Значение `ReadWriteOnce` сообщает о том, что к хранилищу единовременно может обращаться только один Pod.
 
+### Хранилище
 
-В нашем случае для корректного развертывания БД нам осталось указать только одну сущность - [PersitentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)
+Для того, чтобы описанный выше чарт смог выкатиться, описанное хранилище нужно создать. Для этого потребуется создать сущность [PersitentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). Конфигурацию объекта `PersistentVolume` не получится положить в репозиторий с исходным кодом приложения — его нужно создать вручную через `kubectl`.
 
-{% snippetcut name="postgres-pvc.yaml" url="#" %}
+Конфигурация объекта выглядит _примерно_ следующим образом:
+
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 apiVersion: v1
@@ -164,16 +173,13 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-Мы не будем подробно останавливаться на каждом параметре этой сущности, т.к. сама её настройка достойна отдельной главы, для глубокого понимания вы можете обратиться к официальной документации Kubernetes.
+Мы не будем подробно останавливаться на каждом параметре этой сущности, т.к. сама её настройка достойна отдельной главы. Для глубокого понимания вы можете обратиться к [официальной документации Kubernetes](https://kubernetes.io/docs/concepts/storage/).
 
-Поясним лишь отдельные важные моменты настройки:
-{% raw %}
-```yaml
-  local:
-    path: /mnt/guided-postgresql-stage/posgresql-data-0
-```
-{% endraw %}
-Таким образом мы указываем путь до директории где на ноде нашего кластера будут хранится данные postgres.
+Для того, чтобы PersistentVolume корректно создал хранилище, нужно правильно указать, **на каком узле** и **в какой директории** будет наш localstorage.
+
+В атрибуте `nodeAffinity` указываем нужный узел (в примере ниже этот узел называется `article-kube-node-2`, а посмотреть весь список узлов можно через `kubectl get nodes`):
+
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
   nodeAffinity:
@@ -186,15 +192,34 @@ spec:
           - article-kube-node-2
 ```
 {% endraw %}
-Эта настройка позволяет нам выбрать на какой именно ноде будут хранится наши данные, т.к. если её не указать под с нашей базой может запуститься на другой ноде где, само собой, наших данных не будет.
+{% endsnippetcut %}
 
-{% offtopic title="Но каким образом под с нашей базой поймет что ему нужно использовать именно этот PersistenVolume?" %}
+На указанном узле требуется **вручную создать директорию** и прописать её в конфиге PersistentVolume:
 
-В данном случае сабчарт который мы указали автоматически создаст еще одну сущность под названием [PersitentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims), за его создание отвечают эти [cтроки](https://github.com/bitnami/charts/blob/master/bitnami/postgresql/templates/statefulset.yaml#L442-L460)
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
+{% raw %}
+```yaml
+  local:
+    path: /mnt/guided-postgresql-stage/posgresql-data-0
+```
+{% endraw %}
+{% endsnippetcut %}
 
-Эта сущность является ни чем иным как прослойкой между хранилищем и подом с нашим приложением.
+После корректировки конфигурации — его нужно **применить к каждому namespace'у вручную**. Создайте файл `postgres-pv.yaml` и примените его к каждому окружению:
 
-Мы можем подключать её в качестве `volume` прямиком в наш под:
+```bash
+kubectl -n werf-guided-project-production apply -f postgres-pv.yaml
+kubectl -n werf-guided-project-staging apply -f postgres-pv.yaml
+```
+
+{% offtopic title="Но каким образом Pod с нашей базой поймет, что ему нужно использовать именно этот PersistentVolume?" %}
+
+В данном случае сабчарт, который мы указали, автоматически создаст еще одну сущность под названием [PersitentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) (за его создание отвечают эти [cтроки](https://github.com/bitnami/charts/blob/master/bitnami/postgresql/templates/statefulset.yaml#L442-L460)).
+
+Эта сущность является не чем иным, как прослойкой между хранилищем и Pod'ом с приложением.
+
+Можно подключать её в качестве `volume` прямо в Pod:
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
   volumes:
@@ -203,7 +228,9 @@ spec:
         claimName: postgres-data
 ```
 {% endraw %}
-И затем монитровать в нужное место в контейнере:
+{% endsnippetcut %}
+… и затем монитровать в нужное место в контейнере:
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
       volumeMounts:
@@ -211,12 +238,13 @@ spec:
           name: data
 ```
 {% endraw %}
-Хороший пример того как это можно сделать со всеми подробностями вы можете найти [тут](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
+{% endsnippetcut %}
+Хороший пример того, как это можно сделать, со всеми подробностями доступен в [документации Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/).
 
-Однако вопрос того каким образом PersitentVolumeClaim подключается к PersitentVolume остается открытым.
-Дело в том что в Kubernetes работает механизм [binding](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#binding), который позволяет подобрать нашему PVC любой PV удовлетворяющий его по указанным параметрам (размер, тип доступа и т.д.). Тем самым указав в PV и в values.yaml эти параметры одинаково мы гарантируем, что наше хранилище будет подключено к нашей базе.
+Каким образом PersitentVolumeClaim подключается к PersitentVolume? В Kubernetes работает механизм [binding](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#binding), который позволяет подобрать нашему PVC любой PV, удовлетворяющий его по указанным параметрам (размер, тип доступа и т.д.). Указав одинаково эти параметры в PV и в `values.yaml`, мы гарантируем, что хранилище будет подключено к БД.
 
-Есть и более очевидный способ соединить наш PV, добавив в него настройку в которой мы укажем имя нашего PVC и имя неймспейса в котором он находится(имя неймспейса мы взяли из переменной которую генерит werf при деплое):
+Есть и более очевидный способ соединить PV: добавить в него настройку, в которой указывается имя PVC и пространства имён, в котором он находится (имя namespace'а легко взять из переменной, которую генерирует `werf` при деплое):
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
   claimRef:
@@ -224,9 +252,38 @@ spec:
     name: postgres-data
 ```
 {% endraw %}
+{% endsnippetcut %}
 {% endofftopic %}
 
-После описанных изменений деплой в любое из окружений должно привести к созданию PostgreSQL.
+Обратите внимание: вы не сможете просто так удалить PersistentVolume из-за встроенной защиты. Если вы выполните команду:
+
+```bash
+kubectl -n werf-guided-project-staging delete pv posgresql-data
+```
+
+… PV как будто «зависнет» в процессе удаления. Это корректное поведение, вызванное `pv-protection`.
+
+{% offtopic title="Почему так?" %}
+
+Если вы посмотрите описание PV:
+
+```bash
+kubectl -n werf-guided-project-production get pv posgresql-data
+```
+
+… то увидите атрибут `finalizers`:
+
+```yaml
+  finalizers:
+  - kubernetes.io/pv-protection
+```
+
+Они защищают данные от случайного удаления. Если же вы настаиваете — потребуется отредактировать PV, удалив из манифеста конфигурации строки с `pv-protection`, описанные выше:
+
+```bash
+kubectl -n werf-guided-project-production edit pv posgresql-data
+```
+{% endofftopic %}
 
 <a name="appconnect" />
 
@@ -234,102 +291,70 @@ spec:
 
 Для подключения Spring приложения к PostgreSQL необходимо установить postgresql-driver 'postgresql' и jpa (Java persistence api) и сконфигурировать:
 
-{% snippetcut name="pom.xml" url="#" %}
+{% snippetcut name="pom.xml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/pom.xml" %}
 {% raw %}
 ```xml
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <scope>runtime</scope>
-    </dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-Для подключения к базе данных нам, очевидно, нужно знать: хост, порт, имя базы данных, логин, пароль. В коде приложения мы используем несколько переменных окружения: `POSTGRESQL_HOST`, `POSTGRESQL_PORT`, `POSTGRESQL_DATABASE`, `POSTGRESQL_LOGIN`, `POSTGRESQL_PASSWORD`
+Для подключения к базе данных нам, очевидно, нужно знать: хост, порт, имя базы данных, логин, пароль. В коде приложения используется несколько переменных окружения: `POSTGRESQL_HOST`, `POSTGRESQL_PORT`, `POSTGRESQL_DATABASE`, `POSTGRESQL_LOGIN`, `POSTGRESQL_PASSWORD`.
 
-Настраиваем эти переменные окружения по аналогии с тем, как [настраивали Redis](070_redis.md), но вынесем все переменные в блок `database_envs` в отдельном файле `_envs.tpl`. Это позволит переиспользовать один и тот же блок в Pod-е с базой данных и в Job с миграциями.
+Настраиваем эти переменные окружения по аналогии с тем, как [настраивали Redis](070_redis.md).
 
-{% offtopic title="Как работает вынос части шаблона в блок?" %}
-
-{% snippetcut name=".helm/templates/_envs.tpl" url="#" %}
-{% raw %}
-```yaml
-{{- define "database_envs" }}
-- name: POSTGRESQL_HOST
-  value: "{{ pluck .Values.global.env .Values.postgre.host | first | default .Values.postgre.host_default | quote }}"
-...
-{{- end }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-Вставляя этот блок — не забываем добавить отступы с помощью функции `indent`:
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
-{% raw %}
-```yaml
-{{- include "database_envs" . | indent 8 }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-{% endofftopic %}
-
-
-{% offtopic title="Какие значения прописываем в переменные окружения?" %}
+{% offtopic title="Какие значения прописываются в переменные окружения?" %}
 Будем **конфигурировать хост** через `values.yaml`:
 
-{% snippetcut name=".helm/templates/_envs.tpl" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_HOST
-  value: "{{ pluck .Values.global.env .Values.postgresql.host | first | default .Values.postgresql.host_default | quote }}"
+        - name: POSTGRESQL_HOST
+          value: {{ pluck .Values.global.env .Values.postgresql._postgresqlHost | first | default .Values.postgresql._postgresqlHost._default  | quote }}
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 **Конфигурируем логин и порт** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_LOGIN
-  value: "{{ pluck .Values.global.env .Values.postgresql.login | first | default .Values.postgresql.login_default | quote }}"
-- name: POSTGRESQL_PORT
-  value: "{{ pluck .Values.global.env .Values.postgresql.port | first | default .Values.postgresql.port_default | quote }}"
+        - name: POSTGRESQL_LOGIN
+          value: {{ .Values.postgresql.postgresqlUsername | quote }}
+        - name: POSTGRESQL_PORT
+          value: {{ .Values.postgresql.servicePort | quote }}
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="#" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
-   login:
-      _default: postgresuser
-   port:
-      _default: postgresport
+<...>
+  postgresqlUsername: guide-username
+  servicePort: 5432
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 **Конфигурируем пароль** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_PASSWORD
-  value: "{{ pluck .Values.global.env .Values.postgresql.password | first | default .Values.postgresql.password_default | quote }}"
+        - name: POSTGRESQL_PASSWORD
+          value: {{ .Values.postgresql.postgresqlPassword | quote }}
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="secret-values.yaml" url="#" %}
+{% snippetcut name="secret-values.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 postgresql:
@@ -344,26 +369,26 @@ postgresql:
 
 {% offtopic title="Безопасно ли хранить пароли в переменных к нашему приложению?" %}
 
-Мы выбрали самый быстрый и простой способ того как вы можете более менее безопасно хранить ваши данные в репозитории и передавать из в приложение. Но важно осозновать, что любой человек с доступом к приложению в кластере, в особенности к самой сущности пода сможет получить любой пароль просто прописав команду `env` внутри запущенного контейнера.
-Можно избежать этого не выдавая доступы на исполнение команд внутри контейнеров кому либо, либо собирать свои собственные образа с нуля, убирая из них небезопасные команды, а сами переменные класть в [сущность Secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables) и запрещать доступ к ним кому либо кроме доверенных лиц.
+Мы выбрали самый быстрый и простой способ того, как можно более-менее безопасно хранить данные в репозитории и передавать их в приложение. Но важно помнить, что любой человек с доступом к приложению в кластере (в особенности, к самой сущности Pod'а) сможет получить любой пароль, просто выполнив команду `env` внутри запущенного контейнера.
 
-Но на данный момент мы настоятельно не рекомендуем использовать сущности самого Kubernetes для хранения любой секретной информации. Вместо этого попробуйте использовать инструменты созданные специально для таких случаев, например [Vault](https://www.vaultproject.io/). И затем интегрировав клиент Vault прямо в ваше приложение, получать любые настройки непосредственно при запуске.
+Можно избежать этого, не выдавая доступы на исполнение команд внутри контейнеров кому-либо. Кроме того, можно собирать свои собственные образы с нуля, убирая из них небезопасные команды, а переменные помещать в [сущность Secret](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables), после чего запрещать доступ к ним всем кроме доверенных лиц.
+
+Но на данный момент мы настоятельно не рекомендуем использовать сущности самого Kubernetes для хранения любой секретной информации. Вместо этого попробуйте использовать инструменты, созданные специально для таких задач — например, [Vault](https://www.vaultproject.io/). Интегрировав клиент Vault прямо в ваше приложение, можно получать любые настройки непосредственно при запуске.
 
 {% endofftopic %}
 <a name="migrations" />
 
 ## Выполнение миграций
 
-Обычной практикой при использовании kubernetes является выполнение миграций в БД с помощью Job в кубернетес. Это единоразовое выполнение команды в контейнере с определенными параметрами.
+Обычной практикой при использовании kubernetes является выполнение миграций в БД с помощью объекта Job, единоразового выполнения команды в контейнере с определенными параметрами.
 
-Однако в нашем случае фреймворк с помощью JPA сам выполняет миграции в соответствии с правилами, которые описаны в нашем коде. Подробно о том как это делается и настраивается прописано в [документации](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/html/howto-database-initialization.html). Там рассматривается несколько инструментов для выполнения миграций и работы с бд вообще - JPA, Spring Batch Database, Flyway и Liquibase. С точки зрения helm-чартов или сборки совсем ничего не поменятся. Все доступы у нас уже прописаны.
+Если вы используете JPA — этот механизм самостоятельно выполняет миграции. Подробно о том как это делается и настраивается прописано в [документации](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/html/howto-database-initialization.html). В ней рассматривается несколько инструментов для выполнения миграций и работы с базой данных: JPA, Spring Batch Database, Flyway и Liquibase. С точки зрения helm-чартов или сборки ничего не изменится относительно описанных в статье настроек.
 
 <a name="database-fixtures" />
 
 ## Накатка фикстур
 
-Аналогично предыдущему пункту про выполнение миграций, накатка фикстур производится фреймворком самостоятельно используя вышеназванные инструменты для миграций. Для накатывания фикстур в зависимости от стенда (dev-выкатываем, production - никогда не накатываем фикстуры) мы опять же можем передавать переменную окружения в приложение. Например, для Flyway это будет `SPRING_FLYWAY_LOCATIONS`, для Spring Batch Database нужно присвоить Java-переменной `spring.batch.initialize-schema` значение переменной из environment. В ней мы в зависимости от окружения проставляем либо `always` либо `never`. Для JPA это validate, update, create, create-drop. Реализации разные, но подход один - обязательно нужно принимать эту переменную извне. Документация та же что и в предыдущем пункте.
-
+Накатка фикстур производится фреймворком самостоятельно используя вышеназванные инструменты для миграций. Для накатывания фикстур в зависимости от стенда можно передавать переменную окружения в приложение. Например, для Flyway это будет `SPRING_FLYWAY_LOCATIONS`. Для Spring Batch Database нужно присвоить Java-переменной `spring.batch.initialize-schema` значение переменной из environment  (`always` либо `never`). Для JPA это `validate`, `update`, `create`, `create-drop`. Реализации могут отличаться, но подход остаётся один: обязательно нужно передавать переменную в контейнер.
 
 <div>
     <a href="090_unittesting.html" class="nav-btn">Далее: Юнит-тесты и Линтеры</a>

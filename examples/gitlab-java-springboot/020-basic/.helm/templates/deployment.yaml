@@ -29,7 +29,7 @@ spec:
           protocol: TCP
         env:
         - name: JAVA_OPT
-          value: "{{ pluck .Values.global.env .Values.app.java_opt | first | default .Values.app.java_opt._default }}"
+          value: "--debug"
         - name: DBPASS
-          value: "just_a_placeholder"
+          value: "mysuperdbpassword"
 {{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}

@@ -55,7 +55,7 @@ ____________
 Но использование этого или другого «костыля» является лишь временной мерой с сомнительным результатом и не избавляет от необходимости модернизировать JS-приложение.
 {% endofftopic %}
 
-С исходным кодом нашего приложения можно [ознакомиться в репозитории](____________).
+С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/____________/040-assets).
 
 ## Изменения в сборке
 
@@ -85,15 +85,14 @@ from: ubuntu:latest
 
 Начнём с создания артефакта: установим необходимые пакеты и выполним сборку ассетов. Генерация ассетов должна происходить в артефакте на стадии `setup`:
 
-{% snippetcut name="werf.yaml" url="#" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 artifact: assets-built
 from: node:14-stretch
 shell:
-  beforeInstall:
-  - apt update
-  - apt install -y build-essential tzdata locales
+____________
+____________
   install:
   - cd /app && npm i
   setup:
@@ -113,7 +112,7 @@ git:
 
 Чтобы это работало, необходимо добавить сценарий `build` и нужные зависимости в ваш `package.json`:
 
-{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/package.json" %}
+{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/____________/040-assets/package.json" %}
 {% raw %}
 ```yaml
     "build": "rm -rf dist && webpack --config webpack.config.js --mode development"
@@ -134,9 +133,13 @@ git:
 {% endraw %}
 {% endsnippetcut %}
 
+____________
+____________
+____________
+
 Теперь, когда артефакт собран, соберём образ с nginx:
 
-{% snippetcut name="werf.yaml" url="#" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -154,11 +157,11 @@ shell:
 {% endraw %}
 {% endsnippetcut %}
 
-_Исходный код `nginx.conf`` можно [посмотреть в репозитории](____________)._
+_Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/____________/040-assets____________)._
 
 И пропишем в нём импорт из артефакта под названием `build`:
 
-{% snippetcut name="werf.yaml" url="#" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 import:
@@ -178,7 +181,7 @@ import:
 * `livenessProbe` и `readinessProbe`, которые будут проверять корректную работу контейнера в Pod'е,
 * команду `preStop` для корректного завершения процесса nginx, чтобы при выкате новой версии приложения корректно завершались активные сессии.
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/040-assets/.helm/template/deployment.yaml" %}
 {% raw %}
 ```yaml
       - name: node-assets
@@ -207,7 +210,7 @@ import:
 
 В описании Service также должен быть указан правильный порт:
 
-{% snippetcut name=".helm/templates/service.yaml" url="#" %}
+{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/040-assets/.helm/template/service.yaml" %}
 {% raw %}
 ```yaml
   ports:
@@ -221,7 +224,7 @@ import:
 
 И в Ingress необходимо отправить запросы на правильный порт, чтобы они попадали на nginx:
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="#" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/040-assets/.helm/template/ingress.yaml" %}
 {% raw %}
 ```yaml
       paths:
@@ -237,7 +240,7 @@ import:
 
 В некоторых случаях требуется разделить трафик на уровне Ingress. Тогда можно распределить запросы по `path` и портам:
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="#" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
       paths:

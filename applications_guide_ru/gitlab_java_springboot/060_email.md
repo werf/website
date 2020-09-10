@@ -20,24 +20,21 @@ toc: false
 
 Для того, чтобы Java приложение могло работать с sendgrid необходимо установить и сконфигурировать зависимость `sendgrid` и начать её использовать. Пропишем зависимости в `pom.xml`, чтобы они устаналивались:
 
-{% snippetcut name="pom.xml" url="#" %}
+{% snippetcut name="pom.xml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/pom.xml" %}
 {% raw %}
 ```xml
-dependencies {
-  ...
-  implementation 'com.sendgrid:sendgrid-java:4.5.0'
-}
-
-repositories {
-  mavenCentral()
-}
+		<dependency>
+				<groupId>com.sendgrid</groupId>
+				<artifactId>sendgrid-java</artifactId>
+				<version>4.1.2</version>
+		</dependency>
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 В коде приложения подключение к API и отправка сообщения может выглядеть так:
 
-{% snippetcut name="SendGridClient.java" url="#" %}
+{% snippetcut name="SendGridClient.java" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/src/main/java/com/example/demo/SendGridClient.java" %}
 {% raw %}
 ```java
 @Service
@@ -81,7 +78,7 @@ public class SendGridEmailService implements EmailService {
 
 Для работы с `sendgrid` необходимо пробросить в ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных]({{ site.docsurl }}/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, [когда мы делали базовое приложение](020_basic.html#secret-values-yaml)*
 
-{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" %}
+{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 app:
@@ -96,10 +93,11 @@ app:
 
 А не секретные значения — храним в `values.yaml`
 
-{% snippetcut name="values.yaml" url="#" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 app:
+<...>
   sendgrid:
     username:
       _default: sendgridusername
@@ -109,11 +107,11 @@ app:
 
 После того, как значения корректно прописаны и зашифрованы — мы можем пробросить соответствующие значения в Deployment.
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: SGAPIKEY
-          value: {{ pluck .Values.global.env .Values.app.sendgrid.apikey | first | default .Values.app.sendgrid.apikey._default | quote }} 
+          value: {{ pluck .Values.global.env .Values.app.sendgrid.apikey | first | default .Values.app.sendgrid.apikey._default | quote }}
         - name: SGUSERNAME
           value: {{ pluck .Values.global.env .Values.app.sendgrid.username | first | default .Values.app.sendgrid.username._default | quote }}
         - name: SGPASSWORD

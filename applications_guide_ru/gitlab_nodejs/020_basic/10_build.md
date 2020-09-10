@@ -228,6 +228,7 @@ git:
 Добавим в `werf.yaml` следующий блок, используя shell-синтаксис:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% raw %}
 ```yaml
 shell:
   beforeInstall:
@@ -236,15 +237,18 @@ shell:
   install:
   - cd /app && npm ci
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 Чтобы при запуске приложения по умолчанию использовалась директория `/app`, воспользуемся **[указанием Docker-инструкций]({{ site.docsurl }}/documentation/configuration/stapel_image/docker_directive.html)**:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% raw %}
 ```yaml
 docker:
   WORKDIR: /app
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 Также мы должны прописать связь файла `package.json` со стадией `install` внутри блока `git`:

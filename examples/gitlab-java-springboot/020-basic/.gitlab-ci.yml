@@ -27,7 +27,6 @@ Deploy to staging:
   extends: .base_deploy
   environment:
     name: staging
-    url: http://staging.mydomain.io
   only:
     - merge_requests
   when: manual
@@ -36,7 +35,6 @@ Deploy to production:
   extends: .base_deploy
   environment:
     name: production
-    url: http://mydomain.io
   only:
     - master
 

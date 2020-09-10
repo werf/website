@@ -15,6 +15,7 @@ toc: false
 - .helm/secret-values.yaml
 ____________
 - .gitlab-ci.yml
+____________
 {% endfilesused %}
 
 В этой главе мы настроим в нашем базовом приложении продвинутую работу с базой данных, включающую в себя вопросы выполнения миграций. В качестве базы данных возьмём PostgreSQL.
@@ -48,13 +49,13 @@ Kubernetes автоматически разворачивает приложе�
 
 Пропишем Helm-зависимости:
 
-{% snippetcut name=".helm/requirements.yaml" url="#" %}
+{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/requirements.yaml" %}
 {% raw %}
 ```yaml
 dependencies:
 - name: postgresql
-  version: "8.9.2"
-  repository: https://charts.bitnami.com/bitnami
+  version: ____________
+  repository: ____________
   condition: postgresql.enabled
 ```
 {% endraw %}
@@ -62,7 +63,7 @@ dependencies:
 
 Для того, чтобы werf при деплое загрузила необходимые нам сабчарты, нужно прописать в `.gitlab-ci.yml` работу с зависимостями:
 
-{% snippetcut name=".gitlab-ci.yml" url="#" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 .base_deploy: &base_deploy
@@ -79,27 +80,23 @@ dependencies:
 
 Изучив [документацию сабчарта](https://github.com/bitnami/charts/tree/master/bitnami/postgresql#parameters), можно увидеть, что название основной базы данных, пользователя, хоста и пароля и даже версии PostgreSQL задаются через следующие переменные:
 
-{% snippetcut name=".helm/values.yaml" url="#" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
-  postgresqlDatabase: guided-database
-  postgresqlUsername: guide-username
-  postgresqlHost: postgresql
-  imageTag: "12"
-  fullnameOverride: postgresql
-  nameOverride: postgresql
+____________
+____________
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 Пароль от базы данных мы тоже конфигурируем, но храним его в секретных переменных. Для этого стоит использовать механизм секретных переменных. *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic/20_iac.html#secret-values-yaml).*
 
-{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="#" %}
+{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 postgresql:
-  postgresqlPassword: 100087f3686b89a04c05a7e256ec51f8bbff3924a22ca0283f136a100896d23bf8b3
+  postgresqlPassword: ____________
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -116,17 +113,14 @@ postgresql:
 
 Далее мы указываем настройки `persistence`, с помощью которых настроим хранилище для БД:
 
-{% snippetcut name=".helm/values.yaml" url="#" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
 <...>
   persistence:
-    storageClass: "local-storage"
-    accessModes:
-    - ReadWriteOnce
-    size: 8Gi
-    annotations: {}
+____________
+____________
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -139,7 +133,7 @@ postgresql:
 
 Конфигурация объекта выглядит _примерно_ следующим образом:
 
-{% snippetcut name="postgres-pv.yaml" url="#" %}
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 apiVersion: v1
@@ -162,7 +156,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-            - kube-node-2
+            - ____________
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   volumeMode: Filesystem
@@ -176,6 +170,7 @@ spec:
 
 В атрибуте `nodeAffinity` указываем нужный узел (в примере ниже этот узел называется `article-kube-node-2`, а посмотреть весь список узлов можно через `kubectl get nodes`):
 
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
   nodeAffinity:
@@ -188,15 +183,18 @@ spec:
           - article-kube-node-2
 ```
 {% endraw %}
+{% endsnippetcut %}
 
 На указанном узле требуется **вручную создать директорию** и прописать её в конфиге PersistentVolume:
 
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
   local:
     path: /mnt/guided-postgresql-stage/posgresql-data-0
 ```
 {% endraw %}
+{% endsnippetcut %}
 
 После корректировки конфигурации — его нужно **применить к каждому namespace'у вручную**. Создайте файл `postgres-pv.yaml` и примените его к каждому окружению:
 
@@ -212,6 +210,7 @@ kubectl -n werf-guided-project-staging apply -f postgres-pv.yaml
 Эта сущность является не чем иным, как прослойкой между хранилищем и Pod'ом с приложением.
 
 Можно подключать её в качестве `volume` прямо в Pod:
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
   volumes:
@@ -220,7 +219,9 @@ kubectl -n werf-guided-project-staging apply -f postgres-pv.yaml
         claimName: postgres-data
 ```
 {% endraw %}
+{% endsnippetcut %}
 … и затем монитровать в нужное место в контейнере:
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
       volumeMounts:
@@ -228,11 +229,13 @@ kubectl -n werf-guided-project-staging apply -f postgres-pv.yaml
           name: data
 ```
 {% endraw %}
+{% endsnippetcut %}
 Хороший пример того, как это можно сделать, со всеми подробностями доступен в [документации Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/).
 
 Каким образом PersitentVolumeClaim подключается к PersitentVolume? В Kubernetes работает механизм [binding](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#binding), который позволяет подобрать нашему PVC любой PV, удовлетворяющий его по указанным параметрам (размер, тип доступа и т.д.). Указав одинаково эти параметры в PV и в `values.yaml`, мы гарантируем, что хранилище будет подключено к БД.
 
 Есть и более очевидный способ соединить PV: добавить в него настройку, в которой указывается имя PVC и пространства имён, в котором он находится (имя namespace'а легко взять из переменной, которую генерирует `werf` при деплое):
+{% snippetcut name="postgres-pv.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
   claimRef:
@@ -240,6 +243,7 @@ kubectl -n werf-guided-project-staging apply -f postgres-pv.yaml
     name: postgres-data
 ```
 {% endraw %}
+{% endsnippetcut %}
 {% endofftopic %}
 
 Обратите внимание: вы не сможете просто так удалить PersistentVolume из-за встроенной защиты. Если вы выполните команду:
@@ -278,7 +282,7 @@ kubectl -n werf-guided-project-production edit pv posgresql-data
 
 Для подключения ____________ приложения к PostgreSQL необходимо установить ____________ и сконфигурировать:
 
-{% snippetcut name="____________" url="#" %}
+{% snippetcut name="____________" url="____________" %}
 {% raw %}
 ```____________
 ____________
@@ -290,89 +294,56 @@ ____________
 
 Для подключения к базе данных нам, очевидно, нужно знать: хост, порт, имя базы данных, логин, пароль. В коде приложения используется несколько переменных окружения: `POSTGRESQL_HOST`, `POSTGRESQL_PORT`, `POSTGRESQL_DATABASE`, `POSTGRESQL_LOGIN`, `POSTGRESQL_PASSWORD`.
 
-Настраиваем эти переменные окружения по аналогии с тем, как [настраивали Redis](070_redis.md), но вынесем все переменные в блок `database_envs` в отдельном файле `_envs.tpl`. Это позволит переиспользовать один и тот же блок и в ресурсе Pod с базой данных, и в Job с миграциями (подробнее о нём см. ниже).
-
-{% offtopic title="Как работает вынос части шаблона в блок?" %}
-
-{% snippetcut name=".helm/templates/_envs.tpl" url="#" %}
-{% raw %}
-```yaml
-{{- define "database_envs" }}
-- name: POSTGRESQL_HOST
-  value: {{ pluck .Values.global.env .Values.postgresql.host | first | default .Values.postgresql.host._default | quote }}
-...
-{{- end }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-Вставляя этот блок, не забывайте добавлять отступы с помощью функции `indent`:
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
-{% raw %}
-```yaml
-{{- include "database_envs" . | indent 8 }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-{% endofftopic %}
-
+Настраиваем эти переменные окружения по аналогии с тем, как [настраивали Redis](070_redis.md).
 
 {% offtopic title="Какие значения прописываются в переменные окружения?" %}
 Будем **конфигурировать хост** через `values.yaml`:
 
-{% snippetcut name=".helm/templates/_envs.tpl" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_HOST
-  value: "{{ pluck .Values.global.env .Values.postgresql.host | first | default .Values.postgresql.host_default | quote }}"
+____________
+____________
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 **Конфигурируем логин и порт** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_LOGIN
-  value: "{{ pluck .Values.global.env .Values.postgresql.login | first | default .Values.postgresql.login_default | quote }}"
-- name: POSTGRESQL_PORT
-  value: "{{ pluck .Values.global.env .Values.postgresql.port | first | default .Values.postgresql.port_default | quote }}"
+____________
+____________
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="#" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
-postgresql:
-   login:
-      _default: ____________
-   port:
-      _default: ____________
+____________
+____________
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 **Конфигурируем пароль** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_PASSWORD
-  value: "{{ pluck .Values.global.env .Values.postgresql.password | first | default .Values.postgresql.password_default | quote }}"
+____________
+____________
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="secret-values.yaml" url="#" %}
+{% snippetcut name="secret-values.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 postgresql:
-  password:
-    _default: 100067e35229a23c5070ad5407b7406a7d58d4e54ecfa7b58a1072bc6c34cd5d443e
+____________
 ```
 {% endraw %}
 {% endsnippetcut %}

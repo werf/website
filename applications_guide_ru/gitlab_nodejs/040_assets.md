@@ -235,7 +235,7 @@ import:
 
 В некоторых случаях требуется разделить трафик на уровне Ingress. Тогда можно распределить запросы по `path` и портам:
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="#" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
       paths:

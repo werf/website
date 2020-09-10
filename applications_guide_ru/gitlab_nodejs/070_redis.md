@@ -80,7 +80,7 @@ redis:
 {% offtopic title="Откуда такой ключ Redis?" %}
 Этот ключ должен совпадать с именем сабчарта-зависимости в файле `requirements.yaml` — тогда настройки будут пробрасываться в сабчарт.
 {% endofftopic %}
-{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" %}
+{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 redis:

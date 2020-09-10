@@ -57,9 +57,9 @@ toc: false
 
 Для того, чтобы в кластере появился Pod с нашим приложением, мы создадим объект Deployment. У создаваемого Pod будет один контейнер — `basicapp`. Укажем, **как этот контейнер будет запускаться**.
 
-Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](__________________).
+Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/werf-guides/tree/master/examples/____________).
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       containers:
@@ -84,7 +84,7 @@ werf складывает собранные образы в Registry с раз�
 
 Например, для ____________ это `____________` ____________
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       env:
@@ -108,7 +108,7 @@ ____________
 
 Helm — шаблонизатор, который поддерживает множество инструментов для подстановки значений. Один из центральных способов — подставлять значения из файла `values.yaml`. Наша конструкция могла бы иметь вид:
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
       env:
@@ -121,7 +121,7 @@ Helm — шаблонизатор, который поддерживает мн
 
 … или даже более сложный — для того, чтобы значение основывалось на текущем окружении:
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
       env:
@@ -132,7 +132,8 @@ Helm — шаблонизатор, который поддерживает мн
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="#" %}
+{% snippetcut name="values.yaml" url="#" ignore-tests %}
+{% raw %}
 ```yaml
 app:
   ____________:
@@ -140,6 +141,7 @@ app:
     production: "____________"
     testing: "____________"
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 {% endofftopic %}
@@ -174,7 +176,7 @@ ____________
 
 Наше приложение работает на стандартном порту `____________` — **откроем порт Pod'у**:
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 ```yaml
         ports:
         - containerPort: ____________
@@ -184,7 +186,7 @@ ____________
 
 Затем **пропишем Service**, чтобы к Pod'у могли обращаться другие приложения кластера:
 
-{% snippetcut name="service.yaml" url="#" %}
+{% snippetcut name="service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -205,7 +207,7 @@ spec:
 
 Обратите внимание на поле `selector` у Service: он должен совпадать с аналогичным полем у Deployment. Ошибки в этой части — самая частая проблема с настройкой маршрута до приложения.
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -236,7 +238,7 @@ spec:
 
 После этого можно настраивать **роутинг на Ingress**. Укажем, на какой домен, путь, сервис и порт направлять запросы:
 
-{% snippetcut name="ingress.yaml" url="#" %}
+{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
   rules:
@@ -267,7 +269,7 @@ spec:
 
 Этот вариант удобен для проброса, например, имени домена для каждого окружения:
 
-{% snippetcut name="ingress.yaml" url="#" %}
+{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
   rules:
@@ -288,7 +290,7 @@ spec:
 
 ![](/applications_guide_ru/images/applications-guide/020-werf-secret-key-in-gitlab.png)
 
-После этого можно задать ____________секретную переменную____________. Зайдите в режим редактирования секретных значений:
+После этого `можно` задать ____________секретную переменную____________. Зайдите в режим редактирования секретных значений:
 
 ```bash
 $ werf helm secret values edit .helm/secret-values.yaml
@@ -296,7 +298,7 @@ $ werf helm secret values edit .helm/secret-values.yaml
 
 Откроется консольный текстовый редактор с данными в расшифованном виде:
 
-{% snippetcut name="secret-values.yaml в расшифрованном виде" url="#" %}
+{% snippetcut name="secret-values.yaml в расшифрованном виде" url="#" ignore-tests %}
 ```yaml
 app:
   ____________
@@ -306,7 +308,7 @@ app:
 
 После сохранения значения в файле зашифруются и примут примерно такой вид:
 
-{% snippetcut name="secret-values.yaml в зашифрованном виде" url="#" %}
+{% snippetcut name="secret-values.yaml в зашифрованном виде" url="#" ignore-tests %}
 ```yaml
 app:
   ____________
@@ -337,7 +339,7 @@ kubectl create secret docker-registry registrysecret -n <namespace> --docker-ser
 
 В каждом Deployment'е также указывается имя секрета:
 
-{% snippetcut name="deployment.yaml" url="#" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
     spec:

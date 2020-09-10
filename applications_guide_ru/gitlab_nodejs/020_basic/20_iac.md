@@ -104,7 +104,7 @@ werf складывает собранные образы в Registry с раз�
 
 Helm — шаблонизатор, который поддерживает множество инструментов для подстановки значений. Один из центральных способов — подставлять значения из файла `values.yaml`. Наша конструкция могла бы иметь вид:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
         env:
@@ -117,7 +117,7 @@ Helm — шаблонизатор, который поддерживает мн
 
 … или даже более сложный — для того, чтобы значение основывалось на текущем окружении:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
         env:
@@ -128,7 +128,8 @@ Helm — шаблонизатор, который поддерживает мн
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="#" ignore-tests %}
+{% raw %}
 ```yaml
 app:
   isDebug:
@@ -136,6 +137,7 @@ app:
     production: "false"
     testing: "true"
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 {% endofftopic %}
@@ -298,7 +300,7 @@ $ werf helm secret values edit .helm/secret-values.yaml
 
 Откроется консольный текстовый редактор с данными в расшифованном виде:
 
-{% snippetcut name="secret-values.yaml в расшифрованном виде" url="#" %}
+{% snippetcut name="secret-values.yaml в расшифрованном виде" url="#" ignore-tests %}
 ```yaml
 app:
   s3:
@@ -311,7 +313,7 @@ app:
 
 После сохранения значения в файле зашифруются и примут примерно такой вид:
 
-{% snippetcut name="secret-values.yaml в зашифрованном виде" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/secret-values.yaml" %}
+{% snippetcut name="secret-values.yaml в зашифрованном виде" url="#" ignore-tests %}
 ```yaml
 app:
   s3:
