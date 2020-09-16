@@ -1,7 +1,7 @@
 ---
-title: Введение в разработку и деплой приложений в Kubernetes с использованием Werf 
-sidebar: documentation
-permalink: applications_guide_en/index.html
+title: Introduction to developing and deploying applications in Kubernetes using werf 
+layout: default 
+permalink: index.html
 author: Igor Tsupko <igor.tsupko@flant.com>
 toc: false
 ---
