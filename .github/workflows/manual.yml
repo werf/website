@@ -1,0 +1,24 @@
+# This is a basic workflow that is manually triggered
+
+name: Deploy guides to production
+
+on: 
+  push:
+    branches: 
+      - master
+  
+jobs:
+  # This workflow contains a single job called "greet"
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - name: Deploy guides to review
+      run: |
+        curl -X POST \
+             -F "token=${{ secrets.GITLAB_TRIGGER_TOKEN }}" \
+             -F "ref=master" \
+             ${{ secrets.GITLAB_URL }}/api/v4/projects/${{ secrets.GITLAB_PROJECT_ID }}/trigger/pipeline
