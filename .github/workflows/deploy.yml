@@ -16,7 +16,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: Deploy guides to review
+    - name: Deploy to production
       run: |
         curl -X POST \
              -F "token=${{ secrets.GITLAB_TRIGGER_TOKEN }}" \
