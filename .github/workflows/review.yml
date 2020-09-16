@@ -22,5 +22,5 @@ jobs:
         curl -X POST \
              -F "token=${{ secrets.GITLAB_TRIGGER_TOKEN }}" \
              -F "ref=master" \
-             -F "variables[review_guides]=true" \
+             -F "variables[review_guide_sha]=${{ github.event.pull_request.head.sha }}" \
              ${{ secrets.GITLAB_URL }}/api/v4/projects/${{ secrets.GITLAB_PROJECT_ID }}/trigger/pipeline
