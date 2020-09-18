@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="{% if page.lang == "ru" %}ru{% else %}en{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=1260">
+  <meta name="description" content="{% if page.summary %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
+  <meta name="keywords" content="{{page.tags}}{% if page.tags %}, {% endif %} {{page.keywords}}">
+  {%- if page.multilang %}
+  <link rel="alternate" hreflang="ru" href="{{ site.site_urls["ru"] }}{{ site.baseurl}}{{ page.url }}" />
+  <link rel="alternate" hreflang="en" href="{{ site.site_urls["en"] }}{{ site.baseurl}}{{ page.url }}" />
+  {%- endif %}
+  <title>{{ page.title }} | {{ site.site_title }}</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ site.baseurl }}/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ site.baseurl }}/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ site.baseurl }}/favicon-16x16.png">
+  <link rel="manifest" href="{{ site.baseurl }}/site.webmanifest">
+  <link rel="mask-icon" href="{{ site.baseurl }}/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffc40d">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
+
+  {% asset normalize.css %}
+  {% asset syntax.css %}
+
+  {% asset landing.css %}
+
+</head>
+<body>
+  <div class="landing">
+    <div class="landing__content" data-sm-container>
+      <div class="landing__container">
+        <div class="landing__header">
+          <a href="{{ site.baseurl }}" class="landing__header-title">
+            <img src="{{ site.baseurl }}/images/werf-logo.svg" alt="werf" width="167" height="70" />
+          </a>
+          <a href="http://werf.io" class="landing__button">
+            <img src="{{ site.baseurl }}/images/arrow.svg" />
+            <span>werf.io</span>
+          </a>
+        </div>
+        <div class="landing__section" data-sm-trigger="intro">
+          <h1 class="landing__h1">
+            Быстро и&nbsp;просто<br>
+            деплоим в&nbsp;Kubernetes<br>
+            с&nbsp;помощью <b>Werf</b>
+          </h1>
+          <div class="landing__text">
+            Мы разработали гайд, который призван помочь вам разобраться<br>
+            в&nbsp;том, как&nbsp;разворачивать комплексные приложения<br>
+            в&nbsp;Kubernetes с&nbsp;помощью Werf
+          </div>
+        </div>
+        <div class="landing__section" data-sm-trigger="plan">
+          <h1 class="landing__h2">
+            Что меня ждёт?
+          </h1>
+          <div class="landing__text">
+            <p>Гайд рассчитан на&nbsp;классический Kubernetes-кластер, но&nbsp;должно быть несложно адаптировать его под&nbsp;кастомизированные сборки.</p>
+            <p>В гайде последовательно рассматриваются все основные задачи, возникающие при&nbsp;разработке сервисов: <b>сборка</b>, <b>деплой</b>, <b>работа с&nbsp;зависимостями и&nbsp;ассетами</b>, <b>работа с&nbsp;базами данных и&nbsp;in-memory хранилищами</b>, <b>работа с&nbsp;почтой</b>, <b>файловыми хранилищами</b>, <b>организация автотестов</b> и&nbsp;другие.</p>
+            <p>В каждом из&nbsp;вариантов гайда учтена специфика языка/фреймворка и приложены примеры исходных кодов приложения и инфраструктуры.</p>
+          </div>
+        </div>
+        <div class="landing__section" data-sm-trigger="todo">
+          <h1 class="landing__h2">
+            Как подготовиться?
+          </h1>
+          <div class="landing__text">
+            <p>Для начала потребуется развернуть Kubernetes-кластер, это можно сделать одним из&nbsp;следующих способов:</p>
+          </div>
+          <ul class="landing__list">
+            <li>
+              Развернуть кластер на базе услуг cloud provider-а
+              <span>На youtube достаточно обучающих роликов (например, про <a href="https://www.youtube.com/watch?v=Ngadh9T2dOI" target="_blank">Yandex Cloud</a>)</span>
+            </li>
+            <li>
+              Установить кластер своими руками
+            </li>
+            <li>
+              Найти тех, кто установит кластер за вас
+            </li>
+            <li>
+              Установить minikube локально
+            </li>
+          </ul>
+        </div>
+        <div class="landing__section" data-sm-trigger="select">
+          <h1 class="landing__h2">
+            Приступим! Выберите фреймворк:
+          </h1>
+          <ul class="landing__frameworks">
+            <li class="landing__framework">
+              <img src="{{ site.baseurl }}/images/landing/nodejs.png" width="129" height="79" class="landing__framework-logo" />
+              <img src="{{ site.baseurl }}/images/landing/gitlab.png" width="129" height="46" class="landing__framework-logo" />
+              <a href="/" class="landing__button landing__button_small">
+                <span>NodeJS + GitLab</span>
+                <img src="{{ site.baseurl }}/images/arrow.svg" class="flip-horizontal" height="12" />
+              </a>
+            </li>
+            <li class="landing__framework">
+              <img src="{{ site.baseurl }}/images/landing/django.png" width="156" height="54" class="landing__framework-logo" />
+              <img src="{{ site.baseurl }}/images/landing/gitlab.png" width="129" height="46" class="landing__framework-logo" />
+              <span class="landing__button landing__button_small landing__button_disabled">
+                <span>скоро...</span>
+              </span>
+            </li>
+            <li class="landing__framework">
+              <img src="{{ site.baseurl }}/images/landing/springboot.png" width="149" height="78" class="landing__framework-logo" />
+              <img src="{{ site.baseurl }}/images/landing/gitlab.png" width="129" height="46" class="landing__framework-logo" />
+              <span class="landing__button landing__button_small landing__button_disabled">
+                <span>скоро...</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="landing__section">
+          <div class="landing__credits">
+            Сделано с <span class="icon">любовью</span> в компании <a href="https://flant.com" target="_blank">Флант</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="landing__side">
+      <div class="landing__captain" data-sm-captain="intro">
+        <img src="{{ site.baseurl }}/images/landing/captain_intro.png" class="landing__captain-img landing__captain-img_intro" />
+        <img src="{{ site.baseurl }}/images/landing/captain_plan.png" class="landing__captain-img landing__captain-img_plan" />
+        <img src="{{ site.baseurl }}/images/landing/captain_intro.png" class="landing__captain-img landing__captain-img_todo" />
+        <img src="{{ site.baseurl }}/images/landing/captain_plan.png" class="landing__captain-img landing__captain-img_select" />
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"></script>
+
+  {% asset landing.js %}
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+    (function (d, w, c) {
+      (w[c] = w[c] || []).push(function() {
+        try {
+          w.yaCounter49679848 = new Ya.Metrika2({
+            id:49679848,
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+          });
+        } catch(e) { }
+      });
+
+      var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+      if (w.opera === "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+      } else { f(); }
+    })(document, window, "yandex_metrika_callbacks2");
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/49679848" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</body>
+</html>
