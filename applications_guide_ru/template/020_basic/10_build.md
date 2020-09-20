@@ -34,11 +34,11 @@ _В скором времени werf [позволит](https://github.com/werf/
 Один из минусов — это отзывчивость: на процесс от push'а кода до появления результата может потребоваться несколько минут.
 {% endofftopic %}
 
-Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/demos/tree/master/applications-guide/gitlab-nodejs/examples/000-app):
+Возьмите исходный код приложения [из репозитория на GitHub](____):
 
 ```bash
 git clone git@github.com:werf/demos.git demos
-cd demos/applications-guide/gitlab-nodejs/000-app
+_______
 ```
 
 … и скопируйте его в свой проект в GitLab. Далее мы будем работать с исходным кодом проекта в GitLab.

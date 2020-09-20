@@ -57,7 +57,7 @@ toc: false
 
 Для того, чтобы в кластере появился Pod с нашим приложением, мы создадим объект Deployment. У создаваемого Pod будет один контейнер — `basicapp`. Укажем, **как этот контейнер будет запускаться**.
 
-Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/demos/tree/master/applications-guide/gitlab-nodejs/examples).
+Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs).
 
 {% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}

@@ -53,7 +53,7 @@ toc: false
 Но использование этого или другого «костыля» является лишь временной мерой с сомнительным результатом и не избавляет от необходимости модернизировать JS-приложение.
 {% endofftopic %}
 
-С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/demos/tree/master/applications-guide/gitlab-nodejs/examples/040-assets/src).
+С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/assets.
 
 ## Изменения в сборке
 
