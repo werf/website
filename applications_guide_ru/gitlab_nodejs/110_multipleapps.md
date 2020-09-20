@@ -54,7 +54,7 @@ Helm обрабатывает все файлы, которые находятс
 
 {% offtopic title="Как конкретно?" %}
 
-Сборка образа `node` аналогична ранее описанному [базовому приложению](020_basic.html) с [зависимостями](030_dependencies.html) — за исключением того, откуда берётся исходный код:
+Сборка образа `node` аналогична ранее описанному [базовому приложению](020_basic.html) с [зависимостями](030_dependencies.html) — за исключением того, откуда берётся исходный код:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/110-multipleapps/werf.yaml" %}
 {% raw %}
