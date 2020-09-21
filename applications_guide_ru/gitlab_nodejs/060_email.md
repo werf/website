@@ -24,7 +24,7 @@ npm install mailgun-js
 
 И сконфигурируем согласно [документации пакета](https://github.com/mailgun/mailgun-js#documentation):
 
-{% snippetcut name="consumer.js" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/060-email/consumer/consumer.js" %}
+{% snippetcut name="consumer.js" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/060-email/consumer/consumer.js" %}
 {% raw %}
 ```js
 const mailgun = require("mailgun-js");
@@ -36,7 +36,7 @@ const mg = mailgun({apiKey: process.env.MAILGUN_APIKEY, domain: process.env.MAIL
 
 В коде приложения подключение к API и отправка сообщения может выглядеть так:
 
-{% snippetcut name="consumer.js" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/060-email/consumer/consumer.js" %}
+{% snippetcut name="consumer.js" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/060-email/consumer/consumer.js" %}
 {% raw %}
 ```js
 const sendEmail = async (email) => {
@@ -74,7 +74,7 @@ app:
 
 После того, как значения корректно прописаны и зашифрованы, можно пробросить соответствующие значения в Deployment:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/060-email/.helm/templates/consumer.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/060-email/.helm/templates/consumer.yaml" %}
 {% raw %}
 ```yaml
         - name: MAILGUN_APIKEY

@@ -83,35 +83,35 @@ from: ubuntu:latest
 
 Начнём с создания артефакта: установим необходимые пакеты и выполним сборку ассетов. Генерация ассетов должна происходить в артефакте на стадии `setup`:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 artifact: assets-built
 from: node:14-stretch
 shell:
   beforeInstall:
-  - apt update
-  - apt install -y build-essential tzdata locales
+    - apt update
+    - apt install -y build-essential tzdata locales
   install:
-  - cd /app && npm i
+    - cd /app && npm i
   setup:
-  - cd /app && npm run build
+    - cd /app && npm run build
 git:
-- add: /
-  to: /app
-  stageDependencies:
-    install:
-    - package.json
-    - webpack-*
-    setup:
-    - "**/*"
+  - add: /
+    to: /app
+    stageDependencies:
+      install:
+        - package.json
+        - webpack-*
+      setup:
+        - "**/*"
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 Чтобы это работало, необходимо добавить сценарий `build` и нужные зависимости в ваш `package.json`:
 
-{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/package.json" %}
+{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/package.json" %}
 {% raw %}
 ```yaml
     "build": "rm -rf dist && webpack --config webpack.config.js --mode development"
@@ -134,7 +134,7 @@ git:
 
 Теперь, когда артефакт собран, соберём образ с nginx:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -156,14 +156,14 @@ _Исходный код `nginx.conf`` можно [посмотреть в ре�
 
 И пропишем в нём импорт из артефакта под названием `build`:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 import:
-- artifact: assets-built
-  add: /app/dist
-  to: /www
-  after: setup
+  - artifact: assets-built
+    add: /app/dist
+    to: /www
+    after: setup
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -176,7 +176,7 @@ import:
 * `livenessProbe` и `readinessProbe`, которые будут проверять корректную работу контейнера в Pod'е,
 * команду `preStop` для корректного завершения процесса nginx, чтобы при выкате новой версии приложения корректно завершались активные сессии.
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       - name: node-assets
@@ -205,7 +205,7 @@ import:
 
 В описании Service также должен быть указан правильный порт:
 
-{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.helm/templates/service.yaml" %}
+{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
   ports:
@@ -219,7 +219,7 @@ import:
 
 И в Ingress необходимо отправить запросы на правильный порт, чтобы они попадали на nginx:
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.helm/templates/ingress.yaml" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
       paths:

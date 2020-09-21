@@ -113,7 +113,7 @@ git:
 
 Чтобы это работало, необходимо добавить сценарий `build` и нужные зависимости в ваш `package.json`:
 
-{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/package.json" %}
+{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/package.json" %}
 {% raw %}
 ```yaml
     "build": "rm -rf dist && webpack --config webpack.config.js --mode development"

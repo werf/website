@@ -59,7 +59,7 @@ toc: false
 
 Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs).
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
       containers:
@@ -84,12 +84,12 @@ werf складывает собранные образы в Registry с раз�
 
 Например, для Node.js это `DEBUG`.
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-      env:
-      - name: "DEBUG"
-        value: "True"
+        env:
+        - name: "DEBUG"
+          value: "True"
 <...>
 {{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}
 ```
@@ -104,31 +104,31 @@ werf складывает собранные образы в Registry с раз�
 
 Helm — шаблонизатор, который поддерживает множество инструментов для подстановки значений. Один из центральных способов — подставлять значения из файла `values.yaml`. Наша конструкция могла бы иметь вид:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-      env:
+        env:
 <...>
-      - name: "DEBUG_2"
-        value: "{{ .Values.isDebug }}"
+        - name: "DEBUG_2"
+          value: "{{ .Values.isDebug }}"
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 … или даже более сложный — для того, чтобы значение основывалось на текущем окружении:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-      env:
+        env:
 <...>
-      - name: "DEBUG"
-        value: "{{ pluck .Values.global.env .Values.app.isDebug | first | default .Values.app.isDebug._default }}"
+        - name: "DEBUG"
+          value: "{{ pluck .Values.global.env .Values.app.isDebug | first | default .Values.app.isDebug._default }}"
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/values.yaml" %}
 ```yaml
 app:
   isDebug:
@@ -176,7 +176,7 @@ app.use(morgan("combined"));
 
 Наше приложение работает на стандартном порту `3000` — **откроем порт Pod'у**:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 ```yaml
         ports:
         - containerPort: 3000
@@ -186,7 +186,7 @@ app.use(morgan("combined"));
 
 Затем **пропишем Service**, чтобы к Pod'у могли обращаться другие приложения кластера:
 
-{% snippetcut name="service.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/service.yaml" %}
+{% snippetcut name="service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -207,7 +207,7 @@ spec:
 
 Обратите внимание на поле `selector` у Service: он должен совпадать с аналогичным полем у Deployment. Ошибки в этой части — самая частая проблема с настройкой маршрута до приложения.
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -238,7 +238,7 @@ spec:
 
 После этого можно настраивать **роутинг на Ingress**. Укажем, на какой домен, путь, сервис и порт направлять запросы:
 
-{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/.helm/templates/ingress.yaml" %}
+{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
   rules:
@@ -269,7 +269,7 @@ spec:
 
 Этот вариант удобен для проброса, например, имени домена для каждого окружения:
 
-{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/ingress.yaml" %}
+{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
   rules:
@@ -311,7 +311,7 @@ app:
 
 После сохранения значения в файле зашифруются и примут примерно такой вид:
 
-{% snippetcut name="secret-values.yaml в зашифрованном виде" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/secret-values.yaml" %}
+{% snippetcut name="secret-values.yaml в зашифрованном виде" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/secret-values.yaml" %}
 ```yaml
 app:
   s3:
@@ -345,7 +345,7 @@ kubectl create secret docker-registry registrysecret -n <namespace> --docker-ser
 
 В каждом Deployment'е также указывается имя секрета:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
+{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
     spec:

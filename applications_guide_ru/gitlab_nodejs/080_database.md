@@ -48,7 +48,7 @@ Kubernetes автоматически разворачивает приложе�
 
 Пропишем Helm-зависимости:
 
-{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/requirements.yaml" %}
+{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/requirements.yaml" %}
 {% raw %}
 ```yaml
 dependencies:
@@ -62,7 +62,7 @@ dependencies:
 
 Для того, чтобы werf при деплое загрузила необходимые нам сабчарты, нужно прописать в `.gitlab-ci.yml` работу с зависимостями:
 
-{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.gitlab-ci.yml" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 .base_deploy: &base_deploy
@@ -79,7 +79,7 @@ dependencies:
 
 Изучив [документацию сабчарта](https://github.com/bitnami/charts/tree/master/bitnami/postgresql#parameters), можно увидеть, что название основной базы данных, пользователя, хоста и пароля и даже версии PostgreSQL задаются через следующие переменные:
 
-{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -95,7 +95,7 @@ postgresql:
 
 Пароль от базы данных мы тоже конфигурируем, но храним его в секретных переменных. Для этого стоит использовать механизм секретных переменных. *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic/20_iac.html#secret-values-yaml).*
 
-{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/secret-values.yaml" %}
+{% snippetcut name=".helm/secret-values.yaml (зашифрованный)" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/secret-values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -116,7 +116,7 @@ postgresql:
 
 Далее мы указываем настройки `persistence`, с помощью которых настроим хранилище для БД:
 
-{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -278,18 +278,18 @@ kubectl -n werf-guided-project-production edit pv posgresql-data
 
 Для подключения Node.js-приложения к PostgreSQL необходимо установить npm-пакет `pg` и сконфигурировать:
 
-{% snippetcut name="server.js" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/backend/src/server/server.js" %}
+{% snippetcut name="server.js" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/queries.js" %}
 {% raw %}
 ```js
-const pgconnectionString =
-  "postgresql://" +process.env.POSTGRESQL_LOGIN +":" + process.env.POSTGRESQL_PASSWORD + "@"+process.env.POSTGRESQL_HOST +":" + process.env.POSTGRESQL_PORT+"/"+ process.env.POSTGRESQL_DATABASE || "postgresql://127.0.0.1/postgres";
+const pg = require("pg");
+const pgconnectionString = "postgresql://" +process.env.POSTGRESQL_LOGIN + ":" +
+                                            process.env.POSTGRESQL_PASSWORD + "@" +
+                                            process.env.POSTGRESQL_HOST + ":" +
+                                            process.env.POSTGRESQL_PORT + "/" +
+                                            process.env.POSTGRESQL_DATABASE || "postgresql://127.0.0.1/postgres";
 // Postgres connect
 const pool = new pg.Pool({
   connectionString: pgconnectionString,
-});
-pool.on("error", (err, client) => {
-  console.error("Unexpected error on idle client", err);
-  process.exit(-1);
 });
 ```
 {% endraw %}
@@ -301,7 +301,7 @@ pool.on("error", (err, client) => {
 
 {% offtopic title="Как работает вынос части шаблона в блок?" %}
 
-{% snippetcut name=".helm/templates/_envs.tpl" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/_envs.tpl" %}
+{% snippetcut name=".helm/templates/_envs.tpl" url="#" %}
 {% raw %}
 ```yaml
 {{- define "database_envs" }}
@@ -315,7 +315,7 @@ pool.on("error", (err, client) => {
 
 Вставляя этот блок, не забывайте добавлять отступы с помощью функции `indent`:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
 {% raw %}
 ```yaml
 {{- include "database_envs" . | indent 8 }}
@@ -329,35 +329,37 @@ pool.on("error", (err, client) => {
 {% offtopic title="Какие значения прописываются в переменные окружения?" %}
 Будем **конфигурировать хост** через `values.yaml`:
 
-{% snippetcut name=".helm/templates/_envs.tpl" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/_envs.tpl" %}
+{% snippetcut name=".helm/templates/_envs.tpl" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_HOST
-  value: "{{ pluck .Values.global.env .Values.postgresql.host | first | default .Values.postgresql.host_default | quote }}"
+        - name: POSTGRESQL_HOST
+          value: {{ pluck .Values.global.env .Values.app.postgresql.host | first | default .Values.app.postgresql.host._default | quote }}
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 **Конфигурируем логин и порт** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_LOGIN
-  value: "{{ pluck .Values.global.env .Values.postgresql.login | first | default .Values.postgresql.login_default | quote }}"
-- name: POSTGRESQL_PORT
-  value: "{{ pluck .Values.global.env .Values.postgresql.port | first | default .Values.postgresql.port_default | quote }}"
+        - name: POSTGRESQL_LOGIN
+          value: {{ pluck .Values.global.env .Values.app.postgresql.login | first | default .Values.app.postgresql.login._default | quote }}
+<...>
+        - name: POSTGRESQL_PORT
+          value: {{ pluck .Values.global.env .Values.app.postgresql.port | first | default .Values.app.postgresql.port._default | quote }}
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
-postgresql:
-   login:
-      _default: chat
-   port:
+  postgresql:
+    login:
+      _default: guide-username
+<...>
+    port:
       _default: 5432
 ```
 {% endraw %}
@@ -365,21 +367,20 @@ postgresql:
 
 **Конфигурируем пароль** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
-- name: POSTGRESQL_PASSWORD
-  value: "{{ pluck .Values.global.env .Values.postgresql.password | first | default .Values.postgresql.password_default | quote }}"
+        - name: POSTGRESQL_PASSWORD
+          value: {{ pluck .Values.global.env .Values.app.postgresql.password | first | default .Values.app.postgresql.password._default | quote }}
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="secret-values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/secret-values.yaml" %}
+{% snippetcut name="secret-values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/secret-values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
-  password:
-    _default: 100067e35229a23c5070ad5407b7406a7d58d4e54ecfa7b58a1072bc6c34cd5d443e
+  postgresqlPassword: 100087f3686b89a04c05a7e256ec51f8bbff3924a22ca0283f136a100896d23bf8b3
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -432,11 +433,11 @@ node
 
 Также мы воспользуемся аннотациями Helm [`helm.sh/hook` и `helm.sh/weight`](https://helm.sh/docs/topics/charts_hooks/), чтобы Job выполнялся после того, как применится новая конфигурация.
 
-{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/job.yaml" %}
+{% snippetcut name=".helm/templates/migrations.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/migrations.yaml" %}
 {% raw %}
 ```yaml
     "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/weight": "1"
+    "helm.sh/weight": "5"
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -451,31 +452,31 @@ node
 
 Так как состояние кластера постоянно меняется, нельзя быть уверенными, что на момент запуска миграций база работает и доступна. Поэтому в Job добавляется `initContainer`, который не даёт запуститься скрипту миграции, пока не станет доступна база данных:
 
-{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/job.yaml" %}
+{% snippetcut name=".helm/templates/migrations.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/migrations.yaml" %}
 {% raw %}
 ```yaml
       initContainers:
       - name: wait-postgres
-        image: postgres:12
-        command:
-          - "sh"
-          - "-c"
-          - "until pg_isready -h {{ pluck .Values.global.env .Values.postgresql.host | first | default .Values.postgresql.host._default }} -U {{ .Values.postgresql.postgresqlUsername }}; do sleep 2; done;"
+        image: alpine:3.6
+        command: ['/bin/sh', '-c', 'while ! getent ahostsv4 {{ pluck .Values.global.env .Values.app.postgresql.host | first | default .Values.app.postgresql.host._default }}; do sleep 1; done']
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 Остался непосредственный запуск миграции. В нём мы используем тот же самый образ, что и в ресурсе Deployment у приложения:
 
-{% snippetcut name=".helm/templates/job.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/080-database/.helm/templates/job.yaml" %}
+{% snippetcut name=".helm/templates/migrations.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/migrations.yaml" %}
 {% raw %}
 ```yaml
-      - name: migration
-        command: ["npm", "migrate"]
+      containers:
+      - name: init-tables
 {{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
+        command: ['node']
+        args: ['node_modules/node-pg-migrate/bin/node-pg-migrate', 'up']
+        workingDir: /app
         env:
-{{- include "database_envs" . | indent 10 }}
-{{ tuple "basicapp" . | include "werf_container_env" | indent 10 }}
+        - name: DATABASE_URL
+          value: "postgres://{{ pluck .Values.global.env .Values.app.postgresql.login | first | default .Values.app.postgresql.login._default }}:{{ pluck .Values.global.env .Values.app.postgresql.password | first | default .Values.app.postgresql.password._default }}@{{ pluck .Values.global.env .Values.app.postgresql.host | first | default .Values.app.postgresql.host._default }}:{{ pluck .Values.global.env .Values.app.postgresql.port | first | default .Values.app.postgresql.port._default }}/{{ pluck .Values.global.env .Values.app.postgresql.db | first | default .Values.app.postgresql.db._default }}"
 ```
 {% endraw %}
 {% endsnippetcut %}

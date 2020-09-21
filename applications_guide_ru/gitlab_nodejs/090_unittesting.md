@@ -14,7 +14,7 @@ toc: false
 
 Требуется добавить эту зависимость в `package.json`, создать к нему конфигурационный файл `.eslintrc.json` и прописать выполнение задания отдельной стадией на GitLab Runner командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html).
 
-{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/090-unittesting/.gitlab-ci.yml" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/090-unittesting/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 Run Tests:
@@ -32,7 +32,7 @@ Run Tests:
 
 Созданную стадию нужно добавить в список стадий:
 
-{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/090-final/.gitlab-ci.yml" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/090-unittesting/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 stages:

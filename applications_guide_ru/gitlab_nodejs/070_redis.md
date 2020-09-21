@@ -36,22 +36,22 @@ toc: false
 
 Пропишем сабчарт с Redis:
 
-{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/requirements.yaml" %}
+{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/requirements.yaml" %}
 {% raw %}
 ```yaml
 dependencies:
 <...>
-- name: redis
-  version: 9.3.2
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  condition: redis.enabled
+  - name: redis
+    version: 9.3.2
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    condition: redis.enabled
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 Для того, чтобы werf при деплое загрузил необходимые нам сабчарты, нужно прописать в `.gitlab-ci.yml` работу с зависимостями:
 
-{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.gitlab-ci.yml" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 .base_deploy: &base_deploy
@@ -66,7 +66,7 @@ dependencies:
 
 … а также сконфигурировать имя сервиса, порт, логин и пароль, согласно [документации сабчарта](https://github.com/bitnami/charts/tree/master/bitnami/redis/#parameters):
 
-{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -91,13 +91,13 @@ redis:
 
 Сконфигурировать логин и порт для подключения у этого сабчарта невозможно, но если изучить исходный код — можно найти значения, использующиеся в сабчарте. Пропишем нужные значения с понятными нам ключами — они понадобятся позже, когда будем конфигурировать приложение.
 
-{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
 <...>
-   _port:
-      _default: 6379
+  _port:
+    _default: 6379
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -139,7 +139,7 @@ metadata:
 
 В нашем случае Redis будет использоваться как хранилище сессий.
 
-{% snippetcut name="app.js" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/app.js" %}
+{% snippetcut name="app.js" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/app.js" %}
 {% raw %}
 ```js
 // Get configuration from envs
@@ -190,7 +190,7 @@ app.listen(3000, function () {
 
 Будем **конфигурировать хост** через `values.yaml`:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: REDIS_HOST
@@ -199,7 +199,7 @@ app.listen(3000, function () {
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -214,7 +214,7 @@ redis:
 
 Казалось бы, можно написать примерно так:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: REDIS_HOST
@@ -225,7 +225,7 @@ redis:
 
 Но на практике иногда возникает необходимость переехать в другую базу данных или кастомизировать что-то: в этих случаях в разы удобнее работать через `values.yaml`. Причём значений для разных окружений мы не прописываем, а ограничиваемся значением по умолчанию:
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -241,7 +241,7 @@ redis:
 
 **Конфигурируем логин и порт** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: REDIS_PORT
@@ -252,7 +252,7 @@ redis:
 
 Мы уже **сконфигурировали пароль** — используем прописанное ранее значение:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: REDIS_PASSWORD
@@ -263,7 +263,7 @@ redis:
 
 Также нам нужно **сконфигурировать переменные, необходимые приложению** для работы с Redis:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: SESSION_TTL
@@ -273,7 +273,7 @@ redis:
 {% endsnippetcut %}
 
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
   redis:

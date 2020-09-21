@@ -56,7 +56,7 @@ Helm обрабатывает все файлы, которые находятс
 
 Сборка образа `node` аналогична ранее описанному [базовому приложению](020_basic.html) с [зависимостями](030_dependencies.html) — за исключением того, откуда берётся исходный код:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/110-multipleapps/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/werf.yaml" %}
 {% raw %}
 ```yaml
 git:
@@ -70,7 +70,7 @@ git:
 
 Сборка для Python-приложения описана в файле `werf.yaml` как отдельный образ.
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/110-multipleapps/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/werf.yaml" %}
 {% raw %}
 ```yaml
 image: python
@@ -106,7 +106,7 @@ ansible:
 
 При деплое нескольких Deployment крайне важно правильно прописать `selector`'ы в Service и Deployment:
 
-{% snippetcut name="service-py.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/service-py.yaml" %}
+{% snippetcut name="service-py.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/service-py.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -125,7 +125,7 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="deployment-py.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/deployment-py.yaml" %}
+{% snippetcut name="deployment-py.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/deployment-py.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -141,7 +141,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ $.Chart.Name }}-py
+        app: {{ .Chart.Name }}-py
     spec:
 <...>
       containers:
@@ -162,7 +162,7 @@ spec:
 
 Маршрутизация запросов будет осуществляться через Ingress:
 
-{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/ingress.yaml" %}
+{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
 spec:

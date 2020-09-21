@@ -22,7 +22,7 @@ toc: false
 
 Пропишем в`.gitlab-ci.yml` создание review-окружений:
 
-{% snippetcut name=".gitlab-ci.yml" url="#" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/120-dynamicenvs/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 Deploy to Review:
@@ -41,7 +41,7 @@ Deploy to Review:
 
 Создаваемые окружения нужно не забывать отключать: в противном случае ресуры в кластере закончатся. Мы добавили зависимость `on_stop: Stop Review`, которая означает, что мы будем останавливать наше окружение стадией `Stop Review`. Сама стадия описывается следующим образом:
 
-{% snippetcut name=".gitlab-ci.yml" url="#" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/120-dynamicenvs/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 Stop Review:

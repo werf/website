@@ -29,6 +29,6 @@ spec:
         env:
         - name: "DEBUG"
           value: "True"
-        - name: DEBUG_2
+        - name: "DEBUG_2"
           value: "{{ .Values.isDebug }}"
 {{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}

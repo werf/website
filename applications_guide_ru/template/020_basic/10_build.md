@@ -90,7 +90,7 @@ shell:
 
 Начнём создание `werf.yaml` с обязательной [**секции мета-информации**]({{ site.docsurl }}/documentation/configuration/introduction.html#секция-мета-информации):
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
 ```yaml
 project: werf-guided-project
 configVersion: 1
@@ -103,7 +103,7 @@ configVersion: 1
 
 Перейдем к следующей секции конфигурации, которая и будет основной для сборки: [**image config section**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%81%D0%B5%D0%BA%D1%86%D0%B8%D1%8F-%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B0).
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
 ```yaml
 ---
 image: basicapp
@@ -141,7 +141,7 @@ from: {{ $base_image }}
 
 Добавим исходный код нашего приложения в контейнер с помощью [**директивы git**]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html):
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
 {% raw %}
 ```yaml
 git:
