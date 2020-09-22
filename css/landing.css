@@ -1,3 +1,7 @@
+html {
+    min-width: 640px;
+}
+
 html,
 body,
 .landing {
@@ -12,12 +16,11 @@ body {
 }
 
 .landing {
-    display: flex;
-    flex-direction: row;
+    position: relative;
 }
 
 .landing__content {
-    flex: 1;
+    width: 60%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -33,19 +36,31 @@ body {
 }
 
 .landing__side {
+    position: fixed;
+    top: 0px;
+    right: 0px;
     width: 40%;
     height: 100vh;
     background: #F3F7FF;
 }
 
 .landing__header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
     z-index: 2;
-    box-sizing: border-box;
     height: 110px;
+    box-sizing: border-box;
     padding-bottom: 20px;
     background: #ffffff;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.landing__header > div {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -113,6 +128,10 @@ body {
 
 .landing__section {
     margin-top: 25vh;
+}
+
+.landing__section_first {
+    margin-top: 35vh;
 }
 
 .landing__h1 {
@@ -300,6 +319,10 @@ body {
         padding: 0 60px;
     }
 
+    .landing__content, .landing__header {
+        width: 70%;
+    }
+
     .landing__side {
         width: 30%;
     }
@@ -320,7 +343,19 @@ body {
         display: none;
     }
 
+    .landing__content, .landing__header {
+        width: 100%;
+    }
+
     .landing__section {
-        margin-top: 10vh;
+        margin-top: 100px;
+    }
+
+    .landing__section_first {
+        margin-top: 200px;
+    }
+
+    .landing__text br {
+        display: none;
     }
 }

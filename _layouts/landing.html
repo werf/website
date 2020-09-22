@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=1260">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{% if page.summary %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
   <meta name="keywords" content="{{page.tags}}{% if page.tags %}, {% endif %} {{page.keywords}}">
   {%- if page.multilang %}
@@ -28,20 +28,22 @@
   {% asset landing.css %}
 
 </head>
-<body>
+<body data-sm-container>
   <div class="landing">
-    <div class="landing__content" data-sm-container>
+    <div class="landing__header">
       <div class="landing__container">
-        <div class="landing__header">
-          <a href="{{ site.baseurl }}" class="landing__header-title">
-            <img src="{{ site.baseurl }}/images/werf-logo.svg" alt="werf" width="167" height="70" />
-          </a>
-          <a href="http://werf.io" class="landing__button">
-            <img src="{{ site.baseurl }}/images/arrow.svg" />
-            <span>werf.io</span>
-          </a>
-        </div>
-        <div class="landing__section" data-sm-trigger="intro">
+        <a href="{{ site.baseurl }}" class="landing__header-title">
+          <img src="{{ site.baseurl }}/images/werf-logo.svg" alt="werf" width="167" height="70" />
+        </a>
+        <a href="http://werf.io" class="landing__button">
+          <img src="{{ site.baseurl }}/images/arrow.svg" />
+          <span>werf.io</span>
+        </a>
+      </div>
+    </div>
+    <div class="landing__content">
+      <div class="landing__container">
+        <div class="landing__section landing__section_first" data-sm-trigger="intro">
           <h1 class="landing__h1">
             Быстро и&nbsp;просто<br>
             деплоим в&nbsp;Kubernetes<br>
