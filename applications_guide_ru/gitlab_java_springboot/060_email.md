@@ -94,7 +94,7 @@ app:
 {% endraw %}
 {% endsnippetcut %}
 
-А не секретные значения — храним в `values.yaml`
+А не секретные значения — храним в `values.yaml`
 
 {% snippetcut name="values.yaml" url="#" %}
 {% raw %}
@@ -107,7 +107,7 @@ app:
 {% endraw %}
 {% endsnippetcut %}
 
-После того, как значения корректно прописаны и зашифрованы — мы можем пробросить соответствующие значения в Deployment.
+После того, как значения корректно прописаны и зашифрованы — мы можем пробросить соответствующие значения в Deployment.
 
 {% snippetcut name="deployment.yaml" url="#" %}
 {% raw %}
