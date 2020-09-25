@@ -3,7 +3,14 @@ configVersion: 1
 # Assets
 ---
 artifact: assets-built
-from: node:latest
+from: node:14-stretch
+shell:
+  install:
+    - cd /app
+    - npm install
+  setup:
+    - cd /app
+    - npm run build
 git:
 - add: /assets
   to: /app
@@ -13,13 +20,6 @@ git:
     - assets/webpack.config.js
     setup:
     - "assets/*"
-shell:
-  install:
-    - cd /app
-    - npm install
-  setup:
-    - cd /app
-    - npm run build
 ---
 image: "node-assets"
 from: nginx:stable-alpine
@@ -44,7 +44,7 @@ git:
 - add: /
   to: /app
   excludePaths:
-    - assets
+  - assets
   stageDependencies:
     beforeSetup:
     - pom.xml

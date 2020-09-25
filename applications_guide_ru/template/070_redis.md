@@ -36,7 +36,7 @@ ____________
 
 Пропишем сабчарт с Redis:
 
-{% snippetcut name=".helm/requirements.yaml" url="#" %}
+{% snippetcut name=".helm/requirements.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/requirements.yaml" %}
 {% raw %}
 ```yaml
 dependencies:
@@ -51,7 +51,7 @@ dependencies:
 
 Для того, чтобы werf при деплое загрузил необходимые нам сабчарты, нужно прописать в `.gitlab-ci.yml` работу с зависимостями:
 
-{% snippetcut name=".gitlab-ci.yml" url="#" %}
+{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.gitlab-ci.yml" %}
 {% raw %}
 ```yaml
 .base_deploy: &base_deploy
@@ -66,7 +66,7 @@ dependencies:
 
 … а также сконфигурировать имя сервиса, порт, логин и пароль, согласно [документации сабчарта](https://github.com/bitnami/charts/tree/master/bitnami/redis/#parameters):
 
-{% snippetcut name=".helm/values.yaml" url="#" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -80,7 +80,7 @@ redis:
 {% offtopic title="Откуда такой ключ Redis?" %}
 Этот ключ должен совпадать с именем сабчарта-зависимости в файле `requirements.yaml` — тогда настройки будут пробрасываться в сабчарт.
 {% endofftopic %}
-{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" %}
+{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 redis:
@@ -91,7 +91,7 @@ redis:
 
 Сконфигурировать логин и порт для подключения у этого сабчарта невозможно, но если изучить исходный код — можно найти значения, использующиеся в сабчарте. Пропишем нужные значения с понятными нам ключами — они понадобятся позже, когда будем конфигурировать приложение.
 
-{% snippetcut name=".helm/values.yaml" url="#" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -151,7 +151,7 @@ ____________
 
 Будем **конфигурировать хост** через `values.yaml`:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: REDIS_HOST
@@ -160,7 +160,7 @@ ____________
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name=".helm/values.yaml" url="#" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -175,7 +175,7 @@ redis:
 
 Казалось бы, можно написать примерно так:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
         - name: REDIS_HOST
@@ -186,7 +186,7 @@ redis:
 
 Но на практике иногда возникает необходимость переехать в другую базу данных или кастомизировать что-то: в этих случаях в разы удобнее работать через `values.yaml`. Причём значений для разных окружений мы не прописываем, а ограничиваемся значением по умолчанию:
 
-{% snippetcut name="values.yaml" url="#" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -202,7 +202,7 @@ redis:
 
 **Конфигурируем логин и порт** через `values.yaml`, просто прописывая значения:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: REDIS_PORT
@@ -213,7 +213,7 @@ redis:
 
 Мы уже **сконфигурировали пароль** — используем прописанное ранее значение:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: REDIS_PASSWORD
@@ -224,7 +224,7 @@ redis:
 
 Также нам нужно **сконфигурировать переменные, необходимые приложению** для работы с Redis:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: SESSION_TTL
@@ -234,7 +234,7 @@ redis:
 {% endsnippetcut %}
 
 
-{% snippetcut name="values.yaml" url="#" %}
+{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/.helm/values.yaml" %}
 {% raw %}
 ```yaml
   redis:

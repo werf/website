@@ -34,11 +34,11 @@ _В скором времени werf [позволит](https://github.com/werf/
 Один из минусов — это отзывчивость: на процесс от push'а кода до появления результата может потребоваться несколько минут.
 {% endofftopic %}
 
-Возьмите исходный код приложения [из репозитория на GitHub](____):
+Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/____________/000-app):
 
 ```bash
-git clone git@github.com:werf/demos.git demos
-_______
+git clone git@github.com:werf/werf-guides.git guide
+cd examples/____________/000-app
 ```
 
 … и скопируйте его в свой проект в GitLab. Далее мы будем работать с исходным кодом проекта в GitLab.
@@ -90,11 +90,13 @@ shell:
 
 Начнём создание `werf.yaml` с обязательной [**секции мета-информации**]({{ site.docsurl }}/documentation/configuration/introduction.html#секция-мета-информации):
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/werf.yaml" %}
+{% raw %}
 ```yaml
 project: werf-guided-project
 configVersion: 1
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 Здесь:
@@ -103,12 +105,14 @@ configVersion: 1
 
 Перейдем к следующей секции конфигурации, которая и будет основной для сборки: [**image config section**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%81%D0%B5%D0%BA%D1%86%D0%B8%D1%8F-%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B0).
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/werf.yaml" %}
+{% raw %}
 ```yaml
 ---
 image: basicapp
 from: ____________
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 В строке `image: basicapp` дано название для образа, который соберёт werf. Это имя будет впоследствии указываться при запуске контейнера. Строка `from: ____________` определяет, что берётся за основу: в данном случае это официальный публичный образ с нужной нам версией ____________.
@@ -141,7 +145,7 @@ from: {{ $base_image }}
 
 Добавим исходный код нашего приложения в контейнер с помощью [**директивы git**]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html):
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/werf.yaml" %}
 {% raw %}
 ```yaml
 git:
@@ -226,21 +230,25 @@ git:
 
 Добавим в `werf.yaml` следующий блок, используя shell-синтаксис:
 
-{% snippetcut name="werf.yaml" url="#" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/werf.yaml" %}
+{% raw %}
 ```yaml
 shell:
   ____________
   ____________
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 Чтобы при запуске приложения по умолчанию использовалась директория `/app`, воспользуемся **[указанием Docker-инструкций]({{ site.docsurl }}/documentation/configuration/stapel_image/docker_directive.html)**:
 
-{% snippetcut name="werf.yaml" url="#" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/____________/____________/werf.yaml" %}
+{% raw %}
 ```yaml
 docker:
   WORKDIR: /app
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 ____________
@@ -311,6 +319,10 @@ $ werf run --stages-storage :local --docker-options="-d -p ____________:________
 * Выполнить сборку и загрузку в Registry: `werf build-and-publish`.
 
 Если вы всё правильно сделали, собранный образ появится в Registry. В случае использования Registry от GitLab собранный образ можно увидеть через веб-интерфейс GitLab.
+
+____________
+____________
+____________
 
 <div>
     <a href="20_iac.html" class="nav-btn">Далее: Конфигурирование инфраструктуры в виде кода</a>

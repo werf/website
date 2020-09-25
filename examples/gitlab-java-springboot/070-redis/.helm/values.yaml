@@ -1,31 +1,21 @@
-redis:
-  fullnameOverride: guided-redis
-  nameOverride: guided-redis
-  enabled: true
-  _login:
-     _default: guided-redis
-  _port:
-     _default: 6379
-  host:
-    _default: guided-redis-maste
-
 app:
-  redis:
-    session_ttl:
-        _default: "3600"
-    cookie_secret:
-        _default: "supersecret"
   java_opt:
     _default: "--debug"
     production: ""
-  url:
-    _default: stage.example.com
-    prodiction: example.com
-
-mysql:
+  redis:
+    session_ttl:
+      _default: "3600"
+    cookie_secret:
+      _default: "supersecret"
+redis:
+  fullnameOverride: redis
+  nameOverride: redis
+  enabled: true
+  _login:
+     _default: redis
+  _port:
+     _default: 6379
   host:
-    _default: mysql
-  db:
-    _default: db_example
-  user:
-    _default: springuser
+    _default: redis-master
+  password: 10006ba921c1
+

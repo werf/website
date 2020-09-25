@@ -1,13 +1,15 @@
 postgresql:
   enabled: true
+  replication:
+    enabled: false
+    slaveReplicas: 0
+  _postgresqlHost:
+    _default: "werf-guided-project-staging-postgresql"
+    production: "werf-guided-project-production-postgresql"
   postgresqlDatabase: guided-database
   postgresqlUsername: guide-username
-  postgresqlHost: postgres
+  servicePort: 5432
   imageTag: "12"
-  login:
-    _default: postgresuser
-  port:
-    _default: postgresport
   persistence:
     enabled: true
     storageClass: "local-storage"
@@ -19,7 +21,3 @@ app:
   java_opt:
     _default: "--debug"
     production: ""
-  url:
-    _default: stage.example.com
-    prodiction: example.com
-
