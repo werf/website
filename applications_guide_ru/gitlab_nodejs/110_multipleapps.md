@@ -7,9 +7,9 @@ toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
-- .helm/templates/service-app.yaml
-- .helm/templates/app.yaml
 - .helm/templates/ingress.yaml
+- .helm/templates/deployment-py.yaml
+- .helm/templates/service-py.yaml
 - werf.yaml
 {% endfilesused %}
 
@@ -106,7 +106,7 @@ ansible:
 
 При деплое нескольких Deployment крайне важно правильно прописать `selector`'ы в Service и Deployment:
 
-{% snippetcut name="service-py.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/service-py.yaml" %}
+{% snippetcut name=".helm/templates/service-py.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/service-py.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -125,7 +125,7 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="deployment-py.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/deployment-py.yaml" %}
+{% snippetcut name=".helm/templates/deployment-py.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/deployment-py.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -162,7 +162,7 @@ spec:
 
 Маршрутизация запросов будет осуществляться через Ingress:
 
-{% snippetcut name="ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/ingress.yaml" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/110-multipleapps/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
 spec:

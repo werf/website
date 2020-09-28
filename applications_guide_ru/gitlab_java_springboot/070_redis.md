@@ -214,7 +214,7 @@ redis:
 
 Но на практике иногда возникает необходимость переехать в другую базу данных или кастомизировать что-то: в этих случаях в разы удобнее работать через `values.yaml`. Причём значений для разных окружений мы не прописываем, а ограничиваемся значением по умолчанию:
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/070-redis/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -266,7 +266,7 @@ redis:
 {% endsnippetcut %}
 
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/070-redis/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
   redis:

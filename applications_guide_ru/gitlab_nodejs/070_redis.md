@@ -11,7 +11,7 @@ toc: false
 - .helm/requirements.yaml
 - .helm/values.yaml
 - .helm/secret-values.yaml
-- src/js/index.js
+- app.js
 - .gitlab-ci.yml
 {% endfilesused %}
 
@@ -80,7 +80,7 @@ redis:
 {% offtopic title="Откуда такой ключ Redis?" %}
 Этот ключ должен совпадать с именем сабчарта-зависимости в файле `requirements.yaml` — тогда настройки будут пробрасываться в сабчарт.
 {% endofftopic %}
-{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
+{% snippetcut name=".helm/secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 redis:
@@ -225,7 +225,7 @@ redis:
 
 Но на практике иногда возникает необходимость переехать в другую базу данных или кастомизировать что-то: в этих случаях в разы удобнее работать через `values.yaml`. Причём значений для разных окружений мы не прописываем, а ограничиваемся значением по умолчанию:
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 redis:
@@ -273,7 +273,7 @@ redis:
 {% endsnippetcut %}
 
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/070-redis/.helm/values.yaml" %}
 {% raw %}
 ```yaml
   redis:

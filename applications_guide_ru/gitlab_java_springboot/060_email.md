@@ -34,7 +34,7 @@ toc: false
 
 В коде приложения подключение к API и отправка сообщения может выглядеть так:
 
-{% snippetcut name="SendGridClient.java" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/src/main/java/com/example/demo/SendGridClient.java" %}
+{% snippetcut name="src/main/java/com/example/demo/SendGridClient.java" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/src/main/java/com/example/demo/SendGridClient.java" %}
 {% raw %}
 ```java
 @Service
@@ -78,7 +78,7 @@ public class SendGridEmailService implements EmailService {
 
 Для работы с `sendgrid` необходимо пробросить в ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных]({{ site.docsurl }}/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, [когда мы делали базовое приложение](020_basic.html#secret-values-yaml)*
 
-{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
+{% snippetcut name=".helm/secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 app:
@@ -93,7 +93,7 @@ app:
 
 А не секретные значения — храним в `values.yaml`
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 app:
@@ -107,7 +107,7 @@ app:
 
 После того, как значения корректно прописаны и зашифрованы — мы можем пробросить соответствующие значения в Deployment.
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         - name: SGAPIKEY

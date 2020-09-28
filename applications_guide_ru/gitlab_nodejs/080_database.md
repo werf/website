@@ -8,12 +8,12 @@ toc: false
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
-- .helm/templates/job.yaml
-- .helm/templates/_envs.tpl
+- .helm/templates/migrations.yaml
 - .helm/requirements.yaml
 - .helm/values.yaml
 - .helm/secret-values.yaml
-- server.js
+- queries.js
+- postgres-pv.yaml
 - .gitlab-ci.yml
 {% endfilesused %}
 
@@ -288,7 +288,7 @@ kubectl -n werf-guided-project-production edit pv posgresql-data
 
 Для подключения Node.js-приложения к PostgreSQL необходимо установить npm-пакет `pg` и сконфигурировать:
 
-{% snippetcut name="server.js" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/queries.js" %}
+{% snippetcut name="queries.js" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/queries.js" %}
 {% raw %}
 ```js
 const pg = require("pg");
@@ -335,7 +335,7 @@ const pool = new pg.Pool({
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
   postgresql:
@@ -359,7 +359,7 @@ const pool = new pg.Pool({
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="secret-values.yaml" url="#" ignore-tests %}
+{% snippetcut name=".helm/secret-values.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 postgresql:
