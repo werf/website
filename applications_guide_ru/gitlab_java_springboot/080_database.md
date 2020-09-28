@@ -8,13 +8,12 @@ toc: false
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
-- .helm/templates/postgres-pvc.yaml
-- .helm/templates/_envs.tpl
 - .helm/requirements.yaml
 - .helm/values.yaml
 - .helm/secret-values.yaml
 - .gitlab-ci.yml
 - pom.xml
+- postgres-pv.yaml
 {% endfilesused %}
 
 В этой главе мы настроим в нашем базовом приложении продвинутую работу с базой данных, включающую в себя вопросы выполнения миграций. В качестве базы данных возьмём PostgreSQL.
@@ -332,7 +331,7 @@ kubectl -n werf-guided-project-production edit pv posgresql-data
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/080-database/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 postgresql:
@@ -354,7 +353,7 @@ postgresql:
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="secret-values.yaml" url="#" ignore-tests %}
+{% snippetcut name=".helm/secret-values.yaml" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 postgresql:

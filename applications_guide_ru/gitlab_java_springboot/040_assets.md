@@ -10,6 +10,7 @@ toc: false
 - .helm/templates/deployment.yaml
 - .helm/templates/service.yaml
 - .helm/templates/ingress.yaml
+- package.json
 - werf.yaml
 {% endfilesused %}
 

@@ -85,7 +85,7 @@ git:
 
 И затем импортируем необходимые файлы в образ с nginx:
 
-{% snippetcut name="deployment-frontend.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment-frontend.yaml" url="#" %}
 {% raw %}
 ```yaml
 ---
@@ -108,7 +108,7 @@ import:
 
 При деплое нескольких Deployment крайне важно правильно прописать `selector`-ы в Service и Deployment:
 
-{% snippetcut name="service-backend.yaml" url="#" %}
+{% snippetcut name=".helm/templates/service-backend.yaml" url="#" %}
 {% raw %}
 ```yaml
 ---
@@ -123,7 +123,7 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-{% snippetcut name="deployment-backend.yaml" url="#" %}
+{% snippetcut name=".helm/templates/deployment-backend.yaml" url="#" %}
 {% raw %}
 ```yaml
 ---
@@ -145,7 +145,7 @@ spec:
 
 Маршрутизация запросов будет осуществляться через Ingress:
 
-{% snippetcut name="ingress.yaml" url="#" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="#" %}
 {% raw %}
 ```yaml
   rules:

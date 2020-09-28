@@ -60,7 +60,7 @@ amazonProperties.zone=${S3ZONE}
 
 Для работы с S3 необходимо пробросить ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных]({{ site.docsurl }}/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, когда мы [делали базовое приложение](020_basic.html#secret-values-yaml).*
 
-{% snippetcut name="secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
+{% snippetcut name=".helm/secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
 {% raw %}
 ```yaml
 app:
@@ -75,7 +75,7 @@ app:
 
 Несекретные значения — храним в `values.yaml`:
 
-{% snippetcut name="values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/050-files/.helm/values.yaml" %}
+{% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/050-files/.helm/values.yaml" %}
 {% raw %}
 ```yaml
 app:
@@ -93,7 +93,7 @@ app:
 
 После того, как значения корректно прописаны и зашифрованы, можно пробросить соответствующие значения в Deployment:
 
-{% snippetcut name="deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/050-files/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/050-files/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
         env:
