@@ -10,6 +10,7 @@ before_script:
 .base_deploy: &base_deploy
   stage: deploy
   script:
+    - werf helm render --set "global.ci_url=$(cut -d / -f 3 <<< $CI_ENVIRONMENT_URL)"
     - werf deploy --set "global.ci_url=$(cut -d / -f 3 <<< $CI_ENVIRONMENT_URL)"
   dependencies:
     - Build

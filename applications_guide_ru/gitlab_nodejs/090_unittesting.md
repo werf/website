@@ -20,12 +20,13 @@ toc: false
 Run Tests:
   stage: test
   script:
-    - werf run --stages-storage :local node -- npm run pretest
+    - werf run basicapp -- npm run pretest
   except:
     - schedules
   tags:
     - werf
-  needs: ["Build"]
+  dependencies:
+    - Build
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -36,9 +37,9 @@ Run Tests:
 {% raw %}
 ```yaml
 stages:
-  - build
-  - test
-  - deploy
+- build
+- test
+- deploy
 ```
 {% endraw %}
 {% endsnippetcut %}

@@ -1,131 +1,19 @@
-project: krovatka
+project: werf-guided-project
 configVersion: 1
 ---
-image: python
-from: python:3.8-slim
-docker:
-  WORKDIR: /app
-  CMD: ['python', '/app/consumer.py']
-git:
-- add: '/python'
-  to: '/app'
-  stageDependencies:
-    install:
-    - python/requirements.txt
-ansible:
-  beforeInstall:
-  - name: Install dependencies
-    apt:
-      name:
-      - build-essential
-      - bash
-      - tzdata
-      - locales
-      - curl
-      - vim
-      - python3-dev
-      - libpq-dev
-      update_cache: yes
-  install:
-  - name: Install pip
-    pip:
-      executable: pip3
-      requirements: /app/requirements.txt
----
-artifact: node_bundle
+image: basicapp
 from: node:14-stretch
 git:
-- add: /node
+- add: /
   to: /app
   stageDependencies:
     install:
     - package.json
-    - package-lock.json
-    setup:
-    - "*"
-ansible:
+shell:
   beforeInstall:
-  - name: Install dependencies
-    apt:
-      name:
-      - build-essential
-      - bash
-      - tzdata
-      - locales
-      - curl
-      - vim
-      update_cache: yes
+  - apt update
+  - apt install -y tzdata locales
   install:
-  - name: npm i
-    shell: npm i
-    args:
-      chdir: /app
-  setup:
-  - name: npm run build
-    shell: npm run build
-    args:
-      chdir: /app
----
-image: node
-from: node:14-stretch
+  - cd /app && npm ci
 docker:
   WORKDIR: /app
-  CMD: ['node', '/app/dist/app.js']
-  EXPOSE: '5000'
-git:
-- add: /node/src
-  to: /app/src
-- add: /.gitignore
-  to: /app/.gitignore
-- add: /node/.eslintrc.json
-  to: /app/.eslintrc.json
-- add: /node/migrations
-  to: /app/migrations
-- add: /node/fixtures
-  to: /app/fixtures
-import:
-- artifact: node_bundle
-  add: /app/node_modules
-  to: /app/node_modules
-  after: setup
-- artifact: node_bundle
-  add: /app/dist/views
-  to: /app/dist/views
-  after: setup
-- artifact: node_bundle
-  add: /app/dist/app.js
-  to: /app/dist/app.js
-  after: setup
-- artifact: node_bundle
-  add: /app/package.json
-  to: /app/package.json
-  after: setup
-- artifact: node_bundle
-  add: /app/package-lock.json
-  to: /app/package-lock.json
-  after: setup
----
-image: node_assets
-from: nginx:stable-alpine
-docker:
-  EXPOSE: '80'
-import:
-- artifact: node_bundle
-  add: /app/dist/assets
-  to: /usr/share/nginx/html/assets
-  after: setup
----
-image: consumer
-from: node:14-stretch
-git:
-- add: /consumer
-  to: /app
-  stageDependencies:
-    install:
-    - package.json
-ansible:
-  install:
-  - name: npm i
-    shell: npm i
-    args:
-      chdir: /app
