@@ -15,5 +15,6 @@ shell:
   setup:
   - cd /app
   - mvn -B -f pom.xml package dependency:resolve
+  - cp /app/target/*.jar /app/demo.jar
 docker:
   WORKDIR: /app

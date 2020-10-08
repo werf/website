@@ -105,15 +105,15 @@ app:
         - name: S3_SSL
           value: {{ pluck .Values.global.env .Values.app.s3.ssl | first | default .Values.app.s3.ssl._default | quote }}
         - name: S3_ENDPOINT
-          value: {{ pluck .Values.global.env .Values.app.s3.host | first | default .Values.app.s3.host._default }}
+          value: {{ pluck .Values.global.env .Values.app.s3.host | first | default .Values.app.s3.host._default | quote  }}
         - name: S3_PORT
           value: {{ pluck .Values.global.env .Values.app.s3.port | first | default .Values.app.s3.port._default | quote }}
         - name: S3_ACCESS_KEY
-          value: {{ pluck .Values.global.env .Values.app.s3.access_key | first | default .Values.app.s3.access_key._default }}
+          value: {{ pluck .Values.global.env .Values.app.s3.access_key | first | default .Values.app.s3.access_key._default | quote }}
         - name: S3_SECRET_KEY
-          value: {{ pluck .Values.global.env .Values.app.s3.secret_key | first | default .Values.app.s3.secret_key._default }}
+          value: {{ pluck .Values.global.env .Values.app.s3.secret_key | first | default .Values.app.s3.secret_key._default | quote }}
         - name: S3_BUCKET
-          value: {{ pluck .Values.global.env .Values.app.s3.bucket | first | default .Values.app.s3.bucket._default }}
+          value: {{ pluck .Values.global.env .Values.app.s3.bucket | first | default .Values.app.s3.bucket._default | quote }}
 ```
 {% endraw %}
 {% endsnippetcut %}

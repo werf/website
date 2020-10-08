@@ -20,7 +20,7 @@ image: basicapp
 from: openjdk:8-jdk-alpine
 import:
 - artifact: build
-  add: /app/target/*.jar
+  add: /tmp/unittest/*.jar
   to: /app/demo.jar
   after: setup
 docker:

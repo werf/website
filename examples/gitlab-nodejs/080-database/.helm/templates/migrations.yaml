@@ -12,6 +12,8 @@ spec:
     metadata:
       name: {{ .Chart.Name }}-migrations
     spec:
+      imagePullSecrets:
+        - name: "registrysecret"
       restartPolicy: OnFailure
       initContainers:
       - name: wait-postgres

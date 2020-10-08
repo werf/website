@@ -1,7 +1,7 @@
 stages:
+- test
 - build
 - deploy
-- test
 - cleanup
 
 before_script:
@@ -23,6 +23,8 @@ Build:
     - werf build-and-publish
   tags:
     - werf
+  dependencies:
+    - test
 
 Deploy to staging:
   extends: .base_deploy

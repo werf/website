@@ -1,8 +1,8 @@
 stages:
-  - build
-  - test
-  - deploy
-  - cleanup
+- build
+- test
+- deploy
+- cleanup
 
 before_script:
   - type multiwerf && source <(multiwerf use 1.1 stable)
@@ -14,6 +14,7 @@ before_script:
     - werf deploy --set "global.ci_url=$(cut -d / -f 3 <<< $CI_ENVIRONMENT_URL)"
   dependencies:
     - Build
+    - Run Tests
   tags:
     - werf
 
@@ -27,25 +28,13 @@ Build:
 Run Tests:
   stage: test
   script:
-    - werf run --stages-storage :local node -- npm run pretest
+    - werf run basicapp -- npm run pretest
   except:
     - schedules
   tags:
     - werf
-  needs: ["Build"]
-
-Test:
-  extends: .base_deploy
-  stage: deploy
-  environment:
-    name: test
-  except:
-    - schedules
-  #  - master
-  only:
-    - branches
-  when: manual
-  needs: ["Build","Run Tests"]
+  dependencies:
+    - Build
 
 Deploy to staging:
   extends: .base_deploy
@@ -55,7 +44,6 @@ Deploy to staging:
   only:
     - merge_requests
   when: manual
-  needs: ["Build","Run Tests"]
 
 Deploy to production:
   extends: .base_deploy
@@ -64,7 +52,6 @@ Deploy to production:
     url: http://mydomain.io
   only:
     - master
-  needs: ["Build","Run Tests"]
 
 Cleanup:
   stage: cleanup
@@ -72,6 +59,6 @@ Cleanup:
     - type multiwerf && source <(multiwerf use 1.1 stable)
     - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
     - docker login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_IMAGES_REPO}
-    - werf cleanup --stages-storage :local
+    - werf cleanup
   only:
     - schedules

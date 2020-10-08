@@ -6,5 +6,5 @@ metadata:
 data:
   env.json: |
     {
-      "url": {{ pluck .Values.global.env .Values.app.url | first | default .Values.app.url._default |quote }}
+      "url": {{ .Values.global.ci_url | quote }}
     }

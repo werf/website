@@ -45,9 +45,9 @@ test:
 {% raw %}
 ```yaml
 stages:
+- test
 - build
 - deploy
-- test
 - cleanup
 ```
 {% endraw %}

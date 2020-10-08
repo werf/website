@@ -57,6 +57,7 @@ spec:
           mountPath: /app/dist/config/env.json
           subPath: env.json
 {{ tuple "frontend" . | include "werf_container_env" | indent 8 }}
+      volumes:
       - name: env-json
         configMap:
           name: {{ .Chart.Name }}-configmap
