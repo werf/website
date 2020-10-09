@@ -4,3 +4,7 @@
 _site
 .jekyll-cache
 build.sh
+.pyc
+.cpython-38.pyc
+.mo
+.po
