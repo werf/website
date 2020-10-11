@@ -1,5 +1,8 @@
-Simple example visit page counter on django with redis
+Simple example django project with database
 =====================
+
+This application add new label and show him
+---
 
 ### Installation guide
 ---

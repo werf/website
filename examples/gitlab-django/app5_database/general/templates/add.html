@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block title %}<title>Local Library</title>{% endblock %}
+</head>
+
+<body>
+    <a href="/"> List labels</a>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input id="your_name" type="text" name="label">
+        <input type="submit" value="OK">
+    </form>
+</body>
+</html>

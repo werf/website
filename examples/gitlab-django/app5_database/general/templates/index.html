@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block title %}<title>Local Library</title>{% endblock %}
+</head>
+
+<body>
+    <a href="/add"> Add label</a>
+  {% block content %}
+    {% for o in list %}
+        <p> {{o.label_text }} </p>
+    {% endfor %}
+  {% endblock %}
+</body>
+</html>
