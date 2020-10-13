@@ -17,11 +17,60 @@ toc: false
 
 Ниже мы максимально кратко объясним, что подразумевается под каждым из этих пунктов.
 
+**Настройка окружения — это сложная задача**. Не рекомендуем закапываться в решение проблем своими руками: используйте существующие на рынке услуги, позовите на помощь коллег, которые имеют практику настройки инфраструктуры, или задавайте вопросы в [Telegram-сообществе Werf](https://t.me/werf_ru).
+
 ## Требования к Kubernetes-кластеру
 
 Никаких специальных требований к кластеру не предъявляется: вы можете развернуть его самостоятельно, воспользоваться предложением одного из облачных провайдеров или воспользоваться локальным Minikube.
 
-Объект Ingress описывается в нашем гайде в расчёте на [nginx-ingress](https://kubernetes.github.io/ingress-nginx/). Если вы используете другой контроллер — вам предстоит адаптировать конфигурацию самостоятельно.
+{% offtopic title="Где взять kubernetes, если нет опыта самостоятельной установки кластера?" %}
+
+Если вы ещё ни разу не устанавливали kubernetes самостоятельно и/или не обладаете опытом системного администрирования — не стоит пытаться освоить эту тему в рамках этого гайда. Это может быть слишком сложно.
+
+Существует огромное количество услуг, позиционирующихся как [Managed Kubernetes](https://www.google.com/search?q=managed+kubernetes). Часть из них включает серверные мощности, часть — нет.
+
+Самым простым является взять услугу в EKS или GKE. При первой регистрации они представляют бонус, которого должно хватить на неделю-другую работы с кластером. Однако, для регистрации понадобится ввести данные банковской карты.
+
+Альтернативой может стать использование Yandex Cloud — здесь также предоставляется Managed Kubernetes, и также требуется ввести данные карты. Но в качестве карты можно воспользоваться, например, виртуальной картой от Яндекс-денег, позволяющей проводить "подписочные" платежи внутри России.
+
+Также можно попробовать развернуть Kubernetes самостоятельно [в Hetzner на основании их статьи](https://community.hetzner.com/tutorials/install-kubernetes-cluster) — это один из самых дешёвых клауд-провайдеров. Однако, надо понимать, что вам придётся самостоятельно разбираться с большим пластом работ по администрированию платформы. Если решите переводить свой production — найдите надёжного провайдера или команду, которая будет администрировать платформу.
+{% endofftopic %}
+
+**После того, как развернёте кластер** — вам необходимо достать с него файл `.kube/config` с ключами доступа к кластеру. Он выглядит примерно так:
+
+{% snippetcut name=".kube/config" url="#" %}
+{% raw %}
+```yaml
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: ALotOfNumbersAndLettersAndSoOnAveryVERYveryLongStringInBase64=
+    server: https://127.0.0.1:6445
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: ManyNumbersAndLettersAVERYveryVerylongString=
+    client-key-data: ManyLettersAndNumbersAveryVeryVERYlongString=
+```
+{% endraw %}
+{% endsnippetcut %}
+
+Этот файл необходим, чтобы мы могли строить CI-процесс и деплоиться в созданный кластер.
+
+Обратите внимание, что объект Ingress описывается в нашем гайде в расчёте на [nginx-ingress](https://kubernetes.github.io/ingress-nginx/). Если вы используете другой контроллер — вам предстоит адаптировать конфигурацию самостоятельно.
+
+{% offtopic title="Что делать с Ingress, если у вас нет опыта администрирования?" %}
+Вы можете задать вопрос в [Telegram-сообществе Werf](https://t.me/werf_ru), указав, где и как вы развернули свой Kubernetes-кластер. Мы постараемся подсказать, как вам подойти к решению проблемы.
+{% endofftopic %}
 
 ## Домен
 
@@ -56,21 +105,57 @@ toc: false
 - Выделенный сервер (если такой есть), на котором запускается CLI-утилита.
 {% endofftopic %}
 
-Есть несколько вариантов установки и настройки раннера: он может быть установлен на отдельном сервере, на нескольких серверах или запускаться на динамически создаваемых узлах. В гайде будет рассматриваться самый простой сценарий: использование одного узла.
+Самый простой вариант установки и настройки раннера — поднять отдельную виртуальную машину.
 
-{% offtopic title="Как быть с более сложными конфигурациями раннеров?" %}
-В werf поддерживается [распределённый режим сборки]({{ site.docsurl }}/documentation/guides/switch_to_distributed_mode.html).
-При необходимости есть возможность сделать образ с werf и запускать его внутри Docker. Готовый Docker-образ со всем необходимым находится в разработке.
+{% offtopic title="А другие варианты?" %}
 
-Также в разработке [находится](https://github.com/werf/werf/issues/2200) механика параллельной сборки.
+На практике вариантов настройки раннеров используется гораздо больше. Можно использовать:
+
+- Несколько виртуальных машин
+- Gitlab Shared Runners
+- Динамически создаваемые узлы в Kubernetes
+
+Последние два варианта требуют работы с Docker внутри Docker с учётом монтирования томов. Реализация этих фич в Werf стоит в ближайших планах.
+
+_Примечание: Werf уже умеет нативно работать с GitHub Runners._
 {% endofftopic %}
 
-Требования таковы:
+Для настройки виртуальной машины необходимо:
 
-* У раннера есть сетевая доступность до Kubernetes и до Registry;
-* Для пользователя, которого использует GitLab Runner, [установлен multiwerf]({{ site.docsurl }}/documentation/guides/installation.html#installing-multiwerf);
-* Для пользователя, которого использует GitLab Runner, установлен kubectl и добавлен конфигурационный файл для подключения к Kubernetes.
-* GitLab Runner подключен к GitLab с тегом `werf`.
+- Установить на неё [CLI-утилиту gitlab-runner](https://docs.gitlab.com/runner/install/) (в качестве тега создаваемого раннера укажите `werf`)
+- Установить на неё docker, git и [multiwerf]({{ site.docsurl }}/documentation/guides/installation.html#installing-multiwerf)
+- Обеспечить связь с API Kubernetes
+
+{% offtopic title="Как обеспечить связь с API Kubernetes?" %}
+
+Есть несколько способов реализовать это. Рассмотрим наиболее простой с точки зрения управления.
+
+Сперва вам нужно будет убедиться, что в `.kube/config` указан корректный ip-адрес вашего кластера в поле server, возможно там указано некорректное значение:
+
+{% snippetcut name=".kube/config" url="#" %}
+{% raw %}
+```yaml
+- cluster:
+<...>
+    server: https://127.0.0.1:6445
+```
+{% endraw %}
+{% endsnippetcut %}
+
+Затем **зашифруйте ваш `.kube/config` с помощью base64**. Если лень пользоваться консолью — можно воспользоваться каким-то из [веб-сервисов](https://www.base64encode.org/), получим что-то вроде:
+
+{% snippetcut name=".kube/config (base64)" url="#" %}
+{% raw %}
+```yaml
+YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eS1kYXRhOiBBTG90T2ZOdW1iZXJzQW5kTGV0dGVyc0FuZFNvT25BdmVyeVZFUll2ZXJ5TG9uZ1N0cmluZ0luQmFzZTY0PQogICAgc2VydmVyOiBodHRwczovLzEyNy4wLjAuMTo2NDQ1CiAgbmFtZToga3ViZXJuZXRlcwpjb250ZXh0czoKLSBjb250ZXh0OgogICAgY2x1c3Rlcjoga3ViZXJuZXRlcwogICAgdXNlcjoga3ViZXJuZXRlcy1hZG1pbgogIG5hbWU6IGt1YmVybmV0ZXMtYWRtaW5Aa3ViZXJuZXRlcwpjdXJyZW50LWNvbnRleHQ6IGt1YmVybmV0ZXMtYWRtaW5Aa3ViZXJuZXRlcwpraW5kOiBDb25maWcKcHJlZmVyZW5jZXM6IHt9CnVzZXJzOgotIG5hbWU6IGt1YmVybmV0ZXMtYWRtaW4KICB1c2VyOgogICAgY2xpZW50LWNlcnRpZmljYXRlLWRhdGE6IE1hbnlOdW1iZXJzQW5kTGV0dGVyc0FWRVJZdmVyeVZlcnlsb25nU3RyaW5nPQogICAgY2xpZW50LWtleS1kYXRhOiBNYW55TGV0dGVyc0FuZE51bWJlcnNBdmVyeVZlcnlWRVJZbG9uZ1N0cmluZz0=
+```
+{% endraw %}
+{% endsnippetcut %}
+
+В каждом репозитории с кодом, с которым вы будете работать, вам надо будет **прописать в gitlab-е специальную переменную**. Зайдите в репозиторий и в левой панели нажмите `Settings` -> `CI/CD`. В нём, в главе `Variables` нужно прописать переменную окружения `KUBECONFIG_BASE64` с нашим `.kube/config` зашифрованным base64.
+
+Таким образом доступы к кластеру попадут в Werf, с помощью которого мы будем строить CI-процесс.
+{% endofftopic %}
 
 ## Требования к приложению
 
