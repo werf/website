@@ -414,6 +414,6 @@ postgresql:
 {% endraw %}
 {% endsnippetcut %}
 
-<div>
-    <a href="090_unittesting.html" class="nav-btn">Далее: Юнит-тесты и Линтеры</a>
+<div id="go-forth-button">
+    <go-forth url="090_unittesting.html" label="Юнит-тесты и Линтеры" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

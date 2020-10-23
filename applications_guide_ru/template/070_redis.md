@@ -246,6 +246,6 @@ redis:
 {% endraw %}
 {% endsnippetcut %}
 
-<div>
-    <a href="080_database.html" class="nav-btn">Далее: Подключение базы данных</a>
+<div id="go-forth-button">
+    <go-forth url="080_database.html" label="Подключение базы данных" base-url="applications_guide_ru"></go-forth>
 </div>

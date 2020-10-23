@@ -88,6 +88,6 @@ ____________
 
 
 
-<div>
-    <a href="070_redis.html" class="nav-btn">Далее: Подключаем redis</a>
+<div id="go-forth-button">
+    <go-forth url="070_redis.html" label="Подключаем redis" base-url="applications_guide_ru"></go-forth>
 </div>

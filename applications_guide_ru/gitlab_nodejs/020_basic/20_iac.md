@@ -1,9 +1,6 @@
 ---
 title: Конфигурирование IaC
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/020_basic/20_iac.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -423,6 +420,6 @@ werf-guided-project                  staging.mydomain.io           80        6m1
 
 А также вы должны увидеть сервис через браузер.
 
-<div>
-    <a href="30_ci.html" class="nav-btn">Далее: Построение CI-процесса</a>
+<div id="go-forth-button">
+    <go-forth url="30_ci.html" label="Построение CI-процесса" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

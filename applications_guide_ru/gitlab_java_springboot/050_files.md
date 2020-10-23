@@ -1,9 +1,6 @@
 ---
 title: Работа с файлами
-sidebar: applications_guide
-guide_code: gitlab_java_springboot
 permalink: gitlab_java_springboot/050_files.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -115,6 +112,6 @@ app:
 
 Об особенностях использования aws-java-sdk можно подробно почитать в [документации](https://cloud.spring.io/spring-cloud-aws/spring-cloud-aws.html)
 
-<div>
-    <a href="060_email.html" class="nav-btn">Далее: Работа с электронной почтой</a>
+<div id="go-forth-button">
+    <go-forth url="060_email.html" label="Работа с электронной почтой" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

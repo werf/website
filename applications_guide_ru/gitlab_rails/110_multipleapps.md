@@ -210,6 +210,6 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-<div>
-    <a href="120_dynamicenvs.html" class="nav-btn">Далее: Динамические окружения</a>
+<div id="go-forth-button">
+    <go-forth url="120_dynamicenvs.html" label="Динамические окружения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

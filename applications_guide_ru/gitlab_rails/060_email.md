@@ -83,6 +83,6 @@ app:
 TODO: надо дать отсылку на какой-то гайд, где описано, как конкретно использовать гем mailgun-ruby. Мало же просто его установить — надо ещё как-то юзать в коде.
 
 
-<div>
-    <a href="070_redis.html" class="nav-btn">Далее: Подключаем redis</a>
+<div id="go-forth-button">
+    <go-forth url="070_redis.html" label="Подключаем redis" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

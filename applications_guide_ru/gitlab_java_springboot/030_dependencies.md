@@ -1,9 +1,6 @@
 ---
 title: Подключение зависимостей
-sidebar: applications_guide
-guide_code: gitlab_java_springboot
 permalink: gitlab_java_springboot/030_dependencies.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -100,6 +97,6 @@ shell:
 {% endsnippetcut %}
 
 
-<div>
-    <a href="040_assets.html" class="nav-btn">Далее: Генерируем и раздаем ассеты</a>
+<div id="go-forth-button">
+    <go-forth url="040_assets.html" label="Генерируем и раздаем ассеты" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

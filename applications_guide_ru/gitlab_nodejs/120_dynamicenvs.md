@@ -1,9 +1,6 @@
 ---
 title: Динамические окружения
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/120_dynamicenvs.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

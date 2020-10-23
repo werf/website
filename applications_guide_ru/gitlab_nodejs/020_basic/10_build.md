@@ -1,9 +1,6 @@
 ---
 title: Сборка
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/020_basic/10_build.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -331,6 +328,6 @@ $ werf run --stages-storage :local --docker-options="-d -p 3000:3000 --restart=a
 
 Если вы всё правильно сделали, собранный образ появится в Registry. В случае использования Registry от GitLab собранный образ можно увидеть через веб-интерфейс GitLab.
 
-<div>
-    <a href="20_iac.html" class="nav-btn">Далее: Конфигурирование инфраструктуры в виде кода</a>
+<div id="go-forth-button">
+    <go-forth url="20_iac.html" label="Конфигурирование инфраструктуры в виде кода" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

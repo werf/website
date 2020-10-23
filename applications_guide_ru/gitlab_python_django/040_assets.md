@@ -198,7 +198,7 @@ import:
 
 {% endofftopic %}
 
-<div>
-    <a href="050_files.html" class="nav-btn">Далее: Работа с файлами</a>
+<div id="go-forth-button">
+    <go-forth url="050_files.html" label="Работа с файлами" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>
 

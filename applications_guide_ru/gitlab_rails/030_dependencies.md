@@ -88,6 +88,6 @@ mount:
 
 При каждом запуске билда, эта директория будет монтироваться с сервера, где запускается билд, и не будет очищаться между билдами. Таким образом кэш будет сохраняться между сборками.
 
-<div>
-    <a href="040_assets.html" class="nav-btn">Далее: Генерируем и раздаем ассеты</a>
+<div id="go-forth-button">
+    <go-forth url="040_assets.html" label="Генерируем и раздаем ассеты" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

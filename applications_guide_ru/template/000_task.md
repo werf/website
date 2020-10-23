@@ -53,6 +53,6 @@ toc: false
 {% endsnippetcut %}
 
 
-<div>
-    <a href="010_preparing.html" class="nav-btn">Далее: Подготовка к работе</a>
+<div id="go-forth-button">
+    <go-forth url="010_preparing.html" label="Подготовка к работе" base-url="applications_guide_ru"></go-forth>
 </div>

@@ -84,6 +84,6 @@ toc: false
 
 {% endofftopic %}
 
-<div>
-    <a href="020_basic.html" class="nav-btn">Далее: Базовые настройки</a>
+<div id="go-forth-button">
+    <go-forth url="020_basic.html" label="Базовые настройки" base-url="applications_guide_ru"></go-forth>
 </div>

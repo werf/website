@@ -324,6 +324,6 @@ ____________
 ____________
 ____________
 
-<div>
-    <a href="20_iac.html" class="nav-btn">Далее: Конфигурирование инфраструктуры в виде кода</a>
+<div id="go-forth-button">
+    <go-forth url="20_iac.html" label="Конфигурирование инфраструктуры в виде кода" base-url="applications_guide_ru"></go-forth>
 </div>
