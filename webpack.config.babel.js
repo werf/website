@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist',
+    publicPath: '/applications_guide_ru/dist',
     filename: '[name].[chunkhash].js'
   },
   optimization: {
