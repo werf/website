@@ -6,18 +6,18 @@
   "scripts": {
     "DEVELOPMENT": "--------------------------------------",
     "serve": "browser-sync start --config browser-sync.js",
-    "webpack:dev": "webpack --watch",
+    "webpack:dev": "node_modules/.bin/webpack --watch",
     "jekyll:dev:ru": "bundle exec jekyll build --config _config.yml,_config_ru.yml --watch --incremental",
     "jekyll:dev:en": "bundle exec jekyll build --config _config.yml,_config_en.yml --watch --incremental",
 
     "PRODUCTION": "--------------------------------------",
-    "build:ru": "npm run jekyll:build:ru && npm run webpack:build",
-    "build:en": "npm run jekyll:build:en && npm run webpack:build",
+    "build:ru": "npm run webpack:build && npm run jekyll:build:ru",
+    "build:en": "npm run webpack:build && npm run jekyll:build:en",
 
     "OTHER": "--------------------------------------",
     "jekyll:build:ru": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_ru --config _config.yml,_config_ru.yml",
     "jekyll:build:en": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_en --config _config.yml,_config_en.yml",
-    "webpack:build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "webpack:build": "node_modules/.bin/webpack --progress --hide-modules"
   },
   "keywords": [
     "jekyll",
