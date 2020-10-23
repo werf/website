@@ -49,6 +49,6 @@ stages:
 Если нужен доступ к ресурсам кластера или база данных — это уже не линтер: потребуется собрать отдельный образ и прописать сложный сценарий деплоя объектов Kubernetes. Эти случаи выходят за рамки нашего гайда для начинающих.
 {% endofftopic %}
 
-<div>
-    <a href="110_multipleapps.html" class="nav-btn">Далее: Несколько приложений в одном репозитории</a>
+<div id="go-forth-button">
+    <go-forth url="110_multipleapps.html" label="Несколько приложений в одном репозитории" base-url="applications_guide_ru"></go-forth>
 </div>

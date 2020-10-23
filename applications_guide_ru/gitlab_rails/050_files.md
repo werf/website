@@ -87,6 +87,6 @@ app:
 
 TODO: надо дать отсылку на какой-то гайд, где описано, как конкретно использовать гем aws-sdk. Мало же просто его установить — надо ещё как-то юзать в коде.
 
-<div>
-    <a href="060_email.html" class="nav-btn">Далее: Работа с электронной почтой</a>
+<div id="go-forth-button">
+    <go-forth url="060_email.html" label="Работа с электронной почтой" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

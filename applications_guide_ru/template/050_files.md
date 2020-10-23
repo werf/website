@@ -77,6 +77,6 @@ ____________
 ____________
 ____________
 
-<div>
-    <a href="060_email.html" class="nav-btn">Далее: Работа с электронной почтой</a>
+<div id="go-forth-button">
+    <go-forth url="060_email.html" label="Работа с электронной почтой" base-url="applications_guide_ru"></go-forth>
 </div>

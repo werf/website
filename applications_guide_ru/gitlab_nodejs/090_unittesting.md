@@ -1,9 +1,6 @@
 ---
 title: Юнит-тесты и линтеры
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/090_unittesting.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -50,6 +47,6 @@ stages:
 Если нужен доступ к ресурсам кластера или база данных — это уже не линтер: потребуется собрать отдельный образ и прописать сложный сценарий деплоя объектов Kubernetes. Эти случаи выходят за рамки нашего самоучителя для начинающих.
 {% endofftopic %}
 
-<div>
-    <a href="110_multipleapps.html" class="nav-btn">Далее: Несколько приложений в одном репозитории</a>
+<div id="go-forth-button">
+    <go-forth url="110_multipleapps.html" label="Несколько приложений в одном репозитории" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

@@ -1,9 +1,6 @@
 entries:
   ru:
     f:
-      - title: Как использовать гайд
-        url: 000_task.html
-
       - title: Подготовка к работе
         url: 010_preparing.html
 

@@ -1,9 +1,6 @@
 ---
 title: Подключение базы данных
-sidebar: applications_guide
-guide_code: gitlab_java_springboot
 permalink: gitlab_java_springboot/080_database.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -389,6 +386,6 @@ postgresql:
 
 Накатка фикстур производится фреймворком самостоятельно используя вышеназванные инструменты для миграций. Для накатывания фикстур в зависимости от стенда можно передавать переменную окружения в приложение. Например, для Flyway это будет `SPRING_FLYWAY_LOCATIONS`. Для Spring Batch Database нужно присвоить Java-переменной `spring.batch.initialize-schema` значение переменной из environment  (`always` либо `never`). Для JPA это `validate`, `update`, `create`, `create-drop`. Реализации могут отличаться, но подход остаётся один: обязательно нужно передавать переменную в контейнер.
 
-<div>
-    <a href="090_unittesting.html" class="nav-btn">Далее: Юнит-тесты и Линтеры</a>
+<div id="go-forth-button">
+    <go-forth url="090_unittesting.html" label="Юнит-тесты и Линтеры" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

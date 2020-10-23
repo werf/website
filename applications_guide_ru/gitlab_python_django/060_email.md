@@ -87,6 +87,6 @@ app:
 
 Как использовать данный пакет для отправки почты более подробно можно почитать в [статье](https://medium.com/@9cv9official/sending-html-email-in-django-with-anymail-7163dc332113).
 
-<div>
-    <a href="070_redis.html" class="nav-btn">Далее: Подключаем redis</a>
+<div id="go-forth-button">
+    <go-forth url="070_redis.html" label="Подключаем redis" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

@@ -1,9 +1,6 @@
 ---
 title: Подключение зависимостей
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/030_dependencies.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -81,6 +78,6 @@ mount:
 
 Теперь при каждом запуске сборки эта директория будет монтироваться с сервера, где запускается `build`, и она не будет очищаться между сборками. Таким образом, кэш будет сохраняться между сборками.
 
-<div>
-    <a href="040_assets.html" class="nav-btn">Далее: Генерируем и раздаем ассеты</a>
+<div id="go-forth-button">
+    <go-forth url="040_assets.html" label="Генерируем и раздаем ассеты" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

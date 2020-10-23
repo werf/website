@@ -35,6 +35,11 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.layout-sidebar__x_onform {
+  margin-top: 0px;
 }
 
 .layout-sidebar__sidebar {
@@ -165,6 +170,18 @@
 
 .sidebar__item_submenu-parent.active > a:after {
     transform: rotate(-180deg);
+}
+
+.sidebar__item a.completed {
+  color: #008080;
+  text-decoration: line-through;
+}
+
+.sidebar__item a.unselected {
+  color: #E5E5E5;
+}
+
+.sidebar__item a.todo {
 }
 
 .sidebar__btns.sticky {

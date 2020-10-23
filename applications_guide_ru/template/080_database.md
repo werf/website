@@ -424,6 +424,6 @@ ____________
 {% endraw %}
 {% endsnippetcut %}
 
-<div>
-    <a href="090_unittesting.html" class="nav-btn">Далее: Юнит-тесты и линтеры</a>
+<div id="go-forth-button">
+    <go-forth url="090_unittesting.html" label="Юнит-тесты и линтеры" base-url="applications_guide_ru"></go-forth>
 </div>

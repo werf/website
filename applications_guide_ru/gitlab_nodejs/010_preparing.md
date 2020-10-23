@@ -1,9 +1,6 @@
 ---
 title: Подготовка к работе
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/010_preparing.html
-toc: false
 ---
 В этой главе мы рассмотрим, как подготовить приложение и инфраструктуру для того, чтобы можно было развернуть это приложение в Kubernetes.
 
@@ -169,6 +166,6 @@ YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0
 
 {% endofftopic %}
 
-<div>
-    <a href="020_basic.html" class="nav-btn">Далее: Базовые настройки</a>
+<div id="go-forth-button">
+    <go-forth url="020_basic.html" label="Базовые настройки" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

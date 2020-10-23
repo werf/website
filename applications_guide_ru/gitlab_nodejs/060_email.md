@@ -1,9 +1,6 @@
 ---
 title: Работа с электронной почтой
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/060_email.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -85,6 +82,6 @@ app:
 {% endraw %}
 {% endsnippetcut %}
 
-<div>
-    <a href="070_redis.html" class="nav-btn">Далее: Подключаем Redis</a>
+<div id="go-forth-button">
+    <go-forth url="070_redis.html" label="Подключаем Redis" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

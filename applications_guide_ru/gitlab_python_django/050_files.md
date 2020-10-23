@@ -73,6 +73,6 @@ app:
 
 Примеры использования пакеты `django-storages` можно посмотреть в [документации](https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html), либо в [отдельной статье](https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html).
 
-<div>
-    <a href="060_email.html" class="nav-btn">Далее: Работа с электронной почтой</a>
+<div id="go-forth-button">
+    <go-forth url="060_email.html" label="Работа с электронной почтой" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

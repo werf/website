@@ -4,3 +4,7 @@
 _site
 .jekyll-cache
 build.sh
+_includes/scripts.html
+.jekyll-metadata
+node_modules
+dist

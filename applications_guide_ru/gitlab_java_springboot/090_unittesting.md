@@ -1,9 +1,6 @@
 ---
 title: Юнит-тесты и Линтеры
-sidebar: applications_guide
-guide_code: gitlab_java_springboot
 permalink: gitlab_java_springboot/090_unittesting.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -64,6 +61,6 @@ stages:
 
 Так же можно добавить этот плагин в `pom.xml` в секцию `build` (подробно описано в [документации](https://maven.apache.org/plugins/maven-checkstyle-plugin/usage.html)) и тогда checkstyle будет выполняться до самой сборки при выполнении `mvn package`. Стоит отметить, что в нашем случае используется [google_checks.xml](https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml) для описания checkstyle. Мы запускаем их на стадии `validate` - до компиляции.
 
-<div>
-    <a href="110_multipleapps.html" class="nav-btn">Далее: Несколько приложений в одном репозитории</a>
+<div id="go-forth-button">
+    <go-forth url="110_multipleapps.html" label="Несколько приложений в одном репозитории" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

@@ -1,9 +1,6 @@
 ---
 title: Работа с электронной почтой
-sidebar: applications_guide
-guide_code: gitlab_java_springboot
 permalink: gitlab_java_springboot/060_email.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -122,6 +119,6 @@ app:
 
 В интернете можно найти много разных примеров настройки почты через `sendgrid` используя spring. Имплементация может отличаться, но нам важно понять, что нужно параметризировать `application.properties`, чтобы java узнавала о значения из переменных окружения уже во время выполнения в кластере, а не на этапе сборки.
 
-<div>
-    <a href="070_redis.html" class="nav-btn">Далее: Подключаем redis</a>
+<div id="go-forth-button">
+    <go-forth url="070_redis.html" label="Подключаем redis" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

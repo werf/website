@@ -426,6 +426,6 @@ werf-guided-project                  staging.mydomain.io           80        6m1
 
 А также вы должны увидеть сервис через браузер.
 
-<div>
-    <a href="30_ci.html" class="nav-btn">Далее: Построение CI-процесса</a>
+<div id="go-forth-button">
+    <go-forth url="30_ci.html" label="Построение CI-процесса" base-url="applications_guide_ru"></go-forth>
 </div>

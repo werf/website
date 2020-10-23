@@ -1,9 +1,6 @@
 ---
 title: Несколько приложений в одном репозитории
-sidebar: applications_guide
-guide_code: gitlab_nodejs
 permalink: gitlab_nodejs/110_multipleapps.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -179,6 +176,6 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-<div>
-    <a href="120_dynamicenvs.html" class="nav-btn">Далее: Динамические окружения</a>
+<div id="go-forth-button">
+    <go-forth url="120_dynamicenvs.html" label="Динамические окружения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>
