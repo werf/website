@@ -4,15 +4,20 @@
   "description": "A starter template for Jekyll projects with Vue.js and Vue Single File Components, complete with webpack.",
   "main": "index.js",
   "scripts": {
+    "DEVELOPMENT": "--------------------------------------",
     "serve": "browser-sync start --config browser-sync.js",
-    "jekyll:build": "bundle exec jekyll build --config _config.yml,_config_ru.yml",
-    "webpack:build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "build": "npm run jekyll:build && npm run webpack:build",
     "webpack:dev": "webpack --watch",
-    "jekyll:dev": "bundle exec jekyll build --config _config.yml,_config_ru.yml --watch --incremental",
-    "_dev": "cross-env NODE_ENV=development webpack",
-    "_start": "npm run jekyll:watch & npm run serve",
-    "_watch": "cross-env NODE_ENV=development webpack --watch"
+    "jekyll:dev:ru": "bundle exec jekyll build --config _config.yml,_config_ru.yml --watch --incremental",
+    "jekyll:dev:en": "bundle exec jekyll build --config _config.yml,_config_en.yml --watch --incremental",
+
+    "PRODUCTION": "--------------------------------------",
+    "build:ru": "npm run jekyll:build:ru && npm run webpack:build",
+    "build:en": "npm run jekyll:build:en && npm run webpack:build",
+
+    "OTHER": "--------------------------------------",
+    "jekyll:build:ru": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_ru --config _config.yml,_config_ru.yml",
+    "jekyll:build:en": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_en --config _config.yml,_config_en.yml",
+    "webpack:build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "keywords": [
     "jekyll",
