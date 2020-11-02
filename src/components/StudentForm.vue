@@ -7,13 +7,13 @@
 
       <div class="twoaccentedcolumns">
         <div class="twoaccentedcolumns__column">
-          <div class="button__blue">
-            <a href="#" @click="beginJourney()">Начнём путешествие</a>
+          <div class="button__blue" @click="beginJourney()">
+            <a href="#">Начнём путешествие</a>
           </div>
         </div>
         <div class="twoaccentedcolumns__column">
-          <div class="button__blue button__blue_notblue">
-            <a href="#" @click="skipForm()">Просто покажите мне материалы</a>
+          <div class="button__blue button__blue_notblue" @click="skipForm()">
+            <a href="#">Просто покажите мне материалы</a>
           </div>
         </div>
       </div>
@@ -35,13 +35,13 @@
         </div>
         <div class="wishselectwidget__content">
           <div class="wishselectwidget__button">
-            <div :class="'button__white '+((wish===BECOME_SPECIALIST)?'button__white_chosen':'')"><a href="#" @click="iWantBecomeSpecialist()">Стать более востребованным специалистом</a></div>
+            <div :class="'button__white '+((wish===BECOME_SPECIALIST)?'button__white_chosen':'')" @click="iWantBecomeSpecialist()"><a href="#">Стать более востребованным специалистом</a></div>
           </div>
           <div class="wishselectwidget__button">
-            <div :class="'button__white '+((wish===BRING_KUBERNETES)?'button__white_chosen':'')"><a href="#" @click="iWantBringKuber()">Принести в компанию Kubernetes</a></div>
+            <div :class="'button__white '+((wish===BRING_KUBERNETES)?'button__white_chosen':'')" @click="iWantBringKuber()"><a href="#">Принести в компанию Kubernetes</a></div>
           </div>
           <div class="wishselectwidget__button">
-            <div :class="'button__white '+((wish===SOLVE_TASKS)?'button__white_chosen':'')"><a href="#" @click="iWantSolveTasks()">Научиться лучше решать задачи в текущей компании</a></div>
+            <div :class="'button__white '+((wish===SOLVE_TASKS)?'button__white_chosen':'')" @click="iWantSolveTasks()"><a href="#">Научиться лучше решать задачи в текущей компании</a></div>
           </div>
         </div>
       </div>
@@ -60,19 +60,19 @@
       <div v-if="wish>''">
         <p>Давайте решим, сколько времени получится инвестировать в освоение навыков, наколько глубоко вы хотите погрузиться?</p>
         <p>
-          <div :class="'button__white '+((usingApp===DEMO_APP)?'button__white_chosen':'')"><a href="#" @click="useApp(DEMO_APP)">Воспользоваться демо-приложением, встроенным в самоучитель</a></div>
+          <div :class="'button__white '+((usingApp===DEMO_APP)?'button__white_chosen':'')" @click="useApp(DEMO_APP)"><a href="#">Воспользоваться демо-приложением, встроенным в самоучитель</a></div>
         </p>
         <div v-if="usingApp===DEMO_APP">
           <p>Это хороший путь для того, чтобы начать осваивать Kubernetes!</p>
           <p>Для прохождения самоучителя предоставляется много исходного кода: как самого приложения, которых будет переноситься в Kubernetes, так и кода инфраструктуры, связанного с каждой главой. Вы всегда можете сверить состояние своих исходников с образцом.</p>
-          <p><div class="button__white button__white_withoffset"><a href="#" @click="passToPartsChoosing()">Перейти к выбору нужных глав самоучителя</a></div></p>
+          <p><div class="button__white button__white_withoffset" @click="passToPartsChoosing()"><a href="#">Перейти к выбору нужных глав самоучителя</a></div></p>
         </div>
         <div>
-          <div :class="'button__white '+((usingApp===OWN_APP)?'button__white_chosen':'')"><a href="#" @click="useApp(OWN_APP)">У меня есть моё приложение, которое я хочу реализовать в Kubernetes</a></div>
+          <div :class="'button__white '+((usingApp===OWN_APP)?'button__white_chosen':'')" @click="useApp(OWN_APP)"><a href="#">У меня есть моё приложение, которое я хочу реализовать в Kubernetes</a></div>
         </div>
         <div v-if="usingApp===OWN_APP">
           <p>Если вы ещё не работали с Kubernetes, этот путь может оказаться слишком сложным. Но если вы знаете, на что идёте — давайте перейдём к делу.</p>
-          <p><div class="button__white button__white_withoffset"><a href="#" @click="passToPartsChoosing()">Перейти к выбору глав, подходящих под ваше приложение</a></div></p>
+          <p><div class="button__white button__white_withoffset" @click="passToPartsChoosing()"><a href="#">Перейти к выбору глав, подходящих под ваше приложение</a></div></p>
         </div>
       </div>
     </div>
@@ -89,7 +89,7 @@
         </div>
         <p>Оценочное время на освоение: <span>{{ estimatedHoursCalculated }}</span> {{ _declOfNum(estimatedHoursCalculated, ['час', 'часа', 'часов']) }} (или <span>{{ estimatedDaysCalculated }}</span> {{ _declOfNum(estimatedDaysCalculated, ['увлекательный выходной день', 'увлекательных выходных дня', 'увлекательных выходных дней']) }})</p>
       <div>
-        <div class="button__white"><a href="#" @click="formComplete">Давайте начнём</a></div>
+        <div class="button__white" @click="formComplete"><a href="#">Давайте начнём</a></div>
       </div>
     </div>
     <div id="skip-screen" v-if="currentStep==4">
@@ -134,7 +134,7 @@
       </div>
 
       <div>
-        <div class="button__white"><a href="010_preparing.html">Перейти к самоучителю</a></div>
+        <div class="button__white" @click="goToPage('010_preparing.html')"><a href="#">Перейти к самоучителю</a></div>
       </div>
 
     </div>

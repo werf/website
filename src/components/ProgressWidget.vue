@@ -13,12 +13,12 @@
         Выполнено шагов: <span>{{completedStepsCalculated}}</span> из {{learningProgress.length}}. Решение текущего шага: <div id="minutes_total" :class="'progresswidget__timer '+((timer_minutes_total>=timer_estimated_minutes)?'progresswidget__timer_overtime':'')">{{ timer_minutes_total }}</div> из
         {{ timer_estimated_minutes }} минут.
         &nbsp;&nbsp;
-        <div :class="'button__blue button__blue_small button__blue_inline '+((timer_minutes_total>=timer_estimated_minutes)?'button__blue_red':'')">
-          <a href="https://t.me/werf_ru">нужна помощь</a>
+        <div :class="'button__blue button__blue_small button__blue_inline '+((timer_minutes_total>=timer_estimated_minutes)?'button__blue_red':'')" @click="goToPage('https://t.me/werf_ru')">
+          <a href="#">нужна помощь</a>
         </div>
         &nbsp;&nbsp;
-        <div class="button__blue button__blue_small button__blue_inline" v-if="!expandedList">
-          <a href="#" @click="expandList">свериться с планом</a>
+        <div class="button__blue button__blue_small button__blue_inline" v-if="!expandedList" @click="expandList">
+          <a href="#">свериться с планом</a>
         </div>
       </div>
       <div v-if="expandedList" class="learningprogress">
@@ -28,11 +28,11 @@
             <span class="learningprogress__label">{{el['label']}}</span>
           </div>
         </div>
-        <div class="button__blue button__blue_small button__blue_inline">
-          <a href="#" @click="hideList">свернуть план</a>
+        <div class="button__blue button__blue_small button__blue_inline" @click="hideList">
+          <a href="#">свернуть план</a>
         </div>
-        <div class="button__blue button__blue_small button__blue_inline">
-          <a :href="baseUrl+'/'+guideCode+'/000_task.html'">изменить план</a>
+        <div class="button__blue button__blue_small button__blue_inline" @click="goToPage(baseUrl+'/'+guideCode+'/000_task.html')">
+          <a href="#">изменить план</a>
         </div>
       </div>
     </div>

@@ -388,5 +388,9 @@ export default {
         this.nextTaskCalculated = this.learningProgress.find(task => !task.completed && (task.url!==$this.currentPage))
       }
     },
+
+    goToPage(url) {
+      window.location.href=url
+    }
   }
 }
