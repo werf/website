@@ -6,7 +6,7 @@
   "scripts": {
     "DEVELOPMENT": "--------------------------------------",
     "serve": "browser-sync start --config browser-sync.js",
-    "webpack:dev": "node_modules/.bin/webpack --watch",
+    "webpack:dev": "DEBUG=1 node_modules/.bin/webpack --watch",
     "jekyll:dev:ru": "bundle exec jekyll build --config _config.yml,_config_ru.yml --watch --incremental",
     "jekyll:dev:en": "bundle exec jekyll build --config _config.yml,_config_en.yml --watch --incremental",
 
@@ -17,7 +17,7 @@
     "OTHER": "--------------------------------------",
     "jekyll:build:ru": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_ru --config _config.yml,_config_ru.yml",
     "jekyll:build:en": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_en --config _config.yml,_config_en.yml",
-    "webpack:build": "node_modules/.bin/webpack --progress --hide-modules"
+    "webpack:build": "SENDMETRICS=1 node_modules/.bin/webpack --progress --hide-modules"
   },
   "keywords": [
     "jekyll",

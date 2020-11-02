@@ -7,12 +7,12 @@
 
       <div class="twoaccentedcolumns">
         <div class="twoaccentedcolumns__column">
-          <div class="button__blue button__blue_small">
+          <div class="button__blue">
             <a href="#" @click="beginJourney()">Начнём путешествие</a>
           </div>
         </div>
         <div class="twoaccentedcolumns__column">
-          <div class="button__blue button__blue_small button__blue_notblue">
+          <div class="button__blue button__blue_notblue">
             <a href="#" @click="skipForm()">Просто покажите мне материалы</a>
           </div>
         </div>
@@ -87,7 +87,7 @@
             </div>
           </div>
         </div>
-        <p>Оценочное время на освоение: <span>{{ estimatedHoursCalculated }}</span> часов (или <span>{{ estimatedDaysCalculated }}</span> увлекательных выходных дня)</p>
+        <p>Оценочное время на освоение: <span>{{ estimatedHoursCalculated }}</span> {{ _declOfNum(estimatedHoursCalculated, ['час', 'часа', 'часов']) }} (или <span>{{ estimatedDaysCalculated }}</span> {{ _declOfNum(estimatedDaysCalculated, ['увлекательный выходной день', 'увлекательных выходных дня', 'увлекательных выходных дней']) }})</p>
       <div>
         <div class="button__white"><a href="#" @click="formComplete">Давайте начнём</a></div>
       </div>
@@ -107,11 +107,9 @@
 
       <p>Для вещей, выходящих за рамки повествования, но полезных для более полного и глубокого понимания, предусмотрены <strong>схлопывающиеся блоки</strong>, например:</p>
       <div class="details">
-        <p class="details__lnk"><a href="javascript:void(0)" class="details__summary">Нажми сюда, чтобы узнать больше</a></p>
-        <div class="details__content">
-          <div class="expand">
+        <p class="details__lnk"><a href="#" class="details__summary" @click="clickExpand">Нажми сюда, чтобы узнать больше</a></p>
+        <div class="expand" v-if="expanded_block">
             <p>Это просто пример блока, который может раскрываться. Здесь, внутри, будет дополнительная информация для самых любознательных и желающих разобраться в матчасти.</p>
-          </div>
         </div>
       </div>
 
@@ -167,6 +165,8 @@ export default {
       estimatedHoursCalculated: 0,
       estimatedDaysCalculated: 0,
       estimatedMinutesCalculated: 0,
+
+      expanded_block: false
     }
   },
 
@@ -208,6 +208,28 @@ export default {
     formComplete(event) {
       this._progresstracker_complete_form(this.wish, this.learningProgress);
       this.currentStep = 4
+    },
+
+    /**
+     * Помогает подставлять в текст правильные окончания словам
+     *   _declOfNum(1, ['минута', 'минуты', 'минут']); // вернёт — минута
+     *   _declOfNum(2, ['минута', 'минуты', 'минут']); // вернёт — минуты
+     *   _declOfNum(5, ['минута', 'минуты', 'минут']); // вернёт — минут
+     * @param n
+     * @param text_forms
+     * @returns {*}
+     */
+    _declOfNum(n, text_forms) {
+      n = Math.abs(n) % 100; var n1 = n % 10;
+      if (n > 10 && n < 20) { return text_forms[2]; }
+      if (n1 > 1 && n1 < 5) { return text_forms[1]; }
+      if (n1 === 1) { return text_forms[0]; }
+      return text_forms[2];
+    },
+
+    clickExpand(event) {
+      this.expanded_block = ! this.expanded_block;
+      event.preventDefault();
     },
   }
 }

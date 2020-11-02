@@ -31,7 +31,7 @@ html, body, .page {
 
 .twoaccentedcolumns__column {
   margin: 0px auto;
-  width: 180px;
+  width: 280px;
 }
 
 .wishselectwidget {
@@ -470,7 +470,7 @@ code {
 
 .button__blue {
   background: #0066ff;
-  padding: 5px;
+  padding: 10px 20px;
   text-align: center;
   /* border-radius */
   -webkit-border-radius: 15px;
@@ -498,7 +498,12 @@ code {
 
 .button__blue_notblue {
   background: none;
-  border: 1px solid #898989;
+  border: 0px;
+  padding: 10px 5px;
+  /* box-shadow */
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 .button__blue_red {
