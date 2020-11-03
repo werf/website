@@ -1,0 +1,23 @@
+@startuml
+
+package "Deployment" {
+  node "node-assets" {
+    [nginx]
+  }
+
+  node "basicapp" {
+    [java]
+  }
+
+}
+
+
+package "Configmap" {
+  [basicapp-configmap]
+}
+
+[Ingress] --> [nginx]
+[Ingress] --> [java]
+[nginx] - [basicapp-configmap]
+
+@enduml

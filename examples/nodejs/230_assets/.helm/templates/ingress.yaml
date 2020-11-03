@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: basicapp
+spec:
+  rules:
+  - host: mydomain.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: basicapp
+          servicePort: 80

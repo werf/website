@@ -618,3 +618,30 @@ code {
   display: inline-block;
   text-decoration: inherit;
 }
+
+/* ---------------------------------------------------------------------------------------- */
+
+.in-development {
+  display: flex;
+  align-items: center;
+  border: 2px solid #eef2ff;
+  padding: 10px;
+  margin: 5px 0 25px 0;
+}
+
+.in-development__image {
+  background-image: url(/../images/in_development.png);
+  width: 120px;
+  margin: 10px 20px;
+  background-repeat: no-repeat;
+  height: 100px;
+  background-size: 100px 100px;
+}
+
+.in-development__content {
+  font-size: 20px;
+}
+
+.in-development__content span {
+  color: #0066FF;
+}

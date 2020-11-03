@@ -57,42 +57,42 @@ defaults:
       sitemap_include: true
       multilang: true
   - scope:
-      path: "applications_guide_ru/gitlab_nodejs"
+      path: "applications_guide_ru/nodejs"
       type: "pages"
     values:
       lang: ru
       sidebar: applications_guide
-      guide_code: gitlab_nodejs
+      guide_code: nodejs
       toc: false
       label_ci: GitLab
       label_framework: NodeJS
   - scope:
-      path: "applications_guide_ru/gitlab_java_springboot"
+      path: "applications_guide_ru/java_springboot"
       type: "pages"
     values:
       lang: ru
       sidebar: applications_guide
-      guide_code: gitlab_java_springboot
+      guide_code: java_springboot
       toc: false
       label_ci: GitLab
       label_framework: Springboot
   - scope:
-      path: "applications_guide_ru/gitlab_python_django"
+      path: "applications_guide_ru/python_django"
       type: "pages"
     values:
       lang: ru
       sidebar: applications_guide
-      guide_code: gitlab_python_django
+      guide_code: python_django
       toc: false
       label_ci: GitLab
       label_framework: Django
   - scope:
-      path: "applications_guide_ru/gitlab_rails"
+      path: "applications_guide_ru/rails"
       type: "pages"
     values:
       lang: ru
       sidebar: applications_guide
-      guide_code: gitlab_rails
+      guide_code: rails
       toc: false
       label_ci: GitLab
       label_framework: Rails

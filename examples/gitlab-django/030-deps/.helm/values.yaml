@@ -1,5 +1,0 @@
-app:
-  secret_key:
-    _default: 9eeddad83cebe240f55ae06ccdd95f8e
-    production: 684e5cb73034052dc89e3055691b7ac4
-    testing: 189af8ca60b04e529140ec114175f098
