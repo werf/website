@@ -20,6 +20,8 @@ entries:
         sf:
           - title: Генерируем и раздаём ассеты
             url: "301_assets.html"
+          - title: Statefull-приложение
+            url: "304_statefull.html"
           - title: Работа с файлами
             url: "310_files.html"
           - title: Работа с электронной почтой
