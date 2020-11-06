@@ -8,7 +8,7 @@ entries:
             url: "201_build.html"
           - title: Подготовка кластера
             url: "210_cluster.html"
-          - title: Деплой в приложение
+          - title: Деплой приложения
             url: "220_deploy.html"
           - title: Ускорение сборки
             url: "230_optimize.html"

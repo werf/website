@@ -1,5 +1,5 @@
 ---
-title: Деплой в приложение
+title: Деплой приложения
 permalink: gitlab_nodejs/220_deploy.html
 ---
 
@@ -11,8 +11,6 @@ TODO: Берём и тупо копипастим готовые описани�
 - .helm/templates/deployment.yaml
 - .helm/templates/ingress.yaml
 - .helm/templates/service.yaml
-- .helm/values.yaml
-- .helm/secret-values.yaml
 {% endfilesused %}
 
 Для того, чтобы приложение заработало в Kubernetes, необходимо описать инфраструктуру приложения как код ([IaC](https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0_%D0%BA%D0%B0%D0%BA_%D0%BA%D0%BE%D0%B4)). В нашем случае потребуются следующие объекты Kubernetes: Pod, Service и Ingress.
