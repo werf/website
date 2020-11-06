@@ -120,7 +120,7 @@ _Примечание: werf уже умеет нативно работать с
 Для настройки виртуальной машины необходимо:
 
 - Установить на неё [CLI-утилиту gitlab-runner](https://docs.gitlab.com/runner/install/) (в качестве тега создаваемого раннера укажите `werf`).
-- Установить на неё `docker`, `git` и [multiwerf]({{ site.docsurl }}/documentation/guides/installation.html#installing-multiwerf).
+- Установить на неё `docker`, `git` и [multiwerf]({{ site.docsurl }}/v1.1-stable/documentation/guides/installation.html#installing-multiwerf).
 - Обеспечить связь с API Kubernetes.
 
 {% offtopic title="Как обеспечить связь с API Kubernetes?" %}
