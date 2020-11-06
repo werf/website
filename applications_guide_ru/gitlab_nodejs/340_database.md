@@ -1,7 +1,8 @@
 ---
-title: Подключение базы данных
-permalink: gitlab_nodejs/080_database.html
+title: Подключаем Managed PostgreSQL
+permalink: gitlab_nodejs/340_database.html
 ---
+
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
@@ -462,5 +463,5 @@ node
 {% endsnippetcut %}
 
 <div id="go-forth-button">
-    <go-forth url="090_unittesting.html" label="Юнит-тесты и линтеры" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

@@ -1,7 +1,8 @@
 ---
-title: Подключаем Redis
-permalink: gitlab_nodejs/070_redis.html
+title: Подключаем Managed Redis
+permalink: gitlab_nodejs/330_redis.html
 ---
+
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
@@ -283,5 +284,5 @@ redis:
 {% endsnippetcut %}
 
 <div id="go-forth-button">
-    <go-forth url="080_database.html" label="Подключение базы данных" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

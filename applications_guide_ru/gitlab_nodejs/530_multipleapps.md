@@ -1,7 +1,8 @@
 ---
 title: Несколько приложений в одном репозитории
-permalink: gitlab_nodejs/110_multipleapps.html
+permalink: gitlab_nodejs/530_multipleapps.html
 ---
+
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/ingress.yaml
@@ -177,5 +178,5 @@ spec:
 {% endsnippetcut %}
 
 <div id="go-forth-button">
-    <go-forth url="120_dynamicenvs.html" label="Динамические окружения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

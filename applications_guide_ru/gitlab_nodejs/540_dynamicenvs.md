@@ -1,6 +1,6 @@
 ---
 title: Динамические окружения
-permalink: gitlab_nodejs/120_dynamicenvs.html
+permalink: gitlab_nodejs/540_dynamicenvs.html
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -64,3 +64,8 @@ Stop Review:
 При таком CI-процессе можно выкатывать каждую ветку `feature/*` в отдельный namespace с изолированной базой данных, выполнять на ней необходимые миграции и, например, проводить тесты для данного окружения.
 
 Также необходимо организовать [доступ кластера к registry](020_basic/20_iac.html#registryaccess) в каждом создаваемом окружении.
+
+
+<div id="go-forth-button">
+    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+</div>

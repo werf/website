@@ -1,6 +1,6 @@
 ---
-title: Юнит-тесты и линтеры
-permalink: gitlab_nodejs/090_unittesting.html
+title: Юнит-тесты и Линтеры
+permalink: gitlab_nodejs/520_unittesting.html
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -47,6 +47,7 @@ stages:
 Если нужен доступ к ресурсам кластера или база данных — это уже не линтер: потребуется собрать отдельный образ и прописать сложный сценарий деплоя объектов Kubernetes. Эти случаи выходят за рамки нашего самоучителя для начинающих.
 {% endofftopic %}
 
+
 <div id="go-forth-button">
-    <go-forth url="110_multipleapps.html" label="Несколько приложений в одном репозитории" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

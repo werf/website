@@ -35,10 +35,10 @@ entries:
         url: "500_basic.html"
         sf:
           - title: Построение CI-процесса
-            url: "020_basic/30_ci.html"
+            url: "510_ci.html"
           - title: Юнит-тесты и Линтеры
-            url: "090_unittesting.html"
+            url: "520_unittesting.html"
           - title: Несколько приложений в одном репозитории
-            url: "110_multipleapps.html"
+            url: "530_multipleapps.html"
           - title: Динамические окружения
-            url: "120_dynamicenvs.html"
+            url: "540_dynamicenvs.html"
