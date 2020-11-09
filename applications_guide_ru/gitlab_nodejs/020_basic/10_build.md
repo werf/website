@@ -307,7 +307,7 @@ werf-stages-storage/werf-guided-project:981ece3acc63d57d5ab07f45fd0c0c4770886495
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/v1.1-stable/documentation/cli/main/run.html):
 
 ```bash
-$ werf run --stages-storage :local --docker-options="-d -p 3000:3000 --restart=always" -- node /app/src/js/index.js
+$ werf run --stages-storage :local --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
 ```
 
 Первая часть команды очень похожа на `build`, а во второй — мы задаем [параметры docker](https://docs.docker.com/engine/reference/run/) и после двойного дефиса команду, с которой запустить образ.
