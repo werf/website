@@ -1,6 +1,6 @@
 ---
 title: Генерируем и раздаём ассеты
-permalink: gitlab_nodejs/301_assets.html
+permalink: gitlab_nodejs/302_assets.html
 ---
 
 TODO: Глава про фронтэнд, практически идентичная для всех.

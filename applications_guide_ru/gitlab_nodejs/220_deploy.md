@@ -3,190 +3,75 @@ title: Деплой приложения
 permalink: gitlab_nodejs/220_deploy.html
 ---
 
-TODO: Берём и тупо копипастим готовые описания объектов без шаблонизации. Ниже - чуть более обширное, надо нарезать
-
-
-
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
 - .helm/templates/ingress.yaml
 - .helm/templates/service.yaml
 {% endfilesused %}
 
-Для того, чтобы приложение заработало в Kubernetes, необходимо описать инфраструктуру приложения как код ([IaC](https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0_%D0%BA%D0%B0%D0%BA_%D0%BA%D0%BE%D0%B4)). В нашем случае потребуются следующие объекты Kubernetes: Pod, Service и Ingress.
+Для того, чтобы приложение заработало в Kubernetes, необходимо описать инфраструктуру приложения как код ([IaC](https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0_%D0%BA%D0%B0%D0%BA_%D0%BA%D0%BE%D0%B4)). В нашем случае потребуются следующие объекты Kubernetes: Deployment, Service и Ingress.
 
-Конфигурацию для Kubernetes нужно шаблонизировать. Один из популярных инструментов для такой шаблонизации — это [Helm](https://helm.sh/), его движок встроен в werf. Помимо этого, werf предоставляет возможности работы с секретными значениями, а также дополнительные Go-шаблоны для интеграции собранных образов.
+werf работает с шаблонизатором helm и [предоставляет дополнительные функции](https://ru.werf.io/documentation/advanced/helm/basics.html), разберём самые необходимые. Подробнее в шаблонизации и правилах написания kubernetes-объектов мы разберёмся позже, в главе "Конфигурирование инфраструктуры в виде кода", пока что — добьёмся, чтобы приложение заработало в реальном кластере.
 
-В этой главе мы научимся описывать Helm-шаблоны, используя возможности werf, а также освоим встроенные инструменты отладки.
+## Deployment
 
+Объект Deployment позволяет создать объект Pod, который содержит в себе и управляет контейнерами с приложениями. У создаваемого нами Pod будет один контейнер — `basicapp`.
 
-## Составление конфигов инфраструктуры
-
-На сегодняшний день Helm — один из самых удобных (и самых распространённых) способов, которым можно описать свой деплой в Kubernetes. Он позволяет устанавливать готовые чарты с приложениями прямо из репозитория: введя одну команду, можно развернуть в своем кластере готовый Redis, PostgreSQL, RabbitMQ… Кроме того, Helm можно использовать для разработки собственных чартов, применяя удобный синтаксис для шаблонизации выката ваших приложений.
-
-По этим причинам он был встроен в werf для решения соответствующих задач.
-
-{% offtopic title="Что делать, если вы не работали с Helm?" %}
-
-Не будем вдаваться в подробности [разработки YAML-манифестов с помощью Helm для Kubernetes](https://habr.com/ru/company/flant/blog/423239/). Если у вас есть вопросы о том, как именно описываются объекты Kubernetes, советуем посетить страницы документации Kubernetes о [концепциях](https://kubernetes.io/ru/docs/concepts/) и документацию Helm по [разработке шаблонов](https://helm.sh/docs/chart_template_guide/).
-
-В первое время работа с Helm и конфигурацией для Kubernetes может быть очень сложной из-за нелепых мелочей вроде опечаток и пропущенных пробелов. Если вы только начали осваивать эти технологии — постарайтесь найти наставника, который поможет преодолеть эти сложности и посмотрит на ваши исходники сторонним взглядом.
-
-В случае затруднений убедитесь, что вы:
-
-- понимаете, как работает [indent](https://helm.sh/docs/chart_template_guide/function_list/#indent);
-- понимаете, что такое [конструкция tuple](https://helm.sh/docs/chart_template_guide/control_structures/);
-- понимаете, как Helm работает с хэш-массивами;
-- очень внимательно следите за пробелами в YAML.
-
-{% endofftopic %}
-
-Итак, для работы рассматриваемого приложения в среде Kubernetes понадобится:
-
-- описать сущности Deployment (он породит в кластере Pod) и Service;
-- направить трафик на приложение, донастроив роутинг в кластере с помощью сущности Ingress;
-- не забыть создать отдельную сущность Secret, которая позволит Kubernetes скачивать собранные образа из Registry.
-
-### Создание Pod'а
-
-Для того, чтобы в кластере появился Pod с нашим приложением, мы создадим объект Deployment. У создаваемого Pod будет один контейнер — `basicapp`. Укажем, **как этот контейнер будет запускаться**.
-
-Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs).
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab_nodejs/015_deploy_app/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basicapp
+spec:
+  selector:
+    matchLabels:
+      app: basicapp
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: basicapp
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]
-{{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-Обратите внимание на вызов [`werf_container_image`]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image). Данная функция генерирует ключи `image` и `imagePullPolicy` со значениями, необходимыми для соответствующего контейнера Pod'а, что позволяет гарантировать перевыкат контейнера тогда, когда это нужно.
-
-{% offtopic title="А в чём проблема?" %}
-Kubernetes не знает ничего об изменении контейнера: он действует на основании описания объектов и сам выкачивает образы из Registry. Поэтому Kubernetes'у нужно в явном виде сообщать, что делать.
-
-werf складывает собранные образы в Registry с разными именами — в зависимости от выбранной стратегии тегирования и деплоя (подробнее это разобрано в главе про CI). Как следствие, в описание контейнера нужно пробрасывать правильный путь до образа, а также дополнительные аннотации, связанные со стратегией деплоя.
-
-Подробнее - можно посмотреть в [документации]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_image).
-{% endofftopic %}
-
-Для корректной работы приложения ему нужно узнать **переменные окружения**.
-
-Например, для Node.js это `DEBUG`.
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/deployment.yaml" %}
-{% raw %}
-```yaml
-        env:
-        - name: "DEBUG"
-          value: "True"
-<...>
-{{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-Обратите также внимание на функцию [`werf_container_env`]({{ site.docsurl }}/documentation/reference/deploy_process/deploy_into_kubernetes.html#werf_container_env): с её помощью werf вставляет в описание объекта служебные переменые окружения.
-
-<a name="helm-values-yaml" />
-
-{% offtopic title="Как динамически подставлять в переменные окружения нужные значения?" %}
-
-Helm — шаблонизатор, который поддерживает множество инструментов для подстановки значений. Один из центральных способов — подставлять значения из файла `values.yaml`. Наша конструкция могла бы иметь вид:
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" ignore-tests %}
-{% raw %}
-```yaml
-        env:
-<...>
-        - name: "DEBUG_2"
-          value: "{{ .Values.isDebug }}"
-```
-{% endraw %}
-{% endsnippetcut %}
-
-… или даже более сложный — для того, чтобы значение основывалось на текущем окружении:
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="#" ignore-tests %}
-{% raw %}
-```yaml
-        env:
-<...>
-        - name: "DEBUG"
-          value: "{{ pluck .Values.global.env .Values.app.isDebug | first | default .Values.app.isDebug._default }}"
-```
-{% endraw %}
-{% endsnippetcut %}
-
-{% snippetcut name=".helm/values.yaml" url="#" ignore-tests %}
-{% raw %}
-```yaml
-app:
-  isDebug:
-    _default: "true"
-    production: "false"
-    testing: "true"
-```
-{% endraw %}
-{% endsnippetcut %}
-
-{% endofftopic %}
-
-
-При запуске приложения в Kubernetes **логи необходимо отправлять в stdout и stderr** — это нужно для простого сбора логов, например, через `filebeat`, а также для того, чтобы не разрастались Docker-образы запущенных приложений.
-
-Чтобы логи приложения отправлялись в stdout, понадобится просто использовать такую конструкцию в исходном коде:
-
-```js
-console.log("I will goto the STDOUT");
-console.error("I will goto the STDERR");
-```
-Либо, если вы хотите получать логи об HTTP-запросах, можно использовать [morgan](https://www.npmjs.com/package/morgan):
-```js
-var morgan = require("morgan");
-app.use(morgan("combined"));
-```
-
-### Доступность Pod'а
-
-Для того, чтобы запросы извне попали к нам в приложение, нужно открыть порт у Pod'а, создать объект Service и привязать его к Pod'у, а также создать объект Ingress.
-
-{% offtopic title="Что за объект Ingress и как он связан с балансировщиком?" %}
-Возможна коллизия терминов:
-
-* Есть Ingress в смысле [NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx), который работает в кластере и принимает входящие извне запросы.
-* А ещё есть [объект Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/), который фактически описывает настройки для NGINX Ingress Controller.
-
-В статьях и бытовой речи оба этих термина зачастую называют «Ingress», так что догадываться нужно по контексту.
-{% endofftopic %}
-
-Наше приложение работает на стандартном порту `3000` — **откроем порт Pod'у**:
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
-```yaml
+        image: {{ tuple "basicapp" . | werf_image}}
+        workingDir: /app
         ports:
         - containerPort: 3000
           protocol: TCP
+        env:
+        - name: "SQLITE_FILE"
+          value: "app.db"
 ```
+{% endraw %}
 {% endsnippetcut %}
 
-Затем **пропишем Service**, чтобы к Pod'у могли обращаться другие приложения кластера:
+Обратите внимание на конструкцию `image: {{ tuple "basicapp" . | werf_image}}` — с помощью неё werf подставляет актуальный путь к контейнеру.
 
-{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/service.yaml" %}
+werf пересобирает контейнеры только если это необходимо: если изменился соответствующий исходный код программы или инфраструктуры. Аналогично, werf отслеживает изменение образов и делает так, чтобы перевыкат Pod-а осуществлялся автоматически только при реальном изменении кода.
+
+## Service
+
+Объект Service позволяет приложениям в кластере взаимодействовать друг с другом. Пропишем его:
+
+{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab_nodejs/015_deploy_app/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Chart.Name }}
+  name: basicapp
 spec:
   selector:
-    app: {{ .Chart.Name }}
+    app: basicapp
   ports:
   - name: http
     port: 3000
@@ -195,184 +80,78 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-Обратите внимание на поле `selector` у Service: он должен совпадать с аналогичным полем у Deployment. Ошибки в этой части — самая частая проблема с настройкой маршрута до приложения.
+## Ingress
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/deployment.yaml" %}
+Объект Ingress позволяет организовать маршрутизацию трафика на созданный Service для нужного домена (в нашем примере — `mydomain.io`):
+
+{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab_nodejs/015_deploy_app/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: basicapp
 spec:
-  selector:
-    matchLabels:
-      app: {{ .Chart.Name }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-{% offtopic title="Как убедиться, что выше всё сделано правильно?" %}
-
-Мы будем деплоить приложение в Kubernetes позже, но если после деплоя у вас возникли проблемы в этом месте, то вернитесь сюда и проведите проверку, описанную ниже.
-
-Попробуйте получить `endpoint` сервиса в нужном вам окружении. Если в нем будет фигурировать IP Pod'а — всё настроено правильно. А если нет, то проверьте еще раз, совпадают ли поля `selector` у Service и Deployment.
-
-Название endpoint'а совпадает с названием сервиса, т.е. пример нужной команды:
-
-{% raw %}
-`kubectl -n <название окружения> get ep {{ .Chart.Name }}`
-{% endraw %}
-
-{% endofftopic %}
-
-После этого можно настраивать **роутинг на Ingress**. Укажем, на какой домен, путь, сервис и порт направлять запросы:
-
-{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/.helm/templates/ingress.yaml" %}
-{% raw %}
-```yaml
   rules:
   - host: mydomain.io
     http:
       paths:
       - path: /
         backend:
-          serviceName: {{ .Chart.Name }}
+          serviceName: basicapp
           servicePort: 3000
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-### Разное поведение в разных окружениях
+## Сборка и деплой в кластер
 
-Некоторые настройки хочется видеть разными в разных окружениях. К примеру, домен, на котором будет открываться приложение, должен быть либо staging.mydomain.io, либо mydomain.io — в зависимости от того, куда мы задеплоились.
-
-В werf для этого существует три механики:
-
-1. Подстановка значений из `values.yaml` по аналогии с Helm.
-2. Проброс значений через аргумент `--set` при работе в CLI-режиме, по аналогии с Helm.
-3. Подстановка секретных значений из `secret-values.yaml`.
-
-**Вариант с `values.yaml`** рассматривался ранее в главе ["Создание Pod'а"](#helm-values-yaml).
-
-Второй вариант подразумевает **задание переменных через CLI**. Например, в случае выполнения команды `werf deploy --set "global.ci_url=mydomain.io"` в YAML'ах будет доступно значение {% raw %}`{{ .Values.global.ci_url }}`{% endraw %}.
-
-Этот вариант удобен для проброса, например, имени домена для каждого окружения:
-
-{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic-1/.helm/templates/ingress.yaml" %}
-{% raw %}
-```yaml
-  rules:
-  - host: {{ .Values.global.ci_url }}
-```
-{% endraw %}
-{% endsnippetcut %}
-
-<a name="secret-values-yaml" />Отдельная проблема — **хранение и задание секретных переменных**, например, учётных данных аутентификации для сторонних сервисов, API-ключей и т.п.
-
-Так как werf рассматривает Git как единственный источник правды, правильно хранить секретные переменные там же. Чтобы делать это корректно, мы [храним данные в шифрованном виде]({{ site.docsurl }}/documentation/reference/deploy_process/working_with_secrets.html). Подстановка значений из этого файла происходит при рендере шаблона, который также запускается при деплое.
-
-Чтобы воспользоваться секретными переменными:
-
-* [сгенерируйте ключ]({{ site.docsurl }}/documentation/cli/management/helm/secret/generate_secret_key.html) (`werf helm secret generate-secret-key`);
-* определите ключ в переменных окружения для приложения, в текущей сессии консоли (например, `export WERF_SECRET_KEY=634f76ead513e5959d0e03a992372b8e`);
-* пропишите полученный ключ в `Variables` для вашего репозитория в GitLab (раздел `Settings` → `CI/CD`), название переменной должно быть­`WERF_SECRET_KEY`:
-
-![](/applications_guide_ru/images/applications-guide/020-werf-secret-key-in-gitlab.png)
-
-После этого можно задать секретные переменные `access_key` и `secret_key`, например, для работы с S3. Зайдите в режим редактирования секретных значений:
+Воспользуемся [командой `converge`](https://ru.werf.io/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. В атрибутах нам нужно будет указать путь до registry (`registry.mydomain.io`) и название проекта (`werf-guided-project`).
 
 ```bash
-$ werf helm secret values edit .helm/secret-values.yaml
+werf converge --repo registry.mydomain.io/werf-guided-project
 ```
 
-Откроется консольный текстовый редактор с данными в расшифованном виде:
+В результате вы должны увидеть логи примерно такого вида:
 
-{% snippetcut name=".helm/secret-values.yaml в расшифрованном виде" url="#" ignore-tests %}
-```yaml
-app:
-  s3:
-    access_key:
-      _default: bNGXXCF1GF
-    secret_key:
-      _default: zpThy4kGeqMNSuF2gyw48cOKJMvZqtrTswAQ
 ```
-{% endsnippetcut %}
+│ │ basicapp/dockerfile  Successfully built 7e38465ee6de
+│ │ basicapp/dockerfile  Successfully tagged cbb1cef2-a03a-432f-b13d-b95f0f0cb4e9:latest
+│ ├ Info
+│ │       name: localhost:5005/werf-guided-project:017ce9df8dbd7d3505546c95557f1c1f39ce1e6666aaae29e8c12608-1605619646009
+│ │       size: 375.8 MiB
+│ └ Building stage basicapp/dockerfile (209.48 seconds)
+└ ⛵ image basicapp (213.60 seconds)
 
-После сохранения значения в файле зашифруются и примут примерно такой вид:
+Release "werf-guided-project" does not exist. Installing it now.
+W1117 16:29:16.809420   42045 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1117 16:29:16.936024   42045 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 
-{% snippetcut name=".helm/secret-values.yaml в зашифрованном виде" url="#" ignore-tests %}
-```yaml
-app:
-  s3:
-    access_key:
-      _default: 1000f82ff86a5d766b9895b276032928c7e4ff2eeb20cab05f013e5fe61d21301427
-    secret_key:
-      _default: 1000bee1b42b57e39a9cfaca7ea047de03043c45e39901b8974c5a1f275b98fd0ac2c72efbc62b06cad653ebc4195b680370dc9c04e88a8182a874db286d8360def6
-```
-{% endsnippetcut %}
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                                                      REPLICAS                      AVAILABLE                        UP-TO-DATE
+│ │ basicapp                                                                                                                                                        1/1                           1                                1
+│ │ │   POD                                                           READY                  RESTARTS                       STATUS
+│ │ └── 6cf5b444bc-6rh4j                                              1/1                    0                              Running
+│ └ Status progress
+└ Waiting for release resources to become ready (4.02 seconds)
 
-<a name="registryaccess" />
-
-## Отладка конфигов инфраструктуры и деплой в Kubernetes
-
-После того, как написана основная часть конфигов, хочется проверить корректность конфигов и задеплоить их в Kubernetes. Для того, чтобы отрендерить конфиги инфраструктуры, требуются сведения об окружении, на которое будет произведён деплой, ключ для расшифровки секретных значений и т.п.
-
-Если мы запускаем werf вне Gitlab CI, необходимо сделать несколько операций вручную прежде, чем werf сможет рендерить конфиги и деплоить в Kubernetes. А именно:
-
-* Вручную подключиться к GitLab Registry с помощью [`docker login`](https://docs.docker.com/engine/reference/commandline/login/) (если это не было сделано ранее);
-* Установить переменную окружения `WERF_IMAGES_REPO` с путём до Registry (вида `registry.mydomain.io/myproject`);
-* Установить переменную окружения `WERF_SECRET_KEY` со значением, [сгенерированным ранее в главе "Разное поведение в разных окружениях"](#secret-values-yaml);
-* Установить переменную окружения `WERF_ENV` с названием окружения, в которое будет осуществляться деплой. Вопрос разных окружений будет затронут подробнее в процессе создания CI-процесса, а сейчас — просто установим значение `staging`. **Важно удалить эту переменную в финальном варианте деплоя**: иначе деплой всегда будет идти в один и тот же namespace.
-
-Если вы всё правильно сделали, уже должны корректно отрабатывать команды [`werf helm render`]({{ site.docsurl }}/documentation/cli/management/helm/render.html) и [`werf deploy`]({{ site.docsurl }}/documentation/cli/main/deploy.html). _Примечание: при локальном запуске эти команды могут жаловаться на нехватку данных, которые в ином случае были бы проброшены из CI. Например, на данные о теге собранного образа. Это нормально._
-
-{% offtopic title="Как вообще работает деплой?" %}
-
-werf (по аналогии с Helm) берет YAML-шаблоны, которые описывают объекты Kubernetes, и генерирует из них общий манифест. Манифест отдается в API Kubernetes, который на его основе вносит все необходимые изменения в кластер.
-
-werf отслеживает, как Kubernetes вносит изменения, и сигнализирует о результатах в реальном времени. Всё это возможно благодаря встроенной в werf библиотеке [kubedog](https://github.com/werf/kubedog). Уже сам Kubernetes занимается выкачиванием нужных образов из Registry и запуском их на нужных серверах с указанными настройками.
-
-{% endofftopic %}
-
-Запустите деплой и дождитесь успешного завершения:
-
-```bash
-werf deploy --stages-storage :local
+NAME: werf-guided-project
+LAST DEPLOYED: Tue Nov 17 16:29:16 2020
+NAMESPACE: werf-guided-project
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+Running time 222.54 seconds
 ```
 
-А проверить, что приложение задеплоилось в кластер, можно с помощью kubectl. Должно получиться примерно следующее:
+И увидеть приложение в браузере
 
-```bash
-$ kubectl get namespace
-NAME                                 STATUS               AGE
-default                              Active               161d
-werf-guided-project-production       Active               4m44s
-werf-guided-project-staging          Active               3h2m
-```
+TODO: а на каком порту?
 
-{% offtopic title="Как формируется имя namespace'а?" %}
-
-По шаблону `[[ project ]]-[[ env ]]`, где `[[ project ]]` — имя проекта, а `[[ env ]]` — имя окружения. Подробнее можно почитать [в документации]({{ site.docsurl }}/documentation/configuration/deploy_into_kubernetes.html#namespace-%D0%B2-kubernetes).
-
-При необходимости namespace можно переназначить.
-
-{% endofftopic %}
-
-```bash
-$ kubectl -n example-1-staging get po
-NAME                                 READY                STATUS   RESTARTS  AGE
-werf-guided-project-9f6bd769f-rm8nz  1/1                  Running  0         6m12s
-```
-
-```bash
-$ kubectl -n example-1-staging get ingress
-NAME                                 HOSTS                ADDRESS  PORTS     AGE
-werf-guided-project                  staging.mydomain.io           80        6m18s
-```
-
-А также вы должны увидеть сервис через браузер.
-
+![](/applications_guide_ru/images/applications-guide/020-hello-world-in-browser.png)
 
 <div id="go-forth-button">
     <go-forth url="210_cluster.html" label="Сборка" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

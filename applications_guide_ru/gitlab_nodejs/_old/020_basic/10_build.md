@@ -82,34 +82,7 @@ shell:
 
 {% endofftopic %}
 
-Начнём создание `werf.yaml` с обязательной [**секции мета-информации**]({{ site.docsurl }}/documentation/configuration/introduction.html#секция-мета-информации):
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
-{% raw %}
-```yaml
-project: werf-guided-project
-configVersion: 1
-```
-{% endraw %}
-{% endsnippetcut %}
-
-Здесь:
-- **_project_** — поле, задающее имя для проекта. Под проектом понимается набор из Docker-образов, которые мы будем собирать. Имя проекта по умолчанию используется в названии Helm-релиза и пространства имен в Kubernetes, куда будет выкатываться приложение. Данное имя не рекомендуется изменять (или подходить к таким изменениям с должным уровнем ответственности), так как после изменений уже имеющиеся ресурсы, которые выкачены в кластер, не будут автоматически переименованы.
-- **_configVersion_** — в данном случае определяет версию синтаксиса, используемую в `werf.yaml` (на данный момент мы всегда используем `1`).
-
-Перейдем к следующей секции конфигурации, которая и будет основной для сборки: [**image config section**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%81%D0%B5%D0%BA%D1%86%D0%B8%D1%8F-%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B0).
-
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/020-basic/werf.yaml" %}
-{% raw %}
-```yaml
----
-image: basicapp
-from: node:14-stretch
-```
-{% endraw %}
-{% endsnippetcut %}
-
-В строке `image: basicapp` дано название для образа, который соберёт werf. Это имя будет впоследствии указываться при запуске контейнера. Строка `from: node:14-stretch` определяет, что берётся за основу: в данном случае это официальный публичный образ с нужной нам версией NodeJS.
 
 {% offtopic title="Что делать, если образов и других констант станет много?" %}
 

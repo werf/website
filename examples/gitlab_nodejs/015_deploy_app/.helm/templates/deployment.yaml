@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,7 +20,7 @@ spec:
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]
-{{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
+        image: {{ tuple "basicapp" . | werf_image}}
         workingDir: /app
         ports:
         - containerPort: 3000

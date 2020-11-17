@@ -18,8 +18,10 @@ entries:
       - title: Полноценные приложения
         url: "300_basic.html"
         sf:
+          - title: Организация локальной разработки
+            url: "301_local.html"
           - title: Генерируем и раздаём ассеты
-            url: "301_assets.html"
+            url: "302_assets.html"
           - title: Statefull-приложение
             url: "304_statefull.html"
           - title: Работа с файлами
