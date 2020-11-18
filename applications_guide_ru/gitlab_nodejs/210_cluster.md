@@ -214,6 +214,9 @@ docker login <registry_domain> -u <account_login> -p <account_password>
 
 TODO: Без nginx-ингресса велик риск, что придётся прописывать `type: NodePort` у всех сервисов и палить, в каком порту теперь его видно.
 
+https://kubernetes.github.io/ingress-nginx/deploy/ — я это тупо поставил, но в клаудах возможно что-то уже стоит, надо уточнить
+
+
 <div id="go-forth-button">
     <go-forth url="210_cluster.html" label="Сборка" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

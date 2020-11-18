@@ -20,6 +20,8 @@ entries:
         sf:
           - title: Организация локальной разработки
             url: "301_local.html"
+          - title: Отладка кода инфраструктуры
+            url: "301_debug_iac.html"
           - title: Генерируем и раздаём ассеты
             url: "302_assets.html"
           - title: Statefull-приложение

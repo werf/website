@@ -140,6 +140,11 @@ kubectl get secret registrysecret -n kube-system -o json |
 
 
 
+TODO: прописать историю про проброску домена
+
+
+
+
 
 <div id="go-forth-button">
     <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

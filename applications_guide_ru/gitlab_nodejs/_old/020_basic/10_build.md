@@ -3,112 +3,17 @@ title: Сборка
 permalink: gitlab_nodejs/020_basic/10_build.html
 ---
 
-{% filesused title="Файлы, упомянутые в главе" %}
-- werf.yaml
-{% endfilesused %}
-
-В этой главе мы научимся писать конфигурацию сборки, отлаживать её в случае ошибок и загружать полученный образ в Registry.
-
-{% offtopic title="Локальная разработка или на сервере?" %}
-Существует 2 варианта ведения разработки: локально на компьютере либо на сервере. У обоих вариантов есть свои плюсы и минусы.
-
-Локальная разработка подойдет, если у вас достаточно мощный компьютер и важна скорость разработки. В остальных случаях, как правило, лучше выбирать разработку на сервере.
-
-Подробнее о плюсах и минусах каждого подхода:
-
-**Локальная разработка**
-
-Основной плюс этого метода — скорость разработки и проверки изменений. Результат правок можно увидеть уже через несколько секунд (хотя это зависит от используемого языка программирования).
-
-К минусам можно отнести необходимость в более мощном железе, чтобы запускать приложение, а также то, что локальное окружение будет значительно отличаться от production.
-
-_В скором времени werf [позволит](https://github.com/werf/werf/issues/1940) разработчикам запускать локальное окружение, идентичное production._
-
-**Разработка на сервере**
-
-Главный плюс этого метода — однотипность production с остальными окружениями. При возникновении проблем со сборкой мы узнаем об этом моментально. Отбрасывается необходимость в дополнительных ресурсах для локального запуска.
-
-Один из минусов — это отзывчивость: на процесс от push'а кода до появления результата может потребоваться несколько минут.
-{% endofftopic %}
-
-Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/000-app):
-
-```bash
-git clone git@github.com:werf/werf-guides.git guide
-cd examples/gitlab-nodejs/000-app
-```
-
-… и скопируйте его в свой проект в GitLab. Далее мы будем работать с исходным кодом проекта в GitLab.
-
-Для того, чтобы werf смогла собрать Docker-образ с приложением, необходимо в корне нашего репозитория создать файл `werf.yaml`, в котором будут описаны инструкции по сборке.
-
-{% offtopic title="Варианты синтаксиса werf.yaml" %}
-
-Werf имеет два механизма для сборки: Stapel (поддерживающий синтаксис Ansible и Shell) и Dockerfile (использующий синтаксис Dockerfile).
-
-**Ansible**
-
-Поскольку werf поддерживает почти все модули из Ansible, если у вас имеются Ansible-плейбуки для сборки, их можно легко адаптировать под werf.
-
-Пример установки curl:
-{% raw %}
-```yaml
-- name: "Install additional packages"
-  apt:
-    state: present
-    update_cache: yes
-    pkg:
-    - curl
-```
-{% endraw %}
-Полный список поддерживаемых модулей Ansible в werf доступен в [документации]({{ site.docsurl }}/documentation/configuration/stapel_image/assembly_instructions.html#supported-modules).
-
-**Shell**
-
-Также werf поддерживает использование обычных shell-команд — как будто мы запускаем Bash-скрипт.
-
-Пример установки curl:
-{% raw %}
-```yaml
-shell:
-  beforeInstall:
-  - apt-get update
-  - apt-get install -y curl
-```
-{% endraw %}
-Для простоты и удобства в самоучителе рассматривается именно shell, однако для своего проекта можно выбрать любой из вариантов.
-
-Прочитать подробнее про виды синтаксисов в werf можно в документации: [**syntax section**]({{ site.docsurl }}/documentation/guides/advanced_build/first_application.html#%D1%88%D0%B0%D0%B3-1-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F-werfyaml).
-
-{% endofftopic %}
-
-
-
 {% offtopic title="Что делать, если образов и других констант станет много?" %}
 
-В werf поддерживаются [**Go templates**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-go), поэтому легко определять переменные и записывать в них константы и часто используемые образы.
-
-Например, сделаем 2 образа, используя один базовый образ `golang:1.11-alpine`:
-
-{% raw %}
-```yaml
-{{ $base_image := "golang:1.11-alpine" }}
-
-project: my-project
-configVersion: 1
----
-
-image: gogomonia
-from: {{ $base_image }}
----
-image: saml-authenticator
-from: {{ $base_image }}
-```
-{% endraw %}
-
-Подробнее почитать про Go-шаблоны в werf можно в документации: [**werf go templates**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-go).
 
 {% endofftopic %}
+
+
+
+
+
+
+
 
 Добавим исходный код нашего приложения в контейнер с помощью [**директивы git**]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html):
 
@@ -131,51 +36,12 @@ git:
 
 {% offtopic title="Можно ли использовать несколько репозиториев?" %}
 
-Директива `git` также позволяет добавлять код из удалённых Git-репозиториев, используя параметр `url`.
-
-Пример:
-{% raw %}
-```yaml
-git:
-- add: /src
-  to: /app
-- url: https://github.com/ariya/phantomjs
-  add: /
-  to: /src/phantomjs
-```
-{% endraw %}
-Детали и особенности можно почитать в [документации]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html#работа-с-удаленными-репозиториями).
 
 {% endofftopic %}
 
 {% offtopic title="Реальная практика" %}
 
-В реальной практике нужно добавлять файлы, **фильтруя по названию или пути**.
 
-К примеру, в данном варианте добавляются все файлы `.php` и `.js` из каталога `/src`, исключая файлы с суффиксом `-dev.` и `-test.` в имени файла.
-{% raw %}
-```yaml
-git:
-- add: /src
-  to: /app
-  includePaths:
-  - '**/*.php'
-  - '**/*.js'
-  excludePaths:
-  - '**/*-dev.*'
-  - '**/*-test.*'
-```
-{% endraw %}
-В Linux-системах важно не забывать про установку **владельца файлов**.
-
-Например, вот так изменяется владелец файла `index.php` на `www-data`:
-
-```yaml
-git:
-- add: /src/index.php
-  to: /app/index.php
-  owner: www-data
-```
 
 Подробнее о всех опциях директивы `git` можно прочитать в  [документации]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html#Изменение-владельца).
 

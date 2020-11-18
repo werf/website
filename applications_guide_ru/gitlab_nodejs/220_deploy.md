@@ -11,6 +11,8 @@ permalink: gitlab_nodejs/220_deploy.html
 
 Для того, чтобы приложение заработало в Kubernetes, необходимо описать инфраструктуру приложения как код ([IaC](https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0_%D0%BA%D0%B0%D0%BA_%D0%BA%D0%BE%D0%B4)). В нашем случае потребуются следующие объекты Kubernetes: Deployment, Service и Ingress.
 
+TODO: А что делать если я не знаю кубернетесов????
+
 werf работает с шаблонизатором helm и [предоставляет дополнительные функции](https://ru.werf.io/documentation/advanced/helm/basics.html), разберём самые необходимые. Подробнее в шаблонизации и правилах написания kubernetes-объектов мы разберёмся позже, в главе "Конфигурирование инфраструктуры в виде кода", пока что — добьёмся, чтобы приложение заработало в реальном кластере.
 
 ## Deployment
@@ -54,7 +56,7 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-Обратите внимание на конструкцию `image: {{ tuple "basicapp" . | werf_image}}` — с помощью неё werf подставляет актуальный путь к контейнеру.
+Обратите внимание на конструкцию {% raw %}`image: {{ tuple "basicapp" . | werf_image}}`{% endraw %} — с помощью неё werf подставляет актуальный путь к контейнеру.
 
 werf пересобирает контейнеры только если это необходимо: если изменился соответствующий исходный код программы или инфраструктуры. Аналогично, werf отслеживает изменение образов и делает так, чтобы перевыкат Pod-а осуществлялся автоматически только при реальном изменении кода.
 
@@ -82,7 +84,16 @@ spec:
 
 ## Ingress
 
-Объект Ingress позволяет организовать маршрутизацию трафика на созданный Service для нужного домена (в нашем примере — `mydomain.io`):
+Объект Ingress позволяет организовать маршрутизацию трафика на созданный Service для нужного домена (в нашем примере — `mydomain.io`).
+
+{% offtopic title="Что за объект Ingress и как он связан с балансировщиком?" %}
+Возможна коллизия терминов:
+
+* Есть Ingress в смысле [NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx), который работает в кластере и принимает входящие извне запросы.
+* А ещё есть [объект Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/), который фактически описывает настройки для NGINX Ingress Controller.
+
+В статьях и бытовой речи оба этих термина зачастую называют «Ingress», так что догадываться нужно по контексту.
+{% endofftopic %}
 
 {% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab_nodejs/015_deploy_app/.helm/templates/ingress.yaml" %}
 {% raw %}
@@ -149,7 +160,7 @@ Running time 222.54 seconds
 
 И увидеть приложение в браузере
 
-TODO: а на каком порту?
+TODO: а на каком порту???
 
 ![](/applications_guide_ru/images/applications-guide/020-hello-world-in-browser.png)
 
