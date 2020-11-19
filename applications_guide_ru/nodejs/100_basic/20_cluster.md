@@ -17,10 +17,13 @@ permalink: nodejs/100_basic/20_cluster.html
 Выберите, как будете реализовывать окружение:
 
 <div style="display: flex; justify-content: space-between; margin: 0 10px 0 20px;">
-<div class="button__blue button__blue_inline"><a href="#">Установка minikube</a></div>
-<div class="button__blue button__blue_inline"><a href="#">Использование cloud provider</a></div>
-<div class="button__blue button__blue_inline"><a href="#">У меня уже есть кластер</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="minikube_button"><a href="#">Установка minikube</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="cloud_provider_button"><a href="#">Использование cloud provider</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="has_cluster_button"><a href="#">У меня уже есть кластер</a></div>
 </div>
+
+
+{% expandonclick id="minikube_button__content" %}
 
 ## Установка Minikube
 
@@ -44,6 +47,9 @@ kubectl port-forward --namespace kube-system service/werf-registry 5000
 ```
 
 В результате werf сможет подключиться к локальному registry, а также автоматически будет создан файл `.kube/config` с ключами доступа к локальному кластеру.
+{% endexpandonclick %}
+
+{% expandonclick id="cloud_provider_button__content" %}
 
 ## Выбираем один из cloud provider-ов
 
@@ -151,6 +157,9 @@ kubectl get ns
 ```
 
 Покажет вам список всех namespace-ов в кластере, а не сообщение об ошибке.
+{% endexpandonclick %}
+
+{% expandonclick id="has_cluster_button__content" %}
 
 ## У меня уже есть кластер
 
@@ -189,6 +198,8 @@ kubectl create secret docker-registry registrysecret -n <namespace> --docker-ser
 На данный момент достаточно того, чтобы секрет был создан в пространстве имён `werf-guided-project`.
 
 {% endofftopic %}
+
+{% endexpandonclick %}
 
 ## Авторизация в Registry
 

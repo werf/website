@@ -1,6 +1,7 @@
 ---
 title: Работа с файлами
 permalink: nodejs/200_real_apps/40_statefull.html
+layout: "development"
 ---
 
 

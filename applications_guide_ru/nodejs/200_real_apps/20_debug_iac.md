@@ -1,6 +1,7 @@
 ---
 title: Организация локальной разработки
 permalink: nodejs/200_real_apps/20_debug_iac.html
+layout: "development"
 ---
 
 

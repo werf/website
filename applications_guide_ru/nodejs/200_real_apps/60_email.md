@@ -1,6 +1,7 @@
 ---
 title: Работа с электронной почтой
 permalink: nodejs/200_real_apps/60_email.html
+layout: "development"
 ---
 
 TODO: Глава про файлы

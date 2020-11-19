@@ -1,6 +1,7 @@
 ---
 title: Работа с инфраструктурой
 permalink: nodejs/400_infra.html
+layout: "development"
 ---
 
 

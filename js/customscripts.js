@@ -98,3 +98,13 @@ $(document).ready(function () {
     }, 100); // prevents weird behaiviour when page is refreshed when buttons should be sticky
   }
 });
+
+$(document).ready(function () {
+  $('.expand_columns_content').hide();
+  $('.expand_columns_button').click(function(event){
+    event.preventDefault();
+    $('.expand_columns_content').hide();
+    let name = '#' + this.getAttribute('id') + '__content';
+    $(name).show();
+  });
+});

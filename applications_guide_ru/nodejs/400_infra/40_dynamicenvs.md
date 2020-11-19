@@ -1,6 +1,7 @@
 ---
 title: Динамические окружения
 permalink: nodejs/400_infra/40_dynamicenvs.html
+layout: "development"
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

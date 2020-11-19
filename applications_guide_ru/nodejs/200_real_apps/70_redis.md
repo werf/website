@@ -1,6 +1,7 @@
 ---
 title: Подключаем Managed Redis
 permalink: nodejs/200_real_apps/70_redis.html
+layout: "development"
 ---
 
 
