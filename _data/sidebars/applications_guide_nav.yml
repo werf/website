@@ -2,47 +2,47 @@ entries:
   ru:
     f:
       - title: Быстрый старт разработчика
-        url: "200_basic.html"
+        url: "100_basic.html"
         sf:
           - title: Сборка образа
-            url: "201_build.html"
+            url: "100_basic/10_build.html"
           - title: Подготовка кластера
-            url: "210_cluster.html"
+            url: "100_basic/20_cluster.html"
           - title: Деплой приложения
-            url: "220_deploy.html"
+            url: "100_basic/30_deploy.html"
           - title: Ускорение сборки
-            url: "230_optimize.html"
+            url: "100_basic/40_optimize.html"
           - title: Конфигурирование инфраструктуры в виде кода
-            url: "240_iac.html"
+            url: "100_basic/50_iac.html"
 
       - title: Полноценные приложения
-        url: "300_basic.html"
+        url: "200_real_apps.html"
         sf:
           - title: Организация локальной разработки
-            url: "301_local.html"
+            url: "200_real_apps/10_local.html"
           - title: Отладка кода инфраструктуры
-            url: "301_debug_iac.html"
+            url: "200_real_apps/20_debug_iac.html"
           - title: Генерируем и раздаём ассеты
-            url: "302_assets.html"
+            url: "200_real_apps/30_assets.html"
           - title: Statefull-приложение
-            url: "304_statefull.html"
+            url: "200_real_apps/40_statefull.html"
           - title: Работа с файлами
-            url: "310_files.html"
+            url: "200_real_apps/50_files.html"
           - title: Работа с электронной почтой
-            url: "320_email.html"
+            url: "200_real_apps/60_email.html"
           - title: Подключаем Managed Redis
-            url: "330_redis.html"
+            url: "200_real_apps/70_redis.html"
           - title: Подключаем Managed PostgreSQL
-            url: "340_database.html"
+            url: "200_real_apps/80_database.html"
 
       - title: Работа с инфраструктурой
-        url: "500_basic.html"
+        url: "400_infra.html"
         sf:
           - title: Построение CI-процесса
-            url: "510_ci.html"
+            url: "400_infra/10_ci.html"
           - title: Юнит-тесты и Линтеры
-            url: "520_unittesting.html"
+            url: "400_infra/20_unittesting.html"
           - title: Несколько приложений в одном репозитории
-            url: "530_multipleapps.html"
+            url: "400_infra/30_multipleapps.html"
           - title: Динамические окружения
-            url: "540_dynamicenvs.html"
+            url: "400_infra/40_dynamicenvs.html"
