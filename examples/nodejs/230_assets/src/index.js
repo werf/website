@@ -9,7 +9,7 @@ if (request.status === 200) {
     // Business logic here
     console.log('It works');
     var request_content = new XMLHttpRequest();
-    request_content.open('GET', '/api/', false);  // `false` makes the request synchronous
+    request_content.open('GET', '/api/labels', false);  // `false` makes the request synchronous
     request_content.send(null);
     if (request_content.status === 200) {
         document.getElementById("content").innerHTML = request_content.responseText;

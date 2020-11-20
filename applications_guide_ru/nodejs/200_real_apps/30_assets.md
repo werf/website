@@ -251,6 +251,11 @@ import:
 {% endofftopic %}
 
 
+
+werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=somevalue"
+
+
+
 <div id="go-forth-button">
     <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

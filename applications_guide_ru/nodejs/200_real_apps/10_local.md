@@ -12,5 +12,35 @@ TODO: тру вэй - миникуб, но разработчики могут �
 
 
 
+
+
+
 можно сделать werf run --follow и при коммите делается перезапуск (аналогично он есть у конверджа и компоуза)
+
+
+
+
+
+                  
+version: "3.8"
+services:
+  web:
+    image: "$WERF_IMAGE_B_NAME"
+
+
+
+
+werf compose up --help
+
+
+
+
+$ werf build --report-format=envfile --report-path=.env
+$ cat .env
+WERF_APP_DOCKER_IMAGE_NAME=REPO:TAG
+$ docker-compose --env-file .env
+
+
+
+
 

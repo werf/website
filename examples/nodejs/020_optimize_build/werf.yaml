@@ -17,6 +17,3 @@ shell:
   - cd /app && npm ci
 docker:
   WORKDIR: /app
-mount:
-- from: build_dir
-  to: /var/cache/apt

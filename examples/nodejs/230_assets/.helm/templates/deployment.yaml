@@ -52,7 +52,7 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: env-json
-          mountPath: /app/dist/config/env.json
+          mountPath: /www/config/env.json
           subPath: env.json
       volumes:
       - name: env-json

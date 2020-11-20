@@ -183,6 +183,8 @@ mount:
 
 ## Запускаем сборку
 
+TODO: нихуя, нет маунтов, но что-то будет когда-то потом 
+
 Ваш `werf.yaml` должен был принять вид:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}

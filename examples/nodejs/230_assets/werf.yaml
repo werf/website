@@ -17,9 +17,6 @@ shell:
   - cd /app && npm ci
 docker:
   WORKDIR: /app
-mount:
-- from: build_dir
-  to: /var/cache/apt
 ---
 artifact: assets-built
 from: node:14-stretch
@@ -38,12 +35,9 @@ git:
     install:
     - "package.json"
     - "package-lock.json"
-    - "webpack-*"
+    - "webpack*"
     setup:
     - "src/*"
-mount:
-- from: build_dir
-  to: /var/cache/apt
 ---
 image: node-assets
 from: nginx:stable-alpine
