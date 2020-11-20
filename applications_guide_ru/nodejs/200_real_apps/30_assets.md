@@ -7,6 +7,14 @@ permalink: nodejs/200_real_apps/30_assets.html
 - .helm/templates/deployment.yaml
 - .helm/templates/service.yaml
 - .helm/templates/ingress.yaml
+- .helm/templates/configmap.yaml
+- .werf/nginx.conf
+- src/config/env.json
+- src/index.html
+- src/index.js
+- package.json
+- package-lock.json
+- webpack.config.js
 - werf.yaml
 {% endfilesused %}
 
@@ -50,9 +58,154 @@ permalink: nodejs/200_real_apps/30_assets.html
 Но использование этого или другого «костыля» является лишь временной мерой с сомнительным результатом и не избавляет от необходимости модернизировать JS-приложение.
 {% endofftopic %}
 
-С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/assets.
+С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/nodejs/230_assets/).
+
+Наше фронтэнд-приложение будет состоят из html файла, который будет подгружать JS-скрипты. Те, в свою очередь, при инициализации будут подгружать переменные окружения из файла `/config/env.json` и, затем, загружать список лейблов из API. 
+
+{% offtopic title="Код приложения подробнее" %}
+
+Код html-страницы:
+
+{% snippetcut name="src/index.html" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/index.html" %}
+{% raw %}
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My app</title>
+</head>
+<body>
+<h1>Hello world!</h1>
+<p>This is JS app.</p>
+<p><strong>List of labels from backend: </strong><span id="content"></span></p>
+<p><strong>Link from config: </strong> <a href="#" id="url">link</a></p>
+</body>
+</html>
+```
+{% endraw %}
+{% endsnippetcut %}
+
+JS, отображающий список лейблов и ссылку, зависящую от стенда, на который выкачено приложение:
+
+{% snippetcut name="src/index.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/index.js" %}
+{% raw %}
+```js
+var request = new XMLHttpRequest();
+request.open('GET', '/config/env.json', false);  // `false` makes the request synchronous
+request.send(null);
+
+if (request.status === 200) {
+    const variables = JSON.parse(request.responseText);
+    document.getElementById("url").href = variables.url;
+
+    // Business logic here
+    console.log('It works');
+    var request_content = new XMLHttpRequest();
+    request_content.open('GET', '/api/labels', false);  // `false` makes the request synchronous
+    request_content.send(null);
+    if (request_content.status === 200) {
+        document.getElementById("content").innerHTML = request_content.responseText;
+    } else {
+        document.getElementById("content").innerHTML = "sorry, error while loading";
+    }
+}
+```
+{% endraw %}
+{% endsnippetcut %}
+
+Файл `env.json`, который при выкате на каждый стенд будет подменяться на актуальную для этого стенда версию (о том, как это будет происходить мы поговорим ниже):
+
+{% snippetcut name="src/config/env.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/config/env.json" %}
+{% raw %}
+```json
+{
+  "url": "http://defaultvalue.op"
+}
+```
+{% endraw %}
+{% endsnippetcut %}
+
+Код сборки этого приложения Webpack-ом (обратите внимание, что файл `env.json` просто копируется и никак не применяется!):
+
+{% snippetcut name="webpack.config.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/webpack.config.js" %}
+{% raw %}
+```js
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, "src", "index.html"),
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: "src/config", to: 'config' }
+            ]
+        }),
+    ],
+};
+```
+{% endraw %}
+{% endsnippetcut %}
+
+И добавим команду `build` и необходимые зависимости от webpack в `package.json`:
+
+{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/package.json" %}
+{% raw %}
+```json
+{
+  "name": "30-assets",
+  "version": "1.0.0",
+  "description": "Hello world app on NodeJs Express!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && webpack --config webpack.config.js --mode development"
+  },
+  "author": "Flant",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.0.3",
+    "css-loader": "^4.2.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
+```
+{% endraw %}
+{% endsnippetcut %}
+
+{% endofftopic %}
 
 ## Изменения в сборке
+
+
+Описываем изменения в 
+- werf.yaml
+
+
+
+
+
+
+
+
+
+
+
 
 Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого нужно собрать образ с nginx и забросить туда ассеты, предварительно собранные с помощью [механизма артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
 
@@ -106,28 +259,16 @@ git:
 {% endraw %}
 {% endsnippetcut %}
 
-Чтобы это работало, необходимо добавить сценарий `build` и нужные зависимости в ваш `package.json`:
 
-{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/package.json" %}
-{% raw %}
-```yaml
-    "build": "rm -rf dist && webpack --config webpack.config.js --mode development"
-<...>
-  "devDependencies": {
-    "copy-webpack-plugin": "^6.0.3",
-    "css-loader": "^4.2.0",
-    "file-loader": "^6.0.0",
-    "html-webpack-plugin": "^4.3.0",
-    "sass": "^1.26.10",
-    "sass-loader": "^9.0.3",
-    "style-loader": "^1.2.1",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
-  }
-```
-{% endraw %}
-{% endsnippetcut %}
+
+
+
+
+
+
+
+
+
 
 Теперь, когда артефакт собран, соберём образ с nginx:
 
@@ -166,6 +307,15 @@ import:
 {% endsnippetcut %}
 
 ## Изменения в деплое и роутинге
+
+
+- .helm/templates/deployment.yaml
+- .helm/templates/service.yaml
+- .helm/templates/ingress.yaml
+- .helm/templates/configmap.yaml
+- .werf/nginx.conf
+
+
 
 Внутри Deployment сделаем два контейнера: один с `nginx`, который будет раздавать статические файлы, второй — с Node.js-приложением. Запросы сперва будут приходить на nginx, а тот будет перенаправлять их приложению, если не найдётся статических файлов.
 

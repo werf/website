@@ -57,4 +57,4 @@ spec:
       volumes:
       - name: env-json
         configMap:
-          name: {{ .Chart.Name }}-configmap
+          name: basicapp-configmap
