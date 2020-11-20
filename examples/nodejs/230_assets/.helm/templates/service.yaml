@@ -9,3 +9,6 @@ spec:
   - name: http
     port: 3000
     protocol: TCP
+  - name: http-nginx
+    port: 80
+    protocol: TCP

@@ -1,15 +1,28 @@
 {
-  "name": "20-basic",
+  "name": "30-assets",
   "version": "1.0.0",
   "description": "Hello world app on NodeJs Express!",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && webpack --config webpack.config.js --mode development"
   },
   "author": "Flant",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
     "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.0.3",
+    "css-loader": "^4.2.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }
