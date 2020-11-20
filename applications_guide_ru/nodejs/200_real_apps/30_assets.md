@@ -1,12 +1,7 @@
 ---
 title: Генерируем и раздаём ассеты
 permalink: nodejs/200_real_apps/30_assets.html
-layout: "development"
 ---
-
-TODO: Глава про фронтэнд, практически идентичная для всех.
-
-
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
