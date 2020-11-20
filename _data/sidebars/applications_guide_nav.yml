@@ -22,6 +22,8 @@ entries:
             url: "200_real_apps/10_local.html"
           - title: Отладка кода инфраструктуры
             url: "200_real_apps/20_debug_iac.html"
+          - title: Логгирование
+            url: "200_real_apps/90_logging.html"
           - title: Генерируем и раздаём ассеты
             url: "200_real_apps/30_assets.html"
           - title: Statefull-приложение
