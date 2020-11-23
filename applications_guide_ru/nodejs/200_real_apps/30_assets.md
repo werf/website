@@ -22,16 +22,16 @@ permalink: nodejs/200_real_apps/30_assets.html
 
 Для того, чтобы обработать ассеты, воспользуемся webpack - это гибкий в плане реализации ассетов инструмент. Настраивается его поведение в `webpack.config.js` и `package.json`.
 
+Реализовать сборку сгенерированных ассетов можно двумя способами:
 
-Интуитивно понятно, что на одной из стадий сборки потребуется вызвать скрипт, который генерирует файлы, т.е. что-то надо будет дописать в `werf.yaml`. Однако, не только там: ведь какое-то приложение в production должно непосредственно отдавать статические файлы. Мы не будем отдавать файлы с помощью Express Node.js: хочется, чтобы статику раздавал nginx. А значит, потребуется внести изменения и в Helm-чарт.
+![](/applications_guide_ru/images/applications-guide/assets-onedocker.png)
 
-Реализовать раздачу сгенерированных ассетов можно двумя способами:
+или
 
-* Добавить в собираемый образ с Node.js ещё и nginx, а потом этот образ запускать уже двумя разными способами: один раз для раздачи статики, второй — для работы Node.js-приложения.
-* Сделать два отдельных образа: в одном только nginx и сгенерированные ассеты, во втором — Node.js-приложение.
+![](/applications_guide_ru/images/applications-guide/assets-twodockers.png)
 
 {% offtopic title="Как правильно сделать выбор?" %}
-Чтобы сделать выбор, нужно учитывать:
+В первом случае мы собираем один образ, но запускаем его двумя разными способами. Во втором мы делаем два отдельных образа. Чтобы сделать выбор, нужно учитывать:
 
 - Как часто вносятся изменения в код, относящийся к каждому образу. Например, если изменения почти всегда вносятся одновременно и в статику, и в приложение — меньше смысла отделять их сборку: ведь всё равно оба пересобирать.
 - Размер полученных образов и, как следствие, объём данных, которые придётся скачивать при каждом перевыкате.
@@ -48,19 +48,21 @@ permalink: nodejs/200_real_apps/30_assets.html
 
 Перед тем, как вносить изменения, **необходимо убедиться, что в собранных ассетах нет привязки к конкретному окружению**. То есть в собранных образах не должно быть логинов, паролей, доменов и тому подобного. В момент сборки Node.js не должен подключаться к базе данных, использовать сгенерированный пользователями контент и т.д.
 
-В традиции фронтэнд-разработки сложилась обратная практика: пробрасывать некоторые переменные, завязанные на окружение, на стадии сборки. И мы понимаем, что существует огромное количество приложений, собираемых по такому принципу, например, webpack'ом. Однако решение проблемы legacy-проектов выходит за рамки этого самоучителя: мы рассматриваем задачу Kubernetes'ации на приложении, где такой проблемы нет.
+В традиции фронтэнд-разработки сложилась обратная практика: пробрасывать некоторые переменные, завязанные на окружение, на стадии сборки.
 
 {% offtopic title="Так что делать с legacy-проектами?" %}
-Конечно, лучше начать переписывать раньше, чем позже. Но мы понимаем, что это дорогая и сложная задача.
+Мы понимаем, что существует огромное количество приложений, в которых конфигурация задаётся на стадии сборки. Однако решение проблемы legacy-проектов выходит за рамки этого самоучителя: мы рассматриваем задачу Kubernetes'ации на приложении, где такой проблемы нет.
+
+Конечно, лучше начать переписывать legacy раньше, чем позже. Но мы понимаем, что это дорогая и сложная задача.
 
 В качестве временной меры _иногда_ можно подставить вместо значения переменных, завязанных на окружение, уникальную строку. К примеру, если в приложение передаётся домен CDN-сервера `cdn_server` со значениями `mycdn0.mydomain.io` / `mycdn0-staging.mydomain.io` — можно вместо этих значений в сборку передать случайный GUID `cdfe0513-ba1f-4f92-8503-48a497d98059`. А в Helm-шаблонах, в init-контейнере, сделать с помощью утилиты [sed](https://ru.wikipedia.org/wiki/Sed) замену GUID'а на нужное именно на этом окружении значение.
 
 Но использование этого или другого «костыля» является лишь временной мерой с сомнительным результатом и не избавляет от необходимости модернизировать JS-приложение.
 {% endofftopic %}
 
-С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/nodejs/230_assets/).
+## Код фронтэнда
 
-Наше фронтэнд-приложение будет состоят из html файла, который будет подгружать JS-скрипты. Те, в свою очередь, при инициализации будут подгружать переменные окружения из файла `/config/env.json` и, затем, загружать список лейблов из API. 
+С исходным кодом фронтэнд-приложения, которое мы будем использовать, можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/nodejs/230_assets/). Оно будет состоять из **html файла**, который будет **подгружать JS-скрипты**. Те, в свою очередь, **при инициализации будут подгружать** переменные окружения из файла **`/config/env.json`** и, затем, **получать список лейблов из API**. 
 
 {% offtopic title="Код приложения подробнее" %}
 
@@ -192,22 +194,7 @@ module.exports = {
 
 ## Изменения в сборке
 
-
-Описываем изменения в 
-- werf.yaml
-
-
-
-
-
-
-
-
-
-
-
-
-Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого нужно собрать образ с nginx и забросить туда ассеты, предварительно собранные с помощью [механизма артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
+Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого воспользуемся [механизмом артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
 
 {% offtopic title="Что за артефакты?" %}
 [Артефакт]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html) — это специальный образ, используемый в других артефактах или отдельных образах, описанных в конфигурации. Артефакт предназначен преимущественно для отделения инструментов сборки и исходных кодов от финального скомпилированного результата. Так, в экосистеме NodeJS — это webpack, в Java — Maven, в C++ — make, в C# — MSBuild.
@@ -236,47 +223,38 @@ from: ubuntu:latest
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
+---
 artifact: assets-built
 from: node:14-stretch
 shell:
   beforeInstall:
-    - apt update
-    - apt install -y build-essential tzdata locales
+  - apt update
+  - apt install -y build-essential tzdata locales
   install:
-    - cd /app && npm i
+  - cd /app && npm i
   setup:
-    - cd /app && npm run build
+  - cd /app && npm run build
 git:
-  - add: /
-    to: /app
-    stageDependencies:
-      install:
-        - package.json
-        - webpack-*
-      setup:
-        - "**/*"
+- add: /
+  to: /app
+  stageDependencies:
+    install:
+    - "package.json"
+    - "package-lock.json"
+    - "webpack*"
+    setup:
+    - "src/*"
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-
-
-
-
-
-
-
-
-
-
-
-Теперь, когда артефакт собран, соберём образ с nginx:
+Теперь, когда артефакт собран, соберём образ с nginx и импортируем туда сгенерированные ассеты:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
-image: "node-assets"
+image: node-assets
 from: nginx:stable-alpine
 docker:
   EXPOSE: '80'
@@ -286,48 +264,133 @@ shell:
     head -c -1 <<'EOF' > /etc/nginx/nginx.conf
     {{ .Files.Get ".werf/nginx.conf" | nindent 4 }}
     EOF
+import:
+- artifact: assets-built
+  add: /app/dist
+  to: /www
+  after: setup
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 _Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.werf/nginx.conf)._
 
-И пропишем в нём импорт из артефакта под названием `build`:
-
+{% offtopic title="Как в итоге выглядит werf.yaml?" %}
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
+project: werf-guided-project
+configVersion: 1
+---
+image: basicapp
+from: node:14-stretch
+git:
+- add: /
+  to: /app
+  stageDependencies:
+    install:
+    - package.json
+shell:
+  beforeInstall:
+  - apt update
+  - apt install -y tzdata locales
+  install:
+  - cd /app && npm ci
+docker:
+  WORKDIR: /app
+---
+artifact: assets-built
+from: node:14-stretch
+shell:
+  beforeInstall:
+  - apt update
+  - apt install -y build-essential tzdata locales
+  install:
+  - cd /app && npm i
+  setup:
+  - cd /app && npm run build
+git:
+- add: /
+  to: /app
+  stageDependencies:
+    install:
+    - "package.json"
+    - "package-lock.json"
+    - "webpack*"
+    setup:
+    - "src/*"
+---
+image: node-assets
+from: nginx:stable-alpine
+docker:
+  EXPOSE: '80'
+shell:
+  beforeInstall:
+  - |
+    head -c -1 <<'EOF' > /etc/nginx/nginx.conf
+    {{ .Files.Get ".werf/nginx.conf" | nindent 4 }}
+    EOF
 import:
-  - artifact: assets-built
-    add: /app/dist
-    to: /www
-    after: setup
+- artifact: assets-built
+  add: /app/dist
+  to: /www
+  after: setup
 ```
 {% endraw %}
 {% endsnippetcut %}
+{% endofftopic %}
 
-## Изменения в деплое и роутинге
+## Изменения в инфраструктуре и роутинге
 
+Инфраструктуру мы можем организовать двумя способами:
 
-- .helm/templates/deployment.yaml
-- .helm/templates/service.yaml
-- .helm/templates/ingress.yaml
-- .helm/templates/configmap.yaml
-- .werf/nginx.conf
+![](/applications_guide_ru/images/applications-guide/assets-deploy-nodejs-1.png)
 
+или
 
+![](/applications_guide_ru/images/applications-guide/assets-deploy-nodejs-2.png)
 
-Внутри Deployment сделаем два контейнера: один с `nginx`, который будет раздавать статические файлы, второй — с Node.js-приложением. Запросы сперва будут приходить на nginx, а тот будет перенаправлять их приложению, если не найдётся статических файлов.
+В случае организации ассетов первый способ позволяет гибче управлять отдачей статики, с помощью `nginx.conf`, мы воспользуемся этим способом.
 
-Обязательно укажем:
-* `livenessProbe` и `readinessProbe`, которые будут проверять корректную работу контейнера в Pod'е,
-* команду `preStop` для корректного завершения процесса nginx, чтобы при выкате новой версии приложения корректно завершались активные сессии.
+С помощью объекта Configmap мы будем пробрасывать в образ с nginx файл `/config/env.json` с актуальными именно для этого окружения данными.
 
 {% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basicapp
+spec:
+  selector:
+    matchLabels:
+      app: basicapp
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app: basicapp
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
+      containers:
+      - name: basicapp
+        command: ["node","/app/app.js"]
+        image: {{ tuple "basicapp" . | werf_image}}
+        workingDir: /app
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        env:
+        - name: "SQLITE_FILE"
+          value: "app.db"
       - name: node-assets
-{{ tuple "node-assets" . | include "werf_container_image" | indent 8 }}
+        image: {{ tuple "node-assets" . | werf_image}}
         lifecycle:
           preStop:
             exec:
@@ -346,17 +409,53 @@ import:
         - containerPort: 80
           name: http
           protocol: TCP
+        volumeMounts:
+        - name: env-json
+          mountPath: /www/config/env.json
+          subPath: env.json
+      volumes:
+      - name: env-json
+        configMap:
+          name: basicapp-configmap
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-В описании Service также должен быть указан правильный порт:
+В сам Configmap нужное значение мы будем пробрасывать через глобальный аттрибут:
+
+{% snippetcut name=".helm/templates/configmap.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/configmap.yaml" %}
+{% raw %}
+```yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basicapp-configmap
+data:
+  env.json: |
+    {
+      "url": {{ .Values.global.domain_url | quote }}
+    }
+```
+{% endraw %}
+{% endsnippetcut %}
+
+А у сервиса укажем оба порта:
 
 {% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: basicapp
+spec:
+  selector:
+    app: basicapp
   ports:
-<...>
+  - name: http
+    port: 3000
+    protocol: TCP
   - name: http-nginx
     port: 80
     protocol: TCP
@@ -364,47 +463,13 @@ import:
 {% endraw %}
 {% endsnippetcut %}
 
-И в Ingress необходимо отправить запросы на правильный порт, чтобы они попадали на nginx:
+## Деплой
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/ingress.yaml" %}
-{% raw %}
-```yaml
-      paths:
-      - path: /
-        backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
+Воспользуемся [командой `converge`](https://ru.werf.io/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
+
+```bash
+werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=http://myverycustomdomain.io"
 ```
-{% endraw %}
-{% endsnippetcut %}
-
-{% offtopic title="Можно ли разделять трафик на уровне Ingress?" %}
-
-В некоторых случаях требуется разделить трафик на уровне Ingress. Тогда можно распределить запросы по `path` и портам:
-
-{% snippetcut name=".helm/templates/ingress.yaml" url="#" ignore-tests %}
-{% raw %}
-```yaml
-      paths:
-      - path: /
-        backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 3000
-      - path: /assets
-        backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
-```
-{% endraw %}
-{% endsnippetcut %}
-
-{% endofftopic %}
-
-
-
-werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=somevalue"
-
-
 
 <div id="go-forth-button">
     <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
