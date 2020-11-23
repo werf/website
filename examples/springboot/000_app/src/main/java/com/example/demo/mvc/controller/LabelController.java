@@ -5,12 +5,15 @@ import com.example.demo.data.LabelsRepository;
 import com.example.demo.mvc.exception.LabelError;
 import com.example.demo.mvc.exception.LabelException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@RestController
-@RequestMapping("/api")
+@RestController()
+@RequestMapping(value = "/api")
 public class LabelController {
     @Autowired
     LabelsRepository repository;
@@ -30,14 +33,14 @@ public class LabelController {
         return repository.findById(id).orElseThrow(() -> new LabelException("not found"));
     }
 
-    @PostMapping("/labels")
-    Labels labels(@RequestBody Labels newLabels) {
+    @PostMapping(value = "/labels")
+    Labels labels(Labels newLabels) {
+        System.out.println(newLabels.getLabel());
         return repository.save(newLabels);
     }
 
-
-    @PostMapping("/labels/{id}")
-    Labels labels(@RequestBody Labels newLabels, @PathVariable Long id) throws LabelException {
+    @PostMapping(value = "/labels/{id}")
+    Labels labels(Labels newLabels, @PathVariable Long id) throws LabelException {
         return repository.findById(id)
                 .map(label -> {
                     label.setLabel(newLabels.getLabel());
@@ -50,10 +53,9 @@ public class LabelController {
     String labelsDelete(@PathVariable Long id) throws LabelException {
         try {
             repository.deleteById(id);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new LabelException("not found");
         }
         return "{\\\"result\\\": true}";
-        }
+    }
 }
