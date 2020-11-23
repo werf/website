@@ -49,31 +49,32 @@ dockerfile: Dockerfile
 
 Удалите эти строки — мы перепишем их, прописав там:
 
-- базовый образ (в `Dockerfile` это было `FROM node:14-stretch`)
+- базовый образ (в `Dockerfile` это было `FROM gradle:jdk8-openj9`)
 - рабочую папку (в `Dockerfile` это было `WORKDIR /app`)
 - сценарий добавления в финальный образ исходного кода (в `Dockerfile` это было `COPY . .`)
-- установку зависимостей
+- компиляцию исходников в jar
 
-В последнем, к слову важно, что работа с `apt` и `npm` должна быть реализована в правильных стадиях. Причём важно сказать werf-и, что при изменении файла `package.json` нужно [перезапускать стадию](https://ru.werf.io/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет запускаться `npm ci`) .
+В последнем, к слову важно, что работа с `gradle` должна быть реализована в правильной стадии, когда исходный код уже появился. Причём важно сказать werf-и, что при изменении файлов внутри `src/` нужно [перезапускать стадию](https://ru.werf.io/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет компиляция) .
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
+Это должно выглядеть следующим образом:
+
+{% snippetcut name="werf.yaml" url="#" %}
 {% raw %}
 ```yaml
 ---
-image: basicapp
-from: node:14-stretch
+image: build
+from: gradle:jdk8-openj9
 git:
 - add: /
   to: /app
   stageDependencies:
-    install:
-    - package.json
+    setup:
+    - src
 shell:
-  beforeInstall:
-  - apt update
-  - apt install -y tzdata locales
-  install:
-  - cd /app && npm ci
+  setup:
+  - cd /app
+  - gradle build --no-daemon
+  - cp /app/build/libs/*.jar /app/demo.jar
 docker:
   WORKDIR: /app
 ```
@@ -83,6 +84,40 @@ docker:
 {% offtopic title="Что тут написано?" %}
 Здесь используется 4 корневых директивы: `from` — на основании какого образа будет осуществляться сборка; [`git`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/git_directive.html) — описывает импорт данных из репозитория; [`shell`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#shell) — описывает сборку стадий с помощью shell-команд; [`docker`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/docker_directive.html) — инструкции для Docker.
 {% endofftopic %}
+
+Однако, собранный образ получится около 400 мегабайт, из-за наличия приложений, обеспечивающих сборку. Если бы мы использовали образ `openjdk:8-jdk-alpine` — наш финальный образ был бы около 70 мегабайт. Так деплой будет происходить быстрее (особенно, если приложение вырастет в размерах). Воспользуемся [механизмом артефактов](https://ru.werf.io/documentation/advanced/building_images_with_stapel/artifacts.html), чтобы сборку произвести в одном образе, а потом импортировать полученный jar файл в минималистичный контейнер.
+
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
+{% raw %}
+```yaml
+---
+artifact: build
+from: gradle:jdk8-openj9
+git:
+- add: /
+  to: /app
+  stageDependencies:
+    setup:
+    - src
+shell:
+  setup:
+  - cd /app
+  - gradle build --no-daemon
+---
+image: basicapp
+from: openjdk:8-jdk-alpine
+import:
+- artifact: build
+  add: /app/build/libs/*.jar
+  to: /app/demo.jar
+  after: setup
+docker:
+  WORKDIR: /app
+```
+{% endraw %}
+{% endsnippetcut %}
+
+Подробнее этот механизм мы рассмотрим, когда будем работать над генерацией ассетов.
 
 Разумеется, наш пример очень простой. Реальные сценарии сборки гораздо сложнее:
 
@@ -163,27 +198,7 @@ from: {{ $base_image }}
 Подробнее почитать про Go-шаблоны в werf можно в документации: [**werf go templates**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-go).
 {% endofftopic %}
 
-## Не скачиваем одно и то же
-
-Чтобы не хранить ненужные кэши пакетного менеджера в образе, можно при сборке смонтировать директорию, в которой будет храниться кэш.
-
-Для того, чтобы оптимизировать работу с этим кешем при сборке, мы добавим специальную конструкцию в `werf.yaml`:
-
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
-{% raw %}
-```yaml
-mount:
-- from: build_dir
-  to: /var/cache/apt
-```
-{% endraw %}
-{% endsnippetcut %}
-
-Теперь при каждом запуске сборки эта директория будет монтироваться с сервера, где запускается `build`, и она не будет очищаться между сборками. Таким образом, кэш будет сохраняться между сборками.
-
 ## Запускаем сборку
-
-TODO: нихуя, нет маунтов, но что-то будет когда-то потом 
 
 Ваш `werf.yaml` должен был принять вид:
 
@@ -193,25 +208,28 @@ TODO: нихуя, нет маунтов, но что-то будет когда-
 project: werf-guided-project
 configVersion: 1
 ---
-image: basicapp
-from: node:14-stretch
+artifact: build
+from: gradle:jdk8-openj9
 git:
 - add: /
   to: /app
   stageDependencies:
-    install:
-    - package.json
+    setup:
+    - src
 shell:
-  beforeInstall:
-  - apt update
-  - apt install -y tzdata locales
-  install:
-  - cd /app && npm ci
+  setup:
+  - cd /app
+  - gradle build --no-daemon
+---
+image: basicapp
+from: openjdk:8-jdk-alpine
+import:
+- artifact: build
+  add: /app/build/libs/*.jar
+  to: /app/demo.jar
+  after: setup
 docker:
   WORKDIR: /app
-mount:
-- from: build_dir
-  to: /var/cache/apt
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -222,7 +240,7 @@ mount:
 werf converge --repo registry.mydomain.io/werf-guided-project
 ```
 
-Попробуйте менять список зависимостей (просто добавьте какой-нибудь пакет в `package.json`), файл с кодом (`app.js`) или инфраструктуру (добавьте новый аттрибут с произвольным текстом в секцию `metadata:` в файле `deployment.yaml`) и посмотрите, как быстро осуществляется сборка и где используется ранее собранный кусок образа.
+Попробуйте менять список зависимостей (просто добавьте какой-нибудь пакет в зависимости), файл с кодом (`/src/main/java/com/example/demo/DemoApplication.java`) или инфраструктуру (добавьте новый аттрибут с произвольным текстом в секцию `metadata:` в файле `deployment.yaml`) и посмотрите, как быстро осуществляется сборка и где используется ранее собранный кусок образа.
 
 <div id="go-forth-button">
     <go-forth url="210_cluster.html" label="Сборка" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

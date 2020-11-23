@@ -7,8 +7,6 @@ git:
 - add: /
   to: /app
   stageDependencies:
-    beforeSetup:
-    - pom.xml
     setup:
     - src
 shell:
