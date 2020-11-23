@@ -43,11 +43,11 @@ spec:
       - name: "registrysecret"
       containers:
       - name: basicapp
-        command: ["node","/app/app.js"]
+        command: ["java","-jar","/app//app/demo.jar"]
         image: {{ tuple "basicapp" . | werf_image}}
         workingDir: /app
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
           protocol: TCP
         env:
         - name: "SQLITE_FILE"
@@ -76,7 +76,7 @@ spec:
     app: basicapp
   ports:
   - name: http
-    port: 3000
+    port: 8080
     protocol: TCP
 ```
 {% endraw %}
@@ -112,7 +112,7 @@ spec:
       - path: /
         backend:
           serviceName: basicapp
-          servicePort: 3000
+          servicePort: 8080
 ```
 {% endraw %}
 {% endsnippetcut %}

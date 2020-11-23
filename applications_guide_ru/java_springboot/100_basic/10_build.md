@@ -32,7 +32,7 @@ COPY . .
 RUN gradle build --no-daemon
 RUN cp /app/build/libs/*.jar /app/demo.jar
 
-EXPOSE 3000
+EXPOSE 8080
 CMD ['java','-jar','/app/demo.jar']
 ```
 {% endraw %}
@@ -106,37 +106,37 @@ _В подглаве "Ускорение сборки" мы переведём �
 Но уже сейчас вы можете заметить, что werf делает расширенный вывод логов сборки, вроде:
 
 ```
+
 ┌ ⛵ image basicapp
 │ ┌ Building stage basicapp/dockerfile
-│ │ basicapp/dockerfile  Sending build context to Docker daemon  69.63kB
-│ │ basicapp/dockerfile  Step 1/16 : FROM node:14-stretch
-│ │ basicapp/dockerfile   ---> b90fa0d7cbd1
-│ │ basicapp/dockerfile  Step 2/16 : WORKDIR /app
+│ │ basicapp/dockerfile  Sending build context to Docker daemon  116.7kB
+│ │ basicapp/dockerfile  Step 1/15 : FROM gradle:jdk8-openj9
+│ │ basicapp/dockerfile   ---> 2fb781988fa5
+│ │ basicapp/dockerfile  Step 2/15 : WORKDIR /app
 │ │ basicapp/dockerfile   ---> Using cache
-│ │ basicapp/dockerfile   ---> 4bb99952fe98
 <..>
-│ │ basicapp/dockerfile  Successfully built 02a0a425890a
-│ │ basicapp/dockerfile  Successfully tagged a1cbf6dc-343f-4a77-b846-d0f12a700cb7:latest
+│ │ basicapp/dockerfile  Successfully built e0d6df14df8b
+│ │ basicapp/dockerfile  Successfully tagged ee51ea7f-c498-45a5-a435-0fd830fbb576:latest
 │ ├ Info
-│ │       name: werf-guided-project:a473b87e1ad65f102fa90f8c6647b03056e5ae95ff1ef3c5e7fd2c31-1605597979927
-│ │       size: 953.1 MiB
-│ └ Building stage basicapp/dockerfile (21.94 seconds)
-└ ⛵ image basicapp (22.04 seconds)
+│ │       name: werf-guided-project:50558f3f54d2ebbbd817824c6d7194aabe725bff6d7beae4df9c5e29-1606128099580
+│ │       size: 738.6 MiB
+│ └ Building stage basicapp/dockerfile (86.12 seconds)
+└ ⛵ image basicapp (86.32 seconds)
 
-Running time 22.07 seconds
+Running time 86.37 seconds
 ```
 
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
 ```bash
-$ werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+$ werf run --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/demo.jar
 ```
 
 Обратите внимание, что мы задаем [параметры docker](https://docs.docker.com/engine/reference/run/) и после двойного дефиса команду, с которой запустить образ.
 
 _В подглаве "Организация локальной разработки" мы рассмотрим более корректные способы организовать локальную разработку, в том числе — автоматическую локальную пересборку и перезапуск контейнеров при коммите._
 
-Теперь приложение доступно локально на порту 3000:
+Теперь приложение доступно локально на порту 8080:
 
 ![](/applications_guide_ru/images/applications-guide/020-hello-world-in-browser.png)
 
