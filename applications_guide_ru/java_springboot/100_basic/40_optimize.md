@@ -37,7 +37,7 @@ werf подразумевает, что лучшей практикой буде
 
 Сейчас в `werf.yaml` сборка описана так:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/015_deploy_app/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -87,7 +87,7 @@ docker:
 
 Однако, собранный образ получится около 400 мегабайт, из-за наличия приложений, обеспечивающих сборку. Если бы мы использовали образ `openjdk:8-jdk-alpine` — наш финальный образ был бы около 70 мегабайт. Так деплой будет происходить быстрее (особенно, если приложение вырастет в размерах). Воспользуемся [механизмом артефактов](https://ru.werf.io/documentation/advanced/building_images_with_stapel/artifacts.html), чтобы сборку произвести в одном образе, а потом импортировать полученный jar файл в минималистичный контейнер.
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/020_optimize_build/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -202,7 +202,7 @@ from: {{ $base_image }}
 
 Ваш `werf.yaml` должен был принять вид:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/020_optimize_build/werf.yaml" %}
 {% raw %}
 ```yaml
 project: werf-guided-project

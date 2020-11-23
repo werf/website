@@ -33,7 +33,7 @@ permalink: java_springboot/100_basic/50_iac.html
 
 В описании Deployment, Ingress и Service используется значение `basicapp` — лучше заменить его переменной. Воспользуемся для этого переменной с именем чарта `.Chart.Name`. Например, было:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/020_optimize_build/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -50,7 +50,7 @@ spec:
 
 Стало:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/025_iac/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/025_iac/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1

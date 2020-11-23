@@ -19,7 +19,7 @@ werf работает с шаблонизатором helm и [предоста�
 
 Объект Deployment позволяет создать объект Pod, который содержит в себе и управляет контейнерами с приложениями. У создаваемого нами Pod будет один контейнер — `basicapp`.
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/015_deploy_app/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -64,7 +64,7 @@ werf пересобирает контейнеры только если это 
 
 Объект Service позволяет приложениям в кластере взаимодействовать друг с другом. Пропишем его:
 
-{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/.helm/templates/service.yaml" %}
+{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/015_deploy_app/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: v1
@@ -95,7 +95,7 @@ spec:
 В статьях и бытовой речи оба этих термина зачастую называют «Ingress», так что догадываться нужно по контексту.
 {% endofftopic %}
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/.helm/templates/ingress.yaml" %}
+{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/015_deploy_app/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: networking.k8s.io/v1beta1

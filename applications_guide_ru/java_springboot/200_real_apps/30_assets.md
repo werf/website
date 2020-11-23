@@ -58,7 +58,7 @@ permalink: java_springboot/200_real_apps/30_assets.html
 Но использование этого или другого «костыля» является лишь временной мерой с сомнительным результатом и не избавляет от необходимости модернизировать JS-приложение.
 {% endofftopic %}
 
-С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/nodejs/230_assets/).
+С исходным кодом нашего приложения можно [ознакомиться в репозитории](https://github.com/werf/werf-guides/tree/master/examples/springboot/230_assets/).
 
 Наше фронтэнд-приложение будет состоят из html файла, который будет подгружать JS-скрипты. Те, в свою очередь, при инициализации будут подгружать переменные окружения из файла `/config/env.json` и, затем, загружать список лейблов из API. 
 
@@ -66,7 +66,7 @@ permalink: java_springboot/200_real_apps/30_assets.html
 
 Код html-страницы:
 
-{% snippetcut name="src/index.html" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/index.html" %}
+{% snippetcut name="src/index.html" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/230_assets/src/index.html" %}
 {% raw %}
 ```html
 <!DOCTYPE html>
@@ -88,7 +88,7 @@ permalink: java_springboot/200_real_apps/30_assets.html
 
 JS, отображающий список лейблов и ссылку, зависящую от стенда, на который выкачено приложение:
 
-{% snippetcut name="src/index.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/index.js" %}
+{% snippetcut name="src/index.js" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/230_assets/src/index.js" %}
 {% raw %}
 ```js
 var request = new XMLHttpRequest();
@@ -116,7 +116,7 @@ if (request.status === 200) {
 
 Файл `env.json`, который при выкате на каждый стенд будет подменяться на актуальную для этого стенда версию (о том, как это будет происходить мы поговорим ниже):
 
-{% snippetcut name="src/config/env.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/config/env.json" %}
+{% snippetcut name="src/config/env.json" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/230_assets/src/config/env.json" %}
 {% raw %}
 ```json
 {
@@ -128,7 +128,7 @@ if (request.status === 200) {
 
 Код сборки этого приложения Webpack-ом (обратите внимание, что файл `env.json` просто копируется и никак не применяется!):
 
-{% snippetcut name="webpack.config.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/webpack.config.js" %}
+{% snippetcut name="webpack.config.js" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/230_assets/webpack.config.js" %}
 {% raw %}
 ```js
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -153,7 +153,7 @@ module.exports = {
 
 И добавим команду `build` и необходимые зависимости от webpack в `package.json`:
 
-{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/package.json" %}
+{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/230_assets/package.json" %}
 {% raw %}
 ```json
 {

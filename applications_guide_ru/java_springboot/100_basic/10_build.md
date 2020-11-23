@@ -21,7 +21,7 @@ permalink: java_springboot/100_basic/10_build.html
 
 Реализуем это в виде `Dockerfile`:
 
-{% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/010_build/Dockerfile" %}
+{% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/010_build/Dockerfile" %}
 {% raw %}
 ```Dockerfile
 FROM gradle:jdk8-openj9
@@ -42,7 +42,7 @@ CMD ['java','-jar','/app/demo.jar']
 
 Подключим уже готовый Dockerfile к werf и осуществим сборку. Для этого сделаем в корне репозитория файл `werf.yaml`, описывающий сборку всего проекта.
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
 project: werf-guided-project
@@ -58,7 +58,7 @@ dockerfile: Dockerfile
 
 Начинается `werf.yaml` с обязательной [**секции мета-информации**]({{ site.docsurl }}/documentation/configuration/introduction.html#секция-мета-информации):
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
 project: werf-guided-project
@@ -73,7 +73,7 @@ configVersion: 1
 
 Следующая секция конфигурации, которая и будет основной для сборки: [**image config section**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%81%D0%B5%D0%BA%D1%86%D0%B8%D1%8F-%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B0).
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
