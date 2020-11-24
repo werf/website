@@ -12,4 +12,4 @@ spec:
       - path: /
         backend:
           serviceName: basicapp
-          servicePort: 8080
+          servicePort: 80

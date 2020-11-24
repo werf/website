@@ -12,6 +12,8 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         app: basicapp
     spec:
@@ -28,3 +30,31 @@ spec:
         env:
         - name: "SQLITE_FILE"
           value: "app.db"
+      - name: node-assets
+        image: {{ tuple "node-assets" . | werf_image}}
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/usr/sbin/nginx", "-s", "quit"]
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: env-json
+          mountPath: /www/config/env.json
+          subPath: env.json
+      volumes:
+      - name: env-json
+        configMap:
+          name: basicapp-configmap

@@ -29,15 +29,15 @@ shell:
   setup:
   - cd /app && npm run build
 git:
-- add: /
+- add: /frontend
   to: /app
   stageDependencies:
     install:
-    - "package.json"
-    - "package-lock.json"
-    - "webpack*"
+    - "frontend/package.json"
+    - "frontend/package-lock.json"
+    - "frontend/webpack*"
     setup:
-    - "src/*"
+    - "frontend/src/*"
 ---
 image: node-assets
 from: nginx:stable-alpine
