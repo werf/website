@@ -143,7 +143,7 @@ werf converge --repo registry.mydomain.io/werf-guided-project --set "global.myva
 * определите ключ в переменных окружения для приложения, в текущей сессии консоли (например, `export WERF_SECRET_KEY=634f76ead513e5959d0e03a992372b8e`);
 * пропишите полученный ключ в `Variables` для вашего репозитория в GitLab (раздел `Settings` → `CI/CD`), название переменной должно быть­`WERF_SECRET_KEY`:
 
-![](/applications_guide_ru/images/applications-guide/020-werf-secret-key-in-gitlab.png)
+![](/applications_guide_ru/images/template/100_50_werf_secret_key_in_gitlab.png)
 
 После этого можно задать секретные переменные `access_key` и `secret_key`, например, для работы с S3. Зайдите в режим редактирования секретных значений:
 

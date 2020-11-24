@@ -160,11 +160,9 @@ TEST SUITE: None
 Running time 222.54 seconds
 ```
 
-И увидеть приложение в браузере
+И увидеть приложение в браузере:
 
-TODO: а на каком порту???
-
-![](/applications_guide_ru/images/applications-guide/020-hello-world-in-browser.png)
+![](/applications_guide_ru/images/template/100_30_app_in_browser.png)
 
 <div id="go-forth-button">
     <go-forth url="210_cluster.html" label="Сборка" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

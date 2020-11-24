@@ -24,11 +24,11 @@ permalink: nodejs/200_real_apps/30_assets.html
 
 Реализовать сборку сгенерированных ассетов можно двумя способами:
 
-![](/applications_guide_ru/images/applications-guide/assets-onedocker.png)
+![](/applications_guide_ru/images/template/200_30_assets_onedocker.png)
 
 или
 
-![](/applications_guide_ru/images/applications-guide/assets-twodockers.png)
+![](/applications_guide_ru/images/template/200_30_assets_twodockers.png)
 
 {% offtopic title="Как правильно сделать выбор?" %}
 В первом случае мы собираем один образ, но запускаем его двумя разными способами. Во втором мы делаем два отдельных образа. Чтобы сделать выбор, нужно учитывать:
@@ -344,11 +344,11 @@ import:
 
 Инфраструктуру мы можем организовать двумя способами:
 
-![](/applications_guide_ru/images/applications-guide/assets-deploy-nodejs-1.png)
+![](/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_1.png)
 
 или
 
-![](/applications_guide_ru/images/applications-guide/assets-deploy-nodejs-2.png)
+![](/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_2.png)
 
 В случае организации ассетов первый способ позволяет гибче управлять отдачей статики, с помощью `nginx.conf`, мы воспользуемся этим способом.
 

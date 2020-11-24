@@ -38,5 +38,5 @@ werf отслеживает, как Kubernetes вносит изменения, 
 
 Для отладки полезно понимать, как идёт запрос и как продиагностировать каждый элемент цепочки.
 
-![](/applications_guide_ru/images/applications-guide/debug_http.png)
+![](/applications_guide_ru/images/template/200_20_debug_http.png)
 
