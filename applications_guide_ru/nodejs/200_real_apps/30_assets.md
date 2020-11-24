@@ -9,12 +9,12 @@ permalink: nodejs/200_real_apps/30_assets.html
 - .helm/templates/ingress.yaml
 - .helm/templates/configmap.yaml
 - .werf/nginx.conf
-- src/config/env.json
-- src/index.html
-- src/index.js
-- package.json
-- package-lock.json
-- webpack.config.js
+- frontend/src/config/env.json
+- frontend/src/index.html
+- frontend/src/index.js
+- frontend/package.json
+- frontend/package-lock.json
+- frontend/webpack.config.js
 - werf.yaml
 {% endfilesused %}
 
@@ -67,7 +67,7 @@ permalink: nodejs/200_real_apps/30_assets.html
 
 Код html-страницы:
 
-{% snippetcut name="src/index.html" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/index.html" %}
+{% snippetcut name="src/index.html" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/frontend/src/index.html" %}
 {% raw %}
 ```html
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ permalink: nodejs/200_real_apps/30_assets.html
 
 JS, отображающий список лейблов и ссылку, зависящую от стенда, на который выкачено приложение:
 
-{% snippetcut name="src/index.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/index.js" %}
+{% snippetcut name="src/index.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/frontend/src/index.js" %}
 {% raw %}
 ```js
 var request = new XMLHttpRequest();
@@ -117,7 +117,7 @@ if (request.status === 200) {
 
 Файл `env.json`, который при выкате на каждый стенд будет подменяться на актуальную для этого стенда версию (о том, как это будет происходить мы поговорим ниже):
 
-{% snippetcut name="src/config/env.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/src/config/env.json" %}
+{% snippetcut name="src/config/env.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/frontend/src/config/env.json" %}
 {% raw %}
 ```json
 {
@@ -129,7 +129,7 @@ if (request.status === 200) {
 
 Код сборки этого приложения Webpack-ом (обратите внимание, что файл `env.json` просто копируется и никак не применяется!):
 
-{% snippetcut name="webpack.config.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/webpack.config.js" %}
+{% snippetcut name="webpack.config.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/frontend/webpack.config.js" %}
 {% raw %}
 ```js
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -154,7 +154,7 @@ module.exports = {
 
 И добавим команду `build` и необходимые зависимости от webpack в `package.json`:
 
-{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/package.json" %}
+{% snippetcut name="package.json" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/frontend/package.json" %}
 {% raw %}
 ```json
 {
@@ -169,8 +169,6 @@ module.exports = {
   "author": "Flant",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^6.0.3",
@@ -219,7 +217,7 @@ from: ubuntu:latest
 
 Начнём с создания артефакта: установим необходимые пакеты и выполним сборку ассетов. Генерация ассетов должна происходить в артефакте на стадии `setup`:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/frontend/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -234,22 +232,22 @@ shell:
   setup:
   - cd /app && npm run build
 git:
-- add: /
+- add: /frontend
   to: /app
   stageDependencies:
     install:
-    - "package.json"
-    - "package-lock.json"
-    - "webpack*"
+    - "frontend/package.json"
+    - "frontend/package-lock.json"
+    - "frontend/webpack*"
     setup:
-    - "src/*"
+    - "frontend/src/*"
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 Теперь, когда артефакт собран, соберём образ с nginx, пробросим туда конфиги с помощью [Helm-директивы .Files.Get](https://helm.sh/docs/chart_template_guide/accessing_files/) и импортируем в образ сгенерированные ассеты:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/werf.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -278,10 +276,10 @@ import:
 Для нашего примера это не так критично — мы могли бы и переместить момент добавления файла на другую стадию, но в любом случае лучшей, зарекомендовавшей себя практикой является использование для проброски конфигурации софта именно `.Files.Get`.
 {% endofftopic %}
 
-_Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.werf/nginx.conf)._
+_Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/nodejs/230_assets/.werf/nginx.conf)._
 
 {% offtopic title="Как в итоге выглядит werf.yaml?" %}
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/werf.yaml" %}
 {% raw %}
 ```yaml
 project: werf-guided-project
@@ -315,15 +313,15 @@ shell:
   setup:
   - cd /app && npm run build
 git:
-- add: /
+- add: /frontend
   to: /app
   stageDependencies:
     install:
-    - "package.json"
-    - "package-lock.json"
-    - "webpack*"
+    - "frontend/package.json"
+    - "frontend/package-lock.json"
+    - "frontend/webpack*"
     setup:
-    - "src/*"
+    - "frontend/src/*"
 ---
 image: node-assets
 from: nginx:stable-alpine
@@ -350,15 +348,15 @@ import:
 Инфраструктуру мы можем организовать двумя способами:
 
 <div class="twoaccentedcolumns">
-    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_1.png" /></div>
-    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_2.png" /></div>
+    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/nodejs/200_30_assets_deploy_1.png" /></div>
+    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/nodejs/200_30_assets_deploy_2.png" /></div>
 </div>
 
 В случае организации ассетов первый способ позволяет гибче управлять отдачей статики, с помощью `nginx.conf`, мы воспользуемся этим способом.
 
 С помощью объекта Configmap мы будем пробрасывать в образ с nginx файл `/config/env.json` с актуальными именно для этого окружения данными.
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -427,7 +425,7 @@ spec:
 
 В сам Configmap нужное значение мы будем пробрасывать через глобальный аттрибут:
 
-{% snippetcut name=".helm/templates/configmap.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/configmap.yaml" %}
+{% snippetcut name=".helm/templates/configmap.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/.helm/templates/configmap.yaml" %}
 {% raw %}
 ```yaml
 ---
@@ -446,7 +444,7 @@ data:
 
 А у сервиса укажем оба порта:
 
-{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/.helm/templates/service.yaml" %}
+{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: v1
@@ -469,11 +467,15 @@ spec:
 
 ## Деплой
 
-Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
+Закоммитим изменения в git и воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
 
 ```bash
 werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=http://myverycustomdomain.io"
 ```
+
+Обратите внимание, что мы пробрасываем кастомную настройку (домен) для фронтэнда. Мы воспользовались одним из приёмов конфигурирования шаблона, упоминавшегося в главе "Конфигурирование инфраструктуры в виде кода" — в зависимости от ситуации вы можете аналогично воспользоваться методом с `values.yaml` или же подстановкой секретных переменных.
+
+В реальной жизни настройки встраиваются в CI-процесс, что будет рассмотрено в главе "Работа с инфраструктурой".
 
 <div id="go-forth-button">
     <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
