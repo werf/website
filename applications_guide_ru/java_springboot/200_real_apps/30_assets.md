@@ -192,22 +192,7 @@ module.exports = {
 
 ## Изменения в сборке
 
-
-Описываем изменения в 
-- werf.yaml
-
-
-
-
-
-
-
-
-
-
-
-
-Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого нужно собрать образ с nginx и забросить туда ассеты, предварительно собранные с помощью [механизма артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
+Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого воспользуемся [механизмом артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
 
 {% offtopic title="Что за артефакты?" %}
 [Артефакт]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html) — это специальный образ, используемый в других артефактах или отдельных образах, описанных в конфигурации. Артефакт предназначен преимущественно для отделения инструментов сборки и исходных кодов от финального скомпилированного результата. Так, в экосистеме NodeJS — это webpack, в Java — Maven, в C++ — make, в C# — MSBuild.
@@ -236,6 +221,7 @@ from: ubuntu:latest
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
 ```yaml
+---
 artifact: assets-built
 from: node:14-stretch
 shell:
@@ -259,18 +245,7 @@ git:
 {% endraw %}
 {% endsnippetcut %}
 
-
-
-
-
-
-
-
-
-
-
-
-Теперь, когда артефакт собран, соберём образ с nginx:
+Теперь, когда артефакт собран, соберём образ с nginx и импортируем туда сгенерированные ассеты:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}

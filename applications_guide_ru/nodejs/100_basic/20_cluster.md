@@ -223,9 +223,21 @@ docker login <registry_domain> -u <account_login> -p <account_password>
 
 ## Ingress
 
-TODO: Без nginx-ингресса велик риск, что придётся прописывать `type: NodePort` у всех сервисов и палить, в каком порту теперь его видно.
+Не во всех инсталляциях кластера "из коробки" есть балансер, возможно его придётся дополнительно установить. К примеру:
 
-https://kubernetes.github.io/ingress-nginx/deploy/ — я это тупо поставил, но в клаудах возможно что-то уже стоит, надо уточнить
+- в Minikube нужно [включать addon](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller)
+- в Docker Desktop на MacOs нужно в явном виде [установить nginx ingress вручную](https://kubernetes.github.io/ingress-nginx/deploy/) 
+
+Если этого не сделать, то когда вы в следующей главе будете пытаться открыть в браузере mydomain.io — приложения там не увидите.
+
+{% offtopic title="Как убедиться, что с балансером всё хорошо?" %}
+
+По умолчанию можно считать, что всё хорошо, если не уверены, что тут написано — вернитесь к этому пункту позже.
+
+- Балансер установлен
+- Pod с балансером корректно поднялся (например, для nginx-ingress, это можно посмотреть так: `kubectl -n ingress-nginx get po`)
+- На 80-ом порту (это можно посмотреть с помощью `lsof -n | grep LISTEN`) работает нужное приложение
+{% endofftopic %}
 
 
 <div id="go-forth-button">

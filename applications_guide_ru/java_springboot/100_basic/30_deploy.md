@@ -43,7 +43,7 @@ spec:
       - name: "registrysecret"
       containers:
       - name: basicapp
-        command: ["java","-jar","/app//app/demo.jar"]
+        command: ["java","-jar","/app/demo.jar"]
         image: {{ tuple "basicapp" . | werf_image}}
         workingDir: /app
         ports:
@@ -120,6 +120,8 @@ spec:
 ## Сборка и деплой в кластер
 
 Воспользуемся [командой `converge`](https://ru.werf.io/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. В атрибутах нам нужно будет указать путь до registry (`registry.mydomain.io`) и название проекта (`werf-guided-project`).
+
+Сделайте коммит изменений в репозитории с кодом и затем выполните:
 
 ```bash
 werf converge --repo registry.mydomain.io/werf-guided-project
