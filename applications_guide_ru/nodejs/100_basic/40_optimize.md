@@ -54,7 +54,7 @@ dockerfile: Dockerfile
 - сценарий добавления в финальный образ исходного кода (в `Dockerfile` это было `COPY . .`)
 - установку зависимостей
 
-В последнем, к слову важно, что работа с `apt` и `npm` должна быть реализована в правильных стадиях. Причём важно сказать werf-и, что при изменении файла `package.json` нужно [перезапускать стадию](https://ru.werf.io/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет запускаться `npm ci`).
+В последнем, к слову важно, что работа с `apt` и `npm` должна быть реализована в правильных стадиях. Причём важно сказать werf-и, что при изменении файла `package.json` нужно [перезапускать стадию]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет запускаться `npm ci`).
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
 {% raw %}

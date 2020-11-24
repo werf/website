@@ -21,5 +21,8 @@ import:
   add: /app/build/libs/*.jar
   to: /app/demo.jar
   after: setup
+git:
+- add: /app.db
+  to: /app/app.db
 docker:
   WORKDIR: /app

@@ -24,11 +24,10 @@ permalink: nodejs/200_real_apps/30_assets.html
 
 Реализовать сборку сгенерированных ассетов можно двумя способами:
 
-![](/applications_guide_ru/images/template/200_30_assets_onedocker.png)
-
-или
-
-![](/applications_guide_ru/images/template/200_30_assets_twodockers.png)
+<div class="twoaccentedcolumns">
+    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/template/200_30_assets_onedocker.png" /></div>
+    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/template/200_30_assets_twodockers.png" /></div>
+</div>
 
 {% offtopic title="Как правильно сделать выбор?" %}
 В первом случае мы собираем один образ, но запускаем его двумя разными способами. Во втором мы делаем два отдельных образа. Чтобы сделать выбор, нужно учитывать:
@@ -248,7 +247,7 @@ git:
 {% endraw %}
 {% endsnippetcut %}
 
-Теперь, когда артефакт собран, соберём образ с nginx и импортируем туда сгенерированные ассеты:
+Теперь, когда артефакт собран, соберём образ с nginx, пробросим туда конфиги с помощью [Helm-директивы .Files.Get](https://helm.sh/docs/chart_template_guide/accessing_files/) и импортируем в образ сгенерированные ассеты:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/040-assets/werf.yaml" %}
 {% raw %}
@@ -272,6 +271,12 @@ import:
 ```
 {% endraw %}
 {% endsnippetcut %}
+
+{% offtopic title="Почему мы не импортировали nginx.conf с помощью директивы git?" %}
+Файлы в образе появляются со стадии install, во время beforeInstall файлов из git-а вообще нет в образе.
+
+Для нашего примера это не так критично — мы могли бы и переместить момент добавления файла на другую стадию, но в любом случае лучшей, зарекомендовавшей себя практикой является использование для проброски конфигурации софта именно `.Files.Get`.
+{% endofftopic %}
 
 _Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/040-assets/.werf/nginx.conf)._
 
@@ -344,11 +349,10 @@ import:
 
 Инфраструктуру мы можем организовать двумя способами:
 
-![](/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_1.png)
-
-или
-
-![](/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_2.png)
+<div class="twoaccentedcolumns">
+    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_1.png" /></div>
+    <div class="twoaccentedcolumns__column"><img src="/applications_guide_ru/images/template/200_30_assets_deploy_nodejs_2.png" /></div>
+</div>
 
 В случае организации ассетов первый способ позволяет гибче управлять отдачей статики, с помощью `nginx.conf`, мы воспользуемся этим способом.
 
@@ -465,7 +469,7 @@ spec:
 
 ## Деплой
 
-Воспользуемся [командой `converge`](https://ru.werf.io/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
+Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
 
 ```bash
 werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=http://myverycustomdomain.io"

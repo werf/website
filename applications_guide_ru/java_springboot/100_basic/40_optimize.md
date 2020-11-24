@@ -54,7 +54,7 @@ dockerfile: Dockerfile
 - сценарий добавления в финальный образ исходного кода (в `Dockerfile` это было `COPY . .`)
 - компиляцию исходников в jar
 
-В последнем, к слову важно, что работа с `gradle` должна быть реализована в правильной стадии, когда исходный код уже появился. Причём важно сказать werf-и, что при изменении файлов внутри `src/` нужно [перезапускать стадию](https://ru.werf.io/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет компиляция).
+В последнем, к слову важно, что работа с `gradle` должна быть реализована в правильной стадии, когда исходный код уже появился. Причём важно сказать werf-и, что при изменении файлов внутри `src/` нужно [перезапускать стадию]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет компиляция).
 
 {% snippetcut name="werf.yaml" url="#" %}
 {% raw %}
@@ -83,7 +83,7 @@ docker:
 Здесь используется 4 корневых директивы: `from` — на основании какого образа будет осуществляться сборка; [`git`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/git_directive.html) — описывает импорт данных из репозитория; [`shell`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#shell) — описывает сборку стадий с помощью shell-команд; [`docker`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/docker_directive.html) — инструкции для Docker.
 {% endofftopic %}
 
-Однако, собранный образ получится около 400 мегабайт, из-за наличия приложений, обеспечивающих сборку. Если бы мы использовали образ `openjdk:8-jdk-alpine` — наш финальный образ был бы около 70 мегабайт. Так деплой будет происходить быстрее (особенно, если приложение вырастет в размерах). Воспользуемся [механизмом артефактов](https://ru.werf.io/documentation/advanced/building_images_with_stapel/artifacts.html), чтобы сборку произвести в одном образе, а потом импортировать полученный jar файл в минималистичный контейнер.
+Однако, собранный образ получится около 400 мегабайт, из-за наличия приложений, обеспечивающих сборку. Если бы мы использовали образ `openjdk:8-jdk-alpine` — наш финальный образ был бы около 70 мегабайт. Так деплой будет происходить быстрее (особенно, если приложение вырастет в размерах). Воспользуемся [механизмом артефактов]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/artifacts.html), чтобы сборку произвести в одном образе, а потом импортировать полученный jar файл в минималистичный контейнер.
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/020_optimize_build/werf.yaml" %}
 {% raw %}
