@@ -50,7 +50,7 @@ ____________
 
 {% offtopic title="Варианты синтаксиса werf.yaml" %}
 
-Werf имеет два механизма для сборки: Stapel (поддерживающий синтаксис Ansible и Shell) и Dockerfile (использующий синтаксис Dockerfile).
+werf имеет два механизма для сборки: Stapel (поддерживающий синтаксис Ansible и Shell) и Dockerfile (использующий синтаксис Dockerfile).
 
 **Ansible**
 

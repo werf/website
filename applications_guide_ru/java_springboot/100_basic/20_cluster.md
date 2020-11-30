@@ -105,7 +105,7 @@ users:
 
 {% offtopic title="Мой провайдер не предоставляет registry, как быть?" %}
 
-Вы можете развернуть docker registry самостоятельно или воспользоваться каким-то облачным решением. Werf поддерживает [множество имплементаций]({{ site.docsurl }}/documentation/advanced/supported_registry_implementations.html) 
+Вы можете развернуть docker registry самостоятельно или воспользоваться каким-то облачным решением. werf поддерживает [множество имплементаций]({{ site.docsurl }}/documentation/advanced/supported_registry_implementations.html) 
 
 {% endofftopic %}
 
