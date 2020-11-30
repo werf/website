@@ -7,6 +7,7 @@ permalink: nodejs/200_real_apps/50_files.html
 - .helm/templates/deployment.yaml
 - .helm/secret-values.yaml
 - .helm/values.yaml
+- package.json
 - app.js
 {% endfilesused %}
 
@@ -35,6 +36,7 @@ $ npm install aws-sdk --save
 … и настроим работу с S3 в приложении. Подключение:
 
 {% snippetcut name="src/server/server.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/250_files/app.js" %}
+{% raw %}
 ```js
 // Connection to S3
 var S3 = require('aws-sdk/clients/s3');
@@ -62,11 +64,13 @@ try {
   console.error(e.message);
 }
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 И реализуем API-метод:
 
 {% snippetcut name="src/server/server.js" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/250_files/app.js" %}
+{% raw %}
 ```js
 //// Generate file on S3 ////
 app.get('/api/generate_report', function (req, res) {
@@ -91,11 +95,13 @@ app.get('/api/generate_report', function (req, res) {
   });
 });
 ```
+{% endraw %}
 {% endsnippetcut %}
 
 Переменные окружения нужно будет прописать в объекте Deployment. В итоге файл `deployment.yaml` должен будет принять примерно следующий вид:
 
 {% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% raw %}
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -142,6 +148,7 @@ spec:
         - name: "S3_SECRET_KEY"
           value: "i{z^e9WX"
 ``` 
+{% endraw %}
 {% endsnippetcut %}
 
 ## Конфигурирование приложения
@@ -153,6 +160,7 @@ spec:
 Можно. У вас может получиться что-то вроде:
 
 {% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
+{% raw %}
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -199,6 +207,7 @@ spec:
         - name: "S3_SECRET_KEY"
           value: {{ pluck .Values.global.env .Values.app.s3.password | first | default .Values.app.s3.password._default | quote }}
 ``` 
+{% endraw %}
 {% endsnippetcut %}
 
 Несекретные значения — храним в `values.yaml`:

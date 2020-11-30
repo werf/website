@@ -27,6 +27,8 @@ werf converge --repo registry.mydomain.io/werf-guided-project --follow
 
 Допустим, у вас есть `werf.yaml` с ошибкой: мы пытаемся в образе с `alpine` вызвать пакетный менеджер `apt`, которого там нет:
 
+{% snippetcut name="werf.yaml" url="#" %}
+{% raw %}
 ```yaml
 project: some-project
 configVersion: 1
@@ -39,6 +41,8 @@ shell:
   - apt install -y curl
   - curl ya.ru -v
 ```
+{% endraw %}
+{% endsnippetcut %}
 
 Команда `werf build` в такой ситуации ожидаемо выдаст ошибку:
 
@@ -141,7 +145,8 @@ bash-4.3# exit
 
 С полученным пониманием правильного синтаксиса, который реально сработает в контейнере, исправим `werf.yaml`:
 
-
+{% snippetcut name="werf.yaml" url="#" %}
+{% raw %}
 ```yaml
 project: some-project
 configVersion: 1
@@ -153,6 +158,8 @@ shell:
   - apk --no-cache add curl
   - curl ya.ru -v
 ```
+{% endraw %}
+{% endsnippetcut %}
 
 И перезапустим сборку, которая в этот раз успешно отработает без интроспекции:
 
@@ -177,6 +184,8 @@ werf build --stages-storage :local --introspect-before-error
 
 Допустим, ваш `docker-compose.yml` запускает два образа. Один — ранее собиравшийся через `Dockerfile`, второй — с бд Redis:
 
+{% snippetcut name="docker-compose.yml" url="#" %}
+{% raw %}
 ```yaml
 version: "3.8"
 services:
@@ -189,9 +198,13 @@ services:
   redis:
     image: "redis:alpine"
 ```
+{% endraw %}
+{% endsnippetcut %}
 
 Скорректируйте описание того, откуда берётся образ для `basicapp`, подставив туда переменную окружения, которую сгенерирует werf:
 
+{% snippetcut name="docker-compose.yml" url="#" %}
+{% raw %}
 ```yaml
 version: "3.8"
 services:
@@ -204,6 +217,8 @@ services:
   redis:
     image: "redis:alpine"
 ```
+{% endraw %}
+{% endsnippetcut %}
 
 Для каждого `image` в `werf.yaml` будет доступно по одной переменной вида `$WERF_IMAGE_{НАЗВАНИЕ ОБРАЗА КАПСОМ}`.
 

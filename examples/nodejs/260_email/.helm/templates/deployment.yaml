@@ -32,7 +32,5 @@ spec:
           value: "key-edec40bdee01d7c75cc25aeb1c09145e"
         - name: "MAILGUN_DOMAIN"
           value: "sandboxdad71610c342445aa4ab9bd5fe448eaf.mailgun.org"
-        - name: "MAILGUN_HOST"
-          value: "api.eu.mailgun.net"
         - name: "REPORT_RECIEVER"
-          value: "maicatus@gmail.com"
+          value: "example@gmail.com"
