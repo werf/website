@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3');
+const mailgun = require("mailgun-js");
 
 // Connection to SQLite
 global_errors = [];
@@ -16,6 +17,17 @@ let db = new sqlite3.Database(sqlite_file, (err) => {
   }
   console.log('Connected to SQLite database.');
 });
+// Connection to Mailgun
+let mg;
+try {
+  mg = mailgun({
+    apiKey: process.env.MAILGUN_APIKEY,
+    domain: process.env.MAILGUN_DOMAIN
+  });
+} catch (error) {
+  console.error(error)
+}
+// Errors viewer
 function halt_if_errors(global_errors, http_res) {
   if (global_errors.length) {
     http_res.send(JSON.stringify({
@@ -113,6 +125,36 @@ app.delete('/api/labels/:id', function (req, res) {
       res.send(JSON.stringify({"result": true}));
     }
   });
+});
+//// Generate and send report to email ////
+app.get('/api/send_report', function (req, res) {
+  halt_if_errors(global_errors, res);
+
+  try {
+    email = {
+      from: "Mailgun Sandbox <postmaster@" + process.env.MAILGUN_DOMAIN + ">",
+      to: process.env.REPORT_RECIEVER,
+      subject: "Report @ " + new Date().toISOString(),
+      text: "Here is report: " + new Date().toISOString()
+    }
+    mg.messages().send(email, function(err, body){
+      if (err) {
+        console.error("error while sending e-mail")
+        console.error(err)
+        res.send(JSON.stringify({
+          "result": "error",
+          "comment": err.toString()
+        }));
+      } else {
+        res.send(JSON.stringify({"result": true}));
+      }
+    });
+  } catch (err) {
+    res.send(JSON.stringify({
+      "result": "error",
+      "comment": err.toString()
+    }));
+  }
 });
 ////
 app.listen(3000, function () {
