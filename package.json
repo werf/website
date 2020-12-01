@@ -6,18 +6,25 @@
   "scripts": {
     "DEVELOPMENT": "--------------------------------------",
     "serve": "browser-sync start --config browser-sync.js",
-    "webpack:dev": "DEBUG=1 node_modules/.bin/webpack --watch",
-    "jekyll:dev:ru": "bundle exec jekyll build --config _config.yml,_config_ru.yml --watch --incremental",
-    "jekyll:dev:en": "bundle exec jekyll build --config _config.yml,_config_en.yml --watch --incremental",
-
+    "dev:webpack-build": "DEBUG=1 node_modules/.bin/webpack",
+    "dev:webpack-build-watch": "DEBUG=1 node_modules/.bin/webpack --watch",
+    "dev:jekyll-build:ru": "bundle exec jekyll build --config _config.yml,_config_ru.yml",
+    "dev:jekyll-build-watch:ru": "bundle exec jekyll build --config _config.yml,_config_ru.yml --watch --incremental",
+    "dev:jekyll-build:en": "bundle exec jekyll build --config _config.yml,_config_en.yml",
+    "dev:jekyll-build-watch:en": "bundle exec jekyll build --config _config.yml,_config_en.yml --watch --incremental",
     "PRODUCTION": "--------------------------------------",
-    "build:ru": "npm run webpack:build && npm run jekyll:build:ru",
-    "build:en": "npm run webpack:build && npm run jekyll:build:en",
-
-    "OTHER": "--------------------------------------",
-    "jekyll:build:ru": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_ru --config _config.yml,_config_ru.yml",
-    "jekyll:build:en": "bundle exec jekyll build -s /app -d /app/_site/applications_guide_en --config _config.yml,_config_en.yml",
-    "webpack:build": "SENDMETRICS=1 node_modules/.bin/webpack --progress --hide-modules"
+    "prod:webpack-build:ru": "LANG=ru SENDMETRICS=1 node_modules/.bin/webpack --progress --hide-modules",
+    "prod:webpack-build:en": "LANG=en SENDMETRICS=1 node_modules/.bin/webpack --progress --hide-modules",
+    "prod:jekyll-build:ru": "SENDMETRICS=1 bundle exec jekyll build -s /app -d /app/_site/applications_guide_ru --config _config.yml,_config_ru.yml",
+    "prod:jekyll-build:en": "SENDMETRICS=1 bundle exec jekyll build -s /app -d /app/_site/applications_guide_en --config _config.yml,_config_en.yml",
+    "SHORTCUTS-PRODUCTION": "--------------------------------------",
+    "build:ru": "LANG=ru npm run prod:webpack-build:ru && npm run prod:jekyll-build:ru",
+    "build:en": "LANG=en npm run prod:webpack-build:en && npm run prod:jekyll-build:en",
+    "SHORTCUTS-DEV": "--------------------------------------",
+    "dev:markup:ru": "LANG=ru DEBUG=1 node_modules/.bin/webpack",
+    "dev:markup:en": "LANG=en DEBUG=1 node_modules/.bin/webpack",
+    "dev:ru": "npm run dev:jekyll-build:ru",
+    "dev:en": "npm run dev:jekyll-build:en"
   },
   "keywords": [
     "jekyll",
@@ -28,7 +35,8 @@
   "license": "MIT",
   "dependencies": {
     "idle-vue": "^2.0.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-i18n": "^8.22.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

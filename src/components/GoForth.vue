@@ -1,13 +1,13 @@
 <template>
   <div v-if="!allCompleteCalculated">
     <div v-if="skippedForm">
-      <a :href="url" class="nav-btn">Далее: {{label}}</a>
+      <a :href="url" class="nav-btn">{{ $t('goforth.next') }}: {{label}}</a>
     </div>
     <div v-if="!skippedForm && nextTaskCalculated">
-      <a :href="baseUrl+'/'+guideCode+'/'+nextTaskCalculated.url" class="nav-btn" @click="buttonClicked">Двигаемся дальше: {{nextTaskCalculated.menu_label}}</a>
+      <a :href="baseUrl+'/'+guideCode+'/'+nextTaskCalculated.url" class="nav-btn" @click="buttonClicked">{{ $t('goforth.go_forward') }}: {{nextTaskCalculated.menu_label}}</a>
     </div>
     <div v-if="!skippedForm && ! nextTaskCalculated">
-      <a :href="baseUrl+'/'+guideCode+'/999_complete.html'" class="nav-btn" @click="finalButtonClicked">Отметить последнюю главу решённой</a>
+      <a :href="baseUrl+'/'+guideCode+'/999_complete.html'" class="nav-btn" @click="finalButtonClicked">{{ $t('goforth.mark_as_resolved') }}</a>
     </div>
   </div>
 </template>
@@ -44,11 +44,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-$gray: darkslategrey;
-h1 {
-  color: $gray;
-  font-size: 2rem;
-}
-</style>

@@ -242,16 +242,13 @@ body {
 .landing__framework:hover .landing__framework-logo {
     filter: grayscale(0);
     opacity: 1;
-    transform: translateX(0px);
 }
 
 .landing__framework-logo:nth-child(1) {
-    transform: translateX(-20px);
 }
 
 .landing__framework-logo:nth-child(2) {
     margin-top: 20px;
-    transform: translateX(20px);
 }
 
 .landing__framework .landing__button {

@@ -1,32 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3');
 
-// Connection to SQLite
-global_errors = [];
-let sqlite_file = process.env.SQLITE_FILE;
-if (! sqlite_file) {
-  console.log('Environment variable SQLITE_FILE is not set! I will use in-memory database.');
-  sqlite_file = ':memory:';
+// Connection to Redis
+const Pool = require('pg').Pool
+let client;
+try {
+  client = new Pool({
+    user: process.env.POSTGRESQL_USER,
+    host: process.env.POSTGRESQL_HOST,
+    database: process.env.POSTGRESQL_DB,
+    password: process.env.POSTGRESQL_PASSWORD,
+    port: process.env.POSTGRESQL_PORT,
+  })
+} catch (err) {
+  console.error('connection to PSQL failed')
+  console.error(err);
+  process.exit(1);
 }
-let db = new sqlite3.Database(sqlite_file, (err) => {
-  if (err) {
-    global_errors.append('could not connect to SQLite database')
-    console.error(err.message);
-    process.exit(1);
-  }
-  console.log('Connected to SQLite database.');
-});
-function halt_if_errors(global_errors, http_res) {
-  if (global_errors.length) {
-    http_res.send(JSON.stringify({
-      "result": "error",
-      "comment": global_errors.join("\n")
-    }))
-    process.exit(1);
-  }
-}
-// TODO: check if db has `labels` table
 
 // App main logic //
 let app = express();
@@ -37,9 +27,8 @@ app.get('/', function (req, res) {
 });
 //// Get labels ////
 app.get('/api/labels', function (req, res) {
-  halt_if_errors(global_errors, res);
   let sql = `SELECT * FROM labels`;
-  db.all(sql, [], (err, rows) => {
+  client.query(sql, (err, rows) => {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",
@@ -53,10 +42,8 @@ app.get('/api/labels', function (req, res) {
 });
 //// Add label ////
 app.post('/api/labels', function (req, res) {
-  halt_if_errors(global_errors, res);
-
   let sql = `INSERT INTO \`labels\` (\`label\`) VALUES ('${req.body.label}')`;
-  db.run(sql, [], function (err) {
+  client.query(sql, function (err, rows) {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",
@@ -69,10 +56,8 @@ app.post('/api/labels', function (req, res) {
 });
 //// Get label ////
 app.get('/api/labels/:id', function (req, res) {
-  halt_if_errors(global_errors, res);
-
   let sql = `SELECT * FROM \`labels\` WHERE \`id\` = ${req.params.id}`;
-  db.get(sql, [], (err, row) => {
+  client.query(sql, (err, row) => {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",
@@ -85,10 +70,8 @@ app.get('/api/labels/:id', function (req, res) {
 });
 //// Modify label ////
 app.post('/api/labels/:id', function (req, res) {
-  halt_if_errors(global_errors, res);
-
   let sql = `UPDATE \`labels\` set \`label\`='${req.body.label}' WHERE \`id\` = ${req.params.id}`;
-  db.run(sql, [], (err) => {
+  client.query(sql, (err, rows) => {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",
@@ -101,10 +84,8 @@ app.post('/api/labels/:id', function (req, res) {
 });
 //// Delete label ////
 app.delete('/api/labels/:id', function (req, res) {
-  halt_if_errors(global_errors, res);
-
   let sql = `DELETE from \`labels\` WHERE \`id\` = ${req.params.id}`;
-  db.run(sql, [], (err) => {
+  client.query(sql, (err, rows) => {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",

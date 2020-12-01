@@ -1,0 +1,115 @@
+const en = {
+    of: 'из',
+    progresswidget: {
+      you_should: 'You should',
+      define_targets: 'define your targets',
+      for_better_learning: 'for better learning',
+      target: {
+        become_specialist: 'become more demanded specialist',
+        bring_kubernetes: 'bring kubernetes to my organization',
+        solve_tasks: 'solve tasks in more effective way'
+      },
+      progress: {
+        steps_completed: 'Steps completed',
+        current_step: 'Current step',
+        minutes: 'minutes',
+        help_needed: 'help needed',
+        check_plan: 'check plan',
+        collapse_plan: 'collapse plan',
+        change_plan: 'change plan'
+      },
+    },
+    goforth: {
+      next: 'Next:',
+      go_forward: 'Moving forward',
+      mark_as_resolved: 'Mark last article as resolved'
+    },
+    studentform: {
+      screen1_1: 'Our tutorial is interactive and covers all topics on apps development.',
+      screen1_2: 'Learning all topics would cost a lot of time. That is why our tutorial helps you to choose only important topics.',
+      begin_journey: 'Let\'s begin the journey',
+      just_show_me_the_guide: 'Just show me the guide',
+      screen2_1: 'Passing the tutorial will take a lot of time. To spend it with maximum effect, we should define our goals.',
+      become_specialist: 'Become more demanded specialist',
+      bring_kubernetes: 'Bring kubernetes to my organization',
+      solve_tasks: 'Solve tasks in more effective way',
+      become_specialist_text_1: 'Great! Let\'s focus on improving your skill, so you could add to your resume:',
+      become_specialist_text_2: 'I have skills of configuring infrastructure-as-a-code, cloud native app development, Kubernetes and werf',
+      bring_kuber_text_1: 'Bringing new technology to your organization is complex task. But you can help this process by successfully moving one of your applications to Kubernetes on your own.',
+      solve_tasks_text_1: 'You need to invest your time to improve your skills. Let\'s decide how much time do you have?',
+      wish_text_1: 'Let\'s decide how much time you can invest in skills improvement.',
+      wish_demo_app_button: 'Use tutorial\'s demo app',
+      wish_own_app_button: 'Use my own app, which I want to move to Kubernetes',
+      pass_to_parts_choosing: 'Choose chapters suitable for your application',
+      demo_app_text_1: 'This is a good way to begin your journey with Kubernetes!',
+      demo_app_text_2: 'We have a lot of source code provided with this guide: both the app and infrastructure code for each chapter. You can always compare the state of your source code with examples.',
+      own_app_text_1: 'If you did not work with Kubernetes, this way may be too extreme. You should know what you are doing.',
+      screen3_1: 'You will be able to write in your resume:',
+      screen3_2: 'I have skills of configuring infrastructure-as-a-code, cloud native app development, Kubernetes and werf',
+      screen3_3: 'Let\'s decide chapters you will explore:',
+      estimated_time: 'Estimated time:',
+      hours: ['hour', 'hours', 'hours'],
+      lets_begin: 'Let\'s start',
+      screen4_1: 'Each article starts with',
+      screen4_11: 'list of changed files',
+      screen4_2: 'For offtopics that may help you deeper understanding you may find',
+      screen4_21: 'expandable blocks of text',
+      expanded_example: 'This is just an example of expandable block. Here you will find additional information for curious students.',
+      files_mentioned: 'Files mentioned in article',
+      click_here_to_expand: 'Click here to know more',
+      codeblock_example_text_1: 'You may find code blocks in articles. There you may press on link (for example — ',
+      codeblock_example_text_2: ' and pass to GitHub with full source code. If any of code is missing — it is denoted with ',
+      copy_name: 'copy filename',
+      copy_text: 'copy content',
+      go_to_tutorial: 'To tutorial',
+    },
+    shared: {
+      tasks: {
+        basic: 'introduction',
+        basic_build: 'build docker image',
+        basic_cluster: 'preparing cluster',
+        basic_deploy: 'deploying to cluster',
+        basic_optimize: 'build process optimization',
+        basic_iac: 'infrastructure as a code',
+        real_apps: 'real world apps: introduction',
+        real_apps_local: 'local development',
+        real_apps_debug_iac: 'debugging infrastructure as a code',
+        real_apps_logging: 'logging',
+        real_apps_assets: 'generating assets',
+        real_apps_files: 'storing files',
+        real_apps_email: 'sending email',
+        real_apps_database: 'working with databases'
+      },
+      menu_items: {
+        basic: 'Developer\'s quick start',
+        basic_build: 'Docker image build',
+        basic_cluster: 'Preparing cluster',
+        basic_deploy: 'Deploying to cluster',
+        basic_optimize: 'Build process optimization',
+        basic_iac: 'Infrastructure as a code',
+        real_apps: 'Real world apps',
+        real_apps_local: 'Local development',
+        real_apps_debug_iac: 'Debugging infrastructure as a code',
+        real_apps_logging: 'Logging',
+        real_apps_assets: 'Generating assets',
+        real_apps_files: 'Files storing',
+        real_apps_email: 'Sending email',
+        real_apps_database: 'Using Managed PostgreSQL',
+        real_apps_stateful: 'Stateful app',
+        infra: 'Infrastructure development',
+      },
+      label: {
+        real_apps_local: 'Do you want to work with local cluster?',
+        real_apps_assets: 'Your apps have assets generation (js, css)?',
+        real_apps_files: 'Your apps store files',
+        real_apps_email: 'My apps send e-mails',
+        real_apps_database: 'My apps use database',
+      },
+
+
+    }
+};
+
+export default {
+  en
+}

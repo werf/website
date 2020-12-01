@@ -26,8 +26,7 @@ export default {
 
       let menu_items_all = document.querySelectorAll('[data-subhref]');
       menu_items_all.forEach(function(element) {
-        if (! element.parentElement.classList.contains('sidebar__item_parent'))
-          element.setAttribute('class','unselected');
+        element.setAttribute('class','unselected');
       })
 
       if (this.$data.learningProgress)
@@ -46,11 +45,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-$gray: darkslategrey;
-h1 {
-  color: $gray;
-  font-size: 2rem;
-}
-</style>

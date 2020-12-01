@@ -8,7 +8,7 @@ permalink: nodejs/100_basic/40_optimize.html
 - werf.yaml
 {% endfilesused %}
 
-Воспользуемся ключевыми механизмами werf, позволяющими ускорить сборку: не будем тратить время на пересборку инфраструктуры и зависимостей, если они не изменились, а также научимся переиспользовать кэш с пакетами.
+Воспользуемся ключевыми механизмами werf, позволяющими ускорить сборку: не будем тратить время на пересборку инфраструктуры и зависимостей, если они не изменились.
 
 ## Собираем только то, что нужно
 
@@ -202,5 +202,5 @@ werf converge --repo registry.mydomain.io/werf-guided-project
 Попробуйте менять список зависимостей (просто добавьте какой-нибудь пакет в `package.json`), файл с кодом (`app.js`) или инфраструктуру (добавьте новый аттрибут с произвольным текстом в секцию `metadata:` в файле `deployment.yaml`) и посмотрите, как быстро осуществляется сборка и где используется ранее собранный кусок образа.
 
 <div id="go-forth-button">
-    <go-forth url="210_cluster.html" label="Сборка" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="50_iac.html" label="Конфигурирование инфраструктуры в виде кода" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

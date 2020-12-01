@@ -13,6 +13,7 @@ let db = new sqlite3.Database(sqlite_file, (err) => {
   if (err) {
     global_errors.append('could not connect to SQLite database')
     console.error(err.message);
+    process.exit(1);
   }
   console.log('Connected to SQLite database.');
 });
