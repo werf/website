@@ -2,18 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const redis = require("redis");
 
-// Connection to SQLite
-global_errors = [];
-
+// Connection to Redis
 const host = process.env.REDIS_HOST;
 const port = process.env.REDIS_PORT;
 
 const client = redis.createClient(port, host);
 client.on("error", function(error) {
   console.error(error);
-  // TODO: fall with error
+  process.exit(1)
 });
 //
+global_errors = [];
+
 function halt_if_errors(global_errors, http_res) {
   if (global_errors.length) {
     http_res.send(JSON.stringify({
