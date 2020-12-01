@@ -5,19 +5,15 @@ const redis = require("redis");
 // Connection to SQLite
 global_errors = [];
 
+const host = process.env.REDIS_HOST;
+const port = process.env.REDIS_PORT;
 
-let sqlite_file = process.env.SQLITE_FILE;
-if (! sqlite_file) {
-  console.log('Environment variable SQLITE_FILE is not set! I will use in-memory database.');
-  sqlite_file = ':memory:';
-}
-let db = new sqlite3.Database(sqlite_file, (err) => {
-  if (err) {
-    global_errors.append('could not connect to SQLite database')
-    console.error(err.message);
-  }
-  console.log('Connected to SQLite database.');
+const client = redis.createClient(port, host);
+client.on("error", function(error) {
+  console.error(error);
+  // TODO: fall with error
 });
+//
 function halt_if_errors(global_errors, http_res) {
   if (global_errors.length) {
     http_res.send(JSON.stringify({
@@ -39,16 +35,38 @@ app.get('/', function (req, res) {
 //// Get labels ////
 app.get('/api/labels', function (req, res) {
   halt_if_errors(global_errors, res);
-  let sql = `SELECT * FROM labels`;
-  db.all(sql, [], (err, rows) => {
-    if (err) {
-      res.send(JSON.stringify({
-        "result": "error",
-        "comment": err.toString()
-      }));
-      console.error(err);
-    } else {
-      res.send(JSON.stringify(rows));
+
+  let isSent = false
+  function echoData(data){
+    if (isSent) return;
+    res.send(JSON.stringify(data));
+    isSent = true;
+  }
+
+  let return_dataset = []
+  client.keys('*', function (err, keys) {
+    let i = 0
+    keys.forEach( (l) => {
+      client.get(l, function(err, value) {
+        i++;
+        if (err) {
+          echoData({
+            "result": "error",
+            "comment": err.toString()
+          })
+        } else {
+          return_dataset.push({
+            'id': l,
+            'label': value
+          })
+        }
+        if (i === keys.length) {
+          echoData(return_dataset)
+        }
+      })
+    })
+    if (keys.length===0) {
+      echoData([])
     }
   })
 });
@@ -56,31 +74,35 @@ app.get('/api/labels', function (req, res) {
 app.post('/api/labels', function (req, res) {
   halt_if_errors(global_errors, res);
 
-  let sql = `INSERT INTO \`labels\` (\`label\`) VALUES ('${req.body.label}')`;
-  db.run(sql, [], function (err) {
-    if (err) {
-      res.send(JSON.stringify({
-        "result": "error",
-        "comment": err.toString()
-      }));
-    } else {
-      res.send(JSON.stringify({"id": this.lastID, "label": req.body.label}));
-    }
+  client.keys('*', (err, keys) => {
+    let parsed_keys = keys.map(val => (isNaN(parseInt(val)))? 0 : parseInt(val));
+    let latest_id = Math.max(...parsed_keys);
+    latest_id++;
+
+    client.set(latest_id, req.body.label, function (err) {
+      if (err) {
+        res.send(JSON.stringify({
+          "result": "error",
+          "comment": err.toString()
+        }));
+      } else {
+        res.send(JSON.stringify({"id": latest_id, "label": req.body.label}));
+      }
+    });
   });
 });
 //// Get label ////
 app.get('/api/labels/:id', function (req, res) {
   halt_if_errors(global_errors, res);
 
-  let sql = `SELECT * FROM \`labels\` WHERE \`id\` = ${req.params.id}`;
-  db.get(sql, [], (err, row) => {
+  client.get(req.params.id, function(err, row) {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",
         "comment": err.toString()
       }));
     } else {
-      res.send(JSON.stringify(row));
+      res.send(JSON.stringify({"id": req.params.id, "label": row})); // TODO: check what the hell is returned here
     }
   });
 });
@@ -88,14 +110,14 @@ app.get('/api/labels/:id', function (req, res) {
 app.post('/api/labels/:id', function (req, res) {
   halt_if_errors(global_errors, res);
 
-  let sql = `UPDATE \`labels\` set \`label\`='${req.body.label}' WHERE \`id\` = ${req.params.id}`;
-  db.run(sql, [], (err) => {
+  client.set(req.params.id, req.body.label, function(err) {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",
         "comment": err.toString()
       }));
     } else {
+      // TODO: check what the hell is returned here
       res.send(JSON.stringify({"id": req.params.id, "label": req.body.label}));
     }
   });
@@ -103,9 +125,7 @@ app.post('/api/labels/:id', function (req, res) {
 //// Delete label ////
 app.delete('/api/labels/:id', function (req, res) {
   halt_if_errors(global_errors, res);
-
-  let sql = `DELETE from \`labels\` WHERE \`id\` = ${req.params.id}`;
-  db.run(sql, [], (err) => {
+  client.del(req.params.id, function(err) {
     if (err) {
       res.send(JSON.stringify({
         "result": "error",
