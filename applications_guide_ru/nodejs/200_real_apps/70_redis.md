@@ -1,17 +1,12 @@
 ---
 title: Подключаем Managed Redis
 permalink: nodejs/200_real_apps/70_redis.html
-layout: "development"
 ---
-
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
-- .helm/requirements.yaml
-- .helm/values.yaml
-- .helm/secret-values.yaml
+- package.json
 - app.js
-- .gitlab-ci.yml
 {% endfilesused %}
 
 В этой главе мы настроим в нашем базовом приложении работу с простейшей базой данных типа in-memory — [Redis](https://redis.io/) (другим популярным примером является [memcached](https://memcached.org/)). Это означает, что база данных будет stateless.
