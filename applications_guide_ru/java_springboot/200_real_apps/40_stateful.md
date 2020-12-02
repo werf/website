@@ -1,6 +1,6 @@
 ---
 title: Работа с файлами
-permalink: java_springboot/200_real_apps/40_statefull.html
+permalink: java_springboot/200_real_apps/40_stateful.html
 layout: "development"
 ---
 

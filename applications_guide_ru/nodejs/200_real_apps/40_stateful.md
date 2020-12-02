@@ -1,6 +1,6 @@
 ---
 title: Работа с файлами
-permalink: nodejs/200_real_apps/40_statefull.html
+permalink: nodejs/200_real_apps/40_stateful.html
 layout: "development"
 ---
 

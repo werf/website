@@ -26,16 +26,14 @@ entries:
             url: "200_real_apps/90_logging.html"
           - title: Генерируем и раздаём ассеты
             url: "200_real_apps/30_assets.html"
-          - title: Statefull-приложение
-            url: "200_real_apps/40_statefull.html"
           - title: Работа с файлами
             url: "200_real_apps/50_files.html"
           - title: Работа с электронной почтой
             url: "200_real_apps/60_email.html"
-          - title: Подключаем Managed Redis
-            url: "200_real_apps/70_redis.html"
           - title: Подключаем Managed PostgreSQL
             url: "200_real_apps/80_database.html"
+          - title: Stateful-приложение
+            url: "200_real_apps/40_stateful.html"
 
       - title: Работа с инфраструктурой
         url: "400_infra.html"
