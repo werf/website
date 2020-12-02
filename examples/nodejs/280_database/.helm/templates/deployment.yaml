@@ -26,7 +26,13 @@ spec:
         - containerPort: 3000
           protocol: TCP
         env:
-        - name: "REDIS_PORT"
-          value: "6379"
-        - name: "REDIS_HOST"
-          value: "mydomain.io"
+          - name: "POSTGRESQL_HOST"
+            value: "mydomain.io"
+          - name: "POSTGRESQL_PORT"
+            value: "5432"
+          - name: "POSTGRESQL_DB"
+            value: "postgres"
+          - name: "POSTGRESQL_USER"
+            value: "postgres"
+          - name: "POSTGRESQL_PASSWORD"
+            value: "mysecretpassword"
