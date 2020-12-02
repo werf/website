@@ -17,10 +17,21 @@ spec:
     spec:
       imagePullSecrets:
       - name: "registrysecret"
+      initContainers:
+      - name: wait-postgres
+        image: "foobic/pg_isready:latest"
+        command: ['/scripts/pg_isready.sh']
+        env:
+        - name: HOST
+          value: "mydomain.io"
+        - name: PORT
+          value: "5432"
+        - name: DBNAME
+          value: "postgres"
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]
-        image: {{ tuple "basicapp" . | werf_image}}
+        image: {{ tuple "basicapp" . | werf_image }}
         workingDir: /app
         ports:
         - containerPort: 3000
