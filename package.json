@@ -23,9 +23,9 @@
     "build:en": "npm run prod:webpack-build && npm run prod:jekyll-build:en",
 
     "SHORTCUTS-DEV": "--------------------------------------",
-    "dev:markup": "dev:webpack-build",
-    "dev:ru": "dev:jekyll-build:ru",
-    "dev:en": "dev:jekyll-build:en"
+    "dev:markup": "npm run dev:webpack-build",
+    "dev:ru": "npm run dev:jekyll-build:ru",
+    "dev:en": "npm run dev:jekyll-build:en"
   },
   "keywords": [
     "jekyll",
