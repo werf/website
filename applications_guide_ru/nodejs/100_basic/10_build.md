@@ -26,7 +26,6 @@ permalink: nodejs/100_basic/10_build.html
 ```Dockerfile
 FROM node:14-stretch
 WORKDIR /app
-ENV SQLITE_FILE="app.db"
 COPY . .
 
 RUN apt update
