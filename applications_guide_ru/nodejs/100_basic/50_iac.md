@@ -187,5 +187,5 @@ app:
 Однако, все эти способы выходят за рамки самоучителя и предлагаются к самостоятельному изучению после освоения базовых приёмов.
 
 <div id="go-forth-button">
-    <go-forth url="210_cluster.html" label="Сборка" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="../200_real_apps.html" label="Полноценные приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

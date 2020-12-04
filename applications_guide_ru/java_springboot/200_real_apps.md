@@ -18,5 +18,5 @@ permalink: java_springboot/200_real_apps.html
 Если Ваше приложение, к примеру, хранит файлы на диске и не умеет использовать для этого S3-хранилище — это создаст дополнительные сложности при конфигурировании его в Kubernetes (см. главу "Statefull-приложения"). Зачастую проще переписать приложение, чем создавать дополнительную сложность в инфраструктуре. 
 
 <div id="go-forth-button">
-    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="200_real_apps/10_local.html" label="Организация локальной разработки" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

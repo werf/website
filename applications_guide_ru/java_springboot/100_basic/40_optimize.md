@@ -241,5 +241,5 @@ werf converge --repo registry.mydomain.io/werf-guided-project
 Попробуйте менять список зависимостей (просто добавьте какой-нибудь пакет в зависимости), файл с кодом (`/src/main/java/com/example/demo/DemoApplication.java`) или инфраструктуру (добавьте новый аттрибут с произвольным текстом в секцию `metadata:` в файле `deployment.yaml`) и посмотрите, как быстро осуществляется сборка и где используется ранее собранный кусок образа.
 
 <div id="go-forth-button">
-    <go-forth url="210_cluster.html" label="Сборка" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="50_iac.html" label="Конфигурирование инфраструктуры в виде кода" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

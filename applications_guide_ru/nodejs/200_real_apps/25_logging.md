@@ -1,6 +1,6 @@
 ---
 title: Логгирование
-permalink: nodejs/200_real_apps/90_logging.html
+permalink: nodejs/200_real_apps/25_logging.html
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -59,5 +59,5 @@ kubectl -n werf-guided-project logs <имя Pod-а> -f
 ```
 
 <div id="go-forth-button">
-    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="30_assets.html" label="Генерируем и раздаём ассеты" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

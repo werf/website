@@ -7,133 +7,176 @@ export default {
     this.OWN_APP = "own_app"
     this.config = [
       {
-        code: 'hasKubeCluster',
-        label: 'У меня есть готовый Kubernetes-кластер, связанный с репозиторием',
-        menu_label: 'Подготовка к работе',
-        url: '010_preparing.html',
-        estimated_minutes: 0, // should be overrided
-        spent_minutes: 0,     // will be changed in progress
-        progresstracker_lastsent_minutes: 0,     // will be changed in progress
-        completed: false      // will be changed in progress
-      },
-      {
-        code: 'build',
-        label: 'Сборка образа приложения',
-        menu_label: 'Сборка',
+        code: 'basic',
         hidden: true,
-        url: '020_basic/10_build.html',
+        label: '',
+        menu_label: 'Быстрый старт разработчика',
+        url: '100_basic.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'IaC',
-        label: 'Описание архитектуры приложения как код и деплой',
+        code: 'basic_build',
+        hidden: true,
+        label: '',
+        menu_label: 'Сборка образа',
+        url: '100_basic/10_build.html',
+        estimated_minutes: 0, // should be overrided
+        spent_minutes: 0,     // will be changed in progress
+        progresstracker_lastsent_minutes: 0,     // will be changed in progress
+        completed: false      // will be changed in progress
+      },
+      {
+        code: 'basic_cluster',
+        hidden: true,
+        label: '',
+        menu_label: 'Подготовка кластера',
+        url: '100_basic/20_cluster.html',
+        estimated_minutes: 0, // should be overrided
+        spent_minutes: 0,     // will be changed in progress
+        progresstracker_lastsent_minutes: 0,     // will be changed in progress
+        completed: false      // will be changed in progress
+      },
+      {
+        code: 'basic_deploy',
+        hidden: true,
+        label: '',
+        menu_label: 'Деплой приложения',
+        url: '100_basic/30_deploy.html',
+        estimated_minutes: 0, // should be overrided
+        spent_minutes: 0,     // will be changed in progress
+        progresstracker_lastsent_minutes: 0,     // will be changed in progress
+        completed: false      // will be changed in progress
+      },
+      {
+        code: 'basic_optimize',
+        hidden: true,
+        label: '',
+        menu_label: 'Ускорение сборки',
+        url: '100_basic/40_optimize.html',
+        estimated_minutes: 0, // should be overrided
+        spent_minutes: 0,     // will be changed in progress
+        progresstracker_lastsent_minutes: 0,     // will be changed in progress
+        completed: false      // will be changed in progress
+      },
+      {
+        code: 'basic_iac',
+        hidden: true,
+        label: '',
         menu_label: 'Конфигурирование инфраструктуры в виде кода',
+        url: '100_basic/50_iac.html',
+        estimated_minutes: 0, // should be overrided
+        spent_minutes: 0,     // will be changed in progress
+        progresstracker_lastsent_minutes: 0,     // will be changed in progress
+        completed: false      // will be changed in progress
+      },
+      {
+        code: 'real_apps',
         hidden: true,
-        url: '020_basic/20_iac.html',
+        label: '',
+        menu_label: 'Полноценные приложения',
+        url: '200_real_apps.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'ci',
-        label: 'Построение CI-процесса',
-        menu_label: 'Построение CI-процесса',
+        code: 'real_apps_local',
+        hidden: false,
+        label: 'Вы хотите поднимать кластер и тестировать локально?',
+        menu_label: 'Организация локальной разработки',
+        url: '200_real_apps/10_local.html',
+        estimated_minutes: 0, // should be overrided
+        spent_minutes: 0,     // will be changed in progress
+        progresstracker_lastsent_minutes: 0,     // will be changed in progress
+        completed: false      // will be changed in progress
+      },
+      {
+        code: 'real_apps_debug_iac',
         hidden: true,
-        url: '020_basic/30_ci.html',
+        label: '',
+        menu_label: 'Отладка кода инфраструктуры',
+        url: '200_real_apps/20_debug_iac.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'usingDependencyManagers',
-        menu_label: 'Подключаем зависимости',
-        label: 'В моих приложениях обычно используются менеджеры зависимостей',
-        url: '030_dependencies.html',
+        code: 'real_apps_logging',
+        hidden: true,
+        label: '',
+        menu_label: 'Логгирование',
+        url: '200_real_apps/25_logging.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'hasAssets',
+        code: 'real_apps_assets',
+        hidden: false,
         label: 'В моих приложениях обычно есть ассеты (css, js) и их сборка',
         menu_label: 'Генерируем и раздаём ассеты',
-        url: '040_assets.html',
+        url: '200_real_apps/30_assets.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'hasUserGeneratedFiles',
+        code: 'real_apps_files',
+        hidden: false,
         label: 'Мои приложения обычно хранят файлы на диск',
         menu_label: 'Работа с файлами',
-        url: '050_files.html',
+        url: '200_real_apps/50_files.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'hasEmail',
+        code: 'real_apps_email',
+        hidden: false,
         label: 'Моим приложения нужна отправка данных по e-mail',
         menu_label: 'Работа с электронной почтой',
-        url: '060_email.html',
+        url: '200_real_apps/60_email.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'hasInMemoryDB',
-        label: 'Я хочу использовать in-memory базу данных',
-        menu_label: 'Подключаем Redis',
-        url: '070_redis.html',
-        estimated_minutes: 0, // should be overrided
-        spent_minutes: 0,     // will be changed in progress
-        progresstracker_lastsent_minutes: 0,     // will be changed in progress
-        completed: false      // will be changed in progress
-      },
-      {
-        code: 'hasAnyDB',
+        code: 'real_apps_database',
+        hidden: false,
         label: 'Я хочу использовать базу данных',
-        menu_label: 'Подключаем базу данных',
-        url: '080_database.html',
+        menu_label: 'Подключаем Managed PostgreSQL',
+        url: '200_real_apps/80_database.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'unitTesting',
-        label: 'Я хочу использовать юнит-тесты или линтеры',
-        menu_label: 'Юнит-тесты и Линтеры',
-        url: '090_unittesting.html',
+        code: 'real_apps_stateful',
+        hidden: true,
+        label: '',
+        menu_label: 'Stateful-приложение',
+        url: '200_real_apps/90_stateful.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
         completed: false      // will be changed in progress
       },
       {
-        code: 'multipleApps',
-        label: 'Я обычно храню несколько приложений в одном репозитории',
-        menu_label: 'Несколько приложений в одном репозитории',
-        url: '110_multipleapps.html',
-        estimated_minutes: 0, // should be overrided
-        spent_minutes: 0,     // will be changed in progress
-        progresstracker_lastsent_minutes: 0,     // will be changed in progress
-        completed: false      // will be changed in progress
-      },
-      {
-        code: 'dynamicEnvs',
-        label: 'Хочу иметь возможность выкатывать каждую фичу на отдельный контур',
-        menu_label: 'Динамические окружения',
-        url: '120_dynamicenvs.html',
+        code: 'infra',
+        hidden: true,
+        label: '',
+        menu_label: 'Работа с инфраструктурой',
+        url: '400_infra.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
         progresstracker_lastsent_minutes: 0,     // will be changed in progress
@@ -283,98 +326,91 @@ export default {
       this.estimatedMinutesCalculated = 0;
 
       this.learningProgress = []
-      // hasKubeCluster
-      if (this.chosenParts.includes('hasKubeCluster')) {
-        this._addTask('hasKubeCluster', {
-          label: 'понимание требований к инфраструктуре',
-          estimated_minutes: 30
-        });
-      } else {
-        this._addTask('hasKubeCluster', {
-          label: 'настройка инфраструктуры pet-проекта',
-          estimated_minutes: 120
-        });
-      }
-      // build, IaC, ci - should always be
-      this._addTask('build', {
+
+      // generic
+      this._addTask('basic_build', {
+        label: 'сборка образа',
         hidden: false,
-        estimated_minutes: 60
+        estimated_minutes: 10
       });
-      this._addTask('IaC', {
-        hidden: false,
-        estimated_minutes: 90
-      });
-      this._addTask('ci', {
+      this._addTask('basic_cluster', {
+        label: 'подготовка кластера',
         hidden: false,
         estimated_minutes: 30
       });
-      // usingDependencyManagers
-      if (this.chosenParts.includes('usingDependencyManagers')) {
-        this._addTask('usingDependencyManagers', {
-          label: 'описание инфраструктуры для обновления зависимостей',
-          estimated_minutes: 45
+      this._addTask('basic_deploy', {
+        label: 'деплой в кластер',
+        hidden: false,
+        estimated_minutes: 10
+      });
+      this._addTask('basic_optimize', {
+        label: 'ускорение сборки',
+        hidden: false,
+        estimated_minutes: 20
+      });
+      this._addTask('basic_iac', {
+        label: 'инфраструктура как код',
+        hidden: false,
+        estimated_minutes: 10
+      });
+      this._addTask('real_apps', {
+        label: 'реальные приложения: вводная',
+        hidden: false,
+        estimated_minutes: 5
+      });
+
+      // Локальная разработка
+      if (this.chosenParts.includes('real_apps_local')) {
+        this._addTask('real_apps_local', {
+          label: 'организовать локальную разработку',
+          estimated_minutes: 20
         });
       }
-      // hasAssets
-      if (this.chosenParts.includes('hasAssets')) {
-        this._addTask('hasAssets', {
-          label: 'описание инфраструктуры для сборки ассетов',
-          estimated_minutes: 30
-        });
-      }
-      // hasUserGeneratedFiles
-      if (this.chosenParts.includes('hasUserGeneratedFiles')) {
-        this._addTask('hasUserGeneratedFiles', {
-          label: 'описание инфраструктуры для хранения файлов',
+
+      this._addTask('real_apps_debug_iac', {
+        label: 'отладка конфигурации инфраструктуры',
+        hidden: false,
+        estimated_minutes: 10
+      });
+
+      this._addTask('real_apps_logging', {
+        label: 'правильная организация логов',
+        hidden: false,
+        estimated_minutes: 10
+      });
+
+      // Сборка ассетов
+      if (this.chosenParts.includes('real_apps_assets')) {
+        this._addTask('real_apps_assets', {
+          label: 'сборка ассетов',
           estimated_minutes: 15
         });
       }
-      // hasEmail
-      if (this.chosenParts.includes('hasEmail')) {
-        this._addTask('hasEmail', {
-          label: 'понимание, как работать с e-mail',
-          estimated_minutes: 15
+
+      // Работа с S3
+      if (this.chosenParts.includes('real_apps_files')) {
+        this._addTask('real_apps_files', {
+          label: 'хранение файлов в S3',
+          estimated_minutes: 10
         });
       }
-      // hasInMemoryDB
-      if (this.chosenParts.includes('hasInMemoryDB')) {
-        this._addTask('hasInMemoryDB', {
-          label: 'понимание, как работать с in-memory базой данных',
-          estimated_minutes: 60
+
+      // Работа с почтой
+      if (this.chosenParts.includes('real_apps_email')) {
+        this._addTask('real_apps_email', {
+          label: 'отправка почты',
+          estimated_minutes: 10
         });
       }
-      // hasAnyDB
-      if (this.chosenParts.includes('hasAnyDB')) {
-        this._addTask('hasInMemoryDB', {
-          label: 'понимание, как работать с in-memory базой данных',
-          estimated_minutes: 60
-        });
-        this._addTask('hasAnyDB', {
-          label: 'понимание, как работать с базами данных',
-          estimated_minutes: 90
+
+      // Работа с базами данных
+      if (this.chosenParts.includes('real_apps_database')) {
+        this._addTask('real_apps_database', {
+          label: 'работа с внешними базами данных',
+          estimated_minutes: 20
         });
       }
-      // unitTesting
-      if (this.chosenParts.includes('unitTesting')) {
-        this._addTask('unitTesting', {
-          label: 'запуск и реализация юнит-тестов и линтеров',
-          estimated_minutes: 30
-        });
-      }
-      // multipleApps
-      if (this.chosenParts.includes('multipleApps')) {
-        this._addTask('multipleApps', {
-          label: 'организация монорепозитория',
-          estimated_minutes: 45
-        });
-      }
-      // dynamicEnvs
-      if (this.chosenParts.includes('dynamicEnvs')) {
-        this._addTask('dynamicEnvs', {
-          label: 'организация инфраструктуры для динамических окружений',
-          estimated_minutes: 15
-        });
-      }
+
     },
 
     recalcTasks() {

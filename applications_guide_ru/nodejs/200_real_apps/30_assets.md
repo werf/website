@@ -478,5 +478,5 @@ werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url
 В реальной жизни настройки встраиваются в CI-процесс, что будет рассмотрено в главе "Работа с инфраструктурой".
 
 <div id="go-forth-button">
-    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="50_files.html" label="Работа с файлами" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

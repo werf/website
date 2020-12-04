@@ -18,5 +18,5 @@ permalink: java_springboot/100_basic.html
 Для упрощения задачи, мы не будем обеспечивать сохранность данных в SQLite: при перевыкате приложения данные будут удаляться. Вопросы хранения данных будут рассмотрены в главе "Полноценные приложения".
 
 <div id="go-forth-button">
-    <go-forth url="201_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="100_basic/10_build.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

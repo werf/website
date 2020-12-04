@@ -2,8 +2,7 @@
   <div>
     <div id="first-screen" v-if="currentStep == 1">
       <p>Наш самоучитель — интерактивный и затрагивает все основные темы, связанные с разработкой приложений.</p>
-      <p>TODO: надо отразить смысл структуры. Что у нас три части, первые две вот прям для разрабов третья для инфраструктуры больше и в чём логика. </p>
-      <p><img :src="baseUrl+'/images/applications-guide/navigation.svg'" width="800" /></p>
+      <p><img :src="baseUrl+'/images/template/navigation.svg'" width="800" /></p>
       <p>Изучение всех тем заняло бы очень много времени, поэтому самоучитель поможет вам выбрать только нужные темы и дойти до завершения.</p>
 
       <div class="twoaccentedcolumns">
@@ -135,7 +134,7 @@
       </div>
 
       <div>
-        <div class="button__white" @click="goToPage('010_preparing.html')"><a href="#">Перейти к самоучителю</a></div>
+        <div class="button__white" @click="goToPage('100_basic.html')"><a href="#">Перейти к самоучителю</a></div>
       </div>
 
     </div>

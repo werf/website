@@ -23,7 +23,7 @@ entries:
           - title: Отладка кода инфраструктуры
             url: "200_real_apps/20_debug_iac.html"
           - title: Логгирование
-            url: "200_real_apps/90_logging.html"
+            url: "200_real_apps/25_logging.html"
           - title: Генерируем и раздаём ассеты
             url: "200_real_apps/30_assets.html"
           - title: Работа с файлами
@@ -33,7 +33,7 @@ entries:
           - title: Подключаем Managed PostgreSQL
             url: "200_real_apps/80_database.html"
           - title: Stateful-приложение
-            url: "200_real_apps/40_stateful.html"
+            url: "200_real_apps/90_stateful.html"
 
       - title: Работа с инфраструктурой
         url: "400_infra.html"
