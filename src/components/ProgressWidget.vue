@@ -101,7 +101,7 @@ export default {
         this._setCurrentPageTimer(this.timer_minutes_total)
 
         // проверить, не прошло ли 10 минут и если да то надо стрелять событие
-        if (this._getCurrentPageTrackerMinutes() + 20 < this.timer_minutes_total) {
+        if (this._getCurrentPageTrackerMinutes() + 10 < this.timer_minutes_total) {
           this._setCurrentPageTrackerMinutes(this.timer_minutes_total);
           this._progresstracker_timer_fire(this._getCurrentPageCode(), this.timer_minutes_total);
         }
