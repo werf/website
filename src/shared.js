@@ -328,6 +328,11 @@ export default {
       this.learningProgress = []
 
       // generic
+      this._addTask('basic', {
+        label: 'вводная',
+        hidden: false,
+        estimated_minutes: 5
+      });
       this._addTask('basic_build', {
         label: 'сборка образа',
         hidden: false,
