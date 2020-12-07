@@ -1,38 +1,38 @@
 <template>
   <div class="progresswidget">
     <div v-if="skippedForm">
-      <p>Для большей эффективности желательно <a :href="baseUrl+'/'+guideCode+'/000_task.html'">определиться с целями</a></p>
+      <p>{{ $t('progresswidget.you_should') }} <a :href="baseUrl+'/'+guideCode+'/000_task.html'">{{ $t('progresswidget.define_targets') }}</a> {{ $t('progresswidget.for_better_learning') }}</p>
     </div>
     <div v-if="! skippedForm">
       <div class="progresswidget__target">Цель:
-        <strong v-if="wish===BECOME_SPECIALIST">стать более востребованным специалистом</strong>
-        <strong v-if="wish===BRING_KUBERNETES">принести Kubernetes в компанию</strong>
-        <strong v-if="wish===SOLVE_TASKS">эффективнее решать задачи</strong>
+        <strong v-if="wish===BECOME_SPECIALIST">{{ $t('progresswidget.target.become_specialist') }}</strong>
+        <strong v-if="wish===BRING_KUBERNETES">{{ $t('progresswidget.target.bring_kubernetes') }}</strong>
+        <strong v-if="wish===SOLVE_TASKS">{{ $t('progresswidget.target.solve_tasks') }}</strong>
       </div>
       <div class="progresswidget__progress">
-        Выполнено шагов: <span>{{completedStepsCalculated}}</span> из {{learningProgress.length}}. Решение текущего шага: <div id="minutes_total" :class="'progresswidget__timer '+((timer_minutes_total>=timer_estimated_minutes)?'progresswidget__timer_overtime':'')">{{ timer_minutes_total }}</div> из
-        {{ timer_estimated_minutes }} минут.
+        {{ $t('progresswidget.progress.steps_completed') }}: <span>{{completedStepsCalculated}}</span> {{ $t('of') }} {{learningProgress.length}}. {{ $t('progresswidget.progress.current_step') }}: <div id="minutes_total" :class="'progresswidget__timer '+((timer_minutes_total>=timer_estimated_minutes)?'progresswidget__timer_overtime':'')">{{ timer_minutes_total }}</div> {{ $t('of') }}
+        {{ timer_estimated_minutes }} {{ $t('progresswidget.progress.minutes') }}.
         &nbsp;&nbsp;
         <div :class="'button__blue button__blue_small button__blue_inline '+((timer_minutes_total>=timer_estimated_minutes)?'button__blue_red':'')" @click="goToPage('https://t.me/werf_ru')">
-          <a href="#">нужна помощь</a>
+          <a href="#">{{ $t('progresswidget.progress.help_needed') }}</a>
         </div>
         &nbsp;&nbsp;
         <div class="button__blue button__blue_small button__blue_inline" v-if="!expandedList" @click="expandList">
-          <a href="#">свериться с планом</a>
+          <a href="#">{{ $t('progresswidget.progress.check_plan') }}</a>
         </div>
       </div>
       <div v-if="expandedList" class="learningprogress">
         <div class="learningprogress__checklist">
           <div v-for="el in learningProgress" :class="'learningprogress__row '+(el['completed']?'learningprogress__row_completed':'')">
-            <span class="learningprogress__time">{{el['spent_minutes']}} из {{el['estimated_minutes']}}</span>
+            <span class="learningprogress__time">{{el['spent_minutes']}} {{ $t('of') }} {{el['estimated_minutes']}}</span>
             <span class="learningprogress__label">{{el['label']}}</span>
           </div>
         </div>
         <div class="button__blue button__blue_small button__blue_inline" @click="hideList">
-          <a href="#">свернуть план</a>
+          <a href="#">{{ $t('progresswidget.progress.collapse_plan') }}</a>
         </div>
         <div class="button__blue button__blue_small button__blue_inline" @click="goToPage(baseUrl+'/'+guideCode+'/000_task.html')">
-          <a href="#">изменить план</a>
+          <a href="#">{{ $t('progresswidget.progress.change_plan') }}</a>
         </div>
       </div>
     </div>
@@ -110,11 +110,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-$gray: darkslategrey;
-h1 {
-  color: $gray;
-  font-size: 2rem;
-}
-</style>

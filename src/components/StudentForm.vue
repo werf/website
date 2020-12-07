@@ -1,25 +1,25 @@
 <template>
   <div>
     <div id="first-screen" v-if="currentStep == 1">
-      <p>Наш самоучитель — интерактивный и затрагивает все основные темы, связанные с разработкой приложений.</p>
+      <p>{{ $t('studentform.screen1_1') }}</p>
       <p><img :src="baseUrl+'/images/template/navigation.svg'" width="800" /></p>
-      <p>Изучение всех тем заняло бы очень много времени, поэтому самоучитель поможет вам выбрать только нужные темы и дойти до завершения.</p>
+      <p>{{ $t('studentform.screen1_2') }}</p>
 
       <div class="twoaccentedcolumns">
         <div class="twoaccentedcolumns__column">
           <div class="button__blue" @click="beginJourney()">
-            <a href="#">Начнём путешествие</a>
+            <a href="#">{{ $t('studentform.begin_journey') }}</a>
           </div>
         </div>
         <div class="twoaccentedcolumns__column">
           <div class="button__blue button__blue_notblue" @click="skipForm()">
-            <a href="#">Просто покажите мне материалы</a>
+            <a href="#">{{ $t('studentform.just_show_me_the_guide') }}</a>
           </div>
         </div>
       </div>
     </div>
     <div id="second-screen" v-if="currentStep==2">
-      <p>Прохождение самоучителя целиком займёт некоторое время. Чтобы провести его с максимальной пользой, нужно определиться с задачами, которые вы ставите перед самоучителем.</p>
+      <p>{{ $t('studentform.screen2_1') }}</p>
 
       <div class="wishselectwidget">
         <div class="wishselectwidget__image">
@@ -35,51 +35,51 @@
         </div>
         <div class="wishselectwidget__content">
           <div class="wishselectwidget__button">
-            <div :class="'button__white '+((wish===BECOME_SPECIALIST)?'button__white_chosen':'')" @click="iWantBecomeSpecialist()"><a href="#">Стать более востребованным специалистом</a></div>
+            <div :class="'button__white '+((wish===BECOME_SPECIALIST)?'button__white_chosen':'')" @click="iWantBecomeSpecialist()"><a href="#">{{ $t('studentform.become_specialist') }}</a></div>
           </div>
           <div class="wishselectwidget__button">
-            <div :class="'button__white '+((wish===BRING_KUBERNETES)?'button__white_chosen':'')" @click="iWantBringKuber()"><a href="#">Принести в компанию Kubernetes</a></div>
+            <div :class="'button__white '+((wish===BRING_KUBERNETES)?'button__white_chosen':'')" @click="iWantBringKuber()"><a href="#">{{ $t('studentform.bring_kubernetes') }}</a></div>
           </div>
           <div class="wishselectwidget__button">
-            <div :class="'button__white '+((wish===SOLVE_TASKS)?'button__white_chosen':'')" @click="iWantSolveTasks()"><a href="#">Научиться лучше решать задачи в текущей компании</a></div>
+            <div :class="'button__white '+((wish===SOLVE_TASKS)?'button__white_chosen':'')" @click="iWantSolveTasks()"><a href="#">{{ $t('studentform.solve_tasks') }}</a></div>
           </div>
         </div>
       </div>
 
       <div v-if="wish===BECOME_SPECIALIST">
-        <p>Отлично! Сфокусируемся на том, чтобы вы могли смело написать в своём резюме:</p>
-        <p><i>Владею навыками разработки облачных приложений под Kubernetes, werf и описанием инфраструктуры как код</i></p>
+        <p>{{ $t('studentform.become_specialist_text_1') }}</p>
+        <p><i>{{ $t('studentform.become_specialist_text_2') }}</i></p>
       </div>
       <div v-if="wish===BRING_KUBERNETES">
-        <p>Чтобы компания начала использовать Kubernetes, должно сойтись много факторов. Но вы наверняка поможете этому процессу, если одно из своих приложений перенесёте в качестве демонстрации.</p>
+        <p>{{ $t('studentform.bring_kuber_text_1') }}</p>
       </div>
       <div v-if="wish===SOLVE_TASKS">
-        <p>На то, чтобы освоить навыки, нужно инвестировать некоторое время. Давайте решим, сколько получится его выделить?</p>
+        <p>{{ $t('studentform.solve_tasks_text_1') }}</p>
       </div>
 
       <div v-if="wish>''">
-        <p>Давайте решим, сколько времени получится инвестировать в освоение навыков, наколько глубоко вы хотите погрузиться?</p>
+        <p>{{ $t('studentform.wish_text_1') }}</p>
         <p>
-          <div :class="'button__white '+((usingApp===DEMO_APP)?'button__white_chosen':'')" @click="useApp(DEMO_APP)"><a href="#">Воспользоваться демо-приложением, встроенным в самоучитель</a></div>
+          <div :class="'button__white '+((usingApp===DEMO_APP)?'button__white_chosen':'')" @click="useApp(DEMO_APP)"><a href="#">{{ $t('studentform.wish_demo_app_button') }}</a></div>
         </p>
         <div v-if="usingApp===DEMO_APP">
-          <p>Это хороший путь для того, чтобы начать осваивать Kubernetes!</p>
-          <p>Для прохождения самоучителя предоставляется много исходного кода: как самого приложения, которых будет переноситься в Kubernetes, так и кода инфраструктуры, связанного с каждой главой. Вы всегда можете сверить состояние своих исходников с образцом.</p>
-          <p><div class="button__white button__white_withoffset" @click="passToPartsChoosing()"><a href="#">Перейти к выбору нужных глав самоучителя</a></div></p>
+          <p>{{ $t('studentform.demo_app_text_1') }}</p>
+          <p>{{ $t('studentform.demo_app_text_2') }}</p>
+          <p><div class="button__white button__white_withoffset" @click="passToPartsChoosing()"><a href="#">{{ $t('studentform.pass_to_parts_choosing') }}</a></div></p>
         </div>
         <div>
-          <div :class="'button__white '+((usingApp===OWN_APP)?'button__white_chosen':'')" @click="useApp(OWN_APP)"><a href="#">У меня есть моё приложение, которое я хочу реализовать в Kubernetes</a></div>
+          <div :class="'button__white '+((usingApp===OWN_APP)?'button__white_chosen':'')" @click="useApp(OWN_APP)"><a href="#">{{ $t('studentform.wish_own_app_button') }}</a></div>
         </div>
         <div v-if="usingApp===OWN_APP">
-          <p>Если вы ещё не работали с Kubernetes, этот путь может оказаться слишком сложным. Но если вы знаете, на что идёте — давайте перейдём к делу.</p>
-          <p><div class="button__white button__white_withoffset" @click="passToPartsChoosing()"><a href="#">Перейти к выбору глав, подходящих под ваше приложение</a></div></p>
+          <p>{{ $t('studentform.own_app_text_1') }}</p>
+          <p><div class="button__white button__white_withoffset" @click="passToPartsChoosing()"><a href="#">{{ $t('studentform.pass_to_parts_choosing') }}</a></div></p>
         </div>
       </div>
     </div>
     <div id="parts-choosing-screen" v-if="currentStep==3">
-        <p>Итак, мы хотим, чтобы вы смогли написать в своём резюме:</p>
-        <p><i>Владею навыками разработки облачных приложений под Kubernetes, werf и описанием инфраструктуры как код</i></p>
-        <p>Определимся с главами, которые мы будем изучать:</p>
+        <p>{{ $t('studentform.screen3_1') }}</p>
+        <p><i>{{ $t('studentform.screen3_2') }}</i></p>
+        <p>{{ $t('studentform.screen3_3') }}</p>
         <div class="checkboxesblock">
           <div class="checkboxesblock__item" v-for="el in config">
             <div  v-if="!el.hidden">
@@ -87,9 +87,9 @@
             </div>
           </div>
         </div>
-        <p>Оценочное время на освоение: <span>{{ estimatedHoursCalculated }}</span> {{ _declOfNum(estimatedHoursCalculated, ['час', 'часа', 'часов']) }} (или <span>{{ estimatedDaysCalculated }}</span> {{ _declOfNum(estimatedDaysCalculated, ['увлекательный выходной день', 'увлекательных выходных дня', 'увлекательных выходных дней']) }})</p>
+        <p>{{ $t('studentform.estimated_time') }} <span>{{ estimatedHoursCalculated }}</span> {{ _declOfNum(estimatedHoursCalculated, $t('studentform.hours')) }}</p>
       <div>
-        <div class="button__white" @click="formComplete"><a href="#">Давайте начнём</a></div>
+        <div class="button__white" @click="formComplete"><a href="#">{{ $t('studentform.lets_begin') }}</a></div>
       </div>
     </div>
     <div id="skip-screen" v-if="currentStep==4">

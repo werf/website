@@ -63,7 +63,8 @@ module.exports = {
       debug: process.env.DEBUG,
       send_metrics: process.env.SENDMETRICS,
     }),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.EnvironmentPlugin(['LANG'])
   ],
   resolve: {
     alias: {
