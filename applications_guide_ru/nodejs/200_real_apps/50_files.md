@@ -147,7 +147,7 @@ spec:
           value: "47951_Clarisse"
         - name: "S3_SECRET_KEY"
           value: "i{z^e9WX"
-``` 
+```
 {% endraw %}
 {% endsnippetcut %}
 

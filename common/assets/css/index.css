@@ -1,0 +1,647 @@
+body {
+    margin: 0;
+    min-width: 1260px;
+    overflow-y: scroll;
+}
+
+html, body, .page {
+    height: 100%;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.blueblock {
+  background: #F3F7FF;
+}
+
+.blueblock__container {
+  width: 650px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.blueblock__container_narrow {
+  width: 960px;
+  padding: 1px 0;
+}
+
+.twoaccentedcolumns {
+  display: flex;
+}
+
+.twoaccentedcolumns__column {
+  margin: 0px auto;
+  width: 280px;
+}
+
+.wishselectwidget {
+  display: flex;
+}
+.wishselectwidget__image {
+  width: 130px;
+  text-align: center;
+  margin: 0px 0px 0px 30px;
+}
+.wishselectwidget__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0px 0px 0px 30px;
+}
+.wishselectwidget__button {
+  height: 40px;
+}
+
+  /* ---------------------------------------------------------------------------------------- */
+
+.page {
+  /* font-family: 'Work Sans', sans-serif; */
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.16;
+}
+
+.page__content {
+    min-height: 100%;
+    padding-bottom: 138px;
+    margin-bottom: -138px;
+    box-sizing: border-box;
+}
+
+.page__container {
+    width: 1160px;
+    margin: 0 auto;
+}
+
+.page__btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 240px;
+    height: 56px;
+    border-radius: 15px;
+    text-decoration: none !important;
+    font-size: 18px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+}
+
+.page__btn .page__icon {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+}
+
+.page__btn_b {
+    background-color: #0066ff;
+    color: #fff;
+}
+
+.page__btn_b:hover {
+    color: #0066ff;
+    background-color: #fff;
+}
+
+.page__btn_w {
+    background-color: #ffffff;
+    color: #0066ff;
+}
+
+.page__btn_w:hover{
+    color: #ffffff;
+    background-color: #0066ff;
+}
+
+.page__btn_w:hover .page__icon  {
+    filter: brightness(0) invert(100%);
+}
+
+.page__btn_o {
+    box-sizing: border-box;
+    border: 2px solid rgba(0,102,255,0.1);
+    color: #0066ff;
+}
+
+.page__btn_o:hover {
+    border: 2px solid rgba(0,102,255,0.5);
+}
+
+.page__icon {
+    display: inline-block;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.page__icon_slack {
+    background-image: url('../assets/icons/slack.svg');
+}
+
+.page__icon_telegram {
+    background-image: url('../assets/icons/telegram.svg');
+}
+
+.page__icon_twitter {
+    background-image: url('../assets/icons/twitter.svg');
+}
+
+.page__icon_github {
+    background-image: url('../assets/icons/github.svg');
+}
+
+.page__icon_search {
+    background-image: url('../assets/icons/search.svg');
+}
+
+.page__icon_rss {
+    background-image: url('../assets/icons/rss.svg');
+}
+
+.page__icon_block-title {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 2px;
+}
+
+.page__icon_text {
+    width: 14px;
+    height: 14px;
+    position: relative;
+    top: 2px;
+}
+
+.page__icon_link:hover {
+    filter: brightness(0);
+}
+
+.page__input {
+    padding: 0 24px;
+    margin: 0;
+    box-sizing: border-box;
+    height: 56px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 56px;
+    letter-spacing: -0.3px;
+    background: #f7f9ff;
+    color: #00122c;
+    border: 2px solid rgba(0,102,255,0);
+    outline: none;
+}
+
+.page__input:hover {
+    border: 2px solid rgba(0,102,255,0.4);
+}
+
+.page__input:focus, .page__input:active {
+    border: 2px solid rgba(0,102,255,1);
+}
+
+.page__input::placeholder {
+    color: rgba(0, 18, 44, 0.3);
+}
+
+.page__icon_heart {
+    background-image: url('../assets/icons/heart.png');
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.header__container {
+  margin: 25px 0;
+}
+
+.header__backlink {}
+.header__backlink a {
+  color: #939FB1;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+.header__title {
+  font-weight: bold;
+  font-size: 36px;
+  margin: 0px;
+}
+.header__title span {
+  color: #0066FF;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.footer {
+    width: 1160px;
+    margin: 0 auto;
+    padding-top: 36px;
+    padding-bottom: 66px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.footer__credits {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.71;
+    letter-spacing: -0.3px;
+    color: #00122c;
+}
+
+.footer__credits a {
+    color: #0166FF;
+    text-decoration: none;
+}
+
+.footer__credits a:hover {
+    text-decoration: underline;
+}
+
+.footer__credits .page__icon_heart {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+}
+
+.footer__github {
+    margin-left: 130px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.footer__github-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    filter: brightness(0);
+}
+
+.footer__github-counter {
+    margin-left: 16px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 0 15px;
+    border-radius: 10px;
+    border: solid 2px #f3f8ff;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #00122c;
+    text-decoration: none;
+}
+
+.footer__github-counter::after {
+    content: '';
+    height: 32px;
+    width: 32px;
+    margin-left: 15px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('../assets/icons/star.svg');
+    border-left: solid 2px #f3f8ff;
+}
+
+.footer__github-counter:hover, .footer__github-counter:hover::after {
+    border-color: rgba(0,102,255,0.5);
+}
+
+.footer__github-counter:hover {
+    text-decoration: none;
+}
+
+.footer__gen {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.71;
+    letter-spacing: -0.3px;
+    color: #00122c;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------- */
+
+code {
+    padding: 2px 4px;
+    font-size: 90%;
+    background: #eef2ff;
+    white-space: nowrap;
+    border-radius: 4px;
+}
+
+.popup {
+    display: none;
+    z-index: 1000;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: rgba(50,50,50,0.7);
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup.active {
+    display: flex;
+}
+
+.popup__content {
+    position: relative;
+    box-sizing: border-box;
+    width: 600px;
+    border-radius: 10px;
+    padding: 50px;
+    background: #0166FF;
+    box-shadow: 0 10px 40px 0 rgba(0,18,44,0.1);
+    text-align: center;
+    color: #fff;
+}
+
+.popup__content:before {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 100px;
+    background-image: url('../assets/icons/slack.svg');
+    background-size: contain;
+    filter: brightness(0) invert(100%);
+    position: absolute;
+    top: -30px;
+    left: -30px;
+}
+
+.popup__content:after {
+    content: '';
+    display: block;
+    width: 133px;
+    height: 140px;
+    position: absolute;
+    right: -60px;
+    bottom: -100px;
+    background-repeat: no-repeat;
+    background-image: url(../assets/illustrations/community2.svg);
+    background-position: center;
+}
+
+.popup__text {
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.popup__title {
+    font-size: 24px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-bottom: 30px;
+}
+
+.popup__subtitle {
+    font-size: 20px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-bottom: 5px;
+}
+
+.popup__title a {
+    color: #FFF;
+    opacity: 0.7;
+    text-decoration: none;
+}
+
+.popup__title a:hover {
+    text-decoration: underline;
+}
+
+.popup__btn {
+    width: auto;
+    margin-bottom: 30px;
+}
+
+.popup__close {
+    position: absolute;
+    top: 12.5px;
+    right: 12.5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+}
+
+.popup__close:hover {
+    color: #000;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------- */
+
+.button__blue {
+  background: #0066ff;
+  padding: 10px 20px;
+  text-align: center;
+  /* border-radius */
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  /* box-shadow */
+  -webkit-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+  -moz-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+  box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+  cursor: pointer;
+}
+.button__blue a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.button__blue_small {
+  font-size: 10px;
+}
+
+.button__blue_inline {
+  display: inline;
+  padding: 2px 10px;
+}
+
+.button__blue_notblue {
+  background: none;
+  border: 0px;
+  padding: 10px 5px;
+  /* box-shadow */
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.button__blue_red {
+  background: #E50101;
+  color: #ffffff;;
+  border: 1px solid #E50101;
+}
+
+.button__blue_notblue a {
+  color: #898989;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.button__white {
+  font-size: 14px;
+  background: #ffffff;
+  padding: 5px 20px;
+  text-align: center;
+  border: #0066ff 1px solid;
+  /* border-radius */
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.button__white a {
+  color: #000000;
+  text-decoration: none;
+}
+.button__white:hover,
+.button__white_chosen {
+  background: #0066ff;
+}
+.button__white:hover a,
+.button__white_chosen a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.button__white_withoffset {
+  margin-left: 100px;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.checkboxesblock {
+
+}
+
+.checkboxesblock__item {
+  line-height: 35px;
+  padding-left: 30px;
+}
+
+.checkboxesblock__item input {
+
+}
+
+.checkboxesblock__item label {
+  padding-left: 10px;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.progresswidget {
+  padding: 10px 0px;
+}
+.progresswidget__target {
+  /* line-height: 1.16; */
+}
+.progresswidget__progress {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 10px;
+}
+.progresswidget__progress span {
+  margin: 0 5px;
+  color: #008080;
+}
+.progresswidget__timer {
+  margin: 0 5px;
+  color: #008080;
+  font-weight: bold;
+}
+.progresswidget__timer_overtime {
+  color: #E50101;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.learningprogress {}
+
+.learningprogress__checklist {
+  margin: 10px 0;
+}
+
+.learningprogress__row {}
+
+.learningprogress__row_completed {
+  color: #008080;
+  text-decoration: line-through;
+}
+
+.learningprogress__time {
+  width: 100px;
+  text-align: right;
+  display: inline-block;
+  text-decoration: inherit;
+}
+
+.learningprogress__label {
+  display: inline-block;
+  text-decoration: inherit;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.in-development {
+  display: flex;
+  align-items: center;
+  border: 2px solid #eef2ff;
+  padding: 10px;
+  margin: 5px 0 25px 0;
+}
+
+.in-development__image {
+  background-image: url(/../assets/in_development.png);
+  width: 120px;
+  margin: 10px 20px;
+  background-repeat: no-repeat;
+  height: 100px;
+  background-size: 100px 100px;
+}
+
+.in-development__content {
+  font-size: 20px;
+}
+
+.in-development__content span {
+  color: #0066FF;
+}

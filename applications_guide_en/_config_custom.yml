@@ -1,0 +1,64 @@
+company_name: Flant
+company_url: https://flant.ru
+url: https://werf.io
+site_lang: en
+baseurl: /applications_guide_en
+docsurl: https://werf.io
+
+breadcrumbs:
+  hometext: "Home"
+
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      lang: en
+      comments: true
+      search: true
+      sidebar: sidebar
+      topnav: topnav
+      sitemap_include: true
+      multilang: true
+  - scope:
+      path: "nodejs"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide
+      guide_code: nodejs
+      toc: false
+      label_ci: GitLab
+      label_framework: NodeJS
+  - scope:
+      path: "java_springboot"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide
+      guide_code: java_springboot
+      toc: false
+      label_ci: GitLab
+      label_framework: Springboot
+  - scope:
+      path: "python_django"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide
+      guide_code: python_django
+      toc: false
+      label_ci: GitLab
+      label_framework: Django
+  - scope:
+      path: "rails"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide
+      guide_code: rails
+      toc: false
+      label_ci: GitLab
+      label_framework: Rails
