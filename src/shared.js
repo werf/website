@@ -10,7 +10,7 @@ export default {
         code: 'basic',
         hidden: true,
         label: '',
-        menu_label: 'Быстрый старт разработчика',
+        menu_label: this.$t('shared.menu_items.basic'),
         url: '100_basic.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -21,7 +21,7 @@ export default {
         code: 'basic_build',
         hidden: true,
         label: '',
-        menu_label: 'Сборка образа',
+        menu_label: this.$t('shared.menu_items.basic_build'),
         url: '100_basic/10_build.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -32,7 +32,7 @@ export default {
         code: 'basic_cluster',
         hidden: true,
         label: '',
-        menu_label: 'Подготовка кластера',
+        menu_label: this.$t('shared.menu_items.basic_cluster'),
         url: '100_basic/20_cluster.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -43,7 +43,7 @@ export default {
         code: 'basic_deploy',
         hidden: true,
         label: '',
-        menu_label: 'Деплой приложения',
+        menu_label: this.$t('shared.menu_items.basic_deploy'),
         url: '100_basic/30_deploy.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -54,7 +54,7 @@ export default {
         code: 'basic_optimize',
         hidden: true,
         label: '',
-        menu_label: 'Ускорение сборки',
+        menu_label: this.$t('shared.menu_items.basic_optimize'),
         url: '100_basic/40_optimize.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -65,7 +65,7 @@ export default {
         code: 'basic_iac',
         hidden: true,
         label: '',
-        menu_label: 'Конфигурирование инфраструктуры в виде кода',
+        menu_label: this.$t('shared.menu_items.basic_iac'),
         url: '100_basic/50_iac.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -76,7 +76,7 @@ export default {
         code: 'real_apps',
         hidden: true,
         label: '',
-        menu_label: 'Полноценные приложения',
+        menu_label: this.$t('shared.menu_items.real_apps'),
         url: '200_real_apps.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -86,8 +86,8 @@ export default {
       {
         code: 'real_apps_local',
         hidden: false,
-        label: 'Вы хотите поднимать кластер и тестировать локально?',
-        menu_label: 'Организация локальной разработки',
+        label: this.$t('shared.label.real_apps_local'),
+        menu_label: this.$t('shared.menu_items.real_apps_local'),
         url: '200_real_apps/10_local.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -98,7 +98,7 @@ export default {
         code: 'real_apps_debug_iac',
         hidden: true,
         label: '',
-        menu_label: 'Отладка кода инфраструктуры',
+        menu_label: this.$t('shared.menu_items.real_apps_debug_iac'),
         url: '200_real_apps/20_debug_iac.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -109,7 +109,7 @@ export default {
         code: 'real_apps_logging',
         hidden: true,
         label: '',
-        menu_label: 'Логгирование',
+        menu_label: this.$t('shared.menu_items.real_apps_logging'),
         url: '200_real_apps/25_logging.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -119,8 +119,8 @@ export default {
       {
         code: 'real_apps_assets',
         hidden: false,
-        label: 'В моих приложениях обычно есть ассеты (css, js) и их сборка',
-        menu_label: 'Генерируем и раздаём ассеты',
+        label: this.$t('shared.label.real_apps_assets'),
+        menu_label: this.$t('shared.menu_items.real_apps_assets'),
         url: '200_real_apps/30_assets.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -130,8 +130,8 @@ export default {
       {
         code: 'real_apps_files',
         hidden: false,
-        label: 'Мои приложения обычно хранят файлы на диск',
-        menu_label: 'Работа с файлами',
+        label: this.$t('shared.label.real_apps_files'),
+        menu_label: this.$t('shared.menu_items.real_apps_files'),
         url: '200_real_apps/50_files.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -141,8 +141,8 @@ export default {
       {
         code: 'real_apps_email',
         hidden: false,
-        label: 'Моим приложения нужна отправка данных по e-mail',
-        menu_label: 'Работа с электронной почтой',
+        label: this.$t('shared.label.real_apps_email'),
+        menu_label: this.$t('shared.menu_items.real_apps_email'),
         url: '200_real_apps/60_email.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -152,8 +152,8 @@ export default {
       {
         code: 'real_apps_database',
         hidden: false,
-        label: 'Я хочу использовать базу данных',
-        menu_label: 'Подключаем Managed PostgreSQL',
+        label: this.$t('shared.label.real_apps_database'),
+        menu_label: this.$t('shared.menu_items.real_apps_database'),
         url: '200_real_apps/80_database.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -164,7 +164,7 @@ export default {
         code: 'real_apps_stateful',
         hidden: true,
         label: '',
-        menu_label: 'Stateful-приложение',
+        menu_label: this.$t('shared.menu_items.real_apps_stateful'),
         url: '200_real_apps/90_stateful.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -175,7 +175,7 @@ export default {
         code: 'infra',
         hidden: true,
         label: '',
-        menu_label: 'Работа с инфраструктурой',
+        menu_label: this.$t('shared.menu_items.infra'),
         url: '400_infra.html',
         estimated_minutes: 0, // should be overrided
         spent_minutes: 0,     // will be changed in progress
@@ -329,37 +329,37 @@ export default {
 
       // generic
       this._addTask('basic', {
-        label: 'вводная',
+        label: this.$t('shared.tasks.basic'),
         hidden: false,
         estimated_minutes: 5
       });
       this._addTask('basic_build', {
-        label: 'сборка образа',
+        label: this.$t('shared.tasks.basic_build'),
         hidden: false,
         estimated_minutes: 10
       });
       this._addTask('basic_cluster', {
-        label: 'подготовка кластера',
+        label: this.$t('shared.tasks.basic_cluster'),
         hidden: false,
         estimated_minutes: 30
       });
       this._addTask('basic_deploy', {
-        label: 'деплой в кластер',
+        label: this.$t('shared.tasks.basic_deploy'),
         hidden: false,
         estimated_minutes: 10
       });
       this._addTask('basic_optimize', {
-        label: 'ускорение сборки',
+        label: this.$t('shared.tasks.basic_optimize'),
         hidden: false,
         estimated_minutes: 20
       });
       this._addTask('basic_iac', {
-        label: 'инфраструктура как код',
+        label: this.$t('shared.tasks.basic_iac'),
         hidden: false,
         estimated_minutes: 10
       });
       this._addTask('real_apps', {
-        label: 'реальные приложения: вводная',
+        label: this.$t('shared.tasks.real_apps'),
         hidden: false,
         estimated_minutes: 5
       });
@@ -367,19 +367,19 @@ export default {
       // Локальная разработка
       if (this.chosenParts.includes('real_apps_local')) {
         this._addTask('real_apps_local', {
-          label: 'организовать локальную разработку',
+          label: this.$t('shared.tasks.real_apps_local'),
           estimated_minutes: 20
         });
       }
 
       this._addTask('real_apps_debug_iac', {
-        label: 'отладка конфигурации инфраструктуры',
+        label: this.$t('shared.tasks.real_apps_debug_iac'),
         hidden: false,
         estimated_minutes: 10
       });
 
       this._addTask('real_apps_logging', {
-        label: 'правильная организация логов',
+        label: this.$t('shared.tasks.real_apps_logging'),
         hidden: false,
         estimated_minutes: 10
       });
@@ -387,7 +387,7 @@ export default {
       // Сборка ассетов
       if (this.chosenParts.includes('real_apps_assets')) {
         this._addTask('real_apps_assets', {
-          label: 'сборка ассетов',
+          label: this.$t('shared.tasks.real_apps_assets'),
           estimated_minutes: 15
         });
       }
@@ -395,7 +395,7 @@ export default {
       // Работа с S3
       if (this.chosenParts.includes('real_apps_files')) {
         this._addTask('real_apps_files', {
-          label: 'хранение файлов в S3',
+          label: this.$t('shared.tasks.real_apps_files'),
           estimated_minutes: 10
         });
       }
@@ -403,7 +403,7 @@ export default {
       // Работа с почтой
       if (this.chosenParts.includes('real_apps_email')) {
         this._addTask('real_apps_email', {
-          label: 'отправка почты',
+          label: this.$t('shared.tasks.real_apps_email'),
           estimated_minutes: 10
         });
       }
@@ -411,7 +411,7 @@ export default {
       // Работа с базами данных
       if (this.chosenParts.includes('real_apps_database')) {
         this._addTask('real_apps_database', {
-          label: 'работа с внешними базами данных',
+          label: this.$t('shared.tasks.real_apps_database'),
           estimated_minutes: 20
         });
       }

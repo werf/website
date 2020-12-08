@@ -93,9 +93,9 @@
       </div>
     </div>
     <div id="skip-screen" v-if="currentStep==4">
-      <p>В начале каждой главы мы показываем, <strong>какие файлы будут затронуты</strong>:</p>
+      <p>{{ $t('studentform.screen4_1') }} <strong>{{ $t('studentform.screen4_11') }}</strong>:</p>
       <div class="filesused">
-        <p><strong>Файлы, упомянутые в главе</strong></p>
+        <p><strong>{{ $t('studentform.files_mentioned') }}</strong></p>
         <ul>
           <li>just/an/example.yaml</li>
           <li>of/files.yaml</li>
@@ -105,22 +105,22 @@
         </ul>
       </div>
 
-      <p>Для вещей, выходящих за рамки повествования, но полезных для более полного и глубокого понимания, предусмотрены <strong>схлопывающиеся блоки</strong>, например:</p>
+      <p>{{ $t('studentform.screen4_2') }} <strong>{{ $t('studentform.screen4_21') }}</strong>:</p>
       <div class="details">
-        <p class="details__lnk"><a href="#" class="details__summary" @click="clickExpand">Нажми сюда, чтобы узнать больше</a></p>
+        <p class="details__lnk"><a href="#" class="details__summary" @click="clickExpand">{{ $t('studentform.click_here_to_expand') }}</a></p>
         <div class="expand" v-if="expanded_block">
-            <p>Это просто пример блока, который может раскрываться. Здесь, внутри, будет дополнительная информация для самых любознательных и желающих разобраться в матчасти.</p>
+            <p>{{ $t('studentform.expanded_example') }}</p>
         </div>
       </div>
 
 
-      <p>В коде можно регулярно встретить <strong>блоки с кодом</strong>. Обратите внимание, что они <strong>почти всегда показывают только часть файла</strong>. Куда вставлять этот кусок текста, объясняется в тексте самоучителя, а также вы можете нажать на ссылку (в приведённом ниже примере — <code class="language-plaintext highlighter-rouge">deployment.yaml</code>) и перейти в GitHub с полным исходным кодом файла. Пропущенный текст обозначается с помощью <code class="language-plaintext highlighter-rouge">&lt;...&gt;</code>:</p>
+      <p>{{ $t('studentform.codeblock_example_text_1') }}<code class="language-plaintext highlighter-rouge">deployment.yaml</code>){{ $t('studentform.estimated_time') }}{{ $t('studentform.codeblock_example_text_2') }}<code class="language-plaintext highlighter-rouge">&lt;...&gt;</code>:</p>
 
       <div class="snippetcut" data-snippetcut="">
         <div class="snippetcut__title">
           <span class="snippetcut__title-name-text">deployment.yaml</span>
-          <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-name="">копировать имя</a>
-          <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-text="">копировать текст</a>
+          <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-name="">{{ $t('studentform.copy_name') }}</a>
+          <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-text="">{{ $t('studentform.copy_text') }}</a>
         </div>
         <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="na">containers</span><span class="pi">:</span>
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">basicapp</span>
@@ -134,7 +134,7 @@
       </div>
 
       <div>
-        <div class="button__white" @click="goToPage('100_basic.html')"><a href="#">Перейти к самоучителю</a></div>
+        <div class="button__white" @click="goToPage('100_basic.html')"><a href="#">{{ $t('studentform.go_to_tutorial') }}</a></div>
       </div>
 
     </div>
@@ -234,11 +234,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-$gray: darkslategrey;
-h1 {
-  color: $gray;
-  font-size: 2rem;
-}
-</style>
