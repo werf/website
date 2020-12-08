@@ -1,0 +1,44 @@
+output: web
+
+topnav_title: werf
+site_title: werf
+site_urls:
+  ru: https://ru.werf.io
+  en: https://werf.io
+
+highlighter: rouge
+
+plugins:
+- jekyll-assets
+
+markdown: kramdown
+kramdown:
+ input: GFM
+ hard_wrap: false
+ syntax_highlighter: rouge
+
+breadcrumbs:
+  root:
+    hide: false  # show breadcrumbs on root/home page
+    image: false # Show image or title text
+
+collections:
+  tooltips:
+    output: false
+
+sidebars:
+- documentation
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      lang: en
+      comments: true
+      search: true
+      sidebar: sidebar
+      topnav: topnav
+      sitemap_include: true
+      multilang: true

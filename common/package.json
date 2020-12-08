@@ -1,0 +1,56 @@
+{
+  "name": "werf-guides",
+  "version": "1.0.0",
+  "description": "A starter template for Jekyll projects with Vue.js and Vue Single File Components, complete with webpack.",
+  "main": "index.js",
+  "scripts": {
+    "DEVELOPMENT": "--------------------------------------",
+    "serve": "../browser-sync start --config browser-sync.js",
+    "dev:webpack": "LANG=ru DEBUG=1 node_modules/.bin/webpack --config webpack.config.js",
+    "dev:jekyll": "bundle exec jekyll build --config _config.yml,_config_custom.yml",
+    "PRODUCTION": "--------------------------------------",
+    "prod:webpack": "LANG=ru SENDMETRICS=1 node_modules/.bin/webpack --progress --hide-modules",
+    "prod:jekyll": "SENDMETRICS=1 bundle exec jekyll build --config _config.yml,_config_custom.yml",
+    "SHORTCUTS": "--------------------------------------",
+    "prod:build": "npm run prod:webpack && npm run prod:jekyll"
+  },
+  "keywords": [
+    "jekyll",
+    "vue",
+    "ssg"
+  ],
+  "author": "Igor Tsupko",
+  "license": "MIT",
+  "dependencies": {
+    "idle-vue": "^2.0.5",
+    "vue": "^2.6.11",
+    "vue-i18n": "^8.22.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/register": "^7.9.0",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^8.1.0",
+    "browser-sync": "^2.26.7",
+    "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.5.3",
+    "eslint": "^6.3.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^5.2.3",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2",
+    "vue-loader": "^15.9.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

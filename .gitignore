@@ -8,3 +8,4 @@ _includes/scripts.html
 .jekyll-metadata
 node_modules
 dist
+.DS_Store
