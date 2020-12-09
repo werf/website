@@ -8,7 +8,20 @@ docsurl: https://ru.werf.io
 breadcrumbs:
   hometext: "Начало"
 
+
 defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      lang: en
+      comments: true
+      search: true
+      sidebar: sidebar
+      topnav: topnav
+      sitemap_include: true
+      multilang: true
   - scope:
       path: "nodejs"
       type: "pages"

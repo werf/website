@@ -11,6 +11,13 @@ highlighter: rouge
 plugins:
 - jekyll-assets
 
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - webpack.config.js
+
 markdown: kramdown
 kramdown:
  input: GFM
@@ -28,17 +35,3 @@ collections:
 
 sidebars:
 - documentation
-
-defaults:
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: "default"
-      lang: en
-      comments: true
-      search: true
-      sidebar: sidebar
-      topnav: topnav
-      sitemap_include: true
-      multilang: true

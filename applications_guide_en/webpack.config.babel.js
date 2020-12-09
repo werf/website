@@ -1,1 +1,0 @@
-../common/webpack.config.babel.js

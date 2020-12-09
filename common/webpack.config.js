@@ -1,15 +1,13 @@
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 const path = require('path')
 const webpack = require('webpack') // eslint-disable-line
-// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist',
+    path: path.resolve('./dist'),
+    publicPath: '/applications_guide_'+process.env.LANG+'/dist',
     filename: '[name].[chunkhash].js'
   },
   optimization: {
@@ -57,10 +55,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: './_includes/scripts.html',
-      template: './_includes/_scripts.html',
+      filename: '_includes/scripts.html',
+      template: path.resolve(__dirname, './_include_templates/_scripts.html'),
       debug: process.env.DEBUG,
       send_metrics: process.env.SENDMETRICS,
     }),
