@@ -71,7 +71,7 @@ export default {
       },
       {
         code: 'hasUserGeneratedFiles',
-        label: 'Мои приложения обычно хранят файлы на диск',
+        label: 'Мои приложения обычно хранят файлы на диске',
         menu_label: 'Работа с файлами',
         url: '050_files.html',
         estimated_minutes: 0, // should be overrided
@@ -81,7 +81,7 @@ export default {
       },
       {
         code: 'hasEmail',
-        label: 'Моим приложения нужна отправка данных по e-mail',
+        label: 'Моим приложениям нужна отправка данных по e-mail',
         menu_label: 'Работа с электронной почтой',
         url: '060_email.html',
         estimated_minutes: 0, // should be overrided
