@@ -315,7 +315,7 @@ $ werf run --stages-storage :local --docker-options="-d -p ____________:________
 Если же werf запускается вне Gitlab CI, потребуется:
 
 * Вручную подключиться к GitLab Registry [с помощью `docker login`](https://docs.docker.com/engine/reference/commandline/login/);
-* Установить переменную окружения `WERF_IMAGES_REPO` с путём до Registry (вида `registry.mydomain.io/myproject`);
+* Установить переменную окружения `WERF_IMAGES_REPO` с путём до Registry (вида `registry.example.com/myproject`);
 * Выполнить сборку и загрузку в Registry: `werf build-and-publish`.
 
 Если вы всё правильно сделали, собранный образ появится в Registry. В случае использования Registry от GitLab собранный образ можно увидеть через веб-интерфейс GitLab.

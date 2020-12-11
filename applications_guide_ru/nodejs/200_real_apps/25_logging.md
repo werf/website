@@ -55,7 +55,7 @@ if (critical_error) {
 За отправляемыми логами можно следить через `kubectl`, например:
 
 ```bash
-kubectl -n werf-guided-project logs <имя Pod-а> -f
+kubectl -n werf-guided-nodejs logs <имя Pod-а> -f
 ```
 
 <div id="go-forth-button">

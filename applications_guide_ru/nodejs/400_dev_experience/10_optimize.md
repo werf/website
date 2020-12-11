@@ -1,6 +1,7 @@
 ---
 title: Ускорение сборки
-permalink: nodejs/100_basic/40_optimize.html
+permalink: nodejs/400_dev_experience/10_optimize.html
+layout: "development"
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -97,11 +98,14 @@ git:
 - add: /src
   to: /app
 - url: https://github.com/ariya/phantomjs
+  tag: 2.2.1
   add: /
   to: /src/phantomjs
 ```
 {% endraw %}
 Детали и особенности можно почитать в [документации]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html#работа-с-удаленными-репозиториями).
+
+При использовании удалённых git-репозиториев важно указывать конкретный тег или коммит, чтобы получить детерменированную сборку.
 {% endofftopic %}
 
 - убирать или добавлять код приложения по более сложным сценариям
@@ -170,7 +174,7 @@ from: {{ $base_image }}
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ---
 image: basicapp
@@ -196,7 +200,7 @@ docker:
 Сделайте коммит изменений в репозитории с кодом, затем запустите `converge` и обратите внимание на время сборки
 
 ```bash
-werf converge --repo registry.mydomain.io/werf-guided-project
+werf converge --repo registry.example.com/werf-guided-nodejs
 ```
 
 Попробуйте менять список зависимостей (просто добавьте какой-нибудь пакет в `package.json`), файл с кодом (`app.js`) или инфраструктуру (добавьте новый аттрибут с произвольным текстом в секцию `metadata:` в файле `deployment.yaml`) и посмотрите, как быстро осуществляется сборка и где используется ранее собранный кусок образа.

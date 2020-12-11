@@ -15,6 +15,7 @@ permalink: nodejs/200_real_apps/30_assets.html
 - frontend/package.json
 - frontend/package-lock.json
 - frontend/webpack.config.js
+- Dockerfile.frontend
 - werf.yaml
 {% endfilesused %}
 
@@ -54,7 +55,7 @@ permalink: nodejs/200_real_apps/30_assets.html
 
 Конечно, лучше начать переписывать legacy раньше, чем позже. Но мы понимаем, что это дорогая и сложная задача.
 
-В качестве временной меры _иногда_ можно подставить вместо значения переменных, завязанных на окружение, уникальную строку. К примеру, если в приложение передаётся домен CDN-сервера `cdn_server` со значениями `mycdn0.mydomain.io` / `mycdn0-staging.mydomain.io` — можно вместо этих значений в сборку передать случайный GUID `cdfe0513-ba1f-4f92-8503-48a497d98059`. А в Helm-шаблонах, в init-контейнере, сделать с помощью утилиты [sed](https://ru.wikipedia.org/wiki/Sed) замену GUID'а на нужное именно на этом окружении значение.
+В качестве временной меры _иногда_ можно подставить вместо значения переменных, завязанных на окружение, уникальную строку. К примеру, если в приложение передаётся домен CDN-сервера `cdn_server` со значениями `mycdn0.example.com` / `mycdn0-staging.example.com` — можно вместо этих значений в сборку передать случайный GUID `cdfe0513-ba1f-4f92-8503-48a497d98059`. А в Helm-шаблонах, в init-контейнере, сделать с помощью утилиты [sed](https://ru.wikipedia.org/wiki/Sed) замену GUID'а на нужное именно на этом окружении значение.
 
 Но использование этого или другого «костыля» является лишь временной мерой с сомнительным результатом и не избавляет от необходимости модернизировать JS-приложение.
 {% endofftopic %}
@@ -191,153 +192,51 @@ module.exports = {
 
 ## Изменения в сборке
 
-Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого воспользуемся [механизмом артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
+Для ассетов мы соберём отдельный образ с nginx и ассетами.
 
-{% offtopic title="Что за артефакты?" %}
-[Артефакт]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html) — это специальный образ, используемый в других артефактах или отдельных образах, описанных в конфигурации. Артефакт предназначен преимущественно для отделения инструментов сборки и исходных кодов от финального скомпилированного результата. Так, в экосистеме NodeJS — это webpack, в Java — Maven, в C++ — make, в C# — MSBuild.
+Создадим `Dockerfile`, осуществляющий сборку фронтэнда:
 
-Важный и сложный вопрос — это отладка образов, в которых используются артефакты. Представим себе артефакт:
-
-```yaml
-artifact: my-simple-artifact
-from: ubuntu:latest
-...
-```
-
-Чтобы увидеть, что собирается внутри артефакта, и отладить процесс этой сборки, просто замените первый атрибут на `image` (и не забудьте отключить `mount` в том образе, куда монтируется артефакт):
-
-```yaml
-image: my-simple-artifact
-from: ubuntu:latest
-...
-```
-
-Теперь можно выполнять отладку `my-simple-artifact` с помощью [интроспекции стадий]({{ site.docsurl }}/documentation/reference/development_and_debug/stage_introspection.html).
-{% endofftopic %}
-
-Начнём с создания артефакта: установим необходимые пакеты и выполним сборку ассетов. Генерация ассетов должна происходить в артефакте на стадии `setup`:
-
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/frontend/werf.yaml" %}
+{% snippetcut name="Dockerfile.frontend" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/Dockerfile.frontend" %}
 {% raw %}
-```yaml
----
-artifact: assets-built
-from: node:14-stretch
-shell:
-  beforeInstall:
-  - apt update
-  - apt install -y build-essential tzdata locales
-  install:
-  - cd /app && npm i
-  setup:
-  - cd /app && npm run build
-git:
-- add: /frontend
-  to: /app
-  stageDependencies:
-    install:
-    - "frontend/package.json"
-    - "frontend/package-lock.json"
-    - "frontend/webpack*"
-    setup:
-    - "frontend/src/*"
+```Dockerfile
+FROM node:14-stretch as asset-builder
+WORKDIR /app
+COPY frontend/ .
+RUN apt update
+RUN apt install -y build-essential tzdata locales
+RUN cd /app
+RUN npm i
+RUN ls -la
+RUN cat package.json
+RUN npm run build
+
+###################################
+
+FROM nginx:stable-alpine
+COPY .werf/nginx.conf /etc/nginx/nginx.conf
+COPY --from=asset-builder /app/dist /www
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-Теперь, когда артефакт собран, соберём образ с nginx, пробросим туда конфиги с помощью [Helm-директивы .Files.Get](https://helm.sh/docs/chart_template_guide/accessing_files/) и импортируем в образ сгенерированные ассеты:
+_Исходный код `nginx.conf` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/nodejs/230_assets/.werf/nginx.conf)._
+
+Скорректируем `werf.yaml`, чтобы он собирал не один, а два образа:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/werf.yaml" %}
 {% raw %}
 ```yaml
----
-image: node-assets
-from: nginx:stable-alpine
-shell:
-  beforeInstall:
-  - |
-    head -c -1 <<'EOF' > /etc/nginx/nginx.conf
-    {{ .Files.Get ".werf/nginx.conf" | nindent 4 }}
-    EOF
-import:
-- artifact: assets-built
-  add: /app/dist
-  to: /www
-  after: setup
-```
-{% endraw %}
-{% endsnippetcut %}
-
-{% offtopic title="Почему мы не импортировали nginx.conf с помощью директивы git?" %}
-Файлы в образе появляются со стадии install, во время beforeInstall файлов из git-а вообще нет в образе.
-
-Для нашего примера это не так критично — мы могли бы и переместить момент добавления файла на другую стадию, но в любом случае лучшей, зарекомендовавшей себя практикой является использование для проброски конфигурации софта именно `.Files.Get`.
-{% endofftopic %}
-
-_Исходный код `nginx.conf`` можно [посмотреть в репозитории](https://github.com/werf/werf-guides/tree/master/examples/nodejs/230_assets/.werf/nginx.conf)._
-
-{% offtopic title="Как в итоге выглядит werf.yaml?" %}
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/werf.yaml" %}
-{% raw %}
-```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ---
 image: basicapp
-from: node:14-stretch
-git:
-- add: /
-  to: /app
-  stageDependencies:
-    install:
-    - package.json
-shell:
-  beforeInstall:
-  - apt update
-  - apt install -y tzdata locales
-  install:
-  - cd /app && npm ci
-docker:
-  WORKDIR: /app
----
-artifact: assets-built
-from: node:14-stretch
-shell:
-  beforeInstall:
-  - apt update
-  - apt install -y build-essential tzdata locales
-  install:
-  - cd /app && npm i
-  setup:
-  - cd /app && npm run build
-git:
-- add: /frontend
-  to: /app
-  stageDependencies:
-    install:
-    - "frontend/package.json"
-    - "frontend/package-lock.json"
-    - "frontend/webpack*"
-    setup:
-    - "frontend/src/*"
+dockerfile: Dockerfile
 ---
 image: node-assets
-from: nginx:stable-alpine
-shell:
-  beforeInstall:
-  - |
-    head -c -1 <<'EOF' > /etc/nginx/nginx.conf
-    {{ .Files.Get ".werf/nginx.conf" | nindent 4 }}
-    EOF
-import:
-- artifact: assets-built
-  add: /app/dist
-  to: /www
-  after: setup
+dockerfile: Dockerfile.frontend
 ```
 {% endraw %}
 {% endsnippetcut %}
-{% endofftopic %}
 
 ## Изменения в инфраструктуре и роутинге
 
@@ -466,7 +365,7 @@ spec:
 Закоммитим изменения в git и воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
 
 ```bash
-werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=http://myverycustomdomain.io"
+werf converge --repo localhost:5005/werf-guided-nodejs --set="global.domain_url=http://myverycustomdomain.io"
 ```
 
 Обратите внимание, что мы пробрасываем кастомную настройку (домен) для фронтэнда. Мы воспользовались одним из приёмов конфигурирования шаблона, упоминавшегося в главе "Конфигурирование инфраструктуры в виде кода" — в зависимости от ситуации вы можете аналогично воспользоваться методом с `values.yaml` или же подстановкой секретных переменных.

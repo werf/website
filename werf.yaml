@@ -1,0 +1,53 @@
+{{- $_ := set . "WerfGuidesCommit" (env "GUIDE_SHA") }}
+
+configVersion: 1
+project: werfio-guides
+---
+artifact: guide-ru
+from: jekyll/builder:4
+shell:
+  install:
+    - apk add --update nodejs npm
+  beforeSetup:
+    - export PATH=/usr/jekyll/bin/:$PATH
+    - cd /app/common
+    - bundle install --frozen
+    - cd /app/applications_guide_ru
+    - npm install
+  setup:
+    - cd /app/applications_guide_ru
+    - npm run dev:webpack
+    - npm run dev:jekyll
+git:
+- add: /
+  to: /app
+  excludePaths:
+  - 'examples'
+  - 'applications_guide_en'
+  stageDependencies:
+    beforeSetup:
+    - 'common/Gemfile'
+    - 'common/Gemfile.lock'
+    - 'common/package.json'
+    - 'common/package-lock.json'
+    setup:
+    - 'common/*'
+    - 'applications_guide_ru/*'
+---
+image: frontend
+from: nginx:stable-alpine
+shell:
+  beforeInstall:
+  - |
+    head -c -1 <<'EOF' > /etc/nginx/nginx.conf
+    {{ .Files.Get ".werf/nginx.conf" | nindent 4 }}
+    EOF
+import:
+  - artifact: guide-ru
+    add: /app/applications_guide_ru/_site
+    to: /app/applications_guide_ru
+    before: setup
+#  - artifact: guide-en
+#    add: /app/applications_guide_en/_site
+#    to: /app/applications_guide_en
+#    before: setup

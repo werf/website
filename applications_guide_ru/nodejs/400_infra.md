@@ -33,10 +33,10 @@ YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0
 
 В самоучителе мы будем использовать следующие домены:
 
-- mydomain.io — направлен на кластер;
-- *.mydomain.io — направлены на кластер;
-- registry.mydomain.io — для GitLab Registry;
-- gitlab.mydomain.io — для GitLab.
+- example.com — направлен на кластер;
+- *.example.com — направлены на кластер;
+- registry.example.com — для GitLab Registry;
+- gitlab.example.com — для GitLab.
 
 
 
@@ -46,7 +46,7 @@ YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0
 
 Помните мы создавали регистрисекреты
 
-Обычно для каждого стенда (production, staging, test и т.п.) и приложения используется отдельное пространство имён. Таким образом, для приложения `werf-guided-project` будут созданы пространства имён `werf-guided-project-production`, `werf-guided-project-staging` и т.п.
+Обычно для каждого стенда (production, staging, test и т.п.) и приложения используется отдельное пространство имён. Таким образом, для приложения `werf-guided-nodejs` будут созданы пространства имён `werf-guided-nodejs-production`, `werf-guided-nodejs-staging` и т.п.
 
 {% offtopic title="Это каждый раз копировать руками?" %}
 
@@ -91,7 +91,7 @@ kubectl create secret docker-registry registrysecret -n <namespace> --docker-ser
 
 Здесь:
 
-- `<namespace>` — название пространства имён в Kubernetes (например, `werf-guided-project-production`);
+- `<namespace>` — название пространства имён в Kubernetes (например, `werf-guided-nodejs-production`);
 - `<registry_domain>` — домен Registry (например, `registry.gitlab.com`);
 - `<account_email>` — email вашей учётной записи в GitLab;
 - `<account_password>` — созданный API-ключ.
