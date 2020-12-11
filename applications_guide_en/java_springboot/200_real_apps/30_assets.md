@@ -253,8 +253,6 @@ git:
 ---
 image: node-assets
 from: nginx:stable-alpine
-docker:
-  EXPOSE: '80'
 shell:
   beforeInstall:
   - |
@@ -334,8 +332,6 @@ git:
 ---
 image: node-assets
 from: nginx:stable-alpine
-docker:
-  EXPOSE: '80'
 shell:
   beforeInstall:
   - |
