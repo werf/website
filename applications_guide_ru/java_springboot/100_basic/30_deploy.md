@@ -88,7 +88,7 @@ spec:
 
 ## Ingress
 
-Объект Ingress позволяет организовать маршрутизацию трафика на созданный Service для нужного домена (в нашем примере — `mydomain.io`).
+Объект Ingress позволяет организовать маршрутизацию трафика на созданный Service для нужного домена (в нашем примере — `example.com`).
 
 {% offtopic title="Что за объект Ingress и как он связан с балансировщиком?" %}
 Возможна коллизия терминов:
@@ -110,7 +110,7 @@ metadata:
   name: basicapp
 spec:
   rules:
-  - host: mydomain.io
+  - host: example.com
     http:
       paths:
       - path: /
@@ -123,12 +123,12 @@ spec:
 
 ## Выкат в кластер
 
-Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.mydomain.io/werf-guided-project`.
+Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-project`.
 
 Сделайте коммит изменений в репозитории с кодом и затем выполните:
 
 ```bash
-werf converge --repo registry.mydomain.io/werf-guided-project
+werf converge --repo registry.example.com/werf-guided-project
 ```
 
 В результате вы должны увидеть логи примерно такого вида:

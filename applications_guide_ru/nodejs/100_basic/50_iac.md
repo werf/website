@@ -72,7 +72,7 @@ spec:
 Основной способ, который мы рекомендуем для конфигурирования — CLI-параметр ` --env`, который можно указать при вызове `converge`, например:
 
 ```bash
-werf converge --repo registry.mydomain.io/werf-guided-project --env production
+werf converge --repo registry.example.com/werf-guided-project --env production
 ```
 
 Передаваемый параметр, который указывает на стенд, будет доступна:
@@ -130,7 +130,7 @@ app:
 Второй вариант подразумевает **задание переменных через CLI**. Например, в `converge` можно передать нужное значение 
 
 ```bash
-werf converge --repo registry.mydomain.io/werf-guided-project --set "global.myvariable=somevalue"
+werf converge --repo registry.example.com/werf-guided-project --set "global.myvariable=somevalue"
 ```
 
 И можно будет использовать это значение в шаблонах:

@@ -33,10 +33,10 @@ YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0
 
 В самоучителе мы будем использовать следующие домены:
 
-- mydomain.io — направлен на кластер;
-- *.mydomain.io — направлены на кластер;
-- registry.mydomain.io — для GitLab Registry;
-- gitlab.mydomain.io — для GitLab.
+- example.com — направлен на кластер;
+- *.example.com — направлены на кластер;
+- registry.example.com — для GitLab Registry;
+- gitlab.example.com — для GitLab.
 
 
 
