@@ -6,14 +6,10 @@ entries:
         sf:
           - title: Сборка образа
             url: "100_basic/10_build.html"
-          - title: Подготовка кластера
+          - title: Подготовка окружения
             url: "100_basic/20_cluster.html"
           - title: Деплой приложения
             url: "100_basic/30_deploy.html"
-          - title: Ускорение сборки
-            url: "100_basic/40_optimize.html"
-          - title: Конфигурирование инфраструктуры в виде кода
-            url: "100_basic/50_iac.html"
 
       - title: Полноценные приложения
         url: "200_real_apps.html"
@@ -32,8 +28,12 @@ entries:
             url: "200_real_apps/60_email.html"
           - title: Подключаем Managed PostgreSQL
             url: "200_real_apps/80_database.html"
+          - title: Ускорение доставки
+            url: "100_basic/40_optimize.html"
           - title: Stateful-приложение
             url: "200_real_apps/90_stateful.html"
+          - title: Организация не локальной разработки
+            url: "100_basic/50_iac.html"
 
       - title: Работа с инфраструктурой
         url: "400_infra.html"
