@@ -7,8 +7,10 @@
 [Установите minikube](https://minikube.sigs.k8s.io/docs/start/) и запустите его:
 
 ```bash
-minikube start
+minikube start --driver=docker
 ```
+
+**ВАЖНО:** Если minikube уже запущен в вашей системе, то надо удостоверится, что используется driver под названием `docker`. Если нет, то требуется перезапустить minikube с помощью команды `minikube delete` и команды для старта, показанной выше.
 
 В результате автоматически будет создан файл `.kube/config` с ключами доступа к локальному кластеру и werf сможет подключиться к локальному registry.
 
@@ -41,15 +43,17 @@ kubectl get ns
 minikube addons enable registry
 ```
 
-Запустите registry с привязкой к порту 5000: 
-```bash
-kubectl -n kube-system expose rc/registry --type=ClusterIP --port=5000 --target-port=5000 --name=werf-registry --selector='actual-registry=true'
-```
+И далее, в зависимости от ОС:
 
-В отдельном терминале пробросьте порт:
-```bash
-kubectl port-forward --namespace kube-system service/werf-registry 5000
-```
+{% offtopic title="Windows" %}
+{% include_relative 20_cluster_minikube_registry_win.md %}
+{% endofftopic %}
+{% offtopic title="MacOS" %}
+{% include_relative 20_cluster_minikube_registry_macos.md %}
+{% endofftopic %}
+{% offtopic title="Linux" %}
+{% include_relative 20_cluster_minikube_registry_linux.md %}
+{% endofftopic %}
 
 ### Hosts
 
