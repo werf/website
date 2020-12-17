@@ -52,6 +52,23 @@ permalink: nodejs/100_basic/20_cluster.html
 {% include_relative 20_cluster_has_cluster.md %}
 {% endexpandonclick %}
 
+## Финальные проверки
+
+Если вы уже убедились в работоспособности самого кластера — пришло время проверить registry и ingress:
+
+```bash
+docker tag ubuntu:18.04 registry.example.com/ubuntu:18.04
+docker push registry.example.com/ubuntu:18.04
+```
+
+Должен успешно загрузить образ Ubuntu в registry и не выдать ошибку.
+
+```bash
+curl example.com
+```
+
+Должен выдать страницу ошибки nginx ingress (если вы ещё не задеплоили приложения в кластер).
+
 <div id="go-forth-button">
     <go-forth url="30_deploy.html" label="Деплой приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

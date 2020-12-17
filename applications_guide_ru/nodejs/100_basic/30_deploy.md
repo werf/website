@@ -5,6 +5,7 @@ permalink: nodejs/100_basic/30_deploy.html
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
+- .helm/templates/secret.yaml
 - .helm/templates/ingress.yaml
 - .helm/templates/service.yaml
 {% endfilesused %}
@@ -63,6 +64,46 @@ spec:
 Обратите внимание на конструкцию {% raw %}`image: {{ tuple "basicapp" . | werf_image }}`{% endraw %} — с помощью неё подставляется актуальное имя образа (`REPO:TAG`).
 
 werf пересобирает контейнеры только при необходимости, если есть изменения в связанных файлах в git или в конфигурации werf.yaml. Аналогично, werf отслеживает изменение образов, и делает так, чтобы перевыкат Pod-а так же только при необходимости.
+
+## Secret
+
+Kubernetes-кластер самостоятельно вытаскивает образы из registry. Для этого ему нужно авторизоваться с помощью логина и пароля (вы сталкивались с ними в главе "Подготовка окружения"). Эти логин и пароль мы сообщаем кластеру с помощью объекта Secret (мы упомянули его ранее, в Deployment-е: `imagePullSecrets` - `registrysecret`). Опишем, как вам сформировать свой файл `secret.yaml`.
+
+Допустим, ваш логин `admin`, и пароль тоже `admin`. Зашифруем их с помощью base64:
+
+```bash
+echo -n "admin:admin" | base64
+```
+
+В результате получаем строку `YWRtaW46YWRtaW4=`. Её мы используем, чтобы сформировать подобную JSON:
+
+```json
+{"auths":{"localhost":{"username":"admin","password":"admin","email":"admin","auth":"YWRtaW46YWRtaW4="}}}
+```
+
+И зашифруем его:
+
+```bash
+echo -n '{"auths":{"localhost":{"username":"admin","password":"admin","email":"admin","auth":"YWRtaW46YWRtaW4="}}}' | base64
+```
+
+Получаем строку `eyJhdXRocyI6eyJsb2NhbGhvc3QiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluIiwiYXV0aCI6IllXUnRhVzQ2WVdSdGFXND0ifX19`.
+
+Которую мы сможем использовать в своём `secret.yaml`:
+
+{% snippetcut name=".helm/templates/secret.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/.helm/templates/secret.yaml" %}
+{% raw %}
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: registrysecret
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJsb2NhbGhvc3QiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluIiwiYXV0aCI6IllXUnRhVzQ2WVdSdGFXND0ifX19
+```
+{% endraw %}
+{% endsnippetcut %}
 
 ## Service
 

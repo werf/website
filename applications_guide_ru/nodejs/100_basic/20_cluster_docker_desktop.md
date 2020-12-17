@@ -47,9 +47,13 @@ kubectl port-forward --address 0.0.0.0 -n ingress-nginx ingress-nginx-controller
 
 ### Registry
 
-TODO: поднять регистри тупо докером рядышком
+Docker Desktop не содержит встроенного registry. Самый простой способ — это запустить его вручную, как docker образ:
 
-TODO: доступ куба от докер десктоп в регистри (???)
+```bash
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+```
+
+Обратите внимание, что в этом случае по умолчанию registry будет работать без SSL-шифрования. А значит, при работе с werf надо будет добавлять [параметр](https://werf.io/documentation/reference/cli/werf_managed_images_add.html#options) `--insecure-registry=true`.
 
 ### Hosts
 
