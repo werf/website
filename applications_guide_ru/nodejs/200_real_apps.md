@@ -1,5 +1,5 @@
 ---
-title: Полноценные приложения
+title: Реалистичные приложения
 permalink: nodejs/200_real_apps.html
 ---
 

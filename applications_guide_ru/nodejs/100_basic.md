@@ -1,5 +1,5 @@
 ---
-title: Быстрый старт разработчика
+title: Первые шаги
 permalink: nodejs/100_basic.html
 ---
 

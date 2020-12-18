@@ -87,7 +87,11 @@ echo -n "admin:admin" | base64
 echo -n '{"auths":{"localhost":{"username":"admin","password":"admin","email":"admin","auth":"YWRtaW46YWRtaW4="}}}' | base64
 ```
 
-Получаем строку `eyJhdXRocyI6eyJsb2NhbGhvc3QiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluIiwiYXV0aCI6IllXUnRhVzQ2WVdSdGFXND0ifX19`.
+Получаем строку 
+
+```
+eyJhdXRocyI6eyJsb2NhbGhvc3QiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluIiwiYXV0aCI6IllXUnRhVzQ2WVdSdGFXND0ifX19
+```
 
 Которую мы сможем использовать в своём `secret.yaml`:
 
@@ -165,6 +169,14 @@ spec:
 ## Выкат в кластер
 
 Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-project`.
+
+{% offtopic title="Как будут храниться образы в репозитории?" %}
+При организации деплоя без использования werf зачастую приходится формализовать принципы, по которым именуются образы в Registry. В нашем случае об этом нет необходимости думать — werf берёт организацию тегирования на себя.
+
+werf реализует content-based тегирование: образы меняются и выкатываются автоматически, если меняется состояние контента в git.
+
+Если вы хотите узнать подробности — читайте [в документации]({{ site.docsurl }}/documentation/internals/stages_and_storage.html#%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D1%82%D0%B0%D0%B4%D0%B8%D0%B9) и [статье на medium](https://medium.com/flant-com/content-based-tagging-in-werf-eb96d22ac509).
+{% endofftopic %}
 
 Сделайте коммит изменений в репозитории с кодом и затем выполните:
 

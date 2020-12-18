@@ -1,7 +1,7 @@
 entries:
   ru:
     f:
-      - title: Быстрый старт разработчика
+      - title: Первые шаги
         url: "100_basic.html"
         sf:
           - title: Сборка образа
@@ -11,7 +11,7 @@ entries:
           - title: Деплой приложения
             url: "100_basic/30_deploy.html"
 
-      - title: Полноценные приложения
+      - title: Реалистичные приложения
         url: "200_real_apps.html"
         sf:
           - title: Организация локальной разработки
@@ -26,7 +26,7 @@ entries:
             url: "200_real_apps/50_files.html"
           - title: Работа с электронной почтой
             url: "200_real_apps/60_email.html"
-          - title: Подключаем Managed PostgreSQL
+          - title: Подключаем внешний PostgreSQL
             url: "200_real_apps/80_database.html"
           - title: Ускорение доставки
             url: "100_basic/40_optimize.html"

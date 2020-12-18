@@ -97,11 +97,14 @@ git:
 - add: /src
   to: /app
 - url: https://github.com/ariya/phantomjs
+  tag: 2.2.1
   add: /
   to: /src/phantomjs
 ```
 {% endraw %}
 Детали и особенности можно почитать в [документации]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html#работа-с-удаленными-репозиториями).
+
+При использовании удалённых git-репозиториев важно указывать конкретный тег или коммит, чтобы получить детерменированную сборку.
 {% endofftopic %}
 
 - убирать или добавлять код приложения по более сложным сценариям
