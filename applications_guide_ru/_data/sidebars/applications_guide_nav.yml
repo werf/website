@@ -10,14 +10,16 @@ entries:
             url: "100_basic/20_cluster.html"
           - title: Деплой приложения
             url: "100_basic/30_deploy.html"
+          - title: Доработка приложения
+            url: "100_basic/40_changing_app.html"
 
       - title: Реалистичные приложения
         url: "200_real_apps.html"
         sf:
-          - title: Организация локальной разработки
-            url: "200_real_apps/10_local.html"
-          - title: Отладка кода инфраструктуры
-            url: "200_real_apps/20_debug_iac.html"
+#          - title: Организация локальной разработки
+#            url: "200_real_apps/10_local.html"
+#          - title: Отладка кода инфраструктуры
+#            url: "200_real_apps/20_debug_iac.html"
           - title: Логгирование
             url: "200_real_apps/25_logging.html"
           - title: Генерируем и раздаём ассеты
@@ -28,12 +30,22 @@ entries:
             url: "200_real_apps/60_email.html"
           - title: Подключаем внешний PostgreSQL
             url: "200_real_apps/80_database.html"
-          - title: Ускорение доставки
-            url: "100_basic/40_optimize.html"
           - title: Stateful-приложение
             url: "200_real_apps/90_stateful.html"
           - title: Организация не локальной разработки
             url: "100_basic/50_iac.html"
+
+      - title: Improve developer experience
+        url: "#"
+        sf:
+          - title: Ускорение доставки (стапель)
+            url: "100_basic/40_optimize.html"
+          - title: Упрощение отладки сборочного процесса
+            url: "#"
+          - title: Упрощание отладки проблем в кластере
+            url: "200_real_apps/20_debug_iac.html"
+          - title: Быстрый локальный запуск (compose)
+            url: "#"
 
       - title: Работа с инфраструктурой
         url: "400_infra.html"
