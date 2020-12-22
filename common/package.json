@@ -8,7 +8,7 @@
     "dev:webpack": "LANG=ru DEBUG=1 node_modules/.bin/webpack --config webpack.config.js",
     "dev:jekyll": "bundle exec jekyll build --config _config.yml,_config_custom.yml",
     "PRODUCTION": "--------------------------------------",
-    "prod:webpack": "LANG=ru SENDMETRICS=1 node_modules/.bin/webpack --progress --hide-modules",
+    "prod:webpack": "LANG=ru SENDMETRICS=1 node_modules/.bin/webpack --config webpack.config.js",
     "prod:jekyll": "SENDMETRICS=1 bundle exec jekyll build --config _config.yml,_config_custom.yml",
     "SHORTCUTS": "--------------------------------------",
     "prod:build": "npm run prod:webpack && npm run prod:jekyll"
