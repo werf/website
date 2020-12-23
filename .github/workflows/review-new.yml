@@ -1,4 +1,4 @@
-name: Review guides on test (new)
+name: Review guides (new)
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ jobs:
   unlabel:
     name: Unlabel and deploy to stage
     if: github.event_name == 'pull_request' && github.event.label.name == 'review'
-    runs-on: tfprod-werf
+    runs-on: self-hosted
     steps:
     - name: Label taking off
       uses: actions/github-script@v3
