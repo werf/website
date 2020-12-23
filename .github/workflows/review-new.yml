@@ -7,14 +7,14 @@ on:
 jobs:
   unlabel:
     name: Unlabel and deploy to stage
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.label.name == 'enhancement'
     runs-on: self-hosted
     steps:
     - name: Label taking off
       uses: actions/github-script@v3
       with:
         script: |
-              github.issues.removeLabel({
+          github.issues.removeLabel({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
