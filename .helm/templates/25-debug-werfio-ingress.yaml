@@ -1,0 +1,43 @@
+{{- if eq .Values.global.env "production" }}
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.flant.com/skip-rewrite-target-migration: ""
+    nginx.ingress.kubernetes.io/rewrite-target: https://werf.io/documentation/reference/deploy_process/experimental_three_way_merge.html#annotations-mode
+  name: debug-werfio
+spec:
+  rules:
+  - host: debug.werf.io
+    http:
+      paths:
+      - backend:
+          serviceName: werfio
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - debug.werf.io
+    secretName: tls-debug.werf.io
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: debug-werfio-cert
+spec:
+  acme:
+    config:
+    - domains:
+      - debug.werf.io
+      http01:
+        ingressClass: nginx
+  commonName: debug.werf.io
+  dnsNames:
+  - debug.werf.io
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: tls-debug.werf.io
+{{- end }}

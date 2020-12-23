@@ -1,0 +1,6 @@
+host:
+  production: ng.werf.io
+  stage: werfng.stage.flant.com
+  _default: werfng.test.flant.com
+
+basic_auth: ZmxhbnQ6JGFwcjEkM1llWXhSdU8kaVBJb2JFdllueHRwWXRZOWxGTnV1LwoK

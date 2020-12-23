@@ -1,0 +1,36 @@
+name: Review guides on test (new)
+
+on:
+  pull_request:
+    types: [labeled]
+  
+jobs:
+  unlabel:
+    name: Unlabel and deploy to stage
+    if: github.event_name == 'pull_request' && github.event.label.name == 'review'
+    runs-on: tfprod-werf
+    steps:
+    - name: Label taking off
+      uses: actions/github-script@v3
+      with:
+        script: |
+          github.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: '${{ github.event.label.name }}' 
+          })
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Deploy website to test
+      uses: werf/actions/converge@master
+      with:
+        env: test
+        group: 1.2
+        channel: alpha
+      env:
+        WERF_KUBE_CONTEXT: dev
