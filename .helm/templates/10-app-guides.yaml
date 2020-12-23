@@ -18,7 +18,7 @@ spec:
         service: {{ .Chart.Name }}
     spec:
       imagePullSecrets:
-        - name: registrysecret
+        - name: github-werfio
       containers:
         - name: web
           command: ["nginx", "-g", "daemon off;"]
