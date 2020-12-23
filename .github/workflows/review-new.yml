@@ -7,7 +7,8 @@ on:
 jobs:
   unlabel:
     name: Unlabel and deploy to stage
-    if: github.event_name == 'pull_request' && github.event.label.name == 'review'
+    #if: github.event_name == 'pull_request' && github.event.label.name == 'review'
+    if: github.event_name == 'pull_request'
     runs-on: self-hosted
     steps:
     - name: Label taking off
