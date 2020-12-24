@@ -16,8 +16,8 @@ shell:
     - npm install
   setup:
     - cd /app/applications_guide_ru
-    - npm run prod:webpack
-    - npm run prod:jekyll
+    - npm run dev:webpack
+    - npm run dev:jekyll
 git:
 - add: /
   to: /app
