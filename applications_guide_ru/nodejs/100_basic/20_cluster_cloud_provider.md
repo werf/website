@@ -79,26 +79,14 @@ kubectl get ns
 
 ### Hosts
 
-В самоучителе предполагается, что кластер доступен по адресу `example.com`, а registry — по адресу `registry.example.com`. Мы предполагаем, что вы самостоятельно выберете и настроите нужные ns-записи, а при прохождении самоучителя будете подставлять в код ваши домены.
-
-Если по какой-то причине у вас нет DNS-сервера — пропишите в локальном файле `/etc/hosts` строки вида
-
-```
-<публичный_IP_кластера>           example.com
-<публичный_IP_registry>           registry.example.com
-```
-
-Чтобы получилось что-то вида
-
-```
-74.123.54.12           example.com
-111.1.4.5              registry.example.com
-```
+В самоучителе предполагается, что кластер (вернее, его nginx ingress) доступен по адресу `example.com`, а registry — по адресу `registry.example.com`. Мы предполагаем, что вы самостоятельно выберете и настроите нужные ns-записи, а при прохождении самоучителя будете подставлять в код ваши домены.
 
 ### Авторизация в Registry
 
 Для того, чтобы werf смог загрузить собранный образ в registry — нужно на локальной машине авторизоваться с помощью `docker login` примерно так:
 
 ```bash
-docker login <registry_domain> -u <account_login> -p <account_password>
+docker login registry.example.com -u <account_login> -p <account_password>
 ```
+
+где `<account_login>` — логин для доступа к registry, а `<account_password>` — пароль.

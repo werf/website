@@ -10,8 +10,8 @@ entries:
             url: "100_basic/20_cluster.html"
           - title: Деплой приложения
             url: "100_basic/30_deploy.html"
-          - title: Доработка приложения
-            url: "100_basic/40_changing_app.html"
+          - title: Необходимо знать
+            url: "100_basic/40_must_haves.html"
 
       - title: Реалистичные приложения
         url: "200_real_apps.html"
