@@ -14,13 +14,18 @@ permalink: nodejs/100_basic/10_build.html
 
 Мы предполагаем, что вы уже [установили werf]({{ site.docsurl }}/installation.html) и Docker.
 
-Создайте папку на своём компьютере и разместите там исходные коды [приложения на NodeJS](https://github.com/werf/werf-guides/tree/master/examples/nodejs/000_app). В этой папке нужно инициировать git и сделать первый коммит:
+Создайте папку на своём компьютере и выполните там следующие шаги:
 
 ```shell
+git clone git@github.com:werf/werf-guides.git
+cp -r werf-guides/examples/nodejs/000_app ./
+cd 000_app 
 git init
 git add .
 git commit -m "initial commit"
 ```
+
+_Так вы скопируете себе код [приложения на NodeJS](https://github.com/werf/werf-guides/tree/master/examples/nodejs/000_app) и инициируете в ней git._
 
 werf следует принципам [гитерминизма]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html) — опирается на состояние, описанное в git-репозитории. Файлы, не коммитнутые в git-репозиторий по умолчанию будут игнорироваться. Благодаря этому, имея исходные коды приложения вы всегда можете реализовать его конкретное работоспособное состояние.
 
@@ -107,15 +112,7 @@ dockerfile: Dockerfile
 
 ## Сборка
 
-Для того, чтобы начать работу, нужно инициализировать git в папке с исходным кодом приложения:
-
-{% raw %}
-```bash
-git init
-```
-{% endraw %}
-
-werf реализует подход "What you git is what you get" и опирается на коммиты, игнорируя незакомиченные изменения. Поэтому при локальной разработке не забывайте фиксировать свои изменения коммитом. К примеру так:
+После того, как мы добавили описанные выше файлы `Dockerfile` и `werf.yaml` — надо обязательно закоммитить изменения в git.
 
 {% raw %}
 ```bash
@@ -171,6 +168,11 @@ _В подглаве "Организация локальной разработ
 Теперь приложение доступно локально на порту 3000:
 
 ![](/applications_guide_ru/images/nodejs/100_10_app_in_browser.png)
+
+## Внесение новых изменений
+
+TODO: ...
+
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Подготовка кластера" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
