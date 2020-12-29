@@ -10,12 +10,10 @@ permalink: nodejs/100_basic/30_deploy.html
 - .helm/templates/service.yaml
 {% endfilesused %}
 
-Для того, чтобы приложение заработало в Kubernetes, необходимо описать инфраструктуру приложения как код ([IaC](https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0_%D0%BA%D0%B0%D0%BA_%D0%BA%D0%BE%D0%B4)). В нашем случае потребуются следующие объекты Kubernetes: Deployment, Service и Ingress.
+В предыдущей главе мы описали IaC для сборки, теперь нужно описать её для запуска в Kubernetes. В нашем случае потребуются следующие объекты Kubernetes: Deployment, Service и Ingress.
 
 {% offtopic title="Как быть, если я не знаю Kubernetes?" %}
-В самоучителе будет приведён исходный код инфраструктуры и вы сможете интуитивно догадаться, что там написано. Чтобы научиться писать подобный код самостоятельно — вы можете воспользоваться обучающими материалами/документацией, например, [от вендора](https://kubernetes.io/docs/tutorials/kubernetes-basics/). Учебников, рассказывающих об объектах Kubernetes и возможных их настройках, на данный момент существует достаточно.
-
-А ещё лучше: следуя сути DevOps, общайтесь с инженерами поддержки. Конфигурация объектов — это хороший язык для коммуникации на стыке разработки и поддержки. 
+В самоучителе будет приведён исходный код инфраструктуры и вы сможете интуитивно догадаться, что там написано. Чтобы научиться писать подобный код самостоятельно — вы можете воспользоваться обучающими материалами/документацией, например, в [официальной документации Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/). Учебников, рассказывающих об объектах Kubernetes и возможных их настройках, на данный момент существует достаточно.
 {% endofftopic %}
 
 werf поддерживает весь функционал шаблонизатора helm, а также [предоставляет дополнительные функции и значения]({{ site.docsurl }}/documentation/advanced/helm/basics.html). Разберём самые необходимые из них. Подробнее о шаблонизации и правилах написания Kubernetes-объектов мы разберёмся позже, в главе "Конфигурирование инфраструктуры в виде кода", пока что — добьёмся, чтобы приложение заработало в реальном кластере.
@@ -65,11 +63,11 @@ spec:
 
 werf пересобирает контейнеры только при необходимости, если есть изменения в связанных файлах в git или в конфигурации werf.yaml. Аналогично, werf отслеживает изменение образов, и делает так, чтобы перевыкат Pod-а так же только при необходимости.
 
-## Secret
+## Registry Secret
 
-Kubernetes-кластер самостоятельно вытаскивает образы из registry. Для этого ему нужно авторизоваться с помощью логина и пароля (вы сталкивались с ними в главе "Подготовка окружения"). Эти логин и пароль мы сообщаем кластеру с помощью объекта Secret (мы упомянули его ранее, в Deployment-е: `imagePullSecrets` - `registrysecret`). Опишем, как вам сформировать свой файл `secret.yaml`.
+Kubernetes-кластер для запуска приложения использует образы из registry. Для этого ему нужно авторизоваться с помощью логина и пароля (вы сталкивались с ними в главе "Подготовка окружения"). Эти логин и пароль мы сообщаем кластеру с помощью объекта типа Secret с именем `registrysecret` (мы упомянули его ранее, в Deployment-е: `imagePullSecrets` - `registrysecret`). Опишем, как вам сформировать свой файл `secret.yaml`.
 
-Допустим, ваш логин `admin`, и пароль тоже `admin`. Зашифруем их с помощью base64:
+Допустим, ваш логин `admin`, и пароль тоже `admin`. Закодируем их с помощью base64:
 
 ```bash
 echo -n "admin:admin" | base64
@@ -81,7 +79,7 @@ echo -n "admin:admin" | base64
 {"auths":{"localhost":{"username":"admin","password":"admin","email":"admin","auth":"YWRtaW46YWRtaW4="}}}
 ```
 
-И зашифруем его:
+И закодируем его в base64:
 
 ```bash
 echo -n '{"auths":{"localhost":{"username":"admin","password":"admin","email":"admin","auth":"YWRtaW46YWRtaW4="}}}' | base64
@@ -109,9 +107,11 @@ data:
 {% endraw %}
 {% endsnippetcut %}
 
+_Примечание: в приведённом примере ключи доступа хранятся в не зашифрованном (а только закодированном) виде. Это небезопасно. Вопросы безопасного хранения ключей мы рассмотрим в главе "Организация не локальной разработки"_
+
 ## Service
 
-Объект Service позволяет приложениям в кластере взаимодействовать друг с другом. Пропишем его:
+Объект Service позволяет приложениям в кластере обнаруживать друг друга. Пропишем его:
 
 {% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/.helm/templates/service.yaml" %}
 {% raw %}
@@ -147,7 +147,7 @@ spec:
 {% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -196,8 +196,6 @@ werf converge --repo registry.example.com/werf-guided-project
 └ ⛵ image basicapp (213.60 seconds)
 
 Release "werf-guided-project" does not exist. Installing it now.
-W1117 16:29:16.809420   42045 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-W1117 16:29:16.936024   42045 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 
 ┌ Waiting for release resources to become ready
 │ ┌ Status progress
