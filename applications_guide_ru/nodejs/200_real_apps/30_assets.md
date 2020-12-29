@@ -226,7 +226,7 @@ _Исходный код `nginx.conf` можно [посмотреть в реп
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/230_assets/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ---
 image: basicapp
@@ -365,7 +365,7 @@ spec:
 Закоммитим изменения в git и воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
 
 ```bash
-werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=http://myverycustomdomain.io"
+werf converge --repo localhost:5005/werf-guided-nodejs --set="global.domain_url=http://myverycustomdomain.io"
 ```
 
 Обратите внимание, что мы пробрасываем кастомную настройку (домен) для фронтэнда. Мы воспользовались одним из приёмов конфигурирования шаблона, упоминавшегося в главе "Конфигурирование инфраструктуры в виде кода" — в зависимости от ситуации вы можете аналогично воспользоваться методом с `values.yaml` или же подстановкой секретных переменных.

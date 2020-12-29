@@ -168,7 +168,7 @@ spec:
 
 ## Выкат в кластер
 
-Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-project`.
+Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-nodejs`.
 
 {% offtopic title="Как будут храниться образы в репозитории?" %}
 При организации деплоя без использования werf зачастую приходится формализовать принципы, по которым именуются образы в Registry. В нашем случае об этом нет необходимости думать — werf берёт организацию тегирования на себя.
@@ -181,7 +181,7 @@ werf реализует content-based тегирование: образы ме�
 Сделайте коммит изменений в репозитории с кодом и затем выполните:
 
 ```bash
-werf converge --repo registry.example.com/werf-guided-project
+werf converge --repo registry.example.com/werf-guided-nodejs
 ```
 
 В результате вы должны увидеть логи примерно такого вида:
@@ -190,12 +190,12 @@ werf converge --repo registry.example.com/werf-guided-project
 │ │ basicapp/dockerfile  Successfully built 7e38465ee6de
 │ │ basicapp/dockerfile  Successfully tagged cbb1cef2-a03a-432f-b13d-b95f0f0cb4e9:latest
 │ ├ Info
-│ │       name: localhost:5005/werf-guided-project:017ce9df8dbd7d3505546c95557f1c1f39ce1e6666aaae29e8c12608-1605619646009
+│ │       name: localhost:5005/werf-guided-nodejs:017ce9df8dbd7d3505546c95557f1c1f39ce1e6666aaae29e8c12608-1605619646009
 │ │       size: 375.8 MiB
 │ └ Building stage basicapp/dockerfile (209.48 seconds)
 └ ⛵ image basicapp (213.60 seconds)
 
-Release "werf-guided-project" does not exist. Installing it now.
+Release "werf-guided-nodejs" does not exist. Installing it now.
 
 ┌ Waiting for release resources to become ready
 │ ┌ Status progress
@@ -206,9 +206,9 @@ Release "werf-guided-project" does not exist. Installing it now.
 │ └ Status progress
 └ Waiting for release resources to become ready (4.02 seconds)
 
-NAME: werf-guided-project
+NAME: werf-guided-nodejs
 LAST DEPLOYED: Tue Nov 17 16:29:16 2020
-NAMESPACE: werf-guided-project
+NAMESPACE: werf-guided-nodejs
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None

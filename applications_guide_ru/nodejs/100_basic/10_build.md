@@ -57,7 +57,7 @@ CMD ['node','/app/app.js']
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ---
 image: basicapp
@@ -73,7 +73,7 @@ dockerfile: Dockerfile
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ```
 {% endraw %}
@@ -148,7 +148,7 @@ _В подглаве "Ускорение сборки" мы переведём �
 │ │ basicapp/dockerfile  Successfully built 02a0a425890a
 │ │ basicapp/dockerfile  Successfully tagged a1cbf6dc-343f-4a77-b846-d0f12a700cb7:latest
 │ ├ Info
-│ │       name: werf-guided-project:a473b87e1ad65f102fa90f8c6647b03056e5ae95ff1ef3c5e7fd2c31-1605597979927
+│ │       name: werf-guided-nodejs:a473b87e1ad65f102fa90f8c6647b03056e5ae95ff1ef3c5e7fd2c31-1605597979927
 │ │       size: 953.1 MiB
 │ └ Building stage basicapp/dockerfile (21.94 seconds)
 └ ⛵ image basicapp (22.04 seconds)

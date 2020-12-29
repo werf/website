@@ -173,7 +173,7 @@ from: {{ $base_image }}
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ---
 image: basicapp
@@ -199,7 +199,7 @@ docker:
 Сделайте коммит изменений в репозитории с кодом, затем запустите `converge` и обратите внимание на время сборки
 
 ```bash
-werf converge --repo registry.example.com/werf-guided-project
+werf converge --repo registry.example.com/werf-guided-nodejs
 ```
 
 Попробуйте менять список зависимостей (просто добавьте какой-нибудь пакет в `package.json`), файл с кодом (`app.js`) или инфраструктуру (добавьте новый аттрибут с произвольным текстом в секцию `metadata:` в файле `deployment.yaml`) и посмотрите, как быстро осуществляется сборка и где используется ранее собранный кусок образа.
