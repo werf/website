@@ -17,8 +17,6 @@ spec:
       labels:
         app: basicapp
     spec:
-      imagePullSecrets:
-      - name: "registrysecret"
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]

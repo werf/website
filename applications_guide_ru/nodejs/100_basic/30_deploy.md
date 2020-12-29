@@ -65,49 +65,20 @@ werf пересобирает контейнеры только при необ�
 
 ## Registry Secret
 
-Kubernetes-кластер для запуска приложения использует образы из registry. Для этого ему нужно авторизоваться с помощью логина и пароля (вы сталкивались с ними в главе "Подготовка окружения"). Эти логин и пароль мы сообщаем кластеру с помощью объекта типа Secret с именем `registrysecret` (мы упомянули его ранее, в Deployment-е: `imagePullSecrets` - `registrysecret`). Опишем, как вам сформировать свой файл `secret.yaml`.
+Kubernetes-кластер для запуска приложения использует образы из registry. Поэтому важно, чтобы кластер мог авторизоваться в registry. Как правило ситуация отличается для локального и внешнего registry.
 
-Допустим, ваш логин `admin`, и пароль тоже `admin`. Закодируем их с помощью base64:
+<div style="display: flex; justify-content: space-between; margin: 0 10px 0 20px;">
+<div class="button__blue button__blue_inline expand_columns_button" id="local_cluster_button"><a href="#">локальный registry</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="remote_cluster_button"><a href="#">внешний registry</a></div>
+</div>
 
-```bash
-echo -n "admin:admin" | base64
-```
+{% expandonclick id="local_cluster_button__content" %}
+{% include_relative 30_deploy_registrysecret_local.md %}
+{% endexpandonclick %}
 
-В результате получаем строку `YWRtaW46YWRtaW4=`. Её мы используем, чтобы сформировать подобную JSON:
-
-```json
-{"auths":{"localhost":{"username":"admin","password":"admin","email":"admin","auth":"YWRtaW46YWRtaW4="}}}
-```
-
-И закодируем его в base64:
-
-```bash
-echo -n '{"auths":{"localhost":{"username":"admin","password":"admin","email":"admin","auth":"YWRtaW46YWRtaW4="}}}' | base64
-```
-
-Получаем строку 
-
-```
-eyJhdXRocyI6eyJsb2NhbGhvc3QiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluIiwiYXV0aCI6IllXUnRhVzQ2WVdSdGFXND0ifX19
-```
-
-Которую мы сможем использовать в своём `secret.yaml`:
-
-{% snippetcut name=".helm/templates/secret.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/015_deploy_app/.helm/templates/secret.yaml" %}
-{% raw %}
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: registrysecret
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: eyJhdXRocyI6eyJsb2NhbGhvc3QiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluIiwiYXV0aCI6IllXUnRhVzQ2WVdSdGFXND0ifX19
-```
-{% endraw %}
-{% endsnippetcut %}
-
-_Примечание: в приведённом примере ключи доступа хранятся в не зашифрованном (а только закодированном) виде. Это небезопасно. Вопросы безопасного хранения ключей мы рассмотрим в главе "Организация не локальной разработки"_
+{% expandonclick id="remote_cluster_button__content" %}
+{% include_relative 30_deploy_registrysecret_remote.md %}
+{% endexpandonclick %}
 
 ## Service
 

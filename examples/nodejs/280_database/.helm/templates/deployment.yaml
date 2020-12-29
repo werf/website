@@ -15,8 +15,6 @@ spec:
       labels:
         app: basicapp
     spec:
-      imagePullSecrets:
-      - name: "registrysecret"
       initContainers:
       - name: wait-postgres
         image: "foobic/pg_isready:latest"
