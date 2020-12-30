@@ -16,10 +16,6 @@ entries:
       - title: Реалистичные приложения
         url: "200_real_apps.html"
         sf:
-#          - title: Организация локальной разработки
-#            url: "200_real_apps/10_local.html"
-#          - title: Отладка кода инфраструктуры
-#            url: "200_real_apps/20_debug_iac.html"
           - title: Логгирование
             url: "200_real_apps/25_logging.html"
           - title: Генерируем и раздаём ассеты
@@ -32,20 +28,24 @@ entries:
             url: "200_real_apps/80_database.html"
           - title: Stateful-приложение
             url: "200_real_apps/90_stateful.html"
-          - title: Организация не локальной разработки
-            url: "100_basic/50_iac.html"
+
+      - title: Организация разработки
+        url: "300_dev_process.html"
+        sf:
+          - title: Локальная разработка
+            url: "300_dev_process/10_local.html"
+          - title: Нелокальная разработка
+            url: "300_dev_process/20_nonlocal.html"
 
       - title: Improve developer experience
-        url: "#"
+        url: "400_dev_experience.html"
         sf:
-          - title: Ускорение доставки (стапель)
-            url: "100_basic/40_optimize.html"
-          - title: Упрощение отладки сборочного процесса
-            url: "#"
-          - title: Упрощание отладки проблем в кластере
-            url: "200_real_apps/20_debug_iac.html"
-          - title: Быстрый локальный запуск (compose)
-            url: "#"
+          - title: Ускорение доставки
+            url: "400_dev_experience/10_optimize.html"
+          - title: Упрощение отладки сборки
+            url: "400_dev_experience/20_debug.html"
+          - title: Отладка проблем в кластере
+            url: "400_dev_experience/30_debug_iac.html"
 
       - title: Работа с инфраструктурой
         url: "400_infra.html"

@@ -1,6 +1,7 @@
 ---
 title: Отладка кода инфраструктуры
-permalink: nodejs/200_real_apps/20_debug_iac.html
+permalink: nodejs/400_dev_experience/30_debug_iac.html
+layout: "development"
 ---
 
 TODO: аннотации от верфи
