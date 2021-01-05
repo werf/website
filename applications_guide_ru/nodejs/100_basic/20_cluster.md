@@ -3,36 +3,36 @@ title: Подготовка окружения
 permalink: nodejs/100_basic/20_cluster.html
 ---
 
-Чтобы вести разработку в среде Kubernetes необходимо
+Чтобы вести разработку в среде Kubernetes, необходимо:
 
-- локально установленный werf — сделано на предыдущих шагах
-- приложение в git — сделано на предыдущих шагах
-- кластер
-- registry
-- правильные DNS записи
+- локально установленный werf — сделано на предыдущих шагах;
+- приложение в Git — сделано на предыдущих шагах;
+- кластер Kubernetes;
+- реестр контейнеров (container registry);
+- правильные DNS-записи.
 
 **Настройка окружения — это сложная задача**. Не рекомендуем закапываться в решение проблем своими руками: используйте существующие на рынке услуги, позовите на помощь коллег, которые имеют практику настройки инфраструктуры, или задавайте вопросы в [Telegram-сообществе werf](https://t.me/werf_ru).
 
 {% offtopic title="Чек-лист для самопроверки окружения" %}
 
-- У вас есть кластер Kubernetes (версии 1.14 или выше)
-    - В кластере установлен ingress контроллер и на него направлен домен example.com, т.о. туда можно заходить браузером
-- У вас есть registry
-    - Registry доступен по домену registry.example.com
-    - Кластер может пулить образы из вашего registry
+- У вас есть кластер Kubernetes (версии 1.14 или выше).
+    - В кластере установлен ingress-контроллер и на него направлен домен `example.com`, т.е. туда можно заходить браузером.
+- У вас есть registry.
+    - Registry доступен по домену `registry.example.com`.
+    - Кластер может pull'ить образы из вашего registry.
 - С локального компьютера:
-    - есть доступ в кластер (работает `kubectl version`)
-    - есть доступ в registry (работает `docker push`)
-    - в браузере открывается example.com (пусть и показывает 404 от Ingress)
+    - есть доступ в кластер (работает `kubectl version`);
+    - есть доступ в registry (работает `docker push`);
+    - в браузере открывается `example.com` (пусть и показывает 404 от Ingress).
 
 {% endofftopic %}
 
 Выберите, как будете реализовывать окружение:
 
 <div style="display: flex; justify-content: space-between; margin: 0 10px 0 20px;">
-<div class="button__blue button__blue_inline expand_columns_button" id="minikube_button"><a href="#">minikube</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="minikube_button"><a href="#">Minikube</a></div>
 <div class="button__blue button__blue_inline expand_columns_button" id="docker_desktop_button"><a href="#">Docker Desktop</a></div>
-<div class="button__blue button__blue_inline expand_columns_button" id="cloud_provider_button"><a href="#">Использование cloud provider-а</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="cloud_provider_button"><a href="#">Использование облачного провайдера</a></div>
 <div class="button__blue button__blue_inline expand_columns_button" id="has_cluster_button"><a href="#">У меня уже есть кластер</a></div>
 </div>
 
@@ -54,20 +54,20 @@ permalink: nodejs/100_basic/20_cluster.html
 
 ## Финальные проверки
 
-Если вы уже убедились в работоспособности самого кластера — пришло время проверить registry и ingress:
+Если вы уже убедились в работоспособности самого кластера, пришло время проверить registry и ingress. Эти команды:
 
 ```bash
 docker tag ubuntu:18.04 registry.example.com/ubuntu:18.04
 docker push registry.example.com/ubuntu:18.04
 ```
 
-Должен успешно загрузить образ Ubuntu в registry и не выдать ошибку.
+… должны успешно загрузить образ Ubuntu в registry и не выдать ошибку. А эта команда:
 
 ```bash
 curl example.com
 ```
 
-Должен выдать страницу ошибки nginx ingress (если вы ещё не задеплоили приложения в кластер).
+… должна выдать страницу ошибки nginx ingress (если вы ещё не задеплоили приложения в кластер).
 
 <div id="go-forth-button">
     <go-forth url="30_deploy.html" label="Деплой приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
