@@ -1,0 +1,4 @@
+host:
+  production: ng.werf.io
+  stage: werfng.stage.flant.com
+  _default: werfng.test.flant.com

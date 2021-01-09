@@ -77,8 +77,10 @@ werf converge --repo registry.example.com/werf-guided-nodejs --env production
 
 Передаваемый параметр, который указывает на стенд, будет доступна:
 
+{% raw %}
 - в `werf.yaml` через конструкцию `{{ .Env }}`
 - в `.helm/templates` через конструкцию `.Values.werf.env`
+{% endraw %}
 
 {% offtopic title="Стенды и интеграция с CI" %}
 Позже, в главе "Работа с инфраструктурой", мы рассмотрим, как значение этой переменной автоматически подставляется CI-системой.
