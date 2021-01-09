@@ -6,6 +6,6 @@ _site
 build.sh
 _includes/scripts.html
 .jekyll-metadata
-node_modules
+/common/node_modules
 dist
 .DS_Store

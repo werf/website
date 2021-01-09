@@ -1,0 +1,25 @@
+name: Deploy guides (new)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  converge:
+    name: Deploy guides to production
+    runs-on: self-hosted
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Deploy guides to production
+      uses: werf/actions/converge@master
+      with:
+        env: production
+        group: 1.2
+        channel: alpha
+      env:
+        WERF_KUBE_CONTEXT: prod
