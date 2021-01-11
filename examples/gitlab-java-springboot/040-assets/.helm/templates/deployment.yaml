@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
+      containers:
+      - name: basicapp
+        command: ["java"]
+        args: ["-jar", "/app/demo.jar", "$JAVA_OPT"]
+{{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
+        workingDir: /app
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: JAVA_OPT
+          value: "{{ pluck .Values.global.env .Values.app.java_opt | first | default .Values.app.java_opt._default }}"
+{{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}
+      - name: node-assets
+{{ tuple "node-assets" . | include "werf_container_image" | indent 8 }}
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/usr/sbin/nginx", "-s", "quit"]
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+            scheme: HTTP
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: env-json
+          mountPath: /app/dist/config/env.json
+          subPath: env.json
+{{ tuple "frontend" . | include "werf_container_env" | indent 8 }}
+      - name: env-json
+        configMap:
+          name: {{ .Chart.Name }}-configmap

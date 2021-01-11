@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-configmap
+data:
+  env.json: |
+    {
+      "url": {{ .Values.global.ci_url | quote }}
+    }

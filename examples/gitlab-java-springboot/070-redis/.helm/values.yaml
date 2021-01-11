@@ -1,0 +1,21 @@
+app:
+  java_opt:
+    _default: "--debug"
+    production: ""
+  redis:
+    session_ttl:
+      _default: "3600"
+    cookie_secret:
+      _default: "supersecret"
+redis:
+  fullnameOverride: redis
+  nameOverride: redis
+  enabled: true
+  _login:
+     _default: redis
+  _port:
+     _default: 6379
+  host:
+    _default: redis-master
+  password: 10006ba921c1
+

@@ -1,0 +1,7 @@
+app:
+  java_opt:
+    _default: "--debug"
+    production: ""
+  sendgrid:
+    username:
+      _default: sendgridusername

@@ -1,0 +1,61 @@
+stages:
+- test
+- build
+- deploy
+- cleanup
+
+before_script:
+  - type multiwerf && source <(multiwerf use 1.1 stable)
+  - type werf && source <(werf ci-env gitlab --verbose)
+
+.base_deploy: &base_deploy
+  stage: deploy
+  script:
+    - werf deploy --set "global.ci_url=$(cut -d / -f 3 <<< $CI_ENVIRONMENT_URL)"
+  dependencies:
+    - Build
+  tags:
+    - werf
+
+Build:
+  stage: build
+  script:
+    - werf build-and-publish
+  tags:
+    - werf
+  dependencies:
+    - test
+
+Deploy to staging:
+  extends: .base_deploy
+  environment:
+    name: staging
+    url: http://staging.mydomain.io
+  only:
+    - merge_requests
+  when: manual
+
+Deploy to production:
+  extends: .base_deploy
+  environment:
+    name: production
+    url: http://mydomain.io
+  only:
+    - master
+
+test:
+  script:
+    - docker run --rm -v "$(pwd):/app" -w /app maven:3-jdk-8 mvn checkstyle:checkstyle
+  stage: test
+  tags:
+    - werf
+
+Cleanup:
+  stage: cleanup
+  script:
+    - type multiwerf && source <(multiwerf use 1.1 stable)
+    - type werf && source <(werf ci-env gitlab --tagging-strategy tag-or-branch --verbose)
+    - docker login -u nobody -p ${WERF_IMAGES_CLEANUP_PASSWORD} ${WERF_IMAGES_REPO}
+    - werf cleanup --stages-storage :local
+  only:
+    - schedules

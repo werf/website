@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
+      containers:
+      - name: basicapp
+        command: ["java"]
+        args: ["-jar", "/app/demo.jar", "$JAVA_OPT"]
+{{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
+        workingDir: /app
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: JAVA_OPT
+          value: "{{ pluck .Values.global.env .Values.app.java_opt | first | default .Values.app.java_opt._default }}"
+        - name: S3ENDPOINT
+          value: {{ pluck .Values.global.env .Values.app.s3.endpoint | first | default .Values.app.s3.endpoint._default | quote }}
+        - name: S3LOGIN
+          value: {{ pluck .Values.global.env .Values.app.s3.login | first | default .Values.app.s3.login._default | quote }}
+        - name: S3PASSWORD
+          value: {{ pluck .Values.global.env .Values.app.s3.password | first | default .Values.app.s3.password._default | quote }}
+        - name: S3BUCKET
+          value: {{ pluck .Values.global.env .Values.app.s3.bucket | first | default .Values.app.s3.bucket._default | quote }}
+        - name: S3ZONE
+          value: {{ pluck .Values.global.env .Values.app.s3.zone | first | default .Values.app.s3.zone._default | quote }}
+{{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}

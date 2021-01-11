@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+      - name: "registrysecret"
+      containers:
+      - name: basicapp
+        command: ["java"]
+        args: ["-jar", "/app/demo.jar", "$JAVA_OPT"]
+{{ tuple "basicapp" . | include "werf_container_image" | indent 8 }}
+        workingDir: /app
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: JAVA_OPT
+          value: "{{ pluck .Values.global.env .Values.app.java_opt | first | default .Values.app.java_opt._default }}"
+        - name: REDIS_HOST
+          value: "{{ pluck .Values.global.env .Values.redis.host | first | default .Values.redis.host._default }}"
+        - name: REDIS_PORT
+          value: "{{ pluck .Values.global.env .Values.redis._port | first | default .Values.redis._port._default }}"
+        - name: REDIS_LOGIN
+          value: "{{ pluck .Values.global.env .Values.redis._login | first | default .Values.redis._login._default }}"
+        - name: REDIS_PASSWORD
+          value: "{{ .Values.redis.password }}"
+        - name: SESSION_TTL
+          value: "{{ pluck .Values.global.env .Values.app.redis.session_ttl | first | default .Values.app.redis.session_ttl._default }}"
+        - name: COOKIE_SECRET
+          value: "{{ pluck .Values.global.env .Values.app.redis.cookie_secret | first | default .Values.app.redis.cookie_secret._default }}"
+{{ tuple "basicapp" . | include "werf_container_env" | indent 8 }}
