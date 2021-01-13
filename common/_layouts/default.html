@@ -59,7 +59,7 @@
           <div class="layout-sidebar__sidebar">
             <div id="menu-widget"><menu-widget framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></menu-widget></div>
 
-            {% assign sidebar = site.data.sidebars["applications_guide_nav"].entries[page.lang] %}
+            {% assign sidebar = site.data.sidebars[page.sidebar].entries[page.lang] %}
             <ul id="mysidebar" class="sidebar sidebar_static">
               {%- for folder in sidebar.f %}
               {% if folder.sf %}
