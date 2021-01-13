@@ -134,6 +134,10 @@ body {
     margin-top: 35vh;
 }
 
+.landing__section_short {
+    margin-top: 5vh;
+}
+
 .landing__h1 {
     font-style: normal;
     font-weight: 800;
