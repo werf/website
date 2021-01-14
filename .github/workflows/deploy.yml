@@ -1,4 +1,4 @@
-name: Deploy guides (new)
+name: Deploy to production
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Deploy guides to production
+    - name: Deploy to production
       uses: werf/actions/converge@master
       with:
         env: production
