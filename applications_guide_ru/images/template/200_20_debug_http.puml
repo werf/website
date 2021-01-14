@@ -1,0 +1,40 @@
+@startuml
+
+(*) --> Browser
+Browser --> Ingress
+note right
+ - tcpdump на балансере
+ - логи nginx в нужном контейнере Ingress
+ - конфиги nginx в нужном контейнере Ingress
+end note
+Ingress --> Service
+note right
+ kubectl -n werf-guided-project get service -o yaml
+ - есть Service, указанный в объекте Ingress
+ - порт Service-а совпадает с указанным в Ingress
+end note
+Service --> Endpoint
+note right
+ kubectl -n werf-guided-project get ep -o yaml
+ - есть Endpoint с тем же именем, что Service
+ - у Enpoint есть адреса
+end note
+Endpoint --> Pod
+note right
+ kubectl -n werf-guided-project get po -o yaml
+ - лейблы, указанные у Pod-а совпадают с лейблами у Service
+end note
+Pod --> Container
+note right
+ - у Pod-а у контейнера нужный порт
+ kubectl -n werf-guided-project describe po <имя нужного pod-а>
+ - Status: Running
+end note
+Container --> App
+note right
+ - у Pod-а указано правильное приложение в command
+ kubectl -n werf-guided-project logs <имя нужного pod-а>
+ - приложение в логах не пишет ошибок
+end note
+
+@enduml

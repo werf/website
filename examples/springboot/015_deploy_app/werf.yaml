@@ -1,0 +1,5 @@
+project: werf-guided-project
+configVersion: 1
+---
+image: basicapp
+dockerfile: Dockerfile

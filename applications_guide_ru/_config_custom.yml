@@ -1,0 +1,84 @@
+company_name: Флант
+company_url: https://flant.ru
+url: https://ru.werf.io
+site_lang: ru
+baseurl: /applications_guide_ru
+docsurl: https://ru.werf.io
+
+breadcrumbs:
+  hometext: "Начало"
+
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      lang: en
+      comments: true
+      search: true
+      sidebar: sidebar
+      topnav: topnav
+      sitemap_include: true
+      multilang: true
+  - scope:
+      path: "nodejs"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide_nav
+      guide_code: nodejs
+      toc: false
+      label_ci: GitLab
+      label_framework: NodeJS
+  - scope:
+      path: "java_springboot"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide_nav
+      guide_code: java_springboot
+      toc: false
+      label_ci: GitLab
+      label_framework: Springboot
+  - scope:
+      path: "python_django"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide_nav
+      guide_code: python_django
+      toc: false
+      label_ci: GitLab
+      label_framework: Django
+  - scope:
+      path: "rails"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide_nav
+      guide_code: rails
+      toc: false
+      label_ci: GitLab
+      label_framework: Rails
+  - scope:
+      path: "gitlab_nodejs"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide_nav_11
+      guide_code: gitlab_nodejs
+      toc: false
+      label_ci: GitLab
+      label_framework: NodeJS
+  - scope:
+      path: "gitlab_java_springboot"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide_nav_11
+      guide_code: gitlab_java_springboot
+      toc: false
+      label_ci: GitLab
+      label_framework: Springboot

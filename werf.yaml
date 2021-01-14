@@ -1,0 +1,70 @@
+configVersion: 1
+project: werfio-ng-guides
+---
+artifact: guides-artifact
+from: jekyll/builder:3
+ansible:
+  beforeInstall:
+  - name: "install NodeJS"
+    shell: apk add --update nodejs npm
+  beforeSetup:
+  - file:
+      path: "/app/common/{{`{{ item }}`}}"
+      state: directory
+      mode: 0777
+    with_items:
+      - js
+      - css
+      - fonts
+  - name: "Install Dependencies"
+    shell: |
+      export PATH=/usr/jekyll/bin/:$PATH
+      bundle install
+      npm install
+    args:
+      executable: /bin/bash
+      chdir: /app/common
+  setup:
+  - name: "Build static files"
+    shell: |
+      cd "{{`{{ item }}`}}"
+      npm run prod:webpack
+      npm run prod:jekyll
+    args:
+      executable: /bin/bash
+    with_items:
+      - /app/applications_guide_en
+      - /app/applications_guide_ru
+git:
+- add: /
+  to: /app
+  owner: jekyll
+  group: jekyll
+  excludePaths:
+  - vendor
+  - .helm
+  - .werf
+  - werf.yaml
+  - .github
+  stageDependencies:
+    beforeSetup: ['common/Gemfile','common/Gemfile.lock']
+    setup: '**/*'
+---
+image: frontend
+from: nginx:stable-alpine
+ansible:
+  setup:
+  - name: "Setup /etc/nginx/nginx.conf"
+    copy:
+      content: |
+{{ .Files.Get ".werf/nginx.conf" | indent 8 }}
+      dest: /etc/nginx/nginx.conf
+import:
+- artifact: guides-artifact
+  add: /app/applications_guide_en/_site
+  to: /app/applications_guide_en/
+  before: setup
+- artifact: guides-artifact
+  add: /app/applications_guide_ru/_site
+  to: /app/applications_guide_ru/
+  before: setup

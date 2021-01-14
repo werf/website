@@ -242,7 +242,7 @@ spec:
 {% raw %}
 ```yaml
   rules:
-  - host: mydomain.io
+  - host: example.com
     http:
       paths:
       - path: /
@@ -255,7 +255,7 @@ spec:
 
 ### Разное поведение в разных окружениях
 
-Некоторые настройки хочется видеть разными в разных окружениях. К примеру, домен, на котором будет открываться приложение, должен быть либо staging.mydomain.io, либо mydomain.io — в зависимости от того, куда мы задеплоились.
+Некоторые настройки хочется видеть разными в разных окружениях. К примеру, домен, на котором будет открываться приложение, должен быть либо staging.example.com, либо example.com — в зависимости от того, куда мы задеплоились.
 
 В werf для этого существует три механики:
 
@@ -265,7 +265,7 @@ spec:
 
 **Вариант с `values.yaml`** рассматривался ранее в главе ["Создание Pod'а"](#helm-values-yaml).
 
-Второй вариант подразумевает **задание переменных через CLI**. Например, в случае выполнения команды `werf deploy --set "global.ci_url=mydomain.io"` в YAML'ах будет доступно значение {% raw %}`{{ .Values.global.ci_url }}`{% endraw %}.
+Второй вариант подразумевает **задание переменных через CLI**. Например, в случае выполнения команды `werf deploy --set "global.ci_url=example.com"` в YAML'ах будет доступно значение {% raw %}`{{ .Values.global.ci_url }}`{% endraw %}.
 
 Этот вариант удобен для проброса, например, имени домена для каждого окружения:
 
@@ -374,7 +374,7 @@ kubectl get secret registrysecret -n kube-system -o json |
 Если мы запускаем werf вне Gitlab CI, необходимо сделать несколько операций вручную прежде, чем werf сможет рендерить конфиги и деплоить в Kubernetes. А именно:
 
 * Вручную подключиться к GitLab Registry с помощью [`docker login`](https://docs.docker.com/engine/reference/commandline/login/) (если это не было сделано ранее);
-* Установить переменную окружения `WERF_IMAGES_REPO` с путём до Registry (вида `registry.mydomain.io/myproject`);
+* Установить переменную окружения `WERF_IMAGES_REPO` с путём до Registry (вида `registry.example.com/myproject`);
 * Установить переменную окружения `WERF_SECRET_KEY` со значением, [сгенерированным ранее в главе "Разное поведение в разных окружениях"](#secret-values-yaml);
 * Установить переменную окружения `WERF_ENV` с названием окружения, в которое будет осуществляться деплой. Вопрос разных окружений будет затронут подробнее в процессе создания CI-процесса, а сейчас — просто установим значение `staging`. **Важно удалить эту переменную в финальном варианте деплоя**: иначе деплой всегда будет идти в один и тот же namespace.
 
@@ -421,7 +421,7 @@ werf-guided-project-9f6bd769f-rm8nz  1/1                  Running  0         6m1
 ```bash
 $ kubectl -n example-1-staging get ingress
 NAME                                 HOSTS                ADDRESS  PORTS     AGE
-werf-guided-project                  staging.mydomain.io           80        6m18s
+werf-guided-project                  staging.example.com           80        6m18s
 ```
 
 А также вы должны увидеть сервис через браузер.

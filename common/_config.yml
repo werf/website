@@ -1,0 +1,39 @@
+output: web
+
+topnav_title: werf
+site_title: werf
+site_urls:
+  ru: https://ru.werf.io
+  en: https://werf.io
+
+highlighter: rouge
+
+plugins:
+- jekyll-assets
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - webpack.config.js
+  - node_modules
+  - src
+
+markdown: kramdown
+kramdown:
+ input: GFM
+ hard_wrap: false
+ syntax_highlighter: rouge
+
+breadcrumbs:
+  root:
+    hide: false  # show breadcrumbs on root/home page
+    image: false # Show image or title text
+
+collections:
+  tooltips:
+    output: false
+
+sidebars:
+- documentation
