@@ -1,5 +1,5 @@
 configVersion: 1
-project: werfio-ng-guides
+project: werfio-guides
 ---
 artifact: guides-artifact
 from: jekyll/builder:3

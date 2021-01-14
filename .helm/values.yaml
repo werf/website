@@ -1,4 +1,4 @@
 host:
-  production: ru.werf.io
-  stage: werfng.stage.flant.com
-  _default: werfng.test.flant.com
+  production: werf.io
+  stage: werf.stage.flant.com
+  _default: werf.test.flant.com
