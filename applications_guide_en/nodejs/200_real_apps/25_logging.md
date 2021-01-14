@@ -1,6 +1,7 @@
 ---
-title: Логгирование
+title: Logging
 permalink: nodejs/200_real_apps/25_logging.html
+layout: "development"
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -55,7 +56,7 @@ if (critical_error) {
 За отправляемыми логами можно следить через `kubectl`, например:
 
 ```bash
-kubectl -n werf-guided-project logs <имя Pod-а> -f
+kubectl -n werf-guided-nodejs logs <имя Pod-а> -f
 ```
 
 <div id="go-forth-button">

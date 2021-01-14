@@ -1,5 +1,5 @@
 ---
-title: Deploying the application
+title: Deploying the app
 permalink: nodejs/100_basic/30_deploy.html
 ---
 
@@ -13,7 +13,7 @@ permalink: nodejs/100_basic/30_deploy.html
 In the previous chapter, we defined IaC for building, now we need to define IaC for deploying the application to Kubernetes. You will need the following Kubernetes objects: Deployment, Service, and Ingress.
 
 {% offtopic title="What if I know nothing about Kubernetes?" %}
-The tutorial contains the source code of the infrastructure, and you will be able to guess what is going on intuitively. You can refer to tutorials/guides and [official Kubernetes documentation](https://kubernetes.io/docs/tutorials/kubernetes-basics/) to learn how to write code like this yourself. Also, there are many video courses and books available that describe various Kubernetes objects and their settings. {% endofftopic %}
+The tutorial contains the source code of the infrastructure, and you will be able to guess what is going on intuitively. You can refer to tutorials/guides and [official Kubernetes documentation](https://kubernetes.io/docs/tutorials/kubernetes-basics/) to learn how to write code like this yourself. Also, there are many video courses and books available that describe various Kubernetes objects and their settings.
 {% endofftopic %}
 
 werf supports all the features of the Helm template engine (Helm is compiled into werf and helps it to perform deployments) and provides [additional functionality]({{ site. docsurl }}/documentation/advanced/helm/basics.html). We will discuss the peculiarities of templating and the nuances of creating Kubernetes objects later in the "Configuring the infrastructure as code" chapter. Meantime, we will deploy the application to a real cluster and make sure that it is running smoothly.
@@ -144,7 +144,7 @@ When implementing the deployment process without werf, you have to take care of 
 
 werf implements the so-called `content-based tagging` (in other words, tags depend on the content): it automatically builds and deploys images in response to changes in Git contents.
 
-You can learn more in the [documentation]({{ site.docsurl }}/documentation/internals/stages_and_storage.html#stage-naming) and in the [article](https://medium.com/flant-com/content-based-tagging-in-werf-eb96d22ac509). {% endofftopic %}
+You can learn more in the [documentation]({{ site.docsurl }}/documentation/internals/stages_and_storage.html#stage-naming) and in the [article](https://medium.com/flant-com/content-based-tagging-in-werf-eb96d22ac509).
 {% endofftopic %}
 
 Commit changes to the code repository and then run the command below:

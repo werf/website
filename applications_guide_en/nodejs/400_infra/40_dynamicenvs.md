@@ -1,5 +1,5 @@
 ---
-title: Динамические окружения
+title: Dynamic enviroinment
 permalink: nodejs/400_infra/40_dynamicenvs.html
 layout: "development"
 ---
@@ -28,7 +28,7 @@ Deploy to Review:
   stage: deploy
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
-    url: http://${CI_COMMIT_REF_SLUG}.mydomain.io
+    url: http://${CI_COMMIT_REF_SLUG}.example.com
     on_stop: Stop Review
   only:
     - /^feature-*/

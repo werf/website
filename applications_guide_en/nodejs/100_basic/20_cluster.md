@@ -1,5 +1,5 @@
 ---
-title: Preparing the cluster
+title: Preparing the environment
 permalink: nodejs/100_basic/20_cluster.html
 ---
 
