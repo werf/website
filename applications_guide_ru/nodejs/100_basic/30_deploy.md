@@ -5,7 +5,7 @@ permalink: nodejs/100_basic/30_deploy.html
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
-- .helm/templates/secret.yaml
+- .helm/templates/registry-secret.yaml
 - .helm/templates/ingress.yaml
 - .helm/templates/service.yaml
 {% endfilesused %}

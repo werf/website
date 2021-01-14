@@ -1,6 +1,7 @@
 ---
 title: Конфигурирование инфраструктуры в виде кода
 permalink: java_springboot/100_basic/50_iac.html
+layout: "development"
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -33,7 +34,7 @@ permalink: java_springboot/100_basic/50_iac.html
 
 В описании Deployment, Ingress и Service используется значение `basicapp` — лучше заменить его переменной. Воспользуемся для этого переменной с именем чарта `.Chart.Name`. Например, было:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/020_optimize_build/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -50,7 +51,7 @@ spec:
 
 Стало:
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/025_iac/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/025_iac/.helm/templates/deployment.yaml" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -72,7 +73,7 @@ spec:
 Основной способ, который мы рекомендуем для конфигурирования — CLI-параметр ` --env`, который можно указать при вызове `converge`, например:
 
 ```bash
-werf converge --repo registry.example.com/werf-guided-project --env production
+werf converge --repo registry.example.com/werf-guided-nodejs --env production
 ```
 
 Передаваемый параметр, который указывает на стенд, будет доступна:
@@ -130,7 +131,7 @@ app:
 Второй вариант подразумевает **задание переменных через CLI**. Например, в `converge` можно передать нужное значение 
 
 ```bash
-werf converge --repo registry.example.com/werf-guided-project --set "global.myvariable=somevalue"
+werf converge --repo registry.example.com/werf-guided-nodejs --set "global.myvariable=somevalue"
 ```
 
 И можно будет использовать это значение в шаблонах:

@@ -1,28 +1,5 @@
-project: werf-guided-project
+project: werf-guided-springboot
 configVersion: 1
 ---
-artifact: build
-from: gradle:jdk8-openj9
-git:
-- add: /
-  to: /app
-  stageDependencies:
-    setup:
-    - src
-shell:
-  setup:
-  - cd /app
-  - gradle build --no-daemon
----
 image: basicapp
-from: openjdk:8-jdk-alpine
-import:
-- artifact: build
-  add: /app/build/libs/*.jar
-  to: /app/demo.jar
-  after: setup
-git:
-- add: /app.db
-  to: /app/app.db
-docker:
-  WORKDIR: /app
+dockerfile: Dockerfile

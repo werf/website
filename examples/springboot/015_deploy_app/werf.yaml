@@ -1,4 +1,4 @@
-project: werf-guided-project
+project: werf-guided-springboot
 configVersion: 1
 ---
 image: basicapp

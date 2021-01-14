@@ -5,23 +5,22 @@ permalink: java_springboot/100_basic/30_deploy.html
 
 {% filesused title="Файлы, упомянутые в главе" %}
 - .helm/templates/deployment.yaml
+- .helm/templates/registry-secret.yaml
 - .helm/templates/ingress.yaml
 - .helm/templates/service.yaml
 {% endfilesused %}
 
-Для того, чтобы приложение заработало в Kubernetes, необходимо описать инфраструктуру приложения как код ([IaC](https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0_%D0%BA%D0%B0%D0%BA_%D0%BA%D0%BE%D0%B4)). В нашем случае потребуются следующие объекты Kubernetes: Deployment, Service и Ingress.
+В предыдущей главе мы описали IaC для сборки, теперь нужно описать IaC для запуска в Kubernetes. В нашем случае потребуются следующие объекты Kubernetes: Deployment, Service и Ingress.
 
 {% offtopic title="Как быть, если я не знаю Kubernetes?" %}
-В самоучителе будет приведён исходный код инфраструктуры и вы сможете интуитивно догадаться, что там написано. Чтобы научиться писать подобный код самостоятельно — вы можете воспользоваться обучающими материалами/документацией, например, [от вендора](https://kubernetes.io/docs/tutorials/kubernetes-basics/). Учебников, рассказывающих об объектах Kubernetes и возможных их настройках, на данный момент существует достаточно.
-
-А ещё лучше: следуя сути DevOps, общайтесь с инженерами поддержки. Конфигурация объектов — это хороший язык для коммуникации на стыке разработки и поддержки. 
+В самоучителе будет приведён исходный код инфраструктуры и вы сможете интуитивно догадаться, что там написано. Чтобы научиться писать подобный код самостоятельно, стоит воспользоваться обучающими материалами и/или, например, в [официальной документацией Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/). Видеокурсов и учебников, рассказывающих об объектах Kubernetes и их возможных настройках, на данный момент существует достаточно.
 {% endofftopic %}
 
-werf поддерживает весь функционал шаблонизатора helm, а также [предоставляет дополнительные функции и значения]({{ site.docsurl }}/documentation/advanced/helm/basics.html). Разберём самые необходимые из них. Подробнее о шаблонизации и правилах написания Kubernetes-объектов мы разберёмся позже, в главе "Конфигурирование инфраструктуры в виде кода", пока что — добьёмся, чтобы приложение заработало в реальном кластере.
+werf поддерживает весь функционал шаблонизатора Helm (werf использует вкомпилированный в него Helm для деплоя), а также предоставляет [дополнительную функциональность]({{ site.docsurl }}/documentation/advanced/helm/basics.html). Подробнее в шаблонизации и правилах написания Kubernetes-объектов мы разберёмся позже, в главе «Конфигурирование инфраструктуры в виде кода», а пока — добьёмся, чтобы приложение заработало в реальном кластере.
 
 ## Deployment
 
-Объект Deployment позволяет создать объект Pod, который содержит в себе и управляет контейнерами с приложениями. У создаваемого нами Pod будет один контейнер — `basicapp`.
+Объект Deployment позволяет создать объект Pod, который содержит в себе контейнеры с приложениями и управляет ими. У создаваемого нами Pod будет один контейнер — `basicapp`.
 
 {% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/015_deploy_app/.helm/templates/deployment.yaml" %}
 {% raw %}
@@ -43,12 +42,10 @@ spec:
       labels:
         app: basicapp
     spec:
-      imagePullSecrets:
-      - name: "registrysecret"
       containers:
       - name: basicapp
         command: ["java","-jar","/app/demo.jar"]
-        image: {{ tuple "basicapp" . | werf_image }}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 8080
@@ -60,13 +57,30 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-Обратите внимание на конструкцию {% raw %}`image: {{ tuple "basicapp" . | werf_image }}`{% endraw %} — с помощью неё подставляется актуальное имя образа (`REPO:TAG`).
+Обратите внимание на конструкцию {% raw %}`image: {{ .Values.werf.image.basicapp }}`{% endraw %} — с помощью неё подставляется актуальное имя образа.
 
-werf пересобирает контейнеры только при необходимости, если есть изменения в связанных файлах в git или в конфигурации werf.yaml. Аналогично, werf отслеживает изменение образов, и делает так, чтобы перевыкат Pod-а так же только при необходимости.
+werf пересобирает контейнеры только при необходимости, если есть изменения в связанных файлах в Git или в конфигурации `werf.yaml`. При изменении образа меняется его тег, что приводит к перевыкату Pod'а с новым образом.
+
+## Registry Secret
+
+Kubernetes-кластер для запуска приложения использует образы из registry. Поэтому важно, чтобы кластер мог авторизоваться в registry. Как правило, ситуация отличается для локального и внешнего registry.
+
+<div style="display: flex; justify-content: space-between; margin: 0 10px 0 20px;">
+<div class="button__blue button__blue_inline expand_columns_button" id="local_cluster_button"><a href="#">локальный registry</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="remote_cluster_button"><a href="#">внешний registry</a></div>
+</div>
+
+{% expandonclick id="local_cluster_button__content" %}
+{% include_relative 30_deploy_registrysecret_local.md %}
+{% endexpandonclick %}
+
+{% expandonclick id="remote_cluster_button__content" %}
+{% include_relative 30_deploy_registrysecret_remote.md %}
+{% endexpandonclick %}
 
 ## Service
 
-Объект Service позволяет приложениям в кластере взаимодействовать друг с другом. Пропишем его:
+Объект Service позволяет приложениям в кластере обнаруживать друг друга. Пропишем его:
 
 {% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/015_deploy_app/.helm/templates/service.yaml" %}
 {% raw %}
@@ -90,10 +104,10 @@ spec:
 
 Объект Ingress позволяет организовать маршрутизацию трафика на созданный Service для нужного домена (в нашем примере — `example.com`).
 
-{% offtopic title="Что за объект Ingress и как он связан с балансировщиком?" %}
+{% offtopic title="Что за объект Ingress?" %}
 Возможна коллизия терминов:
 
-* Есть Ingress в смысле [NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx), который работает в кластере и принимает входящие извне запросы.
+* Есть [NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx), который работает в кластере и принимает входящие извне запросы.
 * А ещё есть [объект Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/), который фактически описывает настройки для NGINX Ingress Controller.
 
 В статьях и бытовой речи оба этих термина зачастую называют «Ingress», так что догадываться нужно по контексту.
@@ -123,12 +137,20 @@ spec:
 
 ## Выкат в кластер
 
-Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-project`.
+Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-spring`.
+
+{% offtopic title="Как будут храниться образы в репозитории?" %}
+При организации деплоя без использования werf зачастую приходится формализовать принципы, по которым именуются образы в registry. В нашем случае нет необходимости думать об этом: werf берёт организацию тегирования на себя.
+
+werf реализует тегирование, которое называется content-based (т.е. основанное на содержимом): образы меняются и выкатываются автоматически, если меняется состояние контента в Git.
+
+Если вы хотите узнать подробности — читайте [в документации]({{ site.docsurl }}/documentation/internals/stages_and_storage.html#%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D1%82%D0%B0%D0%B4%D0%B8%D0%B9) и [статье на Хабре](https://habr.com/ru/company/flant/blog/495112/).
+{% endofftopic %}
 
 Сделайте коммит изменений в репозитории с кодом и затем выполните:
 
 ```bash
-werf converge --repo registry.example.com/werf-guided-project
+werf converge --repo registry.example.com/werf-guided-spring
 ```
 
 В результате вы должны увидеть логи примерно такого вида:
@@ -137,14 +159,12 @@ werf converge --repo registry.example.com/werf-guided-project
 │ │ basicapp/dockerfile  Successfully built 7e38465ee6de
 │ │ basicapp/dockerfile  Successfully tagged cbb1cef2-a03a-432f-b13d-b95f0f0cb4e9:latest
 │ ├ Info
-│ │       name: localhost:5005/werf-guided-project:017ce9df8dbd7d3505546c95557f1c1f39ce1e6666aaae29e8c12608-1605619646009
+│ │       name: localhost:5005/werf-guided-spring:017ce9df8dbd7d3505546c95557f1c1f39ce1e6666aaae29e8c12608-1605619646009
 │ │       size: 375.8 MiB
 │ └ Building stage basicapp/dockerfile (209.48 seconds)
 └ ⛵ image basicapp (213.60 seconds)
 
-Release "werf-guided-project" does not exist. Installing it now.
-W1117 16:29:16.809420   42045 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-W1117 16:29:16.936024   42045 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+Release "werf-guided-spring" does not exist. Installing it now.
 
 ┌ Waiting for release resources to become ready
 │ ┌ Status progress
@@ -155,9 +175,9 @@ W1117 16:29:16.936024   42045 warnings.go:67] networking.k8s.io/v1beta1 Ingress 
 │ └ Status progress
 └ Waiting for release resources to become ready (4.02 seconds)
 
-NAME: werf-guided-project
+NAME: werf-guided-spring
 LAST DEPLOYED: Tue Nov 17 16:29:16 2020
-NAMESPACE: werf-guided-project
+NAMESPACE: werf-guided-spring
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
