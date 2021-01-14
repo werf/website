@@ -1,6 +1,7 @@
 ---
 title: Организация локальной разработки
 permalink: nodejs/200_real_apps/10_local.html
+layout: "wip"
 ---
 
 От локальной разработки хочется видеть:

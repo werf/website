@@ -1,6 +1,7 @@
 ---
 title: Генерируем и раздаём ассеты
 permalink: nodejs/200_real_apps/30_assets.html
+layout: "wip"
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

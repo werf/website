@@ -103,17 +103,20 @@
           <div class="layout-sidebar__content">
             <div class="docs">
               <h1 class="docs__title">{{ page.title }}</h1>
-              <div class="post-content">
+              <div class="post-content open-content_container">
 
-                <div class="in-development">
+                <div class="in-development open-content__border">
                   <div class="in-development__image"></div>
                   <div class="in-development__content">
-                    Прямо сейчас мы пишем новые главы самоучителя!<br/>Эта страница находится в разработке.
+                    Прямо сейчас мы пишем новые главы самоучителя!<br/>Эта страница находится в разработке.<br/><br/>
+                      <div class="open-content_button">Показать всё равно</div>
                   </div>
                 </div>
 
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScH5Zd9PUL7GBQHowaipqb-T7A1ZuILs0g3f9h5aBwTE_lfVw/viewform?embedded=true" width="800" height="700" frameborder="0" marginheight="0" marginwidth="0">Загрузка…</iframe>
 
+                <div class="open-content_content">
+                  {{content}}
+                </div>
               </div>
             </div>
           </div>

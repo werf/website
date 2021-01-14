@@ -1,6 +1,7 @@
 ---
 title: Локальная разработка
 permalink: nodejs/300_dev_process/10_local.html
+layout: "development"
 ---
 
 

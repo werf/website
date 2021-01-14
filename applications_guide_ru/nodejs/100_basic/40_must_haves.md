@@ -1,6 +1,7 @@
 ---
 title: Необходимо знать
 permalink: nodejs/100_basic/40_must_haves.html
+layout: "wip"
 ---
 
 ## Helm, релизы, вот это всё
