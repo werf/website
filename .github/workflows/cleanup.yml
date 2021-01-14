@@ -1,0 +1,26 @@
+name: Cleanup Docker registry
+on:
+  schedule:
+    - cron:  '0 6 * * *'
+  repository_dispatch:
+    types: [cleanup]
+  push:
+    branches:
+      - '*'
+jobs:
+  cleanup:
+    name: Cleanup
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Cleanup
+        uses: werf/actions/cleanup@master
+        with:
+          env: production
+          group: 1.2
+          channel: alpha
