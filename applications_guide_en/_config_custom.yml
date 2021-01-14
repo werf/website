@@ -27,7 +27,7 @@ defaults:
       type: "pages"
     values:
       lang: ru
-      sidebar: applications_guide
+      sidebar: applications_guide_nav
       guide_code: nodejs
       toc: false
       label_ci: GitLab
@@ -37,7 +37,7 @@ defaults:
       type: "pages"
     values:
       lang: ru
-      sidebar: applications_guide
+      sidebar: applications_guide_nav
       guide_code: java_springboot
       toc: false
       label_ci: GitLab
@@ -47,7 +47,7 @@ defaults:
       type: "pages"
     values:
       lang: ru
-      sidebar: applications_guide
+      sidebar: applications_guide_nav
       guide_code: python_django
       toc: false
       label_ci: GitLab
@@ -57,7 +57,7 @@ defaults:
       type: "pages"
     values:
       lang: ru
-      sidebar: applications_guide
+      sidebar: applications_guide_nav
       guide_code: rails
       toc: false
       label_ci: GitLab

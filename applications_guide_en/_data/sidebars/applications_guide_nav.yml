@@ -1,48 +1,60 @@
 entries:
   ru:
     f:
-      - title: Быстрый старт разработчика
+      - title: First steps
         url: "100_basic.html"
         sf:
-          - title: Сборка образа
+          - title: Building image
             url: "100_basic/10_build.html"
-          - title: Подготовка кластера
+          - title: Prepare environment
             url: "100_basic/20_cluster.html"
-          - title: Деплой приложения
+          - title: Deploying app
             url: "100_basic/30_deploy.html"
-          - title: Ускорение сборки
-            url: "100_basic/40_optimize.html"
-          - title: Конфигурирование инфраструктуры в виде кода
-            url: "100_basic/50_iac.html"
+          - title: Must haves
+            url: "100_basic/40_must_haves.html"
 
-      - title: Полноценные приложения
+      - title: Real world apps
         url: "200_real_apps.html"
         sf:
-          - title: Организация локальной разработки
-            url: "200_real_apps/10_local.html"
-          - title: Отладка кода инфраструктуры
-            url: "200_real_apps/20_debug_iac.html"
-          - title: Логгирование
+          - title: Logging
             url: "200_real_apps/25_logging.html"
-          - title: Генерируем и раздаём ассеты
+          - title: Assets generation
             url: "200_real_apps/30_assets.html"
-          - title: Работа с файлами
+          - title: Storing files
             url: "200_real_apps/50_files.html"
-          - title: Работа с электронной почтой
+          - title: Working with e-mail
             url: "200_real_apps/60_email.html"
-          - title: Подключаем Managed PostgreSQL
+          - title: Connecting to external PostgreSQL
             url: "200_real_apps/80_database.html"
-          - title: Stateful-приложение
+          - title: Stateful apps
             url: "200_real_apps/90_stateful.html"
 
-      - title: Работа с инфраструктурой
+      - title: Development process
+        url: "300_dev_process.html"
+        sf:
+          - title: Local development
+            url: "300_dev_process/10_local.html"
+          - title: Nonlocal development
+            url: "300_dev_process/20_nonlocal.html"
+
+      - title: Improve developer experience
+        url: "400_dev_experience.html"
+        sf:
+          - title: Delivery time optimization
+            url: "400_dev_experience/10_optimize.html"
+          - title: Better infrastructure debug
+            url: "400_dev_experience/20_debug.html"
+          - title: Better runtime debug
+            url: "400_dev_experience/30_debug_iac.html"
+
+      - title: Building infrastructure
         url: "400_infra.html"
         sf:
-          - title: Построение CI-процесса
+          - title: Building CI-process
             url: "400_infra/10_ci.html"
-          - title: Юнит-тесты и Линтеры
+          - title: Unit tests and linters
             url: "400_infra/20_unittesting.html"
-          - title: Несколько приложений в одном репозитории
+          - title: Multiple apps in single repository
             url: "400_infra/30_multipleapps.html"
-          - title: Динамические окружения
+          - title: Dynamic enviroinment
             url: "400_infra/40_dynamicenvs.html"
