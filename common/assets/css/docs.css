@@ -619,10 +619,11 @@
     background-repeat: no-repeat;
     background-size: contain;
     margin-right: 5px;
+    transform: rotate(-90deg);
 }
 
 .docs .details.active .details__summary::before {
-    transform: rotate(-180deg);
+    transform: rotate(0deg);
 }
 
 .docs .details .details__content {
