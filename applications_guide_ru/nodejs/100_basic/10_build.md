@@ -187,7 +187,7 @@ app.get('/labels', function (req, res) {
 1. Остановите ранее запущенный `werf run` (нажав Ctrl+C в консоли, где он запущен).
 2. Запустите его заново: 
     ```bash
-    $ werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+    werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
     ```
 2. Посмотрите, как произойдёт пересборка и запуск, а затем обратитесь к API: http://example.com:3000/labels
 3. Вы ожидали увидеть сообщение `Our changes`, но увидите старый результат. **Ничего не изменилось**, почему?
