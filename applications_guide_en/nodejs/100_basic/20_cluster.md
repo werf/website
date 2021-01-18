@@ -13,8 +13,6 @@ You would need the following components to develop in Kubernetes:
 
 **Setting up an environment is a difficult task**. We do not recommend digging into these problems yourselves. It makes more sense to use the existing services available on the market, seek help from colleagues who have the relevant experience, or ask questions in the [werf's Telegram community](https://t.me/werf_ru).
 
-**Настройка окружения — это сложная задача**. Не рекомендуем закапываться в решение проблем своими руками: используйте существующие на рынке услуги, позовите на помощь коллег, которые имеют практику настройки инфраструктуры, или задавайте вопросы в [Telegram-сообществе werf](https://t.me/werf_ru).
-
 {% offtopic title="A brief checklist for self-checking the environment" %}
 
 - You have a Kubernetes cluster (version 1.14 or later).
