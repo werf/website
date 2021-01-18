@@ -1,25 +1,43 @@
 ---
-title: Сборка образа
+title: Building an image
 permalink: nodejs/100_basic/10_build.html
 ---
 
-{% filesused title="Файлы, упомянутые в главе" %}
+{% filesused title="Files mentioned in the chapter" %}
 - Dockerfile
 - werf.yaml
 {% endfilesused %}
 
-Классическим способом сборки является использование [Dockerfile](https://docs.docker.com/engine/reference/builder/). Возможно, в ваших приложениях уже реализована сборка с помощью этого механизма, поэтому мы начнём с него, а затем подключим его в werf. В следующих главах мы ускорим сборку, воспользовавшись альтернативным синтаксисом описания сборки, а сейчас — сфокусируемся на быстром получении результата.
+[Dockerfile](https://docs.docker.com/engine/reference/builder/) is a classic method to build images. Probably, your applications are already using this mechanism for the assembly. That is why we will start with it and then learn how to use it with werf. In the next chapters, we will speed up the build using an alternative syntax for describing the assembly process, but in this chapter, we will focus on getting the result quickly.
 
-## Реализация сборки в Dockerfile
+## Preparing the workplace
 
-Конфигурация сборки нашего приложения будет состоять из следующих шагов:
+We assume that you have already [installed werf]({{ site.docsurl }}/installation.html) and Docker.
 
-- взять базовый образ с nodejs (`node:14-stretch` подойдёт)
-- добавить в него код приложения
-- установить зависимости npm
-- указать конфигурацию приложения с помощью переменных окружения
+Create a directory on your computer and follow these steps:
 
-Реализуем это в `Dockerfile`:
+```shell
+git clone git@github.com:werf/werf-guides.git
+cp -r werf-guides/examples/nodejs/000_app ./
+cd 000_app 
+git init
+git add .
+git commit -m "initial commit"
+```
+
+_This way you will copy the code of the Node.js application to a local directory and initialize a Git repository in it._
+
+Note that werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
+
+## Dockerfile-based build process
+
+The build configuration of our application consists of the following steps:
+
+- pull the base Node.js image (e.g., node:14-stretch);
+- add the application code to it;
+- install npm dependencies.
+
+Now let's insert all these steps into a `Dockerfile`:
 
 {% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/010_build/Dockerfile" %}
 {% raw %}
@@ -37,14 +55,14 @@ CMD ['node','/app/app.js']
 {% endraw %}
 {% endsnippetcut %}
 
-## Интеграция Dockerfile с werf
+## Integrating Dockerfile into werf
 
-Подключим готовый Dockerfile к werf. Для этого, создадим в корне репозитория файл `werf.yaml`, описывающий сборку всего проекта.
+Let's add our Dockerfile to werf. To do this, create a `werf.yaml` file in the repository root  (it describes the build process of the entire project):
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ---
 image: basicapp
@@ -53,24 +71,25 @@ dockerfile: Dockerfile
 {% endraw %}
 {% endsnippetcut %}
 
-{% offtopic title="Что тут написано?" %}
+{% offtopic title="What do all those lines mean?" %}
 
-Начинается `werf.yaml` с обязательной **секции мета-информации**:
+`werf.yaml` starts with a mandatory **meta-information section**:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-project
+project: werf-guided-nodejs
 configVersion: 1
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-Здесь:
-- **_project_** — поле, задающее уникальное имя проекта приложения. Имя проекта по умолчанию используется при генерации имени Helm-релиза и пространства имен, `namespace`, в Kubernetes. Изменение имени у активного проекта требует должного уровня ответственности и ряда действий, которые необходимо выполнить вручную (подробнее о возможных последствиях можно прочитать [здесь]({{ site.docsurl }}/documentation/reference/werf_yaml.html#последствия-смены-имени-проекта)).
-- **_configVersion_** — определяет версию синтаксиса, используемую в `werf.yaml` (на данный момент поддерживается только версия `1`).
+Here:
 
-Следующая секция конфигурации, которая и будет основной для сборки: [**image config section**]({{ site.docsurl }}/documentation/reference/werf_yaml.html#секция-image).
+- **_project_** is a field containing the unique name of the application project. The default project name is used when generating the Helm release name and the namespace in Kubernetes. Changing the name of an active project is a tedious task that requires a number of manual actions (more information about possible consequences is available [here]({{ site.docsurl }}/documentation/reference/werf_yaml. html#warning-on-changing-project-name));
+- **_configVersion_** specifies the syntax version used in the `werf.yaml` (currently, only version `1` is supported).
+
+The next section, called the [**image config section**]({{ site.docsurl }}/documentation/reference/werf_yaml.html#image-section), defines the build process.
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
 {% raw %}
@@ -82,27 +101,19 @@ dockerfile: Dockerfile
 {% endraw %}
 {% endsnippetcut %}
 
-В строке `image: basicapp` определяется внутренний идентификатор образа, который впоследствии может использоваться при конфигурации выката, а также для вызова команд werf для определённого образа из werf.yaml (к примеру, `werf build basicapp`, `werf run basicapp` и т.д.). 
+The `image: basicapp` line sets the image ID that will be used in the rollout configuration as well as for invoking werf commands for a specific image described in `werf.yaml` (for example, `werf build basicapp`, `werf run basicapp`, etc.).
 
-Строка `dockerfile: Dockerfile` указывает, что сборочная конфигурация описаны в существующем `Dockerfile`. 
+The `dockerfile: Dockerfile` line specifies that the build configuration is defined in the existing file located at the `Dockerfile` path.
 
-Так же доступны и другие директивы, с которыми можно ознакомиться [по ссылке]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
+You can also make use of other directives (their description is available [here]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image)).
 
-В одном werf.yaml может быть описано произвольное количество образов.
+The single `werf.yaml` file can contain the definitions of an arbitrary number of images.
 
 {% endofftopic %}
 
-## Сборка
+## Building
 
-Для того, чтобы начать работу, нужно инициализировать git в папке с исходным кодом приложения:
-
-{% raw %}
-```bash
-git init
-```
-{% endraw %}
-
-werf реализует подход "What you git is what you get" и опирается на коммиты, игнорируя незакомиченные изменения. Поэтому при локальной разработке не забывайте фиксировать свои изменения коммитом. К примеру так:
+Now that you have successfully added `Dockerfile` and `werf.yaml` described above, it is necessary to commit changes to Git:
 
 {% raw %}
 ```bash
@@ -111,7 +122,7 @@ git commit -m "work in progress"
 ```
 {% endraw %}
 
-Для того, чтобы запустить сборку — воспользуемся [командой `build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
+The [build command]({{ site.docsurl }}/documentation/reference/cli/werf_build.html) starts the assembly process:
 
 {% raw %}
 ```bash
@@ -119,9 +130,9 @@ werf build
 ```
 {% endraw %}
 
-_В подглаве "Ускорение сборки" мы переведём сборку с Dockerfile на альтернативный синтаксис werf под названием Stapel и получим расширенные возможности: инкрементальную пересборку с учетом истории git, возможность использовать Ansible, использование кэша между сборками, удобные инструменты диагностики и многое другое._
+The sub-chapter "Speeding up the build" contains instructions on how to adapt the Dockerfile-based build process to an alternative werf syntax called `Stapel` and gain access to some advanced features, such as Git history-based incremental rebuilds, the usage of Ansible and inter-assembly cache, convenient diagnostic tools, and much more.
 
-Но уже сейчас вы можете заметить, что werf делает расширенный вывод логов сборки:
+But even now, you may notice that werf outputs the build logs in the extended format:
 
 ```
 ┌ ⛵ image basicapp
@@ -135,7 +146,7 @@ _В подглаве "Ускорение сборки" мы переведём �
 │ │ basicapp/dockerfile  Successfully built 02a0a425890a
 │ │ basicapp/dockerfile  Successfully tagged a1cbf6dc-343f-4a77-b846-d0f12a700cb7:latest
 │ ├ Info
-│ │       name: werf-guided-project:a473b87e1ad65f102fa90f8c6647b03056e5ae95ff1ef3c5e7fd2c31-1605597979927
+│ │       name: werf-guided-nodejs:a473b87e1ad65f102fa90f8c6647b03056e5ae95ff1ef3c5e7fd2c31-1605597979927
 │ │       size: 953.1 MiB
 │ └ Building stage basicapp/dockerfile (21.94 seconds)
 └ ⛵ image basicapp (22.04 seconds)
@@ -143,21 +154,61 @@ _В подглаве "Ускорение сборки" мы переведём �
 Running time 22.07 seconds
 ```
 
-## Запуск
+## Running
 
-Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
+Let's run the built image using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
 
-```bash
-$ werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+```shell
+werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
 ```
 
-Обратите внимание, что мы задаем [параметры docker](https://docs.docker.com/engine/reference/run/) опцией `--docker-options`, а команду, указываем после двух дефисов.
+Note that we set the [docker parameters](https://docs.docker.com/engine/reference/run/) via `--docker-options`, while the startup command is preceded by two hyphens.
 
-_В подглаве "Организация локальной разработки" мы рассмотрим более корректные способы организации локальной разработки, в том числе — автоматическую локальную пересборку и перезапуск контейнеров при коммите._
+_You may also notice that `werf run` also performs the build. In other words, it is not really necessary to run the build separately._
 
-Теперь приложение доступно локально на порту 3000:
+Now you can access the application locally on port 3000:
 
 ![](/applications_guide_ru/images/nodejs/100_10_app_in_browser.png)
+
+## Making changes
+
+As you might guess, we are going to continually update our application. Let's see how to do this in the right way by making some arbitrary changes to the application code:
+
+{% snippetcut name="app.js" url="#" %}
+{% raw %}
+```javascript
+app.get('/labels', function (req, res) {
+  halt_if_errors(global_errors, res);
+  res.send('Our changes');
+});
+```
+{% endraw %}
+{% endsnippetcut %}
+
+1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
+2. Start it again: 
+    ```bash
+    werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+    ```
+2. Watch as the application is being rebuilt and restarted, and then connect to the API: http://example.com:3000/labels
+3. You probably expect to see the `Our changes` message, but it isn't there. **Everything is the same**... but why?
+
+The thing is we **forgot to commit changes to Git prior to step 1** in the scenario above.
+
+{% offtopic title="What is the correct way, and why go through all those troubles?" %}
+1. Make changes to the code.
+2. Commit them:
+   ```shell
+   git add .
+   git commit -m "wip"
+   ```
+3. Restart `werf run`:
+    ```shell
+    werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+    ```
+4. View the result in the browser.
+
+A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics are available in the "Things you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster. {% endofftopic %}
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Подготовка кластера" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
