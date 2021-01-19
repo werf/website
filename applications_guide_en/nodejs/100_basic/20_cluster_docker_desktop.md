@@ -31,7 +31,7 @@ You have to manually [install the Nginx Ingress controller](https://kubernetes.g
 In the case of Docker Desktop, the Ingress controller may be inaccessible in some cases. That is because ports are not forwarded to the host machine. To make sure that Ingress works as intended, check that:
 
 - The pod containing the Ingress controller is up and running fine (use this command for checking in the case of nginx-ingress: `kubectl -n ingress-nginx get po`).
-- Kubernetes is listening on port 80 (chack it with `lsof -n | grep LISTEN`) ?????? а на винде как??? надо дать ссылку на гугл
+- Kubernetes is listening on port 80 (chack it with `lsof -n | grep LISTEN` or [similar way](https://www.google.com/search?q=check+used+ports&oq=check+used+ports))
 
 If there is no Kubernetes on port 80 (HTTP), you may need to forward the port manually. For this, find out the name of the Ingress controller's pod:
 

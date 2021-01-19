@@ -1,5 +1,5 @@
 ---
-title: Must knows
+title: Must haves
 permalink: nodejs/100_basic/40_must_haves.html
 layout: "wip"
 ---

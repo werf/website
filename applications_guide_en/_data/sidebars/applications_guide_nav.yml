@@ -4,11 +4,11 @@ entries:
       - title: First steps
         url: "100_basic.html"
         sf:
-          - title: Building image
+          - title: Building an image
             url: "100_basic/10_build.html"
-          - title: Prepare environment
+          - title: Preparing the environment
             url: "100_basic/20_cluster.html"
-          - title: Deploying app
+          - title: Deploying the app
             url: "100_basic/30_deploy.html"
           - title: Must haves
             url: "100_basic/40_must_haves.html"
