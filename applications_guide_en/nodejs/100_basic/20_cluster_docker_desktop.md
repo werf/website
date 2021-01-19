@@ -59,7 +59,7 @@ Note that in this case, the registry does not use SSL encryption by default. Thu
 
 ### Hosts
 
-This tutorial assumes that the cluster (in fact, its Nginx Ingress controller) is located at `example.com`, and its registry is accessible at `registry.example.com`. We will be using this domain and its subdomains in the configs. If you use other addresses, adjust the configuration accordingly.
+This tutorial assumes that the cluster (in fact, its Nginx Ingress controller) is located at `example.com`, and its registry is accessible at `registry.example.com`. We will be using this domain and its subdomains in the configs. If you are using different addresses, adjust the configuration accordingly.
 
 Insert the following lines in `/etc/hosts`:
 
