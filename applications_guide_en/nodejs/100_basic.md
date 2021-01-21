@@ -1,5 +1,5 @@
 ---
-title: Developer's Quick Start
+title: First steps
 permalink: nodejs/100_basic.html
 ---
 
