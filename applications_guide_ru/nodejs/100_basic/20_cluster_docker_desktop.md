@@ -29,7 +29,7 @@ kubectl get ns
 В случае Docker Desktop иногда бывают сложности с доступом к Ingress: порты могут не проброситься на хост-машину. Чтобы быть уверенным, что Ingress корректно работает, проверьте:
 
 - Pod с Ingress-контроллером корректно поднялся (для nginx-ingress это можно посмотреть так: `kubectl -n ingress-nginx get po`);
-- На 80-м порту (это можно посмотреть с помощью `lsof -n | grep LISTEN`) ??? а на винде как??? надо дать ссылку на гугл
+- На 80-м порту (это можно посмотреть с помощью `lsof -n | grep LISTEN` или [аналогичным способом](https://www.google.com/search?q=check+used+ports&oq=check+used+ports))
 
 Если на 80-м порту (HTTP) нет Kubernetes — возможно, нужно пробросить порт вручную. Посмотрите имя Pod'а с ingress-controller:
 

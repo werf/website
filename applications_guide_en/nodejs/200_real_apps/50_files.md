@@ -1,6 +1,7 @@
 ---
-title: Работа с файлами
+title: Storing files
 permalink: nodejs/200_real_apps/50_files.html
+layout: "development"
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -147,7 +148,7 @@ spec:
           value: "47951_Clarisse"
         - name: "S3_SECRET_KEY"
           value: "i{z^e9WX"
-``` 
+```
 {% endraw %}
 {% endsnippetcut %}
 

@@ -32,7 +32,7 @@
   <div class="landing">
     <div class="landing__header">
       <div class="landing__container">
-        <a href="{{ site.baseurl }}" class="landing__header-title">
+        <a href="/" class="landing__header-title">
           <img src="{{ site.baseurl }}/assets/werf-logo.svg" alt="werf" width="167" height="70" />
         </a>
         <a href="http://werf.io" class="landing__button">
@@ -45,51 +45,51 @@
       <div class="landing__container">
         <div class="landing__section landing__section_first" data-sm-trigger="intro">
           <h1 class="landing__h1">
-            Быстро и&nbsp;просто<br>
-            деплоим в&nbsp;Kubernetes<br>
-            с&nbsp;помощью <b>werf</b>
+            Deploy to&nbsp;Kubernetes<br>
+            quickly and&nbsp;effortlessly<br>
+            using&nbsp;<b>werf</b>
           </h1>
           <div class="landing__text">
-            Мы разработали бесплатный самоучитель, который призван помочь разобраться,<br>
-            как&nbsp;разворачивать комплексные приложения в&nbsp;Kubernetes,<br>
-            реализуя CI/CD с&nbsp;помощью Open Source-утилиты werf.
+            In this free tutorial, you will learn<br>
+            how to&nbsp;deploy complex applications to&nbsp;Kubernetes<br>
+            by implementing a&nbsp;CI/CD process using the werf Open Source utility.
           </div>
         </div>
         <div class="landing__section" data-sm-trigger="plan">
           <h1 class="landing__h2">
-            Что меня ждёт?
+            What am I getting into?
           </h1>
           <div class="landing__text">
-            <p>Самоучитель — достаточно подробное руководство, сочетающее <b>теорию и практику</b> разработки (Dev) и эксплуатации (Ops).</p>
-            <p>Учебные материалы ориентированы на разработчиков, стремящихся обрести базовые навыки DevOps-инженеров по организации непрерывной доставки приложений в Kubernetes. А также они будут полезны для DevOps-инженеров, которые хотят эффективнее решать свои задачи.</p>
-            <p>Последовательно рассматриваются все основные задачи, возникающие при&nbsp;разработке сервисов и организации CI/CD: <b>сборка</b>, <b>деплой</b>, <b>работа с&nbsp;зависимостями и&nbsp;ассетами</b>, <b>работа с&nbsp;базами данных и&nbsp;хранилищами in-memory</b>, <b>работа с&nbsp;почтой</b>, <b>файловыми хранилищами</b>, <b>организация автотестов</b> и&nbsp;другие.</p>
-            <p>В каждом из&nbsp;вариантов самоучителя учтена специфика языка/фреймворка и приложены примеры исходных кодов приложения и инфраструктуры (IaC).</p>
-            <p><i>Самоучитель рассчитан на&nbsp;«ванильный» Kubernetes-кластер, но его должно быть просто адаптировать под&nbsp;кастомизированные сборки.</i></p>
+            <p>This tutorial provides reasonably detailed information that combines the <b>theory and practice</b> of development (Dev) and operation (Ops).</p>
+            <p>Its contents are aimed at developers seeking to acquire basic DevOps skills in organizing the continuous delivery of applications to Kubernetes. The DevOps engineers who want to solve their tasks more efficiently will also benefit from this tutorial.</p>
+            <p>We will gradually consider all the tasks related to&nbsp;developing services and implementing the CI/CD process: <b>building</b>, <b>deploying</b>, <b>working with dependencies and&nbsp;assets</b>, <b>working with databases and&nbsp;in-memory storage</b>, <b>using e-mail and&nbsp;file storage</b>, <b>implementing autotests</b>, and&nbsp;more.</p>
+            <p>Each version of&nbsp;the&nbsp;tutorial takes into account the specifics of the programming language/framework and includes examples of the application source code and infrastructure (IaC).</p>
+            <p><i>This tutorial is based on a&nbsp;plain "vanilla" Kubernetes cluster. However, you can easily adapt it for&nbsp;custom builds.</i></p>
           </div>
         </div>
         <div class="landing__section" data-sm-trigger="todo">
           <h1 class="landing__h2">
-            Что я получу?
+            What's in it for me?
           </h1>
           <div class="landing__text">
-            <p>Освоить навыки по самоучителю — не простая задача. Потребуется выделить время, приложить усилия и активировать внимание.</p>
-            <p>Те, кто найдёт в себе силы дойти до конца, смогут:</p>
+            <p>Mastering the skills using a self-study guide is a difficult challenge. You have to find the time, work hard, and focus on the process.</p>
+            <p>Those who have the strength to go all the way to the end will be able to:</p>
           </div>
           <ul class="landing__list">
             <li>
-              Стать более востребованными специалистами
-              <span>(в области пересечения разработки и эксплуатации, что обычно называют «DevOps-инженерами»)</span>
+              Gain expertise and better market their skills to employers
+              <span>(in the area that combines the development and operation and commonly referred to as DevOps)</span>
             </li>
             <li>
-              Принести в свою компанию Kubernetes
-              <span>(и получить скидку на Kubernetes-кластер от компании «Флант»)</span>
+              Introduce Kubernetes to their company
+              <span>(and get a discount on the Kubernetes cluster from Flant)</span>
             </li>
             <li>
-              Научиться лучше решать задачи в текущей компании
+              Learn how to solve problems in their company more efficiently
             </li>
           </ul>
           <div class="landing__text">
-            <p>Самоучитель поможет сфокусироваться только на том, что нужно именно вам, а <a href="https://t.me/werf_ru">сообщество пользователей werf</a> — облегчит преодоление сложностей на пути.</p>
+            <p>This tutorial will help you focus on your needs, and the <a href="https://t.me/werf_io">werf user community</a> will make it easier to overcome any obstacles along the way.</p>
           </div>
         </div>
         <div class="landing__section" data-sm-trigger="select">
@@ -106,43 +106,21 @@
             </li>
             <li class="landing__framework">
               <img src="{{ site.baseurl }}/assets/landing/springboot.png" width="149" height="78" class="landing__framework-logo" />
-                <a href="java_springboot/100_basic.html" class="landing__button landing__button_small">
-                    <span>Spring Boot</span>
-                    <img src="{{ site.baseurl }}/assets/arrow.svg" class="flip-horizontal" height="12" />
-                </a>
+                <span class="landing__button landing__button_small landing__button_disabled">
+                <span>soon...</span>
+              </span>
             </li>
             <li class="landing__framework">
               <img src="{{ site.baseurl }}/assets/landing/django.png" width="156" height="54" class="landing__framework-logo" />
               <span class="landing__button landing__button_small landing__button_disabled">
-                <span>скоро...</span>
+                <span>soon...</span>
               </span>
-            </li>
-          </ul>
-        </div>
-        <div class="landing__section landing__section_short" data-sm-trigger="select">
-          <h1 class="landing__h2">
-            werf 1.1
-          </h1>
-          <ul class="landing__frameworks">
-            <li class="landing__framework">
-              <img src="{{ site.baseurl }}/assets/landing/nodejs.png" width="129" height="79" class="landing__framework-logo" />
-              <a href="gitlab_nodejs/010_preparing.html" class="landing__button landing__button_small">
-                <span>Gitlab + Node.js</span>
-                <img src="{{ site.baseurl }}/assets/arrow.svg" class="flip-horizontal" height="12" />
-              </a>
-            </li>
-            <li class="landing__framework">
-              <img src="{{ site.baseurl }}/assets/landing/springboot.png" width="149" height="78" class="landing__framework-logo" />
-              <a href="gitlab_java_springboot/010_preparing.html" class="landing__button landing__button_small">
-                <span>Gitlab&nbsp;+&nbsp;Spring&nbsp;Boot</span>
-                <img src="{{ site.baseurl }}/assets/arrow.svg" class="flip-horizontal" height="12" />
-              </a>
             </li>
           </ul>
         </div>
         <div class="landing__section">
           <div class="landing__credits">
-            Сделано с <span class="icon">любовью</span> в компании <a href="https://flant.ru/" target="_blank">Флант</a>
+            Made with <span class="icon">love</span> by <a href="https://flant.ru/" target="_blank">Flant</a>
           </div>
         </div>
       </div>
