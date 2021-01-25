@@ -33,8 +33,8 @@ ansible:
     args:
       executable: /bin/bash
     with_items:
-      - /app/applications_guide_en
-      - /app/applications_guide_ru
+      - /app/werf.io/applications_guide
+      - /app/ru.werf.io/applications_guide
 git:
 - add: /
   to: /app
@@ -61,10 +61,10 @@ ansible:
       dest: /etc/nginx/nginx.conf
 import:
 - artifact: guides-artifact
-  add: /app/applications_guide_en/_site
-  to: /app/applications_guide_en/
+  add: /app/werf.io/applications_guide/_site
+  to: /app/werf.io/applications_guide/
   before: setup
 - artifact: guides-artifact
-  add: /app/applications_guide_ru/_site
-  to: /app/applications_guide_ru/
+  add: /app/ru.werf.io/applications_guide/_site
+  to: /app/ru.werf.io/applications_guide/
   before: setup
