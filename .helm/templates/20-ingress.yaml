@@ -32,6 +32,10 @@ spec:
         backend:
           serviceName: {{ .Chart.Name }}
           servicePort: 80
+      - path: /guides
+        backend:
+          serviceName: {{ .Chart.Name }}
+          servicePort: 80
   - host: ru.{{ $host }}
     http:
       paths:
@@ -40,6 +44,10 @@ spec:
           serviceName: {{ .Chart.Name }}
           servicePort: 80
       - path: /applications_guide_ru
+        backend:
+          serviceName: {{ .Chart.Name }}
+          servicePort: 80
+      - path: /guides
         backend:
           serviceName: {{ .Chart.Name }}
           servicePort: 80
