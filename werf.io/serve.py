@@ -5,7 +5,7 @@ PORT = 3001
 
 class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        self.path = self.path.replace('applications_guide/','applications_guide/_site/')
+        self.path = self.path.replace('guides/','guides/_site/')
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 # Create an object of the above class
