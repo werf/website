@@ -95,7 +95,7 @@ spec:
     app: basicapp
   ports:
   - name: http
-    port: 3000
+    port: 8000
     protocol: TCP
 ```
 {% endraw %}
@@ -131,7 +131,7 @@ spec:
       - path: /
         backend:
           serviceName: basicapp
-          servicePort: 3000
+          servicePort: 8000
 ```
 {% endraw %}
 {% endsnippetcut %}
