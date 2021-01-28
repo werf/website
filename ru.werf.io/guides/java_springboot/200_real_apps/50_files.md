@@ -144,7 +144,7 @@ spec:
       containers:
       - name: basicapp
         command: ["java","-jar","/app/demo.jar"]
-        image: {{ tuple "basicapp" . | werf_image}}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 8080
@@ -203,7 +203,7 @@ spec:
       containers:
       - name: basicapp
         command: ["java","-jar","/app/demo.jar"]
-        image: {{ tuple "basicapp" . | werf_image}}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 8080

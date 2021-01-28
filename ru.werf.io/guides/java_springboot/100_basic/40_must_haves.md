@@ -44,7 +44,7 @@ permalink: java_springboot/100_basic/40_must_haves.html
 Если запустить `converge` (или другую команду — например, `render`) с CLI-параметром `--dev`:
 
 ```shell
-werf converge --repo registry.example.com/werf-guided-nodejs --dev
+werf converge --repo registry.example.com/werf-guided-springboot --dev
 ```
 
 … то собираться и деплоиться будут не только закоммиченные, но и **отслеживаемые файлы** (т.е. добавленные с помощью `git add`).
@@ -63,7 +63,7 @@ werf converge --repo registry.example.com/werf-guided-nodejs --dev
 Кроме dev-режима может быть полезен **follow-режим**. Если вы запустите `converge` (или другую команду — например, `run` или `compose up`) с CLI-параметром `--follow`:
 
 ```shell
-werf converge --repo registry.example.com/werf-guided-nodejs --follow
+werf converge --repo registry.example.com/werf-guided-springboot --follow
 ```
 
 … то при каждом коммите в Git команда будет автоматически перезапускаться.
@@ -77,7 +77,7 @@ werf converge --repo registry.example.com/werf-guided-nodejs --follow
 {% raw %}
 ```yaml
       - name: basicapp
-        command: ["node","/app/app.js"]
+        command: ["java","-jar","/app/demo.jar"]
         image: {{ .Values.werf.image.basicapp }}
 ```
 {% endraw %}

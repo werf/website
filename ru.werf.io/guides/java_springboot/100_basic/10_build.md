@@ -25,7 +25,7 @@ git add .
 git commit -m "initial commit"
 ```
 
-_Так вы скопируете себе код [приложения на Node.js](https://github.com/werf/werf-guides/tree/master/examples/springboot/000_app) и инициируете Git в каталоге с ним._
+_Так вы скопируете себе код [приложения на SpringBoot](https://github.com/werf/werf-guides/tree/master/examples/springboot/000_app) и инициируете Git в каталоге с ним._
 
 werf следует принципам [гитерминизма]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html): опирается на состояние, описанное в Git-репозитории. Это означает, что файлы, не коммитнутые в Git-репозиторий, по умолчанию будут игнорироваться. Благодаря этому, имея исходные коды приложения, вы всегда можете реализовать его конкретное работоспособное состояние.
 
@@ -145,7 +145,7 @@ _В подглаве «Ускорение сборки» мы переведём
 │ │ basicapp/dockerfile  Successfully built e0d6df14df8b
 │ │ basicapp/dockerfile  Successfully tagged ee51ea7f-c498-45a5-a435-0fd830fbb576:latest
 │ ├ Info
-│ │       name: werf-guided-project:50558f3f54d2ebbbd817824c6d7194aabe725bff6d7beae4df9c5e29-1606128099580
+│ │       name: werf-guided-springboot:50558f3f54d2ebbbd817824c6d7194aabe725bff6d7beae4df9c5e29-1606128099580
 │ │       size: 738.6 MiB
 │ └ Building stage basicapp/dockerfile (86.12 seconds)
 └ ⛵ image basicapp (86.32 seconds)
