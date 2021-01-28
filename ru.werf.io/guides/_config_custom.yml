@@ -3,6 +3,8 @@ company_url: https://flant.ru
 url: https://ru.werf.io
 site_lang: ru
 baseurl: /guides
+editlink: "https://github.com/werf/werf-guides/edit/master/ru.werf.io/guides"
+issuelink: "https://github.com/werf/werf-guides/issues/new"
 docsurl: https://ru.werf.io
 
 breadcrumbs:

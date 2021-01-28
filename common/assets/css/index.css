@@ -546,6 +546,16 @@ code {
 .button__white_withoffset {
   margin-left: 100px;
 }
+.button__white_smalloffsets {
+  margin: 0 10px;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+}
 
 /* ---------------------------------------------------------------------------------------- */
 
