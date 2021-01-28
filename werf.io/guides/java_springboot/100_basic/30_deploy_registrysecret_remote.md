@@ -49,11 +49,11 @@ spec:
       - name: "registrysecret"                    # Added line
       containers:
       - name: basicapp
-        command: ["node","/app/app.js"]
-        image: {{ tuple "basicapp" . | werf_image }}
+        command: ["java","-jar","/app/demo.jar"]
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
           protocol: TCP
         env:
         - name: "SQLITE_FILE"
