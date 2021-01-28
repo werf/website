@@ -102,6 +102,14 @@
           </div>
           <div class="layout-sidebar__content">
             <div class="docs">
+              <div class="buttons">
+                <div class="button__white button__white_smalloffsets">
+                    <a href="{{ site.editlink }}/{{ page.path }}">Edit page</a>
+                </div>
+                <div class="button__white button__white_smalloffsets">
+                    <a href="{{ site.issuelink }}">Create issue</a>
+                </div>
+              </div>
               <h1 class="docs__title">{{ page.title }}</h1>
               <div class="post-content">
                 {{content}}
