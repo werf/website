@@ -1,6 +1,6 @@
 ---
-title: What you need to know
-permalink: java_springboot/100_basic/40_must_haves.html
+title: Must Haves
+permalink: nodejs/100_basic/40_must_haves.html
 ---
 
 You need to know a few features and peculiarities of werf to use it confidently and comfortably:
