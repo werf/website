@@ -69,7 +69,7 @@ If you combine `--follow` and `--dev` parameters, the command will be restarted 
 
 ## Tagging images
 
-In the manual deployment process (i.e., without werf), you have to define the strict rules for tagging images and follow them (it is [no easy task](https://www.youtube.com/watch?v=oh4N2wBJCc8), frankly). However, you may have noticed that we use the {{% raw %}`image: {{ .Values.werf.image.basicapp }}`{% endraw %} construct in werf charts: 
+In the manual deployment process (i.e., without werf), you have to define the strict rules for tagging images and follow them (it is [no easy task](https://www.youtube.com/watch?v=oh4N2wBJCc8), frankly). However, you may have noticed that we use the {% raw %}`image: {{ .Values.werf.image.basicapp }}`{% endraw %} construct in werf charts: 
 
 {% raw %}
 ```yaml

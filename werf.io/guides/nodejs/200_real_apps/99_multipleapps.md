@@ -1,6 +1,6 @@
 ---
-title: Несколько приложений в одном репозитории
-permalink: java_springboot/400_infra/30_multipleapps.html
+title: Multiple apps in single repository
+permalink: nodejs/200_real_apps/99_multipleapps.html
 layout: "development"
 ---
 

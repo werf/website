@@ -28,6 +28,8 @@ entries:
             url: "200_real_apps/80_database.html"
           - title: Stateful-приложение
             url: "200_real_apps/90_stateful.html"
+          - title: Несколько приложений в одном репозитории
+            url: "200_real_apps/99_dynamicenvs.html"
 
       - title: Организация разработки
         url: "300_dev_process.html"
@@ -54,7 +56,5 @@ entries:
             url: "400_infra/10_ci.html"
           - title: Юнит-тесты и Линтеры
             url: "400_infra/20_unittesting.html"
-          - title: Несколько приложений в одном репозитории
-            url: "400_infra/30_multipleapps.html"
           - title: Динамические окружения
             url: "400_infra/40_dynamicenvs.html"

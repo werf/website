@@ -159,7 +159,7 @@ Running time 22.07 seconds
 Let's run the built image using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
 
 ```shell
-werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
 ```
 
 Note that we set the [docker parameters](https://docs.docker.com/engine/reference/run/) via `--docker-options`, while the startup command is preceded by two hyphens.
@@ -188,7 +188,7 @@ app.get('/labels', function (req, res) {
 1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
 2. Start it again: 
     ```bash
-    werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+    werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
     ```
 2. Watch as the application is being rebuilt and restarted, and then connect to the API: http://example.com:3000/labels
 3. You probably expect to see the `Our changes` message, but it isn't there. **Everything is the same**... but why?
@@ -204,7 +204,7 @@ The thing is we **forgot to commit changes to Git prior to step 1** in the scena
    ```
 3. Restart `werf run`:
     ```shell
-    werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+    werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
     ```
 4. View the result in the browser.
 

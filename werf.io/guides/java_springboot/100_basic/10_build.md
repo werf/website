@@ -160,7 +160,7 @@ Running time 86.37 seconds
 Let's run the built image using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
 
 ```bash
-werf run --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/demo.jar
+werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
 ```
 
 Note that we set the [docker parameters](https://docs.docker.com/engine/reference/run/) via `--docker-options`, while the startup command is preceded by two hyphens.
