@@ -14,7 +14,6 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "league/flysystem-aws-s3-v3": "~1.0",
         "ext-pdo": "*"
     },
     "require-dev": {
