@@ -1,0 +1,43 @@
+# For more information: https://laravel.com/docs/sail
+version: '3'
+services:
+    laravel.test:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.0
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: sail-8.0/app
+        ports:
+            - '${APP_PORT:-80}:80'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+             - pgsql
+
+    pgsql:
+        image: postgres:13
+        ports:
+            - '${POSTGRESQL_PORT:-5432}:5432'
+        environment:
+            PGPASSWORD: '${POSTGRESQL_PASSWORD:-secret}'
+            POSTGRES_DB: '${POSTGRESQL_DB}'
+            POSTGRES_USER: '${POSTGRESQL_USER}'
+            POSTGRES_PASSWORD: '${POSTGRESQL_PASSWORD:-secret}'
+        volumes:
+            - 'sailpostgresql:/var/lib/postgresql/data'
+        networks:
+            - sail
+        healthcheck:
+          test: ["CMD", "pg_isready", "-q", "-d", "${POSTGRESQL_DB}", "-U", "${POSTGRESQL_USER}"]
+networks:
+    sail:
+        driver: bridge
+volumes:
+    sailpostgresql:
+        driver: local
