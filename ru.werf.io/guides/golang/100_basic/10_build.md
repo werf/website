@@ -49,12 +49,14 @@ werf следует принципам [гитерминизма]({{ site.docsur
 FROM golang:1.15-alpine as builder
 RUN apk add --update gcc musl-dev
 WORKDIR /app
-COPY . .
+COPY go.* /app/
+RUN go mod download
+COPY /cmd /app/cmd
 RUN go build ./cmd/demoapp
 
 FROM alpine:3.13
 COPY --from=builder /app/demoapp /app/demoapp
-COPY /app/app.db /app/app.db
+COPY /app.db /app/app.db
 
 CMD ["/app/demoapp"]
 ```
@@ -165,7 +167,7 @@ Running time 55.82 seconds
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
 ```shell
-werf run --docker-options="-d -p 3000:3000 --restart=always" -- /demoapp
+werf run --docker-options="--rm -p 3000:3000" -- /app/demoapp
 ```
 
 Обратите внимание, что мы задаем [параметры docker](https://docs.docker.com/engine/reference/run/) опцией `--docker-options`, а саму команду запуска указываем после двух дефисов.
@@ -202,7 +204,7 @@ func listLabels(w http.ResponseWriter, r *http.Request) {
 1. Остановите ранее запущенный `werf run` (нажав Ctrl+C в консоли, где он запущен).
 2. Запустите его заново: 
     ```bash
-    werf run --docker-options="-d -p 3000:3000 --restart=always" -- /demoapp
+    werf run --docker-options="--rm -p 3000:3000" -- /app/demoapp
     ```
 2. Посмотрите, как произойдёт пересборка и запуск, а затем обратитесь к API: http://example.com:3000/labels
 3. Вы ожидали увидеть сообщение `Our changes`, но увидите старый результат. **Ничего не изменилось**, почему?
@@ -218,7 +220,7 @@ func listLabels(w http.ResponseWriter, r *http.Request) {
    ```
 3. Перезапустить `werf run`:
     ```shell
-    werf run --docker-options="-d -p 3000:3000 --restart=always" -- /demoapp
+    werf run --docker-options="--rm -p 3000:3000" -- /app/demoapp
     ```
 4. Посмотреть на результат в браузере.
 

@@ -44,7 +44,7 @@ spec:
     spec:
       containers:
       - name: basicapp
-        command: ["/demoapp"]
+        command: ["/app/demoapp"]
         image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:

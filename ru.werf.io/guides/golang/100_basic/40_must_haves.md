@@ -77,7 +77,7 @@ werf converge --repo registry.example.com/werf-guided-golang --follow
 {% raw %}
 ```yaml
       - name: basicapp
-        command: ["/demoapp"]
+        command: ["/app/demoapp"]
         image: {{ .Values.werf.image.basicapp }}
 ```
 {% endraw %}

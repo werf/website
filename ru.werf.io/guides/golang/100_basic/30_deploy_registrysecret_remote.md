@@ -49,7 +49,7 @@ spec:
       - name: "registrysecret"                    # Added line
       containers:
       - name: basicapp
-        command: ["/demoapp"]
+        command: ["/app/demoapp"]
         image: {{ tuple "basicapp" . | werf_image }}
         workingDir: /app
         ports:
