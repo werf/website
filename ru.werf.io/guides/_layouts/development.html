@@ -46,10 +46,20 @@
     <div class="page__content">
       <div class="header">
         <div class="page__container">
-          <div class="header__container">
-            <div class="header__backlink"><a href="/guides/">< к выбору языка и CI-системы</a></div>
-            <div class="header__title">Разворачиваем <span>{{ page.label_framework }}</span>-приложение в среде Kubernetes</div>
-          </div>
+          <ol class="breadcrumbs">
+            <li>
+              <a href="/">Начало</a>
+            </li>
+            <li>
+               <a href="/documentation/">Документация</a>
+            </li>
+            <li>
+              <a href="/documentation/guides.html">Руководства</a>
+            </li>
+            <li>
+              {{ page.label_framework }}
+            </li>
+         </ol>
         </div>
       </div>
 
@@ -101,6 +111,9 @@
             </div>
           </div>
           <div class="layout-sidebar__content">
+            <div class="content__header">
+              <div class="content__title">Разворачиваем <span>{{ page.label_framework }}</span>-приложение в среде Kubernetes</div>
+            </div>
             <div class="docs">
               <div class="buttons">
                 <div class="button__white button__white_smalloffsets">

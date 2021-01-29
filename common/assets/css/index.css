@@ -216,24 +216,16 @@ html, body, .page {
 
 /* ---------------------------------------------------------------------------------------- */
 
-.header__container {
-  margin: 35px 0 50px 0;
+.content__header {
+  margin: 0 0 25px 0;
 }
 
-.header__backlink {}
-.header__backlink a {
-  color: #939FB1;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: lighter;
-}
-
-.header__title {
+.content__title {
   font-weight: bold;
   font-size: 36px;
   margin: 0px;
 }
-.header__title span {
+.content__title span {
   color: #0066FF;
 }
 
@@ -547,14 +539,15 @@ code {
   margin-left: 100px;
 }
 .button__white_smalloffsets {
-  margin: 0 10px;
+  margin: 0 10px 0 0;
 }
 
 /* ---------------------------------------------------------------------------------------- */
 
 .buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    margin-bottom: 25px;
 }
 
 /* ---------------------------------------------------------------------------------------- */
