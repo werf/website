@@ -1,6 +1,6 @@
 ---
 title: Динамические окружения
-permalink: java_springboot/400_infra/40_dynamicenvs.html
+permalink: nodejs/200_real_apps/99_dynamicenvs.html
 layout: "development"
 ---
 

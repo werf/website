@@ -158,7 +158,7 @@ Running time 86.37 seconds
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
 ```bash
-werf run --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/demo.jar
+werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
 ```
 
 Обратите внимание, что мы задаем [параметры docker](https://docs.docker.com/engine/reference/run/) опцией `--docker-options`, а саму команду запуска указываем после двух дефисов.
@@ -187,7 +187,7 @@ _Вы также можете заметить, что и вызов `werf run` 
 1. Остановите ранее запущенный `werf run` (нажав Ctrl+C в консоли, где он запущен).
 2. Запустите его заново: 
     ```bash
-    werf run --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/demo.jar
+    werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
     ```
 2. Посмотрите, как произойдёт пересборка и запуск, а затем обратитесь к API: http://example.com:8080/labels
 3. Вы ожидали увидеть сообщение `Our changes`, но увидите старый результат. **Ничего не изменилось**, почему?
@@ -203,7 +203,7 @@ _Вы также можете заметить, что и вызов `werf run` 
    ```
 3. Перезапустить `werf run`:
     ```shell
-    werf run --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/demo.jar
+    werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
     ```
 4. Посмотреть на результат в браузере.
 

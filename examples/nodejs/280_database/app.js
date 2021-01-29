@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// Connection to Redis
+// Connection to PostgreSQL
 const Pool = require('pg').Pool
 let client;
 try {

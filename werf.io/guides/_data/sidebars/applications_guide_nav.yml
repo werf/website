@@ -28,6 +28,8 @@ entries:
             url: "200_real_apps/80_database.html"
           - title: Stateful apps
             url: "200_real_apps/90_stateful.html"
+          - title: Multiple apps in single repository
+            url: "200_real_apps/99_multipleapps.html"
 
       - title: Development process
         url: "300_dev_process.html"
@@ -54,7 +56,5 @@ entries:
             url: "400_infra/10_ci.html"
           - title: Unit tests and linters
             url: "400_infra/20_unittesting.html"
-          - title: Multiple apps in single repository
-            url: "400_infra/30_multipleapps.html"
           - title: Dynamic enviroinment
             url: "400_infra/40_dynamicenvs.html"
