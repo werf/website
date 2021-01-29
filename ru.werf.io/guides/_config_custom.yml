@@ -45,12 +45,12 @@ defaults:
       label_ci: GitLab
       label_framework: Springboot
   - scope:
-      path: "python_django"
+      path: "django"
       type: "pages"
     values:
       lang: ru
       sidebar: applications_guide_nav
-      guide_code: python_django
+      guide_code: django
       toc: false
       label_ci: GitLab
       label_framework: Django
