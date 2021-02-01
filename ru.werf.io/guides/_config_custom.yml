@@ -55,6 +55,16 @@ defaults:
       label_ci: GitLab
       label_framework: Django
   - scope:
+      path: "golang"
+      type: "pages"
+    values:
+      lang: ru
+      sidebar: applications_guide_nav
+      guide_code: golang
+      toc: false
+      label_ci: GitLab
+      label_framework: Go
+  - scope:
       path: "rails"
       type: "pages"
     values:
