@@ -102,6 +102,7 @@
           </div>
           <div class="layout-sidebar__content">
             <div class="docs">
+              {%- if page.name != '404.md' %}
               <div class="buttons">
                 <div class="button__white button__white_smalloffsets">
                     <a href="{{ site.editlink }}/{{ page.path }}">Edit page</a>
@@ -110,6 +111,7 @@
                     <a href="{{ site.issuelink }}">Create issue</a>
                 </div>
               </div>
+              {%- endif %}
               <h1 class="docs__title">{{ page.title }}</h1>
               <div class="post-content">
                 {{content}}
