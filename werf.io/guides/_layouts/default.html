@@ -48,7 +48,7 @@
         <div class="page__container">
           <div class="header__container">
             <div class="header__backlink"><a href="/guides/">< select your language and the CI system</a></div>
-            <div class="header__title">Deploying <span>{{ page.label_framework }}</span> application to Kubernetes</div>
+            <div class="header__title">Deploying {% if page.label_framework %}<span>{{ page.label_framework }}</span> {% endif %}application to Kubernetes</div>
           </div>
         </div>
       </div>
