@@ -1,5 +1,5 @@
 ---
-title: Ускорение сборки
+title: Упрощение отладки сборки
 permalink: nodejs/400_dev_experience/20_debug.html
 layout: "development"
 ---
