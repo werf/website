@@ -128,12 +128,31 @@ spec:
     http:
       paths:
       - path: /
+        pathType: "Prefix"
         backend:
-          serviceName: basicapp
-          servicePort: 3000
+          service: 
+            name: basicapp
+            port: 
+              number: 3000
 ```
 {% endraw %}
 {% endsnippetcut %}
+
+Также нужно добавить хост в конфигурацию Rails
+
+{% snippetcut name="config/application.rb" url="#" %}
+{% raw %}
+```ruby
+class Application < Rails::Application
+  # ...
+  config.hosts << 'example.com'
+  # ...
+end
+```
+{% endraw %}
+{% endsnippetcut %}
+
+После этого не забыть зафиксировать изменения!
 
 ## Выкат в кластер
 
@@ -156,7 +175,32 @@ werf converge --repo registry.example.com/werf-guided-rails
 В результате вы должны увидеть логи примерно такого вида:
 
 ```
-TODO
+│ basicapp/dockerfile  Successfully built 4c1054085159
+│ │ basicapp/dockerfile  Successfully tagged 93c05bf8-c459-4768-b388-3cdbc80e2868:latest
+│ ├ Info
+│ │       name: localhost:5000/werf-guided-rails:f4caaa836701e5346c4a0514bb977362ba5fe4ae114d0176f6a6c8cc-1612277803607
+│ │       size: 371.4 MiB
+│ └ Building stage basicapp/dockerfile (40.31 seconds)
+└ :boat: image basicapp (41.13 seconds)
+
+Release "werf-guided-rails" does not exist. Installing it now.
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                                                      REPLICAS                      AVAILABLE                        UP-TO-DATE
+│ │ basicapp                                                                                                                                                        1/1                           1                                1
+│ │ │   POD                                                           READY                  RESTARTS                       STATUS
+│ │ └── 687f8cc569-n6gkw                                              1/1                    0                              Running
+│ └ Status progress
+└ Waiting for release resources to become ready (0.02 seconds)
+
+NAME: werf-guided-rails
+LAST DEPLOYED: Tue Feb  2 21:57:23 2021
+NAMESPACE: werf-guided-rails
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+Running time 62.66 seconds
 ```
 
 После этого приложение должно быть доступно в браузере:

@@ -169,6 +169,8 @@ _Вы также можете заметить, что и вызов `werf run` 
 
 ![](/guides/images/rails/100_10_app_in_browser.png)
 
+_Как уже было сказано, используется база SQLite без сохранения данных между запусками. Поэтому при первом запросе Rails выдаст страницу с просьбой выполнить миграции. Это можно сделать, нажав на этой странице соответствующую кнопку._
+
 ## Внесение новых изменений
 
 Мы будем постоянно дорабатывать приложение. Посмотрим, как это правильно делать на примере произвольных изменений в коде приложения:
@@ -176,14 +178,8 @@ _Вы также можете заметить, что и вызов `werf run` 
 {% snippetcut name="app/controllers/api/labels_controller.rb" url="#" %}
 {% raw %}
 ```ruby
-def create
-  @label = Label.new(label_params)
-
-  if @label.save
-    render :show, status: :ok
-  else
-    render_error @label.errors, status: :unprocessable_entity
-  end
+def index
+  render plain: 'Our changes'
 end
 ```
 {% endraw %}

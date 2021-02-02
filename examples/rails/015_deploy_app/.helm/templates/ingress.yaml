@@ -6,10 +6,13 @@ metadata:
   name: basicapp
 spec:
   rules:
-  - host: mydomain.io
+  - host: example.com
     http:
       paths:
       - path: /
+        pathType: "Prefix"
         backend:
-          serviceName: basicapp
-          servicePort: 3000
+          service: 
+            name: basicapp
+            port: 
+              number: 3000
