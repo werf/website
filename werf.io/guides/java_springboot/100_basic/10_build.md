@@ -35,8 +35,7 @@ The build configuration of our application consists of the following steps:
 
 - pull the OpenJDK image (e.g., `gradle:jdk8-openj9`);
 - add the application code to it;
-- build the application using gradle and move the resulting jar to the appropriate location;
-- configure the application using environment variables.
+- build the application using gradle and move the resulting jar to the appropriate location.
 
 Now let's insert all these steps into a `Dockerfile`:
 
