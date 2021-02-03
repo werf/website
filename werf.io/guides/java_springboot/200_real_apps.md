@@ -1,5 +1,5 @@
 ---
-title: Полноценные приложения
+title: Real world apps
 permalink: java_springboot/200_real_apps.html
 layout: "development"
 ---

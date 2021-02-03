@@ -1,5 +1,5 @@
 ---
-title: Нелокальная разработка
+title: Nonlocal development
 permalink: java_springboot/300_dev_process/20_nonlocal.html
 layout: "development"
 ---

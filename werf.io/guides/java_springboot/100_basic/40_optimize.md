@@ -1,5 +1,5 @@
 ---
-title: Ускорение сборки
+title: Speeding up the build
 permalink: java_springboot/100_basic/40_optimize.html
 ---
 

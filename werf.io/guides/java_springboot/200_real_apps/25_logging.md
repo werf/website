@@ -1,5 +1,5 @@
 ---
-title: Логгирование
+title: Logging
 permalink: java_springboot/200_real_apps/25_logging.html
 layout: "development"
 ---

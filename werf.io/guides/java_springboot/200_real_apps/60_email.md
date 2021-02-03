@@ -1,5 +1,5 @@
 ---
-title: Работа с электронной почтой
+title: Working with e-mail
 permalink: java_springboot/200_real_apps/60_email.html
 layout: "development"
 ---

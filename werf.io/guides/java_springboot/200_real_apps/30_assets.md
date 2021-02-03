@@ -1,5 +1,5 @@
 ---
-title: Генерируем и раздаём ассеты
+title: Assets generation
 permalink: java_springboot/200_real_apps/30_assets.html
 layout: "development"
 ---

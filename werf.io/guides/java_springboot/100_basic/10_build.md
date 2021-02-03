@@ -1,5 +1,5 @@
 ---
-title: Сборка образа
+title: Building an image
 permalink: java_springboot/100_basic/10_build.html
 ---
 

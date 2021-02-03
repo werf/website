@@ -1,5 +1,5 @@
 ---
-title: Быстрый старт разработчика
+title: First steps
 permalink: java_springboot/100_basic.html
 ---
 

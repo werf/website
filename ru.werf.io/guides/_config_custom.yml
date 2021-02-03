@@ -33,7 +33,7 @@ defaults:
       guide_code: nodejs
       toc: false
       label_ci: GitLab
-      label_framework: NodeJS
+      label_framework: "Node.js"
   - scope:
       path: "java_springboot"
       type: "pages"
@@ -43,7 +43,7 @@ defaults:
       guide_code: java_springboot
       toc: false
       label_ci: GitLab
-      label_framework: Springboot
+      label_framework: "Spring Boot"
   - scope:
       path: "django"
       type: "pages"
@@ -83,7 +83,7 @@ defaults:
       guide_code: gitlab_nodejs
       toc: false
       label_ci: GitLab
-      label_framework: NodeJS
+      label_framework: "Node.js"
   - scope:
       path: "gitlab_java_springboot"
       type: "pages"
@@ -93,4 +93,4 @@ defaults:
       guide_code: gitlab_java_springboot
       toc: false
       label_ci: GitLab
-      label_framework: Springboot
+      label_framework: "Spring Boot"
