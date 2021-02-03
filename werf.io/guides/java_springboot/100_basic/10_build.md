@@ -17,7 +17,7 @@ We assume that you have already [installed werf]({{ site.docsurl }}/installation
 Create a directory on your computer and follow these steps:
 
 ```shell
-git clone git@github.com:werf/werf-guides.git
+git clone https://github.com/werf/werf-guides.git
 cp -r werf-guides/examples/springboot/000_app ./
 cd 000_app 
 git init

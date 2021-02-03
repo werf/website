@@ -17,7 +17,7 @@ permalink: java_springboot/100_basic/10_build.html
 Создайте директорию на своём компьютере и выполните там следующие шаги:
 
 ```shell
-git clone git@github.com:werf/werf-guides.git
+git clone https://github.com/werf/werf-guides.git
 cp -r werf-guides/examples/springboot/000_app ./
 cd 000_app 
 git init
