@@ -11,7 +11,7 @@ You would need the following components to develop in Kubernetes:
 - a container registry;
 - the appropriate DNS records;
 
-**Setting up an environment is a difficult task**. We do not recommend digging into these problems yourselves. It makes more sense to use the existing services available on the market, seek help from colleagues who have the relevant experience, or ask questions in the [werf's Telegram community](https://t.me/werf_ru).
+**Setting up an environment is a difficult task**. We do not recommend digging into these problems yourselves. It makes more sense to use the existing services available on the market, seek help from colleagues who have the relevant experience, or ask questions in the [werf's Telegram community](https://t.me/werf_io).
 
 {% offtopic title="A brief checklist for self-checking the environment" %}
 
