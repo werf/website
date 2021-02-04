@@ -138,7 +138,7 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-Также нужно добавить хост в конфигурацию Rails
+Также нужно добавить хост в конфигурацию Rails:
 
 {% snippetcut name="config/application.rb" url="#" %}
 {% raw %}
