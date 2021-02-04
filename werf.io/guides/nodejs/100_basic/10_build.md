@@ -17,7 +17,7 @@ We assume that you have already [installed werf]({{ site.docsurl }}/installation
 Create a directory on your computer and follow these steps:
 
 ```shell
-git clone git@github.com:werf/werf-guides.git
+git clone https://github.com/werf/werf-guides.git
 cp -r werf-guides/examples/nodejs/000_app ./
 cd 000_app 
 git init
@@ -208,7 +208,10 @@ The thing is we **forgot to commit changes to Git prior to step 1** in the scena
     ```
 4. View the result in the browser.
 
-A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics are available in the "Things you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster. {% endofftopic %}
+
+Werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
+
+{% endofftopic %}
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Подготовка кластера" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
