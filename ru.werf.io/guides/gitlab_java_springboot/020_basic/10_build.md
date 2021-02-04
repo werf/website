@@ -37,7 +37,7 @@ _В скором времени werf [позволит](https://github.com/werf/
 Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/gitlab_java_springboot/000-app):
 
 ```bash
-git clone git@github.com:werf/werf-guides.git guide
+git clone https://github.com/werf/werf-guides.git guide
 cd examples/gitlab-java-springboot/000-app
 ```
 

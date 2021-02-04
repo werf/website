@@ -17,7 +17,7 @@ We assume that you have already [installed werf]({{ site.docsurl }}/installation
 Create a directory on your computer and follow these steps:
 
 ```shell
-git clone git@github.com:werf/werf-guides.git
+git clone https://github.com/werf/werf-guides.git
 cp -r werf-guides/examples/springboot/000_app ./
 cd 000_app 
 git init
@@ -185,13 +185,21 @@ As you might guess, we are going to continually update our application. Let's se
 {% endraw %}
 {% endsnippetcut %}
 
-1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
-2. Start it again: 
+ 1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
+
+ 2. Start it again: 
     ```bash
     werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
     ```
-2. Watch as the application is being rebuilt and restarted, and then connect to the API: http://example.com:3000/labels
-3. You probably expect to see the `Our changes` message, but it isn't there. **Everything is the same**... but why?
+
+ 3. Error occurs:
+    ```
+    Error: phase build on image basicapp stage dockerfile handler failed: the file "src/main/java/com/example/demo/mvc/controller/LabelController.java" must be committed
+
+    You might also be interested in developer mode (activated with --dev option) that allows you to work with staged changes without doing redundant commits. Just use "git add <file>..." to include the changes that should be used.
+
+    To provide a strong guarantee of reproducibility, werf reads the configuration and build's context files from the project git repository and eliminates external dependencies. We strongly recommend to follow this approach. But if necessary, you can allow the reading of specific files directly from the file system and enable the features that require careful use. Read more about giterminism and how to manage it here: https://werf.io/v1.2-ea/documentation/advanced/configuration/giterminism.html.
+    ```
 
 The thing is we **forgot to commit changes to Git prior to step 1** in the scenario above.
 
@@ -208,9 +216,9 @@ The thing is we **forgot to commit changes to Git prior to step 1** in the scena
     ```
 4. View the result in the browser.
 
-A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
-{% endofftopic %}
+Werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
 
+{% endofftopic %}
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Preparing the cluster" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
