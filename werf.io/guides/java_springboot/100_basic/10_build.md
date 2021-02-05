@@ -25,9 +25,9 @@ git add .
 git commit -m "initial commit"
 ```
 
-_This way you will copy the code of the [SpringBoot application](https://github.com/werf/werf-guides/tree/master/examples/springboot/000_app) to a local directory and initialize a Git repository in it._
+_This way you will copy the code of the [Spring Boot application](https://github.com/werf/werf-guides/tree/master/examples/springboot/000_app) to a local directory and initialize a Git repository in it._
 
-Note that werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
+Note that werf follows the principles of [giterminism]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
 
 ## Dockerfile-based build process
 
@@ -70,7 +70,7 @@ dockerfile: Dockerfile
 {% endraw %}
 {% endsnippetcut %}
 
-{% offtopic title="Что тут написано?" %}
+{% offtopic title="What do all those lines mean?" %}
 
 `werf.yaml` starts with a mandatory **meta-information section**:
 
@@ -115,7 +115,7 @@ The single `werf.yaml` file can contain the definitions of an arbitrary number o
 Now that you have successfully added `Dockerfile` and `werf.yaml` described above, it is necessary to commit changes to Git:
 
 {% raw %}
-```bash
+```shell
 git add .
 git commit -m "work in progress"
 ```
@@ -125,7 +125,7 @@ The [`build` command]({{ site.docsurl }}/documentation/reference/cli/werf_build.
 
 
 {% raw %}
-```bash
+```shell
 werf build
 ```
 {% endraw %}
@@ -158,7 +158,7 @@ Running time 86.37 seconds
 
 Let's run the built image using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
 
-```bash
+```shell
 werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
 ```
 
@@ -176,7 +176,7 @@ As you might guess, we are going to continually update our application. Let's se
 
 {% snippetcut name="/src/main/java/com/example/demo/mvc/controller/LabelController.java" url="#" %}
 {% raw %}
-```
+```java
     @GetMapping("/labels")
     public String labels() {
         return "Our changes";
@@ -187,9 +187,9 @@ As you might guess, we are going to continually update our application. Let's se
 
  1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
 
- 2. Start it again: 
-    ```bash
-    werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+ 2. Start it again:
+    ```shell
+    werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
     ```
 
  3. Error occurs:
@@ -212,11 +212,11 @@ The thing is we **forgot to commit changes to Git prior to step 1** in the scena
    ```
 3. Restart `werf run`:
     ```shell
-    werf run --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/demo.jar
+    werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
     ```
 4. View the result in the browser.
 
-Werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
+Werf follows the principles of [giterminism]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
 
 {% endofftopic %}
 

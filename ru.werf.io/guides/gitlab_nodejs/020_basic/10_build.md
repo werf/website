@@ -33,7 +33,7 @@ _В скором времени werf [позволит](https://github.com/werf/
 
 Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/gitlab-nodejs/000-app):
 
-```bash
+```shell
 git clone https://github.com/werf/werf-guides.git guide
 cd examples/gitlab-nodejs/000-app
 ```
@@ -262,7 +262,7 @@ git:
 
 Когда `werf.yaml` готов (или кажется таковым) — пробуем запустить сборку:
 
-```bash
+```shell
 $  werf build --stages-storage :local
 ```
 
@@ -306,7 +306,7 @@ werf-stages-storage/werf-guided-project:981ece3acc63d57d5ab07f45fd0c0c4770886495
 
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/v1.1-stable/documentation/cli/main/run.html):
 
-```bash
+```shell
 $ werf run --stages-storage :local --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
 ```
 

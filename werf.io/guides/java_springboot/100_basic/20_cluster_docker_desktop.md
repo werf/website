@@ -18,7 +18,7 @@ The `.kube/config` file containing keys for connecting to the local cluster will
 
 As a result, you must be able to access the cluster using the `kubectl` utility (you may need to install it separately). For example, the command below:
 
-```bash
+```shell
 kubectl get ns
 ```
 
@@ -31,17 +31,17 @@ You have to manually [install the Nginx Ingress controller](https://kubernetes.g
 In the case of Docker Desktop, the Ingress controller may be inaccessible in some cases. That is because ports are not forwarded to the host machine. To make sure that Ingress works as intended, check that:
 
 - The pod containing the Ingress controller is up and running fine (use this command for checking in the case of nginx-ingress: `kubectl -n ingress-nginx get po`).
-- Kubernetes is listening on port 80 (chack it with `lsof -n | grep LISTEN` or [similar way](https://www.google.com/search?q=check+used+ports&oq=check+used+ports))
+- Kubernetes is listening on port 80 (check it with `lsof -n | grep LISTEN` or [similar way](https://www.google.com/search?q=check+used+ports&oq=check+used+ports))
 
 If there is no Kubernetes on port 80 (HTTP), you may need to forward the port manually. For this, find out the name of the Ingress controller's pod:
 
-```bash
+```shell
 kubectl -n ingress-nginx get po
 ```
 
 … and then run port forwarding:
 
-```bash
+```shell
 kubectl port-forward --address 0.0.0.0 -n ingress-nginx ingress-nginx-controller-<random_alphanumeric_sequence> 80:80
 ```
 
@@ -51,7 +51,7 @@ After running the above commands, verify that an application is listening on por
 
 Docker Desktop does not have a built-in registry. The easiest way is to run it manually as a Docker image:
 
-```bash
+```shell
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
@@ -75,7 +75,7 @@ When running the registry in a local mode (as shown in the example above), no pa
 {% offtopic title="I use an external registry or username/password" %}
 You need to log in to the local machine using the `docker login` command for werf to be able to push assembled images to the registry:
 
-```bash
+```shell
 docker login <registry_domain> -u <account_login> -p <account_password>
 ```
 {% endofftopic %}

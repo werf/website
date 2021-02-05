@@ -1,5 +1,5 @@
 ---
-title: Как использовать самоучитель
+title: How to use this guide
 permalink: nodejs/000_task.html
 layout: task
 ---

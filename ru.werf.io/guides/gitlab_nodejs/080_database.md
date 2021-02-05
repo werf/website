@@ -201,7 +201,7 @@ spec:
 
 После корректировки конфигурации — его нужно **применить к каждому namespace'у вручную**. Создайте файл `postgres-pv.yaml` и примените его к каждому окружению:
 
-```bash
+```shell
 kubectl -n werf-guided-project-production apply -f postgres-pv.yaml
 kubectl -n werf-guided-project-staging apply -f postgres-pv.yaml
 ```
@@ -251,7 +251,7 @@ kubectl -n werf-guided-project-staging apply -f postgres-pv.yaml
 
 Обратите внимание: вы не сможете просто так удалить PersistentVolume из-за встроенной защиты. Если вы выполните команду:
 
-```bash
+```shell
 kubectl -n werf-guided-project-staging delete pv posgresql-data
 ```
 
@@ -261,7 +261,7 @@ kubectl -n werf-guided-project-staging delete pv posgresql-data
 
 Если вы посмотрите описание PV:
 
-```bash
+```shell
 kubectl -n werf-guided-project-production get pv posgresql-data
 ```
 
@@ -274,7 +274,7 @@ kubectl -n werf-guided-project-production get pv posgresql-data
 
 Они защищают данные от случайного удаления. Если же вы настаиваете — потребуется отредактировать PV, удалив из манифеста конфигурации строки с `pv-protection`, описанные выше:
 
-```bash
+```shell
 kubectl -n werf-guided-project-production edit pv posgresql-data
 ```
 {% endofftopic %}

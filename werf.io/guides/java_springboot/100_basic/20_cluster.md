@@ -56,14 +56,14 @@ Now select your preferred method/location for setting up an environment:
 
 After verifying the cluster functionality, you have to check if the registry and ingress work well. To do this, run the following commands:
 
-```bash
+```shell
 docker tag ubuntu:18.04 registry.example.com/ubuntu:18.04
 docker push registry.example.com/ubuntu:18.04
 ```
 
 They should push the Ubuntu image to the registry without any errors. And the command below:
 
-```bash
+```shell
 curl example.com
 ```
 

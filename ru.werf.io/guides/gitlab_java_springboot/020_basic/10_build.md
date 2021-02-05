@@ -36,7 +36,7 @@ _В скором времени werf [позволит](https://github.com/werf/
 
 Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/gitlab_java_springboot/000-app):
 
-```bash
+```shell
 git clone https://github.com/werf/werf-guides.git guide
 cd examples/gitlab-java-springboot/000-app
 ```
@@ -251,7 +251,7 @@ docker:
 
 Когда `werf.yaml` готов (или кажется таковым) — пробуем запустить сборку:
 
-```bash
+```shell
 $  werf build --stages-storage :local
 ```
 
@@ -295,7 +295,7 @@ werf-stages-storage/werf-guided-project:981ece3acc63d57d5ab07f45fd0c0c4770886495
 
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/v1.1-stable/documentation/cli/main/run.html):
 
-```bash
+```shell
 werf run --stages-storage :local --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/target/demo-1.0.jar
 ```
 

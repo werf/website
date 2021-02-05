@@ -90,7 +90,7 @@ services:
 
 Закоммитьте изменения в git и запустите compose:
 
-```bash
+```shell
 werf compose up --follow
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: Deploying the app
+title: Deploying the application
 permalink: nodejs/100_basic/30_deploy.html
 ---
 
@@ -139,7 +139,7 @@ spec:
 
 We will use the [`werf converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) command to build an image, push it to the registry, and deploy our application to the Kubernetes cluster. The repository to store images (`--repo registry.example.com/werf-guided-nodejs`) serves as its only parameter.
 
-{% offtopic title="How images are stored in the repository?" %}
+{% offtopic title="How are images stored in the repository?" %}
 When implementing the deployment process without werf, you have to take care of the scheme for naming images in the registry. In our case, you do not have to worry about that: werf can automatically tag images for you.
 
 werf implements the so-called `content-based tagging` (in other words, tags depend on the content): it automatically builds and deploys images in response to changes in Git contents.
@@ -149,7 +149,7 @@ You can learn more in the [documentation]({{ site.docsurl }}/documentation/inter
 
 Commit changes to the code repository and then run the command below:
 
-```bash
+```shell
 werf converge --repo registry.example.com/werf-guided-nodejs
 ```
 

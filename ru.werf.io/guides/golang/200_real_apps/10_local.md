@@ -51,7 +51,7 @@ Error: failed to build werf-stages-storage/some-project:96ae05afe886b927b8c13198
 
 Воспользуемся интроспекцией:
 
-```bash
+```shell
 werf build --stages-storage :local --introspect-before-error
 ```
 
@@ -66,7 +66,7 @@ bash-4.3#
 
 Например, если вы введёте в этот момент `ls -la` то увидите не хост-машину, а контенер с его текущим состоянием:
 
-```bash
+```shell
 bash-4.3# ls -la
 total 68
 drwxr-xr-x    1 root     root          4096 Nov 24 21:22 .
@@ -94,7 +94,7 @@ drwxr-xr-x   12 root     root          4096 Oct 21 09:23 var
 
 Находясь внутри контейнера вы можете разобраться, что же пошло не так и провести необходимые эксперименты. В нашем случае мы нагуглим, что установка пакетов в `alpine` делается с помощью `apk`, установим его вручную. Убедимся, что это работает корректно вызвав `curl` в том виде, как это прописано в `werf.yaml`. После чего выйдем из интроспекции с помощью `exit`.
 
-```bash
+```shell
 bash-4.3# apk --no-cache add curl
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.gz
@@ -154,7 +154,7 @@ shell:
 
 И перезапустим сборку, которая в этот раз успешно отработает без интроспекции:
 
-```bash
+```shell
 werf build --stages-storage :local --introspect-before-error
 ```
 

@@ -115,7 +115,7 @@ dockerfile: Dockerfile
 После того, как мы добавили описанные выше файлы `Dockerfile` и `werf.yaml`, надо обязательно закоммитить изменения в Git:
 
 {% raw %}
-```bash
+```shell
 git add .
 git commit -m "work in progress"
 ```
@@ -124,7 +124,7 @@ git commit -m "work in progress"
 Для того, чтобы запустить сборку, воспользуемся [командой `build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
 
 {% raw %}
-```bash
+```shell
 werf build
 ```
 {% endraw %}
@@ -186,7 +186,7 @@ app.get('/labels', function (req, res) {
 
  1. Остановите ранее запущенный `werf run` (нажав Ctrl+C в консоли, где он запущен).
  2. Запустите его заново: 
-    ```bash
+    ```shell
     werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
     ```
  3. Произошла ошибка:

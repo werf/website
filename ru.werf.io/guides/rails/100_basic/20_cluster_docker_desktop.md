@@ -16,7 +16,7 @@
 
 Итогом этих манипуляций должна стать возможность получить доступ к кластеру с помощью утилиты `kubectl` (возможно, эту утилиту придётся установить отдельно). Например, вызов:
 
-```bash
+```shell
 kubectl get ns
 ```
 
@@ -33,13 +33,13 @@ kubectl get ns
 
 Если на 80-м порту (HTTP) нет Kubernetes — возможно, нужно пробросить порт вручную. Посмотрите имя Pod'а с ingress-controller:
 
-```bash
+```shell
 kubectl -n ingress-nginx get po
 ```
 
 … и затем запустите проброс порта:
 
-```bash
+```shell
 kubectl port-forward --address 0.0.0.0 -n ingress-nginx ingress-nginx-controller-<тут_будут_буквы_цифры> 80:80
 ```
 
@@ -49,7 +49,7 @@ kubectl port-forward --address 0.0.0.0 -n ingress-nginx ingress-nginx-controller
 
 Docker Desktop не содержит встроенного registry. Самый простой способ — это запустить его вручную как Docker-образ:
 
-```bash
+```shell
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
@@ -73,7 +73,7 @@ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 {% offtopic title="Я использую внешний registry или установил логин/пароль" %}
 Для того, чтобы werf смог загрузить собранный образ в registry, нужно на локальной машине авторизоваться с помощью `docker login` примерно так:
 
-```bash
+```shell
 docker login <registry_domain> -u <account_login> -p <account_password>
 ```
 {% endofftopic %}

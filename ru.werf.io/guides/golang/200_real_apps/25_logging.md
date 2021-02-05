@@ -55,7 +55,7 @@ if (critical_error) {
 
 За отправляемыми логами можно следить через `kubectl`, например:
 
-```bash
+```shell
 kubectl -n werf-guided-golang logs <имя Pod-а> -f
 ```
 

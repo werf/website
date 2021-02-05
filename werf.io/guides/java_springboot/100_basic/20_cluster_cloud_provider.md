@@ -54,7 +54,7 @@ Check your cluster using the checklist provided at the beginning of the article.
 
 As a result, you must be able to access the cluster using the `kubectl` utility (you may need to install this utility separately). For example, the command below:
 
-```bash
+```shell
 kubectl get ns
 ```
 
@@ -84,7 +84,7 @@ This tutorial assumes that the cluster (in fact, its Nginx Ingress controller) i
 
 You need to log in on the local machine using the `docker login` command so that werf can push assembled images to the registry:
 
-```bash
+```shell
 docker login registry.example.com -u <account_login> -p <account_password>
 ```
 
