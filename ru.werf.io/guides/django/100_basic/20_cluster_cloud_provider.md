@@ -54,7 +54,7 @@ users:
 
 Итогом всех манипуляций должна стать возможность получить доступ к кластеру с помощью утилиты `kubectl` (возможно, эту утилиту придётся установить отдельно). Например, вызов:
 
-```bash
+```shell
 kubectl get ns
 ```
 
@@ -84,7 +84,7 @@ kubectl get ns
 
 Для того, чтобы werf смог загрузить собранный образ в registry, нужно на локальной машине авторизоваться с помощью `docker login` примерно так:
 
-```bash
+```shell
 docker login registry.example.com -u <account_login> -p <account_password>
 ```
 

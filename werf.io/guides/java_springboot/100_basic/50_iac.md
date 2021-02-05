@@ -105,7 +105,7 @@ app:
 
 Конечное значение определяется на основании переменной `.Values.werf.env`. Позже, в главе "Работа с инфраструктурой", мы рассмотрим, как значение этой переменной автоматически подставляется CI-системой. Вручную значение можно задать при запуске `converge` опцией `--env`:
 
-```bash
+```shell
 werf converge --repo registry.mydomain.io/werf-guided-project --env production
 ```
 
@@ -113,7 +113,7 @@ werf converge --repo registry.mydomain.io/werf-guided-project --env production
 
 Второй вариант подразумевает **задание переменных через CLI**. Например, в `converge` можно передать нужное значение 
 
-```bash
+```shell
 werf converge --repo registry.mydomain.io/werf-guided-project --set "global.myvariable=somevalue"
 ```
 
@@ -146,7 +146,7 @@ werf converge --repo registry.mydomain.io/werf-guided-project --set "global.myva
 
 После этого можно задать секретные переменные `access_key` и `secret_key`, например, для работы с S3. Зайдите в режим редактирования секретных значений:
 
-```bash
+```shell
 $ werf helm secret values edit .helm/secret-values.yaml
 ```
 

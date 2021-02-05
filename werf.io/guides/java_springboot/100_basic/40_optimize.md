@@ -234,7 +234,7 @@ docker:
 
 Запустите `converge` и обратите внимание на время сборки
 
-```bash
+```shell
 werf converge --repo registry.mydomain.io/werf-guided-project
 ```
 

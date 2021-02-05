@@ -6,7 +6,7 @@ Minikube is a lightweight Kubernetes version that can run on a local machine.
 
 [Install minikube](https://minikube.sigs.k8s.io/docs/start/) and run it:
 
-```bash
+```shell
 minikube start --driver=docker
 ```
 
@@ -16,7 +16,7 @@ The `.kube/config` file containing keys for connecting to the local cluster will
 
 As a result, you must be able to access the cluster using the `kubectl` utility (you may need to install this utility separately). For example, the command below:
 
-```bash
+```shell
 kubectl get ns
 ```
 
@@ -40,7 +40,7 @@ You can assume that everything works fine by default. If you have difficulties i
 
 Enable the minikube registry addon:
 
-```bash
+```shell
 minikube addons enable registry
 ```
 

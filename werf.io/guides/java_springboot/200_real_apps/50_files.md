@@ -32,7 +32,7 @@ TODO: Глава про файлы
 
 Для этого подключим пакет `minio` в `npm`:
 
-```bash
+```shell
 $ npm install minio --save
 ```
 

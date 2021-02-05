@@ -1,5 +1,5 @@
 ---
-title: Must Haves
+title: What you need to know
 permalink: nodejs/100_basic/40_must_haves.html
 ---
 
@@ -28,7 +28,7 @@ Everything is defined in werf/Helm configs that are stored in Git. You cannot us
 
 The `Files.Get` functions in werf and Helm allow for reading committed files only.
 
-We plan to get rid of `--set` and `--values` CLI parameters in werf 1.3 and implement a mechanism for the strict definition and validation of allowable extarnal parameters (OpenAPI) to make the usage of an external context as safe as possible.
+We plan to get rid of `--set` and `--values` CLI parameters in werf 1.3 and implement a mechanism for the strict definition and validation of allowable external parameters (OpenAPI) to make the usage of an external context as safe as possible.
 {% endofftopic %}
 
 However, we understand that committing every code change during the development isn't feasible for many reasons. That is why werf has a special `--dev` mode to ease the development and make it more convenient. Also, in some situations, the build must depend on the external context.  In these rare cases, you can configure the giterminism settings via the `werf-giterminism.yaml` file.
@@ -120,26 +120,6 @@ Frequently, mistakes made in chart configurations lead to problems when rolling 
 `werf render` performs all the actions related to building and generating charts, showing you the resulting charts instead of deploying the release to Kubernetes. It is a resource-intensive task that shows you the final result with all the required values filled in.
 
 _Note that `werf render` only works with files committed to Git (like all other werf commands) but supports the `--dev` mode_.
-
-## Tagging images
-
-In the manual deploy process, you have to define strict rules for tagging images and follow them. On the other hand, you may have noticed that we use the {% raw %}`{{ tuple "basicapp" . | werf_image}}`{% endraw %} construct in werf charts: 
-
-{% raw %}
-```yaml
-      - name: basicapp
-        command: ["node","/app/app.js"]
-        image: {{ tuple "basicapp" . | werf_image}}
-```
-{% endraw %}
-
-Fortunately, **werf frees you of worries about tagging rules**: if there are changes in the code, it will rebuild the appropriate image, add service tags to it, push it to the registry, and insert the applicable image name into the templates.  For this, werf stores metadata in the registry and tracks file contents in the Git repository. 
-
-{% offtopic title="How does it all work?" %}
-You can learn more about how the data is stored in the registry in the [werf documentation](https://werf.io/documentation/internals/stages_and_storage.html). It thoroughly describes the build process, how werf manages build stage dependencies, and how the naming is performed.
-{% endofftopic %}
-
-All data can be stored either locally on the host or in the Docker Repo.
 
 ## Storage space
 

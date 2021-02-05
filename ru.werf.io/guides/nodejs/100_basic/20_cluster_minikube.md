@@ -6,7 +6,7 @@
 
 [Установите minikube](https://minikube.sigs.k8s.io/docs/start/) и запустите его:
 
-```bash
+```shell
 minikube start --driver=docker
 ```
 
@@ -16,7 +16,7 @@ minikube start --driver=docker
 
 Итогом этих манипуляций должна стать возможность получить доступ к кластеру с помощью утилиты `kubectl` (возможно, эту утилиту придётся установить отдельно). Например, вызов:
 
-```bash
+```shell
 kubectl get ns
 ```
 
@@ -40,7 +40,7 @@ kubectl get ns
 
 Включите addon minikube registry:
 
-```bash
+```shell
 minikube addons enable registry
 ```
 

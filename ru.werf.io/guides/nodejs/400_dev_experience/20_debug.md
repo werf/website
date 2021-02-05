@@ -199,7 +199,7 @@ docker:
 
 Сделайте коммит изменений в репозитории с кодом, затем запустите `converge` и обратите внимание на время сборки
 
-```bash
+```shell
 werf converge --repo registry.example.com/werf-guided-nodejs
 ```
 

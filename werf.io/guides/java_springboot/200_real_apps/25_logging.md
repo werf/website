@@ -12,7 +12,7 @@ layout: "development"
 
 За отправляемыми логами можно следить через `kubectl`, например:
 
-```bash
+```shell
 kubectl -n werf-guided-project logs <имя пода> -f
 ```
 

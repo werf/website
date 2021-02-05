@@ -114,7 +114,7 @@ dockerfile: Dockerfile
 После того, как мы добавили описанные выше файлы `Dockerfile` и `werf.yaml`, надо обязательно закоммитить изменения в Git:
 
 {% raw %}
-```bash
+```shell
 git add .
 git commit -m "work in progress"
 ```
@@ -123,7 +123,7 @@ git commit -m "work in progress"
 Для того, чтобы запустить сборку, воспользуемся [командой `build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
 
 {% raw %}
-```bash
+```shell
 werf build
 ```
 {% endraw %}
@@ -156,7 +156,7 @@ Running time 86.37 seconds
 
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
-```bash
+```shell
 werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
 ```
 
@@ -185,7 +185,7 @@ _Вы также можете заметить, что и вызов `werf run` 
 
  1. Остановите ранее запущенный `werf run` (нажав Ctrl+C в консоли, где он запущен).
  2. Запустите его заново: 
-    ```bash
+    ```shell
     werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
     ```
  3. Произошла ошибка:
