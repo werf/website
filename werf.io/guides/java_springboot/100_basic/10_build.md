@@ -178,7 +178,7 @@ As you might guess, we are going to continually update our application. Let's se
 {% raw %}
 ```
     @GetMapping("/labels")
-    public List<Labels> labels() {
+    public String labels() {
         return "Our changes";
     }
 ```

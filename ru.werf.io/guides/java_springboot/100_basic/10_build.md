@@ -176,7 +176,7 @@ _Вы также можете заметить, что и вызов `werf run` 
 {% raw %}
 ```
     @GetMapping("/labels")
-    public List<Labels> labels() {
+    public String labels() {
         return "Our changes";
     }
 ```
