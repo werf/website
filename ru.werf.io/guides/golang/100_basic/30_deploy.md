@@ -128,9 +128,12 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: basicapp
-          servicePort: 3000
+          service:
+            name: basicapp
+            port:
+              number: 3000
 ```
 {% endraw %}
 {% endsnippetcut %}
