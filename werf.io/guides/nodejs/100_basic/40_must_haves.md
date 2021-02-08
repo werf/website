@@ -1,5 +1,5 @@
 ---
-title: What you need to know
+title: Must haves
 permalink: nodejs/100_basic/40_must_haves.html
 ---
 
