@@ -117,7 +117,7 @@ spec:
 {% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/django/015_deploy_app/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
