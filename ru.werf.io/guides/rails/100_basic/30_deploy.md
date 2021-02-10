@@ -116,7 +116,7 @@ spec:
 {% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
@@ -128,12 +128,9 @@ spec:
     http:
       paths:
       - path: /
-        pathType: "Prefix"
         backend:
-          service: 
-            name: basicapp
-            port: 
-              number: 3000
+          serviceName: basicapp
+          servicePort: 3000
 ```
 {% endraw %}
 {% endsnippetcut %}
