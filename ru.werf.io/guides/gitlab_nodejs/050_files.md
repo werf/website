@@ -28,7 +28,7 @@ permalink: gitlab_nodejs/050_files.html
 
 Для этого подключим пакет `minio` в `npm`:
 
-```bash
+```shell
 $ npm install minio --save
 ```
 

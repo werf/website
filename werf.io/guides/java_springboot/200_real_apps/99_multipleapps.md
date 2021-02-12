@@ -1,5 +1,5 @@
 ---
-title: Несколько приложений в одном репозитории
+title: Multiple apps in single repository
 permalink: java_springboot/200_real_apps/99_multipleapps.html
 layout: "development"
 ---

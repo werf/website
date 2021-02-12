@@ -17,7 +17,7 @@ permalink: java_springboot/100_basic/10_build.html
 Создайте директорию на своём компьютере и выполните там следующие шаги:
 
 ```shell
-git clone git@github.com:werf/werf-guides.git
+git clone https://github.com/werf/werf-guides.git
 cp -r werf-guides/examples/springboot/000_app ./
 cd 000_app 
 git init
@@ -35,8 +35,7 @@ werf следует принципам [гитерминизма]({{ site.docsur
 
 - взять базовый образ с OpenJDK (`gradle:jdk8-openj9` подойдёт);
 - добавить в него код приложения;
-- собрать приложение с помощью gradle и переместить полученный jar в подходящее место;
-- указать конфигурацию приложения с помощью переменных окружения.
+- собрать приложение с помощью gradle и переместить полученный jar в подходящее место.
 
 Реализуем это в `Dockerfile`:
 
@@ -50,14 +49,14 @@ COPY . .
 RUN gradle build --no-daemon
 RUN cp /app/build/libs/*.jar /app/demo.jar
 
-CMD ['java','-jar','/app/demo.jar']
+CMD ["java","-jar","/app/demo.jar"]
 ```
 {% endraw %}
 {% endsnippetcut %}
 
 ## Интеграция Dockerfile с werf
 
-Подключим готовый Dockerfile к werf. Для этого, создадим в корне репозитория файл `werf.yaml`, описывающий сборку всего проекта.
+Подключим готовый Dockerfile к werf. Для этого, создадим в корне репозитория файл `werf.yaml`, описывающий сборку всего проекта:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/011_build_werf/werf.yaml" %}
 {% raw %}
@@ -115,7 +114,7 @@ dockerfile: Dockerfile
 После того, как мы добавили описанные выше файлы `Dockerfile` и `werf.yaml`, надо обязательно закоммитить изменения в Git:
 
 {% raw %}
-```bash
+```shell
 git add .
 git commit -m "work in progress"
 ```
@@ -124,7 +123,7 @@ git commit -m "work in progress"
 Для того, чтобы запустить сборку, воспользуемся [командой `build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
 
 {% raw %}
-```bash
+```shell
 werf build
 ```
 {% endraw %}
@@ -157,7 +156,7 @@ Running time 86.37 seconds
 
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
-```bash
+```shell
 werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
 ```
 
@@ -177,20 +176,26 @@ _Вы также можете заметить, что и вызов `werf run` 
 {% raw %}
 ```
     @GetMapping("/labels")
-    public List<Labels> labels() {
+    public String labels() {
         return "Our changes";
     }
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-1. Остановите ранее запущенный `werf run` (нажав Ctrl+C в консоли, где он запущен).
-2. Запустите его заново: 
-    ```bash
+ 1. Остановите ранее запущенный `werf run` (нажав Ctrl+C в консоли, где он запущен).
+ 2. Запустите его заново: 
+    ```shell
     werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
     ```
-2. Посмотрите, как произойдёт пересборка и запуск, а затем обратитесь к API: http://example.com:8080/labels
-3. Вы ожидали увидеть сообщение `Our changes`, но увидите старый результат. **Ничего не изменилось**, почему?
+ 3. Произошла ошибка:
+    ```
+    Error: phase build on image basicapp stage dockerfile handler failed: the file "src/main/java/com/example/demo/mvc/controller/LabelController.java" must be committed
+
+    You might also be interested in developer mode (activated with --dev option) that allows you to work with staged changes without doing redundant commits. Just use "git add <file>..." to include the changes that should be used.
+
+    To provide a strong guarantee of reproducibility, werf reads the configuration and build's context files from the project git repository and eliminates external dependencies. We strongly recommend to follow this approach. But if necessary, you can allow the reading of specific files directly from the file system and enable the features that require careful use. Read more about giterminism and how to manage it here: https://werf.io/v1.2-ea/documentation/advanced/configuration/giterminism.html.
+    ```
 
 В описанном сценарии **перед шагом 1 забыли сделать коммит** в Git.
 
@@ -207,9 +212,9 @@ _Вы также можете заметить, что и вызов `werf run` 
     ```
 4. Посмотреть на результат в браузере.
 
-Жёсткая связка с Git необходима для того, чтобы гарантировать воспроизводимость вашего решения. Подробнее о том, как работает эта механика _гитерминизма_, мы расскажем в главе «Необходимо знать», а пока что — сфокусируемся на сборке и доставке до кластера.
-{% endofftopic %}
+Как мы уже упоминали в начале статьи, werf работает в режиме [гитерминизма]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html). Жёсткая связка с Git необходима для того, чтобы гарантировать воспроизводимость вашего решения. Подробнее о том, как работает эта механика _гитерминизма_, а также о режиме разработчика с флагом `--dev` мы расскажем в главе «Необходимо знать», а пока что — сфокусируемся на сборке и доставке до кластера.
 
+{% endofftopic %}
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Подготовка кластера" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

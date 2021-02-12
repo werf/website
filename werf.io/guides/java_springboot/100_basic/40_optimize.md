@@ -1,5 +1,5 @@
 ---
-title: Ускорение сборки
+title: Speeding up the build
 permalink: java_springboot/100_basic/40_optimize.html
 ---
 
@@ -234,7 +234,7 @@ docker:
 
 Запустите `converge` и обратите внимание на время сборки
 
-```bash
+```shell
 werf converge --repo registry.mydomain.io/werf-guided-project
 ```
 

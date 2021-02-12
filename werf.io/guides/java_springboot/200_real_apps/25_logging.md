@@ -1,6 +1,7 @@
 ---
-title: Логгирование
+title: Logging
 permalink: java_springboot/200_real_apps/25_logging.html
+layout: "development"
 ---
 
 Некоторые приложения сконфигурированы так, чтобы писать логи в файл. Это некорректно для приложений, запускаемых в kubernetes: docker-образ в такой ситуации будет бесконтрольно разрастаться, а при перевыкате приложения — логи исчезнут. 
@@ -11,7 +12,7 @@ permalink: java_springboot/200_real_apps/25_logging.html
 
 За отправляемыми логами можно следить через `kubectl`, например:
 
-```bash
+```shell
 kubectl -n werf-guided-project logs <имя пода> -f
 ```
 

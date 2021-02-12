@@ -1,6 +1,7 @@
 ---
-title: Генерируем и раздаём ассеты
+title: Assets generation
 permalink: java_springboot/200_real_apps/30_assets.html
+layout: "development"
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
@@ -474,7 +475,7 @@ spec:
 
 Закоммитим изменения в git и воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
 
-```bash
+```shell
 werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=http://myverycustomdomain.io"
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: Ускорение сборки
+title: Упрощение отладки сборки
 permalink: nodejs/400_dev_experience/20_debug.html
 layout: "development"
 ---
@@ -199,7 +199,7 @@ docker:
 
 Сделайте коммит изменений в репозитории с кодом, затем запустите `converge` и обратите внимание на время сборки
 
-```bash
+```shell
 werf converge --repo registry.example.com/werf-guided-nodejs
 ```
 

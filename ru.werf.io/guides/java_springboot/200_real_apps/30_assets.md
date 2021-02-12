@@ -365,7 +365,7 @@ spec:
 
 Закоммитим изменения в git и воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
 
-```bash
+```shell
 werf converge --repo localhost:5005/werf-guided-springboot --set="global.domain_url=http://myverycustomdomain.io"
 ```
 

@@ -3,7 +3,7 @@ title: Preparing the environment
 permalink: nodejs/100_basic/20_cluster.html
 ---
 
-You would need the following components to develop in Kubernetes:
+You will need the following components to develop in Kubernetes:
 
 - the locally installed werf tool — done in the previous chapters;
 - the application code stored in Git — done in the previous chapters;
@@ -11,7 +11,7 @@ You would need the following components to develop in Kubernetes:
 - a container registry;
 - the appropriate DNS records;
 
-**Setting up an environment is a difficult task**. We do not recommend digging into these problems yourselves. It makes more sense to use the existing services available on the market, seek help from colleagues who have the relevant experience, or ask questions in the [werf's Telegram community](https://t.me/werf_ru).
+**Setting up an environment is a difficult task**. We do not recommend digging into these problems yourselves. It makes more sense to use the existing services available on the market, seek help from colleagues who have the relevant experience, or ask questions in the [werf's Telegram community](https://t.me/werf_io).
 
 {% offtopic title="A brief checklist for self-checking the environment" %}
 
@@ -21,7 +21,7 @@ You would need the following components to develop in Kubernetes:
     - The registry is available at `registry.example.com`.
     - The cluster can pull images from your registry.
 - On the local computer:
-    - there is access to the cluster (`kubectl version` shows the version of K8s); 
+    - there is access to the cluster (`kubectl version` shows K8s version);
     - there is access to the registry (`docker push` works fine);
     - the browser can access `example.com` (even if it shows the 404 error page by Ingress).
 
@@ -56,14 +56,14 @@ Now select your preferred method/location for setting up an environment:
 
 After verifying the cluster functionality, you have to check if the registry and ingress work well. To do this, run the following commands:
 
-```bash
+```shell
 docker tag ubuntu:18.04 registry.example.com/ubuntu:18.04
 docker push registry.example.com/ubuntu:18.04
 ```
 
 They should push the Ubuntu image to the registry without any errors. And the command below:
 
-```bash
+```shell
 curl example.com
 ```
 

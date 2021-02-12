@@ -17,7 +17,7 @@ We assume that you have already [installed werf]({{ site.docsurl }}/installation
 Create a directory on your computer and follow these steps:
 
 ```shell
-git clone git@github.com:werf/werf-guides.git
+git clone https://github.com/werf/werf-guides.git
 cp -r werf-guides/examples/nodejs/000_app ./
 cd 000_app 
 git init
@@ -25,7 +25,7 @@ git add .
 git commit -m "initial commit"
 ```
 
-_This way you will copy the code of the Node.js application to a local directory and initialize a Git repository in it._
+_This way you will copy the code of the [Node.js](https://github.com/werf/werf-guides/tree/master/examples/nodejs/000_app) application to a local directory and initialize a Git repository in it._
 
 Note that werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
 
@@ -50,7 +50,7 @@ RUN apt update
 RUN apt install -y tzdata locales
 RUN npm ci
 
-CMD ['node','/app/app.js']
+CMD ["node","/app/app.js"]
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -116,21 +116,21 @@ The single `werf.yaml` file can contain the definitions of an arbitrary number o
 Now that you have successfully added `Dockerfile` and `werf.yaml` described above, it is necessary to commit changes to Git:
 
 {% raw %}
-```bash
+```shell
 git add .
 git commit -m "work in progress"
 ```
 {% endraw %}
 
-The [build command]({{ site.docsurl }}/documentation/reference/cli/werf_build.html) starts the assembly process:
+The [`build` command]({{ site.docsurl }}/documentation/reference/cli/werf_build.html) starts the assembly process:
 
 {% raw %}
-```bash
+```shell
 werf build
 ```
 {% endraw %}
 
-The sub-chapter "Speeding up the build" contains instructions on how to adapt the Dockerfile-based build process to an alternative werf syntax called `Stapel` and gain access to some advanced features, such as Git history-based incremental rebuilds, the usage of Ansible and inter-assembly cache, convenient diagnostic tools, and much more.
+_The sub-chapter "Speeding up the build" contains instructions on how to adapt the Dockerfile-based build process to an alternative werf syntax called `Stapel` and gain access to some advanced features, such as Git history-based incremental rebuilds, the usage of Ansible and inter-assembly cache, convenient diagnostic tools, and much more._
 
 But even now, you may notice that werf outputs the build logs in the extended format:
 
@@ -187,7 +187,7 @@ app.get('/labels', function (req, res) {
 
 1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
 2. Start it again: 
-    ```bash
+    ```shell
     werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
     ```
 2. Watch as the application is being rebuilt and restarted, and then connect to the API: http://example.com:3000/labels
@@ -208,8 +208,11 @@ The thing is we **forgot to commit changes to Git prior to step 1** in the scena
     ```
 4. View the result in the browser.
 
-A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics are available in the "Things you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster. {% endofftopic %}
+
+Werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
+
+{% endofftopic %}
 
 <div id="go-forth-button">
-    <go-forth url="20_cluster.html" label="Подготовка кластера" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="20_cluster.html" label="Preparing the cluster" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

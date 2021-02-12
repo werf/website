@@ -1,5 +1,5 @@
 ---
-title: Юнит-тесты и Линтеры
+title: Unit tests and linters
 permalink: java_springboot/400_infra/20_unittesting.html
 layout: "development"
 ---

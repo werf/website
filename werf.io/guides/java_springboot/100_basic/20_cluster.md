@@ -11,9 +11,7 @@ You will need the following components to develop in Kubernetes:
 - a container registry;
 - the appropriate DNS records;
 
-**Setting up an environment is a difficult task**. We do not recommend digging into these problems yourselves. It makes more sense to use the existing services available on the market, seek help from colleagues who have the relevant experience, or ask questions in the [werf's Telegram community](https://t.me/werf_ru).
-
-**Настройка окружения — это сложная задача**. Не рекомендуем закапываться в решение проблем своими руками: используйте существующие на рынке услуги, позовите на помощь коллег, которые имеют практику настройки инфраструктуры, или задавайте вопросы в [Telegram-сообществе werf](https://t.me/werf_ru).
+**Setting up an environment is a difficult task**. We do not recommend digging into these problems yourselves. It makes more sense to use the existing services available on the market, seek help from colleagues who have the relevant experience, or ask questions in the [werf's Telegram community](https://t.me/werf_io).
 
 {% offtopic title="A brief checklist for self-checking the environment" %}
 
@@ -58,14 +56,14 @@ Now select your preferred method/location for setting up an environment:
 
 After verifying the cluster functionality, you have to check if the registry and ingress work well. To do this, run the following commands:
 
-```bash
+```shell
 docker tag ubuntu:18.04 registry.example.com/ubuntu:18.04
 docker push registry.example.com/ubuntu:18.04
 ```
 
 They should push the Ubuntu image to the registry without any errors. And the command below:
 
-```bash
+```shell
 curl example.com
 ```
 

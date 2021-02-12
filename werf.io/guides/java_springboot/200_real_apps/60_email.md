@@ -1,5 +1,5 @@
 ---
-title: Работа с электронной почтой
+title: Working with e-mail
 permalink: java_springboot/200_real_apps/60_email.html
 layout: "development"
 ---
@@ -19,7 +19,7 @@ TODO: Глава про файлы
 
 Для того, чтобы Node.js-приложение могло работать с Mailgun, необходимо установить и сконфигурировать зависимость и начать её использовать. Установим через `npm` зависимость:
 
-```bash
+```shell
 npm install mailgun-js
 ```
 

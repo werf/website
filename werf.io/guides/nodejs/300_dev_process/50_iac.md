@@ -72,7 +72,7 @@ spec:
 
 Основной способ, который мы рекомендуем для конфигурирования — CLI-параметр ` --env`, который можно указать при вызове `converge`, например:
 
-```bash
+```shell
 werf converge --repo registry.example.com/werf-guided-nodejs --env production
 ```
 
@@ -130,7 +130,7 @@ app:
 
 Второй вариант подразумевает **задание переменных через CLI**. Например, в `converge` можно передать нужное значение 
 
-```bash
+```shell
 werf converge --repo registry.example.com/werf-guided-nodejs --set "global.myvariable=somevalue"
 ```
 
@@ -161,7 +161,7 @@ werf converge --repo registry.example.com/werf-guided-nodejs --set "global.myvar
 
 После этого можно задать секретные переменные `access_key` и `secret_key`, например, для работы с S3. Зайдите в режим редактирования секретных значений:
 
-```bash
+```shell
 $ werf helm secret values edit .helm/secret-values.yaml
 ```
 

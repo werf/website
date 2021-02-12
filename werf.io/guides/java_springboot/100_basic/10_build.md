@@ -1,5 +1,5 @@
 ---
-title: Сборка образа
+title: Building an image
 permalink: java_springboot/100_basic/10_build.html
 ---
 
@@ -17,7 +17,7 @@ We assume that you have already [installed werf]({{ site.docsurl }}/installation
 Create a directory on your computer and follow these steps:
 
 ```shell
-git clone git@github.com:werf/werf-guides.git
+git clone https://github.com/werf/werf-guides.git
 cp -r werf-guides/examples/springboot/000_app ./
 cd 000_app 
 git init
@@ -25,9 +25,9 @@ git add .
 git commit -m "initial commit"
 ```
 
-_This way you will copy the code of the [SpringBoot application](https://github.com/werf/werf-guides/tree/master/examples/springboot/000_app) to a local directory and initialize a Git repository in it._
+_This way you will copy the code of the [Spring Boot application](https://github.com/werf/werf-guides/tree/master/examples/springboot/000_app) to a local directory and initialize a Git repository in it._
 
-Note that werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
+Note that werf follows the principles of [giterminism]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
 
 ## Dockerfile-based build process
 
@@ -35,8 +35,7 @@ The build configuration of our application consists of the following steps:
 
 - pull the OpenJDK image (e.g., `gradle:jdk8-openj9`);
 - add the application code to it;
-- build the application using gradle and move the resulting jar to the appropriate location;
-- configure the application using environment variables.
+- build the application using gradle and move the resulting jar to the appropriate location.
 
 Now let's insert all these steps into a `Dockerfile`:
 
@@ -50,7 +49,7 @@ COPY . .
 RUN gradle build --no-daemon
 RUN cp /app/build/libs/*.jar /app/demo.jar
 
-CMD ['java','-jar','/app/demo.jar']
+CMD ["java","-jar","/app/demo.jar"]
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -71,7 +70,7 @@ dockerfile: Dockerfile
 {% endraw %}
 {% endsnippetcut %}
 
-{% offtopic title="Что тут написано?" %}
+{% offtopic title="What do all those lines mean?" %}
 
 `werf.yaml` starts with a mandatory **meta-information section**:
 
@@ -116,7 +115,7 @@ The single `werf.yaml` file can contain the definitions of an arbitrary number o
 Now that you have successfully added `Dockerfile` and `werf.yaml` described above, it is necessary to commit changes to Git:
 
 {% raw %}
-```bash
+```shell
 git add .
 git commit -m "work in progress"
 ```
@@ -126,7 +125,7 @@ The [`build` command]({{ site.docsurl }}/documentation/reference/cli/werf_build.
 
 
 {% raw %}
-```bash
+```shell
 werf build
 ```
 {% endraw %}
@@ -159,7 +158,7 @@ Running time 86.37 seconds
 
 Let's run the built image using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
 
-```bash
+```shell
 werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
 ```
 
@@ -177,22 +176,30 @@ As you might guess, we are going to continually update our application. Let's se
 
 {% snippetcut name="/src/main/java/com/example/demo/mvc/controller/LabelController.java" url="#" %}
 {% raw %}
-```
+```java
     @GetMapping("/labels")
-    public List<Labels> labels() {
+    public String labels() {
         return "Our changes";
     }
 ```
 {% endraw %}
 {% endsnippetcut %}
 
-1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
-2. Start it again: 
-    ```bash
-    werf run --docker-options="-d -p 3000:3000 --restart=always" -- node /app/app.js
+ 1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
+
+ 2. Start it again:
+    ```shell
+    werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
     ```
-2. Watch as the application is being rebuilt and restarted, and then connect to the API: http://example.com:3000/labels
-3. You probably expect to see the `Our changes` message, but it isn't there. **Everything is the same**... but why?
+
+ 3. Error occurs:
+    ```
+    Error: phase build on image basicapp stage dockerfile handler failed: the file "src/main/java/com/example/demo/mvc/controller/LabelController.java" must be committed
+
+    You might also be interested in developer mode (activated with --dev option) that allows you to work with staged changes without doing redundant commits. Just use "git add <file>..." to include the changes that should be used.
+
+    To provide a strong guarantee of reproducibility, werf reads the configuration and build's context files from the project git repository and eliminates external dependencies. We strongly recommend to follow this approach. But if necessary, you can allow the reading of specific files directly from the file system and enable the features that require careful use. Read more about giterminism and how to manage it here: https://werf.io/v1.2-ea/documentation/advanced/configuration/giterminism.html.
+    ```
 
 The thing is we **forgot to commit changes to Git prior to step 1** in the scenario above.
 
@@ -205,13 +212,13 @@ The thing is we **forgot to commit changes to Git prior to step 1** in the scena
    ```
 3. Restart `werf run`:
     ```shell
-    werf run --docker-options="-d -p 8080:8080 --restart=always" -- java -jar /app/demo.jar
+    werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
     ```
 4. View the result in the browser.
 
-A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
-{% endofftopic %}
+Werf follows the principles of [giterminism]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
 
+{% endofftopic %}
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Preparing the cluster" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

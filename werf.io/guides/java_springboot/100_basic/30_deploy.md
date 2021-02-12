@@ -116,7 +116,7 @@ Both of them are often called "Ingress" in articles and everyday speech, so you 
 {% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/015_deploy_app/.helm/templates/ingress.yaml" %}
 {% raw %}
 ```yaml
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
@@ -140,7 +140,7 @@ spec:
 We will use the [`werf converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) command to build an image, push it to the registry, and deploy our application to the Kubernetes cluster. The repository to store images (`--repo registry.example.com/werf-guided-springboot`) serves as its only parameter..
 
 {% offtopic title="How are images stored in the repository?" %}
-When implementing the deployment process without werf, you have to take care of the scheme for naming images in the registry. In our case, you do not need to worry about that: werf can automatically tag images for you.
+When implementing the deployment process without werf, you have to take care of the scheme for naming images in the registry. In our case, you do not have to worry about that: werf can automatically tag images for you.
 
 werf implements the so-called `content-based tagging` (in other words, tags depend on the content): it automatically builds and deploys images in response to changes in Git contents.
 
@@ -149,7 +149,7 @@ You can learn more in the [documentation]({{ site.docsurl }}/documentation/inter
 
 Commit changes to the code repository and then run the command below:
 
-```bash
+```shell
 werf converge --repo registry.example.com/werf-guided-springboot
 ```
 
@@ -189,5 +189,5 @@ And the application should be accessible via the browser:
 ![](/guides/images/template/100_30_app_in_browser.png)
 
 <div id="go-forth-button">
-    <go-forth url="40_optimize.html" label="Ускорение сборки" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="40_optimize.html" label="Speeding up the build" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

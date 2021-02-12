@@ -6,7 +6,7 @@ layout: "development"
 
 
 
-Затем **зашифруйте `.kube/config` с помощью base64**. Если лень пользоваться консолью, можно воспользоваться каким-то из [веб-сервисов](https://www.base64encode.org/). Результатом станет что-то вроде:
+Затем **переведите `.kube/config` в кодировку base64**. Если лень пользоваться консолью, можно воспользоваться каким-то из [веб-сервисов](https://www.base64encode.org/). Результатом станет что-то вроде:
 
 {% snippetcut name=".kube/config (base64)" url="#" %}
 {% raw %}
@@ -54,7 +54,7 @@ YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0
 
 Вариант решения — завести секрет один раз в пространство имён `kube-system`, а затем в `.gitlab-ci.yaml` при деплое копировать этот секрет:
 
-```bash
+```shell
 kubectl get ns ${CI_ENVIRONMENT_CUSTOM_SLUG:-${CI_ENVIRONMENT_SLUG}} || kubectl create namespace ${CI_ENVIRONMENT_CUSTOM_SLUG:-${CI_ENVIRONMENT_SLUG}}
 kubectl get secret registrysecret -n kube-system -o json |
                       jq ".metadata.namespace = \"${CI_ENVIRONMENT_CUSTOM_SLUG:-${CI_ENVIRONMENT_SLUG}}\"|
@@ -85,7 +85,7 @@ TODO: перед тем как пушить нам надо registrysecret пр�
 
 Полученный ключ должен быть прописан в **каждом** пространстве имён в Kubernetes, куда осуществляется деплой, в виде объекта Secret. Сделать это можно, выполнив на master-узле кластера команду:
 
-```bash
+```shell
 kubectl create secret docker-registry registrysecret -n <namespace> --docker-server=<registry_domain> --docker-username=<account_email> --docker-password=<account_password> --docker-email=<account_email>
 ```
 
@@ -114,7 +114,7 @@ kubectl create secret docker-registry registrysecret -n <namespace> --docker-ser
 
 Вариант решения — завести секрет один раз в пространство имён `kube-system`, а затем в `.gitlab-ci.yaml` при деплое копировать этот секрет:
 
-```bash
+```shell
 kubectl get ns ${CI_ENVIRONMENT_CUSTOM_SLUG:-${CI_ENVIRONMENT_SLUG}} || kubectl create namespace ${CI_ENVIRONMENT_CUSTOM_SLUG:-${CI_ENVIRONMENT_SLUG}}
 kubectl get secret registrysecret -n kube-system -o json |
                       jq ".metadata.namespace = \"${CI_ENVIRONMENT_CUSTOM_SLUG:-${CI_ENVIRONMENT_SLUG}}\"|

@@ -12,7 +12,7 @@ layout: "wip"
 
 За отправляемыми логами можно следить через `kubectl`, например:
 
-```bash
+```shell
 kubectl -n werf-guided-springboot logs <имя пода> -f
 ```
 

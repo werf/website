@@ -1,11 +1,11 @@
 ---
-title: What you need to know
+title: Must haves
 permalink: java_springboot/100_basic/40_must_haves.html
 ---
 
 You need to know a few features and peculiarities of werf to use it confidently and comfortably:
 
-- Firstly, you need to understand the **principles of working with source code and what giteminism is** — they ensure that the application can be reproduced in any environment.
+- Firstly, you need to understand the **principles of working with source code and what giterminism is** — they ensure that the application can be reproduced in any environment.
 - Secondly, you need to understand the **process for tagging images**. Do you need to add tags to them manually to build and deploy an image (no, with werf, you do not need to)?
 - When deploying to various environments, you will learn about the concept of a **release** as well as the process of **debugging** them.
 - After some time, due to continuous application improvements and regular releases, you may face the **shortage of space in the image storage** and the need to delete unneeded images. Werf provides mechanisms that simplify this task considerably.
@@ -28,14 +28,14 @@ Everything is defined in werf/Helm configs that are stored in Git. You cannot us
 
 The `Files.Get` functions in werf and Helm allow for reading committed files only.
 
-We plan to remove support for `--set` and `--values` CLI parameters in werf 1.3 and implement a mechanism for the strict definition and validation of allowable extarnal parameters (OpenAPI) to make the usage of an external context as safe as possible.
+We plan to get rid of `--set` and `--values` CLI parameters in werf 1.3 and implement a mechanism for the strict definition and validation of allowable external parameters (OpenAPI) to make the usage of an external context as safe as possible.
 {% endofftopic %}
 
 However, we understand that committing every code change during the development isn't feasible for many reasons. That is why werf has a special `--dev` mode to ease the development and make it more convenient. Also, in some situations, the build must depend on the external context.  In these rare cases, you can configure the giterminism settings via the `werf-giterminism.yaml` file.
 
 ### werf-giterminism.yaml
 
-Using this congfig file, you can eliminate some restrictions in a specific configuration (e.g., using uncommitted files, mounting directories and files during the build, passing environment variables, etc.). You can learn more about the configuration process [in the documentation](https://werf.io/v1.2-alpha/documentation/advanced/configuration/giterminism.html#werf-giterminismyaml).
+Using this config file, you can eliminate some restrictions in a specific configuration (e.g., using uncommitted files, mounting directories and files during the build, passing environment variables, etc.). You can learn more about the configuration process [in the documentation](https://werf.io/v1.2-alpha/documentation/advanced/configuration/giterminism.html#werf-giterminismyaml).
 
 ### dev mode
 
@@ -45,7 +45,7 @@ If you run `converge` (or any other command — e.g., `render`) with the `--dev`
 werf converge --repo registry.example.com/werf-guided-springboot --dev
 ```
 
-... then werf will build and deploy not only committed but **trackedfiles** (added via `git add`) as well.
+... then werf will build and deploy not only committed but **tracked files** (added via `git add`) as well.
 
 
 {% offtopic title="Why do I need to invoke git add every time?" %}

@@ -36,8 +36,8 @@ _В скором времени werf [позволит](https://github.com/werf/
 
 Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/____________/000-app):
 
-```bash
-git clone git@github.com:werf/werf-guides.git guide
+```shell
+git clone https://github.com/werf/werf-guides.git guide
 cd examples/____________/000-app
 ```
 
@@ -256,7 +256,7 @@ ____________
 
 Когда `werf.yaml` готов (или кажется таковым) — пробуем запустить сборку:
 
-```bash
+```shell
 $  werf build --stages-storage :local
 ```
 
@@ -300,7 +300,7 @@ werf-stages-storage/werf-guided-project:981ece3acc63d57d5ab07f45fd0c0c4770886495
 
 Запустим собранный образ с помощью [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
-```bash
+```shell
 $ werf run --stages-storage :local --docker-options="-d -p ____________:____________ --restart=always" -- ____________
 ```
 

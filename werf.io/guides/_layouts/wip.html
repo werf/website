@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{% if page.lang == "ru" %}ru{% else %}en{% endif %}">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -100,11 +100,11 @@
             </ul>
 
             <div class="sidebar__btns">
-              <a href="https://t.me/werf_ru" target="_blank" class="sidebar__btn" title="Contact us on Telegram">
+              <a href="https://t.me/werf_io" target="_blank" class="sidebar__btn" title="Contact us via Telegram">
                 <span class="sidebar__btn-icon sidebar__btn-icon_telegram"></span>
                 Have a question? Ask us!
               </a>
-              <a href="https://github.com/werf/werf" target="_blank" class="sidebar__btn" title="Star it on GitHub">
+              <a href="https://github.com/werf/werf" target="_blank" class="sidebar__btn" title="Star werf on GitHub">
                 <span class="sidebar__btn-icon sidebar__btn-icon_github"></span>
                 Star it of you like it!
               </a>
@@ -147,24 +147,16 @@
     </div>
     <div class="footer">
       <div class="footer__credits">
-        {%- if page.lang == "ru" %}
-        Сделано с <span class="page__icon page__icon_heart"></span> в компании <a href="{{ site.company_url }}" target="_blank">{{ site.company_name }}</a>
-        {%- else %}
         Made with <span class="page__icon page__icon_heart"></span> by <a href="{{ site.company_url }}" target="_blank">{{ site.company_name }}</a>
-        {%- endif %}
       </div>
       <div class="footer__github">
         <span class="page__icon page__icon_github footer__github-icon"></span>
         <a href="https://github.com/werf/werf" class="footer__github-counter">
-          <span class="footer__github-counter-num"><span class="gh_counter">1470</span></span>
+          <span class="footer__github-counter-num"><span class="gh_counter">2000</span></span>
         </a>
       </div>
       <div class="footer__gen" id="siteGenerationTime" hidden>
-        {%- if page.lang == "ru" %}
-        Дата генерации сайта: {{ site.time | date: "%e.%m.%Y, %H:%M %z"  }}
-        {%- else %}
         Site last generated: {{ site.time | date: "%b %-d, %Y at %H:%M %z"  }}
-        {%- endif %}
       </div>
       <div id="werfVersion" hidden>{{ site.werfVersion }}</div>
       <div id="werfChannel" hidden>{{ site.werfChannel }}</div>
