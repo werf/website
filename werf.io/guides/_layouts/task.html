@@ -56,9 +56,11 @@
             <li>
               <a href="/documentation/guides.html">Guides</a>
             </li>
+            {%- if page.label_framework %}
             <li>
               {{ page.label_framework }}
             </li>
+            {%- endif %}
          </ol>
         </div>
       </div>
@@ -68,7 +70,7 @@
           <div class="layout-sidebar layout-sidebar__x_onform">
             <div class="layout-sidebar__content">
               <div class="content__header">
-                <div class="content__title">Deploying <span>{{ page.label_framework }}</span> application to Kubernetes</div>
+                <div class="content__title">Deploying {% if page.label_framework %}<span>{{ page.label_framework }}</span> {% endif %}application to Kubernetes</div>
               </div>
               <div class="docs">
                 <div class="post-content">

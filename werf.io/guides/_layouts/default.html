@@ -56,9 +56,11 @@
             <li>
               <a href="/documentation/guides.html">Guides</a>
             </li>
+            {%- if page.label_framework %}
             <li>
               {{ page.label_framework }}
             </li>
+            {%- endif %}
          </ol>
         </div>
       </div>

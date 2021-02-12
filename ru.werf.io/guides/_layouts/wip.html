@@ -56,9 +56,11 @@
             <li>
               <a href="/documentation/guides.html">Руководства</a>
             </li>
+            {%- if page.label_framework %}
             <li>
               {{ page.label_framework }}
             </li>
+            {%- endif %}
          </ol>
         </div>
       </div>
@@ -112,7 +114,7 @@
           </div>
           <div class="layout-sidebar__content">
             <div class="content__header">
-              <div class="content__title">Разворачиваем <span>{{ page.label_framework }}</span>-приложение в среде Kubernetes</div>
+              <div class="content__title">Разворачиваем приложение {% if page.label_framework %}на <span>{{ page.label_framework }}</span> {% endif %}в среде Kubernetes</div>
             </div>
             <div class="docs">
               <div class="buttons">
