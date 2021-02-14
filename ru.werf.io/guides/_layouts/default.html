@@ -46,10 +46,7 @@
     <div class="page__content">
       <div class="header">
         <div class="page__container">
-          <div class="header__container">
-            <div class="header__backlink"><a href="/guides/">< к выбору языка и CI-системы</a></div>
-            <div class="header__title">Разворачиваем приложение {% if page.label_framework %}на <span>{{ page.label_framework }}</span> {% endif %}в среде Kubernetes</div>
-          </div>
+        {% include breadcrumbs.html %}
         </div>
       </div>
 
@@ -101,6 +98,9 @@
             </div>
           </div>
           <div class="layout-sidebar__content">
+            <div class="content__header">
+              <div class="content__title">Разворачиваем приложение {% if page.label_framework %}на <span>{{ page.label_framework }}</span> {% endif %}в среде Kubernetes</div>
+            </div>
             <div class="docs">
               {%- if page.name != '404.md' %}
               <div class="buttons">
@@ -138,7 +138,7 @@
       <div id="werfVersion" hidden>{{ site.werfVersion }}</div>
       <div id="werfChannel" hidden>{{ site.werfChannel }}</div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.4/scrollMonitor.js"></script>
   </div>
   {% include scripts.html %}
   <!-- Yandex.Metrika counter -->
