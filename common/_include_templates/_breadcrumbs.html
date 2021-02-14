@@ -1,0 +1,28 @@
+<ol class="breadcrumbs">
+    {%- if site.site_lang == "ru" %}
+        <li>
+          <a href="/">Начало</a>
+        </li>
+        <li>
+           <a href="/documentation/">Документация</a>
+        </li>
+        <li>
+          <a href="/documentation/guides.html">Руководства</a>
+        </li>
+    {%- else %}
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+           <a href="/documentation/">Documentation</a>
+        </li>
+        <li>
+          <a href="/documentation/guides.html">Guides</a>
+        </li>
+    {%- endif %}
+    {%- if page.label_framework %}
+    <li>
+        {{ page.label_framework }}
+    </li>
+    {%- endif %}
+</ol>

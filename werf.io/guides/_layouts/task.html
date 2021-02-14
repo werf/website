@@ -46,22 +46,7 @@
     <div class="page__content">
       <div class="header">
         <div class="page__container">
-          <ol class="breadcrumbs">
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li>
-               <a href="/documentation/">Documentation</a>
-            </li>
-            <li>
-              <a href="/documentation/guides.html">Guides</a>
-            </li>
-            {%- if page.label_framework %}
-            <li>
-              {{ page.label_framework }}
-            </li>
-            {%- endif %}
-         </ol>
+        {% include breadcrumbs.html %}
         </div>
       </div>
 
@@ -99,7 +84,7 @@
       <div id="werfVersion" hidden>{{ site.werfVersion }}</div>
       <div id="werfChannel" hidden>{{ site.werfChannel }}</div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.4/scrollMonitor.js"></script>
   </div>
   {% include scripts.html %}
   <!-- Yandex.Metrika counter -->
