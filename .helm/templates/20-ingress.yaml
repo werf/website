@@ -24,14 +24,6 @@ spec:
   - host: {{ $host }}
     http:
       paths:
-      - path: /applications_guide
-        backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
-      - path: /applications_guide_en
-        backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
       - path: /guides
         backend:
           serviceName: {{ .Chart.Name }}
@@ -39,14 +31,6 @@ spec:
   - host: ru.{{ $host }}
     http:
       paths:
-      - path: /applications_guide
-        backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
-      - path: /applications_guide_ru
-        backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
       - path: /guides
         backend:
           serviceName: {{ .Chart.Name }}
