@@ -1,9 +1,6 @@
 ---
 title: Конфигурирование IaC
-sidebar: applications_guide
-guide_code: gitlab_java_springboot
 permalink: gitlab_java_springboot/020_basic/20_iac.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
