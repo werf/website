@@ -22,7 +22,7 @@ spec:
       containers:
         - name: web
           command: ["nginx", "-g", "daemon off;"]
-          image: {{ tuple "frontend" . | werf_image }}
+          image: {{ index .Values.werf.image "frontend" }}
           ports:
           - containerPort: 80
             name: http
