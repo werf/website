@@ -1,9 +1,6 @@
 ---
 title: Сборка
-sidebar: applications_guide
-guide_code: gitlab_java_springboot
 permalink: gitlab_java_springboot/020_basic/10_build.html
-toc: false
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
