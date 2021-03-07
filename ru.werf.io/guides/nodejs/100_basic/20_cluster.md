@@ -32,6 +32,7 @@ permalink: nodejs/100_basic/20_cluster.html
 <div style="display: flex; justify-content: space-between; margin: 0 10px 0 20px;">
 <div class="button__blue button__blue_inline expand_columns_button" id="minikube_button"><a href="#">Minikube</a></div>
 <div class="button__blue button__blue_inline expand_columns_button" id="docker_desktop_button"><a href="#">Docker Desktop</a></div>
+<div class="button__blue button__blue_inline expand_columns_button" id="kind_button"><a href="#">Kind</a></div>
 <div class="button__blue button__blue_inline expand_columns_button" id="cloud_provider_button"><a href="#">Использование облачного провайдера</a></div>
 <div class="button__blue button__blue_inline expand_columns_button" id="has_cluster_button"><a href="#">У меня уже есть кластер</a></div>
 </div>
@@ -42,6 +43,10 @@ permalink: nodejs/100_basic/20_cluster.html
 
 {% expandonclick id="docker_desktop_button__content" %}
 {% include_relative 20_cluster_docker_desktop.md %}
+{% endexpandonclick %}
+
+{% expandonclick id="kind_button__content" %}
+{% include_relative 20_cluster_kind.md %}
 {% endexpandonclick %}
 
 {% expandonclick id="cloud_provider_button__content" %}
