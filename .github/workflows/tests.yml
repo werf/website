@@ -1,0 +1,62 @@
+name: Validation
+
+on:
+  push:
+    paths:
+      - '**/*.md'
+      - '**/*.html'
+
+jobs:
+  checkk_links:
+    container: jekyll/builder:3
+    name: Check broken links
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [ru, en]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Prepare environment
+      run: |
+        cd common
+        apk add --update nodejs npm
+        chmod 777 Gemfile.lock
+        mkdir -pm 777 js css fonts
+        gem update bundler
+        bundle install
+        npm install
+
+    - name: Build (ru)
+      if: matrix.lang == 'ru'
+      run: |
+        cd ru.werf.io/guides
+        mkdir -pm 777 .jekyll-cache _site
+        npm run prod:webpack
+        npm run prod:jekyll
+
+    - name: Build (en)
+      if: matrix.lang == 'en'
+      run: |
+        cd werf.io/guides
+        mkdir -pm 777 .jekyll-cache _site
+        npm run prod:webpack
+        npm run prod:jekyll
+
+    - name: Check links
+      env:
+        GUIDE_LANG: ${{ matrix.lang }}
+      run: |
+        cd werf.io/guides
+        if [[ "$GUIDE_LANG" == 'ru' ]]; then cd ../../ru.werf.io/guides ;  fi
+        bundle exec htmlproofer \
+          --allow-hash-href \
+          --empty-alt-ignore \
+          --check_html \
+          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/172.17.0.3/" \
+          --http-status-ignore 0 \
+          ./_site/
