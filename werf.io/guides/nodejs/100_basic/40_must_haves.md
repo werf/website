@@ -35,7 +35,7 @@ However, we understand that committing every code change during the development 
 
 ### werf-giterminism.yaml
 
-Using this congfig file, you can eliminate some restrictions in a specific configuration (e.g., using uncommitted files, mounting directories and files during the build, passing environment variables, etc.). You can learn more about the configuration process [in the documentation](https://werf.io/v1.2-alpha/documentation/advanced/configuration/giterminism.html#werf-giterminismyaml).
+Using this congfig file, you can eliminate some restrictions in a specific configuration (e.g., using uncommitted files, mounting directories and files during the build, passing environment variables, etc.). You can learn more about the configuration process [in the documentation](https://werf.io/documentation/advanced/configuration/giterminism.html#werf-giterminismyaml).
 
 ### dev mode
 
