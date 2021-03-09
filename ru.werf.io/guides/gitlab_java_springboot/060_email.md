@@ -73,7 +73,7 @@ public class SendGridEmailService implements EmailService {
 {% endraw %}
 {% endsnippetcut %}
 
-Для работы с `sendgrid` необходимо пробросить в ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных]({{ site.docsurl }}/v1.1-stable/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, [когда мы делали базовое приложение](020_basic.html#secret-values-yaml)*
+Для работы с `sendgrid` необходимо пробросить в ключи доступа в приложение. Для этого стоит использовать [механизм секретных переменных]({{ site.docsurl }}/v1.1-stable/documentation/reference/deploy_process/working_with_secrets.html). *Вопрос работы с секретными переменными рассматривался подробнее, [когда мы делали базовое приложение](020_basic/20_iac.html#secret-values-yaml)*
 
 {% snippetcut name=".helm/secret-values.yaml (расшифрованный)" url="#" ignore-tests %}
 {% raw %}

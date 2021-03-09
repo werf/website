@@ -272,9 +272,9 @@ spec:
 
 Чтобы воспользоваться секретными переменными:
 
-* [сгенерируйте ключ]({{ site.docsurl }}/v1.1-stable/documentation/cli/management/helm/secret/generate_secret_key.html) (`werf helm secret generate-secret-key`);
+* [сгенерируйте ключ]({{ site.docsurl }}/documentation/cli/management/helm/secret/generate_secret_key.html) (`werf helm secret generate-secret-key`);
 * определите ключ в переменных окружения для приложения, в текущей сессии консоли (например, `export WERF_SECRET_KEY=634f76ead513e5959d0e03a992372b8e`);
-* пропишите полученный ключ в `Variables` для вашего репозитория в GitLab (раздел `Settings` → `CI/CD`), название переменной должно быть­`WERF_SECRET_KEY`:
+* пропишите полученный ключ в `Variables` для вашего репозитория в GitLab (раздел `Settings` → `CI/CD`), название переменной должно быть `WERF_SECRET_KEY`:
 
 ![](/guides/images/applications-guide/020-werf-secret-key-in-gitlab.png)
 

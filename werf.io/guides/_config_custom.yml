@@ -23,7 +23,7 @@ defaults:
       sidebar: sidebar
       topnav: topnav
       sitemap_include: true
-      multilang: true
+      multilang: false
   - scope:
       path: "nodejs"
       type: "pages"
@@ -34,6 +34,7 @@ defaults:
       toc: false
       label_ci: GitLab
       label_framework: "Node.js"
+      multilang: true
   - scope:
       path: "java_springboot"
       type: "pages"
@@ -44,6 +45,7 @@ defaults:
       toc: false
       label_ci: GitLab
       label_framework: "Spring Boot"
+      multilang: true
   - scope:
       path: "python_django"
       type: "pages"

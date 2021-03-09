@@ -48,15 +48,31 @@ jobs:
         npm run prod:jekyll
 
     - name: Check links
-      env:
-        GUIDE_LANG: ${{ matrix.lang }}
+      if: matrix.lang == 'en'
       run: |
         cd werf.io/guides
-        if [[ "$GUIDE_LANG" == 'ru' ]]; then cd ../../ru.werf.io/guides ;  fi
+        ln -s ./ _site/guides
         bundle exec htmlproofer \
           --allow-hash-href \
           --empty-alt-ignore \
           --check_html \
-          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/172.17.0.3/" \
+          --file_ignore "/____________/" \
+          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/" \
+          --url-swap "^\/documentation/:https\://werf.io/documentation/" \
+          --http-status-ignore 0 \
+          ./_site/
+
+    - name: Check links
+      if: matrix.lang == 'ru'
+      run: |
+        cd ru.werf.io/guides
+        ln -s ./ _site/guides
+        bundle exec htmlproofer \
+          --allow-hash-href \
+          --empty-alt-ignore \
+          --check_html \
+          --file_ignore "/____________/" \
+          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/" \
+          --url-swap "^\/documentation/:https\://ru.werf.io/documentation/" \
           --http-status-ignore 0 \
           ./_site/
