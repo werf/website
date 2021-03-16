@@ -16,10 +16,9 @@ jobs:
         fetch-depth: 0
 
     - name: Deploy to production
-      uses: werf/actions/converge@master
+      uses: werf/actions/converge@v1.2
       with:
         env: production
-        group: 1.2
         channel: alpha
       env:
         WERF_KUBE_CONTEXT: prod
