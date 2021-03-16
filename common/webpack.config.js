@@ -66,6 +66,14 @@ module.exports = {
       filename: '_includes/breadcrumbs.html',
       template: path.resolve(__dirname, './_include_templates/_breadcrumbs.html'),
     }),
+    new HtmlWebpackPlugin({
+      filename: '_includes/en/landing-tiles.html',
+      template: path.resolve(__dirname, './_include_templates/en/landing-tiles.html'),
+    }),
+    new HtmlWebpackPlugin({
+      filename: '_includes/ru/landing-tiles.html',
+      template: path.resolve(__dirname, './_include_templates/ru/landing-tiles.html'),
+    }),
     new VueLoaderPlugin(),
     new CleanWebpackPlugin(),
     new webpack.EnvironmentPlugin(['LANG'])
