@@ -17,8 +17,7 @@ jobs:
         run: git fetch --prune --unshallow
 
       - name: Cleanup
-        uses: werf/actions/cleanup@master
+        uses: werf/actions/cleanup@v1.2
         with:
           env: production
-          group: 1.2
           channel: alpha

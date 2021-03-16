@@ -27,10 +27,9 @@ jobs:
         fetch-depth: 0
 
     - name: Deploy website to test
-      uses: werf/actions/converge@master
+      uses: werf/actions/converge@v1.2
       with:
         env: test
-        group: 1.2
         channel: alpha
       env:
         WERF_KUBE_CONTEXT: dev
