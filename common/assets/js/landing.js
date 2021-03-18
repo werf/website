@@ -1,13 +1,14 @@
-$(document).ready(function() {
-  var containerElement = document.querySelector('[data-sm-container]');
-  var containerMonitor = scrollMonitor.createContainer(containerElement);
-  var triggerElements = document.querySelectorAll('[data-sm-trigger]');
-  var captainElement = document.querySelector('[data-sm-captain]');
+window.onload = () => {
+  const triggerElements = document.querySelectorAll('[data-sm-trigger]');
+  const captainElement = document.querySelector('[data-sm-captain]');
 
-  triggerElements.forEach(function(trigger) {
-    var m = containerMonitor.create(trigger, -300);
-    m.enterViewport(function() {
-      captainElement.setAttribute('data-sm-captain', m.watchItem.getAttribute('data-sm-trigger'))
-    });
-  })
-});
+  const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              captainElement.setAttribute('data-sm-captain', entry.target.getAttribute('data-sm-trigger'))
+          }
+      })
+  }, { threshold: 0.9 })
+
+  triggerElements.forEach(el => observer.observe(el))
+}

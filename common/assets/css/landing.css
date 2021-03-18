@@ -5,7 +5,7 @@ html {
 html,
 body,
 .landing {
-    height: 100%;
+    min-height: 100%;
 }
 
 body {
@@ -149,6 +149,10 @@ body {
 .landing__h1 b {
     font-weight: 800;
     color: #0066FF;
+}
+
+.landing__h2 span {
+    opacity: 0.35;
 }
 
 .landing__text {
@@ -302,6 +306,10 @@ body {
     top: 50%;
     transform: translateY(-50%);
     max-width: 400px;
+}
+
+.landing__captain-img_select {
+    transform: translateY(-50%) scale(1.2);
 }
 
 .landing__captain[data-sm-captain="intro"] .landing__captain-img_intro,

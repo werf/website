@@ -28,7 +28,7 @@
   {% asset landing.css %}
 
 </head>
-<body data-sm-container>
+<body>
   <div class="landing">
     <div class="landing__header">
       <div class="landing__container">
@@ -94,7 +94,7 @@
         </div>
         <div class="landing__section" data-sm-trigger="select">
           <h1 class="landing__h2">
-            werf 1.2
+            Dive in! <span>(werf 1.2)</span>
           </h1>
           {% include en/landing-tiles.html %}
         </div>
@@ -106,7 +106,7 @@
       </div>
     </div>
     <div class="landing__side">
-      <div class="landing__captain" data-sm-captain="intro">
+      <div class="landing__captain" data-sm-captain="">
         <img src="{{ site.baseurl }}/assets/landing/parrot.png" class="landing__captain-img landing__captain-img_intro" />
         <img src="{{ site.baseurl }}/assets/landing/parrot2.png" class="landing__captain-img landing__captain-img_plan" />
         <img src="{{ site.baseurl }}/assets/landing/parrot3.png" class="landing__captain-img landing__captain-img_todo" />
