@@ -5,7 +5,7 @@ html {
 html,
 body,
 .landing {
-    height: 100%;
+    min-height: 100%;
 }
 
 body {
@@ -151,12 +151,26 @@ body {
     color: #0066FF;
 }
 
+.landing__h2 span {
+    opacity: 0.35;
+}
+
 .landing__text {
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
     line-height: 150%;
     color: rgba(0, 18, 44, 0.75);
+}
+
+.landing__text a {
+    color: #0066FF;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.landing__text a:hover {
+    color: #00122c;
 }
 
 .landing__text b {
@@ -237,22 +251,9 @@ body {
     justify-content: space-between;
 }
 
-.landing__framework-logo {
+.landing__framework-logo_disabled {
     filter: grayscale(1);
     opacity: 0.55;
-    transition: all 1000ms ease;
-}
-
-.landing__framework:hover .landing__framework-logo {
-    filter: grayscale(0);
-    opacity: 1;
-}
-
-.landing__framework-logo:nth-child(1) {
-}
-
-.landing__framework-logo:nth-child(2) {
-    margin-top: 20px;
 }
 
 .landing__framework .landing__button {
@@ -305,6 +306,10 @@ body {
     top: 50%;
     transform: translateY(-50%);
     max-width: 400px;
+}
+
+.landing__captain-img_select {
+    transform: translateY(-50%) scale(1.2);
 }
 
 .landing__captain[data-sm-captain="intro"] .landing__captain-img_intro,
