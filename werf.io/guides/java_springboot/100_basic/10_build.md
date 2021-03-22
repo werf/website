@@ -85,7 +85,7 @@ configVersion: 1
 
 Here:
 
-- **_project_** is a field containing the unique name of the application project. The default project name is used when generating the Helm release name and the namespace in Kubernetes. Changing the name of an active project is a tedious task that requires a number of manual actions (more information about possible consequences is available [here]({{ site.docsurl }}/documentation/reference/werf_yaml. html#warning-on-changing-project-name));
+- **_project_** is a field containing the unique name of the application project. The default project name is used when generating the Helm release name and the namespace in Kubernetes. Changing the name of an active project is a tedious task that requires a number of manual actions (more information about possible consequences is available [here]({{ site.docsurl }}/documentation/v1.2/reference/werf_yaml.html#warning-on-changing-project-name));
 - **_configVersion_** specifies the syntax version used in the `werf.yaml` (currently, only version `1` is supported).
 
 The next section, called the [**image config section**]({{ site.docsurl }}/documentation/reference/werf_yaml.html#image-section), defines the build process.

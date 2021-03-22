@@ -49,7 +49,7 @@ And then perform the following actions depending on your operating system:
 {% offtopic title="Windows" %}
 {% include_relative 20_cluster_minikube_registry_win.md %}
 {% endofftopic %}
-{% offtopic title="MacOS" %}
+{% offtopic title="macOS" %}
 {% include_relative 20_cluster_minikube_registry_macos.md %}
 {% endofftopic %}
 {% offtopic title="Linux" %}

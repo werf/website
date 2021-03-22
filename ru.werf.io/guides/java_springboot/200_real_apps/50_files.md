@@ -14,14 +14,14 @@ layout: "wip"
 
 В этой главе мы настроим в нашем базовом приложении работу с пользовательскими файлами. Для этого потребуется персистентное (постоянное) хранилище.
 
-В идеале — нужно добиться, чтобы приложение было stateless, а данные хранились в S3-совместимом хранилище — например, AWS S3, Selectel S3 или [MinIO](https://github.com/minio/minio). Это обеспечивает простое масштабирование, работу в HA-режиме и высокую доступность.
+В идеале — нужно добиться, чтобы приложение было stateless, а данные хранились в S3-совместимом хранилище — например, AWS S3, Selectel S3 или [MinIO](https://github.com/minio/minio). Это обеспечивает простое масштабирование, работу в HA-режиме и высокую доступность.
 
 {% offtopic title="А есть какие-то способы кроме S3?" %}
-Первый и более общий способ — это использовать как [volume](https://kubernetes.io/docs/concepts/storage/volumes/) хранилище [NFS](https://kubernetes.io/docs/concepts/storage/volumes/#nfs), [CephFS](https://kubernetes.io/docs/concepts/storage/volumes/#cephfs) или [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath).
+Первый и более общий способ — это использовать как [volume](https://kubernetes.io/docs/concepts/storage/volumes/) хранилище [NFS](https://kubernetes.io/docs/concepts/storage/volumes/#nfs), [CephFS](https://kubernetes.io/docs/concepts/storage/volumes/#cephfs) или [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath).
 
 Мы не рекомендуем этот способ, потому что при возникновении неполадок с такими типами volume’ов они влияют на работоспособность контейнера и всего демона Docker в целом. Тогда могут пострадать приложения, не имеющие никакого отношения к вашему.
 
-Более надёжный путь — пользоваться S3. Так мы используем отдельный сервис, который имеет возможность масштабироваться, работать в HA-режиме и иметь высокую доступность. Можно воспользоваться облачным решением вроде AWS S3, Google Cloud Storage, Microsoft Blobs Storage и т.д.
+Более надёжный путь — пользоваться S3. Так мы используем отдельный сервис, который имеет возможность масштабироваться, работать в HA-режиме и иметь высокую доступность. Можно воспользоваться облачным решением вроде AWS S3, Google Cloud Storage, Microsoft Blobs Storage и т.д.
 
 Природа Kubernetes (и оркестровки контейнеров в целом) такова, что если мы будем сохранять файлы в какой-либо директории у приложения (запущенного в Kubernetes), то после перезапуска контейнера все изменения пропадут.
 {% endofftopic %}
@@ -30,7 +30,7 @@ layout: "wip"
 
 Данная настройка производится полностью в рамках приложения. Рассмотрим подключение к S3 на примере пакета `com.amazonaws:aws-java-sdk`.
 
-{% snippetcut name="src/server/server.js" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/build.gradle" %}
+{% snippetcut name="build.gradle" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/build.gradle" %}
 {% raw %}
 ```gradle
 plugins {
@@ -67,7 +67,7 @@ test {
 
 … и настроим работу с S3 в приложении. Подключение:
 
-{% snippetcut name="src/server/server.js" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/- src/main/java/com/example/demo/mvc/controller/S3Controller.java" %}
+{% snippetcut name="src/main/java/com/example/demo/mvc/controller/S3Controller.java" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/src/main/java/com/example/demo/mvc/controller/S3Controller.java" %}
 {% raw %}
 ```java
 package com.example.demo.mvc.controller;
@@ -229,7 +229,7 @@ spec:
 {% endraw %}
 {% endsnippetcut %}
 
-Несекретные значения — храним в `values.yaml`:
+Несекретные значения — храним в `values.yaml`:
 
 {% snippetcut name=".helm/values.yaml" url="#" %}
 {% raw %}
