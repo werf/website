@@ -8,7 +8,7 @@ You need to know a few features and peculiarities of werf to use it confidently 
 - Firstly, you need to understand the **principles of working with source code and what giteminism is** — they ensure that the application can be reproduced in any environment.
 - Secondly, you need to understand the **process for tagging images**. Do you need to add tags to them manually to build and deploy an image (no, with werf, you do not need to)?
 - When deploying to various environments, you will learn about the concept of a **release** as well as the process of **debugging** them.
-- After some time, due to continuous application improvements and regular releases, you may face the **shortage of space in the image storage** and the need to delete unneeded images. Werf provides mechanisms that simplify this task considerably.
+- After some time, due to continuous application improvements and regular releases, you may face the **shortage of space in the image storage**, and the need to delete unneeded images. Werf provides mechanisms that simplify this task considerably.
 
 All these issues are discussed in more detail below.
 
@@ -50,7 +50,7 @@ werf converge --repo registry.example.com/werf-guided-nodejs --dev
 {% offtopic title="Why do I need to invoke git add every time?" %}
 As you already know, werf (in "normal" mode) reads files exclusively from Git to ensure reproducibility.
 
-It is not due to technical limitations (you can read files directly from the file system) but to eliminate the uncertainty. werf reads files exclusively from Git (even in the dev mode) to prevent bugs related to differences between files read from the file system and pulled from Git.
+It is not due to technical limitations (you can read files directly from the file system) but to eliminate the uncertainty. werf reads files exclusively from Git (even in the dev mode) to prevent bugs related to the difference between files read from the file system and pulled from Git.
 
 It creates an extra layer of protection and predictability of behavior. Plus, it ensures that you add files to the commit, while the final build will be the same as that made locally.
 {% endofftopic %}
@@ -65,7 +65,7 @@ werf converge --repo registry.example.com/werf-guided-nodejs --follow
 
 ... then the command will be automatically restarted with every new commit to Git.
 
-If you combine `--follow` and `--dev` parameters, the command will be restarted in response to the `git add` command.
+If combining `--follow` and `--dev` parameters, the command will be restarted in response to the `git add` command.
 
 ## Tagging images
 
@@ -110,7 +110,7 @@ To browse the list of releases or find out the name of the release you need, use
 Use [`werf helm uninstall`](https://werf.io/documentation/reference/cli/werf_helm_uninstall.html) to uninstall an application.
 
 {% offtopic title="But what about the werf dismiss command?" %}
-The [`werf dismiss`](https://werf.io/documentation/reference/cli/werf_dismiss.html) command also allows you to remove an application from Kubernetes. However, it requires access to the source code of the application (which can be inconvenient outside of the CI system).
+The [`werf dismiss`](https://werf.io/documentation/reference/cli/werf_dismiss.html) command also allows you to remove an application from Kubernetes. However, it requires access to the source code of the application (which can be inconvenient outside the CI system).
 {% endofftopic %}
 
 ## Debugging the installation process

@@ -8,7 +8,7 @@ Start Kubernetes and configure the resources allocated to it.
 
 {% offtopic title="Why are resources important?" %}
 
-Lack of resources in the cluster may prevent your application, Ingress, or even some of the system components required by the orchestrator from starting. You must be really experienced in cluster administration to figure out what is happening.
+Lack of resources in the cluster may prevent your application, Ingress, or even some system components required by the orchestrator from starting. You must be really experienced in cluster administration to figure out what is happening.
 
 The authors of this tutorial tested it using the following configuration: 6 CPU cores, 6 GB RAM, 1.5 GB of swap space, 24 GB of disk space. 
 
@@ -31,7 +31,7 @@ You have to manually [install the Nginx Ingress controller](https://kubernetes.g
 In the case of Docker Desktop, the Ingress controller may be inaccessible in some cases. That is because ports are not forwarded to the host machine. To make sure that Ingress works as intended, check that:
 
 - The pod containing the Ingress controller is up and running fine (use this command for checking in the case of nginx-ingress: `kubectl -n ingress-nginx get po`).
-- Kubernetes is listening on port 80 (chack it with `lsof -n | grep LISTEN` or [similar way](https://www.google.com/search?q=check+used+ports&oq=check+used+ports))
+- Kubernetes is listening on port 80 (check it with `lsof -n | grep LISTEN` or [similar way](https://www.google.com/search?q=check+used+ports&oq=check+used+ports))
 
 If there is no Kubernetes on port 80 (HTTP), you may need to forward the port manually. For this, find out the name of the Ingress controller's pod:
 

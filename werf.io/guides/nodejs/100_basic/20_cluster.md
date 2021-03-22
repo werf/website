@@ -67,7 +67,7 @@ They should push the Ubuntu image to the registry without any errors. And the co
 curl example.com
 ```
 
-... should return an nginx ingress error page (if you haven't already deployed an application to the cluster).
+... should return a nginx ingress error page (if you haven't already deployed an application to the cluster).
 
 <div id="go-forth-button">
     <go-forth url="30_deploy.html" label="Deploying the application" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

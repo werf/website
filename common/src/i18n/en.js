@@ -29,7 +29,7 @@ const en = {
       screen1_2: 'Learning all topics would cost a lot of time. That is why our tutorial helps you to choose only important topics.',
       begin_journey: 'Let\'s begin the journey',
       just_show_me_the_guide: 'Just show me the guide',
-      screen2_1: 'Passing the tutorial will take a lot of time. To spend it with maximum effect, we should define our goals.',
+      screen2_1: 'Passing the tutorial will take a lot of time. To spend it with maximum effect, we should define our goals.',
       become_specialist: 'Become more demanded specialist',
       bring_kubernetes: 'Bring kubernetes to my organization',
       solve_tasks: 'Solve tasks in more effective way',

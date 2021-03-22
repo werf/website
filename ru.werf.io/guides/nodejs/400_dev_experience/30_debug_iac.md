@@ -33,7 +33,7 @@ werf отслеживает, как Kubernetes вносит изменения, 
 
 Это позволяет отлаживать сложные конструкции с использованием [различных функций helm](https://helm.sh/docs/chart_template_guide/function_list/).
 
-Отрендеренные шаблоны обычно внимательно отсматривают глазами на предмет смысловых ошибок и/или используют для того, чтобы найти ошибки в использовании функций.
+Отрендеренные шаблоны обычно внимательно просматривают на предмет смысловых ошибок и/или используют для того, чтобы найти ошибки в использовании функций.
 
 ## Приложение задеплоено, но не отвечает
 
@@ -45,5 +45,5 @@ werf отслеживает, как Kubernetes вносит изменения, 
 
 
 <div id="go-forth-button">
-    <go-forth url="25_logging.html" label="Логгирование" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
+    <go-forth url="25_logging.html" label="Логирование" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
 </div>

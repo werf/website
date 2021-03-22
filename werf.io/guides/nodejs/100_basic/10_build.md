@@ -185,7 +185,7 @@ app.get('/labels', function (req, res) {
 {% endraw %}
 {% endsnippetcut %}
 
-1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
+1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running).
 2. Start it again: 
     ```shell
     werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js

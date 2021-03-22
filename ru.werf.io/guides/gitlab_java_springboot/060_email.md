@@ -15,7 +15,7 @@ permalink: gitlab_java_springboot/060_email.html
 
 Для того чтобы использовать почту мы предлагаем лишь один вариант - использовать внешнее API. В нашем примере это [sendgrid](https://sendgrid.com/).
 
-Для того, чтобы Java приложение могло работать с sendgrid необходимо установить и сконфигурировать зависимость `sendgrid` и начать её использовать. Пропишем зависимости в `pom.xml`, чтобы они устаналивались:
+Для того, чтобы Java приложение могло работать с sendgrid необходимо установить и сконфигурировать зависимость `sendgrid` и начать её использовать. Пропишем зависимости в `pom.xml`, чтобы они устанавливались:
 
 {% snippetcut name="pom.xml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/pom.xml" %}
 {% raw %}
@@ -88,7 +88,7 @@ app:
 {% endraw %}
 {% endsnippetcut %}
 
-А не секретные значения — храним в `values.yaml`
+А не секретные значения — храним в `values.yaml`
 
 {% snippetcut name=".helm/values.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/values.yaml" %}
 {% raw %}
@@ -102,7 +102,7 @@ app:
 {% endraw %}
 {% endsnippetcut %}
 
-После того, как значения корректно прописаны и зашифрованы — мы можем пробросить соответствующие значения в Deployment.
+После того, как значения корректно прописаны и зашифрованы — мы можем пробросить соответствующие значения в Deployment.
 
 {% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/060-email/.helm/templates/deployment.yaml" %}
 {% raw %}
@@ -117,7 +117,7 @@ app:
 {% endraw %}
 {% endsnippetcut %}
 
-В интернете можно найти много разных примеров настройки почты через `sendgrid` используя spring. Имплементация может отличаться, но нам важно понять, что нужно параметризировать `application.properties`, чтобы java узнавала о значения из переменных окружения уже во время выполнения в кластере, а не на этапе сборки.
+В интернете можно найти много разных примеров настройки почты через `sendgrid` используя spring. Реализация может отличаться, но нам важно понять что нужно параметризировать `application.properties`, чтобы java узнавала о значения из переменных окружения уже во время выполнения в кластере, а не на этапе сборки.
 
 <div id="go-forth-button">
     <go-forth url="070_redis.html" label="Подключаем redis" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

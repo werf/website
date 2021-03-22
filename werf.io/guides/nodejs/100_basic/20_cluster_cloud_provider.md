@@ -1,6 +1,6 @@
 ## Choosing a cloud provider
 
-There is a large number of [Managed Kubernetes](https://www.google.com/search?q=managed+kubernetes) offerings. Some of them include server capacity, while others don't.
+There is many [Managed Kubernetes](https://www.google.com/search?q=managed+kubernetes) offerings. Some of them include server capacity, while others don't.
 
 The easiest way is to take advantage of AWS (EKS) or Google (GKE) offerings.  During the initial registration, they provide a bonus large enough for working with a cluster for a couple of weeks. However, you will need to enter your bank card details to register.
 
@@ -68,7 +68,7 @@ You also have to install Nginx Ingress in your cluster. There are [detailed inst
 
 In most cases, cloud providers provide a registry as one of the services (however, this is not always the case).
 
-{% offtopic title="My provider doesn't provide registry, what should I do?" %}
+{% offtopic title="My provider doesn't provide a registry, what should I do?" %}
 
 You can deploy Docker Registry by yourself on a separate virtual machine or use some cloud-based solution. werf supports [various implementations]({{ site.docsurl }}/documentation/advanced/supported_registry_implementations.html) of container registries.
 
