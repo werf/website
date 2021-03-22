@@ -1,4 +1,4 @@
-name: Validation
+name: Content Validation
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - '**/*.html'
 
 jobs:
-  checkk_links:
+  check_links:
     container: jekyll/builder:3
     name: Check broken links
     runs-on: ubuntu-latest

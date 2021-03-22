@@ -20,4 +20,6 @@ jobs:
         uses: werf/actions/cleanup@v1.2
         with:
           env: production
-          channel: alpha
+        env:
+          WERF_LOG_VERBOSE: "on"
+        WERF_STAGES_STORAGE: docker.pkg.github.com/${{ github.repository }}/stages-guides
