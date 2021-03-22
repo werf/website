@@ -92,7 +92,7 @@ For more information about how data is stored in the registry, refer to the [wer
 [Helm-chart](https://helm.sh/docs/topics/charts/) is a collection of files that describe a related set of Kubernetes objects.  A _release_ is created when a chart is used to deploy an application to a specific environment.
 
 {% offtopic title="I would like to learn more" %}
-The [werf documentation](https://werf.io/documentation/advanced/helm/basics.html#release) has plenty of information about working with releases, storing, and naming them.
+The [werf documentation](https://werf.io/documentation/v1.2/advanced/helm/overview.html#release) has plenty of information about working with releases, storing, and naming them.
 {% endofftopic %}
 
 When working with releases, helm implements the [3-way merge](https://helm.sh/docs/faq/#improved-upgrade-strategy-3-way-strategic-merge-patches) approach. Manual changes to the cluster that conflict with the state described in Git are corrected to conform to the latter. Note that manual changes that do not conflict with the state defined in Git remain outside the control of Helm and werf.

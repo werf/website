@@ -95,7 +95,7 @@ werf converge --repo registry.example.com/werf-guided-springboot --follow
 [Helm-чарт](https://helm.sh/docs/topics/charts/) — это набор файлов, описывающий связанный набор объектов Kubernetes. Когда чарт выкатывается в кластер в определённое окружение — создаётся _релиз_.
 
 {% offtopic title="Где почитать подробнее" %}
-В [документации werf](https://ru.werf.io/documentation/advanced/helm/basics.html#%D1%80%D0%B5%D0%BB%D0%B8%D0%B7) есть подробное описание того, как устроена работа с релизами, их хранение и именование.
+В [документации werf](https://ru.werf.io/documentation/v1.2/advanced/helm/releases/release.html) есть подробное описание того, как устроена работа с релизами, их хранение и именование.
 {% endofftopic %}
 
 При работе с релизами Helm реализует механику [3-way merge](https://helm.sh/docs/faq/#improved-upgrade-strategy-3-way-strategic-merge-patches), т.е. изменения, внесённые в кластер вручную и противоречащие тому, что описано в Git, будут приведены к последнему. Обратите внимание, что внесённые вручную изменения, не противоречащие Git, остаются не под контролем Helm и werf.

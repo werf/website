@@ -30,7 +30,7 @@ layout: "wip"
 
 Данная настройка производится полностью в рамках приложения. Рассмотрим подключение к S3 на примере пакета `com.amazonaws:aws-java-sdk`.
 
-{% snippetcut name="src/server/server.js" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/build.gradle" %}
+{% snippetcut name="build.gradle" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/build.gradle" %}
 {% raw %}
 ```gradle
 plugins {
@@ -67,7 +67,7 @@ test {
 
 … и настроим работу с S3 в приложении. Подключение:
 
-{% snippetcut name="src/server/server.js" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/- src/main/java/com/example/demo/mvc/controller/S3Controller.java" %}
+{% snippetcut name="src/main/java/com/example/demo/mvc/controller/S3Controller.java" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/250_files/src/main/java/com/example/demo/mvc/controller/S3Controller.java" %}
 {% raw %}
 ```java
 package com.example.demo.mvc.controller;

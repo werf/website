@@ -49,7 +49,7 @@ permalink: gitlab_java_springboot/020_basic/20_iac.html
 
 Для того, чтобы в кластере появился Pod с нашим приложением, мы создадим объект Deployment. У создаваемого Pod будет один контейнер — `basicapp`. Укажем, **как этот контейнер будет запускаться**.
 
-Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab_java_springboot).
+Здесь и далее будут показаны только фрагменты файлов. Если вам не знаком синтаксис Kubernetes-объектов и вы не можете дополнить приведённые сниппеты самостоятельно — обязательно сверяйтесь с файлами в [репозитории](https://github.com/werf/werf-guides/tree/master/examples/gitlab-java-springboot).
 
 {% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-java-springboot/020-basic/.helm/templates/deployment.yaml" %}
 {% raw %}

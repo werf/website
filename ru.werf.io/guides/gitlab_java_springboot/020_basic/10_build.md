@@ -31,7 +31,7 @@ _В скором времени werf [позволит](https://github.com/werf/
 Один из минусов — это отзывчивость: на процесс от push кода до появления результата может потребоваться несколько минут.
 {% endofftopic %}
 
-Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/gitlab_java_springboot/000-app):
+Возьмите исходный код приложения [из репозитория на GitHub](https://github.com/werf/werf-guides/tree/master/examples/gitlab-java-springboot/000-app):
 
 ```shell
 git clone https://github.com/werf/werf-guides.git guide
@@ -298,9 +298,7 @@ werf run --stages-storage :local --docker-options="-d -p 8080:8080 --restart=alw
 
 Первая часть команды очень похожа на `build`, а во второй — мы задаем [параметры docker](https://docs.docker.com/engine/reference/run/) и после двойного дефиса команду, с которой запустить образ.
 
-Теперь приложение доступно локально на порту 8080:
-
-![](/guides/images/applications-guide/020-hello-world-in-browser.png)
+Теперь приложение доступно локально на порту 8080.
 
 Как только мы убедились в том, что всё корректно, необходимо **загрузить образ в Registry**. Сборка с последующей загрузкой в Registry делается [командой `build-and-publish`]({{ site.docsurl }}/v1.1-stable/documentation/cli/main/build_and_publish.html). Когда werf запускается внутри CI-процесса, werf узнаёт реквизиты для доступа к Registry [из переменных окружения](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html).
 

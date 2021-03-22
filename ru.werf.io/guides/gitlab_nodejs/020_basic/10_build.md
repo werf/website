@@ -111,7 +111,7 @@ from: node:14-stretch
 
 {% offtopic title="Что делать, если образов и других констант станет много?" %}
 
-В werf поддерживаются [**Go templates**]({{ site.docsurl }}/v1.1-stable/documentation/advanced/configuration/supported_go_templates.html), поэтому легко определять переменные и записывать в них константы и часто используемые образы.
+В werf поддерживаются [**Go templates**]({{ site.docsurl }}/documentation/v1.1/configuration/introduction.html#go-templates), поэтому легко определять переменные и записывать в них константы и часто используемые образы.
 
 Например, сделаем 2 образа, используя один базовый образ `golang:1.11-alpine`:
 
@@ -131,7 +131,7 @@ from: {{ $base_image }}
 ```
 {% endraw %}
 
-Подробнее почитать про Go-шаблоны в werf можно в документации: [**werf go templates**]({{ site.docsurl }}/v1.1-stable/documentation/advanced/configuration/supported_go_templates.html).
+Подробнее почитать про Go-шаблоны в werf можно в документации: [**werf go templates**]({{ site.docsurl }}/documentation/v1.1/configuration/introduction.html#go-templates).
 
 {% endofftopic %}
 
@@ -270,7 +270,7 @@ $  werf build --stages-storage :local
 
 werf предоставляет удобные способы отладки.
 
-Если во время сборки что-то пошло не так, можно мгновенно оказаться внутри процесса сборки и изучить, что конкретно пошло не так. Для этого есть механизм [интроспекции стадий]({{ site.docsurl }}/v1.1-stable/documentation/reference/development_and_debug/stage_introspection.html). Если сборка запущена с флагом `--introspect-before-error`, вы окажетесь в сборочном контейнере перед тем, как сработала ошибка.
+Если во время сборки что-то пошло не так, можно мгновенно оказаться внутри процесса сборки и изучить, что конкретно пошло не так. Для этого есть механизм [интроспекции стадий]({{ site.docsurl }}/documentation/v1.1/reference/development_and_debug/stage_introspection.html). Если сборка запущена с флагом `--introspect-before-error`, вы окажетесь в сборочном контейнере перед тем, как сработала ошибка.
 
 Например, ошибка произошла на команде `jekyll build`. Если вы воспользуетесь интроспекцией, то окажетесь внутри контейнера прямо перед тем, как должна была выполняться эта команда. А значит, выполнив её самостоятельно, можно увидеть сообщение об ошибке и посмотреть на состояние других файлов в контейнере на этот момент, чтобы понять, что в сценарии сборки пошло не так.
 
@@ -313,8 +313,6 @@ $ werf run --stages-storage :local --docker-options="-d -p 3000:3000 --restart=a
 Первая часть команды очень похожа на `build`, а во второй — мы задаем [параметры docker](https://docs.docker.com/engine/reference/run/) и после двойного дефиса команду, с которой запустить образ.
 
 Теперь приложение доступно локально на порту 3000:
-
-![](/guides/images/applications-guide/020-hello-world-in-browser.png)
 
 Как только мы убедились в том, что всё корректно, необходимо **загрузить образ в Registry**. Сборка с последующей загрузкой в Registry делается командой `build-and-publish`. Когда werf запускается внутри CI-процесса, werf узнаёт реквизиты для доступа к Registry [из переменных окружения](https://docs.gitlab.com/ee/ci/variables/predefined_variables.html).
 
