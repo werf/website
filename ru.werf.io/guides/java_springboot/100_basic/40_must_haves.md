@@ -37,7 +37,7 @@ permalink: java_springboot/100_basic/40_must_haves.html
 - _simple_: для работы с состоянием worktree git-репозитория проекта;
 - _strict_: для работы с [состоянием index](http://shafiul.github.io/gitbook/1_the_git_index.html), в git-репозитории проекта.
 
-Стоит отметить, что новые файлы (_untracked_) должны всегда добавляться в index (`git add`).
+Стоит отметить, что новые файлы (_untracked_) должны всегда добавляться в index вручную (единоразовая операция, которая выполняется командой `git add` для каждого вновь добавленного файла).
 
 ### follow-режим
 
