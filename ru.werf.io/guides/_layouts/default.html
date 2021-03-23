@@ -12,90 +12,28 @@
   {%- endif %}
   <title>{{ page.title }} | {{ site.site_title }}</title>
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-  <meta name="msapplication-TileColor" content="#ffc40d">
-  <meta name="theme-color" content="#ffffff">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
-  {% asset normalize.css %}
-  {% asset syntax.css %}
-  {% asset header.css %}
-  {% asset docs.css %}
-  {% asset index.css %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <!--#include virtual="/includes/head-common.html" -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.2/anchor.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js"></script>
-  {% asset details.js %}
-  {% asset tab.js %}
-  {% asset popup.js %}
   {% asset customscripts.js %}
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+  {% asset docs.css %}
+  {% asset guides.css %}
 </head>
 <body>
   <div class="page">
     <div class="page__content">
-      <div class="header">
-        <div class="page__container">
-        {% include breadcrumbs.html %}
-        </div>
-      </div>
+
+      <!--#include virtual="/includes/topnav.html" -->
 
       <!-- Page Content -->
       <div class="page__container">
+      {% include breadcrumbs.html %}
+
         <div class="layout-sidebar">
           <div class="layout-sidebar__sidebar">
             <div id="menu-widget"><menu-widget framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></menu-widget></div>
 
-            {% assign sidebar = site.data.sidebars[page.sidebar].entries[page.lang] %}
-            <ul id="mysidebar" class="sidebar sidebar_static">
-              {%- for folder in sidebar.f %}
-              {% if folder.sf %}
-              <li class="sidebar__item sidebar__item_parent {%- if page.url contains folder.url %} active{%- endif %}">
-                <a href="{{ site.baseurl }}/{{ page.guide_code }}/{{ folder.url }}" data-subhref="{{ folder.url }}">{{ folder.title }}</a>
-                <ul class="sidebar__submenu">
-                  {%- for subfolders in folder.sf %}
-                  {%- if subfolders.external_url %}
-                  <li class="sidebar__submenu-item"><a href="{{ subfolders.external_url }}" target="_blank">{{subfolders.title}}</a></li>
-                  {%- elsif page.url contains subfolders.url %}
-                  <li class="sidebar__submenu-item active"><a href="{{ site.baseurl }}/{{ page.guide_code }}/{{ subfolders.url }}" data-subhref="{{ subfolders.url }}">{{subfolders.title}}</a></li>
-                  {%- else %}
-                  <li class="sidebar__submenu-item"><a href="{{ site.baseurl }}/{{ page.guide_code }}/{{ subfolders.url }}" data-subhref="{{subfolders.url}}">{{subfolders.title}}</a></li>
-                  {%- endif %}
-                  {%- endfor %}
-                </ul>
-              </li>
-              {%- elsif folder.external_url %}
-              <li class="sidebar__item"><a href="{{ folder.external_url }}" target="_blank">{{folder.title}}</a></li>
-              {%- elsif page.url contains folder.url %}
-              <li class="sidebar__item active"><a href="{{ site.baseurl }}/{{ page.guide_code }}/{{ folder.url }}" data-subhref="{{ folder.url }}">{{folder.title}}</a></li>
-              {%- else %}
-              <li class="sidebar__item"><a href="{{ site.baseurl }}/{{ page.guide_code }}/{{ folder.url }}" data-subhref="{{folder.url}}">
-                {{folder.title}}
-              </a></li>
-              {%- endif %}
-              {%- endfor %}
-            </ul>
-
-            <div class="sidebar__btns">
-              <a href="https://t.me/werf_ru" target="_blank" class="sidebar__btn" title="Задать вопрос в Telegram">
-                <span class="sidebar__btn-icon sidebar__btn-icon_telegram"></span>
-                Есть вопрос? Ответим
-              </a>
-              <a href="https://github.com/werf/werf" target="_blank" class="sidebar__btn" title="Поставить звезду на GitHub">
-                <span class="sidebar__btn-icon sidebar__btn-icon_github"></span>
-                Понравилось? Поставь звезду
-              </a>
-            </div>
+          {% include sidebar.html %}
           </div>
           <div class="layout-sidebar__content">
             <div class="content__header">
@@ -122,22 +60,7 @@
       </div>
       <div class="action-toast"></div>
     </div>
-    <div class="footer">
-      <div class="footer__credits">
-        Сделано с <span class="page__icon page__icon_heart"></span> в компании <a href="{{ site.company_url }}" target="_blank">{{ site.company_name }}</a>
-      </div>
-      <div class="footer__github">
-        <span class="page__icon page__icon_github footer__github-icon"></span>
-        <a href="https://github.com/werf/werf" class="footer__github-counter">
-          <span class="footer__github-counter-num"><span class="gh_counter">2000</span></span>
-        </a>
-      </div>
-      <div class="footer__gen" id="siteGenerationTime" hidden>
-        Дата генерации сайта: {{ site.time | date: "%e.%m.%Y, %H:%M %z"  }}
-      </div>
-      <div id="werfVersion" hidden>{{ site.werfVersion }}</div>
-      <div id="werfChannel" hidden>{{ site.werfChannel }}</div>
-    </div>
+    <!--#include virtual="/includes/footer.html" -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.4/scrollMonitor.js"></script>
   </div>
   {% include scripts.html %}
