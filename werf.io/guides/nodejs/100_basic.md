@@ -4,7 +4,7 @@ permalink: nodejs/100_basic.html
 ---
 
 In this chapter, you will acquire the basic skills required to deliver an application to Kubernetes:
-- You will learn how to containerize an application. For this, we will define the assembly process and build a container.
+- You will learn how to containerize an application. For this, we will define the assembly process, build a container, and run the application in Docker.
 - You will deploy an application. We will configure the application architecture by describing its components/their relationships and deploy an application to Kubernetes.
 
 Moreover, we will do it all on the local machine without using any CI system.
