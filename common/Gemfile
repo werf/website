@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "jekyll-assets"
+gem "jekyll-minifier"
 gem "jekyll"
 gem "html-proofer"
 gem "kramdown-parser-gfm"

@@ -25,3 +25,4 @@ jobs:
         WERF_LOG_VERBOSE: "on"
         WERF_NAMESPACE: "werfio-test"
         WERF_STAGES_STORAGE: docker.pkg.github.com/${{ github.repository }}/stages-guides
+        JEKYLL_ENV: production
