@@ -141,6 +141,7 @@ git commit -m "Add build configuration"
 
 Running time 22.07 seconds
 ```
+{% endraw %}
 
 ## Запуск
 
