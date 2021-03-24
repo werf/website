@@ -57,7 +57,7 @@ jobs:
           --empty-alt-ignore \
           --check_html \
           --file_ignore "/____________/" \
-          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/" \
+          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/" \
           --url-swap "^\/documentation/:https\://werf.io/documentation/" \
           --http-status-ignore 0 \
           ./_site/
@@ -72,7 +72,7 @@ jobs:
           --empty-alt-ignore \
           --check_html \
           --file_ignore "/____________/" \
-          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/" \
+          --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/" \
           --url-swap "^\/documentation/:https\://ru.werf.io/documentation/" \
           --http-status-ignore 0 \
           ./_site/

@@ -29,28 +29,28 @@ You will need the following components to develop in Kubernetes:
 
 Now select your preferred method/location for setting up an environment:
 
-<div style="display: flex; justify-content: space-between; margin: 0 10px 0 20px;">
-<div class="button__blue button__blue_inline expand_columns_button" id="minikube_button"><a href="#">Minikube</a></div>
-<div class="button__blue button__blue_inline expand_columns_button" id="docker_desktop_button"><a href="#">Docker Desktop</a></div>
-<div class="button__blue button__blue_inline expand_columns_button" id="cloud_provider_button"><a href="#">Cloud provider</a></div>
-<div class="button__blue button__blue_inline expand_columns_button" id="has_cluster_button"><a href="#">I already have a cluster</a></div>
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__docker')">Docker Desktop</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__cloud')">Cloud provider</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">I already have a cluster</a>
 </div>
 
-{% expandonclick id="minikube_button__content" %}
+<div id="tab__install__minikube" class="tabs__content tabs__install__content" markdown="1">
 {% include_relative 20_cluster_minikube.md %}
-{% endexpandonclick %}
+</div>
 
-{% expandonclick id="docker_desktop_button__content" %}
+<div id="tab__install__docker" class="tabs__content tabs__install__content" markdown="1">
 {% include_relative 20_cluster_docker_desktop.md %}
-{% endexpandonclick %}
+</div>
 
-{% expandonclick id="cloud_provider_button__content" %}
+<div id="tab__install__cloud" class="tabs__content tabs__install__content" markdown="1">
 {% include_relative 20_cluster_cloud_provider.md %}
-{% endexpandonclick %}
+</div>
 
-{% expandonclick id="has_cluster_button__content" %}
+<div id="tab__install__ihave" class="tabs__content tabs__install__content" markdown="1">
 {% include_relative 20_cluster_has_cluster.md %}
-{% endexpandonclick %}
+</div>
 
 ## Final checks
 

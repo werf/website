@@ -67,6 +67,10 @@ module.exports = {
       template: path.resolve(__dirname, './_include_templates/_breadcrumbs.html'),
     }),
     new HtmlWebpackPlugin({
+      filename: '_includes/sidebar.html',
+      template: path.resolve(__dirname, './_include_templates/_sidebar.html'),
+    }),
+    new HtmlWebpackPlugin({
       filename: '_includes/en/landing-tiles.html',
       template: path.resolve(__dirname, './_include_templates/en/landing-tiles.html'),
     }),

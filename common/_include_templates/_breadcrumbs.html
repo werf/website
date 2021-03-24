@@ -1,16 +1,17 @@
+<div class="breadcrumbs-container">
 <ol class="breadcrumbs">
     {%- if site.site_lang == "ru" %}
-        <li>
+        <li class="breadcrumbs__item">
           <a href="/">Начало</a>
         </li>
-        <li>
+        <li class="breadcrumbs__item">
           <a href="/guides.html">Руководства</a>
         </li>
     {%- else %}
-        <li>
+        <li class="breadcrumbs__item">
           <a href="/">Home</a>
         </li>
-        <li>
+        <li class="breadcrumbs__item">
           <a href="/guides.html">Guides</a>
         </li>
     {%- endif %}
@@ -20,3 +21,4 @@
     </li>
     {%- endif %}
 </ol>
+</div>

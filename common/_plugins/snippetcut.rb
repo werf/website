@@ -45,7 +45,9 @@ module Jekyll
 <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-name>копировать имя</a>
 <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-text>копировать текст</a>
 </div>
+<div class="highlight">
 #{rendered_content}
+</div>
 <div class="snippetcut__raw" data-snippetcut-text>#{CGI::escapeHTML(content.strip.gsub(%r!^```[a-zA-Z]*!,''))}</div>
 </div>
         )

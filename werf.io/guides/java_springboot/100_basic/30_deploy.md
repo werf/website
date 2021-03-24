@@ -65,18 +65,18 @@ werf rebuilds containers only when necessary: if there are changes in the relate
 
 The Kubernetes cluster uses images stored in the registry to run the application. Therefore, it is important that the cluster can log in to the registry. Generally, the situation varies for local and remote registries.
 
-<div style="display: flex; justify-content: space-between; margin: 0 10px 0 20px;">
-<div class="button__blue button__blue_inline expand_columns_button" id="local_cluster_button"><a href="#">local registry</a></div>
-<div class="button__blue button__blue_inline expand_columns_button" id="remote_cluster_button"><a href="#">remote registry</a></div>
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__secret__btn" onclick="openTab(event, 'tabs__secret__btn', 'tabs__secret__content', 'tab__secret__local')">Local registry</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__secret__btn" onclick="openTab(event, 'tabs__secret__btn', 'tabs__secret__content', 'tab__secret__remote')">Remote registry</a>
 </div>
 
-{% expandonclick id="local_cluster_button__content" %}
+<div id="tab__secret__local" class="tabs__content tabs__secret__content" markdown="1">
 {% include_relative 30_deploy_registrysecret_local.md %}
-{% endexpandonclick %}
+</div>
 
-{% expandonclick id="remote_cluster_button__content" %}
+<div id="tab__secret__remote" class="tabs__content tabs__secret__content" markdown="1">
 {% include_relative 30_deploy_registrysecret_remote.md %}
-{% endexpandonclick %}
+</div>
 
 ## Service
 
