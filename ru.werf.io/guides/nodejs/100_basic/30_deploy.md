@@ -137,25 +137,20 @@ spec:
 
 ## Выкат в кластер
 
-Воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для того, чтобы собрать образ, загрузить собранный образ в registry и задеплоить приложение в Kubernetes. Единственной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-nodejs`.
+Перед выполнением выката необходимо добавить изменения в git-репозиторий проекта:
 
-{% offtopic title="Как будут храниться образы в репозитории?" %}
-При организации деплоя без использования werf зачастую приходится формализовать принципы, по которым именуются образы в registry. В нашем случае нет необходимости думать об этом: werf берёт организацию тегирования на себя.
+```shell
+git add .helm/templates
+git commit -m "Add helm chart configuration"
+```
 
-werf реализует тегирование, которое называется content-based (т.е. основанное на содержимом): образы меняются и выкатываются автоматически, если меняется состояние контента в Git.
+> Почему изменения должны добавляться в git-репозиторий, что такое гитерминизм и режим разработчика, а также другие особенности работы с файлами проекта будут разобраны далее в главе «Необходимо знать»
 
-Если вы хотите узнать подробности — читайте [в документации]({{ site.docsurl }}/documentation/internals/stages_and_storage.html#%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D1%81%D1%82%D0%B0%D0%B4%D0%B8%D0%B9) и [статье на Хабре](https://habr.com/ru/company/flant/blog/495112/).
-{% endofftopic %}
-
-Сделайте коммит изменений в репозитории с кодом и затем выполните:
+Команда [werf converge]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) используется для сборки и загрузки образов в registry и последующего выката приложения в Kubernetes. Единственной обязательной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-springboot`.
 
 ```shell
 werf converge --repo registry.example.com/werf-guided-nodejs
-```
-
-В результате вы должны увидеть логи примерно такого вида:
-
-```
+...
 │ │ basicapp/dockerfile  Successfully built 7e38465ee6de
 │ │ basicapp/dockerfile  Successfully tagged cbb1cef2-a03a-432f-b13d-b95f0f0cb4e9:latest
 │ ├ Info
