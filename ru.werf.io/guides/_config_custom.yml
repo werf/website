@@ -17,7 +17,7 @@ defaults:
       type: "pages"
     values:
       layout: "default"
-      lang: en
+      lang: ru
       comments: true
       search: true
       sidebar: sidebar
@@ -28,18 +28,16 @@ defaults:
       path: "nodejs"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: nodejs
       toc: false
       label_ci: GitLab
       label_framework: "Node.js"
-      multilang: false
+      multilang: true
   - scope:
       path: "java_springboot"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: java_springboot
       toc: false
@@ -50,7 +48,6 @@ defaults:
       path: "django"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: django
       toc: false
@@ -60,7 +57,6 @@ defaults:
       path: "golang"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: golang
       toc: false
@@ -70,7 +66,6 @@ defaults:
       path: "rails"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: rails
       toc: false
@@ -80,7 +75,6 @@ defaults:
       path: "gitlab_nodejs"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav_11
       guide_code: gitlab_nodejs
       toc: false
@@ -90,7 +84,6 @@ defaults:
       path: "gitlab_java_springboot"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav_11
       guide_code: gitlab_java_springboot
       toc: false

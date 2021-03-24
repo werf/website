@@ -10,7 +10,7 @@
   <link rel="alternate" hreflang="ru" href="{{ site.site_urls["ru"] }}{{ site.baseurl}}{{ page.url }}" />
   <link rel="alternate" hreflang="en" href="{{ site.site_urls["en"] }}{{ site.baseurl}}{{ page.url }}" />
   {%- endif %}
-  <title>{{ page.title }} | {{ site.site_title }}</title>
+  <title>{{ page.title }} {% if page.label_framework %}| {{ page.label_framework }} {% endif %}| {{ site.site_title }}</title>
 
   <!--#include virtual="/includes/head-common.html" -->
 
