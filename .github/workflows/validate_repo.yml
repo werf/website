@@ -8,12 +8,6 @@ on:
       - edited
       - reopened
       - synchronize
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - reopened
-      - synchronize
 
 jobs:
   type_check:
