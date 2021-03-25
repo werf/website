@@ -28,7 +28,6 @@ defaults:
       path: "nodejs"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: nodejs
       toc: false
@@ -39,7 +38,6 @@ defaults:
       path: "java_springboot"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: java_springboot
       toc: false
@@ -50,7 +48,6 @@ defaults:
       path: "python_django"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: python_django
       toc: false
@@ -60,7 +57,6 @@ defaults:
       path: "rails"
       type: "pages"
     values:
-      lang: ru
       sidebar: applications_guide_nav
       guide_code: rails
       toc: false

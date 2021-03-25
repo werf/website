@@ -1,6 +1,7 @@
 ---
 title: Успешное прохождение
 permalink: gitlab_java_springboot/999_complete.html
+layout: wip
 ---
 
 Поздравляем, вы успешно прошли самоучитель!
