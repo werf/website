@@ -108,3 +108,12 @@ $(document).ready(function () {
     $(name).show();
   });
 });
+
+$(document).ready(function () {
+  $('.header__menu-item').removeClass('header__menu-item_active');
+  $('.header__menu-item > a').each(function () {
+    if (this.href.endsWith("/guides.html")) {
+      $(this).parent().addClass('header__menu-item_active')  ;
+    }
+  });
+});
