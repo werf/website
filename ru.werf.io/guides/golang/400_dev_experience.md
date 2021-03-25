@@ -1,5 +1,5 @@
 ---
-title: Заголовок
+title: Повышение качества разработки
 permalink: golang/400_dev_experience.html
 layout: "development"
 ---

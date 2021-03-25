@@ -37,7 +37,7 @@ entries:
           - title: Нелокальная разработка
             url: "300_dev_process/20_nonlocal.html"
 
-      - title: Improve developer experience
+      - title: Повышение качества разработки
         url: "400_dev_experience.html"
         sf:
           - title: Ускорение доставки
