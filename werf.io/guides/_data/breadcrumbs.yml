@@ -1,28 +1,15 @@
-/:
-  title: Introduction
-  url: /index.html
-/gitlab_java_springboot:
-  title: Gitlab CI + Springboot
-  url: /gitlab_java_springboot/000_task.html
-/gitlab_java_springboot/020_basic:
-  title: Базовые настройки
-  url: /gitlab_java_springboot/020_basic.html
-/gitlab_nodejs:
-  title: Gitlab CI + NodeJS
-  url: /gitlab_nodejs/000_task.html
-/gitlab_nodejs/020_basic:
-  title: Базовые настройки
-  url: /gitlab_nodejs/020_basic.html
-/gitlab_python_django:
-  title: Gitlab CI + Django
-  url: /gitlab_python_django/000_task.html
-/gitlab_python_django/020_basic:
-  title: Базовые настройки
-  url: /gitlab_python_django/020_basic.html
-/gitlab_rails:
-  title: Gitlab CI + Ruby On Rails
-  url: /gitlab_rails/000_task.html
-/gitlab_rails/020_basic:
-  title: Базовые настройки
-  url: /gitlab_rails/020_basic.html
-
+/100_basic:
+  title: First steps
+  url: /100_basic.html
+/200_real_apps:
+  title: Real world apps
+  url: /200_real_apps.html
+/300_dev_process:
+  title: Development process
+  url: /300_dev_process.html
+/400_dev_experience:
+  title: Improve developer experience
+  url: /400_dev_experience.html
+/400_infra:
+  title: Building infrastructure
+  url: /400_infra.html
