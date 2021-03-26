@@ -246,3 +246,91 @@
   color: #0066FF;
 }
 
+/* ---------------------------------------------------------------------------------------- */
+
+.guides__tiles {
+    padding: 0;
+    margin: 35px 0 0 0;
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 40px;
+}
+
+.guides__tile {
+    box-sizing: border-box;
+    padding: 30px 20px;
+    background: #FFFFFF;
+    box-shadow: 4px 4px 25px rgba(0, 18, 44, 0.15);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.guides__tile-logo_disabled {
+    filter: grayscale(1);
+    opacity: 0.55;
+}
+
+.guides__tile .guides__tile__button {
+    margin-top: 30px;
+}
+
+
+.guides__tile__button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: #0066FF;
+    height: 40px;
+    padding: 0 25px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: background-color 300ms ease;
+}
+
+.guides__tile__button_small {
+    height: 25px;
+    border-radius: 25px;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.guides__tile__button img {
+    margin: 0 20px 0 0;
+}
+
+.guides__tile__button_small img {
+    margin: 0 10px 0 0;
+}
+
+.guides__tile__button span+img {
+    margin: 0 0 0 20px;
+}
+
+.guides__tile__button_small span+img {
+    margin: 0 0 0 10px;
+}
+
+.guides__tile__button img.flip-horizontal {
+    transform: scaleX(-1);
+}
+
+.guides__tile__button_disabled {
+    background: rgba(0, 18, 44, 0.35);
+    color: #fff;
+}
+
+.guides__tile__button:not(.landing__button_disabled):hover,
+.guides__tile__button:not(.landing__button_disabled):focus,
+.guides__tile__button:not(.landing__button_disabled):active {
+    background: #00122c;
+}
