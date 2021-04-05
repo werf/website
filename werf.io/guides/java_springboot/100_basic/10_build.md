@@ -117,9 +117,9 @@ git add werf.yaml Dockerfile
 git commit -m "Add build configuration"
 ```
 
-> Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the chapter "Need to know"
+> Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the chapter "Must haves"
 
-The build is performed by the [`werf build`] ({{site.docsurl}} / documentation / reference / cli / werf_build.html) command:
+The build is performed by the [`werf build`] ({{ site.docsurl }}/documentation/reference/cli/werf_build.html) command:
 
 
 {% raw %}

@@ -144,7 +144,7 @@ git add .helm/templates
 git commit -m "Add helm chart configuration"
 ```
 
-> Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the "Need to know" chapter
+> Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the "Must haves" chapter
 
 The [werf converge]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) command builds images, pushes them to the registry, and deploys the application to Kubernetes. Its only mandatory option is the repository for storing images `--repo registry.example.com/werf-guided-springboot`.
 
