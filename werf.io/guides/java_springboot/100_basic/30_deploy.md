@@ -137,25 +137,20 @@ spec:
 
 ## Deploying to the cluster
 
-We will use the [`werf converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) command to build an image, push it to the registry, and deploy our application to the Kubernetes cluster. The repository to store images (`--repo registry.example.com/werf-guided-springboot`) serves as its only parameter..
+Before deploying to the cluster, you need to add changes to the project's git repository:
 
-{% offtopic title="How are images stored in the repository?" %}
-When implementing the deployment process without werf, you have to take care of the scheme for naming images in the registry. In our case, you do not have to worry about that: werf can automatically tag images for you.
+```shell
+git add .helm/templates
+git commit -m "Add helm chart configuration"
+```
 
-werf implements the so-called `content-based tagging` (in other words, tags depend on the content): it automatically builds and deploys images in response to changes in Git contents.
+> Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the "Must haves" chapter
 
-You can learn more in the [documentation]({{ site.docsurl }}/documentation/internals/stages_and_storage.html#stage-naming) and in the [article](https://medium.com/flant-com/content-based-tagging-in-werf-eb96d22ac509).
-{% endofftopic %}
-
-Commit changes to the code repository and then run the command below:
+The [werf converge]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) command builds images, pushes them to the registry, and deploys the application to Kubernetes. Its only mandatory option is the repository for storing images `--repo registry.example.com/werf-guided-springboot`.
 
 ```shell
 werf converge --repo registry.example.com/werf-guided-springboot
-```
-
-As a result, you should see output similar to this:
-
-```
+...
 │ │ basicapp/dockerfile  Successfully built 7e38465ee6de
 │ │ basicapp/dockerfile  Successfully tagged cbb1cef2-a03a-432f-b13d-b95f0f0cb4e9:latest
 │ ├ Info

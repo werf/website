@@ -8,7 +8,7 @@ permalink: java_springboot/100_basic/10_build.html
 - werf.yaml
 {% endfilesused %}
 
-[Dockerfile](https://docs.docker.com/engine/reference/builder/) is a classic method to build images. Probably, your applications are already using this mechanism for the assembly. That is why we will start with it and then learn how to use it with werf. In the next chapters, we will speed up the build using an alternative syntax for describing the assembly process, but in this chapter, we will focus on getting the result quickly.
+In this chapter, we'll start using werf. We will containerize the test application using werf and [Dockerfile](https://docs.docker.com/engine/reference/builder/) and run the final image locally in Docker.
 
 ## Preparing the workplace
 
@@ -26,8 +26,6 @@ git commit -m "initial commit"
 ```
 
 _This way you will copy the code of the [Spring Boot application](https://github.com/werf/werf-guides/tree/master/examples/springboot/000_app) to a local directory and initialize a Git repository in it._
-
-Note that werf follows the principles of [giterminism]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
 
 ## Dockerfile-based build process
 
@@ -112,29 +110,21 @@ The single `werf.yaml` file can contain the definitions of an arbitrary number o
 
 ## Building
 
-Now that you have successfully added `Dockerfile` and `werf.yaml` described above, it is necessary to commit changes to Git:
+Before starting the build, you have to add changes to the project's Git repository:
 
-{% raw %}
 ```shell
-git add .
-git commit -m "work in progress"
+git add werf.yaml Dockerfile
+git commit -m "Add build configuration"
 ```
-{% endraw %}
 
-The [`build` command]({{ site.docsurl }}/documentation/reference/cli/werf_build.html) starts the assembly process:
+> Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the chapter "Must haves"
+
+The build is performed by the [`werf build`] ({{ site.docsurl }}/documentation/reference/cli/werf_build.html) command:
 
 
 {% raw %}
 ```shell
 werf build
-```
-{% endraw %}
-
-_The sub-chapter "Speeding up the build" contains instructions on how to adapt the Dockerfile-based build process to an alternative werf syntax called `Stapel` and gain access to some advanced features, such as Git history-based incremental rebuilds, the usage of Ansible and inter-assembly cache, convenient diagnostic tools, and much more._
-
-But even now, you may notice that werf outputs the build logs in the extended format:
-
-```
 ┌ ⛵ image basicapp
 │ ┌ Building stage basicapp/dockerfile
 │ │ basicapp/dockerfile  Sending build context to Docker daemon  116.7kB
@@ -153,72 +143,25 @@ But even now, you may notice that werf outputs the build logs in the extended fo
 
 Running time 86.37 seconds
 ```
+{% endraw %}
 
 ## Running
 
-Let's run the built image using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
+The container is run using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
 
 ```shell
 werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
 ```
 
-Note that we set the [docker parameters](https://docs.docker.com/engine/reference/run/) via `--docker-options`, while the startup command is preceded by two hyphens.
+Note that the [docker parameters](https://docs.docker.com/engine/reference/run/) are set via the `--docker-options` option, while the startup command is preceded by two hyphens.
 
-_You may also notice that `werf run` also performs the build. In other words, it is not really necessary to run the build separately._
+`werf.yaml` can describe any number of images. Use a positional argument of the command (`werf run basicapp ...`) to run a container related to the specific `image` described in `werf.yaml`.
+
+_You may notice that `werf run` also performs the build, i.e., no pre-build is needed._
 
 Now you can access the application locally on port 3000:
 
 ![](/guides/images/springboot/100_10_app_in_browser.png)
-
-## Making changes
-
-As you might guess, we are going to continually update our application. Let's see how to do this in the right way by making some arbitrary changes to the application code:
-
-{% snippetcut name="/src/main/java/com/example/demo/mvc/controller/LabelController.java" url="#" %}
-{% raw %}
-```java
-    @GetMapping("/labels")
-    public String labels() {
-        return "Our changes";
-    }
-```
-{% endraw %}
-{% endsnippetcut %}
-
- 1. Stop the running `werf run` (by pressing Ctrl+C in the console where it is running.
-
- 2. Start it again:
-    ```shell
-    werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
-    ```
-
- 3. Error occurs:
-    ```
-    Error: phase build on image basicapp stage dockerfile handler failed: the file "src/main/java/com/example/demo/mvc/controller/LabelController.java" must be committed
-
-    You might also be interested in developer mode (activated with --dev option) that allows you to work with staged changes without doing redundant commits. Just use "git add <file>..." to include the changes that should be used.
-
-    To provide a strong guarantee of reproducibility, werf reads the configuration and build's context files from the project git repository and eliminates external dependencies. We strongly recommend to follow this approach. But if necessary, you can allow the reading of specific files directly from the file system and enable the features that require careful use. Read more about giterminism and how to manage it here: https://werf.io/v1.2-ea/documentation/advanced/configuration/giterminism.html.
-    ```
-
-The thing is we **forgot to commit changes to Git prior to step 1** in the scenario above.
-
-{% offtopic title="What is the correct way, and why go through all those troubles?" %}
-1. Make changes to the code.
-2. Commit them:
-   ```shell
-   git add .
-   git commit -m "wip"
-   ```
-3. Restart `werf run`:
-    ```shell
-    werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar
-    ```
-4. View the result in the browser.
-
-Werf follows the principles of [giterminism]({{ site.docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
-
-{% endofftopic %}
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Preparing the cluster" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
