@@ -39,13 +39,11 @@
               <div class="content__title">Deploying {% if page.label_framework %}<span>{{ page.label_framework }}</span> {% endif %}application to Kubernetes</div>
             </div>
             <div class="docs">
-              <div class="buttons">
-                <div class="button__white button__white_smalloffsets">
-                    <a href="{{ site.editlink }}/{{ page.path }}">Edit page</a>
-                </div>
-                <div class="button__white button__white_smalloffsets">
-                    <a href="{{ site.issuelink }}">Create issue</a>
-                </div>
+              <div class="btn-group editme">
+                  <a href="{{ site.editlink }}/{{ page.path }}" class="btn btn_o" id="editme_link" target="_blank">
+                      <span class="btn__icon btn__icon_github"></span>
+                      Source
+                  </a>
               </div>
               <h1 class="docs__title">{{ page.title }}</h1>
               <div class="post-content open-content_container">

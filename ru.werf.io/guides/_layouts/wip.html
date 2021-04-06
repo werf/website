@@ -39,13 +39,11 @@
               <div class="content__title">Разворачиваем приложение {% if page.label_framework %}на <span>{{ page.label_framework }}</span> {% endif %}в среде Kubernetes</div>
             </div>
             <div class="docs">
-              <div class="buttons">
-                <div class="button__white button__white_smalloffsets">
-                    <a href="{{ site.editlink }}/{{ page.path }}">Редактировать страницу</a>
-                </div>
-                <div class="button__white button__white_smalloffsets">
-                    <a href="{{ site.issuelink }}">Завести issue</a>
-                </div>
+              <div class="btn-group editme">
+                  <a href="{{ site.editlink }}/{{ page.path }}" class="btn btn_o" id="editme_link" target="_blank">
+                      <span class="btn__icon btn__icon_github"></span>
+                      Source
+                  </a>
               </div>
               <h1 class="docs__title">{{ page.title }}</h1>
               <div class="post-content open-content_container">
