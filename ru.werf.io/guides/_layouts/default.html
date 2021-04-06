@@ -41,13 +41,11 @@
             </div>
             <div class="docs">
               {%- if page.name != '404.md' %}
-              <div class="buttons">
-                <div class="button__white button__white_smalloffsets">
-                    <a href="{{ site.editlink }}/{{ page.path }}">Редактировать страницу</a>
-                </div>
-                <div class="button__white button__white_smalloffsets">
-                    <a href="{{ site.issuelink }}">Завести issue</a>
-                </div>
+              <div class="btn-group editme">
+                  <a href="{{ site.editlink }}/{{ page.path }}" class="btn btn_o" id="editme_link" target="_blank">
+                      <span class="btn__icon btn__icon_github"></span>
+                      Source
+                  </a>
               </div>
               {%- endif %}
               <h1 class="docs__title">{{ page.title }}</h1>
