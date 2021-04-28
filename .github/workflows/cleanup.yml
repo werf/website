@@ -22,7 +22,5 @@ jobs:
 
       - name: Cleanup
         uses: werf/actions/cleanup@v1.2
-        with:
-          env: production
         env:
           WERF_LOG_VERBOSE: "on"
