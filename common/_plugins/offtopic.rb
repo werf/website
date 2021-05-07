@@ -36,11 +36,9 @@ module Jekyll
 
         %Q(
 <div class="details">
-<p class="details__lnk"><a href="javascript:void(0)" class="details__summary">#{@config[:title]}</a></p>
+<a href="javascript:void(0)" class="details__summary">#{@config[:title]}</a>
 <div class="details__content" markdown="1">
-<div class="expand">
 #{rendered_content}
-</div>
 </div>
 </div>
         )
