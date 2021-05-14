@@ -60,11 +60,9 @@ minikube addons enable registry
 
 В самоучителе предполагается, что кластер (вернее, его Nginx Ingress) доступен по адресу `example.com`, а registry — по адресу `registry.example.com`. Именно этот домен и его поддомены указаны в дальнейшем в конфигах. В случае, если вы будете использовать другие адреса, скорректируйте конфигурацию самостоятельно.
 
-Пропишите в локальном файле `/etc/hosts` строки вида:
-
-```
-127.0.0.1           example.com
-127.0.0.1           registry.example.com
+Обновим локальный файл `/etc/hosts`:
+```shell
+printf "\n$(minikube ip) example.com\n127.0.0.1 registry.example.com\n" | sudo tee -a /etc/hosts
 ```
 
 ### Авторизация в Registry
