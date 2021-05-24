@@ -148,7 +148,7 @@ Running time 22.07 seconds
 Запуск контейнера выполняется командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
 ```shell
-werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
+werf run --docker-options="--rm -p 3000:3000 -e "SQLITE_FILE=app.db"" -- node /app/app.js
 ```
 
 Обратите внимание, что [параметры docker](https://docs.docker.com/engine/reference/run/) задаются опцией `--docker-options`, а команда запуска после двух дефисов.

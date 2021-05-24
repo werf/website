@@ -146,10 +146,10 @@ git commit -m "Add helm chart configuration"
 
 > Почему изменения должны добавляться в git-репозиторий, что такое гитерминизм и режим разработчика, а также другие особенности работы с файлами проекта будут разобраны далее в главе «Необходимо знать»
 
-Команда [werf converge]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) используется для сборки и загрузки образов в registry и последующего выката приложения в Kubernetes. Единственной обязательной опцией указывается репозиторий для хранения образов `--repo registry.example.com/werf-guided-springboot`.
+Команда [werf converge]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) используется для сборки и загрузки образов в registry и последующего выката приложения в Kubernetes. Единственной обязательной опцией указывается репозиторий для хранения образов `--repo registry.example.com:5000/werf-guided-springboot`. Также может понадобиться опция `--insecure-registry`, если registry работает без TLS.
 
 ```shell
-werf converge --repo registry.example.com/werf-guided-nodejs
+werf converge --insecure-registry --repo registry.example.com:5000/werf-guided-nodejs
 ...
 │ │ basicapp/dockerfile  Successfully built 7e38465ee6de
 │ │ basicapp/dockerfile  Successfully tagged cbb1cef2-a03a-432f-b13d-b95f0f0cb4e9:latest
