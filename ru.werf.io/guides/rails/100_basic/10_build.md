@@ -148,20 +148,18 @@ Running time 96.38 seconds
 Запуск контейнера выполняется командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 
 ```shell
-werf run --docker-options="--rm -p 3000:3000" -- bundle exec puma
+werf run --docker-options="--rm -p 3000:3000" -- bash -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
 ```
 
 Обратите внимание, что [параметры docker](https://docs.docker.com/engine/reference/run/) задаются опцией `--docker-options`, а команда запуска после двух дефисов.
 
 В `werf.yaml` может описываться произвольное количество образов. Для запуска контейнера определённого `image` из werf.yaml необходимо использовать позиционный аргумент команды (`werf run basicapp ...`).
 
-_Можно заметить, что вызов `werf run` осуществляет сборку, т.е. предварительная сборка не требуется._
+_Можно заметить, что вызов `werf run` осуществляет сборку недостающих образов, таким образом предварительная сборка командой `werf build` не обязательна._
 
 Теперь приложение доступно локально на порту 3000:
 
 ![](/guides/images/rails/100_10_app_in_browser.png)
-
-_Как уже было сказано, используется база SQLite без сохранения данных между запусками. Поэтому при первом запросе Rails выдаст страницу с просьбой выполнить миграции. Это можно сделать, нажав на этой странице соответствующую кнопку._
 
 <div id="go-forth-button">
     <go-forth url="20_cluster.html" label="Подготовка кластера" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
