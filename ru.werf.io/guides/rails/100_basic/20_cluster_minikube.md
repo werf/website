@@ -34,6 +34,8 @@ sudo systemctl restart docker
 ```
 {% endofftopic %}
 
+_Для команд werf, взаимодействующих с Container Registry (`werf converge/cleanup/...`), при использовании Registry без TLS потребуется указывать флаг `--insecure-registries`, например `werf converge --insecure-registries`._
+
 Запускаем minikube и создаём в нём новый Kubernetes-кластер:
 ```shell
 minikube delete  # Удалим существующий minikube-кластер (если он есть).

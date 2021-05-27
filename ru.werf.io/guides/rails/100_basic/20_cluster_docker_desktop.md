@@ -22,6 +22,8 @@
 Перезапустим Docker через меню Docker Desktop.
 {% endofftopic %}
 
+_Для команд werf, взаимодействующих с Container Registry (`werf converge/cleanup/...`), при использовании Registry без TLS потребуется указывать флаг `--insecure-registries`, например `werf converge --insecure-registries`._
+
 Включим Kubernetes в Docker Desktop, [как указано в инструкции](https://docs.docker.com/desktop/kubernetes/).
 
 Выделим достаточно ресурсов для запуска Kubernetes и приложений в нём, следуя инструкциям для [Windows](https://docs.docker.com/docker-for-windows/#resources) или [macOS](https://docs.docker.com/docker-for-mac/#resources). Если ресурсов будет недостаточно, то часть приложений или компонентов кластера запуститься не смогут. Дальнейшие инструкции были проверены при выделенных для кластера 6 CPU, 6 ГБ RAM и диске в 24 ГБ.
