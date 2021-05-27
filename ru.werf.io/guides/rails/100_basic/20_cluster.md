@@ -57,7 +57,8 @@ curl example.com
 </body>
 </html>
 ```
-Это значит, что NGINX Ingress Controller успешно запущен. После того, как мы задеплоим в кластер наше приложение, вместо ошибки 404 на `example.com` нам будет отвечать наше приложение.
+Это значит, что NGINX Ingress Controller успешно запущен.
+_После того, как мы задеплоим в кластер наше приложение, вместо ошибки 404 на `example.com` нам будет отвечать наше приложение._
 
 <div id="go-forth-button">
     <go-forth url="30_deploy.html" label="Деплой приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

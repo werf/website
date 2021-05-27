@@ -1,6 +1,6 @@
 ### Установка и запуск minikube
 
-[Устанавливаем minikube](https://minikube.sigs.k8s.io/docs/start/).
+Установим minikube, [следуя инструкциям здесь](https://minikube.sigs.k8s.io/docs/start/).
 
 Разрешаем доступ в Container Registry без TLS:
 {% offtopic title="Windows" %}
@@ -36,25 +36,25 @@ sudo systemctl restart docker
 
 Запускаем minikube и создаём в нём новый Kubernetes-кластер:
 ```shell
-minikube delete # Удалим существующий minikube-кластер (если он есть).
+minikube delete  # Удалим существующий minikube-кластер (если он есть).
 minikube start --driver=docker
 ```
 
-[Устанавливаем утилиту kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) и проверяем работоспособность нового кластера Kubernetes:
+[Устанавливаем утилиту kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/), после чего проверяем работоспособность нового кластера Kubernetes:
 ```shell
-kubectl --all-namespaces get pod # Должно показать список всех запущенных в кластере Pod'ов.
+kubectl --all-namespaces get pod  # Должно показать список всех запущенных в кластере Pod'ов.
 ```
 
 Если все Pod'ы из полученного списка находятся в состояниях `Running` или `Completed` (4-й столбец), а в 3-м столбце в выражениях вроде `1\1` цифра слева от `\` равна цифре справа (т.е. контейнеры Pod'а успешно запустились) — значит кластер Kubernetes запущен и работает. Если не все Pod'ы успешно запустились, то подождите и снова выполните команду выше для получения статуса всех Pod'ов.
 
 ### Установка NGINX Ingress Controller
 
-Устанавливаем NGINX Ingress Controller (может занять до минуты):
+Устанавливаем NGINX Ingress Controller:
 ```shell
 minikube addons enable ingress
 ```
 
-Убедимся, что Ingress Controller успешно запустился:
+Немного подождём, после чего убедимся, что Ingress Controller успешно запустился:
 ```shell
 kubectl -n ingress-nginx get pod
 ```
@@ -93,9 +93,11 @@ spec:
 
 ### Обновление файла hosts
 
-Мы будем использовать домен `example.com` для доступа к приложению и домен `registry.example.com` для доступа к Container Registry. Обновим файл hosts:
+Мы будем использовать домен `example.com` для доступа к приложению и домен `registry.example.com` для доступа к Container Registry.
+
+Обновим файл hosts:
 {% offtopic title="Windows" %}
-Получите IP-адрес minikube:
+Сначала получите IP-адрес minikube:
 ```shell
 minikube ip
 ```
