@@ -3,71 +3,61 @@ title: Подготовка окружения
 permalink: rails/100_basic/20_cluster.html
 ---
 
-Чтобы вести разработку в среде Kubernetes, необходимо:
-
-- локально установленный werf — сделано на предыдущих шагах;
-- приложение в Git — сделано на предыдущих шагах;
-- кластер Kubernetes;
-- реестр контейнеров (container registry);
-- правильные DNS-записи.
-
-**Настройка окружения — это сложная задача**. Не рекомендуем закапываться в решение проблем своими руками: используйте существующие на рынке услуги, позовите на помощь коллег, которые имеют практику настройки инфраструктуры, или задавайте вопросы в [Telegram-сообществе werf](https://t.me/werf_ru).
-
-{% offtopic title="Чек-лист для самопроверки окружения" %}
-
-- У вас есть кластер Kubernetes (версии 1.14 или выше).
-    - В кластере установлен ingress-контроллер и на него направлен домен `example.com`, т.е. туда можно заходить браузером.
-- У вас есть registry.
-    - Registry доступен по домену `registry.example.com`.
-    - Кластер может pull'ить образы из вашего registry.
-- С локального компьютера:
-    - есть доступ в кластер (работает `kubectl version`);
-    - есть доступ в registry (работает `docker push`);
-    - в браузере открывается `example.com` (пусть и показывает 404 от Ingress).
-
-{% endofftopic %}
-
-Выберите, как будете реализовывать окружение:
+Выберите, с помощью чего вы хотите развернуть тестовый Kubernetes-кластер:
 
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__docker')">Docker Desktop</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__cloud')">Использование облачного провайдера</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">У меня уже есть кластер</a>
-</div>
-
-<div id="tab__install__minikube" class="tabs__content tabs__install__content" markdown="1">
-{% include_relative 20_cluster_minikube.md %}
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__docker')">Docker Desktop (Windows, macOS)</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube (Linux, Windows, macOS)</a>
+{% comment %} TODO(lesikov): раскомментить как переработаю 20_cluster_has_cluster.md.
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">Свой кластер</a>
+{% endcomment %}
 </div>
 
 <div id="tab__install__docker" class="tabs__content tabs__install__content" markdown="1">
 {% include_relative 20_cluster_docker_desktop.md %}
 </div>
 
-<div id="tab__install__cloud" class="tabs__content tabs__install__content" markdown="1">
-{% include_relative 20_cluster_cloud_provider.md %}
+<div id="tab__install__minikube" class="tabs__content tabs__install__content" markdown="1">
+{% include_relative 20_cluster_minikube.md %}
 </div>
 
+
+{% comment %} TODO(lesikov): раскомментить как переработаю 20_cluster_has_cluster.md.
 <div id="tab__install__ihave" class="tabs__content tabs__install__content" markdown="1">
 {% include_relative 20_cluster_has_cluster.md %}
 </div>
+{% endcomment %}
 
-## Финальные проверки
+## Проверяем кластер
 
-Если вы уже убедились в работоспособности самого кластера, пришло время проверить registry и ingress. Эти команды:
-
+Если hosts-файл правильно настроен, то эти команды должны показать IP, соответствующие тем, которые мы указали в hosts-файле:
 ```shell
-docker tag ubuntu:18.04 registry.example.com/ubuntu:18.04
-docker push registry.example.com/ubuntu:18.04
+nslookup example.com
+nslookup registry.example.com
 ```
 
-… должны успешно загрузить образ Ubuntu в registry и не выдать ошибку. А эта команда:
+Проверим, загружаются ли образы в Container Registry:
+```shell
+docker pull busybox
+docker tag busybox registry.example.com:80/busybox
+docker push registry.example.com:80/busybox
+```
 
+А теперь проверим, работает ли NGINX Ingress Controller:
 ```shell
 curl example.com
 ```
-
-… должна выдать страницу ошибки nginx ingress (если вы ещё не задеплоили приложения в кластер).
+… должно выдать ошибку 404 от Nginx:
+```html
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+```
+Это значит, что NGINX Ingress Controller успешно запущен. После того, как мы задеплоим в кластер наше приложение, вместо ошибки 404 на `example.com` нам будет отвечать наше приложение.
 
 <div id="go-forth-button">
     <go-forth url="30_deploy.html" label="Деплой приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

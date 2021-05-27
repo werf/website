@@ -100,10 +100,22 @@ Running time 96.38 seconds
 
 Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 ```shell
+<<<<<<< HEAD
+werf run --docker-options="--rm -p 3000:3000" -- bash -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
+```
+
+Обратите внимание, что [параметры docker](https://docs.docker.com/engine/reference/run/) задаются опцией `--docker-options`, а команда запуска после двух дефисов.
+
+В `werf.yaml` может описываться произвольное количество образов. Для запуска контейнера определённого `image` из werf.yaml необходимо использовать позиционный аргумент команды (`werf run basicapp ...`).
+
+_Можно заметить, что вызов `werf run` осуществляет сборку недостающих образов, таким образом предварительная сборка командой `werf build` не обязательна._
+=======
+werf run --docker-options="--rm -p 3000:3000" basicapp -- bundle exec puma
 werf run --docker-options="--rm -p 3000:3000" basicapp -- sh -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
 ```
 
 _Обратите внимание, что [параметры Docker](https://docs.docker.com/engine/reference/run/) задаются опцией `--docker-options`, а команда для выполнения в контейнере указывается в конце, после двух дефисов._
+>>>>>>> dc98926... rewrite-first-steps
 
 Теперь приложение доступно локально на порту 3000:
 

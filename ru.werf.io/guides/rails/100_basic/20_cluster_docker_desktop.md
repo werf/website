@@ -1,79 +1,134 @@
-## Docker Desktop
+### Установка Docker Desktop и запуск Kubernetes
 
-### Установка
+Установим Docker Desktop на [Windows](https://docs.docker.com/docker-for-windows/install/) или [macOS](https://docs.docker.com/docker-for-mac/install/).
 
-Установите Docker Desktop на [Windows](https://docs.docker.com/docker-for-windows/install/) или [macOS](https://docs.docker.com/docker-for-mac/install/).
-
-Включите Kubernetes и настройте выделенные на него ресурсы.
-
-{% offtopic title="Почему ресурсы — это важно?" %}
-Если у кластера будет слишком мало ресурсов, не сможет запуститься ваше приложение, Ingress или даже какой-то из необходимых самому оркестратору системных компонентов. Без опыта администрирования кластера разобраться в таких проблемах будет очень тяжело.
-
-Составители самоучителя тестировали приложения на конфигурации 6 CPU, 6 ГБ памяти, swap на 1,5 ГБ, образ диска на 24 ГБ.
+Разрешаем доступ в Container Registry без TLS:
+{% offtopic title="Windows" %}
+В файл, находящийся по умолчанию в `%programdata%\docker\config\daemon.json`, добавим новый ключ:
+```json
+{
+  "insecure-registries": ["registry.example.com:80"]
+}
+```
+Перезапустим Docker Desktop через меню, открывающееся правым кликом по иконке Docker Desktop в трее.
+{% endofftopic %}
+{% offtopic title="macOS" %}
+В файл, по умолчанию находящийся в `/etc/docker/daemon.json`, добавим новый ключ:
+```json
+{
+  "insecure-registries": ["registry.example.com:80"]
+}
+```
+Перезапустим Docker через меню Docker Desktop.
 {% endofftopic %}
 
-В результате автоматически будет создан файл `.kube/config` с ключами доступа к локальному кластеру и werf сможет подключиться к локальному registry.
+[Включаем Kubernetes в Docker Desktop](https://docs.docker.com/desktop/kubernetes/). Выделяем достаточно ресурсов для запуска Kubernetes и приложений в нём, следуя инструкциям для [Windows](https://docs.docker.com/docker-for-windows/#resources) или [macOS](https://docs.docker.com/docker-for-mac/#resources). Если ресурсов будет недостаточно, то часть приложений или компонентов кластера запуститься не смогут. Дальнейшие инструкции были проверены при выделенных для кластера 6 CPU, 6 ГБ RAM и выделенном диске в 24 ГБ.
+{% comment %} TODO(lesikov): чет слишком много ресурсов хотим, надо протестить на винде, сколько реально надо. Мне кажется для кластера + приложения достаточно будет 1 CPU и 1 ГБ RAM. {% endcomment %}
 
-Итогом этих манипуляций должна стать возможность получить доступ к кластеру с помощью утилиты `kubectl` (возможно, эту утилиту придётся установить отдельно). Например, вызов:
-
+Утилита `kubectl` должна взаимодействовать именно с новым кластером Kubernetes:
 ```shell
-kubectl get ns
+kubectl config use-context docker-desktop
 ```
 
-… покажет список всех namespace'ов в кластере, а не сообщение об ошибке.
-
-### Ingress
-
-Нужно в явном виде [установить Nginx Ingress вручную](https://kubernetes.github.io/ingress-nginx/deploy/).
-
-В случае Docker Desktop иногда бывают сложности с доступом к Ingress: порты могут не проброситься на хост-машину. Чтобы быть уверенным, что Ingress корректно работает, проверьте:
-
-- Pod с Ingress-контроллером корректно поднялся (для nginx-ingress это можно посмотреть так: `kubectl -n ingress-nginx get po`);
-- наличие службы на 80-м порту (это можно посмотреть с помощью `lsof -n | grep LISTEN` или [аналогичным способом](https://www.google.com/search?q=check+used+ports&oq=check+used+ports)).
-
-Если на 80-м порту (HTTP) нет Kubernetes — возможно, нужно пробросить порт вручную. Посмотрите имя Pod'а с ingress-controller:
-
+Проверим работоспособность Kubernetes:
 ```shell
-kubectl -n ingress-nginx get po
+kubectl --all-namespaces get pod # Должно показать список всех запущенных в кластере Pod'ов.
 ```
 
-… и затем запустите проброс порта:
+Если все Pod'ы из полученного списка находятся в состояниях `Running` или `Completed` (4-й столбец), а в 3-м столбце в выражениях вроде `1\1` цифра слева от `\` равна цифре справа (т.е. контейнеры Pod'а успешно запустились) — значит кластер Kubernetes запущен и работает. Если не все Pod'ы успешно запустились, то подождите и снова выполните команду выше для получения статуса Pod'ов.
 
+### Установка NGINX Ingress Controller
+
+{% comment %} TODO(lesikov): надо инструкции, как проверить, свободен ли порт для мака и винды. {% endcomment %}
+80-й порт вашей машины должен быть свободен перед установкой. Устанавливаем NGINX Ingress Controller, [следуя инструкциям](https://kubernetes.github.io/ingress-nginx/deploy/#docker-desktop) (установка может занять до минуты).
+
+Убедимся, что Ingress Controller успешно запустился:
 ```shell
-kubectl port-forward --address 0.0.0.0 -n ingress-nginx ingress-nginx-controller-<тут_будут_буквы_цифры> 80:80
+kubectl -n ingress-nginx get pod
 ```
 
-После описанных операций проверьте, что появилось на 80-м порту (например, `lsof -n | grep LISTEN`).
+### Установка Container Registry для хранения образов
 
-### Registry
+Запустим Container Registry в кластере:
+```yaml
+kubectl apply -f - << EOF
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      labels:
+        app: registry
+    spec:
+      containers:
+      - name: registry
+        image: "registry:2"
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: registry-data
+          mountPath: /var/lib/registry
+      volumes:
+      - name: registry-data
+        emptyDir: {}
 
-Docker Desktop не содержит встроенного registry. Самый простой способ — это запустить его вручную как Docker-образ:
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry
+  namespace: kube-system
+spec:
+  selector:
+    app: registry
+  ports:
+    - name: registry
+      port: 80
+      targetPort: 5000
 
-```shell
-docker run -d -p 5000:5000 --restart=always --name registry registry:2
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry
+  namespace: kube-system
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  rules:
+  - host: registry.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 80
+EOF
 ```
 
-Обратите внимание, что в этом случае по умолчанию registry будет работать без SSL-шифрования. А значит, при работе с werf потребуется добавлять [параметр](https://werf.io/documentation/reference/cli/werf_managed_images_add.html#options) `--insecure-registry=true`.
+### Обновление файла hosts
 
-### Hosts
-
-В самоучителе предполагается, что кластер (вернее, его Nginx Ingress) доступен по адресу `example.com`, а registry — по адресу `registry.example.com`. Именно этот домен и его поддомены указаны в дальнейшем в конфигах. В случае, если вы будете использовать другие адреса, скорректируйте конфигурацию самостоятельно.
-
-Пропишите в локальном файле `/etc/hosts` строки вида:
-
+Мы будем использовать домен `example.com` для доступа к приложению и `registry.example.com` для доступа к Container Registry. Обновим файл hosts:
+{% offtopic title="Windows" %}
+Добавьте в конец файла `C:\Windows\System32\drivers\etc\hosts` следующие строки:
 ```
 127.0.0.1           example.com
 127.0.0.1           registry.example.com
 ```
-
-### Авторизация в Registry
-
-Если вы запустили registry локально, как приведено в примере выше, то ваш локальный registry работает без пароля и ничего делать не нужно.
-
-{% offtopic title="Я использую внешний registry или установил логин/пароль" %}
-Для того, чтобы werf смог загрузить собранный образ в registry, нужно на локальной машине авторизоваться с помощью `docker login` примерно так:
-
+{% endofftopic %}
+{% offtopic title="macOS" %}
+Выполните команду в терминале:
 ```shell
-docker login <registry_domain> -u <account_login> -p <account_password>
+echo "127.0.0.1 example.com registry.example.com" | sudo tee -a /etc/hosts
 ```
 {% endofftopic %}
