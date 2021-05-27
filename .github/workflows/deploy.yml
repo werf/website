@@ -1,22 +1,47 @@
-name: Deploy to production
+name: Deploy
 
 on:
   push:
     branches:
       - master
+      - staging
+  pull_request:
+    types: [ labeled, synchronize ]
+
 env:
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
 
 jobs:
   converge:
-    name: Deploy guides to production
+    name: Deploy
     runs-on: self-hosted
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - name: Deploy website to test
+      uses: werf/actions/converge@v1.2
+      with:
+        env: test
+      env:
+        WERF_KUBE_CONTEXT: dev
+        WERF_LOG_VERBOSE: "on"
+        WERF_NAMESPACE: "werfio-test"
+      if: github.event.label.name == 'test guides' || contains( github.event.pull_request.labels.*.name, 'test guides' )
+
+    - name: Deploy to staging
+      uses: werf/actions/converge@v1.2
+      with:
+        env: stage
+      env:
+        WERF_LOG_VERBOSE: "on"
+        WERF_KUBE_CONTEXT: dev
+        WERF_NAMESPACE: "werfio-stage"
+      if: ${{ github.ref == 'refs/heads/staging' }}
 
     - name: Deploy to production
       uses: werf/actions/converge@v1.2
@@ -26,3 +51,4 @@ jobs:
         WERF_LOG_VERBOSE: "on"
         WERF_KUBE_CONTEXT: prod
         WERF_NAMESPACE: "werfio-production"
+      if: ${{ github.ref == 'refs/heads/master' }}
