@@ -37,12 +37,12 @@ sudo systemctl restart docker
 Запускаем minikube и создаём в нём новый Kubernetes-кластер:
 ```shell
 minikube delete  # Удалим существующий minikube-кластер (если он есть).
-minikube start --driver=docker
+minikube start --driver=docker --insecure-registry registry.example.com:80
 ```
 
 [Устанавливаем утилиту kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/), после чего проверяем работоспособность нового кластера Kubernetes:
 ```shell
-kubectl --all-namespaces get pod  # Должно показать список всех запущенных в кластере Pod'ов.
+kubectl get --all-namespaces pod  # Должно показать список всех запущенных в кластере Pod'ов.
 ```
 
 Если все Pod'ы из полученного списка находятся в состояниях `Running` или `Completed` (4-й столбец), а в 3-м столбце в выражениях вроде `1\1` цифра слева от `\` равна цифре справа (т.е. контейнеры Pod'а успешно запустились) — значит кластер Kubernetes запущен и работает. Если не все Pod'ы успешно запустились, то подождите и снова выполните команду выше для получения статуса всех Pod'ов.
@@ -89,6 +89,7 @@ spec:
             name: registry
             port:
               number: 80
+EOF
 ```
 
 ### Обновление файла hosts

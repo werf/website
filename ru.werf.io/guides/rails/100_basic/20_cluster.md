@@ -58,6 +58,7 @@ curl example.com
 </html>
 ```
 Это значит, что NGINX Ingress Controller успешно запущен.
+
 _После того, как мы задеплоим в кластер наше приложение, вместо ошибки 404 на `example.com` нам будет отвечать наше приложение._
 
 <div id="go-forth-button">
