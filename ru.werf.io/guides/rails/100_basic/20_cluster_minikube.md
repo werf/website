@@ -2,7 +2,7 @@
 
 Установим minikube, [следуя инструкциям здесь](https://minikube.sigs.k8s.io/docs/start/).
 
-Разрешаем доступ в Container Registry без TLS:
+Разрешаем доступ в **Container Registry без TLS для docker**:
 {% offtopic title="Windows" %}
 В файл, находящийся по умолчанию в `%programdata%\docker\config\daemon.json`, добавим новый ключ:
 ```json
@@ -34,7 +34,18 @@ sudo systemctl restart docker
 ```
 {% endofftopic %}
 
-_Для команд werf, взаимодействующих с Container Registry (`werf converge/cleanup/...`), при использовании Registry без TLS потребуется указывать флаг `--insecure-registries`, например `werf converge --insecure-registries`._
+Чтобы разрешить доступ в **Container Registry без TLS для werf** потребуется либо указывать флаг `--insecure-registry` для каждого вызова команд werf, взаимодействующих с Container Registry (`werf converge/cleanup/...`), либо глобально указать переменную окружения `WERF_INSECURE_REGISTRY=1` в сессии вашего терминала.
+
+{% offtopic title="Windows" %}
+TODO
+{% endofftopic %}
+{% offtopic title="macOS/Linux" %}
+Добавим переменную окружения в `~/.bashrc`:
+
+```shell
+echo export WERF_INSECURE_REGISTRY=1 | tee -a ~/.bashrc
+```
+{% endofftopic %}
 
 Запускаем minikube и создаём в нём новый Kubernetes-кластер:
 ```shell
