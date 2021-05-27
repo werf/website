@@ -1,7 +1,7 @@
 configVersion: 1
 project: werfio-guides
 ---
-artifact: guides-artifact
+image: guides-artifact
 from: jekyll/builder:3
 ansible:
   beforeInstall:
@@ -61,11 +61,11 @@ ansible:
 {{ .Files.Get ".werf/nginx.conf" | indent 8 }}
       dest: /etc/nginx/nginx.conf
 import:
-- artifact: guides-artifact
+- image: guides-artifact
   add: /app/werf.io/guides/_site
   to: /app/werf.io/guides/
   before: setup
-- artifact: guides-artifact
+- image: guides-artifact
   add: /app/ru.werf.io/guides/_site
   to: /app/ru.werf.io/guides/
   before: setup
