@@ -24,7 +24,10 @@ kubectl get ns
 
 ### Ingress
 
-В Minikube нужно [включить addon](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller).
+В Minikube нужно [включить addon](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller):
+```shell
+minikube addons enable ingress
+```
 
 {% offtopic title="Как убедиться, что с Ingress всё хорошо?" %}
 
