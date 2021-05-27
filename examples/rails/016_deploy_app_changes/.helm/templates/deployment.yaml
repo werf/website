@@ -15,14 +15,16 @@ spec:
       labels:
         app: basicapp
     spec:
+      initContainers:
+      - name: basicapp-migrations
+        command: [ "/bin/bash", "-ec", "until bundle exec rails db:migrate RAILS_ENV=development ; do echo ; echo Waiting for database startup ... ; sleep 1 ; done" ]
+        image: {{ .Values.werf.image.basicapp }}
+        workingDir: /app
       containers:
       - name: basicapp
-        command: [ "/bin/bash", "-ec", "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma" ]
+        command: [ "/bin/bash", "-ec", "bundle exec puma" ]
         image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 3000
           protocol: TCP
-        env:
-        - name: "SQLITE_FILE"
-          value: "app.db"
