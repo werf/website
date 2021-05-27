@@ -1,72 +1,117 @@
-## Minikube
+### Установка и запуск minikube
 
-Это «облегчённая» версия Kubernetes, работающая только на одном узле.
+[Устанавливаем minikube](https://minikube.sigs.k8s.io/docs/start/).
 
-### Установка
-
-[Установите minikube](https://minikube.sigs.k8s.io/docs/start/) и запустите его:
-
+Разрешаем доступ в Container Registry без TLS:
+{% offtopic title="Windows" %}
+В файл, находящийся по умолчанию в `%programdata%\docker\config\daemon.json`, добавим новый ключ:
+```json
+{
+  "insecure-registries": ["registry.example.com:80"]
+}
+```
+Перезапустим Docker Desktop через меню, открывающееся правым кликом по иконке Docker Desktop в трее.
+{% endofftopic %}
+{% offtopic title="macOS" %}
+В файл, по умолчанию находящийся в `/etc/docker/daemon.json`, добавим новый ключ:
+```json
+{
+  "insecure-registries": ["registry.example.com:80"]
+}
+```
+Перезапустим Docker через меню Docker Desktop.
+{% endofftopic %}
+{% offtopic title="Linux" %}
+В файл, по умолчанию находящийся в `/etc/docker/daemon.json`, добавим новый ключ:
+```json
+{
+  "insecure-registries": ["registry.example.com:80"]
+}
+```
+Перезапустим Docker:
 ```shell
+sudo systemctl restart docker
+```
+{% endofftopic %}
+
+Запускаем minikube и создаём в нём новый Kubernetes-кластер:
+```shell
+minikube delete # Удалим существующий minikube-кластер (если он есть).
 minikube start --driver=docker
 ```
 
-**ВАЖНО:** Если Minikube уже запущен в вашей системе, то надо удостоверится, что используется driver под названием `docker`. Если нет, то требуется перезапустить Minikube с помощью команды `minikube delete` и команды для старта, показанной выше.
-
-В результате автоматически будет создан файл `.kube/config` с ключами доступа к локальному кластеру и werf сможет подключиться к локальному registry.
-
-Итогом этих манипуляций должна стать возможность получить доступ к кластеру с помощью утилиты `kubectl` (возможно, эту утилиту придётся установить отдельно). Например, вызов:
-
+[Устанавливаем утилиту kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) и проверяем работоспособность нового кластера Kubernetes:
 ```shell
-kubectl get ns
+kubectl --all-namespaces get pod # Должно показать список всех запущенных в кластере Pod'ов.
 ```
 
-… покажет список всех namespace'ов в кластере, а не сообщение об ошибке.
+Если все Pod'ы из полученного списка находятся в состояниях `Running` или `Completed` (4-й столбец), а в 3-м столбце в выражениях вроде `1\1` цифра слева от `\` равна цифре справа (т.е. контейнеры Pod'а успешно запустились) — значит кластер Kubernetes запущен и работает. Если не все Pod'ы успешно запустились, то подождите и снова выполните команду выше для получения статуса всех Pod'ов.
 
-### Ingress
+### Установка NGINX Ingress Controller
 
-В Minikube нужно [включить addon](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#enable-the-ingress-controller).
+Устанавливаем NGINX Ingress Controller (может занять до минуты):
+```shell
+minikube addons enable ingress
+```
 
-{% offtopic title="Как убедиться, что с Ingress всё хорошо?" %}
+Убедимся, что Ingress Controller успешно запустился:
+```shell
+kubectl -n ingress-nginx get pod
+```
 
-По умолчанию можно считать, что всё хорошо. Если не уверены, что тут написано, вернитесь к этому пункту позже.
+### Установка Container Registry для хранения образов
 
-- Балансировщик установлен.
-- Pod с балансировщиком корректно поднялся (для nginx-ingress это можно посмотреть так: `kubectl -n ingress-nginx get po`).
-- На 80-м порту (это можно посмотреть с помощью `lsof -n | grep LISTEN`) работает нужное приложение.
-
-{% endofftopic %}
-
-### Registry
-
-Включите addon minikube registry:
-
+Установим и запустим Container Registry:
 ```shell
 minikube addons enable registry
 ```
 
-И далее, в зависимости от ОС:
+Создадим Ingress для доступа к Container Registry:
+```yaml
+kubectl apply -f - << EOF
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry
+  namespace: kube-system
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  rules:
+  - host: registry.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: registry
+            port:
+              number: 80
+```
 
+### Обновление файла hosts
+
+Мы будем использовать домен `example.com` для доступа к приложению и домен `registry.example.com` для доступа к Container Registry. Обновим файл hosts:
 {% offtopic title="Windows" %}
-{% include_relative 20_cluster_minikube_registry_win.md %}
-{% endofftopic %}
-{% offtopic title="MacOS" %}
-{% include_relative 20_cluster_minikube_registry_macos.md %}
-{% endofftopic %}
-{% offtopic title="Linux" %}
-{% include_relative 20_cluster_minikube_registry_linux.md %}
-{% endofftopic %}
-
-### Hosts
-
-В самоучителе предполагается, что кластер (вернее, его Nginx Ingress) доступен по адресу `example.com`, а registry — по адресу `registry.example.com`. Именно этот домен и его поддомены указаны в дальнейшем в конфигах. В случае, если вы будете использовать другие адреса, скорректируйте конфигурацию самостоятельно.
-
-Пропишите в локальном файле `/etc/hosts` строки вида:
-
-```
-127.0.0.1           example.com
-127.0.0.1           registry.example.com
+Получите IP-адрес minikube:
+```shell
+minikube ip
 ```
 
-### Авторизация в Registry
-
-Registry, установленный в minikube, не требует авторизации. Никаких дополнительных действий предпринимать не нужно.
+Используя полученный выше IP-адрес minikube, добавьте в конец файла `C:\Windows\System32\drivers\etc\hosts` следующую строку:
+```
+<IP-адрес minikube>    example.com registry.example.com
+```
+Должно получиться примерно так:
+```
+192.168.99.99          example.com registry.example.com
+```
+{% endofftopic %}
+{% offtopic title="macOS/Linux" %}
+Выполните команду в терминале:
+```shell
+echo "$(minikube ip) example.com registry.example.com" | sudo tee -a /etc/hosts
+```
+{% endofftopic %}
