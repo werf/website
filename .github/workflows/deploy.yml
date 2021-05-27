@@ -33,14 +33,14 @@ jobs:
         WERF_NAMESPACE: "werfio-test"
       if: github.event.label.name == 'test guides' || contains( github.event.pull_request.labels.*.name, 'test guides' )
 
-    - name: Deploy to staging
+    - name: Deploy to test
       uses: werf/actions/converge@v1.2
       with:
-        env: stage
+        env: test
       env:
         WERF_LOG_VERBOSE: "on"
         WERF_KUBE_CONTEXT: dev
-        WERF_NAMESPACE: "werfio-stage"
+        WERF_NAMESPACE: "werfio-test"
       if: ${{ github.ref == 'refs/heads/staging' }}
 
     - name: Deploy to production
