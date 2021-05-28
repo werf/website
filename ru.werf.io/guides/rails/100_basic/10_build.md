@@ -100,7 +100,7 @@ Running time 96.38 seconds
 
 Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 ```shell
-werf run --docker-options="--rm -p 3000:3000" basicapp -- sh -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
+werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
 ```
 
 [Параметры Docker](https://docs.docker.com/engine/reference/run/) здесь задаются опцией `--docker-options`, а команда для выполнения в контейнере указывается в конце, после двух дефисов.
