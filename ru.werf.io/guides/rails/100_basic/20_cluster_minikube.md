@@ -132,8 +132,7 @@ echo "$(minikube ip) example.com registry.example.com" | sudo tee -a /etc/hosts
 ```
 {% endofftopic %}
 
-Домен `registry.example.com` также должен быть доступен из minikube node, чтобы скачивать образы приложения из Container Registry во время запуска приложения. Для этого необходимо выполнить команду:
-
+А теперь обновим файл hosts на мастер-ноде нашего кластера:
 ```shell
-minikube ssh -- "echo $(minikube ip) registry.example.com | sudo tee -a /etc/hosts"
+minikube ssh -- "echo $(minikube ip) example.com registry.example.com | sudo tee -a /etc/hosts"
 ```

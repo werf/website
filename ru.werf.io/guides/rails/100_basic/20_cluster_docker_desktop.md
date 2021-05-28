@@ -138,3 +138,8 @@ EOF
 echo "127.0.0.1 example.com registry.example.com" | sudo tee -a /etc/hosts
 ```
 {% endofftopic %}
+
+А теперь обновим файл hosts на мастер-ноде нашего кластера:
+```shell
+minikube ssh -- "echo $(minikube ip) example.com registry.example.com | sudo tee -a /etc/hosts"
+```
