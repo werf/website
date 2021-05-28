@@ -10,6 +10,8 @@ entries:
             url: "100_basic/20_cluster.html"
           - title: Деплой приложения
             url: "100_basic/30_deploy.html"
+          - title: Внесение изменений
+            url: "100_basic/35_deploy_changes.html"
           - title: Необходимо знать
             url: "100_basic/40_must_haves.html"
 
