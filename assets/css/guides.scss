@@ -230,7 +230,7 @@
 }
 
 .in-development__image {
-  background-image: url(../assets/in_development.png);
+  background-image: asset_url("in_development.png");
   width: 120px;
   margin: 10px 20px;
   background-repeat: no-repeat;

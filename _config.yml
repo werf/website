@@ -11,6 +11,12 @@ highlighter: rouge
 plugins:
   - jekyll-assets
 
+assets:
+  sources:
+    - _assets
+  cdn:
+    baseurl: true
+
 markdown: kramdown
 kramdown:
  input: GFM

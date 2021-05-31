@@ -182,5 +182,5 @@ Running time 222.54 seconds
 
 После этого приложение должно быть доступно в браузере:
 
-![](/images/template/100_30_app_in_browser.png)
+{% asset guides/common/100_30_app_in_browser.png alt='Приложение в браузере' %}
 

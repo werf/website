@@ -157,7 +157,7 @@ werf converge --repo registry.example.com/werf-guided-nodejs --set "global.myvar
 * [сгенерируйте ключ]({{ site.docsurl }}/documentation/reference/cli/werf_helm_secret_generate_secret_key.html) (`werf helm secret generate-secret-key`);
 * определите ключ в текущей сессии консоли (например, `export WERF_SECRET_KEY=634f76ead513e5959d0e03a992372b8e`) или создайте файл `.werf_secret_key` в корне проекта (**этот ключ не должен храниться в Git**).
 
-![](/images/template/100_50_werf_secret_key_in_gitlab.png)
+{% asset guides/common/100_50_werf_secret_key_in_gitlab.png %}
 
 После этого можно задать секретные переменные `access_key` и `secret_key`, например, для работы с S3. Зайдите в режим редактирования секретных значений:
 

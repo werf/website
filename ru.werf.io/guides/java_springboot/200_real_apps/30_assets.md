@@ -27,8 +27,8 @@ layout: development
 Реализовать сборку сгенерированных ассетов можно двумя способами:
 
 <div class="twoaccentedcolumns">
-    <div class="twoaccentedcolumns__column"><img src="/images/template/200_30_assets_onedocker.png" /></div>
-    <div class="twoaccentedcolumns__column"><img src="/images/template/200_30_assets_twodockers.png" /></div>
+    <div class="twoaccentedcolumns__column">{% asset guides/common/200_30_assets_onedocker.png %}</div>
+    <div class="twoaccentedcolumns__column">{% asset guides/common/200_30_assets_twodockers.png %}</div>
 </div>
 
 {% offtopic title="Как правильно сделать выбор?" %}
@@ -244,8 +244,8 @@ dockerfile: Dockerfile.frontend
 Инфраструктуру мы можем организовать двумя способами:
 
 <div class="twoaccentedcolumns">
-    <div class="twoaccentedcolumns__column"><img src="/images/springboot/200_30_assets_deploy_1.png" /></div>
-    <div class="twoaccentedcolumns__column"><img src="/images/springboot/200_30_assets_deploy_2.png" /></div>
+    <div class="twoaccentedcolumns__column">{% asset guides/springboot/200_30_assets_deploy_1.png %}</div>
+    <div class="twoaccentedcolumns__column">{% asset guides/springboot/200_30_assets_deploy_2.png %}</div>
 </div>
 
 В случае организации ассетов первый способ позволяет гибче управлять отдачей статики, с помощью `nginx.conf`, мы воспользуемся этим способом.

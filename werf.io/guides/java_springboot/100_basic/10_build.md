@@ -161,5 +161,5 @@ _You may notice that `werf run` also performs the build, i.e., no pre-build is n
 
 Now you can access the application locally on port 3000:
 
-![](/images/springboot/100_10_app_in_browser.png)
+{% asset guides/springboot/100_10_app_in_browser.png %}
 

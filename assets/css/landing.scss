@@ -274,7 +274,7 @@ body {
     display: inline-block;
     width: 18px;
     height: 18px;
-    background-image: url(../assets/icons/heart.png);
+    background-image: asset_url("icons/heart.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;

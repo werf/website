@@ -181,5 +181,5 @@ Running time 222.54 seconds
 
 And the application should be accessible via the browser:
 
-![](/images/template/100_30_app_in_browser.png)
+{% asset guides/common/100_30_app_in_browser.png %}
 

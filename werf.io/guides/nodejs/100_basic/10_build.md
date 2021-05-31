@@ -169,7 +169,7 @@ _You may also notice that `werf run` also performs the build. In other words, it
 
 Now you can access the application locally on port 3000:
 
-![](/images/nodejs/100_10_app_in_browser.png)
+{% asset guides/nodejs/100_10_app_in_browser.png %}
 
 ## Making changes
 

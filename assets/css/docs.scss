@@ -121,11 +121,11 @@
 }
 
 .sidebar__btn-icon_github {
-    background-image: url('../assets/icons/github.svg');
+    background-image: asset_url("icons/github.svg");
 }
 
 .sidebar__btn-icon_telegram {
-    background-image: url('../assets/icons/telegram.svg');
+    background-image: asset_url("icons/telegram.svg");
 }
 
 .docs .filesused {
@@ -275,6 +275,7 @@
 
 .open-content_container .open-content_button {
     display: flex;
+    cursor: pointer;
     flex-direction: row;
     justify-content: center;
     align-items: center;
