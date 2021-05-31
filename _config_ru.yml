@@ -39,7 +39,7 @@ defaults:
       type: "pages"
     values:
       sidebar: applications_guide_nav
-      guide_code: nodejs
+      framework_id: nodejs
       toc: false
       label_ci: GitLab
       label_framework: "Node.js"
@@ -49,7 +49,7 @@ defaults:
       type: "pages"
     values:
       sidebar: applications_guide_nav
-      guide_code: java_springboot
+      framework_id: java_springboot
       toc: false
       label_ci: GitLab
       label_framework: "Spring Boot"
@@ -59,7 +59,7 @@ defaults:
       type: "pages"
     values:
       sidebar: applications_guide_nav
-      guide_code: django
+      framework_id: django
       toc: false
       label_ci: GitLab
       label_framework: Django
@@ -68,7 +68,7 @@ defaults:
       type: "pages"
     values:
       sidebar: applications_guide_nav
-      guide_code: golang
+      framework_id: golang
       toc: false
       label_ci: GitLab
       label_framework: Go
@@ -77,7 +77,7 @@ defaults:
       type: "pages"
     values:
       sidebar: applications_guide_nav
-      guide_code: rails
+      framework_id: rails
       toc: false
       label_ci: GitLab
       label_framework: Rails
