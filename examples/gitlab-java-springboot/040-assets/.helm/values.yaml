@@ -1,7 +1,0 @@
-app:
-  java_opt:
-    _default: "--debug"
-    production: ""
-  link_url:
-    _default: yandex.ru
-    production: google.com
