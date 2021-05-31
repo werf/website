@@ -5,9 +5,85 @@ permalink: rails/100_basic/10_build.html
 
 В этой главе мы соберём образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом запустим приложение в контейнере на основе собранного образа.
 
-## Создадим новый репозиторий с демо-приложением
+## Подготовка
 
 Установите werf и его зависимости, [следуя инструкциям]({{ site.docsurl }}/installation.html).
+
+{% offtopic title="В Windows пользователю также понадобятся права на создание символьных ссылок:" %}
+1. Откройте PowerShell-терминал с правами Администратора.
+1. Скопируйте в терминал функцию для добавления прав на создание символьных ссылок:
+```powershell
+function addSymLinkPermissions($accountToAdd){
+    Write-Host "Checking SymLink permissions.."
+    $sidstr = $null
+    try {
+        $ntprincipal = new-object System.Security.Principal.NTAccount "$accountToAdd"
+        $sid = $ntprincipal.Translate([System.Security.Principal.SecurityIdentifier])
+        $sidstr = $sid.Value.ToString()
+    } catch {
+        $sidstr = $null
+    }
+    Write-Host "Account: $($accountToAdd)" -ForegroundColor DarkCyan
+    if( [string]::IsNullOrEmpty($sidstr) ) {
+        Write-Host "Account not found!" -ForegroundColor Red
+        exit -1
+    }
+    Write-Host "Account SID: $($sidstr)" -ForegroundColor DarkCyan
+    $tmp = [System.IO.Path]::GetTempFileName()
+    Write-Host "Export current Local Security Policy" -ForegroundColor DarkCyan
+    secedit.exe /export /cfg "$($tmp)" 
+    $c = Get-Content -Path $tmp 
+    $currentSetting = ""
+    foreach($s in $c) {
+        if( $s -like "SECreateSymbolicLinkPrivilege*") {
+            $x = $s.split("=",[System.StringSplitOptions]::RemoveEmptyEntries)
+            $currentSetting = $x[1].Trim()
+        }
+    }
+    if( $currentSetting -notlike "*$($sidstr)*" ) {
+        Write-Host "Need to add permissions to SymLink" -ForegroundColor Yellow
+
+        Write-Host "Modify Setting ""Create SymLink""" -ForegroundColor DarkCyan
+
+        if( [string]::IsNullOrEmpty($currentSetting) ) {
+            $currentSetting = "*$($sidstr)"
+        } else {
+            $currentSetting = "*$($sidstr),$($currentSetting)"
+        }
+        Write-Host "$currentSetting"
+    $outfile = @"
+[Unicode]
+Unicode=yes
+[Version]
+signature="`$CHICAGO`$"
+Revision=1
+[Privilege Rights]
+SECreateSymbolicLinkPrivilege = $($currentSetting)
+"@
+    $tmp2 = [System.IO.Path]::GetTempFileName()
+        Write-Host "Import new settings to Local Security Policy" -ForegroundColor DarkCyan
+        $outfile | Set-Content -Path $tmp2 -Encoding Unicode -Force
+        Push-Location (Split-Path $tmp2)
+        try {
+            secedit.exe /configure /db "secedit.sdb" /cfg "$($tmp2)" /areas USER_RIGHTS 
+        } finally { 
+            Pop-Location
+        }
+    } else {
+        Write-Host "NO ACTIONS REQUIRED! Account already in ""Create SymLink""" -ForegroundColor DarkCyan
+        Write-Host "Account $accountToAdd already has permissions to SymLink" -ForegroundColor Green
+        return $true;
+    }
+}
+```
+1. Вызовем эту функцию, указав имя пользователя, из под которого вы будете запускать werf:
+```powershell
+addSymLinkPermissions("yourUserName")
+```
+1. Выйдите из учётной записи Windows, после чего зайдите снова, чтобы изменения применились.
+{% endofftopic %}
+
+## Создадим новый репозиторий с демо-приложением
 
 Все дальнейшие команды потребуется выполнять в PowerShell (для Windows) или Bash (для macOS и Linux).
 
@@ -31,15 +107,15 @@ git commit -m "initial"
 FROM ruby:2.7.1
 WORKDIR /app
 
-# Устанавливаем системные зависимости:
+# Install system dependencies
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
 
-# Устанавливаем зависимости приложения:
+# Install app dependencies
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 
-# Добавляем в образ всё остальное содержимое нашего репозитория, включая код приложения:
+# Add all the files from our repo into our image, including app source code
 COPY . .
 ```
 {% endraw %}
@@ -52,12 +128,12 @@ COPY . .
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-rails  # Имя проекта, по умолчанию подставляется в имя Helm-релиза и имя Namespace при деплое.
+project: werf-guided-rails  # Project name, used in Helm release name and Namespace name by default.
 configVersion: 1
 
 ---
-image: basicapp  # Имя образа, может использоваться в Helm-шаблонах и для вызова некоторых команд werf.
-dockerfile: Dockerfile  # Путь к Dockerfile, в котором описана сборка для этого образа.
+image: basicapp  # Image name, used in Helm templates and in some werf commands.
+dockerfile: Dockerfile  # Path to the Dockerfile, which contains the actual build instructions.
 ```
 {% endraw %}
 {% endsnippetcut %}
