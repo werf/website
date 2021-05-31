@@ -1,7 +1,7 @@
 ---
 title: Успешное прохождение
 permalink: golang/999_complete.html
-layout: wip
+layout: development
 ---
 
 Поздравляем, вы успешно прошли самоучитель!

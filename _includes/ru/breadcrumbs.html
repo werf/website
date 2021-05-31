@@ -1,0 +1,39 @@
+<div class="breadcrumbs-container">
+<ol class="breadcrumbs">
+    {%- if site.site_lang == "ru" %}
+        <li class="breadcrumbs__item">
+          <a href="/guides.html">Руководства</a>
+        </li>
+    {%- else %}
+        <li class="breadcrumbs__item">
+          <a href="/guides.html">Guides</a>
+        </li>
+    {%- endif %}
+    {%- if page.label_framework %}
+    <li>
+        {{ page.label_framework }}
+    </li>
+    {%- endif %}
+   {%- assign page_url_parts = page.url | split: '/' -%}
+   {%- assign max_ind = page_url_parts.size | minus: 1 -%}
+
+   {%- for i in (2..max_ind) %}
+   {%- if forloop.last %}
+   <li>{{ page.title }}</li>
+   {% else %}
+   {%- capture current_breadcrumb_url %}{{ next_prepender }}/{{ page_url_parts[i] }}{% endcapture -%}
+   {%- capture next_prepender %}{{ next_prepender }}/{{ page_url_parts[i] }}{% endcapture -%}
+
+   {%- assign breadcrumb = site.data.breadcrumbs[current_breadcrumb_url] %}
+   {%- unless breadcrumb %}
+   {%- assign breadcrumb_err = "Check breadcrumbs.yml: " | append: current_breadcrumb_url | append: " not defined" %}
+   {{ breadcrumb_err | raise_error }}
+   {% endunless -%}
+   <li>
+      <a href="{{ site.baseurl }}/{{ page.guide_code }}{{ breadcrumb.url | true_relative_url }}">{{ breadcrumb.title }}</a>
+   </li>
+   {% endif -%}
+   {%- endfor %}
+
+</ol>
+</div>

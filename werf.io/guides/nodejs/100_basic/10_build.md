@@ -1,6 +1,7 @@
 ---
 title: Building an image
 permalink: nodejs/100_basic/10_build.html
+layout: default
 ---
 
 {% filesused title="Files mentioned in the chapter" %}
@@ -168,7 +169,7 @@ _You may also notice that `werf run` also performs the build. In other words, it
 
 Now you can access the application locally on port 3000:
 
-![](/guides/images/nodejs/100_10_app_in_browser.png)
+![](/images/nodejs/100_10_app_in_browser.png)
 
 ## Making changes
 

@@ -1,8 +1,29 @@
 configVersion: 1
 project: werfio-guides
 ---
-image: guides-artifact
+
+{{- range $lang := list "en" "ru" }}
+image: guides_{{ $lang }}
 from: jekyll/builder:3
+git:
+  - add: /
+    to: /guides
+    owner: jekyll
+    group: jekyll
+    excludePaths:
+      - .helm
+      - .werf
+      - .github
+      - werf.yaml
+      - examples
+    stageDependencies:
+      beforeSetup: ['Gemfile','Gemfile.lock']
+      setup:
+        - _config.yml
+        - _config_{{ $lang }}.yml
+        - pages_{{ $lang }}
+        - werf.io
+        - ru.werf.io
 ansible:
   beforeSetup:
   - name: "Install Dependencies"
@@ -11,32 +32,15 @@ ansible:
       bundle install
     args:
       executable: /bin/bash
-      chdir: /app/common
+      chdir: /guides
   setup:
   - name: "Build static files"
-    shell: |
-      cd "{{`{{ item }}`}}"
-      bundle exec jekyll build --config _config.yml,_config_custom.yml
+    shell: bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml
     args:
       executable: /bin/bash
-    with_items:
-      - /app/werf.io/guides
-      - /app/ru.werf.io/guides
-git:
-- add: /
-  to: /app
-  owner: jekyll
-  group: jekyll
-  excludePaths:
-  - .helm
-  - .werf
-  - werf.yaml
-  - .github
-  - examples
-  stageDependencies:
-    beforeSetup: ['common/Gemfile','common/Gemfile.lock']
-    setup: '**/*'
+      chdir: /guides
 ---
+{{ end -}}
 image: frontend
 from: nginx:stable-alpine
 ansible:
@@ -47,11 +51,9 @@ ansible:
 {{ .Files.Get ".werf/nginx.conf" | indent 8 }}
       dest: /etc/nginx/nginx.conf
 import:
-- image: guides-artifact
-  add: /app/werf.io/guides/_site
-  to: /app/werf.io/guides/
+{{- range $lang := list "en" "ru" }}
+- image: guides_{{ $lang }}
+  add: /guides/_site
+  to: /guides_{{ $lang }}
   before: setup
-- image: guides-artifact
-  add: /app/ru.werf.io/guides/_site
-  to: /app/ru.werf.io/guides/
-  before: setup
+{{ end -}}

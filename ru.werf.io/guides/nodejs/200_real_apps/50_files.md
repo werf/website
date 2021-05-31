@@ -1,7 +1,7 @@
 ---
 title: Работа с файлами
 permalink: nodejs/200_real_apps/50_files.html
-layout: "wip"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

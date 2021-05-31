@@ -1,7 +1,7 @@
 ---
 title: Successful completion
 permalink: nodejs/999_complete.html
-layout: wip
+layout: development
 ---
 
 Congratulation! You have successfully completed the guide!

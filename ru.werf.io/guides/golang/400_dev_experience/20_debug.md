@@ -1,7 +1,7 @@
 ---
 title: Упрощение отладки сборки
 permalink: golang/400_dev_experience/20_debug.html
-layout: wip
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

@@ -1,7 +1,7 @@
 ---
 title: Организация локальной разработки
 permalink: java_springboot/200_real_apps/10_local.html
-layout: "wip"
+layout: development
 ---
 
 От локальной разработки хочется видеть:

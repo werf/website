@@ -1,0 +1,83 @@
+company_name: Флант
+company_url: https://flant.ru
+url: https://ru.werf.io
+site_lang: ru
+editlink: "https://github.com/werf/werf-guides/edit/master/ru.werf.io/guides"
+issuelink: "https://github.com/werf/werf-guides/issues/new"
+docsurl: https://ru.werf.io
+includes_dir: _includes/ru
+
+breadcrumbs:
+  hometext: "Начало"
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - examples
+  - pages_en
+  - werf.io # TODO: remove
+
+include:
+  - pages_ru
+  - ru.werf.io # TODO: remove
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      lang: ru
+      comments: true
+      search: true
+      sidebar: sidebar
+      topnav: topnav
+      multilang: false
+      sitemap_include: true
+  - scope:
+      path: "nodejs"
+      type: "pages"
+    values:
+      sidebar: applications_guide_nav
+      guide_code: nodejs
+      toc: false
+      label_ci: GitLab
+      label_framework: "Node.js"
+      multilang: true
+  - scope:
+      path: "java_springboot"
+      type: "pages"
+    values:
+      sidebar: applications_guide_nav
+      guide_code: java_springboot
+      toc: false
+      label_ci: GitLab
+      label_framework: "Spring Boot"
+      multilang: true
+  - scope:
+      path: "django"
+      type: "pages"
+    values:
+      sidebar: applications_guide_nav
+      guide_code: django
+      toc: false
+      label_ci: GitLab
+      label_framework: Django
+  - scope:
+      path: "golang"
+      type: "pages"
+    values:
+      sidebar: applications_guide_nav
+      guide_code: golang
+      toc: false
+      label_ci: GitLab
+      label_framework: Go
+  - scope:
+      path: "rails"
+      type: "pages"
+    values:
+      sidebar: applications_guide_nav
+      guide_code: rails
+      toc: false
+      label_ci: GitLab
+      label_framework: Rails

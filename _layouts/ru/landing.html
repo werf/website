@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% if page.summary %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
+  <meta name="keywords" content="{{page.tags}}{% if page.tags %}, {% endif %} {{page.keywords}}">
+  {%- if page.multilang %}
+  <link rel="alternate" hreflang="ru" href="{{ site.site_urls['ru'] }}{{ site.baseurl}}{{ page.url }}" />
+  <link rel="alternate" hreflang="en" href="{{ site.site_urls['en'] }}{{ site.baseurl}}{{ page.url }}" />
+  {%- endif %}
+  <title>{{ page.title }} | {{ site.site_title }}</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffc40d">
+  <meta name="theme-color" content="#ffffff">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
+
+  {% asset normalize.css %}
+  {% asset syntax.css %}
+
+  {% asset landing.css %}
+  {% asset guides.css %}
+
+</head>
+<body data-sm-container>
+  <div class="landing">
+    <div class="landing__header">
+      <div class="landing__container">
+        <a href="/" class="landing__header-title">
+          <img src="{{ site.baseurl }}/assets/werf-logo.svg" alt="werf" width="167" height="70" />
+        </a>
+        <a href="http://ru.werf.io" class="landing__button">
+          <img src="{{ site.baseurl }}/assets/arrow.svg" />
+          <span>ru.werf.io</span>
+        </a>
+      </div>
+    </div>
+    <div class="landing__content">
+      <div class="landing__container">
+        <div class="landing__section landing__section_first" data-sm-trigger="intro">
+          <h1 class="landing__h1">
+            Быстро и&nbsp;просто<br>
+            деплоим в&nbsp;Kubernetes<br>
+            с&nbsp;помощью <b>werf</b>
+          </h1>
+          <div class="landing__text">
+            Мы разработали бесплатный самоучитель, который призван помочь разобраться,<br>
+            как&nbsp;разворачивать комплексные приложения в&nbsp;Kubernetes,<br>
+            реализуя CI/CD с&nbsp;помощью Open Source-утилиты werf.
+          </div>
+        </div>
+        <div class="landing__section" data-sm-trigger="plan">
+          <h1 class="landing__h2">
+            Что меня ждёт?
+          </h1>
+          <div class="landing__text">
+            <p>Самоучитель — достаточно подробное руководство, сочетающее <b>теорию и практику</b> разработки (Dev) и эксплуатации (Ops).</p>
+            <p>Учебные материалы ориентированы на разработчиков, стремящихся обрести базовые навыки DevOps-инженеров по организации непрерывной доставки приложений в Kubernetes. А также они будут полезны для DevOps-инженеров, которые хотят эффективнее решать свои задачи.</p>
+            <p>Последовательно рассматриваются все основные задачи, возникающие при&nbsp;разработке сервисов и организации CI/CD: <b>сборка</b>, <b>деплой</b>, <b>работа с&nbsp;зависимостями и&nbsp;ассетами</b>, <b>работа с&nbsp;базами данных и&nbsp;хранилищами in-memory</b>, <b>работа с&nbsp;почтой</b>, <b>файловыми хранилищами</b>, <b>организация автотестов</b> и&nbsp;другие.</p>
+            <p>В каждом из&nbsp;вариантов самоучителя учтена специфика языка/фреймворка и приложены примеры исходных кодов приложения и инфраструктуры (IaC).</p>
+            <p><i>Самоучитель рассчитан на&nbsp;«ванильный» Kubernetes-кластер, но его должно быть просто адаптировать под&nbsp;кастомизированные сборки.</i></p>
+          </div>
+        </div>
+        <div class="landing__section" data-sm-trigger="todo">
+          <h1 class="landing__h2">
+            Что я получу?
+          </h1>
+          <div class="landing__text">
+            <p>Освоить навыки по самоучителю — непростая задача. Потребуется выделить время, приложить усилия и активировать внимание.</p>
+            <p>Те, кто найдёт в себе силы дойти до конца, смогут:</p>
+          </div>
+          <ul class="landing__list">
+            <li>
+              Стать более востребованными специалистами
+              <span>(в области пересечения разработки и эксплуатации, что обычно называют «DevOps-инженерами»)</span>
+            </li>
+            <li>
+              Принести в свою компанию Kubernetes
+              <span>(и получить скидку на Kubernetes-кластер от компании «Флант»)</span>
+            </li>
+            <li>
+              Научиться лучше решать задачи в текущей компании
+            </li>
+          </ul>
+          <div class="landing__text">
+            <p>Самоучитель поможет сфокусироваться только на том, что нужно именно вам, а <a href="https://t.me/werf_ru">сообщество пользователей werf</a> — облегчит преодоление сложностей на пути.</p>
+          </div>
+        </div>
+        <div class="landing__section" data-sm-trigger="select">
+          <h1 class="landing__h2">
+            Начать погружение!
+          </h1>
+          <h1 class="landing__h2">
+            <span>werf 1.2</span>
+          </h1>
+          {% include landing-tiles.html %}
+          <h1 class="landing__h2" style="margin-top: 30px;">
+            <span>werf 1.1</span>
+          </h1>
+          <ul class="landing__frameworks">
+            <li class="landing__framework">
+              <img src="{{ site.baseurl }}/assets/landing/nodejs.png" width="129" height="79" class="landing__framework-logo" />
+              <a href="gitlab_nodejs/010_preparing.html" class="landing__button landing__button_small">
+                <span>Gitlab + Node.js</span>
+                <img src="{{ site.baseurl }}/assets/arrow.svg" class="flip-horizontal" height="12" />
+              </a>
+            </li>
+            <li class="landing__framework">
+              <img src="{{ site.baseurl }}/assets/landing/springboot.png" width="149" height="78" class="landing__framework-logo" />
+              <a href="gitlab_java_springboot/010_preparing.html" class="landing__button landing__button_small">
+                <span>Gitlab&nbsp;+&nbsp;Spring&nbsp;Boot</span>
+                <img src="{{ site.baseurl }}/assets/arrow.svg" class="flip-horizontal" height="12" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="landing__section">
+          <div class="landing__credits">
+            Сделано с <span class="icon">любовью</span> в компании <a href="https://flant.ru/" target="_blank">Флант</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="landing__side">
+      <div class="landing__captain" data-sm-captain="intro">
+        <img src="{{ site.baseurl }}/assets/landing/parrot.png" class="landing__captain-img landing__captain-img_intro" />
+        <img src="{{ site.baseurl }}/assets/landing/parrot2.png" class="landing__captain-img landing__captain-img_plan" />
+        <img src="{{ site.baseurl }}/assets/landing/parrot3.png" class="landing__captain-img landing__captain-img_todo" />
+        <img src="{{ site.baseurl }}/assets/landing/parrot4.png" class="landing__captain-img landing__captain-img_select" />
+      </div>
+    </div>
+  </div>
+  {% include scripts.html %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.4/scrollMonitor.js"></script>
+
+  {% asset landing.js %}
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(67759933, "init", {
+      clickmap:true,
+      trackLinks:true,
+      accurateTrackBounce:true,
+      webvisor:true
+    });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/67759933" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</body>
+</html>

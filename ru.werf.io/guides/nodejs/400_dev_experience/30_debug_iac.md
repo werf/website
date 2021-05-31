@@ -41,7 +41,7 @@ werf отслеживает, как Kubernetes вносит изменения, 
 
 Для отладки полезно понимать, как идёт запрос и как продиагностировать каждый элемент цепочки.
 
-![](/guides/images/template/200_20_debug_http.png)
+![](/images/template/200_20_debug_http.png)
 
 
 <div id="go-forth-button">

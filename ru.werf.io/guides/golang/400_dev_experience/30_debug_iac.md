@@ -1,7 +1,7 @@
 ---
 title: Отладка кода инфраструктуры
 permalink: golang/400_dev_experience/30_debug_iac.html
-layout: "wip"
+layout: development
 ---
 
 TODO: аннотации от верфи
@@ -41,7 +41,7 @@ werf отслеживает, как Kubernetes вносит изменения, 
 
 Для отладки полезно понимать, как идёт запрос и как продиагностировать каждый элемент цепочки.
 
-![](/guides/images/template/200_20_debug_http.png)
+![](/images/template/200_20_debug_http.png)
 
 
 <div id="go-forth-button">

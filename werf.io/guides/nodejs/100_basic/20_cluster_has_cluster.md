@@ -1,4 +1,4 @@
-## I have a cluster already
+## I already have a cluster
 
 If you already have a cluster, then you probably have some experience in configuring it. Check your cluster using the checklist provided at the beginning of the article.
 

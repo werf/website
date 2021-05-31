@@ -189,7 +189,7 @@ Running time 62.66 seconds
 
 Теперь приложение доступно по ссылке [http://example.com:3000/api/labels](http://example.com:3000/api/labels) для Windows и [http://example.com/api/labels](http://example.com/api/labels) для macOS/Linux.
 
-![](/guides/images/template/100_30_app_in_browser.png)
+![](/images/template/100_30_app_in_browser.png)
 
 <div id="go-forth-button">
     <go-forth url="40_optimize.html" label="Ускорение сборки" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
