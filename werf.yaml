@@ -4,24 +4,11 @@ project: werfio-guides
 image: guides-artifact
 from: jekyll/builder:3
 ansible:
-  beforeInstall:
-  - name: "install NodeJS"
-    shell: apk add --update nodejs npm
-  - shell: gem update bundler
   beforeSetup:
-  - file:
-      path: "/app/common/{{`{{ item }}`}}"
-      state: directory
-      mode: 0777
-    with_items:
-      - js
-      - css
-      - fonts
   - name: "Install Dependencies"
     shell: |
       export PATH=/usr/jekyll/bin/:$PATH
       bundle install
-      npm install
     args:
       executable: /bin/bash
       chdir: /app/common
@@ -29,8 +16,7 @@ ansible:
   - name: "Build static files"
     shell: |
       cd "{{`{{ item }}`}}"
-      npm run prod:webpack
-      npm run prod:jekyll
+      bundle exec jekyll build --config _config.yml,_config_custom.yml
     args:
       executable: /bin/bash
     with_items:
@@ -42,11 +28,11 @@ git:
   owner: jekyll
   group: jekyll
   excludePaths:
-  - vendor
   - .helm
   - .werf
   - werf.yaml
   - .github
+  - examples
   stageDependencies:
     beforeSetup: ['common/Gemfile','common/Gemfile.lock']
     setup: '**/*'
