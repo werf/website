@@ -191,6 +191,3 @@ werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec 
 
 ![](/images/rails/100_10_app_in_browser.png)
 
-<div id="go-forth-button">
-    <go-forth url="20_cluster.html" label="Подготовка кластера" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

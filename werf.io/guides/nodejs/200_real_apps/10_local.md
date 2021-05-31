@@ -163,6 +163,3 @@ werf build --stages-storage :local --introspect-before-error
 {% endofftopic %}
 
 
-<div id="go-forth-button">
-    <go-forth url="20_debug_iac.html" label="Отладка кода инфраструктуры" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

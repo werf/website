@@ -232,6 +232,3 @@ spec:
 
 После того, как изменения в код внесены — нужно закоммитить изменения в git, задеплоить в кластер с помощью `werf converge` и протестировать методы `/api/labels`. Если миграции не отработают — ни один из методов не будет работать, т.к. не будет хватать таблицы.
 
-<div id="go-forth-button">
-    <go-forth url="90_stateful.html" label="Сборка образа" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

@@ -44,6 +44,3 @@ werf отслеживает, как Kubernetes вносит изменения, 
 ![](/images/template/200_20_debug_http.png)
 
 
-<div id="go-forth-button">
-    <go-forth url="25_logging.html" label="Логирование" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

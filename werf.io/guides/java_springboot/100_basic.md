@@ -17,6 +17,3 @@ This chapter deals with an [elementary Spring Boot example application](https://
 
 For the sake of simplicity, we will not preserve the data in the SQLite database. Thus, the data will be deleted after each redeployment of the application. We will cover the issues of data storage and preservation in the chapter "Full-fledged applications".
 
-<div id="go-forth-button">
-    <go-forth url="100_basic/10_build.html" label="Building an image" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

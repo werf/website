@@ -69,6 +69,3 @@ curl example.com
 
 ... should return an nginx ingress error page (if you haven't already deployed an application to the cluster).
 
-<div id="go-forth-button">
-    <go-forth url="30_deploy.html" label="Deploying the application" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

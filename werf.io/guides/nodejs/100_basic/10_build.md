@@ -214,6 +214,3 @@ Werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/a
 
 {% endofftopic %}
 
-<div id="go-forth-button">
-    <go-forth url="20_cluster.html" label="Preparing the cluster" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

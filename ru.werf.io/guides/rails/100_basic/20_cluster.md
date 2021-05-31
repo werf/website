@@ -39,6 +39,3 @@ docker push registry.example.com:80/busybox
 
 Если всё в порядке, то Kubernetes и окружение для работы готовы.
 
-<div id="go-forth-button">
-    <go-forth url="30_deploy.html" label="Деплой приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

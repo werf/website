@@ -191,6 +191,3 @@ Running time 62.66 seconds
 
 ![](/images/template/100_30_app_in_browser.png)
 
-<div id="go-forth-button">
-    <go-forth url="40_optimize.html" label="Ускорение сборки" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

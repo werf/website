@@ -70,6 +70,3 @@ curl example.com
 
 … должна выдать страницу ошибки nginx ingress (если вы ещё не задеплоили приложения в кластер).
 
-<div id="go-forth-button">
-    <go-forth url="30_deploy.html" label="Деплой приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

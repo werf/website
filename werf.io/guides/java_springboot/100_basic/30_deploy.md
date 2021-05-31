@@ -183,6 +183,3 @@ And the application should be accessible via the browser:
 
 ![](/images/template/100_30_app_in_browser.png)
 
-<div id="go-forth-button">
-    <go-forth url="40_optimize.html" label="Speeding up the build" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>

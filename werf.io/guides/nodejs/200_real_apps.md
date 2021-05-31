@@ -18,6 +18,3 @@ layout: "development"
 
 Если Ваше приложение, к примеру, хранит файлы на диске и не умеет использовать для этого S3-хранилище — это создаст дополнительные сложности при конфигурировании его в Kubernetes (см. главу "Stateful-приложения"). Зачастую проще переписать приложение, чем создавать дополнительную сложность в инфраструктуре. 
 
-<div id="go-forth-button">
-    <go-forth url="200_real_apps/10_local.html" label="Организация локальной разработки" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>
-</div>
