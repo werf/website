@@ -7,9 +7,11 @@ permalink: rails/100_basic/10_build.html
 
 ## Создадим новый репозиторий с демо-приложением
 
-[Установите werf]({{ site.docsurl }}/installation.html), после чего [установите Docker](https://docs.docker.com/get-docker/).
+Установите werf и его зависимости, [следуя инструкциям]({{ site.docsurl }}/installation.html).
 
-В отдельной директории на своём компьютере выполните:
+Все дальнейшие команды потребуется выполнять в PowerShell (для Windows) или Bash (для macOS и Linux).
+
+В отдельной директории на своём компьютере выполним команды:
 ```shell
 git clone https://github.com/werf/werf-guides
 cp -r werf-guides/examples/rails/000_app rails-app
@@ -27,16 +29,18 @@ git commit -m "initial"
 {% raw %}
 ```Dockerfile
 FROM ruby:2.7.1
-
-# Добавляем в образ всё содержимое нашего репозитория, включая код приложения:
 WORKDIR /app
-COPY . .
 
 # Устанавливаем системные зависимости:
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
 
 # Устанавливаем зависимости приложения:
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
+
+# Добавляем в образ всё остальное содержимое нашего репозитория, включая код приложения:
+COPY . .
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -58,24 +62,26 @@ dockerfile: Dockerfile  # Путь к Dockerfile, в котором описан
 {% endraw %}
 {% endsnippetcut %}
 
-В `werf.yaml` может описываться сборка сразу несколько образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться [по ссылке]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
+В `werf.yaml` может описываться сборка сразу нескольких образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться [по ссылке]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
 
 ## Сборка с werf
 
-Перед выполнением сборки необходимо сделать коммит с нашими изменениями:
+Перед выполнением сборки необходимо добавить наши изменения в коммит:
 ```shell
 git add werf.yaml Dockerfile
 git commit -m "Add build configuration"
 ```
 
-> Почему изменения должны быть добавлены в коммит и как обойтись без этого при локальной разработке мы разберём далее в главе «Необходимо знать».
+> Чуть позже мы разберём, для чего это нужно, и как обойтись без постоянного создания новых коммитов при локальной разработке.
 
-Сборка выполняется командой [`werf build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
+Запустим сборку командой [`werf build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
+```shell
+werf build
+```
 
+Результат выполнения команды при успешной сборке:
 {% raw %}
 ```shell
-$ werf build
-    ...
 ┌ ⛵ image basicapp
 │ ┌ Building stage basicapp/dockerfile
 │ │ basicapp/dockerfile  Sending build context to Docker daemon  11.64MB
@@ -83,7 +89,7 @@ $ werf build
 │ │ basicapp/dockerfile   ---> d8ca85855516
 │ │ basicapp/dockerfile  Step 2/14 : WORKDIR /app
 │ │ basicapp/dockerfile   ---> Using cache
-<..>
+...
 │ │ basicapp/dockerfile  Successfully built 3a4ede4e9556
 │ │ basicapp/dockerfile  Successfully tagged 0041b344-efe4-416d-baff-5e50fbb712b0:latest
 │ ├ Info
