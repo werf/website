@@ -66,16 +66,12 @@ werf пересобирает контейнеры только при необ�
 Kubernetes-кластер для запуска приложения использует образы из registry. Поэтому важно, чтобы кластер мог авторизоваться в registry. Как правило, ситуация отличается для локального и внешнего registry.
 
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__secret__btn" onclick="openTab(event, 'tabs__secret__btn', 'tabs__secret__content', 'tab__secret__local')">Локальный registry</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__secret__btn active" onclick="openTab(event, 'tabs__secret__btn', 'tabs__secret__content', 'tab__secret__local')">Локальный registry</a>
 <a href="javascript:void(0)" class="tabs__btn tabs__secret__btn" onclick="openTab(event, 'tabs__secret__btn', 'tabs__secret__content', 'tab__secret__remote')">Внешний registry</a>
 </div>
 
-<div id="tab__secret__local" class="tabs__content tabs__secret__content" markdown="1">
+<div id="tab__secret__local" class="tabs__content tabs__secret__content active" markdown="1">
 {% include_relative 30_deploy_registrysecret_local.md %}
-</div>
-
-<div id="tab__secret__remote" class="tabs__content tabs__secret__content" markdown="1">
-{% include_relative 30_deploy_registrysecret_remote.md %}
 </div>
 
 ## Service

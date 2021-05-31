@@ -30,18 +30,18 @@ You will need the following components to develop in Kubernetes:
 Now select your preferred method/location for setting up an environment:
 
 <div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn active" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__docker')">Docker Desktop</a>
 <a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__docker')">Docker Desktop</a>
 <a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__cloud')">Cloud provider</a>
 <a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">I already have a cluster</a>
 </div>
 
-<div id="tab__install__minikube" class="tabs__content tabs__install__content" markdown="1">
-{% include_relative 20_cluster_minikube.md %}
+<div id="tab__install__docker" class="tabs__content tabs__install__content active" markdown="1">
+{% include_relative 20_cluster_docker_desktop.md %}
 </div>
 
-<div id="tab__install__docker" class="tabs__content tabs__install__content" markdown="1">
-{% include_relative 20_cluster_docker_desktop.md %}
+<div id="tab__install__minikube" class="tabs__content tabs__install__content" markdown="1">
+{% include_relative 20_cluster_minikube.md %}
 </div>
 
 <div id="tab__install__cloud" class="tabs__content tabs__install__content" markdown="1">

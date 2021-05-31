@@ -6,21 +6,19 @@ permalink: rails/100_basic/20_cluster.html
 Выберите, с помощью чего вы хотите развернуть тестовый Kubernetes-кластер:
 
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__docker')">Docker Desktop (Windows, macOS)</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube (Linux, Windows, macOS)</a>
-{% comment %} TODO(lesikov): раскомментить как переработаю 20_cluster_has_cluster.md.
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">Свой кластер</a>
-{% endcomment %}
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn active" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__docker')">Docker Desktop</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__cloud')">Использование облачного провайдера</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">У меня уже есть кластер</a>
 </div>
 
-<div id="tab__install__docker" class="tabs__content tabs__install__content" markdown="1">
+<div id="tab__install__docker" class="tabs__content tabs__install__content active" markdown="1">
 {% include_relative 20_cluster_docker_desktop.md %}
 </div>
 
 <div id="tab__install__minikube" class="tabs__content tabs__install__content" markdown="1">
 {% include_relative 20_cluster_minikube.md %}
 </div>
-
 
 {% comment %} TODO(lesikov): раскомментить как переработаю 20_cluster_has_cluster.md.
 <div id="tab__install__ihave" class="tabs__content tabs__install__content" markdown="1">
