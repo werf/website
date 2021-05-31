@@ -10,7 +10,7 @@
   <link rel="alternate" hreflang="ru" href="{{ site.site_urls['ru'] }}{{ site.baseurl}}{{ page.url }}" />
   <link rel="alternate" hreflang="en" href="{{ site.site_urls['en'] }}{{ site.baseurl}}{{ page.url }}" />
   {%- endif %}
-  <title>{{ page.title }} {% if page.label_framework %}| {{ page.label_framework }} {% endif %}| {{ site.site_title }}</title>
+  <title>{{ page.title }} {% if page.framework_name %}| {{ page.framework_name }} {% endif %}| {{ site.site_title }}</title>
 
   <!--#include virtual="/includes/head-common.html" -->
 
@@ -37,9 +37,9 @@
           <div class="layout-sidebar__content">
             <div class="content__header">
               {%- if page.lang == 'en' %}
-              <div class="content__title">Deploying {% if page.label_framework %}<span>{{ page.label_framework }}</span> {% endif %}application to Kubernetes</div>
+              <div class="content__title">Deploying {% if page.framework_name %}<span>{{ page.framework_name }}</span> {% endif %}application to Kubernetes</div>
               {%- else %}
-              <div class="content__title">Разворачиваем приложение {% if page.label_framework %}на <span>{{ page.label_framework }}</span> {% endif %}в среде Kubernetes</div>
+              <div class="content__title">Разворачиваем приложение {% if page.framework_name %}на <span>{{ page.framework_name }}</span> {% endif %}в среде Kubernetes</div>
               {%- endif %}
             </div>
             <div class="docs">

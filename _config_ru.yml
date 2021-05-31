@@ -40,8 +40,8 @@ defaults:
     values:
       sidebar: applications_guide_nav
       framework_id: nodejs
+      framework_name: "Node.js"
       toc: false
-      label_framework: "Node.js"
       multilang: true
   - scope:
       path: "java_springboot"
@@ -49,8 +49,8 @@ defaults:
     values:
       sidebar: applications_guide_nav
       framework_id: java_springboot
+      framework_name: "Spring Boot"
       toc: false
-      label_framework: "Spring Boot"
       multilang: true
   - scope:
       path: "django"
@@ -58,21 +58,21 @@ defaults:
     values:
       sidebar: applications_guide_nav
       framework_id: django
+      framework_name: Django
       toc: false
-      label_framework: Django
   - scope:
       path: "golang"
       type: "pages"
     values:
       sidebar: applications_guide_nav
       framework_id: golang
+      framework_name: Go
       toc: false
-      label_framework: Go
   - scope:
       path: "rails"
       type: "pages"
     values:
       sidebar: applications_guide_nav
       framework_id: rails
+      framework_name: Rails
       toc: false
-      label_framework: Rails

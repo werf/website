@@ -9,9 +9,9 @@
           <a href="/guides.html">Guides</a>
         </li>
     {%- endif %}
-    {%- if page.label_framework %}
+    {%- if page.framework_name %}
     <li>
-        {{ page.label_framework }}
+        {{ page.framework_name }}
     </li>
     {%- endif %}
    {%- assign page_url_parts = page.url | split: '/' -%}
