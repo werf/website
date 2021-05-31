@@ -1,6 +1,5 @@
 output: web
 
-topnav_title: werf
 site_title: werf
 site_urls:
   ru: https://ru.werf.io
@@ -12,8 +11,6 @@ plugins:
   - jekyll-assets
 
 assets:
-  sources:
-    - _assets
   cdn:
     baseurl: true
 
@@ -22,15 +19,3 @@ kramdown:
  input: GFM
  hard_wrap: false
  syntax_highlighter: rouge
-
-breadcrumbs:
-  root:
-    hide: false  # show breadcrumbs on root/home page
-    image: false # Show image or title text
-
-collections:
-  tooltips:
-    output: false
-
-sidebars:
-- documentation

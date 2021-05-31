@@ -4,21 +4,16 @@ url: https://ru.werf.io
 site_lang: ru
 editlink: "https://github.com/werf/werf-guides/edit/master/ru.werf.io/guides"
 issuelink: "https://github.com/werf/werf-guides/issues/new"
-docsurl: https://ru.werf.io
-includes_dir: _includes/ru
-
-breadcrumbs:
-  hometext: "Начало"
+data_dir: _data/ru
 
 exclude:
   - Gemfile
   - Gemfile.lock
   - examples
   - pages_en
-  - werf.io # TODO: remove
 
 include:
-  - ru.werf.io # TODO: remove
+  - pages_ru
 
 defaults:
   - scope:
@@ -27,51 +22,48 @@ defaults:
     values:
       layout: "page"
       lang: ru
-      comments: true
-      search: true
-      sidebar: sidebar
-      topnav: topnav
       multilang: false
       sitemap_include: true
   - scope:
-      path: "nodejs"
+      path: "pages_ru"
       type: "pages"
     values:
-      sidebar: applications_guide_nav
+      sidebar: guide
+      multilang: true
+      toc: false
+  - scope:
+      path: "pages_ru/nodejs"
+      type: "pages"
+    values:
       framework_id: nodejs
       framework_name: "Node.js"
-      toc: false
       multilang: true
   - scope:
-      path: "java_springboot"
+      path: "pages_ru/java_springboot"
       type: "pages"
     values:
-      sidebar: applications_guide_nav
       framework_id: java_springboot
       framework_name: "Spring Boot"
-      toc: false
       multilang: true
   - scope:
-      path: "django"
+      path: "pages_ru/django"
       type: "pages"
     values:
-      sidebar: applications_guide_nav
       framework_id: django
       framework_name: Django
-      toc: false
   - scope:
-      path: "golang"
+      path: "pages_ru/golang"
       type: "pages"
     values:
-      sidebar: applications_guide_nav
       framework_id: golang
       framework_name: Go
-      toc: false
   - scope:
-      path: "rails"
+      path: "pages_ru/rails"
       type: "pages"
     values:
-      sidebar: applications_guide_nav
       framework_id: rails
       framework_name: Rails
-      toc: false
+
+breadcrumbs:
+  home_text: Руководства
+  home_url: /guides.html

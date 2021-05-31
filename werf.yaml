@@ -2,58 +2,63 @@ configVersion: 1
 project: werfio-guides
 ---
 
-{{- range $lang := list "en" "ru" }}
-image: guides_{{ $lang }}
+image: jekyll_base
 from: jekyll/builder:3
 git:
   - add: /
     to: /guides
     owner: jekyll
     group: jekyll
-    excludePaths:
-      - .helm
-      - .werf
-      - .github
-      - werf.yaml
-      - examples
+    includePaths:
+      - Gemfile
+      - Gemfile.lock
     stageDependencies:
-      beforeSetup: ['Gemfile','Gemfile.lock']
-      setup:
-        - _config.yml
-        - _config_{{ $lang }}.yml
-        - pages_{{ $lang }}
-        - werf.io
-        - ru.werf.io
-ansible:
-  beforeSetup:
-  - name: "Install Dependencies"
-    shell: |
-      export PATH=/usr/jekyll/bin/:$PATH
-      bundle install
-    args:
-      executable: /bin/bash
-      chdir: /guides
+      setup: ["**/*"]
+shell:
   setup:
-  - name: "Build static files"
-    shell: bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml
-    args:
-      executable: /bin/bash
-      chdir: /guides
+    - cd /guides
+    - bundle install
+---
+
+{{- range $lang := list "en" "ru" }}
+image: guides_{{ $lang }}
+fromImage: jekyll_base
+git:
+  - add: /
+    to: /guides
+    owner: jekyll
+    group: jekyll
+    includePaths:
+      - _data
+      - _includes
+      - _layouts
+      - _plugins
+      - assets
+      - pages_{{ $lang }}
+      - _config.yml
+      - _config_{{ $lang }}.yml
+      - sitemap.xml
+    stageDependencies:
+      setup: ["**/*"]
+shell:
+  setup:
+    - cd /guides
+    - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --baseurl /guides
 ---
 {{ end -}}
+
 image: frontend
 from: nginx:stable-alpine
-ansible:
+shell:
   setup:
-  - name: "Setup /etc/nginx/nginx.conf"
-    copy:
-      content: |
-{{ .Files.Get ".werf/nginx.conf" | indent 8 }}
-      dest: /etc/nginx/nginx.conf
+    - |
+      head -c -1 <<'EOF' > /etc/nginx/nginx.conf
+{{ .Files.Get ".werf/nginx.conf" | indent 6 }}
+      EOF
 import:
 {{- range $lang := list "en" "ru" }}
-- image: guides_{{ $lang }}
-  add: /guides/_site
-  to: /guides_{{ $lang }}
-  before: setup
+  - image: guides_{{ $lang }}
+    add: /guides/_site
+    to: /site/{{ $lang }}/guides
+    before: setup
 {{ end -}}
