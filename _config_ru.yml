@@ -41,7 +41,6 @@ defaults:
       sidebar: applications_guide_nav
       framework_id: nodejs
       toc: false
-      label_ci: GitLab
       label_framework: "Node.js"
       multilang: true
   - scope:
@@ -51,7 +50,6 @@ defaults:
       sidebar: applications_guide_nav
       framework_id: java_springboot
       toc: false
-      label_ci: GitLab
       label_framework: "Spring Boot"
       multilang: true
   - scope:
@@ -61,7 +59,6 @@ defaults:
       sidebar: applications_guide_nav
       framework_id: django
       toc: false
-      label_ci: GitLab
       label_framework: Django
   - scope:
       path: "golang"
@@ -70,7 +67,6 @@ defaults:
       sidebar: applications_guide_nav
       framework_id: golang
       toc: false
-      label_ci: GitLab
       label_framework: Go
   - scope:
       path: "rails"
@@ -79,5 +75,4 @@ defaults:
       sidebar: applications_guide_nav
       framework_id: rails
       toc: false
-      label_ci: GitLab
       label_framework: Rails
