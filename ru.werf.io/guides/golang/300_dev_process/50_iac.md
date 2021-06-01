@@ -1,7 +1,7 @@
 ---
 title: Конфигурирование инфраструктуры в виде кода
 permalink: golang/100_basic/50_iac.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

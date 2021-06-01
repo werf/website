@@ -1,7 +1,7 @@
 ---
 title: Building infrastructure
 permalink: java_springboot/400_infra.html
-layout: "development"
+layout: development
 ---
 
 

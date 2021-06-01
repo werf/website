@@ -1,7 +1,7 @@
 ---
 title: Better infrastructure debug
 permalink: nodejs/400_dev_experience/20_debug.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

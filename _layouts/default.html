@@ -21,49 +21,11 @@
 </head>
 <body>
   <div class="page">
-    <div class="page__content">
-
-      <!--#include virtual="/includes/topnav.html" -->
-
-      <!-- Page Content -->
-      <div class="page__container">
-      {% include breadcrumbs.html %}
-
-        <div class="layout-sidebar">
-          <div class="layout-sidebar__sidebar">
-          {% include sidebar.html %}
-          {% include ask_and_star_buttons.html %}
-          </div>
-          <div class="layout-sidebar__content">
-            <div class="content__header">
-              {%- if page.lang == 'en' %}
-              <div class="content__title">Deploying {% if page.framework_name %}<span>{{ page.framework_name }}</span> {% endif %}application to Kubernetes</div>
-              {%- else %}
-              <div class="content__title">Разворачиваем приложение {% if page.framework_name %}на <span>{{ page.framework_name }}</span> {% endif %}в среде Kubernetes</div>
-              {%- endif %}
-            </div>
-            <div class="docs">
-              {%- if page.name != '404.md' %}
-              <div class="btn-group editme">
-                  <a href="{{ site.editlink }}/{{ page.path }}" class="btn btn_o" id="editme_link" target="_blank">
-                      <span class="btn__icon btn__icon_github"></span>
-                      Source
-                  </a>
-              </div>
-              {%- endif %}
-              <h1 class="docs__title">{{ page.title }}</h1>
-              <div class="post-content">
-                {{content}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="action-toast"></div>
-    </div>
+    <!--#include virtual="/includes/topnav.html" -->
+    {{ content }}
     <!--#include virtual="/includes/footer.html" -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.4/scrollMonitor.js"></script>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.4/scrollMonitor.js"></script>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript" >
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};

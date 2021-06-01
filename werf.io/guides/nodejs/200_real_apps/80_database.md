@@ -1,7 +1,7 @@
 ---
 title: Connecting to external PostgreSQL
 permalink: nodejs/200_real_apps/80_database.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

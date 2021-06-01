@@ -1,7 +1,7 @@
 ---
 title: Dynamic environment
 permalink: java_springboot/400_infra/40_dynamicenvs.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

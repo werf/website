@@ -1,7 +1,7 @@
 ---
 title: Building infrastructure
 permalink: nodejs/400_infra.html
-layout: "development"
+layout: development
 ---
 
 

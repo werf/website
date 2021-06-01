@@ -18,7 +18,6 @@ exclude:
   - werf.io # TODO: remove
 
 include:
-  - pages_ru
   - ru.werf.io # TODO: remove
 
 defaults:
@@ -26,7 +25,7 @@ defaults:
       path: ""
       type: "pages"
     values:
-      layout: "default"
+      layout: "page"
       lang: ru
       comments: true
       search: true

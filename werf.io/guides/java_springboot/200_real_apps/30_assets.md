@@ -1,7 +1,7 @@
 ---
 title: Assets generation
 permalink: java_springboot/200_real_apps/30_assets.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

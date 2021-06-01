@@ -1,7 +1,7 @@
 ---
 title: Local development
 permalink: nodejs/200_real_apps/10_local.html
-layout: "development"
+layout: development
 ---
 
 От локальной разработки хочется видеть:

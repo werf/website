@@ -1,7 +1,7 @@
 ---
 title: Logging
 permalink: nodejs/200_real_apps/25_logging.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

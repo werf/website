@@ -1,7 +1,7 @@
 ---
 title: Delivery time optimization
 permalink: nodejs/400_dev_experience/10_optimize.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

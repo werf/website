@@ -1,7 +1,7 @@
 ---
 title: Юнит-тесты и Линтеры
 permalink: golang/400_infra/20_unittesting.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}

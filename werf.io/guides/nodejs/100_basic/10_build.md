@@ -1,7 +1,6 @@
 ---
 title: Building an image
 permalink: nodejs/100_basic/10_build.html
-layout: default
 ---
 
 {% filesused title="Files mentioned in the chapter" %}

@@ -1,7 +1,7 @@
 ---
 title: Несколько приложений в одном репозитории
 permalink: golang/400_infra/30_multipleapps.html
-layout: "development"
+layout: development
 ---
 
 

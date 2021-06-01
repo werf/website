@@ -1,7 +1,7 @@
 ---
 title: Работа с инфраструктурой
 permalink: golang/400_infra.html
-layout: "development"
+layout: development
 ---
 
 

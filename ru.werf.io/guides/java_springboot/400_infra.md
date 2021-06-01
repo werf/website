@@ -1,7 +1,7 @@
 ---
 title: Работа с инфраструктурой
 permalink: java_springboot/400_infra.html
-layout: "development"
+layout: development
 ---
 
 

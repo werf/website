@@ -1,7 +1,7 @@
 ---
 title: Локальная разработка
 permalink: java_springboot/300_dev_process/10_local.html
-layout: "development"
+layout: development
 ---
 
 

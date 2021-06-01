@@ -1,7 +1,7 @@
 ---
 title: Working with e-mail
 permalink: nodejs/200_real_apps/60_email.html
-layout: "development"
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
