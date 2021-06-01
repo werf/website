@@ -1,6 +1,7 @@
 ---
 title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
+layout: wip
 ---
 
  - Наше приложение ­— это crud для создания labels, демонстрируем это:
