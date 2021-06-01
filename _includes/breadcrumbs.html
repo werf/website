@@ -1,14 +1,9 @@
 <div class="breadcrumbs-container">
 <ol class="breadcrumbs">
-    {%- if site.site_lang == "ru" %}
-        <li class="breadcrumbs__item">
-          <a href="/guides.html">Руководства</a>
-        </li>
-    {%- else %}
-        <li class="breadcrumbs__item">
-          <a href="/guides.html">Guides</a>
-        </li>
-    {%- endif %}
+    <li class="breadcrumbs__item">
+      <a href="{{ site.breadcrumbs.home_url }}">{{ site.breadcrumbs.home_text }}</a>
+    </li>
+
     {%- if page.framework_name %}
     <li>
         {{ page.framework_name }}
@@ -34,6 +29,5 @@
    </li>
    {% endif -%}
    {%- endfor %}
-
 </ol>
 </div>
