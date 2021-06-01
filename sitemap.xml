@@ -1,6 +1,6 @@
 ---
 layout: null
-search: exclude
+sitemap_include: false
 ---
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -8,7 +8,7 @@ search: exclude
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-    {%- assign pages_in_main_lang=site.pages | where: "lang", site.site_lang | where: "sitemap_include", true | where_exp: "page", "page.layout != 'wip'" | where_exp: "page", "page.layout != 'development'" | where_exp: "page", "page.layout != 'task'" %}
+    {%- assign pages_in_main_lang=site.pages | where: "lang", site.site_lang | where: "sitemap_include", true | where_exp: "page", "page.layout != 'wip'" | where_exp: "page", "page.layout != 'development'" %}
     {%- for page in pages_in_main_lang %}
     <url>
         <loc>{{ page.url | absolute_url }}</loc>
