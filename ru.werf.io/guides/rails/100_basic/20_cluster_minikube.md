@@ -2,27 +2,20 @@
 
 Установим minikube, [следуя инструкциям здесь](https://minikube.sigs.k8s.io/docs/start/).
 
-Разрешаем доступ в **Container Registry без TLS для docker**:
-{% offtopic title="Windows" %}
-В файл, находящийся по умолчанию в `%programdata%\docker\config\daemon.json`, добавим новый ключ:
+Порты 80, 3000 для Windows и порт 80 для macOS/Linux должны быть свободны.
+
+Разрешим доступ в Registry по HTTP:
+{% offtopic title="Windows/macOS" %}
+В настройках Docker Desktop в секции Docker Engine добавим в ключ `insecure-registries` адрес нашего Registry:
 ```json
 {
   "insecure-registries": ["registry.example.com:80"]
 }
 ```
-Перезапустим Docker Desktop через меню, открывающееся правым кликом по иконке Docker Desktop в трее.
-{% endofftopic %}
-{% offtopic title="macOS" %}
-В файл, по умолчанию находящийся в `/etc/docker/daemon.json`, добавим новый ключ:
-```json
-{
-  "insecure-registries": ["registry.example.com:80"]
-}
-```
-Перезапустим Docker через меню Docker Desktop.
+После чего перезапустим Docker Desktop через его меню.
 {% endofftopic %}
 {% offtopic title="Linux" %}
-В файл, по умолчанию находящийся в `/etc/docker/daemon.json`, добавим новый ключ:
+В файле, по умолчанию находящемся в `/etc/docker/daemon.json`, добавим в ключ `insecure-registries` адрес нашего Registry:
 ```json
 {
   "insecure-registries": ["registry.example.com:80"]
@@ -34,26 +27,27 @@ sudo systemctl restart docker
 ```
 {% endofftopic %}
 
-Чтобы разрешить доступ в **Container Registry без TLS для werf** потребуется либо указывать флаг `--insecure-registry` для каждого вызова команд werf, взаимодействующих с Container Registry (`werf converge/cleanup/...`), либо глобально указать переменную окружения `WERF_INSECURE_REGISTRY=1` в сессии вашего терминала.
-
-{% offtopic title="Windows" %}
-TODO
+А чтобы сам werf работал с Registry по HTTP для werf есть опция `--insecure-registry`. Чтобы не указывать её каждый раз рекомендуется выставить переменную окружения `WERF_INSECURE_REGISTRY=1` таким образом:
+{% offtopic title="Windows (PowerShell)" %}
+```powershell
+[Environment]::SetEnvironmentVariable("WERF_INSECURE_REGISTRY", "1", "User")
+```
 {% endofftopic %}
-{% offtopic title="macOS/Linux" %}
-Добавим переменную окружения в `~/.bashrc`:
-
+{% offtopic title="macOS/Linux (Bash)" %}
 ```shell
-echo export WERF_INSECURE_REGISTRY=1 | tee -a ~/.bashrc
+echo "export WERF_INSECURE_REGISTRY=1" >> ~/.bashrc
 ```
 {% endofftopic %}
 
-Запускаем minikube и создаём в нём новый Kubernetes-кластер:
+Создаём новый Kubernetes-кластер с minikube:
 ```shell
 minikube delete  # Удалим существующий minikube-кластер (если он есть).
-minikube start --driver=docker --insecure-registry registry.example.com:80
+minikube start --driver=docker --insecure-registry registry.example.com:80 --namespace werf-guided-rails
 ```
 
-[Устанавливаем утилиту kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/), после чего проверяем работоспособность нового кластера Kubernetes:
+Если утилита kubectl всё ещё не установлена, то установим её, следуя инструкциям для [Windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/), [macOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) или [Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/).
+
+Теперь проверим работоспособность нового кластера Kubernetes:
 ```shell
 kubectl get --all-namespaces pod  # Должно показать список всех запущенных в кластере Pod'ов.
 ```
@@ -74,12 +68,39 @@ kubectl -n ingress-nginx get pod
 
 ### Установка Container Registry для хранения образов
 
-Установим и запустим Container Registry:
+Установим и запустим Registry:
 ```shell
 minikube addons enable registry
 ```
 
-Создадим Ingress для доступа к Container Registry:
+Создадим Ingress для доступа к Registry:
+{% offtopic title="Windows (PowerShell)" %}
+```powershell
+kubectl -n kube-system expose service registry --type LoadBalancer --name registry-lb --port 80 --target-port 5000
+@'
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry
+  namespace: kube-system
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  rules:
+  - host: registry.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: registry-lb
+            port:
+              number: 80
+'@ | kubectl apply -f -
+```
+{% endofftopic %}
+{% offtopic title="macOS/Linux (Bash)" %}
 ```yaml
 kubectl apply -f - << EOF
 ---
@@ -104,35 +125,38 @@ spec:
               number: 80
 EOF
 ```
+{% endofftopic %}
 
 ### Обновление файла hosts
 
-Мы будем использовать домен `example.com` для доступа к приложению и домен `registry.example.com` для доступа к Container Registry.
+Мы будем использовать домен `example.com` для доступа к приложению и домен `registry.example.com` для доступа к Registry.
 
-Обновим файл hosts:
-{% offtopic title="Windows" %}
-Сначала получите IP-адрес minikube:
-```shell
-minikube ip
-```
-
-Используя полученный выше IP-адрес minikube, добавьте в конец файла `C:\Windows\System32\drivers\etc\hosts` следующую строку:
-```
-<IP-адрес minikube>    example.com registry.example.com
-```
-Должно получиться примерно так:
-```
-192.168.99.99          example.com registry.example.com
+Обновим файлы hosts:
+{% offtopic title="Windows (PowerShell от администратора)" %}
+```powershell
+Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 example.com registry.example.com"
 ```
 {% endofftopic %}
-{% offtopic title="macOS/Linux" %}
-Выполните команду в терминале:
+{% offtopic title="macOS/Linux (Bash)" %}
 ```shell
 echo "$(minikube ip) example.com registry.example.com" | sudo tee -a /etc/hosts
+minikube ssh -- "echo $(minikube ip) registry.example.com | sudo tee -a /etc/hosts"
 ```
 {% endofftopic %}
 
-А теперь обновим файл hosts на мастер-ноде нашего кластера:
-```shell
-minikube ssh -- "echo $(minikube ip) example.com registry.example.com | sudo tee -a /etc/hosts"
+### Дополнительные инструкции только для Windows
+
+При каждом открытии нового PowerShell-терминала нам потребуется настраивать окружение для работы с Docker, запущенным в minikube. Это делается командой `& minikube -p minikube docker-env | Invoke-Expression`. Чтобы не вводить её каждый раз вручную, выполните в PowerShell от администратора (учтите, что это разрешит выполнение неподписанных скриптов, что может сказаться на безопасности):
+```powershell
+Set-ExecutionPolicy unrestricted
+if (-Not(Test-Path -Path "$profile")) {
+  New-Item "$profile" -type file
+}
+Add-Content -Path "$profile" -Value "if (minikube status) { & minikube -p minikube docker-env | Invoke-Expression }"
+& minikube -p minikube docker-env | Invoke-Expression
+```
+
+Также при работе с кластером нам надо всегда держать запущенным в отдельном окне `minikube tunnel`:
+```powershell
+minikube tunnel --cleanup=true
 ```

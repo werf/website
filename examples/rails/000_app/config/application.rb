@@ -21,6 +21,8 @@ Bundler.require(*Rails.groups)
 
 module DemoApplication
   class Application < Rails::Application
+    # config.hosts << 'example.com'
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 

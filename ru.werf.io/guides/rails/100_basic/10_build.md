@@ -3,14 +3,14 @@ title: Сборка образа
 permalink: rails/100_basic/10_build.html
 ---
 
-В этой главе мы соберём образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом запустим приложение в контейнере на основе собранного образа.
+В этой главе мы соберём образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом запустим приложение в контейнере локально.
 
 ## Подготовка
 
 Установите werf и его зависимости, [следуя инструкциям]({{ site.docsurl }}/installation.html).
 
-{% offtopic title="В Windows пользователю также понадобятся права на создание символьных ссылок:" %}
-1. Откройте PowerShell-терминал с правами Администратора.
+{% offtopic title="В Windows пользователю также понадобятся права на создание символьных ссылок" %}
+1. Откройте PowerShell-терминал с правами администратора.
 1. Скопируйте в терминал функцию для добавления прав на создание символьных ссылок:
 ```powershell
 function addSymLinkPermissions($accountToAdd){
@@ -26,7 +26,7 @@ function addSymLinkPermissions($accountToAdd){
     Write-Host "Account: $($accountToAdd)" -ForegroundColor DarkCyan
     if( [string]::IsNullOrEmpty($sidstr) ) {
         Write-Host "Account not found!" -ForegroundColor Red
-        exit -1
+        return $false
     }
     Write-Host "Account SID: $($sidstr)" -ForegroundColor DarkCyan
     $tmp = [System.IO.Path]::GetTempFileName()
@@ -76,9 +76,9 @@ SECreateSymbolicLinkPrivilege = $($currentSetting)
     }
 }
 ```
-1. Вызовем эту функцию, указав имя пользователя, из под которого вы будете запускать werf:
+1. Вызовем эту функцию, указав ей имя пользователя, из под которого вы будете запускать werf:
 ```powershell
-addSymLinkPermissions("yourUserName")
+addSymLinkPermissions("YOUR_USERNAME_HERE")
 ```
 1. Выйдите из учётной записи Windows, после чего зайдите снова, чтобы изменения применились.
 {% endofftopic %}
@@ -99,7 +99,7 @@ git commit -m "initial"
 
 ## Создадим Dockerfile
 
-Реализуем логику сборки нашего приложения в [Dockerfile](https://docs.docker.com/engine/reference/builder/):
+Реализуем логику сборки нашего приложения с [Dockerfile](https://docs.docker.com/engine/reference/builder/):
 
 {% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/rails/010_build/Dockerfile" %}
 {% raw %}
@@ -178,7 +178,7 @@ Running time 96.38 seconds
 ```
 {% endraw %}
 
-## Запуск контейнера с приложением локально
+## Запуск приложения
 
 Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
 ```shell
