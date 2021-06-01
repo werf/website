@@ -1,0 +1,62 @@
+company_name: Flant
+company_url: https://flant.ru
+url: https://werf.io
+site_lang: en
+editlink: "https://github.com/werf/werf-guides/edit/master/werf.io/guides"
+issuelink: "https://github.com/werf/werf-guides/issues/new"
+data_dir: _data/en
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - examples
+  - pages_ru
+include:
+  - pages_en
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+      lang: en
+      sitemap_include: true
+      multilang: false
+  - scope:
+      path: "pages_en"
+      type: "pages"
+    values:
+      sidebar: guide
+      multilang: true
+      toc: false
+  - scope:
+      path: "pages_en/nodejs"
+      type: "pages"
+    values:
+      framework_id: nodejs
+      framework_name: "Node.js"
+      multilang: true
+  - scope:
+      path: "pages_en/java_springboot"
+      type: "pages"
+    values:
+      framework_id: java_springboot
+      framework_name: "Spring Boot"
+      multilang: true
+  - scope:
+      path: "pages_en/python_django"
+      type: "pages"
+    values:
+      framework_id: python_django
+      framework_name: Django
+  - scope:
+      path: "pages_en/rails"
+      type: "pages"
+    values:
+      framework_id: rails
+      framework_name: Rails
+
+breadcrumbs:
+  home_text: Guides
+  home_url: /guides.html

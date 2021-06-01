@@ -1,0 +1,11 @@
+# tg
+- url: https://t.me/werf_ru
+  title: Задать вопрос в Telegram
+  text: Есть вопрос? Ответим
+  icon_class: sidebar__btn-icon_telegram
+
+# github
+- url: https://github.com/werf/werf
+  title: Поставить звезду на GitHub
+  text: Понравилось? Поставь звезду
+  icon_class: sidebar__btn-icon_github
