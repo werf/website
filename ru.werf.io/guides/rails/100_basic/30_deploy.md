@@ -7,7 +7,7 @@ permalink: rails/100_basic/30_deploy.html
 
 При деплое в Kubernetes используются Kubernetes-манифесты, которые описывают сущности, необходимые для работы приложений. Эти сущности включают в себя, к примеру, Deployment, отвечающий за запуск приложений в контейнерах, и Service/Ingress, отвечающие за доступ к запущенным приложениям изнутри и извне кластера.
 
-Перед деплоем werf создаёт Kubernetes-манифесты из шаблонов. Шаблоны в werf — это Helm-шаблоны с некоторой [дополнительной функциональностью]({{ site.docsurl }}/documentation/v1.2/advanced/helm/overview.html).
+Перед деплоем werf создаёт Kubernetes-манифесты из шаблонов. Шаблоны в werf — это Helm-шаблоны с некоторой [дополнительной функциональностью]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html).
 
 ## Deployment
 
@@ -153,7 +153,7 @@ git add .helm config
 git commit -m "Add deploy configuration"
 ```
 
-Команда [werf converge]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) сделает сразу и сборку и развертывание приложения в Kubernetes:
+Команда [werf converge]({{ site.url }}/documentation/reference/cli/werf_converge.html) сделает сразу и сборку и развертывание приложения в Kubernetes:
 ```shell
 werf converge --repo registry.example.com:80/werf-guided-rails
 ```

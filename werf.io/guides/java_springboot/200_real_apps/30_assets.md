@@ -192,10 +192,10 @@ module.exports = {
 
 ## Изменения в сборке
 
-Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого воспользуемся [механизмом артефактов]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html).
+Для ассетов мы соберём отдельный образ с nginx и ассетами. Для этого воспользуемся [механизмом артефактов]({{ site.url }}/documentation/configuration/stapel_artifact.html).
 
 {% offtopic title="Что за артефакты?" %}
-[Артефакт]({{ site.docsurl }}/documentation/configuration/stapel_artifact.html) — это специальный образ, используемый в других артефактах или отдельных образах, описанных в конфигурации. Артефакт предназначен преимущественно для отделения инструментов сборки и исходных кодов от финального скомпилированного результата. Так, в экосистеме NodeJS — это webpack, в Java — Maven, в C++ — make, в C# — MSBuild.
+[Артефакт]({{ site.url }}/documentation/configuration/stapel_artifact.html) — это специальный образ, используемый в других артефактах или отдельных образах, описанных в конфигурации. Артефакт предназначен преимущественно для отделения инструментов сборки и исходных кодов от финального скомпилированного результата. Так, в экосистеме NodeJS — это webpack, в Java — Maven, в C++ — make, в C# — MSBuild.
 
 Важный и сложный вопрос — это отладка образов, в которых используются артефакты. Представим себе артефакт:
 
@@ -213,7 +213,7 @@ from: ubuntu:latest
 ...
 ```
 
-Теперь можно выполнять отладку `my-simple-artifact` с помощью [интроспекции стадий]({{ site.docsurl }}/documentation/reference/development_and_debug/stage_introspection.html).
+Теперь можно выполнять отладку `my-simple-artifact` с помощью [интроспекции стадий]({{ site.url }}/documentation/reference/development_and_debug/stage_introspection.html).
 {% endofftopic %}
 
 Начнём с создания артефакта: установим необходимые пакеты и выполним сборку ассетов. Генерация ассетов должна происходить в артефакте на стадии `setup`:
@@ -473,7 +473,7 @@ spec:
 
 ## Деплой
 
-Закоммитим изменения в git и воспользуемся [командой `converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
+Закоммитим изменения в git и воспользуемся [командой `converge`]({{ site.url }}/documentation/reference/cli/werf_converge.html) для сборки и деплоя, примерно так:
 
 ```shell
 werf converge --repo localhost:5005/werf-guided-project --set="global.domain_url=http://myverycustomdomain.io"

@@ -16,7 +16,7 @@ In the previous chapter, we defined IaC for building, now we need to define IaC 
 The tutorial contains the source code of the infrastructure, and you will be able to guess what is going on intuitively. You can refer to tutorials/guides and [official Kubernetes documentation](https://kubernetes.io/docs/tutorials/kubernetes-basics/) to learn how to write code like this yourself. Also, there are many video courses and books available that describe various Kubernetes objects and their settings.
 {% endofftopic %}
 
-werf supports all the features of the Helm template engine (Helm is compiled into werf and helps it to perform deployments) and provides [additional functionality]({{ site. docsurl }}/documentation/v1.2/advanced/helm/overview.html). We will discuss the peculiarities of templating, and the nuances of creating Kubernetes objects later in the "Configuring the infrastructure as code" chapter. Meantime, we will deploy the application to a real cluster and make sure that it is running smoothly.
+werf supports all the features of the Helm template engine (Helm is compiled into werf and helps it to perform deployments) and provides [additional functionality]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html). We will discuss the peculiarities of templating, and the nuances of creating Kubernetes objects later in the "Configuring the infrastructure as code" chapter. Meantime, we will deploy the application to a real cluster and make sure that it is running smoothly.
 
 ## Deployment
 
@@ -138,14 +138,14 @@ spec:
 
 ## Deploying to the cluster
 
-We will use the [`werf converge`]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) command to build an image, push it to the registry, and deploy our application to the Kubernetes cluster. The repository to store images (`--repo registry.example.com/werf-guided-nodejs`) serves as its only parameter.
+We will use the [`werf converge`]({{ site.url }}/documentation/reference/cli/werf_converge.html) command to build an image, push it to the registry, and deploy our application to the Kubernetes cluster. The repository to store images (`--repo registry.example.com/werf-guided-nodejs`) serves as its only parameter.
 
 {% offtopic title="How are images stored in the repository?" %}
 When implementing the deployment process without werf, you have to take care of the scheme for naming images in the registry. In our case, you do not have to worry about that: werf can automatically tag images for you.
 
 werf implements the so-called `content-based tagging` (in other words, tags depend on the content): it automatically builds and deploys images in response to changes in Git contents.
 
-You can learn more in the [documentation]({{ site.docsurl }}/documentation/internals/stages_and_storage.html#stage-naming) and in the [article](https://medium.com/flant-com/content-based-tagging-in-werf-eb96d22ac509).
+You can learn more in the [documentation]({{ site.url }}/documentation/internals/stages_and_storage.html#stage-naming) and in the [article](https://medium.com/flant-com/content-based-tagging-in-werf-eb96d22ac509).
 {% endofftopic %}
 
 Commit changes to the code repository and then run the command below:

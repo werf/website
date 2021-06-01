@@ -13,7 +13,7 @@ layout: default
 
 ## Preparing the workplace
 
-We assume that you have already [installed werf]({{ site.docsurl }}/installation.html) and Docker.
+We assume that you have already [installed werf]({{ site.url }}/installation.html) and Docker.
 
 Create a directory on your computer and follow these steps:
 
@@ -28,7 +28,7 @@ git commit -m "initial commit"
 
 _This way you will copy the code of the [Node.js](https://github.com/werf/werf-guides/tree/master/examples/nodejs/000_app) application to a local directory and initialize a Git repository in it._
 
-Note that werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
+Note that werf follows the principles of [giterminism]({{ site.url }}/documentation/advanced/configuration/giterminism.html): it fully relies on the state described in the Git repository. This means that files not committed to the Git repository will be ignored by default. Thereby, if you have the source code, then you can turn an application to the specific operating condition at any time.
 
 ## Dockerfile-based build process
 
@@ -87,10 +87,10 @@ configVersion: 1
 
 Here:
 
-- **_project_** is a field containing the unique name of the application project. The default project name is used when generating the Helm release name and the namespace in Kubernetes. Changing the name of an active project is a tedious task that requires a number of manual actions (more information about possible consequences is available [here]({{ site.docsurl }}/documentation/v1.2/reference/werf_yaml.html#warning-on-changing-project-name));
+- **_project_** is a field containing the unique name of the application project. The default project name is used when generating the Helm release name and the namespace in Kubernetes. Changing the name of an active project is a tedious task that requires a number of manual actions (more information about possible consequences is available [here]({{ site.url }}/documentation/v1.2/reference/werf_yaml.html#warning-on-changing-project-name));
 - **_configVersion_** specifies the syntax version used in the `werf.yaml` (currently, only version `1` is supported).
 
-The next section, called the [**image config section**]({{ site.docsurl }}/documentation/reference/werf_yaml.html#image-section), defines the build process.
+The next section, called the [**image config section**]({{ site.url }}/documentation/reference/werf_yaml.html#image-section), defines the build process.
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
 {% raw %}
@@ -106,7 +106,7 @@ The `image: basicapp` line sets the image ID that will be used in the rollout co
 
 The `dockerfile: Dockerfile` line specifies that the build configuration is defined in the existing file located at the `Dockerfile` path.
 
-You can also make use of other directives (their description is available [here]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image)).
+You can also make use of other directives (their description is available [here]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image)).
 
 The single `werf.yaml` file can contain the definitions of an arbitrary number of images.
 
@@ -123,7 +123,7 @@ git commit -m "work in progress"
 ```
 {% endraw %}
 
-The [`build` command]({{ site.docsurl }}/documentation/reference/cli/werf_build.html) starts the assembly process:
+The [`build` command]({{ site.url }}/documentation/reference/cli/werf_build.html) starts the assembly process:
 
 {% raw %}
 ```shell
@@ -157,7 +157,7 @@ Running time 22.07 seconds
 
 ## Running
 
-Let's run the built image using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
+Let's run the built image using the [werf run]({{ site.url }}/documentation/cli/main/run.html) command:
 
 ```shell
 werf run --docker-options="--rm -p 3000:3000" -- node /app/app.js
@@ -210,7 +210,7 @@ The thing is we **forgot to commit changes to Git prior to step 1** in the scena
 4. View the result in the browser.
 
 
-Werf follows the principles of [giterminism]({{ site. docsurl }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
+Werf follows the principles of [giterminism]({{ site.url }}/documentation/advanced/configuration/giterminism.html) as we mentioned in the beginning of the article. A strict binding to Git ensures the reproducibility of each specific solution. More details about _giterminism_ mechanics and developers mode with `--dev` flag are available in the "What you need to know" chapter. Until then, we'll focus on building and delivering an application to the cluster.
 
 {% endofftopic %}
 

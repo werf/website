@@ -12,7 +12,7 @@ In this chapter, we'll start using werf. We will containerize the test applicati
 
 ## Preparing the workplace
 
-We assume that you have already [installed werf]({{ site.docsurl }}/installation.html) and Docker.
+We assume that you have already [installed werf]({{ site.url }}/installation.html) and Docker.
 
 Create a directory on your computer and follow these steps:
 
@@ -83,10 +83,10 @@ configVersion: 1
 
 Here:
 
-- **_project_** is a field containing the unique name of the application project. The default project name is used when generating the Helm release name and the namespace in Kubernetes. Changing the name of an active project is a tedious task that requires a number of manual actions (more information about possible consequences is available [here]({{ site.docsurl }}/documentation/v1.2/reference/werf_yaml.html#warning-on-changing-project-name));
+- **_project_** is a field containing the unique name of the application project. The default project name is used when generating the Helm release name and the namespace in Kubernetes. Changing the name of an active project is a tedious task that requires a number of manual actions (more information about possible consequences is available [here]({{ site.url }}/documentation/v1.2/reference/werf_yaml.html#warning-on-changing-project-name));
 - **_configVersion_** specifies the syntax version used in the `werf.yaml` (currently, only version `1` is supported).
 
-The next section, called the [**image config section**]({{ site.docsurl }}/documentation/reference/werf_yaml.html#image-section), defines the build process.
+The next section, called the [**image config section**]({{ site.url }}/documentation/reference/werf_yaml.html#image-section), defines the build process.
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/springboot/011_build_werf/werf.yaml" %}
 {% raw %}
@@ -102,7 +102,7 @@ The `image: basicapp` line sets the image ID that will be used in the rollout co
 
 The `dockerfile: Dockerfile` line specifies that the build configuration is defined in the existing file located at the `Dockerfile` path.
 
-You can also make use of other directives (their description is available [here]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image)).
+You can also make use of other directives (their description is available [here]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image)).
 
 The single `werf.yaml` file can contain the definitions of an arbitrary number of images.
 
@@ -119,7 +119,7 @@ git commit -m "Add build configuration"
 
 > Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the chapter "Must haves"
 
-The build is performed by the [`werf build`] ({{ site.docsurl }}/documentation/reference/cli/werf_build.html) command:
+The build is performed by the [`werf build`] ({{ site.url }}/documentation/reference/cli/werf_build.html) command:
 
 
 {% raw %}
@@ -147,7 +147,7 @@ Running time 86.37 seconds
 
 ## Running
 
-The container is run using the [werf run]({{ site.docsurl }}/documentation/cli/main/run.html) command:
+The container is run using the [werf run]({{ site.url }}/documentation/cli/main/run.html) command:
 
 ```shell
 werf run --docker-options="--rm -p 8080:8080" -- java -jar /app/demo.jar

@@ -7,7 +7,7 @@ permalink: rails/100_basic/10_build.html
 
 ## Подготовка
 
-Установите werf и его зависимости, [следуя инструкциям]({{ site.docsurl }}/installation.html).
+Установите werf и его зависимости, [следуя инструкциям]({{ site.url }}/installation.html).
 
 {% offtopic title="В Windows пользователю также понадобятся права на создание символьных ссылок" %}
 1. Откройте PowerShell-терминал с правами администратора.
@@ -138,7 +138,7 @@ dockerfile: Dockerfile  # Path to the Dockerfile, which contains the actual buil
 {% endraw %}
 {% endsnippetcut %}
 
-В `werf.yaml` может описываться сборка сразу нескольких образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться [по ссылке]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
+В `werf.yaml` может описываться сборка сразу нескольких образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться [по ссылке]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
 
 ## Сборка с werf
 
@@ -150,7 +150,7 @@ git commit -m "Add build configuration"
 
 > Чуть позже мы разберём, для чего это нужно, и как обойтись без постоянного создания новых коммитов при локальной разработке.
 
-Запустим сборку командой [`werf build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
+Запустим сборку командой [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html):
 ```shell
 werf build
 ```
@@ -180,7 +180,7 @@ Running time 96.38 seconds
 
 ## Запуск приложения
 
-Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
+Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/documentation/cli/main/run.html):
 ```shell
 werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
 ```

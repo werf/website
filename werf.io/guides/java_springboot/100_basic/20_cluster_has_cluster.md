@@ -59,7 +59,7 @@ Nginx Ingress must be installed in your cluster. The installation guide is avail
 
 ### Registry
 
-werf supports [various registry implementations]({{ site.docsurl }}/documentation/advanced/supported_registry_implementations.html).
+werf supports [various registry implementations]({{ site.url }}/documentation/advanced/supported_registry_implementations.html).
 
 Make sure that there is network connectivity between the cluster and the registry.
 

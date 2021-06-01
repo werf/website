@@ -16,7 +16,7 @@ In the previous chapter, we defined IaC for building, now we need to define IaC 
 The tutorial contains the source code of the infrastructure, and you will be able to guess what is going on intuitively. You can refer to tutorials/guides and [official Kubernetes documentation](https://kubernetes.io/docs/tutorials/kubernetes-basics/) to learn how to write code like this yourself. Also, there are many video courses and books available that describe various Kubernetes objects and their settings.
 {% endofftopic %}
 
-werf supports all the features of the Helm template engine (Helm is compiled into werf and helps it to perform deployments) and provides [additional functionality]({{ site. docsurl }}/documentation/v1.2/advanced/helm/overview.html). We will discuss the peculiarities of templating and the nuances of creating Kubernetes objects later in the "Configuring the infrastructure as code" chapter. Meantime, we will deploy the application to a real cluster and make sure that it is running smoothly.
+werf supports all the features of the Helm template engine (Helm is compiled into werf and helps it to perform deployments) and provides [additional functionality]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html). We will discuss the peculiarities of templating and the nuances of creating Kubernetes objects later in the "Configuring the infrastructure as code" chapter. Meantime, we will deploy the application to a real cluster and make sure that it is running smoothly.
 
 ## Deployment
 
@@ -146,7 +146,7 @@ git commit -m "Add helm chart configuration"
 
 > Why should changes be added to the git repository? What are giterminism and the dev mode? You can find answers to these and other questions as well as nuances of working with project files in the "Must haves" chapter
 
-The [werf converge]({{ site.docsurl }}/documentation/reference/cli/werf_converge.html) command builds images, pushes them to the registry, and deploys the application to Kubernetes. Its only mandatory option is the repository for storing images `--repo registry.example.com/werf-guided-springboot`.
+The [werf converge]({{ site.url }}/documentation/reference/cli/werf_converge.html) command builds images, pushes them to the registry, and deploys the application to Kubernetes. Its only mandatory option is the repository for storing images `--repo registry.example.com/werf-guided-springboot`.
 
 ```shell
 werf converge --repo registry.example.com/werf-guided-springboot

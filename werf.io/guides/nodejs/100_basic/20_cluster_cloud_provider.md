@@ -70,7 +70,7 @@ In most cases, cloud providers provide a registry as one of the services (howeve
 
 {% offtopic title="My provider doesn't provide a registry, what should I do?" %}
 
-You can deploy Docker Registry by yourself on a separate virtual machine or use some cloud-based solution. werf supports [various implementations]({{ site.docsurl }}/documentation/advanced/supported_registry_implementations.html) of container registries.
+You can deploy Docker Registry by yourself on a separate virtual machine or use some cloud-based solution. werf supports [various implementations]({{ site.url }}/documentation/advanced/supported_registry_implementations.html) of container registries.
 
 {% endofftopic %}
 

@@ -15,21 +15,21 @@ layout: "development"
 
 В процессе разработки изменения вносятся в файлы с неравномерной регулярностью. Код окружения, список зависимостей и код самого приложения мы меняем с разной частотой, поэтому не хочется тратить время на перерасчёт той "стадии", что не изменилась.
 
-Для этого в werf есть механизм [стадий сборки]({{ site.docsurl }}/documentation/internals/stages_and_storage.html).
+Для этого в werf есть механизм [стадий сборки]({{ site.url }}/documentation/internals/stages_and_storage.html).
 
 {% offtopic title="Что за стадии?" %}
 werf подразумевает, что лучшей практикой будет разделить сборочный процесс на этапы, у каждого из которых есть свои четкие функции и назначение. Каждый такой этап соответствует промежуточному образу — подобно слоям в Docker. В werf такой этап называется стадией, и конечный образ в итоге состоит из набора собранных стадий.
 
 Стадии — это этапы сборочного процесса, кирпичи, из которых в итоге собирается конечный образ. Стадия собирается из группы сборочных инструкций, указанных в конфигурации. Причем группировка этих инструкций не случайна, имеет определенную логику и учитывает условия и правила сборки. С каждой стадией связан конкретный Docker-образ.
 
-Подробнее о том, какие стадии для чего предполагаются, можно посмотреть [здесь]({{ site.docsurl }}/documentation/internals/stages_and_storage.html). Если вкратце, то werf предлагает использовать для стадий следующую стратегию:
+Подробнее о том, какие стадии для чего предполагаются, можно посмотреть [здесь]({{ site.url }}/documentation/internals/stages_and_storage.html). Если вкратце, то werf предлагает использовать для стадий следующую стратегию:
 
 *   использовать стадию `beforeInstall` для инсталляции системных пакетов;
 *   `install` — для инсталляции системных зависимостей и зависимостей приложения;
 *   `beforeSetup` — для настройки системных параметров и установки приложения;
 *   `setup` — для настройки приложения.
 
-Другие подробности о стадиях описаны в [документации]({{ site.docsurl }}/documentation/configuration/stapel_image/assembly_instructions.html).
+Другие подробности о стадиях описаны в [документации]({{ site.url }}/documentation/configuration/stapel_image/assembly_instructions.html).
 
 Одно из основных преимуществ использования стадий в том, что мы можем перезапускать сборку не с нуля, а только с той стадии, которая зависит от изменений в определенных файлах.
 {% endofftopic %}
@@ -55,7 +55,7 @@ dockerfile: Dockerfile
 - сценарий добавления в финальный образ исходного кода (в `Dockerfile` это было `COPY . .`)
 - установку зависимостей
 
-В последнем, к слову важно, что работа с `apt` и `npm` должна быть реализована в правильных стадиях. Причём важно сказать werf-и, что при изменении файла `package.json` нужно [перезапускать стадию]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет запускаться `npm ci`).
+В последнем, к слову важно, что работа с `apt` и `npm` должна быть реализована в правильных стадиях. Причём важно сказать werf-и, что при изменении файла `package.json` нужно [перезапускать стадию]({{ site.url }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C-%D0%BE%D1%82-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-git-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B8) `install` (в которой будет запускаться `npm ci`).
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/020_optimize_build/werf.yaml" %}
 {% raw %}
@@ -82,7 +82,7 @@ docker:
 {% endsnippetcut %}
 
 {% offtopic title="Что тут написано?" %}
-Здесь используется 4 корневых директивы: `from` — на основании какого образа будет осуществляться сборка; [`git`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/git_directive.html) — описывает импорт данных из репозитория; [`shell`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#shell) — описывает сборку стадий с помощью shell-команд; [`docker`]({{ site.docsurl }}/documentation/advanced/building_images_with_stapel/docker_directive.html) — инструкции для Docker.
+Здесь используется 4 корневых директивы: `from` — на основании какого образа будет осуществляться сборка; [`git`]({{ site.url }}/documentation/advanced/building_images_with_stapel/git_directive.html) — описывает импорт данных из репозитория; [`shell`]({{ site.url }}/documentation/advanced/building_images_with_stapel/assembly_instructions.html#shell) — описывает сборку стадий с помощью shell-команд; [`docker`]({{ site.url }}/documentation/advanced/building_images_with_stapel/docker_directive.html) — инструкции для Docker.
 {% endofftopic %}
 
 Разумеется, наш пример очень простой. Реальные сценарии сборки гораздо сложнее:
@@ -103,7 +103,7 @@ git:
   to: /src/phantomjs
 ```
 {% endraw %}
-Детали и особенности можно почитать в [документации]({{ site.docsurl }}/documentation/configuration/stapel_image/git_directive.html#работа-с-удаленными-репозиториями).
+Детали и особенности можно почитать в [документации]({{ site.url }}/documentation/configuration/stapel_image/git_directive.html#работа-с-удаленными-репозиториями).
 
 При использовании удалённых git-репозиториев важно указывать конкретный тег или коммит, чтобы получить детерминированную сборку.
 {% endofftopic %}
@@ -145,7 +145,7 @@ git:
 
 - использовать шаблонизацию
 {% offtopic title="werf использует go templates" %}
-В werf поддерживаются [**Go templates**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-go), поэтому легко определять переменные и записывать в них константы и часто используемые образы.
+В werf поддерживаются [**Go templates**]({{ site.url }}/documentation/configuration/introduction.html#%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-go), поэтому легко определять переменные и записывать в них константы и часто используемые образы.
 
 Например, сделаем 2 образа, используя один базовый образ `golang:1.11-alpine`:
 
@@ -165,7 +165,7 @@ from: {{ $base_image }}
 ```
 {% endraw %}
 
-Подробнее почитать про Go-шаблоны в werf можно в документации: [**werf go templates**]({{ site.docsurl }}/documentation/configuration/introduction.html#%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-go).
+Подробнее почитать про Go-шаблоны в werf можно в документации: [**werf go templates**]({{ site.url }}/documentation/configuration/introduction.html#%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B-go).
 {% endofftopic %}
 
 ## Запускаем сборку

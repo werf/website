@@ -12,7 +12,7 @@ permalink: nodejs/100_basic/10_build.html
 
 ## Подготовка рабочего места
 
-Мы предполагаем, что вы уже [установили werf]({{ site.docsurl }}/installation.html) и Docker.
+Мы предполагаем, что вы уже [установили werf]({{ site.url }}/installation.html) и Docker.
 
 Создайте директорию на своём компьютере и выполните там следующие шаги:
 
@@ -83,10 +83,10 @@ configVersion: 1
 {% endsnippetcut %}
 
 Здесь:
-- **_project_** — поле, задающее уникальное имя проекта приложения. Имя проекта по умолчанию используется при генерации имени Helm-релиза и пространства имен, `namespace`, в Kubernetes. Изменение имени у активного проекта затруднительно и требует ряда действий, которые необходимо выполнить вручную (подробнее о возможных последствиях можно прочитать [здесь]({{ site.docsurl }}/documentation/reference/werf_yaml.html#последствия-смены-имени-проекта));
+- **_project_** — поле, задающее уникальное имя проекта приложения. Имя проекта по умолчанию используется при генерации имени Helm-релиза и пространства имен, `namespace`, в Kubernetes. Изменение имени у активного проекта затруднительно и требует ряда действий, которые необходимо выполнить вручную (подробнее о возможных последствиях можно прочитать [здесь]({{ site.url }}/documentation/reference/werf_yaml.html#последствия-смены-имени-проекта));
 - **_configVersion_** определяет версию синтаксиса, используемую в `werf.yaml` (на данный момент поддерживается только версия `1`).
 
-Следующая секция конфигурации, которая и будет основной для сборки: [**image config section**]({{ site.docsurl }}/documentation/reference/werf_yaml.html#секция-image).
+Следующая секция конфигурации, которая и будет основной для сборки: [**image config section**]({{ site.url }}/documentation/reference/werf_yaml.html#секция-image).
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/nodejs/011_build_werf/werf.yaml" %}
 {% raw %}
@@ -102,7 +102,7 @@ dockerfile: Dockerfile
 
 Строка `dockerfile: Dockerfile` указывает, что сборочная конфигурация описана в существующем файле, расположенном по пути `Dockerfile`. 
 
-Также доступны и другие директивы, с которыми можно ознакомиться [по ссылке]({{ site.docsurl }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
+Также доступны и другие директивы, с которыми можно ознакомиться [по ссылке]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
 
 В одном `werf.yaml` может быть описано произвольное количество образов.
 
@@ -119,7 +119,7 @@ git commit -m "Add build configuration"
 
 > Почему изменения должны добавляться в git-репозиторий, что такое гитерминизм и режим разработчика, а также другие особенности работы с файлами проекта будут разобраны далее в главе «Необходимо знать»
 
-Сборка выполняется командой [`werf build`]({{ site.docsurl }}/documentation/reference/cli/werf_build.html):
+Сборка выполняется командой [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html):
 
 {% raw %}
 ```shell
@@ -145,7 +145,7 @@ Running time 22.07 seconds
 
 ## Запуск
 
-Запуск контейнера выполняется командой [werf run]({{ site.docsurl }}/documentation/cli/main/run.html):
+Запуск контейнера выполняется командой [werf run]({{ site.url }}/documentation/cli/main/run.html):
 
 ```shell
 werf run --docker-options="--rm -p 3000:3000 -e "SQLITE_FILE=app.db"" -- node /app/app.js

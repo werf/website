@@ -150,11 +150,11 @@ werf converge --repo registry.example.com/werf-guided-nodejs --set "global.myvar
 
 <a name="secret-values-yaml" />По аналогии с файлом `/.helm/values.yaml` (или другого, заданного CLI-атрибутом `--secret-values PATH`) werf позволяет работать с секретными значениями, например, учётных данных аутентификации для сторонних сервисов, API-ключей и т.п.
 
-Так как werf рассматривает Git как единственный источник правды, правильно хранить секретные переменные там же. Чтобы делать это корректно, мы [храним данные в шифрованном виде]({{ site.docsurl }}/documentation/advanced/helm/working_with_secrets.html). Подстановка значений из этого файла происходит при рендере шаблона, который также запускается при деплое.
+Так как werf рассматривает Git как единственный источник правды, правильно хранить секретные переменные там же. Чтобы делать это корректно, мы [храним данные в шифрованном виде]({{ site.url }}/documentation/advanced/helm/working_with_secrets.html). Подстановка значений из этого файла происходит при рендере шаблона, который также запускается при деплое.
 
 Чтобы воспользоваться секретными переменными:
 
-* [сгенерируйте ключ]({{ site.docsurl }}/documentation/reference/cli/werf_helm_secret_generate_secret_key.html) (`werf helm secret generate-secret-key`);
+* [сгенерируйте ключ]({{ site.url }}/documentation/reference/cli/werf_helm_secret_generate_secret_key.html) (`werf helm secret generate-secret-key`);
 * определите ключ в текущей сессии консоли (например, `export WERF_SECRET_KEY=634f76ead513e5959d0e03a992372b8e`) или создайте файл `.werf_secret_key` в корне проекта (**этот ключ не должен храниться в Git**).
 
 {% asset guides/common/100_50_werf_secret_key_in_gitlab.png %}

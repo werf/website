@@ -9,7 +9,7 @@ In this chapter, you will acquire the basic skills required to deliver an applic
 
 Moreover, we will do it all on the local machine without using any CI system.
 
-But before we start, you need to [install werf]({{ site.docsurl }}/installation.html) locally.
+But before we start, you need to [install werf]({{ site.url }}/installation.html) locally.
 
 ## The application
 

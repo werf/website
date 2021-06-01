@@ -58,7 +58,7 @@ Stop Review:
 {% endraw %}
 {% endsnippetcut %}
 
-Удаление Helm-релиза (и, как следствие, всех выкаченных им объектов) осуществляется командой [`werf dismiss`]({{ site.docsurl }}/documentation/cli/main/dismiss.html). Мы указываем название окружения ([`--env $CI_ENVIRONMENT_SLUG`](https://docs.gitlab.com/ee/ci/environments/#environment-variables-and-runner)).
+Удаление Helm-релиза (и, как следствие, всех выкаченных им объектов) осуществляется командой [`werf dismiss`]({{ site.url }}/documentation/cli/main/dismiss.html). Мы указываем название окружения ([`--env $CI_ENVIRONMENT_SLUG`](https://docs.gitlab.com/ee/ci/environments/#environment-variables-and-runner)).
 
 Атрибут `GIT_STRATEGY: none` говорит runner'у, что check out кода не требуется, чем немного ускоряется операция и разгружается runner.
 

@@ -70,7 +70,7 @@ kubectl get ns
 
 {% offtopic title="Мой провайдер не предоставляет registry, как быть?" %}
 
-Вы можете развернуть Docker Registry самостоятельно на отдельно стоящей виртуальной машине или воспользоваться каким-то облачным решением. werf поддерживает [множество имплементаций]({{ site.docsurl }}/documentation/advanced/supported_registry_implementations.html) реестров для контейнеров.
+Вы можете развернуть Docker Registry самостоятельно на отдельно стоящей виртуальной машине или воспользоваться каким-то облачным решением. werf поддерживает [множество имплементаций]({{ site.url }}/documentation/advanced/supported_registry_implementations.html) реестров для контейнеров.
 
 {% endofftopic %}
 
