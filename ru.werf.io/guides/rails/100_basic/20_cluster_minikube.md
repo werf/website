@@ -144,9 +144,13 @@ minikube ssh -- "echo $(minikube ip) registry.example.com | sudo tee -a /etc/hos
 ```
 {% endofftopic %}
 
-### Дополнительные инструкции только для Windows
+{% offtopic title="Дополнительные инструкции для Windows" %}
+При каждом открытии нового PowerShell-терминала нам потребуется настраивать окружение для работы с Docker, запущенным в minikube. Это делается командой
+```
+& minikube -p minikube docker-env | Invoke-Expression
+```
 
-При каждом открытии нового PowerShell-терминала нам потребуется настраивать окружение для работы с Docker, запущенным в minikube. Это делается командой `& minikube -p minikube docker-env | Invoke-Expression`. Чтобы не вводить её каждый раз вручную, выполните в PowerShell от администратора (учтите, что это разрешит выполнение неподписанных скриптов, что может сказаться на безопасности):
+Чтобы не вводить эту команду каждый раз, выполните в PowerShell от администратора команды (учтите, что это разрешит выполнение неподписанных скриптов, что может сказаться на безопасности):
 ```powershell
 Set-ExecutionPolicy unrestricted
 if (-Not(Test-Path -Path "$profile")) {
@@ -160,3 +164,4 @@ Add-Content -Path "$profile" -Value "if (minikube status) { & minikube -p miniku
 ```powershell
 minikube tunnel --cleanup=true
 ```
+{% endofftopic %}
