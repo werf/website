@@ -3,10 +3,10 @@ title: Подготовка окружения
 permalink: rails/100_basic/20_cluster.html
 ---
 
-Выберите, с помощью чего вы хотите развернуть тестовый Kubernetes-кластер:
+Выберите, каким образом будет развернут ваш Kubernetes-кластер:
 
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube (Linux, Windows, macOS)</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube')">Minikube (Windows, macOS, Linux)</a>
 {% comment %} TODO(lesikov): раскомментить как переработаю 20_cluster_has_cluster.md.
 <a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">Свой кластер</a>
 {% endcomment %}
@@ -25,36 +25,19 @@ permalink: rails/100_basic/20_cluster.html
 
 ## Проверяем кластер
 
-Если hosts-файл правильно настроен, то эти команды должны показать IP, соответствующие тем, которые мы указали в hosts-файле:
+Проверим, работает ли NGINX Ingress Controller и Registry:
 ```shell
-nslookup example.com
-nslookup registry.example.com
+curl http://registry.example.com/v2/
 ```
 
-Проверим, загружаются ли образы в Container Registry:
+Проверим, можем ли мы загрузить в Registry образы:
 ```shell
 docker pull busybox
 docker tag busybox registry.example.com:80/busybox
 docker push registry.example.com:80/busybox
 ```
 
-А теперь проверим, работает ли NGINX Ingress Controller:
-```shell
-curl example.com
-```
-… должно выдать ошибку 404 от Nginx:
-```html
-<html>
-<head><title>404 Not Found</title></head>
-<body>
-<center><h1>404 Not Found</h1></center>
-<hr><center>nginx</center>
-</body>
-</html>
-```
-Это значит, что NGINX Ingress Controller успешно запущен.
-
-_После того, как мы задеплоим в кластер наше приложение, вместо ошибки 404 на `example.com` нам будет отвечать наше приложение._
+Если всё в порядке, то Kubernetes и окружение для работы готовы.
 
 <div id="go-forth-button">
     <go-forth url="30_deploy.html" label="Деплой приложения" framework="{{ page.label_framework }}" ci="{{ page.label_ci }}" guide-code="{{ page.guide_code }}" base-url="{{ site.baseurl }}"></go-forth>

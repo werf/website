@@ -48,7 +48,7 @@ permalink: rails/100_basic/35_deploy_changes.html
     - Смотрим сколько реплик у нас запущено:
 
     ```
-    kubectl -n werf-guided-rails get pod
+    kubectl get pod
     ```
      
     =>
@@ -61,7 +61,7 @@ permalink: rails/100_basic/35_deploy_changes.html
     - Давайте вручную поменяем на 2 реплики
     
     ```
-    kubectl -n werf-guided-rails edit deployment basicapp
+    kubectl edit deployment basicapp
     ```
 
     В открывшемся редакторе выставляем `spec.replicas=2`, закрываем редактор.
@@ -69,7 +69,7 @@ permalink: rails/100_basic/35_deploy_changes.html
     - Снова смотрим сколько реплик у нас запущено:
 
     ```
-    kubectl -n werf-guided-rails get pod
+    kubectl get pod
     ```
      
     =>
@@ -85,7 +85,7 @@ permalink: rails/100_basic/35_deploy_changes.html
     - Снова смотрим сколько реплик у нас запущено:
 
     ```
-    kubectl -n werf-guided-rails get pod
+    kubectl get pod
     ```
      
     =>
@@ -104,20 +104,20 @@ permalink: rails/100_basic/35_deploy_changes.html
     - Список запущенных деплойментов и подов
 
     ```
-    kubectl -n werf-guided-rails get deployment
-    kubectl -n werf-guided-rails get pod
+    kubectl get deployment
+    kubectl get pod
     ```
 
     - Наш деплоймент `basicapp`, смотрим summary-информацию по нему:
 
     ```
-    kubectl -n werf-guided-rails describe deployment basicapp
+    kubectl describe deployment basicapp
     ```
 
     - Деплоймент запускает поды, логи пишутся в подах, следующей командой можно запросить логи одного из запущенных подов:
 
     ```
-    kubectl -n werf-guided-rails logs basicapp-57789b68-c2xlq
+    kubectl logs basicapp-57789b68-c2xlq
     ```
 
  - Проблема: наше приложение использует БД sqlite в локальном файле, а мы добавили несколько реплик, каждая реплика использует свою базу данных, а не общую. Это приведёт к тому, что запросы будут равномерно распределяться по репликам при создании и получении labels, результаты запросов могут отличаться при перезапуске. Давайте переедем на общий mysql, чтобы решить эту проблему.
@@ -142,7 +142,7 @@ permalink: rails/100_basic/35_deploy_changes.html
     - Но можно это сделать вот так:
 
     ```
-    kubectl -n werf-guided-rails exec -ti basicapp-57789b68-c2xlq -- bash
+    kubectl exec -ti basicapp-57789b68-c2xlq -- bash
     ```
 
     - Далее запускаем rails console:
