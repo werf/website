@@ -3,7 +3,7 @@ title: Сборка образа
 permalink: rails/100_basic/10_build.html
 ---
 
-В этой главе мы соберём образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом запустим приложение в контейнере локально.
+В этой главе мы соберём Docker-образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом запустим приложение в контейнере локально.
 
 ## Подготовка
 
@@ -80,7 +80,7 @@ SECreateSymbolicLinkPrivilege = $($currentSetting)
 ```powershell
 addSymLinkPermissions("YOUR_USERNAME_HERE")
 ```
-1. Выйдите из учётной записи Windows, после чего зайдите снова, чтобы изменения применились.
+1. Выйдем из учётной записи Windows, после чего зайдите снова, чтобы изменения применились.
 {% endofftopic %}
 
 ## Создадим новый репозиторий с демо-приложением
@@ -107,15 +107,15 @@ git commit -m "initial"
 FROM ruby:2.7.1
 WORKDIR /app
 
-# Install system dependencies
+# Установим системные зависимости
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
 
-# Install app dependencies
+# Установим зависимости приложения
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 
-# Add all the files from our repo into our image, including app source code
+# Добавим в образ все остальные файлы из нашего репозитория, включая исходный код приложения
 COPY . .
 ```
 {% endraw %}
@@ -123,17 +123,17 @@ COPY . .
 
 ## Интеграция werf и Dockerfile
 
-Создадим в корне репозитория файл `werf.yaml`, в котором укажем, какой Dockerfile должен будет использоваться при сборке с werf:
+Создадим в корне репозитория основной файл конфигурации werf `werf.yaml`, в котором укажем, какой `Dockerfile` должен будет использоваться при сборке с werf:
 
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-rails  # Project name, used in Helm release name and Namespace name by default.
+project: werf-guided-rails  # Имя проекта, используется в имени Helm-релиза и имени Namespace.
 configVersion: 1
 
 ---
-image: basicapp  # Image name, used in Helm templates and in some werf commands.
-dockerfile: Dockerfile  # Path to the Dockerfile, which contains the actual build instructions.
+image: basicapp  # Имя образа, используется в Helm-шаблонах и в части werf-команд.
+dockerfile: Dockerfile  # Путь к Dockerfile, содержащему инструкции для сборки.
 ```
 {% endraw %}
 {% endsnippetcut %}
@@ -148,7 +148,7 @@ git add werf.yaml Dockerfile
 git commit -m "Add build configuration"
 ```
 
-> Чуть позже мы разберём, для чего это нужно, и как обойтись без постоянного создания новых коммитов при локальной разработке.
+> Чуть позже мы разберём, для чего изменения нужно добавлять в коммит перед сборкой/деплоем, и как обойтись без постоянного создания новых коммитов при локальной разработке.
 
 Запустим сборку командой [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html):
 ```shell
@@ -185,9 +185,8 @@ Running time 96.38 seconds
 werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
 ```
 
-[Параметры Docker](https://docs.docker.com/engine/reference/run/) здесь задаются опцией `--docker-options`, а команда для выполнения в контейнере указывается в конце, после двух дефисов.
+Здесь [параметры Docker](https://docs.docker.com/engine/reference/run/) мы задали опцией `--docker-options`, а команду для выполнения в контейнере указали в конце, после двух дефисов.
 
 Теперь приложение доступно на [http://127.0.0.1:3000/](http://127.0.0.1:3000/):
 
 {% asset guides/rails/100_10_app_in_browser.png %}
-
