@@ -2,7 +2,7 @@ company_name: Флант
 company_url: https://flant.ru
 url: https://ru.werf.io
 site_lang: ru
-editlink: "https://github.com/werf/werf-guides/edit/master/ru.werf.io/guides"
+editlink: "https://github.com/werf/werf-guides/edit/master/pages_ru/guides"
 issuelink: "https://github.com/werf/werf-guides/issues/new"
 data_dir: _data/ru
 
