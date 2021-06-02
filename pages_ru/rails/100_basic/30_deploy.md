@@ -67,7 +67,12 @@ Kubernetes-кластер для запуска приложения испол�
 ## Service
 
 Ресурс Service позволит другим приложениям в кластере обращаться к нашему приложению. Создадим для него файл `.helm/templates/service.yaml` с содержанием:
-{% offtopic title="Windows" %}
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__deploy__btn" onclick="openTab(event, 'tabs__deploy__btn', 'tabs__deploy__content', 'tab__deploy__service_windows')">Windows</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__deploy__btn" onclick="openTab(event, 'tabs__deploy__btn', 'tabs__deploy__content', 'tab__deploy__service_macos_linux')">macOS/Linux</a>
+</div>
+
+<div id="tab__deploy__service_windows" class="tabs__content tabs__deploy__content" markdown="1">
 {% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
@@ -85,8 +90,8 @@ spec:
 ```
 {% endraw %}
 {% endsnippetcut %}
-{% endofftopic %}
-{% offtopic title="macOS/Linux" %}
+</div>
+<div id="tab__deploy__service_macos_linux" class="tabs__content tabs__deploy__content" markdown="1">
 {% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
@@ -103,7 +108,7 @@ spec:
 ```
 {% endraw %}
 {% endsnippetcut %}
-{% endofftopic %}
+</div>
 
 ## Ingress
 
