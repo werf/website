@@ -86,6 +86,6 @@ EOF
 
 Обновим файлы hosts:
 ```shell
-echo "$(minikube ip) example.com registry.example.com" | sudo tee -a /etc/hosts
+echo "$(minikube ip) example.com kubernetes-basics-app.example.com registry.example.com" | sudo tee -a /etc/hosts
 minikube ssh -- "echo $(minikube ip) registry.example.com | sudo tee -a /etc/hosts"
 ```
