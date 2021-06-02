@@ -1,11 +1,5 @@
-.snippets-checker.py
-.debug.txt
 .idea
 _site
 .jekyll-cache
-build.sh
-_includes/scripts.html
 .jekyll-metadata
-/common/node_modules
-dist
 .DS_Store
