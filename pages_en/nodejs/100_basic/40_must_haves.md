@@ -35,7 +35,7 @@ However, we understand that committing every code change during the development 
 
 ### werf-giterminism.yaml
 
-Using this congfig file, you can eliminate some restrictions in a specific configuration (e.g., using uncommitted files, mounting directories and files during the build, passing environment variables, etc.). You can learn more about the configuration process [in the documentation](https://werf.io/documentation/advanced/configuration/giterminism.html#werf-giterminismyaml).
+Using this congfig file, you can eliminate some restrictions in a specific configuration (e.g., using uncommitted files, mounting directories and files during the build, passing environment variables, etc.). You can learn more about the configuration process [in the documentation]({{ site.url }}/documentation/advanced/configuration/giterminism.html#werf-giterminismyaml).
 
 ### dev mode
 
@@ -84,7 +84,7 @@ In the manual deployment process (i.e., without werf), you have to define the st
 {% offtopic title="How does it work?" %}
 In short, werf calculates the checksum of the files added to the image and generates tags for the image based on that checksum. It uses an [MVCC-based](https://en.wikipedia.org/wiki/Multiversion_concurrency_control) approach and [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) to make sure that there are no conflicts between various builds running simultaneously (including on different servers).
 
-For more information about how data is stored in the registry, refer to the [werf documentation](https://werf.io/documentation/internals/stages_and_storage.html). It thoroughly describes the build process, how werf manages build stage dependencies, and how the naming is performed.
+For more information about how data is stored in the registry, refer to the [werf documentation]({{ site.url }}/documentation/internals/stages_and_storage.html). It thoroughly describes the build process, how werf manages build stage dependencies, and how the naming is performed.
 {% endofftopic %}
 
 ## Helm, releases, and more
@@ -92,7 +92,7 @@ For more information about how data is stored in the registry, refer to the [wer
 [Helm-chart](https://helm.sh/docs/topics/charts/) is a collection of files that describe a related set of Kubernetes objects.  A _release_ is created when a chart is used to deploy an application to a specific environment.
 
 {% offtopic title="I would like to learn more" %}
-The [werf documentation](https://werf.io/documentation/v1.2/advanced/helm/overview.html#release) has plenty of information about working with releases, storing, and naming them.
+The [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html#release) has plenty of information about working with releases, storing, and naming them.
 {% endofftopic %}
 
 When working with releases, helm implements the [3-way merge](https://helm.sh/docs/faq/#improved-upgrade-strategy-3-way-strategic-merge-patches) approach. Manual changes to the cluster that conflict with the state described in Git are corrected to conform to the latter. Note that manual changes that do not conflict with the state defined in Git remain outside the control of Helm and werf.
@@ -103,19 +103,19 @@ werf manages releases on its own, but if you want to do it the hard way, you can
 
 Releases provide information about **components installed in the cluster**, their state, and the **environment** they are running in.
 
-To browse the list of releases or find out the name of the release you need, use the [`werf helm list -A` CLI command](https://werf.io/documentation/reference/cli/werf_helm_list.html).
+To browse the list of releases or find out the name of the release you need, use the [`werf helm list -A` CLI command]({{ site.url }}/documentation/reference/cli/werf_helm_list.html).
 
 ### How do I delete the unneeded component?
 
-Use [`werf helm uninstall`](https://werf.io/documentation/reference/cli/werf_helm_uninstall.html) to uninstall an application.
+Use [`werf helm uninstall`]({{ site.url }}/documentation/reference/cli/werf_helm_uninstall.html) to uninstall an application.
 
 {% offtopic title="But what about the werf dismiss command?" %}
-The [`werf dismiss`](https://werf.io/documentation/reference/cli/werf_dismiss.html) command also allows you to remove an application from Kubernetes. However, it requires access to the source code of the application (which can be inconvenient outside the CI system).
+The [`werf dismiss`]({{ site.url }}/documentation/reference/cli/werf_dismiss.html) command also allows you to remove an application from Kubernetes. However, it requires access to the source code of the application (which can be inconvenient outside the CI system).
 {% endofftopic %}
 
 ## Debugging the installation process
 
-Frequently, mistakes made in chart configurations lead to problems when rolling out a release. The [`werf render`](https://werf.io/documentation/reference/cli/werf_render.html) command can help you to debug such problems.
+Frequently, mistakes made in chart configurations lead to problems when rolling out a release. The [`werf render`]({{ site.url }}/documentation/reference/cli/werf_render.html) command can help you to debug such problems.
 
 `werf render` performs all the actions related to building and generating charts, showing you the resulting charts instead of deploying the release to Kubernetes. It is a resource-intensive task that shows you the final result with all the required values filled in.
 
@@ -123,11 +123,11 @@ _Note that `werf render` only works with files committed to Git (like all other 
 
 ## Storage space
 
-Over time, a lot of data can accumulate in the storage (either local or in the registry). Werf has three built-in commands related to cleaning: `werf cleanup`, `werf purge`, `werf host purge`. They have different purposes, and we briefly discuss them below (the detailed information is available in the [documentation](https://werf.io/documentation/advanced/cleanup.html)).
+Over time, a lot of data can accumulate in the storage (either local or in the registry). Werf has three built-in commands related to cleaning: `werf cleanup`, `werf purge`, `werf host purge`. They have different purposes, and we briefly discuss them below (the detailed information is available in the [documentation]({{ site.url }}/documentation/advanced/cleanup.html)).
 
 ### Regular registry cleanup
 
-The [`werf cleanup`](https://werf.io/documentation/reference/cli/werf_cleanup.html) command performs a regular and safe cleanup. It safely deletes images that are no longer needed using an advanced algorithm that takes into account Git history, registry contents, and the cluster state.
+The [`werf cleanup`]({{ site.url }}/documentation/reference/cli/werf_cleanup.html) command performs a regular and safe cleanup. It safely deletes images that are no longer needed using an advanced algorithm that takes into account Git history, registry contents, and the cluster state.
 
 We will configure scheduled registry cleanup using the CI system's tools in the chapter "Working with infrastructure". 
 
@@ -135,6 +135,6 @@ We will configure scheduled registry cleanup using the CI system's tools in the 
 
 The following two service commands allow you to free up disk space by deleting all images and other data:
 
-- [`werf host purge`](https://werf.io/documentation/reference/cli/werf_host_purge.html) deletes all host contents, leaving the registry intact.
-- [`werf purge`](https://werf.io/documentation/reference/cli/werf_purge.html) (NOT SAFE) deletes all images, including those linked to applications running in the cluster!
+- [`werf host purge`]({{ site.url }}/documentation/reference/cli/werf_host_purge.html) deletes all host contents, leaving the registry intact.
+- [`werf purge`]({{ site.url }}/documentation/reference/cli/werf_purge.html) (NOT SAFE) deletes all images, including those linked to applications running in the cluster!
 
