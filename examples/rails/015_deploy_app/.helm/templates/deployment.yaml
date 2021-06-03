@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: basicapp
-        command: ["/bin/bash", "-ec", "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"]
+        command: ["/bin/bash", "-ec", "bundle exec rails db:migrate && bundle exec puma"]
         image: {{ .Values.werf.image.basicapp }}
         ports:
         - containerPort: 3000
