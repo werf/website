@@ -9,7 +9,7 @@ permalink: index.html
             <a href="/" class="landing__header-title" data-proofer-ignore>
                 {% asset werf-logo.svg alt="werf" width="167" height="70" %}
             </a>
-            <a href="{{ site.site_urls['ru'] }}" class="landing__button">
+            <a href="{{ site.site_urls['ru'] }}" class="landing__button" data-proofer-ignore>
                 {% asset arrow.svg %}
                 <span>ru.werf.io</span>
             </a>

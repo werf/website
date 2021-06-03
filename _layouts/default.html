@@ -7,8 +7,8 @@
   <meta name="description" content="{% if page.summary %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
   <meta name="keywords" content="{{page.tags}}{% if page.tags %}, {% endif %} {{page.keywords}}">
   {%- if page.multilang %}
-  <link rel="alternate" hreflang="ru" href="{{ site.site_urls['ru'] }}{{ page.url | relative_url }}"/>
-  <link rel="alternate" hreflang="en" href="{{ site.site_urls['en'] }}{{ page.url | relative_url }}"/>
+  <link rel="alternate" hreflang="ru" href="{{ site.site_urls['ru'] }}{{ page.url | relative_url }}" data-proofer-ignore/>
+  <link rel="alternate" hreflang="en" href="{{ site.site_urls['en'] }}{{ page.url | relative_url }}" data-proofer-ignore/>
   {%- endif %}
   <title>{{ page.title }} {% if page.framework_name %}| {{ page.framework_name }} {% endif %}| {{ site.site_title }}</title>
 
