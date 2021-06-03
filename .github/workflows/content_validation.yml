@@ -1,0 +1,43 @@
+name: Content Validation
+
+on:
+  push:
+    paths:
+      - '.github/workflows/content_validation.yml'
+      - '**/*.md'
+      - '**/*.html'
+
+jobs:
+  check_links:
+    container: jekyll/builder:3
+    name: Check broken links
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lang: [ ru, en ]
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Prepare environment
+        run: |
+          bundle install
+          mkdir -pm 777 .jekyll-cache _site
+
+      - name: Build
+        run: bundle exec jekyll build --config _config.yml,_config_${{ matrix.lang }}.yml --baseurl /guides --destination _site/guides
+
+      - name: Check links
+        run: |
+          bundle exec htmlproofer \
+            --allow-hash-href \
+            --empty-alt-ignore \
+            --check_html \
+            --file_ignore "/____________/" \
+            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/" \
+            --http-status-ignore 0 \
+            ./_site/
