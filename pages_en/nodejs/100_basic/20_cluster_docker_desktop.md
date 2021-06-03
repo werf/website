@@ -55,7 +55,7 @@ Docker Desktop does not have a built-in registry. The easiest way is to run it m
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
-Note that in this case, the registry does not use SSL encryption by default. Thus, you have to add the `--insecure-registry=true` [parameter](https://werf.io/documentation/reference/cli/werf_managed_images_add.html#options) when using werf.
+Note that in this case, the registry does not use SSL encryption by default. Thus, you have to add the `--insecure-registry=true` [parameter]({{ site.url }}/documentation/reference/cli/werf_managed_images_add.html#options) when using werf.
 
 ### Hosts
 

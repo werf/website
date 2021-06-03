@@ -6,10 +6,10 @@ permalink: index.html
 <div class="landing">
     <div class="landing__header">
         <div class="landing__container">
-            <a href="/" class="landing__header-title">
+            <a href="/" class="landing__header-title" data-proofer-ignore>
                 {% asset werf-logo.svg alt="werf" width="167" height="70" %}
             </a>
-            <a href="http://ru.werf.io" class="landing__button">
+            <a href="{{ site.site_urls['ru'] }}" class="landing__button" data-proofer-ignore>
                 {% asset arrow.svg %}
                 <span>ru.werf.io</span>
             </a>

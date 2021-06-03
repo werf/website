@@ -43,7 +43,7 @@ git:
 shell:
   setup:
     - cd /guides
-    - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --baseurl /guides
+    - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --baseurl /guides --destination _site/guides
 ---
 {{ end -}}
 
@@ -59,6 +59,6 @@ import:
 {{- range $lang := list "en" "ru" }}
   - image: guides_{{ $lang }}
     add: /guides/_site
-    to: /site/{{ $lang }}/guides
+    to: /site/{{ $lang }}
     before: setup
 {{ end -}}
