@@ -3,13 +3,13 @@ title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
 layout: wip
 ---
+## Взаимодействие с приложением
+Наше приложение ­— это [crud](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) для создания labels.
 
- - Наше приложение ­— это crud для создания labels, демонстрируем это:
-    - Получаем список labels из консоли:
-
-        ```
-        curl "http://URL:PORT/api/labels"
-        ```
+Получаем список labels из консоли:
+```
+curl "http://URL:PORT/api/labels"
+```
 
     - Создаём новые labels из консоли:
 
