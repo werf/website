@@ -53,7 +53,7 @@ Docker Desktop не содержит встроенного registry. Самый
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
-Обратите внимание, что в этом случае по умолчанию registry будет работать без SSL-шифрования. А значит, при работе с werf потребуется добавлять [параметр](https://werf.io/documentation/reference/cli/werf_managed_images_add.html#options) `--insecure-registry=true`.
+Обратите внимание, что в этом случае по умолчанию registry будет работать без SSL-шифрования. А значит, при работе с werf потребуется добавлять [параметр]({{ site.url }}/documentation/reference/cli/werf_managed_images_add.html#options) `--insecure-registry=true`.
 
 ### Hosts
 

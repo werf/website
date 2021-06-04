@@ -140,12 +140,11 @@ spec:
 {% snippetcut name="config/application.rb" url="#" %}
 {% raw %}
 ```ruby
+...
 module DemoApplication
   class Application < Rails::Application
     config.hosts << 'example.com'
     ...
-  end
-end
 ```
 {% endraw %}
 {% endsnippetcut %}

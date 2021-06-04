@@ -22,7 +22,7 @@ werf converge --repo registry.mydomain.io/werf-guided-project --follow
 
 ## Отладка ошибок
 
-При написании кода инфраструктуры иногда случаются ошибки и опечатки. Для их отладки в werf есть [инструмент интроспекции](https://ru.werf.io/documentation/advanced/development_and_debug/stage_introspection.html).
+При написании кода инфраструктуры иногда случаются ошибки и опечатки. Для их отладки в werf есть [инструмент интроспекции]({{ site.url }}/documentation/advanced/development_and_debug/stage_introspection.html).
 
 {% offtopic title="А как пользоваться интроспекцией?" %}
 
