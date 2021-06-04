@@ -83,7 +83,7 @@ spec:
 
 Обновим файлы hosts (PowerShell от администратора):
 ```powershell
-Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 example.com registry.example.com"
+Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 example.com kubernetes-basics-app.example.com registry.example.com"
 ```
 
 ### Настройка Docker-окружения
@@ -109,3 +109,4 @@ Add-Content -Path "$profile" -Value "if (minikube status) { & minikube -p miniku
 ```powershell
 minikube tunnel --cleanup=true
 ```
+> При использовании `minikube tunnel` создание Ingress-ресурсов необязательно, т.к. связь будет осуществляться через Service'ы типа LoadBalancer. Но мы всё-равно создадим Ingress-ресурсы для демонстрации того, как это должно выглядеть в реальном кластере.
