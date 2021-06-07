@@ -11,17 +11,17 @@
 }
 ```
 Перезапустим Docker:
-```shell
+```bash
 sudo systemctl restart docker
 ```
 
 А чтобы сам werf работал с Registry по HTTP для werf есть опция `--insecure-registry`. Чтобы не указывать её каждый раз рекомендуется выставить переменную окружения `WERF_INSECURE_REGISTRY=1` таким образом:
-```shell
+```bash
 echo "export WERF_INSECURE_REGISTRY=1" >> ~/.bashrc
 ```
 
 Создаём новый Kubernetes-кластер с minikube:
-```shell
+```bash
 minikube delete  # Удалим существующий minikube-кластер (если он есть).
 minikube start --driver=docker --insecure-registry registry.example.com:80 --namespace werf-guided-rails
 ```
@@ -29,7 +29,7 @@ minikube start --driver=docker --insecure-registry registry.example.com:80 --nam
 Если утилита kubectl всё ещё не установлена, то установим её, [следуя инструкциям](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/).
 
 Теперь проверим работоспособность нового кластера Kubernetes:
-```shell
+```bash
 kubectl get --all-namespaces pod  # Должно показать список всех запущенных в кластере Pod'ов.
 ```
 
@@ -38,19 +38,19 @@ kubectl get --all-namespaces pod  # Должно показать список �
 ### Установка NGINX Ingress Controller
 
 Устанавливаем NGINX Ingress Controller:
-```shell
+```bash
 minikube addons enable ingress
 ```
 
 Немного подождём, после чего убедимся, что Ingress Controller успешно запустился:
-```shell
+```bash
 kubectl -n ingress-nginx get pod
 ```
 
 ### Установка Container Registry для хранения образов
 
 Установим и запустим Registry:
-```shell
+```bash
 minikube addons enable registry
 ```
 
@@ -85,7 +85,7 @@ EOF
 Мы будем использовать домен `example.com` для доступа к приложению и домен `registry.example.com` для доступа к Registry.
 
 Обновим файлы hosts:
-```shell
+```bash
 echo "$(minikube ip) example.com kubernetes-basics-app.example.com registry.example.com" | sudo tee -a /etc/hosts
 minikube ssh -- "echo $(minikube ip) registry.example.com | sudo tee -a /etc/hosts"
 ```

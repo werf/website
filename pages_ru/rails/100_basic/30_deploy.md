@@ -152,18 +152,18 @@ module DemoApplication
 ## Деплой в Kubernetes
 
 Сохраним наши изменения перед сборкой/деплоем:
-```shell
+```bash
 git add .helm config
 git commit -m "Add deploy configuration"
 ```
 
 Команда [werf converge]({{ site.url }}/documentation/reference/cli/werf_converge.html) сделает сразу и сборку и развертывание приложения в Kubernetes:
-```shell
+```bash
 werf converge --repo registry.example.com:80/werf-guided-rails
 ```
 
 Результат выполнения в случае успешной сборки и деплоя:
-```shell
+```bash
 ...
 │ basicapp/dockerfile  Successfully built 4c1054085159
 │ │ basicapp/dockerfile  Successfully tagged 93c05bf8-c459-4768-b388-3cdbc80e2868:latest

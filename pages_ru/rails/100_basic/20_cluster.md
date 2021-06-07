@@ -33,12 +33,12 @@ permalink: rails/100_basic/20_cluster.html
 ## Проверяем кластер
 
 Проверим, работает ли NGINX Ingress Controller и Registry:
-```shell
+```bash
 curl http://registry.example.com/v2/
 ```
 
 Проверим, можем ли мы загрузить в Registry образы:
-```shell
+```bash
 docker pull busybox
 docker tag busybox registry.example.com:80/busybox
 docker push registry.example.com:80/busybox
