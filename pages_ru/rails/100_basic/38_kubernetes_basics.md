@@ -139,10 +139,10 @@ spec:
           - -ec
           - |
             while true; do
-              echo -e "HTTP/1.1 200 OK\n\nAlive.\nOur \$MY_ENV_VAR value is \"$MY_ENV_VAR\"." | nc -l -s 0.0.0.0 -p 8888
+              echo -e "HTTP/1.1 200 OK\n\nAlive.\nOur \$MY_ENV_VAR value is \"$MY_ENV_VAR\"." | nc -l -s 0.0.0.0 -p 80
             done
         ports:
-        - containerPort: 8888  # Открытый порт, на котором будет слушать приложение.
+        - containerPort: 80  # Открытый порт, на котором будет слушать приложение.
         env:
         - name: "MY_ENV_VAR"  # Имя дополнительной переменной окружения.
           value: "myEnvVarValue"  # Значение дополнительной переменной окружения.
@@ -160,15 +160,15 @@ spec:
         startupProbe:  # Проверка готовности контейнера. При нескольких неудачах контейнер перезапустится.
           httpGet:
             path: /startup  # Будет выполняться GET-запрос на http://<PodIP>:3000/startup.
-            port: 8888
+            port: 80
         readinessProbe:  # Проверка готовности контейнера, запускается после startupProbe. При нескольких неудачах трафик перестаёт идти на Pod через Service.
           httpGet:
             path: /readiness
-            port: 8888
+            port: 80
         livenessProbe:  # Проверка работоспособности контейнера, запускается после startupProbe. При нескольких неудачах контейнер перезапускается.
           httpGet:
             path: /liveness
-            port: 8888
+            port: 80
       #####################################################################################################
       # InitContainers используются для разовых задач, выполняющихся перед запуском основных контейнеров.
       # Основные контейнеры Pod'а не запустятся, пока не выполнятся initContainers.
@@ -215,10 +215,10 @@ spec:
   - host: kubernetes-basics-app.example.com  # Домен, запросы на который будут обрабатываться в paths ниже.
     http:
       paths:
-      - path: /  # Запросы с префиксом / (все запросы) перенаправятся на порт 8888 нашего Service'а.
+      - path: /  # Запросы с префиксом / (все запросы) перенаправятся на порт 80 нашего Service'а.
         backend:
           serviceName: kubernetes-basics-app
-          servicePort: 8888
+          servicePort: 80
 ```
 {% endraw %}
 
@@ -234,7 +234,7 @@ spec:
     app: kubernetes-basics-app  # Этот Service перенаправляет трафик на Pod'ы с этим лейблом.
   ports:
   - name: http
-    port: 8888  # Перенаправить трафик с 8888 порта Service'а на 8888 порт Pod'а.
+    port: 80  # Перенаправить трафик с 80 порта Service'а на 80 порт Pod'а.
 ```
 {% endraw %}
 
@@ -249,7 +249,7 @@ kubectl get service kubernetes-basics-app
 kubectl get ingress kubernetes-basics-app
 ```
 
-Если несколько упрощать, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: kubernetes-basics-app.example.com`, быть перенаправленными на 8888-й порт Service'а `kubernetes-basics-app`, а оттуда на 8888-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
+Если несколько упрощать, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: kubernetes-basics-app.example.com`, быть перенаправленными на 80-й порт Service'а `kubernetes-basics-app`, а оттуда на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
 
 Попробуем достучаться до нашего приложения через Ingress:
 {% raw %}
@@ -259,7 +259,6 @@ Alive.
 Our $MY_ENV_VAR value is "myEnvVarValue".
 ```
 {% endraw %}
-> На Windows при использовании `minikube tunnel` мы на Ingress обратиться не сможем. Обращение извне кластера там идёт через Service со специальным типом LoadBalancer.
 
 При этом Service-ресурсы нужны не только для связи Ingress'ов и приложения. Service-ресурсы также дают возможность ресурсам внутри кластера общаться между собой. При создании Service'а создается доменное имя `<ServiceName>.<NamespaceName>.svc.cluster.local`, доступное изнутри кластера. Также Service доступен и по более коротким доменным именам: `<ServiceName>` при обращении из того же Namespace или `<ServiceName>.<NamespaceName>` при обращении из другого.
 
@@ -268,7 +267,7 @@ Our $MY_ENV_VAR value is "myEnvVarValue".
 ```bash
 $ kubectl run another-kubernetes-basics-app --image=alpine --rm -it -- sh  # Запустим новый контейнер.
 / apk add curl  # Установим curl внутри контейнера.
-/ curl http://kubernetes-basics-app:8888  # Обратимся к одному из Pod'ов нашего приложения через Service.
+/ curl http://kubernetes-basics-app  # Обратимся к одному из Pod'ов нашего приложения через Service.
 Alive.
 Our $MY_ENV_VAR value is "myEnvVarValue".
 / exit

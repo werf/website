@@ -30,18 +30,23 @@ permalink: rails/100_basic/20_cluster.html
 </div>
 {% endcomment %}
 
-## Проверяем кластер
+### Настройка Container Registry
 
-Проверим, работает ли NGINX Ingress Controller и Registry:
+Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет любой Registry с TLS и аутентификацией (GitHub Container Registry, GitLab Container Registry, ...).
+
+Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guided-rails`, в котором будем хранить собираемые образы.
+
+С помощью `docker login` получаем доступ с текущего компьютера к новому репозиторию, вводя логин и пароль от нашего пользователя на Docker Hub:
 ```bash
-curl http://registry.example.com/v2/
+$ docker login
+Username: <имя пользователя Docker Hub>
+Password: <пароль пользователя Docker Hub>
+Login Succeeded
 ```
 
-Проверим, можем ли мы загрузить в Registry образы:
+Создаём Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
 ```bash
-docker pull busybox
-docker tag busybox registry.example.com:80/busybox
-docker push registry.example.com:80/busybox
+kubectl create secret docker-registry registrysecret ---docker-username=<имя пользователя Docker Hub> --docker-password=<пароль пользователя Docker Hub>
 ```
 
-Если всё в порядке, то Kubernetes и окружение для работы готовы.
+Теперь окружение для работы готово.

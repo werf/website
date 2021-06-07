@@ -99,6 +99,8 @@ git commit -m "initial"
 
 ## Создадим Dockerfile
 
+> В Windows во избежание проблем при редактировании файлов рекомендуем использовать [Notepad++](https://notepad-plus-plus.org/downloads/) или любой другой редактор вместо стандартного Блокнота.
+
 Реализуем логику сборки нашего приложения с [Dockerfile](https://docs.docker.com/engine/reference/builder/):
 
 {% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/rails/010_build/Dockerfile" %}
@@ -108,7 +110,7 @@ FROM ruby:2.7.1
 WORKDIR /app
 
 # Установим системные зависимости
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
+RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
 
 # Установим зависимости приложения
 COPY Gemfile /app/Gemfile
@@ -182,7 +184,7 @@ Running time 96.38 seconds
 
 Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/documentation/cli/main/run.html):
 ```bash
-werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
+werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate && bundle exec puma"
 ```
 
 Здесь [параметры Docker](https://docs.docker.com/engine/reference/run/) мы задали опцией `--docker-options`, а команду для выполнения в контейнере указали в конце, после двух дефисов.
