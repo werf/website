@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
       - name: basicapp-migrations
-        command: [ "/bin/bash", "-ec", "until bundle exec rails db:migrate RAILS_ENV=development ; do echo ; echo Waiting for database startup ... ; sleep 1 ; done" ]
+        command: [ "/bin/bash", "-ec", "until bundle exec rails db:migrate ; do echo ; echo Waiting for database startup ... ; sleep 1 ; done" ]
         image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
       containers:
