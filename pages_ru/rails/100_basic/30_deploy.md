@@ -28,9 +28,11 @@ spec:
       labels:
         app: basicapp
     spec:
+      imagePullSecrets:
+      - name: registrysecret  # Имя Secret-ресурса с логином и паролем для Docker Hub.
       containers:
       - name: basicapp
-        command: ["/bin/bash", "-ec", "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"]
+        command: ["/bin/bash", "-ec", "bundle exec rails db:migrate && bundle exec puma"]
         image: {{ .Values.werf.image.basicapp }}
         ports:
         - containerPort: 3000
@@ -45,53 +47,9 @@ spec:
 
 Werf пересобирает образы только при изменениях в файлах, указанных в `werf.yaml`, а также при изменении самого `werf.yaml`. При пересборке изменится и тег образа, что приведёт к обновлению Deployment'а. Если же изменений в вышеупомянутых файлах нет, то образ не пересоберётся, а Deployment и создаваемые им ресурсы не перевыкатятся, т.к. в этом просто нет необходимости — в кластере уже самая свежая версия приложения.
 
-{% comment %} TODO(lesikov): скроем, пока не сделаем инструкцию для деплоя из своего кластера.
-## Registry Secret
-
-Kubernetes-кластер для запуска приложения использует образы из registry. Поэтому важно, чтобы кластер мог авторизоваться в registry. Как правило, ситуация отличается для локального и внешнего registry.
-
-<div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__secret__btn" onclick="openTab(event, 'tabs__secret__btn', 'tabs__secret__content', 'tab__secret__local')">Локальный registry</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__secret__btn" onclick="openTab(event, 'tabs__secret__btn', 'tabs__secret__content', 'tab__secret__remote')">Внешний registry</a>
-</div>
-
-<div id="tab__secret__local" class="tabs__content tabs__secret__content" markdown="1">
-{% include_relative 30_deploy_registrysecret_local.md %}
-</div>
-
-<div id="tab__secret__remote" class="tabs__content tabs__secret__content" markdown="1">
-{% include_relative 30_deploy_registrysecret_remote.md %}
-</div>
-{% endcomment %}
-
 ## Service
 
 Ресурс Service позволит другим приложениям в кластере обращаться к нашему приложению. Создадим для него файл `.helm/templates/service.yaml` с содержанием:
-<div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__deploy__btn" onclick="openTab(event, 'tabs__deploy__btn', 'tabs__deploy__content', 'tab__deploy__service_windows')">Windows</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__deploy__btn" onclick="openTab(event, 'tabs__deploy__btn', 'tabs__deploy__content', 'tab__deploy__service_macos_linux')">macOS/Linux</a>
-</div>
-
-<div id="tab__deploy__service_windows" class="tabs__content tabs__deploy__content" markdown="1">
-{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/service.yaml" %}
-{% raw %}
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: basicapp
-spec:
-  type: LoadBalancer
-  selector:
-    app: basicapp
-  ports:
-  - name: http
-    port: 3000
-```
-{% endraw %}
-{% endsnippetcut %}
-</div>
-<div id="tab__deploy__service_macos_linux" class="tabs__content tabs__deploy__content" markdown="1">
 {% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/service.yaml" %}
 {% raw %}
 ```yaml
@@ -108,7 +66,6 @@ spec:
 ```
 {% endraw %}
 {% endsnippetcut %}
-</div>
 
 ## Ingress
 
@@ -152,23 +109,23 @@ module DemoApplication
 ## Деплой в Kubernetes
 
 Сохраним наши изменения перед сборкой/деплоем:
-```shell
+```bash
 git add .helm config
 git commit -m "Add deploy configuration"
 ```
 
 Команда [werf converge]({{ site.url }}/documentation/reference/cli/werf_converge.html) сделает сразу и сборку и развертывание приложения в Kubernetes:
-```shell
-werf converge --repo registry.example.com:80/werf-guided-rails
+```bash
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 Результат выполнения в случае успешной сборки и деплоя:
-```shell
+```bash
 ...
 │ basicapp/dockerfile  Successfully built 4c1054085159
 │ │ basicapp/dockerfile  Successfully tagged 93c05bf8-c459-4768-b388-3cdbc80e2868:latest
 │ ├ Info
-│ │       name: localhost:5000/werf-guided-rails:f4caaa836701e5346c4a0514bb977362ba5fe4ae114d0176f6a6c8cc-1612277803607
+│ │       name: .../werf-guided-rails:f4caaa836701e5346c4a0514bb977362ba5fe4ae114d0176f6a6c8cc-1612277803607
 │ │       size: 371.4 MiB
 │ └ Building stage basicapp/dockerfile (40.31 seconds)
 └ :boat: image basicapp (41.13 seconds)
@@ -191,7 +148,6 @@ TEST SUITE: None
 Running time 62.66 seconds
 ```
 
-Теперь приложение доступно по ссылке [http://example.com:3000/api/labels](http://example.com:3000/api/labels) для Windows и [http://example.com/api/labels](http://example.com/api/labels) для macOS/Linux.
+Теперь приложение доступно по ссылке [http://example.com/api/labels](http://example.com/api/labels).
 
 {% asset guides/common/100_30_app_in_browser.png %}
-

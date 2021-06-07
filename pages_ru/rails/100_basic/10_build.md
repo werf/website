@@ -88,7 +88,7 @@ addSymLinkPermissions("YOUR_USERNAME_HERE")
 Все дальнейшие команды потребуется выполнять в PowerShell (для Windows) или Bash (для macOS и Linux).
 
 В отдельной директории на своём компьютере выполним команды:
-```shell
+```bash
 git clone https://github.com/werf/werf-guides
 cp -r werf-guides/examples/rails/000_app rails-app
 cd rails-app
@@ -99,6 +99,8 @@ git commit -m "initial"
 
 ## Создадим Dockerfile
 
+> В Windows во избежание проблем при редактировании файлов рекомендуем использовать [Notepad++](https://notepad-plus-plus.org/downloads/) или любой другой редактор вместо стандартного Блокнота.
+
 Реализуем логику сборки нашего приложения с [Dockerfile](https://docs.docker.com/engine/reference/builder/):
 
 {% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/rails/010_build/Dockerfile" %}
@@ -108,7 +110,7 @@ FROM ruby:2.7.1
 WORKDIR /app
 
 # Установим системные зависимости
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
+RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
 
 # Установим зависимости приложения
 COPY Gemfile /app/Gemfile
@@ -143,7 +145,7 @@ dockerfile: Dockerfile  # Путь к Dockerfile, содержащему инс�
 ## Сборка с werf
 
 Перед выполнением сборки необходимо добавить наши изменения в коммит:
-```shell
+```bash
 git add werf.yaml Dockerfile
 git commit -m "Add build configuration"
 ```
@@ -151,13 +153,13 @@ git commit -m "Add build configuration"
 > Чуть позже мы разберём, для чего изменения нужно добавлять в коммит перед сборкой/деплоем, и как обойтись без постоянного создания новых коммитов при локальной разработке.
 
 Запустим сборку командой [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html):
-```shell
+```bash
 werf build
 ```
 
 Результат выполнения команды при успешной сборке:
 {% raw %}
-```shell
+```bash
 ┌ ⛵ image basicapp
 │ ┌ Building stage basicapp/dockerfile
 │ │ basicapp/dockerfile  Sending build context to Docker daemon  11.64MB
@@ -181,8 +183,8 @@ Running time 96.38 seconds
 ## Запуск приложения
 
 Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/documentation/cli/main/run.html):
-```shell
-werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma"
+```bash
+werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate && bundle exec puma"
 ```
 
 Здесь [параметры Docker](https://docs.docker.com/engine/reference/run/) мы задали опцией `--docker-options`, а команду для выполнения в контейнере указали в конце, после двух дефисов.
