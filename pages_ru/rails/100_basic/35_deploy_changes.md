@@ -3,7 +3,8 @@ title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
 layout: wip
 ---
-## Просмотр состояния
+## Работаем с инфраструктурой
+### Просмотр состояния
 А как вообще посмотреть на состояние запущенного приложения в kubernetes и логи кластера?
 Получить список запущенных деплойментов и подов:
  ```shell
@@ -58,7 +59,7 @@ kubectl logs basicapp-57789b68-c2xlq
     Label.all
     ```
 
-## Скейлинг
+### Скейлинг
 Как мы знаем, наш веб сервер запущен в deployment basicapp. Помотрим сколько реплик у нас запущено:
 ```
 kubectl get pod
@@ -108,7 +109,7 @@ basicapp-57789b68-kxcb9   1/1     Running   0          72m
  - Меняем тот же spec.replicas, но уже в git: examples/rails/016_deploy_app_changes/.helm/templates/deployment.yaml
  - Запускаем converge.
 
-## Взаимодействие с приложением
+## Меняеям приложение
 Наше приложение ­— это [crud](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) для создания labels, ниже рассмотрим некоторые действия, которые можно выполнить с приложением.
 
 ### Labels
