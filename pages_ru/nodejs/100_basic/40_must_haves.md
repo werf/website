@@ -95,11 +95,7 @@ werf управляет релизами самостоятельно, но ес
 
 ### Удалить лишнее
 
-<<<<<<< HEAD:ru.werf.io/guides/nodejs/100_basic/40_must_haves.md
-Чтобы удалить релиз приложения из кластера Kubernetes, воспользуйтесь командой [`werf dismiss`]({{ site.docsurl }}/documentation/reference/cli/werf_dismiss.html).
-=======
 Чтобы удалить релиз приложения из Kubernetes, воспользуйтесь [`werf dismiss`]({{ site.url }}/documentation/reference/cli/werf_dismiss.html).
->>>>>>> 020bf466dad47d752a33053be0818f9bec7cf961:pages_ru/nodejs/100_basic/40_must_haves.md
 
 ### Отладка установки
 
