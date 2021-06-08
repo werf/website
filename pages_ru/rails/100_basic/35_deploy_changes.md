@@ -3,6 +3,8 @@ title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
 layout: wip
 ---
+Внесём изменения в уже выкаченное приложение и его инфраструктуру. Продемонстрируем как работает подход infrastructure-as-code (IaC).
+
 ## Работаем с инфраструктурой
 ### Просмотр состояния
 А как вообще посмотреть на состояние запущенного приложения в kubernetes и логи кластера?
@@ -30,7 +32,7 @@ kubectl logs basicapp-57789b68-c2xlq
     - адаптируем deployment приложения так, чтобы миграции запускались в init container и убираем настройки sqlite:
         - examples/rails/016_deploy_app_changes/.helm/templates/deployment.yaml
 
-    - настраиваем приложение на работу с mysql:
+    - настраиваем приложение на работу с MySQL:
         - examples/rails/016_deploy_app_changes/config/database.yml
         - examples/rails/016_deploy_app_changes/Gemfile
         - examples/rails/016_deploy_app_changes/Gemfile.lock
@@ -105,7 +107,7 @@ basicapp-57789b68-kxcb9   1/1     Running   0          72m
 
 Количество реплик соответствует таковому в git-репозитории, дело в том, что werf привёл состояние кластера к состоянию описанному в текущем git коммите, то есть проследовал путём **гитерминизма**.
 
- Как же соблюсти **гитерминизм**и сделать всё правильно?
+ Как же соблюсти **гитерминизм** и сделать всё правильно?
  - Меняем тот же spec.replicas, но уже в git: examples/rails/016_deploy_app_changes/.helm/templates/deployment.yaml
  - Запускаем converge.
 
