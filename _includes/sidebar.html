@@ -6,6 +6,13 @@
     <a href="{{ site.baseurl }}/{{ page.framework_id }}/{{ folder.url }}" data-subhref="{{ folder.url }}">{{ folder.title }}</a>
     <ul class="sidebar__submenu">
       {%- for subfolders in folder.sf %}
+
+      <!-- TODO: Remove skipping non-existent pages after reduplication — all pages must exist -->
+      {% capture page_exist %}{% file_exist {{ page.framework_id }}/{{ subfolders.url }} %}{% endcapture %}
+      {% if page_exist == "false" %}
+      {% continue %}
+      {% endif %}
+
       {%- if subfolders.external_url %}
       <li class="sidebar__submenu-item"><a href="{{ subfolders.external_url }}" target="_blank">{{subfolders.title}}</a></li>
       {%- elsif page.url contains subfolders.url %}
