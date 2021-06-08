@@ -32,7 +32,7 @@ kubectl logs basicapp-57789b68-c2xlq
     - адаптируем deployment приложения так, чтобы миграции запускались в init container и убираем настройки sqlite:
         - examples/rails/016_deploy_app_changes/.helm/templates/deployment.yaml
 
-    - настраиваем приложение на работу с mysql:
+    - настраиваем приложение на работу с MySQL:
         - examples/rails/016_deploy_app_changes/config/database.yml
         - examples/rails/016_deploy_app_changes/Gemfile
         - examples/rails/016_deploy_app_changes/Gemfile.lock
