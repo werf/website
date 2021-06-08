@@ -2,9 +2,8 @@
 title: Сборка образа
 permalink: rails/100_basic/10_build.html
 ---
-В этой главе мы соберём Docker-образ с демо-приложением, используя werf и Dockerfile, а потом проверим собранный образ, запустив его локально.
 
-В этой главе мы соберём Docker-образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом запустим приложение в контейнере локально.
+В этой главе мы соберём Docker-образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом проверим собранный образ, запустив его локально.
 
 ## Подготовка
 
