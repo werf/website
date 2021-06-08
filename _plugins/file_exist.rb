@@ -16,6 +16,7 @@ module Jekyll
       file_path = File.join(dest_dir, url)
       raise file_path + File.exist?(file_path.strip!).to_s
 
+      # trololo
       # Check if file exists (returns true or false)
       File.exist?(file_path.strip!).to_s
     end
