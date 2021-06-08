@@ -189,6 +189,4 @@ werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec 
 
 Здесь [параметры Docker](https://docs.docker.com/engine/reference/run/) мы задали опцией `--docker-options`, а команду для выполнения в контейнере указали в конце, после двух дефисов.
 
-Теперь приложение доступно на [http://127.0.0.1:3000/](http://127.0.0.1:3000/):
-
-{% asset guides/rails/100_10_app_in_browser.png %}
+Теперь приложение доступно на [http://127.0.0.1:3000/](http://127.0.0.1:3000/).

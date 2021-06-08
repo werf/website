@@ -7,7 +7,7 @@
 Создаём новый Kubernetes-кластер с minikube:
 ```bash
 minikube delete  # Удалим существующий minikube-кластер (если он есть).
-minikube start --driver=docker --namespace werf-guided-rails
+minikube start --driver=hyperkit --namespace werf-guided-rails
 ```
 
 Если утилита kubectl всё ещё не установлена, то установим её, [следуя инструкциям](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/).
