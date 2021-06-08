@@ -7,9 +7,12 @@ on:
       - edited
       - reopened
       - synchronize
+      - ready_for_review
 
 jobs:
+
   length_check:
+    if: github.event.pull_request.draft == false
     name: Check the format of PR commit messages
     runs-on: ubuntu-latest
     steps:
