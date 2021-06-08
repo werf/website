@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      initContainers:
+      - name: backend-migrations
+        command: [ "/bin/bash", "-ec", "until bundle exec rails db:migrate ; do echo ; echo Waiting for database startup ... ; sleep 1 ; done" ]
+        image: {{ .Values.werf.image.backend }}
+        workingDir: /app
+      containers:
+      - name: backend
+        command: [ "/bin/bash", "-ec", "bundle exec puma" ]
+        image: {{ .Values.werf.image.backend }}
+        workingDir: /app
+        ports:
+        - containerPort: 3000
+          protocol: TCP

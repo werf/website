@@ -1,0 +1,59 @@
+entries:
+  f:
+    - title: First steps
+      url: "100_basic.html"
+      sf:
+        - title: Building an image
+          url: "100_basic/10_build.html"
+        - title: Preparing the environment
+          url: "100_basic/20_cluster.html"
+        - title: Deploying the app
+          url: "100_basic/30_deploy.html"
+        - title: Applying changes
+          url: "100_basic/35_deploy_changes.html"
+        - title: Must haves
+          url: "100_basic/40_must_haves.html"
+
+    - title: Real world apps
+      url: "200_real_apps.html"
+      sf:
+        - title: Logging
+          url: "200_real_apps/25_logging.html"
+        - title: Assets generation
+          url: "200_real_apps/30_assets.html"
+        - title: Storing files
+          url: "200_real_apps/50_files.html"
+        - title: Working with e-mail
+          url: "200_real_apps/60_email.html"
+        - title: Connecting to external PostgreSQL
+          url: "200_real_apps/80_database.html"
+        - title: Stateful apps
+          url: "200_real_apps/90_stateful.html"
+
+    - title: Development process
+      url: "300_dev_process.html"
+      sf:
+        - title: Local development
+          url: "300_dev_process/10_local.html"
+        - title: Nonlocal development
+          url: "300_dev_process/20_nonlocal.html"
+
+    - title: Improve developer experience
+      url: "400_dev_experience.html"
+      sf:
+        - title: Delivery time optimization
+          url: "400_dev_experience/10_optimize.html"
+        - title: Better infrastructure debug
+          url: "400_dev_experience/20_debug.html"
+        - title: Better runtime debug
+          url: "400_dev_experience/30_debug_iac.html"
+
+    - title: Building infrastructure
+      url: "400_infra.html"
+      sf:
+        - title: Building CI-process
+          url: "400_infra/10_ci.html"
+        - title: Unit tests and linters
+          url: "400_infra/20_unittesting.html"
+        - title: Dynamic enviroinment
+          url: "400_infra/40_dynamicenvs.html"

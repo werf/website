@@ -1,5 +1,0 @@
-app:
-  isDebug:
-    _default: "true"
-    production: "false"
-    testing: "true"

@@ -6,23 +6,19 @@ spec:
   selector:
     matchLabels:
       app: basicapp
-  revisionHistoryLimit: 3
-  strategy:
-    type: RollingUpdate
-  replicas: 1
   template:
     metadata:
       labels:
         app: basicapp
     spec:
+      imagePullSecrets:
+      - name: registrysecret
       containers:
       - name: basicapp
-        command: [ "/bin/bash", "-ec", "bundle exec rails db:migrate RAILS_ENV=development && bundle exec puma" ]
+        command: ["/bin/bash", "-ec", "bundle exec rails db:migrate && bundle exec puma"]
         image: {{ .Values.werf.image.basicapp }}
-        workingDir: /app
         ports:
         - containerPort: 3000
-          protocol: TCP
         env:
         - name: "SQLITE_FILE"
           value: "app.db"

@@ -1,0 +1,21 @@
+output: web
+
+site_title: werf
+site_urls:
+  ru: https://ru.werf.io
+  en: https://werf.io
+
+highlighter: rouge
+
+plugins:
+  - jekyll-assets
+
+assets:
+  cdn:
+    baseurl: true
+
+markdown: kramdown
+kramdown:
+ input: GFM
+ hard_wrap: false
+ syntax_highlighter: rouge
