@@ -5,9 +5,9 @@ permalink: rails/100_basic/30_deploy.html
 
 В предыдущих главах мы собрали образ приложения и подготовили окружение для его развертывания. Теперь мы развернём наше приложение в ранее подготовленном кластере Kubernetes.
 
-## Deployment
-
 При деплое в Kubernetes используются Kubernetes-манифесты, которые описывают сущности, необходимые для работы приложений. Эти сущности включают в себя, к примеру, Deployment, отвечающий за запуск приложений в контейнерах, и Service/Ingress, отвечающие за доступ к запущенным приложениям изнутри и извне кластера.
+
+## Deployment
 
 Ресурс Deployment создаёт набор ресурсов, запускающих приложение. Создадим для него файл `.helm/templates/deployment.yaml` с содержанием:
 {% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/deployment.yaml" %}
