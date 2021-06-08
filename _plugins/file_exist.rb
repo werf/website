@@ -13,7 +13,7 @@ module Jekyll
 
       # Adds the site source, so that it also works with a custom one
       dest_dir = context.registers[:site].config['destination']
-      file_path = File.join(dest_dir, url)
+      file_path = File.expand_path(File.join(dest_dir, url))
       raise file_path + File.exist?(file_path.strip!).to_s
 
       # trololo
