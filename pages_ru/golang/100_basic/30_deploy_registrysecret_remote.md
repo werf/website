@@ -50,7 +50,7 @@ spec:
       containers:
       - name: basicapp
         command: ["/app/demoapp"]
-        image: {{ tuple "basicapp" . | werf_image }}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 3000

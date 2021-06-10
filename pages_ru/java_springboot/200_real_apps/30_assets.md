@@ -288,7 +288,7 @@ spec:
         - name: "SQLITE_FILE"
           value: "app.db"
       - name: node-assets
-        image: {{ tuple "node-assets" . | werf_image}}
+        image: {{ index .Values.werf.image "node-assets" }}
         lifecycle:
           preStop:
             exec:

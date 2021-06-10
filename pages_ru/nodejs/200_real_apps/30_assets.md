@@ -279,7 +279,7 @@ spec:
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]
-        image: {{ tuple "basicapp" . | werf_image}}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 3000
@@ -288,7 +288,7 @@ spec:
         - name: "SQLITE_FILE"
           value: "app.db"
       - name: node-assets
-        image: {{ tuple "node-assets" . | werf_image}}
+        image: {{ index .Values.werf.image "node-assets" }}
         lifecycle:
           preStop:
             exec:

@@ -51,7 +51,7 @@ spec:
       - name: basicapp
         command: ["python3","manage.py"]
         args: ["runserver", "0.0.0.0:8000"]
-        image: {{ tuple "basicapp" . | werf_image }}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 8000

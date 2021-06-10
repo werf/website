@@ -93,7 +93,7 @@ spec:
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]
-        image: {{ tuple "basicapp" . | werf_image }}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 3000
@@ -217,7 +217,7 @@ spec:
               value: "-1"
       containers:
         - name: init-tables
-          image: {{ tuple "basicapp" . | werf_image }}
+          image: {{ .Values.werf.image.basicapp }}
           command: ['node']
           args: ['node_modules/node-pg-migrate/bin/node-pg-migrate', 'up']
           workingDir: /app

@@ -126,7 +126,7 @@ spec:
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]
-        image: {{ tuple "basicapp" . | werf_image}}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 3000
@@ -185,7 +185,7 @@ spec:
       containers:
       - name: basicapp
         command: ["node","/app/app.js"]
-        image: {{ tuple "basicapp" . | werf_image}}
+        image: {{ .Values.werf.image.basicapp }}
         workingDir: /app
         ports:
         - containerPort: 3000
