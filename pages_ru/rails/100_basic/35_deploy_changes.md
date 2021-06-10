@@ -27,16 +27,16 @@ kubectl logs basicapp-57789b68-c2xlq
 
 В данный момент есть проблема: наше приложение использует БД sqlite в локальном файле, а мы добавили несколько реплик, каждая реплика использует свою базу данных, а не общую. Это приведёт к тому, что запросы будут равномерно распределяться по репликам при создании и получении labels, результаты запросов могут отличаться при перезапуске. Давайте переведем наше приложение на общую БД MySQL, чтобы решить эту проблему.
 
-  - Для начала создадим новый [шаблон]({{ site.url }}examples/rails/016_deploy_app_changes/.helm/templates/database.yml) для запуска mysql в кластере.
+  - Для начала создадим новый [шаблон](https://github.com/werf/werf-guides/tree/master/examples/rails/016_deploy_app_changes/.helm/templates/database.yml) для запуска mysql в кластере.
   В реальных приложениях mysql запустить несколько сложнее — нужен persistent volume, но в нашем случае для development-окружения бд будет терять все свои данные в случае перезапуска.
 
   - Адаптируем deployment приложения так, чтобы миграции запускались в init container и убирем настройки sqlite:
-  [deployment.yaml]({{ site.url }}examples/rails/016_deploy_app_changes/.helm/templates/deployment.yaml)
+  [deployment.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/016_deploy_app_changes/.helm/templates/deployment.yaml)
 
   - Настроим приложение на работу с MySQL:
-    - [database.yaml]({{ site.url }}examples/rails/016_deploy_app_changes/config/database.yml)
-    - [Gemfile]({{ site.url }}examples/rails/016_deploy_app_changes/Gemfile)
-    - [Gemfile.lock]({{ site.url }}examples/rails/016_deploy_app_changes/Gemfile.lock)
+    - [database.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/016_deploy_app_changes/config/database.yml)
+    - [Gemfile](https://github.com/werf/werf-guides/tree/master/examples/rails/016_deploy_app_changes/Gemfile)
+    - [Gemfile.lock](https://github.com/werf/werf-guides/tree/master/examples/rails/016_deploy_app_changes/Gemfile.lock)
     
   - Задеплоим приложение с помощью werf converge, дождёмся выполнения команды, в процессе работы в логах могут быть ошибки подключения к бд, контейнер с которой ещё не успел запуститься — это нормально, необходимо дождаться полного запуска приложения.
 
