@@ -39,6 +39,7 @@ Revision=1
 [Privilege Rights]
 SECreateSymbolicLinkPrivilege = $($currentSetting)
 "@ | Set-Content -Path $tmp2 -Encoding Unicode -Force
+    cd (Split-Path $tmp2)
     secedit.exe /configure /db "secedit.sdb" /cfg "$($tmp2)" /areas USER_RIGHTS
 }
 ```
