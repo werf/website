@@ -1,2 +1,0 @@
-development:
-  url: mysql2://root:password@mysql/werf-guided-rails

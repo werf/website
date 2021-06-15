@@ -1,6 +1,0 @@
-project: werf-guided-rails  # Project name, used in Helm release name and Namespace name by default.
-configVersion: 1
-
----
-image: basicapp  # Image name, used in Helm templates and in some werf commands.
-dockerfile: Dockerfile  # Path to the Dockerfile, which contains the actual build instructions.
