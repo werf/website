@@ -10,48 +10,27 @@ permalink: rails/100_basic/10_build.html
 Установите werf и его зависимости, [следуя инструкциям]({{ site.url }}/installation.html).
 
 {% offtopic title="В Windows пользователю также понадобятся права на создание символьных ссылок" %}
-1. Откройте PowerShell-терминал с правами администратора.
-1. Скопируйте в терминал функцию для добавления прав на создание символьных ссылок:
+1. В PowerShell выполните для текущего пользователя с правами администратора:
 ```powershell
-function addSymLinkPermissions($accountToAdd){
-    Write-Host "Checking SymLink permissions.."
-    $sidstr = $null
-    try {
-        $ntprincipal = new-object System.Security.Principal.NTAccount "$accountToAdd"
-        $sid = $ntprincipal.Translate([System.Security.Principal.SecurityIdentifier])
-        $sidstr = $sid.Value.ToString()
-    } catch {
-        $sidstr = $null
+$ntprincipal = new-object System.Security.Principal.NTAccount "$env:UserName"
+$sidstr = $ntprincipal.Translate([System.Security.Principal.SecurityIdentifier]).Value.ToString()
+$tmp = [System.IO.Path]::GetTempFileName()
+secedit.exe /export /cfg "$($tmp)"
+$currentSetting = ""
+foreach($s in (Get-Content -Path $tmp)) {
+    if ($s -like "SECreateSymbolicLinkPrivilege*") {
+        $x = $s.split("=",[System.StringSplitOptions]::RemoveEmptyEntries)
+        $currentSetting = $x[1].Trim()
     }
-    Write-Host "Account: $($accountToAdd)" -ForegroundColor DarkCyan
-    if( [string]::IsNullOrEmpty($sidstr) ) {
-        Write-Host "Account not found!" -ForegroundColor Red
-        return $false
+}
+if ($currentSetting -notlike "*$($sidstr)*") {
+    if ([string]::IsNullOrEmpty($currentSetting)) {
+        $currentSetting = "*$($sidstr)"
+    } else {
+        $currentSetting = "*$($sidstr),$($currentSetting)"
     }
-    Write-Host "Account SID: $($sidstr)" -ForegroundColor DarkCyan
-    $tmp = [System.IO.Path]::GetTempFileName()
-    Write-Host "Export current Local Security Policy" -ForegroundColor DarkCyan
-    secedit.exe /export /cfg "$($tmp)" 
-    $c = Get-Content -Path $tmp 
-    $currentSetting = ""
-    foreach($s in $c) {
-        if( $s -like "SECreateSymbolicLinkPrivilege*") {
-            $x = $s.split("=",[System.StringSplitOptions]::RemoveEmptyEntries)
-            $currentSetting = $x[1].Trim()
-        }
-    }
-    if( $currentSetting -notlike "*$($sidstr)*" ) {
-        Write-Host "Need to add permissions to SymLink" -ForegroundColor Yellow
-
-        Write-Host "Modify Setting ""Create SymLink""" -ForegroundColor DarkCyan
-
-        if( [string]::IsNullOrEmpty($currentSetting) ) {
-            $currentSetting = "*$($sidstr)"
-        } else {
-            $currentSetting = "*$($sidstr),$($currentSetting)"
-        }
-        Write-Host "$currentSetting"
-    $outfile = @"
+    $tmp2 = [System.IO.Path]::GetTempFileName()
+    @"
 [Unicode]
 Unicode=yes
 [Version]
@@ -59,28 +38,14 @@ signature="`$CHICAGO`$"
 Revision=1
 [Privilege Rights]
 SECreateSymbolicLinkPrivilege = $($currentSetting)
-"@
-    $tmp2 = [System.IO.Path]::GetTempFileName()
-        Write-Host "Import new settings to Local Security Policy" -ForegroundColor DarkCyan
-        $outfile | Set-Content -Path $tmp2 -Encoding Unicode -Force
-        Push-Location (Split-Path $tmp2)
-        try {
-            secedit.exe /configure /db "secedit.sdb" /cfg "$($tmp2)" /areas USER_RIGHTS 
-        } finally { 
-            Pop-Location
-        }
-    } else {
-        Write-Host "NO ACTIONS REQUIRED! Account already in ""Create SymLink""" -ForegroundColor DarkCyan
-        Write-Host "Account $accountToAdd already has permissions to SymLink" -ForegroundColor Green
-        return $true;
-    }
+"@ | Set-Content -Path $tmp2 -Encoding Unicode -Force
+    secedit.exe /configure /db "secedit.sdb" /cfg "$($tmp2)" /areas USER_RIGHTS
 }
 ```
-1. Вызовем эту функцию, указав ей имя пользователя, из под которого вы будете запускать werf:
+1. Для применения изменений перезайдем в учетную запись Windows, либо выполним команду:
 ```powershell
-addSymLinkPermissions("YOUR_USERNAME_HERE")
+gpupdate /force
 ```
-1. Выйдем из учётной записи Windows, после чего зайдите снова, чтобы изменения применились.
 {% endofftopic %}
 
 ## Создадим новый репозиторий с демо-приложением
