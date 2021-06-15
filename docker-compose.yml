@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  guides:
+    image: $WERF_FRONTEND_DOCKER_IMAGE_NAME
+  front:
+    image: nginx:latest
+    volumes:
+      - ".werf/nginx-dev.conf:/etc/nginx/nginx.conf:ro"
+    ports:
+      - "80:80"
