@@ -23,6 +23,8 @@ entries:
           url: "200_real_apps/25_logging.html"
         - title: Генерируем и раздаём ассеты
           url: "200_real_apps/30_assets.html"
+        - title: Инициализация БД и миграции
+          url: "200_real_apps/40_db_init_and_migrations.html"
         - title: Работа с файлами
           url: "200_real_apps/50_files.html"
         - title: Работа с электронной почтой

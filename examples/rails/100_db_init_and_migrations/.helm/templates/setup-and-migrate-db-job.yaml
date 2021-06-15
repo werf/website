@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "setup-and-migrate-db-rev{{ .Release.Revision }}"
+  annotations:
+    werf.io/skip-logs-for-containers: "wait-db-deployed"
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+      - name: registrysecret
+      initContainers:
+      - name: wait-db-deployed
+        image: "bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}"
+        command:
+        - sh
+        - -ec
+        - |
+          sleep 2
+          kubectl rollout status statefulset/mysql
+      containers:
+      - name: setup-and-migrate-db
+        image: {{ .Values.werf.image.basicapp | quote }}
+        command: ["bundle", "exec", "rails", "db:prepare"]
+        env:
+        - name: "RAILS_ENV"
+          value: "production"
+        - name: "SECRET_KEY_BASE"
+          value: "b3961a122598974241215adb93e7ca326f39d9c0268bbc39817c27bb929526c0edda2fb7641cf88af58fb2a7ebf6fe010970d0a7245b87271c3774be6d09bb6c"

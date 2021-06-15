@@ -1,2 +1,9 @@
-development:
-  url: mysql2://root:password@mysql/werf-guided-rails
+production:
+  adapter: mysql2
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: mysql
+  port: 3306
+  username: root
+  password: password
+  database: werf-guided-rails
+  encoding: utf8
