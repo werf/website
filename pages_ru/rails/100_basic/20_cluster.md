@@ -36,7 +36,7 @@ permalink: rails/100_basic/20_cluster.html
 
 ## Настройка Container Registry
 
-Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет любой Registry с TLS и аутентификацией ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), ...).
+Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет и любой другой Registry с TLS и аутентификацией ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), ...).
 
 Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guided-rails`, в котором будем хранить собираемые образы.
 
@@ -50,7 +50,7 @@ Login Succeeded
 
 Создаём Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
 ```bash
-kubectl create namespace werf-guided-rails  # Namespace'а для Secret'а ещё не существует, создадим его.
+kubectl create namespace werf-guided-rails  # Namespace для Secret'а ещё не существует, создадим его.
 kubectl create secret docker-registry registrysecret --docker-username='<имя пользователя Docker Hub>' --docker-password='<пароль пользователя Docker Hub>'
 ```
 
