@@ -283,19 +283,18 @@ kubectl get ingress kubernetes-basics-app
 Если несколько упрощать, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: kubernetes-basics-app.example.com`, быть перенаправленными на 80-й порт Service'а `kubernetes-basics-app`, а оттуда на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
 
 Попробуем достучаться до нашего приложения через Ingress:
-{% raw %}
-```bash
+
+```shell
 $ curl http://kubernetes-basics-app.example.com
 Alive.
 Our $MY_ENV_VAR value is "myEnvVarValue".
 ```
-{% endraw %}
 
 При этом Service-ресурсы нужны не только для связи Ingress'ов и приложения. Service-ресурсы также дают возможность ресурсам внутри кластера общаться между собой. При создании Service'а создается доменное имя `<ServiceName>.<NamespaceName>.svc.cluster.local`, доступное изнутри кластера. Также Service доступен и по более коротким доменным именам: `<ServiceName>` при обращении из того же Namespace или `<ServiceName>.<NamespaceName>` при обращении из другого.
 
 Попробуем создать новый контейнер, не имеющий отношения к нашему приложению, и обратиться из него к нашему приложению через Service:
-{% raw %}
-```bash
+
+```shell
 $ kubectl run another-kubernetes-basics-app --image=alpine --rm -it -- sh  # Запустим новый контейнер.
 / apk add curl  # Установим curl внутри контейнера.
 / curl http://kubernetes-basics-app  # Обратимся к одному из Pod'ов нашего приложения через Service.
@@ -303,13 +302,12 @@ Alive.
 Our $MY_ENV_VAR value is "myEnvVarValue".
 / exit
 ```
-{% endraw %}
 
 > Использование Ingress-ресурсов — не единственный способ получить доступ к приложению снаружи кластера. Service'ы типа LoadBalancer и NodePort позволяют предоставить доступ к приложению снаружи и без Ingress'ов. Почитать подробнее про Service'ы вы можете в [официальной документации](https://kubernetes.io/docs/concepts/services-networking/service/). А больше информации про Ingress'ы можно найти [здесь](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
-## Подчистка
+## Очистка
 
 Удалим созданные нами ресурсы, так как они нам больше не понадобятся:
-```bash
+```shell
 kubectl delete -f deployment.yaml -f service.yaml -f ingress.yaml
 ```
