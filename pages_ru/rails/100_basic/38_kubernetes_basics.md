@@ -3,14 +3,14 @@ title: Основы Kubernetes
 permalink: rails/100_basic/38_kubernetes_basics.html
 ---
 
-В этой главе мы рассмотрим основные ресурсы Kubernetes для развертывания приложений и для обеспечения доступа к ним изнутри и снаружи кластера.
+В этой главе мы рассмотрим основные ресурсы Kubernetes для развертывания приложений и обеспечения доступа к ним изнутри и снаружи кластера.
 
 ## Шаблоны, манифесты и ресурсы
 
 Werf при деплое использует YAML-манифесты, описывающие Kubernetes-ресурсы. Эти манифесты получаются из Helm-шаблонов, которые лежат в `.helm/templates` и `.helm/charts`.
 
 _Helm-шаблон_, описывающий Pod (один из Kubernetes-ресурсов), может лежать в `.helm/templates/pod.yaml` и выглядеть так:
-{% raw %}
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -22,10 +22,9 @@ spec:
     image: {{ $.Values.image }}  # Helm-шаблонизация, позволяет параметризовать имя образа для контейнера.
     command: ["tail", "-f", "/dev/null"]
 ```
-{% endraw %}
 
 Перед деплоем этот Helm-шаблон с помощью werf преобразуется в _манифест_, который выглядит так:
-{% raw %}
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -37,12 +36,14 @@ spec:
     image: alpine  # Если пользователь в качестве имени образа указал "alpine".
     command: ["tail", "-f", "/dev/null"]
 ```
-{% endraw %}
 
 А уже во время деплоя этот манифест становится _ресурсом_ Pod в Kubernetes-кластере. Посмотреть, как этот ресурс выглядит в кластере можно с помощью команды `kubectl get`:
-{% raw %}
-```yaml
+
+```shell
 $ kubectl get pod standalone-pod --output yaml
+```
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -59,7 +60,6 @@ status:
   podIP: 172.17.0.7
   startTime: "2021-06-02T13:17:47Z"
 ```
-{% endraw %}
 
 ## Запуск приложений
 
@@ -75,21 +75,20 @@ status:
 * [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) — стандарт для деплоя stateful-приложений;
 * [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) — для деплоя приложений, которые должны быть запущены только по одному экземпляру на каждой Node (агенты для логирования, мониторинга);
 * [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) — для запуска разовых задач в Pod'ах (например, миграции базы данных);
-* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач в Pod'ах по расписанию (например, регулярная подчистка чего-либо);
+* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач в Pod'ах по расписанию (например, регулярная очистка чего-либо);
 
-Получить список ресурсов определенного типа в кластере можно с помощью `kubectl get`:
-{% raw %}
-```bash
+Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех pod, deployment, statefulset, job, cronjob из всех namespace):
+
+```shell
 kubectl get --all-namespaces pod
 kubectl get --all-namespaces deployment
 kubectl get --all-namespaces statefulset
 kubectl get --all-namespaces job
 kubectl get --all-namespaces cronjob
 ```
-{% endraw %}
 
-Также можно получить полную конфигурацию ресурса, если добавить в команду `kubectl get` опцию `--output yaml`:
-{% raw %}
+Также можно получить полную конфигурацию ресурса в yaml-формате, если добавить в команду `kubectl get` опцию `--output yaml`:
+
 ```yaml
 $ kubectl get --namespace default deployment somedeployment --output yaml
 ...
@@ -105,97 +104,125 @@ metadata:
   name: somepod
 ...
 ```
-{% endraw %}
 
 Чаще всего вам придется сталкиваться с ресурсом Deployment, поэтому рассмотрим его подробнее. Про остальные типы контроллеров вы можете прочесть в [документации к Kubernetes](https://kubernetes.io/docs/concepts/workloads/).
 
 ## Deployment
 
 Создадим в любой директории файл `deployment.yaml`, и опишем в нём Deployment для stateless-приложения:
-{% raw %}
+
 ```yaml
+# используемая версия API kubernetes
 apiVersion: apps/v1
-kind: Deployment  # Тип ресурса.
+# тип ресурса
+kind: Deployment
 metadata:
-  name: kubernetes-basics-app  # Имя Deployment'а.
+  # имя deployment
+  name: kubernetes-basics-app
 spec:
-  replicas: 2  # Можно развернуть несколько Pod'ов сразу.
+  # количество реплик (экземпляров) pod'ов
+  replicas: 2
+  # секция, описывающая параметры, по которым будет происходить выборка ресурсов для приложения в кластере
   selector:
+    # label, по которому будет происходить выборка
     matchLabels:
       app: kubernetes-basics-app
+  # секция, описывающая шаблон, по которому приложению будут назначаться значения параметров
   template:
     metadata:
+      # label ресурса
       labels:
         app: kubernetes-basics-app
     spec:
-      terminationGracePeriodSeconds: 60  # Сколько секунд есть у процессов Pod'а на graceful-завершение после получения TERM-сигнала при остановке Pod'а.
-      #####################################################################################################
-      # Описание конфигурации контейнеров Pod'а:
-      #####################################################################################################
+      # сколько секунд есть у процессов Pod'а на graceful-завершение после получения TERM-сигнала при остановке Pod'а.
+      terminationGracePeriodSeconds: 60
+      # описание конфигурации контейнеров Pod'а:
       containers:
-      - name: main  # Имя первого контейнера.
-        image: alpine  # Имя и тег образа контейнера.
+        # имя первого контейнера
+      - name: main
+        # имя и тег образа контейнера
+        image: alpine
         command:
-          # Основная команда контейнера, начнёт выполняться при его запуске:
+          # основная команда контейнера, начнёт выполняться при его запуске:
           - sh
           - -ec
           - |
             while true; do
               echo -e "HTTP/1.1 200 OK\n\nAlive.\nOur \$MY_ENV_VAR value is \"$MY_ENV_VAR\"." | nc -l -s 0.0.0.0 -p 80
             done
+        # секция, описывающая используемые порты приложения
         ports:
-        - containerPort: 80  # Открытый порт, на котором будет слушать приложение.
+          # открытый порт, на котором будет слушать приложение.
+        - containerPort: 80
+        # секция, описывающая переменные окружения
         env:
-        - name: "MY_ENV_VAR"  # Имя дополнительной переменной окружения.
-          value: "myEnvVarValue"  # Значение дополнительной переменной окружения.
+          # имя дополнительной переменной окружения.
+        - name: "MY_ENV_VAR"
+          # Значение дополнительной переменной окружения.
+          value: "myEnvVarValue"
+        # секция, описывающая параметры приложения касательно "железных" ресурсов
         resources:
+          # требования к ресурсам
           requests:
-            cpu: 50m  # Не запускаться на Node'ах, которые не могут выделить 0.05 CPU.
-            memory: 50Mi  # Не запускаться на Node'ах, которые не могут выделить 50МБ RAM.
+            # не запускаться на Node'ах, которые не могут выделить 0.05 CPU
+            cpu: 50m
+            # не запускаться на Node'ах, которые не могут выделить 50МБ RAM
+            memory: 50Mi
+          # ограничения по использованию ресурсов
           limits:
-            cpu: 50m  # Hard-лимит на CPU, не позволит контейнеру расходовать больше.
-            memory: 50Mi  # Hard-лимит на RAM, при превышении ООМ-киллер остановит процессы контейнера.
+            # hard-лимит на CPU, не позволит контейнеру расходовать больше
+            cpu: 50m
+            # hard-лимит на RAM, при превышении ООМ-киллер остановит процессы контейнера
+            memory: 50Mi
+        # секция, описывающая действия, исполняющиеся во время жизненного цикла контейнера
         lifecycle:
           preStop:
             exec:
-              command: ["/bin/trigger-graceful-shutdown-for-my-app"]  # Запустится перед завершением контейнера.
-        startupProbe:  # Проверка готовности контейнера. При нескольких неудачах контейнер перезапустится.
+              # команда, котораяа запустится перед завершением контейнера
+              command: ["/bin/trigger-graceful-shutdown-for-my-app"]
+        # проверка готовности контейнера, при нескольких неудачах контейнер перезапустится
+        startupProbe:
+          # будет выполняться GET-запрос на http://<PodIP>:3000/startup.
           httpGet:
-            path: /startup  # Будет выполняться GET-запрос на http://<PodIP>:3000/startup.
+            path: /startup
             port: 80
-        readinessProbe:  # Проверка готовности контейнера, запускается после startupProbe. При нескольких неудачах трафик перестаёт идти на Pod через Service.
+        # проверка готовности контейнера, запускается после startupProbe, при нескольких неудачах трафик перестаёт идти на Pod через Service
+        readinessProbe:
           httpGet:
             path: /readiness
             port: 80
-        livenessProbe:  # Проверка работоспособности контейнера, запускается после startupProbe. При нескольких неудачах контейнер перезапускается.
+        # проверка работоспособности контейнера, запускается после startupProbe, при нескольких неудачах контейнер перезапускается
+        livenessProbe:
           httpGet:
             path: /liveness
             port: 80
-      #####################################################################################################
       # InitContainers используются для разовых задач, выполняющихся перед запуском основных контейнеров.
       # Основные контейнеры Pod'а не запустятся, пока не выполнятся initContainers.
-      #####################################################################################################
       initContainers:
         - name: wait-postgres
           image: postgres
           command: ["echo", "pg_isready", "-h", "postgres.example.com"]
 ```
-{% endraw %}
+
 > Этот пример не является примером того, как должен выглядеть production-ready Deployment. Лучшие практики по организации ресурсов для ваших приложений мы рассмотрим в следующих главах. Более подробное описание Deployment доступно в [официальной документации](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
 
 Создадим Deployment-ресурс в кластере на основе созданного файла `deployment.yaml` с помощью `kubectl apply`:
-```bash
+
+```shell
 kubectl apply -f deployment.yaml
 ```
+
 > В этой главе для деплоя вместо `werf converge` мы будем использовать `kubectl apply`. Он удобен для быстрого и простого создания ресурсов в кластере, но для деплоя реального приложения необходимо использовать `werf converge`.
 
 Убедимся, что наш Deployment создался:
-```bash
+
+```shell
 kubectl get deployment kubernetes-basics-app
 ```
 
 А теперь понаблюдаем за развертыванием Pod'ов, создаваемых нашим Deployment'ом:
-```bash
+
+```shell
 kubectl get pod -l app=kubernetes-basics-app
 ```
 
@@ -204,7 +231,7 @@ kubectl get pod -l app=kubernetes-basics-app
 С помощью Deployment мы можем развернуть наше stateless-приложение, но если пользователям или другим приложениям потребуется связываться с этим приложением изнутри или снаружи кластера, то нам потребуются два дополнительных ресурса — Ingress и Service.
 
 Создадим файл `ingress.yaml`:
-{% raw %}
+
 ```yaml
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -214,18 +241,19 @@ metadata:
   name: kubernetes-basics-app
 spec:
   rules:
-  - host: kubernetes-basics-app.example.com  # Домен, запросы на который будут обрабатываться в paths ниже.
+    # домен, запросы на который будут обрабатываться в paths ниже
+  - host: kubernetes-basics-app.example.com
     http:
       paths:
-      - path: /  # Запросы с префиксом / (все запросы) перенаправятся на порт 80 нашего Service'а.
+        # запросы с префиксом / (все запросы) перенаправятся на порт 80 нашего service
+      - path: /
         backend:
           serviceName: kubernetes-basics-app
           servicePort: 80
 ```
-{% endraw %}
 
 И создадим файл `service.yaml`:
-{% raw %}
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -233,20 +261,21 @@ metadata:
   name: kubernetes-basics-app
 spec:
   selector:
-    app: kubernetes-basics-app  # Этот Service перенаправляет трафик на Pod'ы с этим лейблом.
+    # этот service перенаправляет трафик на pod'ы с этим лейблом
+    app: kubernetes-basics-app
   ports:
   - name: http
-    port: 80  # Перенаправить трафик с 80 порта Service'а на 80 порт Pod'а.
+    # перенаправить трафик с 80 порта Service'а на 80 порт pod'а
+    port: 80
 ```
-{% endraw %}
 
 А теперь создадим ресурсы в кластере на основе этих манифестов:
-```bash
+```shell
 kubectl apply -f ingress.yaml -f service.yaml
 ```
 
 Убедимся, что наши ресурсы создались:
-```bash
+```shell
 kubectl get service kubernetes-basics-app
 kubectl get ingress kubernetes-basics-app
 ```
