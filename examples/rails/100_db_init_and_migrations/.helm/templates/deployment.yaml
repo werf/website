@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basicapp
+  annotations:
+    werf.io/skip-logs-for-containers: "wait-db-setup-and-migrations"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: basicapp
+  template:
+    metadata:
+      labels:
+        app: basicapp
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      initContainers:
+      - name: wait-db-setup-and-migrations
+        image: "bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}"
+        command:
+        - sh
+        - -ec
+        - |
+          sleep 2
+          kubectl wait --for condition=Complete "job/setup-and-migrate-db-rev{{ .Release.Revision }}"
+      containers:
+      - name: basicapp
+        image: {{ .Values.werf.image.basicapp | quote }}
+        command: ["bundle", "exec", "puma"]
+        ports:
+        - containerPort: 3000
+        env:
+        - name: "RAILS_ENV"
+          value: "production"
+        - name: "SECRET_KEY_BASE"
+          value: "b3961a122598974241215adb93e7ca326f39d9c0268bbc39817c27bb929526c0edda2fb7641cf88af58fb2a7ebf6fe010970d0a7245b87271c3774be6d09bb6c"

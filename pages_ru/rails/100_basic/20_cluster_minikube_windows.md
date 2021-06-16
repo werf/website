@@ -1,6 +1,6 @@
 ### Установка и запуск minikube
 
-Установим/обновим minikube, [следуя инструкциям здесь](https://minikube.sigs.k8s.io/docs/start/). Убедимся, что у нас используется самая свежая версия minikube, доступная по приведённой ссылке.
+Установим/обновим minikube, [следуя инструкциям проекта](https://minikube.sigs.k8s.io/docs/start/). Убедимся, что у нас используется самая свежая версия minikube, доступная по приведённой ссылке.
 
 Порт 80 должен быть свободен.
 
@@ -17,7 +17,7 @@ minikube start --driver=docker --namespace werf-guided-rails
 kubectl get --all-namespaces pod  # Должно показать список всех запущенных в кластере Pod'ов.
 ```
 
-Если все Pod'ы из полученного списка находятся в состояниях `Running` или `Completed` (4-й столбец), а в 3-м столбце в выражениях вроде `1/1` цифра слева от `/` равна цифре справа (т.е. контейнеры Pod'а успешно запустились) — значит кластер Kubernetes запущен и работает. Если не все Pod'ы успешно запустились, то подождите и снова выполните команду выше для получения статуса всех Pod'ов.
+Если все Pod'ы из полученного списка находятся в состояниях `Running` или `Completed` (4-й столбец), а в 3-м столбце (в выражениях вроде `1/1`) цифра слева от `/` равна цифре справа (т.е. контейнеры Pod'а успешно запустились) — кластер Kubernetes запущен и работает. Если не все Pod'ы успешно запустились, то подождите и снова выполните команду выше для получения статуса всех Pod'ов.
 
 ### Установка NGINX Ingress Controller
 
@@ -36,14 +36,14 @@ kubectl -n ingress-nginx get pod
 kubectl expose service -n ingress-nginx ingress-nginx-controller --name ingress-nginx-controller-lb --type LoadBalancer --port 80 --target-port http
 ```
 
-Теперь нам надо не забывать держать запущенным `minikube tunnel` в отдельном окне PowerShell для доступа к ресурсам в кластере через Ingress:
+Теперь нам надо не забывать держать запущенным `minikube tunnel` в отдельном окне PowerShell. Это необходимо для доступа к ресурсам в кластере через Ingress:
 ```bash
 minikube tunnel --cleanup=true
 ```
 
 ### Обновление файла hosts
 
-Для доступа к приложению мы будем использовать домен `example.com`, для этого обновим файл hosts (в PowerShell от администратора):
+Для доступа к приложению мы будем использовать домен `example.com`. Для этого обновим файл hosts (в PowerShell от администратора):
 ```powershell
 Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 example.com kubernetes-basics-app.example.com"
 ```
