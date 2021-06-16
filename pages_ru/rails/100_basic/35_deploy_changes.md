@@ -81,13 +81,13 @@ cd werf-guides/examples/rails/016_scale/
 git init --separate-git-dir ~/werf-guides-repo
 ```
 
-Коммитим изменения:
+Закоммитим изменения:
 ```shell
 git add .
 git commit -m go
 ```
 
-Запускаем выкат:
+Запустим выкат:
 ```shell
 werf converge --repo REPO
 ```
@@ -103,7 +103,7 @@ werf converge --repo REPO
 curl "http://URL:PORT/api/labels"
 ```
 
-Создаём новые labels из консоли:
+Создадим новые labels из консоли:
 ```shell
 curl -X POST "http://URL:PORT/api/labels/?label=red"
 curl -X POST "http://URL:PORT/api/labels/?label=hot"
@@ -111,7 +111,7 @@ curl -X POST "http://URL:PORT/api/labels/?label=blue"
 curl -X POST "http://URL:PORT/api/labels/?label=cold"
 ```
 
-Получаем обновлённый список labels:
+Получим обновлённый список labels:
 ```shell
 curl "http://URL:PORT/api/labels"
 ```
@@ -131,18 +131,18 @@ git init --separate-git-dir ~/werf-guides-repo
   - обновлённую схему БД [schema.rb](https://github.com/werf/werf-guides/tree/master/examples/rails/017_add_fields/db/schema.rb);
   - правки в [_label.json.jbuilder](https://github.com/werf/werf-guides/tree/master/examples/rails/017_add_fields/app/views/api/labels/_label.json.jbuilder), чтобы API выдавал не только `id` и имя `label`, но и поля `created_at` и `updated_at`.
 
-Коммитим изменения:
+Закоммитим изменения:
 ```shell
 git add .
 git commit -m go
 ```
 
-Запускаем выкат:
+Запустим выкат:
 ```shell
 werf converge --repo REPO
 ```
 
-Проверяем результат:
+Проверим результат:
 ```shell
 curl -X POST "http://URL:PORT/api/labels/?label=black"
 curl -X POST "http://URL:PORT/api/labels/?label=white"
@@ -170,13 +170,13 @@ git init --separate-git-dir ~/werf-guides-repo
     - [Gemfile](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/Gemfile)
     - [Gemfile.lock](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/Gemfile.lock)
 
-Коммитим изменения:
+Закоммитим изменения:
 ```shell
 git add .
 git commit -m go
 ```
 
-Запускаем выкат:
+Запустим выкат:
 ```shell
 werf converge --repo REPO
 ```
