@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debug-mails
+spec:
+  selector:
+    matchLabels:
+      app: debug-mails
+  template:
+    metadata:
+      labels:
+        app: debug-mails
+    spec:
+      containers:
+      - name: debug-mails
+        image: mailhog/mailhog:v1.0.1
+        ports:
+        - name: http
+          containerPort: 8025
+          protocol: TCP
+        - name: smtp
+          containerPort: 1025
+          protocol: TCP
+        livenessProbe:
+          tcpSocket:
+            port: smtp
+          initialDelaySeconds: 10
+          timeoutSeconds: 1
+        readinessProbe:
+          tcpSocket:
+            port: smtp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: debug-mails
+spec:
+  selector:
+    app: debug-mails
+  ports:
+  - name: http
+    port: 8025
+  - name: smtp
+    port: 1025
