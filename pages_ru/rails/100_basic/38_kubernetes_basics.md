@@ -3,7 +3,7 @@ title: Основы Kubernetes
 permalink: rails/100_basic/38_kubernetes_basics.html
 ---
 
-В этой главе мы рассмотрим основные ресурсы Kubernetes для развертывания приложений и для обеспечения доступа к ним изнутри и снаружи кластера.
+В этой главе мы рассмотрим основные ресурсы Kubernetes для развертывания приложений и обеспечения доступа к ним изнутри и снаружи кластера.
 
 ## Шаблоны, манифесты и ресурсы
 
@@ -43,6 +43,10 @@ spec:
 {% raw %}
 ```yaml
 $ kubectl get pod standalone-pod --output yaml
+```
+{% endraw %}
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -59,7 +63,6 @@ status:
   podIP: 172.17.0.7
   startTime: "2021-06-02T13:17:47Z"
 ```
-{% endraw %}
 
 ## Запуск приложений
 
@@ -76,11 +79,13 @@ status:
 * [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) — стандарт для деплоя stateful-приложений;
 * [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) — для деплоя приложений, которые должны быть запущены только по одному экземпляру на каждом узле (агенты для логирования, мониторинга);
 * [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) — для запуска разовых задач в Pod'ах (например, миграции базы данных);
-* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач в Pod'ах по расписанию (например, регулярная подчистка чего-либо).
+* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач 
+  в Pod'ах по расписанию (например, регулярная очистка чего-либо).
 
-Получить список ресурсов определенного типа в кластере можно с помощью `kubectl get`:
+Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех pod, deployment, statefulset, job, cronjob из всех namespace):
+
 {% raw %}
-```bash
+```shell
 kubectl get --all-namespaces pod
 kubectl get --all-namespaces deployment
 kubectl get --all-namespaces statefulset
@@ -89,7 +94,8 @@ kubectl get --all-namespaces cronjob
 ```
 {% endraw %}
 
-Полную конфигурацию ресурса можно получить, если добавить в команду `kubectl get` опцию `--output yaml` (она же может быть записана как `-o yaml`):
+Также можно получить полную конфигурацию ресурса в yaml-формате, если добавить в команду `kubectl get` опцию `--output yaml`:
+
 {% raw %}
 ```yaml
 $ kubectl get --namespace default deployment somedeployment --output yaml
@@ -115,6 +121,7 @@ metadata:
 Создадим в любой директории файл `deployment.yaml` и опишем в нём Deployment для stateless-приложения:
 {% raw %}
 ```yaml
+# используемая версия API kubernetes
 apiVersion: apps/v1
 kind: Deployment  # Тип ресурса.
 metadata:
@@ -122,22 +129,23 @@ metadata:
 spec:
   replicas: 2  # можно развернуть несколько Pod'ов сразу
   selector:
+    # label, по которому будет происходить выборка
     matchLabels:
       app: kubernetes-basics-app
+  # секция, описывающая шаблон, по которому приложению будут назначаться значения параметров
   template:
     metadata:
+      # label ресурса
       labels:
         app: kubernetes-basics-app
     spec:
       terminationGracePeriodSeconds: 60  # сколько секунд есть у процессов Pod'а на graceful-завершение после получения TERM-сигнала при остановке Pod'а
-      #####################################################################################################
-      # Описание конфигурации контейнеров Pod'а:
-      #####################################################################################################
+      # описание конфигурации контейнеров Pod'а:
       containers:
       - name: main  # имя первого контейнера
         image: alpine  # имя и тег образа контейнера
         command:
-          # Основная команда контейнера, начнёт выполняться при его запуске:
+          # основная команда контейнера, начнёт выполняться при его запуске:
           - sh
           - -ec
           - |
@@ -150,6 +158,7 @@ spec:
         - name: "MY_ENV_VAR"  # имя дополнительной переменной окружения
           value: "myEnvVarValue"  # значение дополнительной переменной окружения
         resources:
+          # требования к ресурсам
           requests:
             cpu: 50m  # не запускаться на Node'ах, которые не могут выделить 0.05 CPU
             memory: 50Mi  # не запускаться на Node'ах, которые не могут выделить 50 МБ RAM
@@ -160,7 +169,7 @@ spec:
           preStop:
             exec:
               command: ["/bin/trigger-graceful-shutdown-for-my-app"]  # запустится перед завершением контейнера
-        startupProbe:  # проверка готовности контейнера. При нескольких неудачах контейнер перезапустится
+        startupProbe:  # проверка готовности контейнера, при нескольких неудачах контейнер перезапустится
           httpGet:
             path: /startup  # будет выполняться GET-запрос на http://<PodIP>:3000/startup.
             port: 80
@@ -172,26 +181,28 @@ spec:
           httpGet:
             path: /liveness
             port: 80
-      #####################################################################################################
       # InitContainers используются для разовых задач, выполняющихся перед запуском основных контейнеров.
       # Основные контейнеры Pod'а не запустятся, пока не выполнятся initContainers.
-      #####################################################################################################
       initContainers:
         - name: wait-postgres
           image: postgres
           command: ["echo", "pg_isready", "-h", "postgres.example.com"]
 ```
 {% endraw %}
+
 > Этот пример не является примером того, как должен выглядеть production-ready Deployment. Лучшие практики по организации ресурсов для ваших приложений мы рассмотрим в следующих главах. Более подробное описание Deployment доступно в [официальной документации](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
 
 Создадим Deployment-ресурс в кластере на основе созданного файла `deployment.yaml` с помощью `kubectl apply`:
-```bash
+
+```shell
 kubectl apply -f deployment.yaml
 ```
+
 > В этой главе для деплоя вместо `werf converge` мы будем использовать `kubectl apply`. Он удобен для быстрого и простого создания ресурсов в кластере, но для деплоя реального приложения необходимо использовать `werf converge`.
 
 Убедимся, что наш Deployment создался:
-```bash
+
+```shell
 kubectl get deployment kubernetes-basics-app
 ```
 
@@ -242,12 +253,12 @@ spec:
 {% endraw %}
 
 А теперь создадим ресурсы в кластере на основе этих манифестов:
-```bash
+```shell
 kubectl apply -f ingress.yaml -f service.yaml
 ```
 
 Убедимся, что наши ресурсы создались:
-```bash
+```shell
 kubectl get service kubernetes-basics-app
 kubectl get ingress kubernetes-basics-app
 ```
