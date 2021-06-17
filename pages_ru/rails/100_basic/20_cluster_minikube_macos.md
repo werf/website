@@ -6,7 +6,7 @@
 
 Создаём новый Kubernetes-кластер с minikube:
 ```bash
-minikube delete  # Удалим существующий minikube-кластер (если он есть).
+minikube delete  # удалим существующий minikube-кластер (если он есть)
 minikube start --driver=hyperkit --namespace werf-guided-rails
 ```
 
@@ -14,7 +14,7 @@ minikube start --driver=hyperkit --namespace werf-guided-rails
 
 Теперь проверим работоспособность нового кластера Kubernetes:
 ```bash
-kubectl get --all-namespaces pod  # Должно показать список всех запущенных в кластере Pod'ов.
+kubectl get --all-namespaces pod  # должно показать список всех Pod'ов, запущенных в кластере
 ```
 
 Если все Pod'ы из полученного списка находятся в состояниях `Running` или `Completed` (4-й столбец), а в 3-м столбце (в выражениях вроде `1/1`) цифра слева от `/` равна цифре справа (т.е. контейнеры Pod'а успешно запустились) — кластер Kubernetes запущен и работает. Если не все Pod'ы успешно запустились, то подождите и снова выполните команду выше для получения статуса всех Pod'ов.
