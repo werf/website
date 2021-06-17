@@ -27,7 +27,7 @@ spec:
         app: basicapp
     spec:
       imagePullSecrets:
-      - name: registrysecret  # Имя ресурса Secret с логином и паролем для Docker Hub.
+      - name: registrysecret  # имя ресурса Secret с логином и паролем для Docker Hub
       containers:
       - name: basicapp
         command: ["/bin/bash", "-ec", "bundle exec rails db:migrate && bundle exec puma"]
