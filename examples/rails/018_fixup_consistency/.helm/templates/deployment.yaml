@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: basicapp
-  annotations:
-    werf.io/skip-logs-for-containers: "wait-db-deployed"
 spec:
   replicas: 2
   selector:
@@ -16,15 +14,6 @@ spec:
     spec:
       imagePullSecrets:
       - name: registrysecret
-      initContainers:
-      - name: wait-db-deployed
-        image: "bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}"
-        command:
-        - sh
-        - -ec
-        - |
-          sleep 2
-          kubectl rollout status statefulset/mysql
       containers:
       - name: basicapp
         image: {{ .Values.werf.image.basicapp | quote }}
@@ -32,6 +21,9 @@ spec:
         - sh
         - -ec
         - |
+          until mysqladmin -h mysql -P 3306 -u root -p=password ping; do
+            sleep 1
+          done
           bundle exec rails db:prepare
           bundle exec puma
         ports:
