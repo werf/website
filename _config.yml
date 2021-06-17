@@ -9,10 +9,15 @@ highlighter: rouge
 
 plugins:
   - jekyll-assets
+  - jekyll-remote-plantuml
 
 assets:
   cdn:
     baseurl: true
+
+plantuml:
+  type: svg
+  assets: assets/images/plantuml_cache/
 
 markdown: kramdown
 kramdown:
