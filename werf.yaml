@@ -60,5 +60,5 @@ import:
   - image: guides_{{ $lang }}
     add: /guides/_site
     to: /site/{{ $lang }}
-    before: setup
+    after: setup
 {{ end -}}
