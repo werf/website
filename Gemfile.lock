@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/werf/third-party-jekyll-remote-plantuml.git
-  revision: 153945a5ce93641038d58e614e13054cccc13cc5
+  revision: 6b325878ab4a260248cc1401db9b511f3b514fc7
   specs:
     jekyll-remote-plantuml (0.1.4)
       jekyll (~> 3.5)
