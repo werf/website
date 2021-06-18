@@ -38,6 +38,7 @@ git:
       - _config.yml
       - _config_{{ $lang }}.yml
       - sitemap.xml
+      - examples
     stageDependencies:
       setup: ["**/*"]
 shell:
