@@ -9,6 +9,7 @@ highlighter: rouge
 
 plugins:
   - jekyll-assets
+  - jekyll_include_plugin
 
 assets:
   cdn:

@@ -70,23 +70,7 @@ git commit -m "initial"
 Реализуем логику сборки нашего приложения с [Dockerfile](https://docs.docker.com/engine/reference/builder/):
 
 {% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/rails/010_build/Dockerfile" %}
-{% raw %}
-```Dockerfile
-FROM ruby:2.7.1
-WORKDIR /app
-
-# Установим системные зависимости
-RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
-
-# Установим зависимости приложения
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
-RUN bundle install
-
-# Добавим в образ все остальные файлы из нашего репозитория, включая исходный код приложения
-COPY . .
-```
-{% endraw %}
+{% include_file "examples/rails/010_build/Dockerfile" syntax="Dockerfile" %}
 {% endsnippetcut %}
 
 ## Интеграция werf и Dockerfile
