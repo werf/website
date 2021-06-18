@@ -27,8 +27,8 @@ entries:
           url: "200_real_apps/40_db_init_and_migrations.html"
         - title: Работа с файлами
           url: "200_real_apps/50_files.html"
-        - title: Работа с электронной почтой
-          url: "200_real_apps/60_email.html"
+        - title: Периодическое выполнение заданий
+          url: "200_real_apps/60_cron.html"
         - title: Подключаем внешний PostgreSQL
           url: "200_real_apps/80_database.html"
         - title: Stateful-приложение
