@@ -10,7 +10,7 @@ ___
 Up site and synchronize the state in case of local changes:
 
 ```shell
-werf compose up --dev --follow --docker-compose-command-options='-d'
+werf compose up --env development --dev --docker-compose-command-options='-d'
 ```
 
 Now you can access the site:
