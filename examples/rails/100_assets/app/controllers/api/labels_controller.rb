@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api
-  class LabelsController < ApplicationController
+  class LabelsController < ApiController
     before_action :find_label, only: %i[show update destroy]
 
     def index
