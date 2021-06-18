@@ -2,5 +2,10 @@ project: werf-guided-rails
 configVersion: 1
 
 ---
-image: basicapp
+image: backend
 dockerfile: Dockerfile
+target: backend
+---
+image: frontend
+dockerfile: Dockerfile
+target: frontend
