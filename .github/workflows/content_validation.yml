@@ -7,6 +7,9 @@ on:
       - '**/*.md'
       - '**/*.html'
 
+env:
+  WERF_ENV: "production"
+
 jobs:
   check_links:
     container: jekyll/builder:3
