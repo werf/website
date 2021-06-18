@@ -1,0 +1,27 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cleanup-labels
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 7200
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: Never
+          imagePullSecrets:
+          - name: registrysecret
+          containers:
+          - name: cleanup-labels
+            image: {{ .Values.werf.image.basicapp }}
+            command: [ '/bin/bash', '-l', '-c', 'bundle exec rake crons:cleanup_labels' ]
+            env:
+            - name: "RAILS_ENV"
+              value: "production"
+            - name: "SECRET_KEY_BASE"
+              value: "b3961a122598974241215adb93e7ca326f39d9c0268bbc39817c27bb929526c0edda2fb7641cf88af58fb2a7ebf6fe010970d0a7245b87271c3774be6d09bb6c"
