@@ -3,7 +3,7 @@
 Build and run locally:
 ```shell
 echo "ru.localhost" | sudo tee -a /etc/hosts
-werf compose up --dev --follow --docker-compose-command-options='-d'
+werf compose up --env development --dev --docker-compose-command-options='-d'
 ```
 
 Now access the site:
