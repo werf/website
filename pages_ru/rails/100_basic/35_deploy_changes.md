@@ -39,12 +39,12 @@ NAME                      READY   STATUS    RESTARTS   AGE
 basicapp-57789b68-kxcb9   1/1     Running   0          72m
 ```
 
-Поменяем вручную на 2 реплики:
+Поменяем вручную на 4 реплики:
 ```shell
 kubectl edit deployment basicapp
 ```
 
-В открывшемся редакторе выставляем `spec.replicas=2`, закрываем редактор.
+В открывшемся редакторе выставляем `spec.replicas=4`, закрываем редактор.
 Снова посмотрим, сколько реплик запущено:
 ```shell
 kubectl get pod
@@ -53,7 +53,9 @@ kubectl get pod
 Ответ станет примерно таким:
 ```shell
 NAME                      READY   STATUS    RESTARTS   AGE
-basicapp-57789b68-c2xlq   1/1     Running   0          6s
+basicapp-57789b68-nbdjb   1/1     Running   0          6s
+basicapp-57789b68-dkbgx   1/1     Running   0          6s
+basicapp-57789b68-c4thw   1/1     Running   0          6s
 basicapp-57789b68-kxcb9   1/1     Running   0          72m
 ```
 
@@ -71,15 +73,51 @@ NAME                      READY   STATUS    RESTARTS   AGE
 basicapp-57789b68-kxcb9   1/1     Running   0          72m
 ```
 
-Количество реплик соответствует таковому в Git-репозитории. Дело в том, что werf привела состояние кластера к состоянию, описанному в текущем Git-коммите. Этот принцип называется **гитерминизмом** (giterminism).
+Количество реплик снова соответствует таковому в Git-репозитории. Дело в том, что werf привела состояние кластера к состоянию, описанному в текущем Git-коммите. Этот принцип называется **гитерминизмом** (giterminism).
 
-Как же соблюсти **гитерминизм** и сделать всё правильно? Изменим тот же `spec.replicas`, но уже через состояние приложения, описанное в Git. 
+Как же соблюсти **гитерминизм** и сделать всё правильно? Выставим тот же `spec.replicas=4`, но уже через состояние приложения, описанное в Git — в файле `.helm/templates/deployment.yaml`:
 
-Перейдём к новому состоянию приложения, в котором выставлен `spec.replicas=2` для Deployment'а `basicapp`:
 ```shell
-cd werf-guides/examples/rails/016_scale/
-git init --separate-git-dir ~/werf-guides-repo
+cp ../werf-guides/examples/rails/016_scale/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
 ```
+
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/016_scale/.helm/templates/deployment.yaml" %}
+{% include_file "examples/rails/016_scale/.helm/templates/deployment.yaml" %}
+{% endsnippetcut %}
+
+Закоммитим изменения:
+```shell
+git add .
+git commit -m go
+```
+
+Запустим выкат:
+```shell
+werf converge --repo REPO
+```
+
+Проверим сколько реплик запущено теперь:
+
+```shell
+kubectl get pod
+```
+```shell
+NAME                      READY   STATUS    RESTARTS   AGE
+basicapp-57789b68-fsxlw   1/1     Running   0          7s
+basicapp-57789b68-pqs2n   1/1     Running   0          7s
+basicapp-57789b68-vx88n   1/1     Running   0          7s
+basicapp-57789b68-kxcb9   1/1     Running   0          72m
+```
+
+Вернём состояние в рабочей директории к начальному:
+
+```shell
+cp ../werf-guides/examples/rails/017_unscale/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
+```
+
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/017_scale/.helm/templates/deployment.yaml" %}
+{% include_file "examples/rails/017_scale/.helm/templates/deployment.yaml" %}
+{% endsnippetcut %}
 
 Закоммитим изменения:
 ```shell
@@ -120,16 +158,32 @@ curl "http://URL:PORT/api/labels"
 
 Добавим новые timestamp-поля для label: время его создания и обновления.
 
-Перейдём к новому состоянию приложения, в котором добавлены новые поля новые поля (`created_at` и `updated_at` в таблице `labels`):
+Внесём все необходимые изменения в нашу рабочую директорию:
+
 ```shell
-cd werf-guides/examples/rails/017_add_fields
-git init --separate-git-dir ~/werf-guides-repo
+cp ../werf-guides/examples/rails/018_add_fields/db/migrate/20210526202700_add_timestamps_to_labels.rb db/migrate/20210526202700_add_timestamps_to_labels.rb
+cp ../werf-guides/examples/rails/018_add_fields/db/schema.rb db/schema.rb
+cp ../werf-guides/examples/rails/018_add_fields/app/views/api/labels/_label.json.jbuilder app/views/api/labels/_label.json.jbuilder
 ```
 
 Внесённые изменения включают в себя:
-  - новый файл миграций [20210526202700_add_timestamps_to_labels.rb](https://github.com/werf/werf-guides/tree/master/examples/rails/017_add_fields/db/migrate/20210526202700_add_timestamps_to_labels.rb);
-  - обновлённую схему БД [schema.rb](https://github.com/werf/werf-guides/tree/master/examples/rails/017_add_fields/db/schema.rb);
-  - правки в [_label.json.jbuilder](https://github.com/werf/werf-guides/tree/master/examples/rails/017_add_fields/app/views/api/labels/_label.json.jbuilder), чтобы API выдавал не только `id` и имя `label`, но и поля `created_at` и `updated_at`.
+- новый файл миграций `20210526202700_add_timestamps_to_labels.rb`:
+
+    {% snippetcut name="db/migrate/20210526202700_add_timestamps_to_labels.rb" url="https://github.com/werf/werf-guides/blob/master/examples/rails/018_add_fields/db/migrate/20210526202700_add_timestamps_to_labels.rb" %}
+    {% include_file "examples/rails/018_add_fields/db/migrate/20210526202700_add_timestamps_to_labels.rb" %}
+    {% endsnippetcut %}
+
+- обновлённую схему БД `schema.rb`:
+
+    {% snippetcut name="db/schema.rb" url="https://github.com/werf/werf-guides/blob/master/examples/rails/018_add_fields/db/schema.rb" %}
+    {% include_file "examples/rails/017_scale/.helm/templates/deployment.yaml" %}
+    {% endsnippetcut %}
+
+- правки в `_label.json.jbuilder`, чтобы API выдавал не только `id` и имя `label`, но и поля `created_at` и `updated_at`:
+
+    {% snippetcut name="app/views/api/labels/_label.json.jbuilder" url="https://github.com/werf/werf-guides/blob/master/examples/rails/018_add_fields/app/views/api/labels/_label.json.jbuilder" %}
+    {% include_file "examples/rails/018_add_fields/app/views/api/labels/_label.json.jbuilder" %}
+    {% endsnippetcut %}
 
 Закоммитим изменения:
 ```shell
@@ -155,20 +209,48 @@ curl "http://URL:PORT/api/labels"
 
 В данный момент есть проблема: наше приложение использует БД SQLite в локальном файле, а мы добавили несколько реплик. Получается, что каждая реплика использует свою базу данных, а не общую. Это приведёт к тому, что запросы будут равномерно распределяться по репликам при создании и получении labels, а результаты запросов могут отличаться при перезапуске. Чтобы решить эту проблему, давайте переведем наше приложение на общую БД — MySQL.
 
-Перейдём к новому состоянию приложения, в котором оно переключено на MySQL:
+Внесём все необходимые изменения в нашу рабочую директорию:
 
 ```shell
-cd werf-guides/examples/rails/018_fixup_consistency
-git init --separate-git-dir ~/werf-guides-repo
+cp ../werf-guides/examples/rails/019_fixup_consistency/.helm/templates/database.yaml .helm/templates/database.yaml
+cp ../werf-guides/examples/rails/019_fixup_consistency/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
+cp ../werf-guides/examples/rails/019_fixup_consistency/config/database.yml config/database.yml
+cp ../werf-guides/examples/rails/019_fixup_consistency/Gemfile Gemfile
+cp ../werf-guides/examples/rails/019_fixup_consistency/Gemfile.lock Gemfile.lock
 ```
 
 Рассмотрим, какие изменения были внесены в приложение:
- - Создан новый [шаблон](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/.helm/templates/database.yaml) для запуска MySQL в кластере. В реальных приложениях MySQL запустить несколько сложнее, т.к. нужен persistent volume. Но в нашем случае для development-окружения это не требуется: БД будет терять все свои данные в случае перезапуска.
- - Deployment приложения адаптирован так, чтобы миграции запускались в init-контейнере. Также настройки SQLite более не нужны: [deployment.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/.helm/templates/deployment.yaml).
+ - Создан новый шаблон `database.yml` для запуска MySQL в кластере. В реальных приложениях MySQL запустить несколько 
+   сложнее, т.к. нужен persistent volume. Но в нашем случае для development-окружения это не требуется: БД будет терять все свои данные в случае перезапуска.
+
+    {% snippetcut name=".helm/templates/database.yml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/database.yml" %}
+    {% include_file "examples/rails/019_fixup_consistency/.helm/templates/database.yml" %}
+    {% endsnippetcut %}
+
+ - Deployment приложения адаптирован так, чтобы миграции запускались в init-контейнере. Также настройки SQLite более не нужны:
+
+    {% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/deployment.yaml" %}
+    {% include_file "examples/rails/019_fixup_consistency/.helm/templates/deployment.yaml" %}
+    {% endsnippetcut %}
+
  - Приложение настроено на работу с MySQL:
-    - [database.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/config/database.yml)
-    - [Gemfile](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/Gemfile)
-    - [Gemfile.lock](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/Gemfile.lock)
+    - `database.yaml`:
+
+        {% snippetcut name=".helm/templates/database.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
+        {% include_file "examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
+        {% endsnippetcut %}
+    
+    - `Gemfile`:
+
+        {% snippetcut name="Gemfile" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/Gemfile" %}
+        {% include_file "examples/rails/019_fixup_consistency/Gemfile" %}
+        {% endsnippetcut %}
+
+    - `Gemfile.lock`:
+
+        {% snippetcut name="Gemfile.lock" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/Gemfile.lock" %}
+        {% include_file "examples/rails/019_fixup_consistency/Gemfile.lock" %}
+        {% endsnippetcut %}
 
 Закоммитим изменения:
 ```shell

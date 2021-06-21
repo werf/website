@@ -16,11 +16,11 @@ layout: wip
 
 ## Подготовка
 
-Возьмём за основу web-приложение из раздела "первые шаги". Состояние директории `rails-app` должно соответствовать шагу `examples/rails/018_fixup_consistency`:
+Возьмём за основу web-приложение из раздела "первые шаги". Состояние директории `rails-app` должно соответствовать шагу `examples/rails/019_fixup_consistency`:
 
 ```
 git clone https://github.com/werf/werf-guides
-cp -r werf-guides/examples/rails/018_fixup_consistency rails-app
+cp -r werf-guides/examples/rails/019_fixup_consistency rails-app
 cd rails-app
 git init
 git add .
