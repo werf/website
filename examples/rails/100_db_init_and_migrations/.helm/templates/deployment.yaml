@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: basicapp
-  annotations:
-    werf.io/skip-logs-for-containers: "wait-db-setup-and-migrations"
 spec:
   replicas: 2
   selector:

@@ -2,8 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: "setup-and-migrate-db-rev{{ .Release.Revision }}"
-  annotations:
-    werf.io/skip-logs-for-containers: "wait-db-deployed"
 spec:
   backoffLimit: 0
   template:

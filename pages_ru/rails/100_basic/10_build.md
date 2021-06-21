@@ -80,12 +80,12 @@ git commit -m "initial"
 {% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/011_build_werf/werf.yaml" %}
 {% raw %}
 ```yaml
-project: werf-guided-rails  # Имя проекта, используется в имени Helm-релиза и имени Namespace.
+project: werf-guided-rails  # имя проекта, используется в имени Helm-релиза и имени Namespace
 configVersion: 1
 
 ---
-image: basicapp  # Имя образа, используется в Helm-шаблонах и в части werf-команд.
-dockerfile: Dockerfile  # Путь к Dockerfile, содержащему инструкции для сборки.
+image: basicapp  # имя образа, используется в Helm-шаблонах и в части команд werf
+dockerfile: Dockerfile  # путь к Dockerfile, содержащему инструкции для сборки
 ```
 {% endraw %}
 {% endsnippetcut %}
