@@ -17,6 +17,7 @@ spec:
       containers:
       - name: basicapp
         image: {{ .Values.werf.image.basicapp | quote }}
+        # [<snippet app-command>]
         command:
         - sh
         - -ec
@@ -26,6 +27,7 @@ spec:
           done
           bundle exec rails db:prepare
           bundle exec puma
+        # [<endsnippet app-command>]
         ports:
         - containerPort: 3000
         env:
