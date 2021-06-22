@@ -15,13 +15,13 @@ multilang: false
 
 Для того, чтобы организовать динамические окружения, необходимо, чтобы:
 
-* Домен, на котором разворачивается приложение, конфигурировался в объекте Ingress на основании значения из `.gitlab-ci.yml` (мы сделали это в главе «[Базовое приложение](020_basic.html)»).
+* Домен, на котором разворачивается приложение, конфигурировался в объекте Ingress на основании значения из `.gitlab-ci.yml` (мы сделали это в главе «[Базовое приложение](#)»).
 * В `.gitlab-ci.yml` было прописано создание и удаление review-окружений.
 * Во вновь создаваемых review-окружениях должен создаваться секрет с API-ключом для доступа к registry.
 
 Пропишем в`.gitlab-ci.yml` создание review-окружений:
 
-{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/120-dynamicenvs/.gitlab-ci.yml" %}
+{% snippetcut name=".gitlab-ci.yml" url="#" %}
 {% raw %}
 ```yaml
 Deploy to Review:
@@ -40,7 +40,7 @@ Deploy to Review:
 
 Создаваемые окружения нужно не забывать отключать: в противном случае ресурсы в кластере закончатся. Мы добавили зависимость `on_stop: Stop Review`, которая означает, что мы будем останавливать наше окружение стадией `Stop Review`. Сама стадия описывается следующим образом:
 
-{% snippetcut name=".gitlab-ci.yml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/120-dynamicenvs/.gitlab-ci.yml" %}
+{% snippetcut name=".gitlab-ci.yml" url="#" %}
 {% raw %}
 ```yaml
 Stop Review:
@@ -65,6 +65,6 @@ Stop Review:
 
 При таком CI-процессе можно выкатывать каждую ветку `feature/*` в отдельный namespace с изолированной базой данных, выполнять на ней необходимые миграции и, например, проводить тесты для данного окружения.
 
-Также необходимо организовать [доступ кластера к registry](020_basic/20_iac.html#registryaccess) в каждом создаваемом окружении.
+Также необходимо организовать [доступ кластера к registry](#) в каждом создаваемом окружении.
 
 
