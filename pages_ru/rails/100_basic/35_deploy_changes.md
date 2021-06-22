@@ -115,8 +115,8 @@ basicapp-57789b68-kxcb9   1/1     Running   0          72m
 cp ../werf-guides/examples/rails/017_unscale/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
 ```
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/017_scale/.helm/templates/deployment.yaml" %}
-{% include_file "examples/rails/017_scale/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/017_unscale/.helm/templates/deployment.yaml" %}
+{% include_file "examples/rails/017_unscale/.helm/templates/deployment.yaml" %}
 {% endsnippetcut %}
 
 Закоммитим изменения:
@@ -176,7 +176,7 @@ cp ../werf-guides/examples/rails/018_add_fields/app/views/api/labels/_label.json
 - обновлённую схему БД `schema.rb`:
 
     {% snippetcut name="db/schema.rb" url="https://github.com/werf/werf-guides/blob/master/examples/rails/018_add_fields/db/schema.rb" %}
-    {% include_file "examples/rails/017_scale/.helm/templates/deployment.yaml" %}
+    {% include_file "examples/rails/018_add_fields/.helm/templates/deployment.yaml" %}
     {% endsnippetcut %}
 
 - правки в `_label.json.jbuilder`, чтобы API выдавал не только `id` и имя `label`, но и поля `created_at` и `updated_at`:
@@ -220,10 +220,10 @@ cp ../werf-guides/examples/rails/019_fixup_consistency/Gemfile.lock Gemfile.lock
 ```
 
 Рассмотрим, какие изменения были внесены в приложение:
-- Создан новый шаблон `database.yml` для запуска MySQL в кластере. В реальных приложениях MySQL запустить несколько сложнее, т.к. нужен persistent volume. Но в нашем случае для development-окружения это не требуется: БД будет терять все свои данные в случае перезапуска.
+- Создан новый шаблон `database.yaml` для запуска MySQL в кластере. В реальных приложениях MySQL запустить несколько сложнее, т.к. нужен persistent volume. Но в нашем случае для development-окружения это не требуется: БД будет терять все свои данные в случае перезапуска.
 
-    {% snippetcut name=".helm/templates/database.yml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/database.yml" %}
-    {% include_file "examples/rails/019_fixup_consistency/.helm/templates/database.yml" %}
+    {% snippetcut name=".helm/templates/database.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
+    {% include_file "examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
     {% endsnippetcut %}
 
  - Deployment приложения адаптирован так, чтобы миграции запускались в init-контейнере. Также настройки SQLite более не нужны:
