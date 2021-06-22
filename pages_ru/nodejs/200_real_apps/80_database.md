@@ -55,7 +55,7 @@ try {
 
 Далее, внесём изменения в объект Deployment: пропишем новые переменные окружения и реализуем `initContainer`, который не даст запустить приложение, пока база данных не запустится.
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/deployment.yaml" %}
+{% snippetcut name=".helm/templates/deployment.yaml" url="#" %}
 {% raw %}
 ```yaml
 apiVersion: apps/v1
@@ -183,7 +183,7 @@ node
 
 По аналогии с Deployment мы будем использовать `initContainer`.
 
-{% snippetcut name=".helm/templates/migrations.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/gitlab-nodejs/080-database/.helm/templates/migrations.yaml" %}
+{% snippetcut name=".helm/templates/migrations.yaml" url="#" %}
 {% raw %}
 ```yaml
 apiVersion: batch/v1

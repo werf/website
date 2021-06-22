@@ -163,7 +163,7 @@ git init --separate-git-dir ~/werf-guides-repo
 ```
 
 Рассмотрим, какие изменения были внесены в приложение:
- - Создан новый [шаблон](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/.helm/templates/database.yml) для запуска MySQL в кластере. В реальных приложениях MySQL запустить несколько сложнее, т.к. нужен persistent volume. Но в нашем случае для development-окружения это не требуется: БД будет терять все свои данные в случае перезапуска.
+ - Создан новый [шаблон](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/.helm/templates/database.yaml) для запуска MySQL в кластере. В реальных приложениях MySQL запустить несколько сложнее, т.к. нужен persistent volume. Но в нашем случае для development-окружения это не требуется: БД будет терять все свои данные в случае перезапуска.
  - Deployment приложения адаптирован так, чтобы миграции запускались в init-контейнере. Также настройки SQLite более не нужны: [deployment.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/.helm/templates/deployment.yaml).
  - Приложение настроено на работу с MySQL:
     - [database.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/018_fixup_consistency/config/database.yml)

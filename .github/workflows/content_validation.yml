@@ -27,6 +27,7 @@ jobs:
         run: |
           bundle install
           mkdir -pm 777 .jekyll-cache _site
+          chmod -R 777 assets/images/plantuml_cache
 
       - name: Build
         run: bundle exec jekyll build --config _config.yml,_config_${{ matrix.lang }}.yml --baseurl /guides --destination _site/guides
