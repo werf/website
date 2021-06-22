@@ -22,7 +22,7 @@ kubectl describe deployment basicapp
 
 Deployment запускает Pod'ы. Логи пишутся в Pod'ах. Такой командой можно получить логи одного из запущенных Pod'ов:
 ```shell
-kubectl logs basicapp-57789b68-c2xlq
+kubectl logs basicapp-<podId>
 ```
 
 ### Масштабирование
@@ -125,7 +125,7 @@ git add .
 git commit -m go
 ```
 
-Запустим выкат:
+Запустим деплой:
 ```shell
 werf converge --repo REPO
 ```
@@ -185,13 +185,13 @@ cp ../werf-guides/examples/rails/018_add_fields/app/views/api/labels/_label.json
     {% include_file "examples/rails/018_add_fields/app/views/api/labels/_label.json.jbuilder" %}
     {% endsnippetcut %}
 
-Закоммитим изменения:
+Сделаем коммит изменений:
 ```shell
 git add .
 git commit -m go
 ```
 
-Запустим выкат:
+Запустим деплой:
 ```shell
 werf converge --repo REPO
 ```
@@ -251,18 +251,18 @@ cp ../werf-guides/examples/rails/019_fixup_consistency/Gemfile.lock Gemfile.lock
         {% include_file "examples/rails/019_fixup_consistency/Gemfile.lock" %}
         {% endsnippetcut %}
 
-Закоммитим изменения:
+Сделаем коммит изменений:
 ```shell
 git add .
 git commit -m go
 ```
 
-Запустим выкат:
+Запустим деплой:
 ```shell
 werf converge --repo REPO
 ```
 
-Дождёмся выполнения команды. Заметьте, что в процессе работы в логах могут появляться ошибки подключения к БД, потому что контейнер с ней ещё не успел запуститься. Это нормально: необходимо дождаться полного запуска приложения.
+Дождёмся выполнения команды. Заметьте, что в процессе работы в логах могут появляться ошибки подключения к БД, потому что контейнер с ней ещё не успел запуститься. Это нормально - необходимо дождаться полного запуска приложения.
 
 Проверим создание и получение labels и увидим консистивное поведение:
 ```shell
