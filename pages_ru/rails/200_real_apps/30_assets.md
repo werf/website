@@ -275,6 +275,7 @@ nginx.conf -> frontend
 
 Первым делом добавим образ с ассетами в наш Deployment и направим весь трафик на него:
 
+{% raw %}
 ```yaml
 # examples/rails/100_assets/.helm/templates/deployment.yaml
 
@@ -284,6 +285,7 @@ nginx.conf -> frontend
         ports:
           - containerPort: 80
 ```
+{% endraw %}
 
 ```yaml
 # examples/rails/100_assets/.helm/templates/service.yaml
@@ -322,6 +324,7 @@ spec:
 
 Следующим шагом создадим ConfigMap, данные которого будут раздаваться NGINX по адресу `/config/env.json`.
 
+{% raw %}
 ```yaml
 # examples/rails/100_assets/.helm/templates/configmap.yaml
 
@@ -332,6 +335,7 @@ metadata:
 data:
   env.json: {{ .Values.assetsValues | mustToJson | quote }}
 ```
+{% endraw %}
 
 При генерации json используется значение `assetsValues`, которое может быть задано с помощью values-файлов (в том числе секретных) и с помощью опций CLI.
 В нашем примере мы будем использовать values-файл `.helm/values.yaml` с расчетом на то, что на данном этапе выкатывается только production-окружение, данные статичны и не требуются секреты.
@@ -347,6 +351,7 @@ assetsValues:
 Для того, чтобы NGINX начал обслуживать эти данные, необходимо примонтировать их по определённому пути в контейнер `frontend`. 
 В нашем случае это путь `/www/config/env.json`.
 
+{% raw %}
 ```yaml
 # examples/rails/100_assets/.helm/templates/deployment.yaml
 
@@ -364,6 +369,7 @@ assetsValues:
           configMap:
             name: basicapp-configmap
 ```
+{% endraw %}
 
 ## Проверка
 

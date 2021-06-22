@@ -43,7 +43,13 @@ git:
 shell:
   setup:
     - cd /guides
+    - set -u
+    - export JEKYLL_ENV="{{ $.Env }}"
+    {{- if eq $.Env "development" }}
+    - bundle exec jekyll build -tV --config _config.yml,_config_dev.yml,_config_{{ $lang }}.yml --baseurl /guides --destination _site/guides
+    {{- else }}
     - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --baseurl /guides --destination _site/guides
+    {{- end }}
 ---
 {{ end -}}
 

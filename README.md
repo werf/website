@@ -3,14 +3,19 @@
 </p>
 ___
 
-## Local development
+## Development
 
 ### Running the site locally
 
 Up site and synchronize the state in case of local changes:
 
 ```shell
-werf compose up --dev --follow --docker-compose-command-options='-d'
+werf compose up --env development --dev --docker-compose-command-options='-d'
+```
+
+Now you can access the site:
+```shell
+curl localhost
 ```
 
 > To access the Russian version of the site add `ru.localhost` record in your `/etc/hosts`
