@@ -67,43 +67,26 @@ git commit -m "initial"
 
 > В Windows во избежание проблем при редактировании файлов рекомендуем использовать [Notepad++](https://notepad-plus-plus.org/downloads/) или любой другой редактор вместо стандартного Блокнота.
 
-Реализуем логику сборки нашего приложения с [Dockerfile](https://docs.docker.com/engine/reference/builder/):
+Реализуем логику сборки нашего приложения с [Dockerfile](https://docs.docker.com/engine/reference/builder/). Для этого добавим следующий `Dockerfile` в нашу рабочую директорию:
+
+```shell
+cp ../werf-guides/examples/rails/010_build/Dockerfile .
+```
 
 {% snippetcut name="Dockerfile" url="https://github.com/werf/werf-guides/blob/master/examples/rails/010_build/Dockerfile" %}
-{% raw %}
-```Dockerfile
-FROM ruby:2.7.1
-WORKDIR /app
-
-# Установим системные зависимости
-RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev curl
-
-# Установим зависимости приложения
-COPY Gemfile /app/Gemfile
-COPY Gemfile.lock /app/Gemfile.lock
-RUN bundle install
-
-# Добавим в образ все остальные файлы из нашего репозитория, включая исходный код приложения
-COPY . .
-```
-{% endraw %}
+{% include_file "examples/rails/010_build/Dockerfile" syntax="Dockerfile" %}
 {% endsnippetcut %}
 
 ## Интеграция werf и Dockerfile
 
 Создадим в корне репозитория основной файл конфигурации werf `werf.yaml`, в котором укажем, какой `Dockerfile` должен будет использоваться при сборке с werf:
 
-{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/011_build_werf/werf.yaml" %}
-{% raw %}
-```yaml
-project: werf-guided-rails  # Имя проекта, используется в имени Helm-релиза и имени Namespace.
-configVersion: 1
-
----
-image: basicapp  # Имя образа, используется в Helm-шаблонах и в части werf-команд.
-dockerfile: Dockerfile  # Путь к Dockerfile, содержащему инструкции для сборки.
+```shell
+cp ../werf-guides/examples/rails/010_build/werf.yaml .
 ```
-{% endraw %}
+
+{% snippetcut name="werf.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/010_build/werf.yaml" %}
+{% include_file "examples/rails/010_build/werf.yaml" %}
 {% endsnippetcut %}
 
 В `werf.yaml` может описываться сборка сразу нескольких образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться в [документации]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
