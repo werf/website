@@ -61,7 +61,7 @@ basicapp-57789b68-kxcb9   1/1     Running   0          72m
 
 Мы произвели масштабирование вручную. Теперь снова запустим `werf converge`:
 ```shell
-werf converge ...
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 И снова посмотрим, сколько реплик запущено:
@@ -93,7 +93,7 @@ git commit -m go
 
 Запустим выкат:
 ```shell
-werf converge --repo REPO
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 Проверим сколько реплик запущено теперь:
@@ -127,7 +127,7 @@ git commit -m go
 
 Запустим деплой:
 ```shell
-werf converge --repo REPO
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 ## Меняем приложение
@@ -193,7 +193,7 @@ git commit -m go
 
 Запустим деплой:
 ```shell
-werf converge --repo REPO
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 Проверим результат:
@@ -259,7 +259,7 @@ git commit -m go
 
 Запустим деплой:
 ```shell
-werf converge --repo REPO
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 Дождёмся выполнения команды. Заметьте, что в процессе работы в логах могут появляться ошибки подключения к БД, потому что контейнер с ней ещё не успел запуститься. Это нормально - необходимо дождаться полного запуска приложения.
