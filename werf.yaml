@@ -36,6 +36,7 @@ git:
       - assets
       - pages_{{ $lang }}
       - _config.yml
+      - _config_dev.yml
       - _config_{{ $lang }}.yml
       - sitemap.xml
     stageDependencies:
