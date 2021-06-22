@@ -48,7 +48,7 @@ git commit -m go
 Запустим деплой:
 
 ```shell
-werf converge --repo REPO
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 Проверим результат:

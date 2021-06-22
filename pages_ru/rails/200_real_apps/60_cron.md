@@ -91,7 +91,7 @@ git commit -m "Add cronjobs"
 Запускаем выкат:
 
 ```shell
-werf converge --repo REPO
+werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 #### Проверяем очистку устаревших labels
