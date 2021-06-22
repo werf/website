@@ -51,7 +51,14 @@ Login Succeeded
 Создаём Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
 ```bash
 kubectl create namespace werf-guided-rails  # namespace для Secret'а ещё не существует, создадим его
-kubectl create secret docker-registry registrysecret --docker-username='<имя пользователя Docker Hub>' --docker-password='<пароль пользователя Docker Hub>'
+kubectl create secret docker-registry registrysecret \
+  --docker-server='https://index.docker.io/v1/' \
+  --docker-username='<имя пользователя Docker Hub>' \
+  --docker-password='<пароль пользователя Docker Hub>'
 ```
+
+> Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого 
+> регистри. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
+> без опции, использовать значение по умолчание.
 
 Теперь окружение для работы готово.
