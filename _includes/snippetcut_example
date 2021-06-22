@@ -1,0 +1,36 @@
+{% comment %} Get base url {% endcomment %}
+{% assign base_url = "https://github.com/werf/werf-guides/blob/master" %}
+{% assign base_url_parts = base_url | split: "/" %}
+{% if base_url_parts.last == "/" %}
+  {% assign base_url_parts = base_url_parts | pop %}
+{% endif %}
+{% assign base_url = base_url_parts | join: "/" %}
+
+{% comment %} Get examples path {% endcomment %}
+{% assign examples_path_parts = include.examples | split: "/" %}
+{% if examples_path_parts.first == "/" %}
+  {% assign examples_path_parts = examples_path_parts | shift %}
+{% endif %}
+{% if examples_path_parts.last == "/" %}
+  {% assign examples_path_parts = examples_path_parts | pop %}
+{% endif %}
+{% assign examples_path = examples_path_parts | join: "/" %}
+
+{% comment %} Get relative file path {% endcomment %}
+{% assign file_rel_path_parts = include.path | split: "/" %}
+{% if file_rel_path_parts.first == "/" %}
+  {% assign file_rel_path_parts = file_rel_path_parts | shift %}
+{% endif %}
+{% assign file_rel_path = file_rel_path_parts | join: "/" %}
+
+{% assign url = base_url | append: "/" | append: examples_path | append: "/" | append: file_rel_path %}
+{% assign file_path =  examples_path | append: "/" | append: file_rel_path %}
+
+{% comment %} Render {% endcomment %}
+{% snippetcut name="{{ file_rel_path }}" url="{{ url }}" %}
+  {% if include.snippet %}
+    {%- include_file "{{ file_path }}" syntax="{{ include.syntax }}" snippet="{{ include.snippet }}" %}
+  {% else %}
+    {%- include_file "{{ file_path }}" syntax="{{ include.syntax }}" %}
+  {% endif %}
+{% endsnippetcut %}
