@@ -8,6 +8,37 @@ examples_prev: examples/rails/019_fixup_consistency
 В этой главе мы рассмотрим наиболее корректные способы выполнять подготовку базы данных приложения к работе.
 
 {% include page_header.md.liquid %}
+<<<<<<< HEAD
+=======
+## Подготовка
+
+Находясь в инициализированном репозитории с нашим приложением необходимо выполнить следующие действия чтобы перейти к нужному состоянию репозитория:
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_windows')">Windows</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_macos_linux')">macOS/Linux</a>
+</div>
+
+<div id="tabs__db_init_and_migrations__prepare_windows" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
+
+```shell
+git reset --hard
+git rm -r .
+cp -Recurse -Force ../werf-guides/examples/rails/100_db_init_and_migrations/* .
+git add .
+```
+</div>
+<div id="tabs__db_init_and_migrations__prepare_macos_linux" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
+
+```shell
+git reset --hard
+git rm -r .
+cp -rT ../werf-guides/examples/rails/100_db_init_and_migrations .
+git add .
+```
+</div>
+
+Теперь вы можете увидеть все изменения, вносимые в этой главе, с помощью `git diff --staged`, а само состояние репозитория отражает состояние приложения после прохождения главы.
+>>>>>>> da60342... edited db_init doc
 
 ## Инициализация/миграции БД в отдельной Job
 
@@ -54,11 +85,13 @@ examples_prev: examples/rails/019_fixup_consistency
 ## Развертывание
 
 Попробуем задеплоить наше обновленное приложение:
+
 ```shell
 werf converge --dev --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 Результат успешного развертывания:
+
 ```shell
 │   ...
 │ ┌ Status progress
@@ -95,16 +128,18 @@ Release "werf-guided-rails" has been upgraded. Happy Helming!
 ## Использование базы данных, развернутой вне Kubernetes
 
 Наша Job ожидает доступности базы данных используя команду `kubectl rollout status`. Если же наша БД развернута за пределами нашего кластера Kubernetes, то нам понадобится другой способ проверять её готовность. Базы данных обычно имеют свои собственные утилиты для проверки своей доступности. Для MySQL это `mysqladmin ping`, который мы уже использовали в предыдущих главах. Обычно его использование выглядит так:
+
 ```shell
 until mysqladmin -h mysql -P 3306 -u root -p=password ping; do
   sleep 1
 done
 ```
+
 Это команда должна будет использоваться в Job вместо команды `kubectl rollout status`.
 
 ## Проверка доступности базы в Kubernetes без kubectl
 
-Стоит упомянуть, что доступность базы в кластере Kubernetes также можно проверять с помощью утилит вроде `mysqladmin ping`, без использования `kubectl`. Но, в таком случае, вызов `mysqladmin ping` нужно несколько доработать.
+Стоит упомянуть, что доступность базы в кластере Kubernetes также можно проверять с помощью утилит вроде `mysqladmin ping`, без использования `kubectl`. Но в таком случае вызов `mysqladmin ping` нужно несколько доработать.
 
 {% offtopic title="Зачем дорабатывать?" %}
 При переподнятии базы (например, при обновлении её StatefulSet), базе потребуется некоторое время на то, чтобы завершить работу, а потом некоторое время на то, чтобы снова её возобновить. Таким образом, если мы проверим доступность базы только единожды перед выполнением инициализации/миграций, то мы можем попасть на тот момент, когда база завершает работу, но ещё не завершила. После чего, во время запуска инициализации/миграций, база может окончательно завершить работу и оказаться временно недоступной.
@@ -113,6 +148,7 @@ done
 {% endofftopic %}
 
 Будем считать БД доступной только после 7 успешно выполненных команд `mysqladmin ping` подряд, с интервалом между повторными запусками `mysqladmin ping` в 2 секунды:
+
 ```yaml
 command:
 - sh
@@ -139,6 +175,7 @@ command:
 ## Helm Hooks как альтернативный способ задавать очередность деплоя
 
 Соблюдать очередность между запуском БД, подготовкой БД и запуском приложения можно также с помощью Helm Hooks. В таком случае Job для подготовки БД должна быть обычной Job при первом деплое, но становиться Helm Hook при повторных деплоях. Сделать это можно так:
+
 {% raw %}
 ```yaml
 kind: Job
