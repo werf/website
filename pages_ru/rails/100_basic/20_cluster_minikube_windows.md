@@ -48,4 +48,22 @@ minikube tunnel --cleanup=true
 Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 example.com kubernetes-basics-app.example.com"
 ```
 
-{% include_relative 20_cluster_minikube_check.md %}
+### Проверка
+
+Для проверки работоспособности необходимо открыть страницу в браузере или выполнить запрос через PowerShell:
+
+```shell
+Invoke-WebRequest -Uri http://example.com
+```
+
+Если домен `example.com` не используется приложениями в Kubernetes, то NGINX должен вернуть страницу 404:
+
+```html
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+```
