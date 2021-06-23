@@ -36,7 +36,21 @@ kubectl -n ingress-nginx get pod
 kubectl expose service -n ingress-nginx ingress-nginx-controller --name ingress-nginx-controller-lb --type LoadBalancer --port 80 --target-port http
 ```
 
-Теперь нам надо не забывать держать запущенным `minikube tunnel` в отдельном окне PowerShell. Это необходимо для доступа к ресурсам в кластере через Ingress:
+Важно проверить, что в нашей системе не занят 80-й порт. Следующая команда должна выдать пустой результат:
+```bash
+netstat -anb | grep :80
+```
+
+В случае если порт занят, то результат будет подобным:
+
+```bash
+TCP     0.0.0.0:80        0.0.0.0:0       LISTENING
+TCP     [::]:80           [::]:0          LISTENING
+```
+
+— в этом случае необходимо найти и остановить запущенный сервер.
+
+Теперь нам надо не забывать держать запущенным `minikube tunnel` в отдельном окне PowerShell. Это необходимо для доступа с нашего хоста к ресурсам в кластере через Ingress:
 ```bash
 minikube tunnel --cleanup=true
 ```
