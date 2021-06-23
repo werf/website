@@ -16,7 +16,7 @@ examples_prev: examples/rails/019_fixup_consistency
 </div>
 
 <div id="tabs__db_init_and_migrations__prepare_windows" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
-```shell
+```powershell
 git reset --hard
 git rm -r .
 cp -Recurse -Force ../werf-guides/examples/rails/100_db_init_and_migrations/* .
@@ -24,7 +24,7 @@ git add .
 ```
 </div>
 <div id="tabs__db_init_and_migrations__prepare_macos_linux" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
-```powershell
+```shell
 git reset --hard
 git rm -r .
 cp -rT ../werf-guides/examples/rails/100_db_init_and_migrations .
