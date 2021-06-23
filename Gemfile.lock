@@ -5,15 +5,6 @@ GIT
     jekyll-remote-plantuml (0.1.4)
       jekyll (~> 3.5)
 
-GIT
-  remote: https://github.com/flant/jekyll_include_plugin
-  revision: a5afbebb60e72c3beca951009f8aa40e242918c0
-  branch: master
-  specs:
-    jekyll_include_plugin (0.1.0)
-      jekyll (~> 3.9.1)
-      liquid (~> 4.0.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
