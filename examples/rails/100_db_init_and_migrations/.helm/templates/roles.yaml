@@ -1,3 +1,4 @@
+# [<ru>] Эта роль описывает набор прав, которые мы присвоим ServiceAccount'у.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -7,21 +8,26 @@ rules:
   - batch
   - apps
   resources:
+  # [<ru>] Разрешить доступ только к перечисленным ресурсам.
   - jobs
   - statefulsets
   verbs:
+  # [<ru>] Разрешить только read-only доступ к вышеупомянутым ресурсам.
   - get
   - list
   - watch
 ---
+# [<ru>] RoleBinding привязывает нашу роль к ServiceAccount'у.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: watch-resources
+# [<ru>] Привяжем эту роль...
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: watch-resources
+# [<ru>] ... к этому ServiceAccount.
 subjects:
 - kind: ServiceAccount
   name: default
