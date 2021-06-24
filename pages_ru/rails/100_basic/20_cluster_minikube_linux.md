@@ -37,5 +37,3 @@ kubectl -n ingress-nginx get pod
 ```bash
 echo "$(minikube ip) example.com kubernetes-basics-app.example.com" | sudo tee -a /etc/hosts
 ```
-
-{% include_relative 20_cluster_minikube_check.md %}

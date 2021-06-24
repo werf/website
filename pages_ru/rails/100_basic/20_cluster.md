@@ -34,6 +34,28 @@ permalink: rails/100_basic/20_cluster.html
 </div>
 {% endcomment %}
 
+## Проверка
+
+Для проверки работоспособности необходимо открыть страницу в браузере или использовать `сurl` в консоли:
+
+```shell
+curl http://example.com
+```
+
+Если всё работает как надо, то NGINX Ingress Controller вернёт ошибку 404:
+
+```html
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+```
+
+> Если у вас уже поднято приложение, на которое смотрит Ingress с доменом `example.com`, то вместо ошибки 404 вы получите ответ от своего приложения.
+
 ## Настройка Container Registry
 
 Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет и любой другой Registry с TLS и аутентификацией ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), ...).

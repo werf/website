@@ -61,5 +61,3 @@ minikube tunnel --cleanup=true
 ```powershell
 Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 example.com kubernetes-basics-app.example.com"
 ```
-
-{% include_relative 20_cluster_minikube_check.md %}
