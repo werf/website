@@ -84,3 +84,21 @@ kubectl create secret docker-registry registrysecret \
 > без опции, использовать значение по умолчание.
 
 Теперь окружение для работы готово.
+
+## Рабочее окружение работало, но перестало
+
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__stopped_working_minikube_windows')">Windows</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__stopped_working_minikube_macos')">macOS</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__stopped_working_minikube_linux')">Linux</a>
+</div>
+
+<div id="tab__install__stopped_working_minikube_windows" class="tabs__content tabs__install__content" markdown="1">
+{% include 100_basic/20_cluster_stopped_working_minikube_windows.md.liquid %}
+</div>
+<div id="tab__install__stopped_working_minikube_macos" class="tabs__content tabs__install__content" markdown="1">
+{% include 100_basic/20_cluster_stopped_working_minikube_macos.md.liquid %}
+</div>
+<div id="tab__install__stopped_working_minikube_linux" class="tabs__content tabs__install__content" markdown="1">
+{% include 100_basic/20_cluster_stopped_working_minikube_linux.md.liquid %}
+</div>
