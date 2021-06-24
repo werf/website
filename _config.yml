@@ -9,7 +9,7 @@ highlighter: rouge
 
 plugins:
   - jekyll-assets
-  - jekyll-remote-plantuml
+  - jekyll_remote_plantuml_plugin
   - jekyll_include_plugin
 
 assets:
@@ -17,8 +17,9 @@ assets:
     baseurl: true
 
 plantuml:
-  type: svg
-  assets: assets/images/plantuml_cache/
+  format: svg
+  save_images_locally: true
+  cache_dir: assets/images/plantuml_cache
 
 markdown: kramdown
 kramdown:

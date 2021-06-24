@@ -11,7 +11,7 @@ layout: wip
 Для повышения производительности приложения ответственность за работу со статическими файлами делегируется на отдельный веб-сервер.
 В качестве этого компонента будет использоваться NGINX, который будет раздавать ассеты, а также отвечать за роутинг и выступать в роли прокси-сервера. 
 
-{% uml %}
+{% plantuml %}
 package "Deployment" {
     node "Pod" {
         [frontend]
@@ -23,7 +23,7 @@ cloud "Ingress"
 
 Ingress - [frontend]
 [frontend] - [backend]
-{% enduml %}
+{% endplantuml %}
 
 С тем же успехом это мог быть Apache или любое другое популярное решение.
 
@@ -59,7 +59,7 @@ Ingress - [frontend]
 В этой статье будет показан пример реализации, который отвязан от самого приложения и реализуется за счёт инфраструктуры.
 Все необходимые параметры будут сохраняться в ConfigMap и доступны по зарезервированному адресу, используя который можно выстраивать логику в JS-файлах.
 
-{% uml %}
+{% plantuml %}
 package "Deployment" {
     node "Pod" {
         [frontend]
@@ -76,7 +76,7 @@ cloud "Ingress"
 Ingress - [frontend]
 [frontend] - [backend]
 [frontend] -- [env.json]
-{% enduml %}
+{% endplantuml %}
 
 {% offtopic title="Как выполнять эту функцию приложением?" %}
 
@@ -255,7 +255,7 @@ COPY --from=assets_builder /app/public/packs/manifest.json /app/public/packs/man
 
 Описанный Dockerfile можно представить следующим образом:
 
-{% uml %}
+{% plantuml %}
 file nginx.conf
 agent rails
 agent assets_builder
@@ -267,7 +267,7 @@ rails -- assets_builder
 assets_builder -> backend: manifest.json
 assets_builder ---> frontend: assets
 nginx.conf -> frontend
-{% enduml %}
+{% endplantuml %}
 
 Исходный код `nginx.conf` можно посмотреть в репозитории.
 
@@ -388,7 +388,7 @@ werf converge --repo <имя пользователя Docker Hub>/werf-guided-ra
 
 Под капотом это выглядит следующим образом:
 
-{% uml %}
+{% plantuml %}
 actor client
 skinparam responseMessageBelowArrow true
 
@@ -403,7 +403,7 @@ frontend -> client: /config/env.json
 client   -> frontend: /api/labels
 frontend -> backend: /api/labels
 backend  -> client: /api/labels
-{% enduml %}
+{% endplantuml %}
 
 Для того, чтобы убедиться в том, что это так, посмотрим логи NGINX.
 
