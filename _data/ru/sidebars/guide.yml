@@ -25,8 +25,8 @@ entries:
           url: "200_real_apps/30_assets.html"
         - title: Инициализация БД и миграции
           url: "200_real_apps/40_db_init_and_migrations.html"
-        - title: Работа с файлами
-          url: "200_real_apps/50_files.html"
+        - title: Подключаем приложение к S3
+          url: "200_real_apps/85_s3.html"
         - title: Периодическое выполнение заданий
           url: "200_real_apps/60_cron.html"
         - title: Подключаем внешний PostgreSQL
