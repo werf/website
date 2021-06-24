@@ -7,32 +7,7 @@ examples_prev: examples/rails/019_fixup_consistency
 
 В этой главе мы рассмотрим наиболее корректные способы выполнять подготовку базы данных приложения к работе.
 
-## Подготовка
-
-Находясь в инициализированном репозитории с нашим приложением:
-<div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_windows')">Windows</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_macos_linux')">macOS/Linux</a>
-</div>
-
-<div id="tabs__db_init_and_migrations__prepare_windows" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
-```powershell
-git reset --hard
-git rm -r .
-cp -Recurse -Force ../werf-guides/examples/rails/100_db_init_and_migrations/* .
-git add .
-```
-</div>
-<div id="tabs__db_init_and_migrations__prepare_macos_linux" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
-```shell
-git reset --hard
-git rm -r .
-cp -rT ../werf-guides/examples/rails/100_db_init_and_migrations .
-git add .
-```
-</div>
-
-Теперь вы можете увидеть все изменения, вносимые в этой главе, с помощью `git diff --staged`, а само состояние репозитория отражает состояние приложения после прохождения главы.
+{% include page_header.md.liquid %}
 
 ## Инициализация/миграции БД в отдельной Job
 

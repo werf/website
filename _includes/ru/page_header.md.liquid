@@ -1,0 +1,57 @@
+{% unless include.no_production_disclaimer %}
+> Примеры ниже не предназначены для использования в production-окружениях без доработки, т. к. эти примеры реализуют рекомендации только из этой главы. Вам потребуется применить на вашем приложении практики не только из этой главы, но и из остальных, для того, чтобы оно было готово к развертыванию в production.
+{% endunless %}
+
+{% unless include.no_prepare_cluster %}
+## Подготовка окружения
+
+Подготовьте рабочее окружение согласно инструкциями в главе ["Подготовка окружения"](../100_basic/20_cluster.html), если это ещё не сделано. Если же рабочее окружение была настроено и работало, но теперь не работает, либо же инструкции из этой главы не возвращают желаемый результат, то воспользуйтесь рекомендациями по восстановлению рабочего окружения:
+{% offtopic title="Восстановление работоспособности рабочего окружения" %}
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__page_header__btn" onclick="openTab(event, 'tabs__page_header__btn', 'tabs__page_header__content', 'tab__page_header__stopped_working_minikube_windows')">Windows</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__page_header__btn" onclick="openTab(event, 'tabs__page_header__btn', 'tabs__page_header__content', 'tab__page_header__stopped_working_minikube_macos')">macOS</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__page_header__btn" onclick="openTab(event, 'tabs__page_header__btn', 'tabs__page_header__content', 'tab__page_header__stopped_working_minikube_linux')">Linux</a>
+</div>
+
+<div id="tab__page_header__stopped_working_minikube_windows" class="tabs__content tabs__page_header__content" markdown="1">
+{% include 100_basic/20_cluster_stopped_working_minikube_windows.md.liquid %}
+</div>
+<div id="tab__page_header__stopped_working_minikube_macos" class="tabs__content tabs__page_header__content" markdown="1">
+{% include 100_basic/20_cluster_stopped_working_minikube_macos.md.liquid %}
+</div>
+<div id="tab__page_header__stopped_working_minikube_linux" class="tabs__content tabs__page_header__content" markdown="1">
+{% include 100_basic/20_cluster_stopped_working_minikube_linux.md.liquid %}
+</div>
+{% endofftopic %}
+{% endunless %}
+
+{% comment %} TODO(lesikov)
+{% unless include.no_prepare_repo %}
+## Подготовка репозитория
+
+Находясь в инициализированном репозитории с нашим приложением:
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_windows')">Windows</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_macos_linux')">macOS/Linux</a>
+</div>
+
+<div id="tabs__db_init_and_migrations__prepare_windows" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
+```powershell
+git reset --hard
+git rm -r .
+cp -Recurse -Force ../werf-guides/examples/rails/100_db_init_and_migrations/* .
+git add .
+```
+</div>
+<div id="tabs__db_init_and_migrations__prepare_macos_linux" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
+```shell
+git reset --hard
+git rm -r .
+cp -rT ../werf-guides/examples/rails/100_db_init_and_migrations .
+git add .
+```
+</div>
+
+Теперь вы можете увидеть все изменения, вносимые в этой главе, с помощью `git diff --staged`, а само состояние репозитория отражает состояние приложения после прохождения главы.
+{% endunless %}
+{% endcomment %}
