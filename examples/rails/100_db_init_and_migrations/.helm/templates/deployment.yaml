@@ -2,10 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: basicapp
-  annotations:
-    werf.io/skip-logs-for-containers: "wait-db-setup-and-migrations"
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: basicapp
@@ -16,19 +14,26 @@ spec:
     spec:
       imagePullSecrets:
       - name: registrysecret
+      # [<snippet wait-prepare-db-container>]
       initContainers:
       - name: wait-db-setup-and-migrations
+        # [<ru>] Выберем образ с утилитой kubectl, версия которой соответствует кластеру, в который происходит деплой.
         image: "bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}"
         command:
         - sh
         - -ec
         - |
+          # [<ru>] Перестрахуемся от возможных race conditions при деплое нового релиза.
           sleep 2
+          # [<ru>] Дождёмся выполнения Job с инициализацией/миграциями БД.
           kubectl wait --for condition=Complete "job/setup-and-migrate-db-rev{{ .Release.Revision }}"
+      # [<endsnippet wait-prepare-db-container>]
       containers:
       - name: basicapp
         image: {{ .Values.werf.image.basicapp | quote }}
+        # [<snippet app-command>]
         command: ["bundle", "exec", "puma"]
+        # [<endsnippet app-command>]
         ports:
         - containerPort: 3000
         env:

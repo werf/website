@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="327px" preserveAspectRatio="none" style="width:468px;height:327px;background:#FFFFFF;" version="1.1" viewBox="0 0 468 327" width="468px" zoomAndPan="magnify"><defs><filter height="300%" id="fql4vk8n6xkuf" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[fd0ee0ff1c5622e274e902f191c6e1f8]
+entity nginx.conf--><polygon fill="#FEFECE" filter="url(#fql4vk8n6xkuf)" points="16,279,16,315.2969,112,315.2969,112,289,102,279,16,279" style="stroke:#000000;stroke-width:1.5;"/><path d="M102,279 L102,289 L112,289 " fill="#FEFECE" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76" x="26" y="301.9951">nginx.conf</text><!--MD5=[a0352405abc99e9fdfb4326abf59178d]
+entity rails--><rect fill="#FEFECE" filter="url(#fql4vk8n6xkuf)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="49" x="276.5" y="7"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="29" x="286.5" y="29.9951">rails</text><!--MD5=[f9b4f7cf878ed8d32b92dab3bdd0a126]
+entity assets_builder--><rect fill="#FEFECE" filter="url(#fql4vk8n6xkuf)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="122" x="128" y="104"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="102" x="138" y="126.9951">assets_builder</text><!--MD5=[4e8ecd94af36cce41665c9f079adf9fd]
+entity backend--><rect fill="#FEFECE" filter="url(#fql4vk8n6xkuf)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="82" x="374" y="104"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="384" y="126.9951">backend</text><!--MD5=[b1e3d2dcb3697de9e6328d1cb436cbc4]
+entity frontend--><rect fill="#FEFECE" filter="url(#fql4vk8n6xkuf)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="84" x="147" y="279"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="64" x="157" y="301.9951">frontend</text><!--MD5=[03440bb99855b6d79479d4265ccda479]
+link rails to backend--><path d="M321.645,43.204 C342.305,60.421 373.903,86.752 394.509,103.924 " fill="none" id="rails-backend" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[bff0b296e4576764b118e4312f2b083c]
+link rails to assets_builder--><path d="M280.718,43.204 C260.419,60.421 229.376,86.752 209.131,103.924 " fill="none" id="rails-assets_builder" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[1e6e1b400cbb7fa121b0d8a5e20b6f37]
+link assets_builder to backend--><path d="M250.159,122 C287.385,122 334.194,122 368.41,122 " fill="none" id="assets_builder-to-backend" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="373.79,122,364.79,118,368.79,122,364.79,126,373.79,122" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="87" x="268.5" y="115.0669">manifest.json</text><!--MD5=[9f3fe529dd04a7d7d53c7bc1359b6737]
+link assets_builder to frontend--><path d="M189,140.22 C189,171.697 189,238.4954 189,273.5124 " fill="none" id="assets_builder-to-frontend" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="189,278.8493,193,269.8493,189,273.8493,185,269.8493,189,278.8493" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42" x="190" y="214.0669">assets</text><!--MD5=[5bbfd8d283457d9f4555be4d3334cbae]
+link nginx.conf to frontend--><path d="M112.3398,297 C122.115,297 131.89,297 141.665,297 " fill="none" id="nginx.conf-to-frontend" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="146.777,297,137.777,293,141.777,297,137.777,301,146.777,297" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[96a14c9c605f1db5b1b910e8df1d9a87]
+@startuml
+file nginx.conf
+agent rails
+agent assets_builder
+agent backend
+agent frontend
+
+rails - - backend
+rails - - assets_builder
+assets_builder -> backend: manifest.json
+assets_builder - - -> frontend: assets
+nginx.conf -> frontend
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 12:40:07 UTC 2021)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

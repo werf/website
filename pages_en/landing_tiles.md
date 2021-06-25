@@ -4,4 +4,4 @@ permalink: includes/landing-tiles.html
 sitemap_include: false
 ---
 
-{%- include landing_tiles.html %}
+{%- include common/landing_tiles.html %}

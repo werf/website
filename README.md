@@ -1,12 +1,23 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/werf/werf-guides/master/assets/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
+</p>
+___
+
 ## Development
 
-Build and run locally:
+### Running the site locally
+
+Up site and synchronize the state in case of local changes:
+
 ```shell
-echo "ru.localhost" | sudo tee -a /etc/hosts
-werf compose up --dev --follow --docker-compose-command-options='-d'
+werf compose up --dev --follow \
+                --env development \
+                --docker-compose-command-options="-d"
 ```
 
-Now access the site:
+Now you can access the site:
 ```shell
-curl ru.localhost
+curl localhost
 ```
+
+> To access the Russian version of the site add `ru.localhost` record in your `/etc/hosts`

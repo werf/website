@@ -1,0 +1,22 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-report
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 7200
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: Never
+          imagePullSecrets:
+          - name: registrysecret
+          containers:
+          - name: send-report
+            image: {{ .Values.werf.image.basicapp }}
+            command: [ '/bin/bash', '-l', '-c', 'curl -XPOST http://basicapp:3000/api/send-report' ]

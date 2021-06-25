@@ -25,8 +25,8 @@ entries:
           url: "200_real_apps/30_assets.html"
         - title: Storing files
           url: "200_real_apps/50_files.html"
-        - title: Working with e-mail
-          url: "200_real_apps/60_email.html"
+        - title: Running automated tasks
+          url: "200_real_apps/60_cron.html"
         - title: Connecting to external PostgreSQL
           url: "200_real_apps/80_database.html"
         - title: Stateful apps

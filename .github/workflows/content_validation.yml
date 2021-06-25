@@ -7,6 +7,9 @@ on:
       - '**/*.md'
       - '**/*.html'
 
+env:
+  WERF_ENV: "production"
+
 jobs:
   check_links:
     container: jekyll/builder:3
@@ -27,9 +30,10 @@ jobs:
         run: |
           bundle install
           mkdir -pm 777 .jekyll-cache _site
+          chmod -R 777 assets/images/plantuml_cache
 
       - name: Build
-        run: bundle exec jekyll build --config _config.yml,_config_${{ matrix.lang }}.yml --baseurl /guides --destination _site/guides
+        run: bundle exec jekyll build --config _config.yml,_config_dev.yml,_config_${{ matrix.lang }}.yml --baseurl /guides --destination _site/guides
 
       - name: Check links
         run: |
@@ -38,7 +42,7 @@ jobs:
             --empty-alt-ignore \
             --check_html \
             --file_ignore "/____________/" \
-            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/" \
+            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/,/guides\/(?!rails).*/" \
             --url-swap "github.com/werf/werf-guides/blob/master:github.com/werf/werf-guides/blob/$GITHUB_SHA,github.com/werf/werf-guides/tree/master:github.com/werf/werf-guides/tree/$GITHUB_SHA" \
             --http-status-ignore 0 \
             ./_site/

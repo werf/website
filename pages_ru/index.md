@@ -71,7 +71,7 @@ permalink: index.html
                     Начать погружение!
                 </h1>
 
-                {% include landing_tiles.html %}
+                {% include common/landing_tiles.html %}
             </div>
             <div class="landing__section">
                 <div class="landing__credits">

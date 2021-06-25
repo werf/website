@@ -1,0 +1,3 @@
+assetsValues:
+  environment: "Production"
+  link: "https://werf.io"

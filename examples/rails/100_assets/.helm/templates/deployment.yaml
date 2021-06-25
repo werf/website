@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basicapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basicapp
+  template:
+    metadata:
+      labels:
+        app: basicapp
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      containers:
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
+        command:
+        - sh
+        - -ec
+        - |
+          until mysqladmin -h mysql -P 3306 -u root -p=password ping; do
+            sleep 1
+          done
+          bundle exec rails db:prepare
+          bundle exec puma
+        ports:
+        - containerPort: 3000
+        env:
+        - name: "RAILS_ENV"
+          value: "production"
+        - name: "SECRET_KEY_BASE"
+          value: "b3961a122598974241215adb93e7ca326f39d9c0268bbc39817c27bb929526c0edda2fb7641cf88af58fb2a7ebf6fe010970d0a7245b87271c3774be6d09bb6c"
+      - name: frontend
+        command: [ "/usr/sbin/nginx" ]
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: env-json
+            mountPath: /www/config/env.json
+            subPath: env.json
+      volumes:
+        - name: env-json
+          configMap:
+            name: basicapp-configmap
