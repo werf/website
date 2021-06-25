@@ -70,7 +70,7 @@ Rake-файл, содержащий инструкции для cron распо�
 {% include_file "examples/rails/800_cron/lib/tasks/crons.rake" %}
 
 Helm-файл, необходимый для деплоя этого job в наше приложение расположен в  `.helm/templates/cleanup-labels.yaml`.
-{% include_file "examples/rails/800_cron/helm/templates/cleanup-labels.yaml" %}
+{% include_file "examples/rails/800_cron/.helm/templates/cleanup-labels.yaml" %}
 
 ### Периодическая отсылка отчётов по почте
 
