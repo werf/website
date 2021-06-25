@@ -91,7 +91,7 @@ git add .
 git commit -m go
 ```
 
-Запустим выкат:
+Запустим деплой:
 ```shell
 werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
