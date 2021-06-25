@@ -4,11 +4,7 @@ permalink: rails/200_real_apps/60_cron.html
 layout: wip
 ---
 
-В этой главе мы:
-- Покажем как запускать периодические фоновые задания (job) на примере rails rake tasks.
-- Расскажем что такое CronJob и чем он отличается от Job.
-- Расскажем для чего ещё можно использовать CronJob.
-- Ответим на часто возникающие вопросы связанные с CronJob.
+В этой главе мы покажем как запускать периодические фоновые задания (job) на примере rails rake tasks, а также расскажем что такое CronJob, чем он отличается от Job и для чего ещё можно использовать CronJob, а также ответим на часто возникающие вопросы связанные с CronJob.
 
 <cut>
 
@@ -36,6 +32,9 @@ echo "$(minikube ip) debug-mails.example.com" | sudo tee -a /etc/hosts
 
 ## Запускаем фоновые job
 
+Рассмотрим подробнее задания, которые будут реализованы для регулярного выполнения в фоне.
+
+### Подготовка приложения
 Чтобы добавить job в наше приложение нам необходимо скопировать файлы с кодом в наш репозиторий:
 
 ```shell
@@ -51,9 +50,7 @@ cp ../werf-guides/examples/rails/800_cron/.helm/templates/send-report.yaml .helm
 cp ../werf-guides/examples/rails/800_cron/lib/tasks/crons.rake lib/tasks/crons.rake
 ```
 
-Рассмотрим подробнее задания, которые будут реализованы для регулярного выполнения в фоне.
-
-### Очистка устаревших записей в таблице labels
+### Задание по очистке устаревших записей в таблице labels
 
 Job очищает записи в таблице labels с истекшим time to live имеющих срок жизни в 3 минуты.
 Задача может работать полностью автономно и не требует доступа к запущенному http-серверу.
@@ -66,13 +63,11 @@ CronJob будет создавать Job по описанному jobTemplate.
 
 Необходимые для реализации job helm-файл и файлы с кодом приложения:
 
-Rake-файл, содержащий инструкции для cron расположен в  `./lib/tasks/crons.rake`;
-{% include_file "examples/rails/800_cron/lib/tasks/crons.rake" %}
+[Rake-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/lib/tasks/crons.rake), содержащий инструкции для cron
 
-Helm-файл, необходимый для деплоя этого job в наше приложение расположен в  `.helm/templates/cleanup-labels.yaml`.
-{% include_file "examples/rails/800_cron/.helm/templates/cleanup-labels.yaml" %}
+[Helm-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/cleanup-labels.yaml, необходимый для деплоя этого job в наше приложение.
 
-### Периодическая отсылка отчётов по почте
+### Задание по периодической отсылке отчётов по почте
 
 Job отправляет e-mail с текущим количеством labels администратору системы, реализовано внутри http-сервера и инициируется специальным запросом по api: `/api/send-report`, суть job состоит в том чтобы сделать post-запрос на бекенд basicapp.
 Во избежание избыточного выполнения job одновременно на нескольких репликах инициировать его необходимо вне http-сервера с нашим приложением.
@@ -84,24 +79,17 @@ Job отправляет e-mail с текущим количеством labels 
 Инициировать выполнение этого задания можно либо средствами самого приложения, либо через CronJob (предпочтительный вариант, описанный ниже).
 {% endofftopic %}
 
-
 Внутри приложения за реализацию отправки отчетов отвечает метод контроллера labels `send_report`. Отправка происходит из самого http-сервера и реализована через специальный дебаг-smtp-сервер (mailhog), который деплоится вместе с нашим приложением по адресу `debug-mails.example.com` и позволяет просматривать перехваченные письма.
 Регулярный запуск job реализован через CronJob с именем `send-report` который будет создавать job по описанному jobTemplate и периодически запускаться каждую минуту.
 Каждая из job будет создавать pod который будет выполнять в отдельном контейнере запрос на http-сервер `/api/send-report`, в ответ на который сервер выполнит отправку -mail на почту администратору.
   
 Необходимые для реализации job helm-файлы и исходный код:
-- `app/controllers/api/labels_controller.rb`;
-{% include_file "examples/rails/800_cron/app/controllers/api/labels_controller.rb" %}
-- `app/mailers/notifications_mailer.rb`;
-{% include_file "examples/rails/800_cron/app/mailers/notifications_mailer.rb" %}
-- `app/views/notifications_mailer/labels_count_report_email.html.erb`;
-{% include_file "examples/rails/800_cron/app/views/notifications_mailer/labels_count_report_email.html.erb" %}
-- `.helm/templates/debug-mails.yaml`;
-{% include_file "examples/rails/800_cron/.helm/templates/debug-mails.yaml" %}
-- `.helm/templates/ingress.yaml`;
-{% include_file "examples/rails/800_cron/.helm/templates/ingress.yaml" %}
-- `.helm/templates/send-report.yaml`.
-{% include_file "examples/rails/800_cron/.helm/templates/send-report.yaml" %}
+[labels_controller.rb](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/app/controllers/api/labels_controller.rb);
+[notifications_mailer.rb](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/app/mailers/notifications_mailer.rb);
+[labels_count_report_email.html.erb](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/app/views/notifications_mailer/labels_count_report_email.html.erb);
+[debug-mails.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/debug-mails.yaml);
+[ingress.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/ingress.yaml);
+[send-report.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/send-report.yaml).
 
 ### Деплой и проверка работоспособности job
 
@@ -190,4 +178,4 @@ curl "http://example.com/api/labels"
     - CronJob инициирует работу обработчика следующего задания из этой очереди.
 - Инвалидация истекших пользовательских доступов в БД.
 - Очистка временных данных и устаревших пользовательских сессий в БД.
-- И т.п.
+- И другие.
