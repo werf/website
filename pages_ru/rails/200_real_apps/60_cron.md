@@ -95,7 +95,7 @@ Job отправляет e-mail с текущим количеством labels 
 - `app/mailers/notifications_mailer.rb`;
 {% include_file "examples/rails/800_cron/app/mailers/notifications_mailer.rb" %}
 - `app/views/notifications_mailer/labels_count_report_email.html.erb`;
-{% include_file "examples/rails/800_cron/views/notifications_mailer/labels_count_report_email.html.erb" %}
+{% include_file "examples/rails/800_cron/app/views/notifications_mailer/labels_count_report_email.html.erb" %}
 - `.helm/templates/debug-mails.yaml`;
 {% include_file "examples/rails/800_cron/.helm/templates/debug-mails.yaml" %}
 - `.helm/templates/ingress.yaml`;
