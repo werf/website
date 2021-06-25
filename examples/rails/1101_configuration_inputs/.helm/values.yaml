@@ -1,0 +1,27 @@
+baseUrl: "https://example.com"
+replicaCount: 1
+
+mysql:
+  host: mysql
+  username: root
+  # password set in .helm/secret-values.yaml
+  database: werf-guided-rails
+
+resources:
+  mysql:
+    requests:
+      memory: 1Gi
+      cpu: 500m
+    limits:
+      memory: 1Gi
+  basicapp:
+    requests:
+      memory: 150Mi
+      cpu: 25m
+    limits:
+      memory: 1Gi
+
+externalService:
+  endpoint: 1.2.3.4
+  id: werf-guided-rails
+  # accessKey set in .helm/secret-values.yaml
