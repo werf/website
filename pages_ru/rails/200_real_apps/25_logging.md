@@ -1,6 +1,7 @@
 ---
 title: Логирование
 permalink: rails/200_real_apps/25_logging.html
+examples: examples/rails/100_logging
 layout: wip
 ---
 
@@ -21,13 +22,17 @@ git init --separate-git-dir ~/werf-guides-repo
 
 В нашем случае дальнейший сбор и хранение логов, при необходимости, будет осуществляться отдельными решениями и это основной принципиальный момент - мы об этом не думаем и просто пишем в stdout/stderr.
 
-Конфигурацию логера приложения для всех окружений сделана в файле [application.rb](../100_basic/20_cluster_has_cluster.mdhttps://github.com/werf/werf-guides/blob/master/examples/rails/020_logging/config/application.rb) а стандартная конфигурация логера для production-окружения удалена из файла [production.rb](https://github.com/werf/werf-guides/blob/master/examples/rails/020_logging/config/environments/production.rb)
+Конфигурацию логера приложения для всех окружений сделана в файле {% include snippetcut_example path="config/application.rb" snippet="application.rb" syntax="ruby" examples=page.examples %}
+
+а стандартная конфигурация логера для production-окружения удалена из файла {% include snippetcut_example path="config/environments/production.rb" snippet="production.rb" syntax="ruby" examples=page.examples %}
+
 
 ## Логирование в приложении
 
 В наше приложение был добавлен новый метод POST `/api/generate-image`, использующий стандартный rails-логер через конструкцию `logger.debug`. На вход метода передаётся параметр `text` а на выходе генерируется png-картинка с переданным `text`.
 
-Полный листинг метода можно посмотреть в файле [images_controller.rb](https://github.com/werf/werf-guides/blob/master/examples/rails/100_logging/app/controllers/api/images_controller.rb)
+Полный листинг метода можно посмотреть в файле {% include snippetcut_example path="app/controllers/api/images_controller.rb" snippet="images_controller.rb" syntax="ruby" examples=page.examples %}
+
 
 ## Деплоим приложение
 
