@@ -22,9 +22,9 @@ git init --separate-git-dir ~/werf-guides-repo
 
 В нашем случае дальнейший сбор и хранение логов, при необходимости, будет осуществляться отдельными решениями и это основной принципиальный момент - мы об этом не думаем и просто пишем в stdout/stderr.
 
-Конфигурацию логера приложения для всех окружений сделана в файле {% include snippetcut_example path="config/application.rb" snippet="application.rb" syntax="ruby" examples=page.examples %}
+Конфигурацию логера приложения для всех окружений сделана в файле [config/application.rb]({{ "https://github.com/werf/werf-guides/blob/master/" | append: page.examples | append: "/config/application.rb" }})
 
-а стандартная конфигурация логера для production-окружения удалена из файла {% include snippetcut_example path="config/environments/production.rb" snippet="production.rb" syntax="ruby" examples=page.examples %}
+а стандартная конфигурация логера для production-окружения удалена из файла [config/environments/production.rb]({{ "https://github.com/werf/werf-guides/blob/master/" | append: page.examples | append: "/config/environments/production.rb" }})
 
 
 ## Логирование в приложении
