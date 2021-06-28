@@ -31,7 +31,7 @@ git init --separate-git-dir ~/werf-guides-repo
 
 В наше приложение был добавлен новый метод POST `/api/generate-image`, использующий стандартный rails-логер через конструкцию `logger.debug`. На вход метода передаётся параметр `text` а на выходе генерируется png-картинка с переданным `text`.
 
-Полный листинг метода можно посмотреть в файле {% include snippetcut_example path="app/controllers/api/images_controller.rb" snippet="images_controller.rb" syntax="ruby" examples=page.examples %}
+Полный листинг метода можно посмотреть в файле [app/controllers/api/images_controller.rb]({{ "https://github.com/werf/werf-guides/blob/master/" | append: page.examples | append: "/app/controllers/api/images_controller.rb" }})
 
 
 ## Деплоим приложение
