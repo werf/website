@@ -65,7 +65,7 @@ CronJob будет создавать Job по описанному jobTemplate.
 
 [Rake-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/lib/tasks/crons.rake), содержащий инструкции для cron
 
-[Helm-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/cleanup-labels.yaml, необходимый для деплоя этого job в наше приложение.
+[Helm-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/cleanup-labels.yaml), необходимый для деплоя этого job в наше приложение.
 
 ### Задание по периодической отсылке отчётов по почте
 
