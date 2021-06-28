@@ -61,7 +61,7 @@ Job очищает записи в таблице labels с истекшим tim
 Регулярный запуск job реализован через CronJob (о том, что это такое напишем далее) с именем `cleanup-labels` с периодичностью в одну минуту.
 CronJob будет создавать Job по описанному jobTemplate. Затем при помощи этих Job будут создавать Pod-ы, затем каждый запускаемый Pod выполнит в отдельном контейнере команду `rake crons:cleanup_labels`.
 
-Необходимые для реализации job helm-файл и файлы с кодом приложения:
+Необходимые для реализации job helm-файл и rake-файлы:
 
 [Rake-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/lib/tasks/crons.rake), содержащий инструкции для cron
 
