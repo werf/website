@@ -1,8 +1,14 @@
 ---
 title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
+examples_initial: examples/rails/015_deploy_app
+examples: examples/rails/016_scale
+examples_unscale: examples/rails/017_unscale
+examples_add_fields: examples/rails/018_add_fields
+examples_consistency: examples/rails/019_fixup_consistency
+description: |
+    Внесём изменения в уже выкаченное приложение и его инфраструктуру. Продемонстрируем, как работает подход infrastructure-as-code (IaC).
 ---
-Внесём изменения в уже выкаченное приложение и его инфраструктуру. Продемонстрируем, как работает подход infrastructure-as-code (IaC).
 
 ## Работаем с инфраструктурой
 ### Просмотр состояния
@@ -77,19 +83,7 @@ basicapp-57789b68-kxcb9   1/1     Running   0          72m
 
 Как же соблюсти **гитерминизм** и сделать всё правильно? Выставим тот же `spec.replicas=4`, но уже через состояние приложения, описанное в Git — в файле `.helm/templates/deployment.yaml`:
 
-```shell
-cp ../werf-guides/examples/rails/016_scale/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
-```
-
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/016_scale/.helm/templates/deployment.yaml" %}
-{% include_file "examples/rails/016_scale/.helm/templates/deployment.yaml" %}
-{% endsnippetcut %}
-
-Закоммитим изменения:
-```shell
-git add .
-git commit -m go
-```
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
 Запустим деплой:
 ```shell
@@ -109,21 +103,13 @@ basicapp-57789b68-vx88n   1/1     Running   0          7s
 basicapp-57789b68-kxcb9   1/1     Running   0          72m
 ```
 
-Вернём состояние в рабочей директории к начальному:
+Вернём состояние рабочей директории к предыдущему, с одной репликой:
 
-```shell
-cp ../werf-guides/examples/rails/017_unscale/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
-```
+{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_unscale from_scratch=false %}
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/017_unscale/.helm/templates/deployment.yaml" %}
-{% include_file "examples/rails/017_unscale/.helm/templates/deployment.yaml" %}
-{% endsnippetcut %}
+Проверим содержимое `.helm/templates/deployment.yaml`:
 
-Закоммитим изменения:
-```shell
-git add .
-git commit -m go
-```
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_unscale %}
 
 Запустим деплой:
 ```shell
@@ -132,7 +118,7 @@ werf converge --repo <имя пользователя Docker Hub>/werf-guided-ra
 
 ## Меняем приложение
 
-Наше приложение ­— это [CRUD](https://ru.wikipedia.org/wiki/CRUD) для создания labels. Ниже рассмотрим некоторые действия, которые можно выполнить с приложением.
+Наше приложение — это [CRUD](https://ru.wikipedia.org/wiki/CRUD) для создания labels. Ниже рассмотрим некоторые действия, которые можно выполнить с приложением.
 
 ### Работа с приложением
 
@@ -160,36 +146,20 @@ curl "http://URL:PORT/api/labels"
 
 Внесём все необходимые изменения в нашу рабочую директорию:
 
-```shell
-cp ../werf-guides/examples/rails/018_add_fields/db/migrate/20210526202700_add_timestamps_to_labels.rb db/migrate/20210526202700_add_timestamps_to_labels.rb
-cp ../werf-guides/examples/rails/018_add_fields/db/schema.rb db/schema.rb
-cp ../werf-guides/examples/rails/018_add_fields/app/views/api/labels/_label.json.jbuilder app/views/api/labels/_label.json.jbuilder
-```
+{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_add_fields from_scratch=false %}
 
 Внесённые изменения включают в себя:
 - новый файл миграций `20210526202700_add_timestamps_to_labels.rb`:
 
-    {% snippetcut name="db/migrate/20210526202700_add_timestamps_to_labels.rb" url="https://github.com/werf/werf-guides/blob/master/examples/rails/018_add_fields/db/migrate/20210526202700_add_timestamps_to_labels.rb" %}
-    {% include_file "examples/rails/018_add_fields/db/migrate/20210526202700_add_timestamps_to_labels.rb" %}
-    {% endsnippetcut %}
+    {% include snippetcut_example path="db/migrate/20210526202700_add_timestamps_to_labels.rb" syntax="ruby" examples=page.examples_add_fields %}
 
 - обновлённую схему БД `schema.rb`:
 
-    {% snippetcut name="db/schema.rb" url="https://github.com/werf/werf-guides/blob/master/examples/rails/018_add_fields/db/schema.rb" %}
-    {% include_file "examples/rails/018_add_fields/.helm/templates/deployment.yaml" %}
-    {% endsnippetcut %}
+    {% include snippetcut_example path="db/schema.rb" syntax="ruby" examples=page.examples_add_fields %}
 
 - правки в `_label.json.jbuilder`, чтобы API выдавал не только `id` и имя `label`, но и поля `created_at` и `updated_at`:
 
-    {% snippetcut name="app/views/api/labels/_label.json.jbuilder" url="https://github.com/werf/werf-guides/blob/master/examples/rails/018_add_fields/app/views/api/labels/_label.json.jbuilder" %}
-    {% include_file "examples/rails/018_add_fields/app/views/api/labels/_label.json.jbuilder" %}
-    {% endsnippetcut %}
-
-Сделаем коммит изменений:
-```shell
-git add .
-git commit -m go
-```
+    {% include snippetcut_example path="app/views/api/labels/_label.json.jbuilder" syntax="ruby" examples=page.examples_add_fields %}
 
 Запустим деплой:
 ```shell
@@ -211,52 +181,18 @@ curl "http://URL:PORT/api/labels"
 
 Внесём все необходимые изменения в нашу рабочую директорию:
 
-```shell
-cp ../werf-guides/examples/rails/019_fixup_consistency/.helm/templates/database.yaml .helm/templates/database.yaml
-cp ../werf-guides/examples/rails/019_fixup_consistency/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
-cp ../werf-guides/examples/rails/019_fixup_consistency/config/database.yml config/database.yml
-cp ../werf-guides/examples/rails/019_fixup_consistency/Gemfile Gemfile
-cp ../werf-guides/examples/rails/019_fixup_consistency/Gemfile.lock Gemfile.lock
-```
+{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_consistency from_scratch=false %}
 
 Рассмотрим, какие изменения были внесены в приложение:
- - Создан новый шаблон `database.yaml` для запуска MySQL в кластере. В реальных приложениях MySQL запустить несколько 
-   сложнее, т.к. нужен persistent volume. Но в нашем случае для development-окружения это не требуется: БД будет терять все свои данные в случае перезапуска.
-
-    {% snippetcut name=".helm/templates/database.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
-    {% include_file "examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
-    {% endsnippetcut %}
-
- - Deployment приложения адаптирован так, чтобы миграции запускались в init-контейнере. Также настройки SQLite более не нужны:
-
-    {% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/deployment.yaml" %}
-    {% include_file "examples/rails/019_fixup_consistency/.helm/templates/deployment.yaml" %}
-    {% endsnippetcut %}
-
- - Приложение настроено на работу с MySQL:
-    - `database.yaml`:
-
-        {% snippetcut name=".helm/templates/database.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
-        {% include_file "examples/rails/019_fixup_consistency/.helm/templates/database.yaml" %}
-        {% endsnippetcut %}
-    
-    - `Gemfile`:
-
-        {% snippetcut name="Gemfile" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/Gemfile" %}
-        {% include_file "examples/rails/019_fixup_consistency/Gemfile" %}
-        {% endsnippetcut %}
-
-    - `Gemfile.lock`:
-
-        {% snippetcut name="Gemfile.lock" url="https://github.com/werf/werf-guides/blob/master/examples/rails/019_fixup_consistency/Gemfile.lock" %}
-        {% include_file "examples/rails/019_fixup_consistency/Gemfile.lock" %}
-        {% endsnippetcut %}
-
-Сделаем коммит изменений:
-```shell
-git add .
-git commit -m go
-```
+* Создан новый шаблон `database.yaml` для запуска MySQL в кластере.
+{% include snippetcut_example path=".helm/templates/database.yaml" syntax="yaml" examples=page.examples_consistency %}
+* В Deployment'е приложения миграции будут запускаться прямо перед стартом самого приложения. Также настройки SQLite более не нужны:
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_consistency %}
+* Приложение настроено на работу с MySQL:
+{% include snippetcut_example path="config/database.yml" syntax="yaml" examples=page.examples_consistency %}
+* Добавлен Ruby Gem для использования MySQL:
+{% include snippetcut_example path="Gemfile" syntax="ruby" examples=page.examples_consistency %}
+{% include snippetcut_example path="Gemfile.lock" syntax="gemfile.lock" examples=page.examples_consistency %}
 
 Запустим деплой:
 ```shell
@@ -265,15 +201,15 @@ werf converge --repo <имя пользователя Docker Hub>/werf-guided-ra
 
 Дождёмся выполнения команды. Заметьте, что в процессе работы в логах могут появляться ошибки подключения к БД, потому что контейнер с ней ещё не успел запуститься. Это нормально - необходимо дождаться полного запуска приложения.
 
-Проверим создание и получение labels и увидим консистивное поведение:
+Проверим создание и получение labels и увидим консистентное поведение:
 ```shell
 curl -X POST "http://URL:PORT/api/labels/?label=name"
-curl "http://URL:PORT/api/labels/" 
+curl "http://URL:PORT/api/labels/"
 ```
 
 Так как у нас rails-приложение, мы когда-нибудь захотим зайти в работающий контейнер запущенного приложения и запустить там `rails console`. Это можно сделать вот так _(в общем случае это плохая практика, но допустимо на данном этапе для лучшей наглядности)_:
 ```shell
-kubectl exec -ti basicapp-57789b68-c2xlq -- bash
+kubectl exec -ti deployment/basicapp -- bash
 rails c
 ```
 
