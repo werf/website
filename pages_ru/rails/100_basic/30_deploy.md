@@ -1,77 +1,49 @@
 ---
 title: Деплой приложения
 permalink: rails/100_basic/30_deploy.html
+examples: examples/rails/015_deploy_app
+examples_initial: examples/rails/010_build
+description: |
+    В предыдущих главах мы собрали образ приложения и подготовили окружение для его развертывания. Теперь развернём приложение в ранее подготовленном кластере Kubernetes.
+
+    При деплое в Kubernetes используются Kubernetes-манифесты, которые описывают ресурсы (объекты Kubernetes), необходимые для работы приложений. Эти ресурсы включают в себя, к примеру, Deployment, отвечающий за запуск приложений в контейнерах, и Service/Ingress, отвечающие за доступ к запущенным приложениям изнутри и извне кластера.
 ---
-
-В предыдущих главах мы собрали образ приложения и подготовили окружение для его развертывания. Теперь развернём приложение в ранее подготовленном кластере Kubernetes.
-
-При деплое в Kubernetes используются Kubernetes-манифесты, которые описывают ресурсы (объекты Kubernetes), необходимые для работы приложений. Эти ресурсы включают в себя, к примеру, Deployment, отвечающий за запуск приложений в контейнерах, и Service/Ingress, отвечающие за доступ к запущенным приложениям изнутри и извне кластера.
 
 ## Deployment
 
-Ресурс Deployment создаёт набор ресурсов, запускающих приложение. Создадим для него файл `.helm/templates/deployment.yaml` с таким содержимым:
+Ресурс Deployment создаёт набор ресурсов, запускающих приложение. Он должен выглядеть так:
 
-```shell
-cp ../werf-guides/examples/rails/015_deploy_app/.helm/templates/deployment.yaml .helm/templates/deployment.yaml
-```
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
-{% snippetcut name=".helm/templates/deployment.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/deployment.yaml" %}
-{% include_file "examples/rails/015_deploy_app/.helm/templates/deployment.yaml" %}
-{% endsnippetcut %}
-
-Здесь мы создали шаблон werf для создания ресурса Deployment. Этот шаблон по сути является Helm-шаблоном, но с некоторой [дополнительной функциональностью]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html), которую предлагает werf. Например, конструкция {% raw %}`image: {{ .Values.werf.image.basicapp }}`{% endraw %} здесь используется для того, чтобы werf автоматически подставлял генерируемый тег образа (и имя образа) в поле `image`, так как тег образа становится известен только во время сборки.
+Здесь мы создали werf-шаблон для создания ресурса Deployment. Этот шаблон по сути является Helm-шаблоном, но с некоторой [дополнительной функциональностью]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html), которую предлагает werf. Например, конструкция {% raw %}`image: {{ .Values.werf.image.basicapp }}`{% endraw %} здесь используется для того, чтобы werf автоматически подставлял генерируемый тег образа (и имя образа) в поле `image`, так как тег образа становится известен только во время сборки.
 
 Werf пересобирает образы только при изменениях в файлах, указанных в `werf.yaml`, а также при изменении самого `werf.yaml`. При пересборке изменится и тег образа, что приведёт к обновлению Deployment'а. Если же изменений в вышеупомянутых файлах нет, то образ не пересоберётся, а Deployment и создаваемые им ресурсы не передплоятся, т.к. в этом просто нет необходимости: в кластере уже самая свежая версия приложения.
 
 ## Service
 
-Ресурс Service позволяет другим приложениям в кластере обращаться к нашему приложению. Создадим для него файл `.helm/templates/service.yaml` с таким содержимым:
+Ресурс Service позволяет другим приложениям в кластере обращаться к нашему приложению:
 
-```shell
-cp ../werf-guides/examples/rails/015_deploy_app/.helm/templates/service.yaml .helm/templates/service.yaml
-```
-
-{% snippetcut name=".helm/templates/service.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/service.yaml" %}
-{% include_file "examples/rails/015_deploy_app/.helm/templates/service.yaml" %}
-{% endsnippetcut %}
+{% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
 
 ## Ingress
 
-Ресурс Ingress позволяет открыть доступ к нашему приложению *снаружи* кластера (в отличие от Service, который разрешает доступ только между приложениями *внутри* кластера). В Ingress'е мы указываем, на какой Service должен пойти внешний трафик, который попадает на домен `example.com`. Создадим для Ingress'а файл `.helm/templates/ingress.yaml`:
+Ресурс Ingress позволяет открыть доступ к нашему приложению *снаружи* кластера (в отличие от Service, который разрешает доступ только между приложениями *внутри* кластера). В Ingress'е мы указываем, на какой Service должен пойти внешний трафик, который попадает на домен `example.com`. Опишем наш Ingress-ресурс в файле `.helm/templates/ingress.yaml`:
 
-```shell
-cp ../werf-guides/examples/rails/015_deploy_app/.helm/templates/ingress.yaml .helm/templates/ingress.yaml
-```
+{% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
 
-{% snippetcut name=".helm/templates/ingress.yaml" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/.helm/templates/ingress.yaml" %}
-{% include_file "examples/rails/015_deploy_app/.helm/templates/ingress.yaml" %}
-{% endsnippetcut %}
+Также наш домен должен быть указан в конфигурации Rails:
 
-Также добавим наш домен в конфигурацию Rails (`config/application.rb`):
-
-```shell
-cp ../werf-guides/examples/rails/015_deploy_app/config/application.rb config/application.rb
-```
-
-{% snippetcut name="config/application.rb" url="https://github.com/werf/werf-guides/blob/master/examples/rails/015_deploy_app/config/application.rb" %}
-{% include_file "examples/rails/015_deploy_app/config/application.rb" %}
-{% endsnippetcut %}
+{% include snippetcut_example path="config/application.rb" syntax="ruby" examples=page.examples %}
 
 ## Деплой в Kubernetes
 
-Сохраним изменения перед сборкой/деплоем:
-```bash
-git add .helm config
-git commit -m "Add deploy configuration"
-```
-
 Команда [werf converge]({{ site.url }}/documentation/reference/cli/werf_converge.html) выполнит сразу и сборку, и развертывание приложения в Kubernetes:
-```bash
+```shell
 werf converge --repo <имя пользователя Docker Hub>/werf-guided-rails
 ```
 
 Результат выполнения в случае успешной сборки и деплоя:
-```bash
+```shell
 ...
 │ basicapp/dockerfile  Successfully built 4c1054085159
 │ │ basicapp/dockerfile  Successfully tagged 93c05bf8-c459-4768-b388-3cdbc80e2868:latest

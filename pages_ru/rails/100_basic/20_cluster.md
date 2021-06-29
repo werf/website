@@ -1,9 +1,11 @@
 ---
 title: Подготовка окружения
 permalink: rails/100_basic/20_cluster.html
+chapter_initial_prepare_cluster: false
+chapter_initial_prepare_repo: false
+description: |
+  В этой главе мы подготовим кластер Kubernetes, Container Registry и локальное окружение для развертывания приложений.
 ---
-
-В этой главе мы подготовим кластер Kubernetes, Container Registry и локальное окружение для развертывания приложений.
 
 ## Развертывание кластера
 
@@ -63,7 +65,7 @@ curl http://example.com
 Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guided-rails`, в котором будем хранить собираемые образы.
 
 С помощью `docker login` получаем доступ с текущего компьютера к новому репозиторию, вводя логин и пароль от нашего пользователя на Docker Hub:
-```bash
+```shell
 $ docker login
 Username: <имя пользователя Docker Hub>
 Password: <пароль пользователя Docker Hub>
@@ -71,7 +73,7 @@ Login Succeeded
 ```
 
 Создаём Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
-```bash
+```shell
 kubectl create namespace werf-guided-rails  # namespace для Secret'а ещё не существует, создадим его
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
@@ -79,26 +81,28 @@ kubectl create secret docker-registry registrysecret \
   --docker-password='<пароль пользователя Docker Hub>'
 ```
 
-> Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого 
-> регистри. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
-> без опции, использовать значение по умолчание.
+> Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
+> registry. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
+> без опции и использовать значение по умолчанию.
 
 Теперь окружение для работы готово.
 
 ## Рабочее окружение работало, но перестало
 
-<div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__stopped_working_minikube_windows')">Windows</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__stopped_working_minikube_macos')">macOS</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__stopped_working_minikube_linux')">Linux</a>
-</div>
+Рабочее окружение работало, но перестало? Инструкции из этой главы не работают? Может помочь:
 
-<div id="tab__install__stopped_working_minikube_windows" class="tabs__content tabs__install__content" markdown="1">
-{% include 100_basic/20_cluster_stopped_working_minikube_windows.md.liquid %}
-</div>
-<div id="tab__install__stopped_working_minikube_macos" class="tabs__content tabs__install__content" markdown="1">
-{% include 100_basic/20_cluster_stopped_working_minikube_macos.md.liquid %}
-</div>
-<div id="tab__install__stopped_working_minikube_linux" class="tabs__content tabs__install__content" markdown="1">
-{% include 100_basic/20_cluster_stopped_working_minikube_linux.md.liquid %}
-</div>
+{% offtopic title="Работает ли Docker?" %}
+{% include 100_basic/20_cluster_docker_ready.md.liquid %}
+{% endofftopic %}
+
+{% offtopic title="Перезагружали компьютер после подготовки окружения?" %}
+{% include 100_basic/20_cluster_system_restarted_minikube.md.liquid %}
+{% endofftopic %}
+
+{% offtopic title="Случайно удаляли Namespace приложения?" %}
+{% include 100_basic/20_cluster_namespace_deleted.md.liquid %}
+{% endofftopic %}
+
+{% offtopic title="Ничего не помогло, окружение или инструкции по-прежнему не работают?" %}
+{% include 100_basic/20_cluster_nothing_helped.md.liquid %}
+{% endofftopic %}

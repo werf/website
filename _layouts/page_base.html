@@ -1,0 +1,38 @@
+---
+layout: default
+---
+
+<div class="page__container">
+    {% include layouts/breadcrumbs.html %}
+
+    <div class="layout-sidebar">
+        <div class="layout-sidebar__sidebar">
+            {% include layouts/sidebar.html %}
+            {% include layouts/ask_and_star_buttons.html %}
+        </div>
+        <div class="layout-sidebar__content">
+            <div class="content__header">
+                {%- if page.lang == 'en' %}
+                <div class="content__title">Deploying {% if page.framework_name %}<span>{{ page.framework_name }}</span> {% endif %}application to Kubernetes</div>
+                {%- else %}
+                <div class="content__title">Разворачиваем приложение {% if page.framework_name %}на <span>{{ page.framework_name }}</span> {% endif %}в среде Kubernetes</div>
+                {%- endif %}
+            </div>
+            <div class="docs">
+                {%- if page.name != '404.md' %}
+                <div class="btn-group editme">
+                    <a href="{{ site.editlink }}/{{ page.path }}" class="btn btn_o" id="editme_link" target="_blank">
+                        <span class="btn__icon btn__icon_github"></span>
+                        Source
+                    </a>
+                </div>
+                {%- endif %}
+                <h1 class="docs__title">{{ page.title }}</h1>
+                <div class="post-content">
+                    {{ content }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="action-toast"></div>

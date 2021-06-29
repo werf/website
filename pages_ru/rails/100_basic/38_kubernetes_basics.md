@@ -1,9 +1,11 @@
 ---
 title: Основы Kubernetes
 permalink: rails/100_basic/38_kubernetes_basics.html
+chapter_initial_prepare_cluster: false
+chapter_initial_prepare_repo: false
+description: |
+  В этой главе мы рассмотрим основные ресурсы Kubernetes для развертывания приложений и обеспечения доступа к ним изнутри и снаружи кластера.
 ---
-
-В этой главе мы рассмотрим основные ресурсы Kubernetes для развертывания приложений и обеспечения доступа к ним изнутри и снаружи кластера.
 
 ## Шаблоны, манифесты и ресурсы
 
@@ -25,7 +27,6 @@ spec:
 {% endraw %}
 
 Перед деплоем этот Helm-шаблон с помощью werf преобразуется в _манифест_, который выглядит так:
-{% raw %}
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -37,14 +38,11 @@ spec:
     image: alpine  # если пользователь в качестве имени образа указал "alpine"
     command: ["tail", "-f", "/dev/null"]
 ```
-{% endraw %}
 
 А уже во время деплоя этот манифест становится _ресурсом_ Pod в Kubernetes-кластере. Посмотреть, как этот ресурс выглядит в кластере, можно с помощью команды `kubectl get`:
-{% raw %}
 ```yaml
 kubectl get pod standalone-pod --output yaml
 ```
-{% endraw %}
 
 ```yaml
 apiVersion: v1
@@ -84,7 +82,6 @@ status:
 
 Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех pod, deployment, statefulset, job, cronjob из всех namespace):
 
-{% raw %}
 ```shell
 kubectl get --all-namespaces pod
 ```
@@ -124,7 +121,6 @@ kubectl get --all-namespaces statefulset
 kubectl get --all-namespaces job
 kubectl get --all-namespaces cronjob
 ```
-{% endraw %}
 
 Также можно получить полную конфигурацию ресурса в yaml-формате, если добавить в команду `kubectl get` опцию `--output yaml`:
 
@@ -133,7 +129,6 @@ kubectl get --namespace default deployment somedeployment --output yaml
 ```
 
 В ответ отобразится следующее:
-{% raw %}
 ```yaml
 ...
 kind: Deployment
@@ -148,14 +143,12 @@ metadata:
   name: somepod
 ...
 ```
-{% endraw %}
 
 Чаще всего вам придется сталкиваться с ресурсом Deployment, поэтому рассмотрим его подробнее. Про остальные типы контроллеров можно прочитать в [документации к Kubernetes](https://kubernetes.io/docs/concepts/workloads/).
 
 ## Deployment
 
 Создадим в любой директории файл `deployment.yaml` и опишем в нём Deployment для stateless-приложения:
-{% raw %}
 ```yaml
 # используемая версия API kubernetes
 apiVersion: apps/v1
@@ -224,7 +217,6 @@ spec:
           image: postgres
           command: ["echo", "pg_isready", "-h", "postgres.example.com"]
 ```
-{% endraw %}
 
 > Этот пример не является примером того, как должен выглядеть production-ready Deployment. Лучшие практики по организации ресурсов для ваших приложений мы рассмотрим в следующих главах. Более подробное описание Deployment доступно в [официальной документации](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
 
@@ -252,7 +244,6 @@ kubectl get pod -l app=kubernetes-basics-app
 С помощью Deployment мы можем развернуть наше stateless-приложение, но если пользователям или другим приложениям потребуется связываться с этим приложением изнутри или снаружи кластера, то нам потребуются два дополнительных ресурса: Ingress и Service.
 
 Создадим файл `ingress.yaml`:
-{% raw %}
 ```yaml
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -270,10 +261,8 @@ spec:
           serviceName: kubernetes-basics-app
           servicePort: 80
 ```
-{% endraw %}
 
 И создадим файл `service.yaml`:
-{% raw %}
 ```yaml
 apiVersion: v1
 kind: Service
@@ -286,7 +275,6 @@ spec:
   - name: http
     port: 80  # перенаправить трафик с 80-го порта Service'а на 80-й порт Pod'а
 ```
-{% endraw %}
 
 А теперь создадим ресурсы в кластере на основе этих манифестов:
 ```shell

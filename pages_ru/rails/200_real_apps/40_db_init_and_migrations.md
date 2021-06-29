@@ -2,40 +2,10 @@
 title: Инициализация БД и миграции
 permalink: rails/200_real_apps/40_db_init_and_migrations.html
 examples: examples/rails/100_db_init_and_migrations
-examples_prev: examples/rails/019_fixup_consistency
+examples_initial: examples/rails/019_fixup_consistency
+description: |
+  В этой главе мы рассмотрим наиболее корректные способы выполнять подготовку базы данных приложения к работе.
 ---
-
-В этой главе мы рассмотрим наиболее корректные способы выполнять подготовку базы данных приложения к работе.
-
-{% include page_header.md.liquid %}
-## Подготовка
-
-Находясь в инициализированном репозитории с нашим приложением необходимо выполнить следующие действия чтобы перейти к нужному состоянию репозитория:
-<div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_windows')">Windows</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__db_init_and_migrations__btn" onclick="openTab(event, 'tabs__db_init_and_migrations__btn', 'tabs__db_init_and_migrations__content', 'tabs__db_init_and_migrations__prepare_macos_linux')">macOS/Linux</a>
-</div>
-
-<div id="tabs__db_init_and_migrations__prepare_windows" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
-
-```shell
-git reset --hard
-git rm -r .
-cp -Recurse -Force ../werf-guides/examples/rails/100_db_init_and_migrations/* .
-git add .
-```
-</div>
-<div id="tabs__db_init_and_migrations__prepare_macos_linux" class="tabs__content tabs__db_init_and_migrations__content" markdown="1">
-
-```shell
-git reset --hard
-git rm -r .
-cp -rT ../werf-guides/examples/rails/100_db_init_and_migrations .
-git add .
-```
-</div>
-
-Теперь вы можете увидеть все изменения, вносимые в этой главе, с помощью `git diff --staged`, а само состояние репозитория отражает состояние приложения после прохождения главы.
 
 ## Инициализация/миграции БД в отдельной Job
 
@@ -63,7 +33,7 @@ git add .
 Так как теперь подготовка БД у нас происходит в Job, то нам потребуется убрать команды подготовки БД из команды запуска самого приложения. Также нам потребуется удалить команду `mysqladmin ping`, которую мы использовали для того, чтобы перед началом инициализации/миграций дожидаться развертывания БД.
 
 Было:
-{% include_file "{{ page.examples_prev | append: "/.helm/templates/deployment.yaml" }}" snippet="app-command" syntax="yaml" %}
+{% include_file "{{ page.examples_initial | append: "/.helm/templates/deployment.yaml" }}" snippet="app-command" syntax="yaml" %}
 
 Стало:
 {% include_file "{{ page.examples | append: "/.helm/templates/deployment.yaml" }}" snippet="app-command" syntax="yaml" %}
