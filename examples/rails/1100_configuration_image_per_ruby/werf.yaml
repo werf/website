@@ -1,0 +1,16 @@
+project: werf-guided-rails
+configVersion: 1
+
+# [<snippet image_per_ruby>]
+{{- $images := list -}}
+{{- $images = append $images (dict "Image" "basicapp-stable-ruby" "RubyVersion" "2.7.3") -}}
+{{- $images = append $images (dict "Image" "basicapp-experimental-ruby" "RubyVersion" "3.0.1") -}}
+
+{{- range $images }}
+---
+image: {{ .Image }}
+dockerfile: Dockerfile
+args:
+  RUBY_VERSION: {{ .RubyVersion }}
+{{- end }}
+# [<endsnippet image_per_ruby>]

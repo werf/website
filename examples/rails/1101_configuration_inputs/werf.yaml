@@ -1,0 +1,21 @@
+{{- $_ := set . "StableRubyVersion" "2.7.3" -}}
+{{- $_ := set . "ExperimentalRubyVersion" "3.0.1" -}}
+{{- $_ := set . "CacheVersion" "1" -}}
+{{- $_ := env "GITHUB_TOKEN" | set . "GithubToken" -}}
+
+project: werf-guided-rails
+configVersion: 1
+
+{{- $images := list -}}
+{{- $images = append $images (dict "Image" "basicapp-stable-ruby" "RubyVersion" .StableRubyVersion) -}}
+{{- $images = append $images (dict "Image" "basicapp-experimental-ruby" "RubyVersion" .ExperimentalRubyVersion) -}}
+
+{{- range $images }}
+---
+image: {{ .Image }}
+dockerfile: Dockerfile
+args:
+  RUBY_VERSION: {{ .RubyVersion }}
+  CACHE_VERSION: {{ $.CacheVersion }}
+  GITHUB_TOKEN: {{ $.GithubToken }}
+{{- end }}

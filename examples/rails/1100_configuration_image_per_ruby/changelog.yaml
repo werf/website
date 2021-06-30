@@ -1,0 +1,14 @@
+releases:
+- name: v1.2.10
+  message: |
+    This is fix release
+- name: v1.3.0
+  message: |
+    This is feature release
+- name: v1.3.1
+  message: |
+    - Fixed panics
+    - Fixed memory leaks
+- name: v1.4.0
+  message: |
+    Added new api method: /api/generate-image.

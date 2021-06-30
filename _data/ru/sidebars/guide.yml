@@ -33,6 +33,8 @@ entries:
           url: "200_real_apps/80_database.html"
         - title: Stateful-приложение
           url: "200_real_apps/90_stateful.html"
+        - title: Управление конфигурацией приложения
+          url: "200_real_apps/110_configuration.html"
 
     - title: Организация разработки
       url: "300_dev_process.html"
