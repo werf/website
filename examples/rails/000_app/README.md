@@ -1,126 +1,24 @@
-# demo application
+# README
 
-Приложение, хранящее список лейблов. В качестве места хранения используется БД sqlite.
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-Сделано по-минимуму, без валидаций, фильтраций и т.п. API обеспечивает простейший CRUD сущности с одним полем. В коде гарантированно есть уязвимости и ошибки.
+Things you may want to cover:
 
-## Конфигурирование
+* Ruby version
 
-Приложение конфигурируется переменными окружения
+* System dependencies
 
-- `SQLITE_FILE` — путь до файла базы SQLite 
+* Configuration
 
-## БД
+* Database creation
 
-Храним одну таблицу, `labels`. В таблице две колонки:
+* Database initialization
 
-- `id`
-- `label`
+* How to run the test suite
 
-## API
+* Services (job queues, cache servers, search engines, etc.)
 
-Все API могут выдать сообщение об ошибке вида
+* Deployment instructions
 
-```json
-{
-  "result": "error",
-  "comment": "table labels not found"
-}
-```
-
-Точный текст ошибки может отличаться, в ответе могут присутствовать дополнительные поля
-
-### GET /api/labels — список лейблов в базе
-
-Выдаёт список всех лейблов в базе. Без пагинации, фильтрации и т.п.
-
-```json
-[
-    {
-        "id": 1, 
-        "label": "xxx"
-    }
-]
-```
-
-или пустой список
-
-```json
-[]
-```
-
-
-### POST /api/labels — добавление лейбла
-
-Атрибутами получает описание лейбла:
-
-- `label` — строка
-
-Атрибуты передаются в теле запроса в формате `x-www-form-urlencoded`.
-
-Возвращает описание лейбла, как он теперь хранится в базе
-
-```json
-{
-  "id": 1,
-  "label": "xxx"
-}
-```
-
-Или сообщение об ошибке
-
-### GET /api/labels/<id> — описание лейбла
-
-Возвращает описание лейбла
-
-```json
-{
-  "id": 1, 
-  "label": "xxx"
-}
-```
-
-Или сообщение об ошибке
-
-```json
-{
-  "result": "error",
-  "comment": "entry not found"
-}
-```
-
-### POST /api/labels/<id> — изменение лейбла
-
-Атрибутами получает описание лейбла:
-
-- `label` — строка
-
-Атрибуты передаются в теле запроса в формате `x-www-form-urlencoded`.
-
-Возвращает описание лейбла, как он теперь хранится в базе
-
-```json
-{
-  "id": 1,
-  "label": "xxx"
-}
-```
-
-Или сообщение об ошибке
-
-```json
-{
-  "result": "error",
-  "comment": "entry not found"
-}
-```
-
-### DELETE /api/labels/<id> — удаление лейбла
-
-Возвращает сообщение об успешной операции
-
-```json
-{"result": true}
-```
-
-Или сообщение об ошибке.
+* ...
