@@ -16,9 +16,6 @@ spec:
       containers:
       - name: app
         image: {{ .Values.werf.image.app | quote }}
-        command:
-        - sh
-        - -ec
-        - start.sh
+        command: ["/app/start.sh"]
         ports:
-        - containerPort: 3000
+        - containerPort: 8000

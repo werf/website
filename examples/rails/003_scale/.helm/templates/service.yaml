@@ -7,4 +7,4 @@ spec:
     app: app
   ports:
   - name: http
-    port: 3000
+    port: 8000
