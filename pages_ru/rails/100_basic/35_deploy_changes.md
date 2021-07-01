@@ -1,9 +1,9 @@
 ---
 title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
-examples_initial: examples/rails/002_deploy
-examples_scale: examples/rails/003_scale
-examples_modify_app: examples/rails/004_modify_app
+examples_initial: examples/basic/002_deploy
+examples_scale: examples/basic/003_scale
+examples_modify_app: examples/basic/004_modify_app
 description: |
     Внесём изменения в уже выкаченное приложение и его инфраструктуру. Продемонстрируем, как работает подход infrastructure-as-code (IaC).
 ---
