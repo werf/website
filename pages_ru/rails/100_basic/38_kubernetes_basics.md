@@ -293,13 +293,27 @@ spec:
 kubectl apply -f ingress.yaml -f service.yaml
 ```
 
-Убедимся, что наши ресурсы создались:
+Убедимся, что ресурс service создался:
 ```shell
 kubectl get service kubernetes-basics-app
-kubectl get ingress kubernetes-basics-app
 ```
 
-Если несколько упрощать, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: kubernetes-basics-app.example.com`, быть перенаправленными на 80-й порт Service'а `kubernetes-basics-app`, а оттуда — на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
+В ответ получим следующее:
+```shell
+NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+kubernetes-basics-app   ClusterIP   10.107.19.126   <none>        80/TCP    35s
+```
+Убедимся, что ресурс ingress создался:
+```shell
+kubectl get ingress kubernetes-basics-app
+```
+В ответ получим следующее:
+```shell
+NAME                    CLASS    HOSTS                               ADDRESS   PORTS   AGE
+kubernetes-basics-app   <none>   kubernetes-basics-app.example.com             80      3m21s
+```
+
+Если несколько упростить, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: kubernetes-basics-app.example.com`, быть перенаправленными на 80-й порт Service'а `kubernetes-basics-app`, а оттуда — на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
 
 Обратимся к нашему приложению через Ingress:
 
