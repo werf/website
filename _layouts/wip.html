@@ -35,7 +35,7 @@ layout: page_base
 
     {%- if page.chapter_initial_prepare_repo %}
         {%- capture prepare_repo %}
-            {%- include chapter_initial_prepare_repo.md.liquid examples_to=page.examples examples_from=page.examples_initial from_scratch=page.chapter_initial_prepare_repo_from_scratch %}
+            {%- include chapter_initial_prepare_repo.md.liquid examples_to=page.examples examples_from=page.examples_initial %}
         {%- endcapture %}
         {{- prepare_repo | markdownify }}
     {%- endif %}

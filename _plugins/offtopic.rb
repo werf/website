@@ -3,6 +3,7 @@ module Jekyll
     class OfftopicTag < Liquid::Block
       @@DEFAULTS = {
           :title => 'Подробности',
+          :compact => false,
       }
 
       def self.DEFAULTS
@@ -34,8 +35,14 @@ module Jekyll
 
         rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(Jekyll.configuration()).convert(content)
 
+        if @config[:compact]
+          div_details_class = "details details__compact"
+        else
+          div_details_class = "details"
+        end
+
         %Q(
-<div class="details">
+<div class="#{div_details_class}">
 <a href="javascript:void(0)" class="details__summary">#{@config[:title]}</a>
 <div class="details__content" markdown="1">
 #{rendered_content}
