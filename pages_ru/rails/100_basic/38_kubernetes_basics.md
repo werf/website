@@ -99,7 +99,6 @@ kube-system         kube-controller-manager-minikube            1/1     Running 
 kube-system         kube-proxy-gtrcq                            1/1     Running     1          13d
 kube-system         kube-scheduler-minikube                     1/1     Running     1          13d
 kube-system         storage-provisioner                         1/1     Running     2          13d
-werf-guided-rails   basicapp-68c79f8cd7-6h888                   1/1     Running     1          11d
 ```
 {% endofftopic %}
 
@@ -112,7 +111,6 @@ kubectl get --all-namespaces deployment
 NAMESPACE           NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
 ingress-nginx       ingress-nginx-controller   1/1     1            1           11d
 kube-system         coredns                    1/1     1            1           13d
-werf-guided-rails   basicapp                   1/1     1            1           11d
 ```
 {% endofftopic %}
 
@@ -200,7 +198,7 @@ spec:
               command: ["/bin/trigger-graceful-shutdown-for-my-app"]  # запустится перед завершением контейнера
         startupProbe:  # проверка готовности контейнера, при нескольких неудачах контейнер перезапустится
           httpGet:
-            path: /startup  # будет выполняться GET-запрос на http://<PodIP>:3000/startup.
+            path: /startup  # будет выполняться GET-запрос на http://<PodIP>/startup.
             port: 80
         readinessProbe:  # проверка готовности контейнера, запускается после startupProbe. При нескольких неудачах трафик перестаёт идти на Pod через Service
           httpGet:

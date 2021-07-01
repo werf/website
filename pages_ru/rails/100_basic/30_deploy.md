@@ -1,8 +1,8 @@
 ---
 title: Деплой приложения
 permalink: rails/100_basic/30_deploy.html
-examples: examples/rails/015_deploy_app
-examples_initial: examples/rails/010_build
+examples: examples/rails/002_deploy
+examples_initial: examples/rails/001_build
 description: |
     В предыдущих главах мы собрали образ приложения и подготовили окружение для его развертывания. Теперь развернём приложение в ранее подготовленном кластере Kubernetes.
 
