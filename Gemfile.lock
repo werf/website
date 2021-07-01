@@ -119,6 +119,7 @@ GEM
       ethon (>= 0.9.0)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
+    wdm (0.1.1)
     yell (2.2.2)
 
 PLATFORMS
@@ -135,6 +136,7 @@ DEPENDENCIES
   kramdown-parser-gfm
   nokogiri (>= 1.10.8)
   sprockets (~> 3.7)
+  wdm (>= 0.1.0)
 
 BUNDLED WITH
    2.2.15
