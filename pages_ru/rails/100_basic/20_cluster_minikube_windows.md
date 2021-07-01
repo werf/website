@@ -7,7 +7,7 @@
 Создаём новый Kubernetes-кластер с minikube:
 ```bash
 minikube delete  # удалим существующий minikube-кластер (если он есть)
-minikube start --driver=docker --namespace werf-guided-rails
+minikube start --driver=docker --namespace werf-guide-app
 ```
 
 Если утилита kubectl всё ещё не установлена, то установим её, [следуя инструкциям](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/).
@@ -57,7 +57,7 @@ minikube tunnel --cleanup=true
 
 ### Обновление файла hosts
 
-Для доступа к приложению мы будем использовать домен `example.com`. Для этого обновим файл hosts (в PowerShell от администратора):
+Для доступа к приложению мы будем использовать домен `werf-guide-app`. Для этого обновим файл hosts (в PowerShell от администратора):
 ```powershell
-Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 example.com kubernetes-basics-app.example.com"
+Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 werf-guide-app werf-guide-kube-basics-app"
 ```
