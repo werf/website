@@ -3,17 +3,12 @@ title: Логирование
 permalink: rails/200_real_apps/25_logging.html
 examples: examples/rails/100_logging
 layout: wip
----
+chapter_initial_prepare_cluster: true
+chapter_initial_prepare_repo: true
+description: |
 
 В этой статье мы добавим в наше приложение новый метод API, рассмотрим тему логирования и просмотра логов запущенного приложения, сконфигурируем приложение чтобы логи мог подхватить Kubernetes.
-
-## Подготовка окружения
-Перейдём к состоянию приложения, в котором добавлен новый метод API:
-
-```shell
-cd werf-guides/examples/rails/020_logging/
-git init --separate-git-dir ~/werf-guides-repo
-```
+---
 
 ## Настройка logger и окружения
 
@@ -57,9 +52,9 @@ curl -v -X POST "example.com/api/generate-image?text=do%20it" -o /tmp/out
 
 ## Как посмотреть логи
 
-За API нашего приложения отвечает backend, представленный в виде Deployment с определенным количеством реплик pod'ов, где каждый pod - это запущенный экземпляр нашего приложения, таким образом, чтобы посмотреть его логи нужно запросить их для одного из pod'ов.
+За API нашего приложения отвечает backend, представленный в виде Deployment с определенным количеством реплик Pod'ов, где каждый Pod - это запущенный экземпляр нашего приложения, таким образом, чтобы посмотреть его логи нужно запросить их для одного из Pod'ов.
 
-Получим список всех pod'ов:
+Получим список всех Pod'ов:
 
 ```shell
 kubectl -n werf-guided-rails get pod
@@ -73,7 +68,7 @@ backend-7964b6b68-wzgw4   1/1     Running   0          21m
 mysql-666f76d7cb-967xb    1/1     Running   3          4d6h
 ```
 
-Выберем один из pod'ов с префиксом `backend` и посмотрим его логи следующей командой:
+Выберем один из Pod'ов с префиксом `backend` и посмотрим его логи следующей командой:
 
 ```shell
 kubectl -n werf-guided-rails logs -f backend-7964b6b68-n28v5
