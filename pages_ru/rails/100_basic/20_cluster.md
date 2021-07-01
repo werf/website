@@ -12,9 +12,9 @@ description: |
 Выберите, каким образом будет развернут Kubernetes:
 
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn active" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_linux')">Minikube (Linux)</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_macos')">Minikube (macOS)</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_windows')">Minikube (Windows)</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn active" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_linux')">Linux: minikube</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_macos')">macOS: minikube</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_windows')">Windows: minikube</a>
 {% comment %} TODO(lesikov): раскомментить как переработаю 20_cluster_has_cluster.md.
 <a href="javascript:void(0)" class="tabs__btn tabs__install__btn" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__ihave')">Свой кластер</a>
 {% endcomment %}
@@ -89,20 +89,4 @@ kubectl create secret docker-registry registrysecret \
 
 ## Рабочее окружение работало, но перестало
 
-Рабочее окружение работало, но перестало? Может помочь:
-
-{% offtopic title="Работает ли Docker?" %}
-{% include 100_basic/20_cluster_docker_ready.md.liquid %}
-{% endofftopic %}
-
-{% offtopic title="Перезагружали компьютер после подготовки окружения?" %}
-{% include 100_basic/20_cluster_system_restarted_minikube.md.liquid %}
-{% endofftopic %}
-
-{% offtopic title="Случайно удаляли Namespace приложения?" %}
-{% include 100_basic/20_cluster_namespace_deleted.md.liquid %}
-{% endofftopic %}
-
-{% offtopic title="Ничего не помогло, окружение или инструкции по-прежнему не работают?" %}
-{% include 100_basic/20_cluster_nothing_helped.md.liquid %}
-{% endofftopic %}
+{% include 100_basic/20_cluster_frequent_issues.md.liquid %}
