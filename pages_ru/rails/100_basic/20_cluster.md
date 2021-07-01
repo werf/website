@@ -89,7 +89,7 @@ kubectl create secret docker-registry registrysecret \
 
 ## Рабочее окружение работало, но перестало
 
-Рабочее окружение работало, но перестало? Инструкции из этой главы не работают? Может помочь:
+Рабочее окружение работало, но перестало? Может помочь:
 
 {% offtopic title="Работает ли Docker?" %}
 {% include 100_basic/20_cluster_docker_ready.md.liquid %}
