@@ -123,7 +123,7 @@ kubectl get --all-namespaces cronjob
 Также можно получить полную конфигурацию ресурса в yaml-формате, если добавить в команду `kubectl get` опцию `--output yaml`:
 
 ```shell
-kubectl get --namespace default deployment somedeployment --output yaml
+kubectl get deployment somedeployment --output yaml
 ```
 
 В ответ отобразится следующее:
@@ -134,7 +134,7 @@ metadata:
   name: somedeployment
 ...
 
-kubectl get -n default pod somepod -o yaml
+kubectl get pod somepod -o yaml
 ...
 kind: Pod
 metadata:

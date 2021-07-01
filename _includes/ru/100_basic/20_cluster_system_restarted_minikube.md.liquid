@@ -6,7 +6,12 @@
 <div id="tab__system_restarted__minikube_windows" class="tabs__content tabs__system_restarted__content" markdown="1">
 Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
 ```powershell
-minikube start --namespace werf-guide-app
+minikube start
+```
+
+Выставим Namespace по умолчанию, чтобы не указывать его при каждом вызове `kubectl`:
+```powershell
+kubectl config set-context minikube --namespace=werf-guide-app
 ```
 
 Результат успешного выполнения команды:
@@ -50,6 +55,11 @@ minikube tunnel --cleanup=true
 Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
 ```shell
 minikube start --namespace werf-guide-app
+```
+
+Выставим Namespace по умолчанию, чтобы не указывать его при каждом вызове `kubectl`:
+```shell
+kubectl config set-context minikube --namespace=werf-guide-app
 ```
 
 Результат успешного выполнения команды:

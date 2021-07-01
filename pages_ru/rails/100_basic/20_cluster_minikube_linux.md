@@ -5,7 +5,12 @@
 Создаём новый Kubernetes-кластер с minikube:
 ```shell
 minikube delete  # удалим существующий minikube-кластер (если он есть)
-minikube start --driver=docker --namespace werf-guide-app
+minikube start --driver=docker
+```
+
+Выставим Namespace по умолчанию, чтобы не указывать его при каждом вызове `kubectl`:
+```shell
+kubectl config set-context minikube --namespace=werf-guide-app
 ```
 
 Если утилита kubectl всё ещё не установлена, то установим её, [следуя инструкциям](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/).
