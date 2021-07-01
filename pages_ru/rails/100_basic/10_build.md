@@ -90,7 +90,7 @@ werf build
 ```shell
 ┌ ⛵ image app
 │ ┌ Building stage app/dockerfile
-│ app/dockerfile  Sending build context to Docker daemon  4.096kB
+│ │ app/dockerfile  Sending build context to Docker daemon  4.096kB
 │ │ app/dockerfile  Step 1/13 : FROM alpine:3.14
 │ │ app/dockerfile   ---> d4ff818577bc
 │ │ app/dockerfile  Step 2/13 : WORKDIR /app
@@ -112,12 +112,14 @@ werf build
 │ │ app/dockerfile  Removing intermediate container 94216deab08f
 │ │ app/dockerfile   ---> 17674bdc70b5
 │ │ app/dockerfile  Step 4/13 : COPY start.sh .
-│ │ app/dockerfile   ---> fac3c847e1e8
+│ │ app/dockerfile   ---> e87305886c45
 │ │ app/dockerfile  Step 5/13 : RUN chmod +x start.sh
-│ │ app/dockerfile   ---> Running in 1cd618ff2f61
+│ │ app/dockerfile   ---> Running in b6d5ce0215d1
+│ │ app/dockerfile  Removing intermediate container b6d5ce0215d1
+│ │ app/dockerfile   ---> 92a25c405551
 │ │ app/dockerfile  ...
-│ │ app/dockerfile  Successfully built 4c3c2a9e934c
-│ │ app/dockerfile  Successfully tagged d655500a-a442-43a2-908e-4485173a3b1f:latest
+│ │ app/dockerfile  Successfully built 3091b84c90c3
+│ │ app/dockerfile  Successfully tagged 10560bef-f182-4769-bb23-c4a465814016:latest
 │ ├ Info
 │ │      name: werf-guide-app:638307ec810d3921a7b4f96c775d8aa8826fb0b2e1ac81fc793f02a6-1625134265354
 │ │        id: 4c3c2a9e934c
