@@ -293,7 +293,7 @@ spec:
 kubectl apply -f ingress.yaml -f service.yaml
 ```
 
-Убедимся, что ресурс service создался:
+Убедимся, что ресурс Service создался:
 ```shell
 kubectl get service kubernetes-basics-app
 ```
@@ -356,4 +356,11 @@ Our $MY_ENV_VAR value is "myEnvVarValue".
 Удалим созданные нами ресурсы, так как они больше не понадобятся:
 ```shell
 kubectl delete -f deployment.yaml -f service.yaml -f ingress.yaml
+```
+
+В ответ получим сообщение об успешном удалении ресурсов:
+```shell
+deployment.apps "kubernetes-basics-app" deleted
+service "kubernetes-basics-app" deleted
+ingress.networking.k8s.io "kubernetes-basics-app" deleted
 ```
