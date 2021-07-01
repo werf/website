@@ -1,11 +1,11 @@
-FROM ubuntu:20.04
+FROM alpine:3.14
 WORKDIR /app
 
 # [<en>] Install app dependencies
 # [<ru>] Уставливаем зависимости приложения
-RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update -qq && \
-    apt-get install -y curl ncat
+RUN apk add --no-cache --update nmap-ncat
 
-# [<en>] Add all the files from our repo to the image, including app source code
-# [<ru>] Добавляем в образ все остальные файлы из нашего репозитория, включая исходный код приложения
-COPY . .
+# [<en>] Add to the image a script to run the echo server and set the permission to execution
+# [<ru>] Добавляем в образ скрипт для запуска эхо-сервера и устанавливаем разрешение на выполнение
+COPY start.sh .
+RUN chmod +x start.sh
