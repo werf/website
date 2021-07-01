@@ -1,6 +1,6 @@
 <div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__system_restarted__btn active" onclick="openTab(event, 'tabs__system_restarted__btn', 'tabs__system_restarted__content', 'tab__system_restarted__minikube_macos_linux')">Linux / macOS</a>
 <a href="javascript:void(0)" class="tabs__btn tabs__system_restarted__btn" onclick="openTab(event, 'tabs__system_restarted__btn', 'tabs__system_restarted__content', 'tab__system_restarted__minikube_windows')">Windows</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__system_restarted__btn" onclick="openTab(event, 'tabs__system_restarted__btn', 'tabs__system_restarted__content', 'tab__system_restarted__minikube_macos_linux')">macOS/Linux</a>
 </div>
 
 <div id="tab__system_restarted__minikube_windows" class="tabs__content tabs__system_restarted__content" markdown="1">
@@ -51,7 +51,7 @@ minikube tunnel --cleanup=true
 ```
 </div>
 
-<div id="tab__system_restarted__minikube_macos_linux" class="tabs__content tabs__system_restarted__content" markdown="1">
+<div id="tab__system_restarted__minikube_macos_linux" class="tabs__content tabs__system_restarted__content active" markdown="1">
 Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
 ```shell
 minikube start --namespace werf-guide-app

@@ -55,8 +55,6 @@ gpupdate /force
 
 ## Создадим новый репозиторий с приложением
 
-Все дальнейшие команды потребуется выполнять в PowerShell (для Windows) или Bash (для macOS и Linux):
-
 {% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples examples_from=page.examples_initial from_scratch=true %}
 
 ## Dockerfile
