@@ -38,10 +38,10 @@ description: |
 
 ## Проверка
 
-Для проверки работоспособности необходимо открыть страницу в браузере или использовать `сurl` в консоли:
+Для проверки работоспособности выполните:
 
 ```shell
-curl http://example.com
+curl http://werf-guide-app/ping
 ```
 
 Если всё работает как надо, то NGINX Ingress Controller вернёт ошибку 404:
@@ -62,7 +62,7 @@ curl http://example.com
 
 Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет и любой другой Registry с TLS и аутентификацией ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), ...).
 
-Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guided-rails`, в котором будем хранить собираемые образы.
+Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guide-app`, в котором будем хранить собираемые образы.
 
 С помощью `docker login` получаем доступ с текущего компьютера к новому репозиторию, вводя логин и пароль от нашего пользователя на Docker Hub:
 ```shell
@@ -74,7 +74,7 @@ Login Succeeded
 
 Создаём Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
 ```shell
-kubectl create namespace werf-guided-rails  # namespace для Secret'а ещё не существует, создадим его
+kubectl create namespace werf-guide-app  # namespace для Secret'а ещё не существует, создадим его
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
   --docker-username='<имя пользователя Docker Hub>' \
