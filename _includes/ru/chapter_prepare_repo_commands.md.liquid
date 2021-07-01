@@ -53,7 +53,7 @@ git show
 ```shell
 {%- if include.from_scratch %}
 # Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
-test -d ~/werf-guide/guides || git clone https://github.com/werf/werf-guides ~/werf-guide/guides
+test -e ~/werf-guide/guides || git clone https://github.com/werf/werf-guides ~/werf-guide/guides
 
 # Скопируем файлы приложения (пока без изменений) в ~/werf-guide/app
 rm -rf ~/werf-guide/app
