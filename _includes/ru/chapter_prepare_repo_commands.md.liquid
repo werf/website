@@ -1,16 +1,18 @@
-{%- assign examples_to_parts_rev = include.examples_to | split: "/" | reverse %}
-{%- assign examples_to_basename = examples_to_parts_rev[0] %}
-
-{%- assign examples_from_parts = include.examples_from | split: "/" %}
-
-{%- assign unique_id_slug = include.examples_from | append: include.examples_to | append: include.from_scratch | slugify %}
+{%- capture include_id %}{% increment include_id_counter %}{%- endcapture %}
+{%- assign tab_class = "tabs__prepare_repo__btn__" | append: include_id %}
+{%- assign content_class = "tabs__prepare_repo__content__" | append: include_id %}
+{%- assign content_id_unix = "tabs__prepare_repo__macos_linux__" | append: include_id %}
+{%- assign content_id_windows = "tabs__prepare_repo__windows__" | append: include_id %}
 
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__prepare_repo__btn" onclick="openTab(event, 'tabs__prepare_repo__btn', 'tabs__prepare_repo__content', 'tabs__prepare_repo__windows__{{ unique_id_slug }}')">Windows</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__prepare_repo__btn" onclick="openTab(event, 'tabs__prepare_repo__btn', 'tabs__prepare_repo__content', 'tabs__prepare_repo__macos_linux__{{ unique_id_slug }}')">macOS/Linux</a>
+<a href="javascript:void(0)" class="tabs__btn {{ tab_class }} active" onclick="openTab(event, '{{ tab_class }}', '{{ content_class }}', '{{ content_id_unix }}')">Linux / macOS</a>
+<a href="javascript:void(0)" class="tabs__btn {{ tab_class }}" onclick="openTab(event, '{{ tab_class }}', '{{ content_class }}', '{{ content_id_windows }}')">Windows</a>
 </div>
 
-<div id="tabs__prepare_repo__windows__{{ unique_id_slug }}" class="tabs__content tabs__prepare_repo__content" markdown="1">
+<div id="{{ content_id_windows }}" class="tabs__content {{ content_class }}" markdown="1">
+
+Выполним следующий набор команд в PowerShell:
+
 ```powershell
 {%- if include.from_scratch %}
 # Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
@@ -49,7 +51,10 @@ git show
 ```
 </div>
 
-<div id="tabs__prepare_repo__macos_linux__{{ unique_id_slug }}" class="tabs__content tabs__prepare_repo__content" markdown="1">
+<div id="{{ content_id_unix }}" class="tabs__content {{ content_class }} active" markdown="1">
+
+Выполним следующий набор команд в Bash:
+
 ```shell
 {%- if include.from_scratch %}
 # Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
