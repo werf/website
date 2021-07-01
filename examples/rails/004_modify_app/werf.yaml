@@ -1,4 +1,4 @@
-project: guide-application
+project: werf-guide-app
 configVersion: 1
 
 ---

@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-  name: app
+  name: werf-guide-app
 spec:
   rules:
   - host: example.com
@@ -11,5 +11,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: app
+          serviceName: werf-guide-app
           servicePort: 8000
