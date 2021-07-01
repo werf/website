@@ -80,7 +80,7 @@ status:
 * [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач 
   в Pod'ах по расписанию (например, регулярная очистка чего-либо).
 
-Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех pod, deployment, statefulset, job, cronjob из всех namespace):
+Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех Pod'ов, Deployment, Statefulset, Job, Cronjob из всех namespace):
 
 ```shell
 kubectl get --all-namespaces pod
@@ -154,7 +154,7 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment  # Тип ресурса.
 metadata:
-  name: kubernetes-basics-app  # Имя Deployment'а.
+  name: kubernetes-basics-app  #  имя Deployment'а
 spec:
   replicas: 2  # можно развернуть несколько Pod'ов сразу
   selector:
@@ -210,8 +210,8 @@ spec:
           httpGet:
             path: /liveness
             port: 80
-      # InitContainers используются для разовых задач, выполняющихся перед запуском основных контейнеров.
-      # Основные контейнеры Pod'а не запустятся, пока не выполнятся initContainers.
+      # InitContainers используются для разовых задач, выполняющихся перед запуском основных контейнеров
+      # основные контейнеры Pod'а не запустятся, пока не выполнятся initContainers
       initContainers:
         - name: wait-postgres
           image: postgres
@@ -229,19 +229,31 @@ kubectl apply -f deployment.yaml
 > В этой главе для деплоя вместо `werf converge` мы будем использовать `kubectl apply`. Он удобен для быстрого и простого создания ресурсов в кластере, но для деплоя реального приложения необходимо использовать `werf converge`.
 
 Убедимся, что наш Deployment создался:
-
 ```shell
 kubectl get deployment kubernetes-basics-app
 ```
 
+В ответ отобразится примерно следующее:
+```shell
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+kubernetes-basics-app   0/2     2            0           25s
+```
+
 А теперь понаблюдаем за развертыванием Pod'ов, создаваемых нашим Deployment'ом:
-```bash
+```shell
 kubectl get pod -l app=kubernetes-basics-app
+```
+
+В ответ отобразится примерно следующее:
+```shell
+NAME                                    READY   STATUS    RESTARTS   AGE
+kubernetes-basics-app-6f59b7cf5-pjmrd   1/1     Running   0          109s
+kubernetes-basics-app-6f59b7cf5-thzcc   1/1     Running   0          109s
 ```
 
 ## Service и Ingress
 
-С помощью Deployment мы можем развернуть наше stateless-приложение, но если пользователям или другим приложениям потребуется связываться с этим приложением изнутри или снаружи кластера, то нам потребуются два дополнительных ресурса: Ingress и Service.
+С помощью Deployment'а мы можем развернуть наше stateless-приложение, но если пользователям или другим приложениям потребуется связываться с этим приложением изнутри или снаружи кластера, то потребуются два дополнительных ресурса: Ingress и Service.
 
 Создадим файл `ingress.yaml`:
 ```yaml
