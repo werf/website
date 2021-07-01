@@ -2,7 +2,7 @@
 title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
 examples_initial: examples/rails/002_deploy
-examples: examples/rails/003_scale
+examples_scale: examples/rails/003_scale
 examples_modify_app: examples/rails/004_modify_app
 description: |
     Внесём изменения в уже выкаченное приложение и его инфраструктуру. Продемонстрируем, как работает подход infrastructure-as-code (IaC).
@@ -89,8 +89,6 @@ app-57789b68-kxcb9   1/1     Running   0          72m
 
 Запустим деплой:
 ```shell
-git add .
-git commit -m "scale application to 4 replicas"
 werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
 ```
 
@@ -117,16 +115,14 @@ app-57789b68-kxcb9   1/1     Running   0          72m
 
 Запустим деплой:
 ```shell
-git add .
-git commit -m "undo application scaling"
 werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
 ```
 
 ## Меняем приложение
 
-Наше приложение — это простейший echo сервер:
+Наше приложение — это простейший эхо сервер:
 ```shell
-curl "http://example.com/ping"
+curl "http://werf-guide-app/ping"
 ```
 
 Сервер ответит словом `pong`.
@@ -135,20 +131,18 @@ curl "http://example.com/ping"
 
 {% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_modify_app from_scratch=false %}
 
-Поменяем ответ сервера на `hello world`:
+Ответ сервера изменяется на `hello world`:
 
 {% include snippetcut_example path="start.sh" syntax="bash" examples=page.examples_modify_app %}
 
 Запустим деплой:
 ```shell
-git add .
-git commit -m "change response text"
 werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
 ```
 
 Проверим результат:
 ```shell
-curl "http://example.com/ping"
+curl "http://werf-guide-app/ping"
 ```
 
 В ответе увидим `hello world`. Поздравляем, у нас получилось!
