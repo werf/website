@@ -6,8 +6,8 @@
 {%- assign unique_id_slug = include.examples_from | append: include.examples_to | append: include.from_scratch | slugify %}
 
 <div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__prepare_repo__btn active" onclick="openTab(event, 'tabs__prepare_repo__btn', 'tabs__prepare_repo__content', 'tabs__prepare_repo__macos_linux__{{ unique_id_slug }}')">Linux / macOS</a>
 <a href="javascript:void(0)" class="tabs__btn tabs__prepare_repo__btn" onclick="openTab(event, 'tabs__prepare_repo__btn', 'tabs__prepare_repo__content', 'tabs__prepare_repo__windows__{{ unique_id_slug }}')">Windows</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__prepare_repo__btn" onclick="openTab(event, 'tabs__prepare_repo__btn', 'tabs__prepare_repo__content', 'tabs__prepare_repo__macos_linux__{{ unique_id_slug }}')">macOS/Linux</a>
 </div>
 
 <div id="tabs__prepare_repo__windows__{{ unique_id_slug }}" class="tabs__content tabs__prepare_repo__content" markdown="1">
@@ -49,7 +49,7 @@ git show
 ```
 </div>
 
-<div id="tabs__prepare_repo__macos_linux__{{ unique_id_slug }}" class="tabs__content tabs__prepare_repo__content" markdown="1">
+<div id="tabs__prepare_repo__macos_linux__{{ unique_id_slug }} active" class="tabs__content tabs__prepare_repo__content" markdown="1">
 ```shell
 {%- if include.from_scratch %}
 # Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
