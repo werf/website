@@ -59,5 +59,5 @@ minikube tunnel --cleanup=true
 
 Для доступа к приложению мы будем использовать домен `werf-guide-app`. Для этого обновим файл hosts (в PowerShell от администратора):
 ```powershell
-Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 werf-guide-app werf-guide-kube-basics-app"
+Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 werf-guide-app werf-kube-basics"
 ```

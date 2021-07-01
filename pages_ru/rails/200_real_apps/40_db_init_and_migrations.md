@@ -1,6 +1,7 @@
 ---
 title: Инициализация БД и миграции
 permalink: rails/200_real_apps/40_db_init_and_migrations.html
+layout: wip
 examples: examples/rails/100_db_init_and_migrations
 examples_initial: examples/rails/019_fixup_consistency
 description: |

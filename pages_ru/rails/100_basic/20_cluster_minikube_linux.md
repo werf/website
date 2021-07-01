@@ -33,5 +33,5 @@ kubectl -n ingress-nginx get pod
 
 Для доступа к приложению мы будем использовать домен `werf-guide-app`. Для этого обновим файл hosts:
 ```shell
-echo "$(minikube ip) werf-guide-app werf-guide-kube-basics-app" | sudo tee -a /etc/hosts
+echo "$(minikube ip) werf-guide-app werf-kube-basics" | sudo tee -a /etc/hosts
 ```
