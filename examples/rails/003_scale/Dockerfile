@@ -1,8 +1,8 @@
 FROM ubuntu:20.04
 WORKDIR /app
 
-# [<en>] Install system dependencies
-# [<ru>] Уставливаем системные зависимости
+# [<en>] Install app dependencies
+# [<ru>] Уставливаем зависимости приложения
 RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update -qq && \
     apt-get install -y curl ncat
 
