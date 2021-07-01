@@ -85,7 +85,7 @@ app-57789b68-kxcb9   1/1     Running   0          72m
 
 Через файл `.helm/templates/deployment.yaml`:
 
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_scale %}
 
 Запустим деплой:
 ```shell
