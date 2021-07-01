@@ -3,10 +3,10 @@ title: Сборка образа
 permalink: rails/100_basic/10_build.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
-examples: examples/rails/010_build
+examples: examples/rails/001_build
 examples_initial: examples/rails/000_app
 description: |
-    В этой главе мы соберём Docker-образ с демо-приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом проверим собранный образ, запустив его локально.
+    В этой главе мы соберём Docker-образ с приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом проверим собранный образ, запустив его локально.
 ---
 
 ## Подготовка
@@ -53,7 +53,7 @@ gpupdate /force
 ```
 {% endofftopic %}
 
-## Создадим новый репозиторий с демо-приложением
+## Создадим новый репозиторий с приложением
 
 Все дальнейшие команды потребуется выполнять в PowerShell (для Windows) или Bash (для macOS и Linux):
 
@@ -80,38 +80,72 @@ gpupdate /force
 > Обратите внимание, что перед запуском сборки/деплоя с werf все файлы должны быть добавлены в коммит. Чуть позже мы разберём, для чего это нужно и как обойтись без постоянного создания новых коммитов при локальной разработке.
 
 Запустим сборку командой [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html):
+
 ```shell
 werf build
 ```
 
 Результат выполнения команды при успешной сборке:
-```shell
-┌ ⛵ image basicapp
-│ ┌ Building stage basicapp/dockerfile
-│ │ basicapp/dockerfile  Sending build context to Docker daemon  11.64MB
-│ │ basicapp/dockerfile  Step 1/14 : FROM ruby:2.7.1
-│ │ basicapp/dockerfile   ---> d8ca85855516
-│ │ basicapp/dockerfile  Step 2/14 : WORKDIR /app
-│ │ basicapp/dockerfile   ---> Using cache
-...
-│ │ basicapp/dockerfile  Successfully built 3a4ede4e9556
-│ │ basicapp/dockerfile  Successfully tagged 0041b344-efe4-416d-baff-5e50fbb712b0:latest
-│ ├ Info
-│ │       name: werf-guided-rails:31e0e7436c3055fa816fc770ebda185bacb7e8ef53775b8e5488a83f-1611855308907
-│ │       size: 929.2 MiB
-│ └ Building stage basicapp/dockerfile (94.47 seconds)
-└ ⛵ image basicapp (96.07 seconds)
 
-Running time 96.38 seconds
+```shell
+┌ ⛵ image app
+│ ┌ Building stage app/dockerfile
+│ │ app/dockerfile  Sending build context to Docker daemon  4.096kB
+│ │ app/dockerfile  Step 1/14 : FROM alpine:3.14
+│ │ app/dockerfile   ---> d4ff818577bc
+│ │ app/dockerfile  Step 2/14 : WORKDIR /app
+│ │ app/dockerfile   ---> Using cache
+│ │ app/dockerfile   ---> fecacd1a1c75
+│ │ app/dockerfile  Step 3/14 : RUN apk add --no-cache --update nmap-ncat
+│ │ app/dockerfile   ---> Running in 67769942bb21
+│ │ app/dockerfile  fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
+│ │ app/dockerfile  fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
+│ │ app/dockerfile  (1/3) Installing lua5.3-libs (5.3.6-r0)
+│ │ app/dockerfile  (2/3) Installing libpcap (1.10.0-r0)
+│ │ app/dockerfile  (3/3) Installing nmap-ncat (7.91-r0)
+│ │ app/dockerfile  Executing busybox-1.33.1-r2.trigger
+│ │ app/dockerfile  OK: 6 MiB in 17 packages
+│ │ app/dockerfile  Removing intermediate container 67769942bb21
+│ │ app/dockerfile   ---> 91b1911a8e94
+│ │ app/dockerfile  Step 4/14 : COPY start.sh .
+│ │ app/dockerfile   ---> fac3c847e1e8
+│ │ app/dockerfile  Step 5/14 : RUN chmod +x start.sh
+│ │ app/dockerfile   ---> Running in 1cd618ff2f61
+│ │ app/dockerfile  ...
+│ │ app/dockerfile  Successfully built 4c3c2a9e934c
+│ │ app/dockerfile  Successfully tagged d655500a-a442-43a2-908e-4485173a3b1f:latest
+│ ├ Info
+│ │      name: werf-guide-app:638307ec810d3921a7b4f96c775d8aa8826fb0b2e1ac81fc793f02a6-1625134265354
+│ │        id: 4c3c2a9e934c
+│ │   created: 2021-07-01 11:11:05.3235952 +0100 BST
+│ │      size: 6.0 MiB
+│ └ Building stage app/dockerfile (9.98 seconds)
+└ ⛵ image app (10.85 seconds)
+
+Running time 11.02 seconds
 ```
 
 ## Запуск приложения
 
 Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/documentation/cli/main/run.html):
+
 ```shell
-werf run --docker-options="--rm -p 3000:3000" basicapp -- bash -ec "bundle exec rails db:migrate && bundle exec puma"
+werf run app --docker-options="--rm -p 8000:8000" -- /app/start.sh
 ```
 
 Здесь [параметры Docker](https://docs.docker.com/engine/reference/run/) мы задали опцией `--docker-options`, а команду для выполнения в контейнере указали в конце, после двух дефисов.
 
-Теперь приложение доступно на [http://127.0.0.1:3000/](http://127.0.0.1:3000/).
+Для проверки работоспособности можно открыть страницу [http://127.0.0.1:8000/ping](http://127.0.0.1:8000/ping) в браузере или воспользоваться утилитой `curl` в соседнем терминале:
+
+```shell
+curl http://127.0.0.1:8000/ping
+```
+
+В результате вернётся сообщение `pong`, а в логе контейнера появится следующий текст:
+
+```shell
+GET /ping HTTP/1.1
+Host: 127.0.0.1:8000
+User-Agent: curl/7.67.0
+Accept: */*
+```
