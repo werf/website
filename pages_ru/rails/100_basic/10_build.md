@@ -130,7 +130,7 @@ Running time 11.02 seconds
 Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/documentation/cli/main/run.html):
 
 ```shell
-werf run app --docker-options="--rm -p 8000:8000" -- /app/start.sh
+werf run app --docker-options="-ti --rm -p 8000:8000" -- /app/start.sh
 ```
 
 Здесь [параметры Docker](https://docs.docker.com/engine/reference/run/) мы задали опцией `--docker-options`, а команду для выполнения в контейнере указали в конце, после двух дефисов.
