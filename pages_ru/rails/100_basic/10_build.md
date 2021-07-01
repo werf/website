@@ -90,26 +90,30 @@ werf build
 ```shell
 ┌ ⛵ image app
 │ ┌ Building stage app/dockerfile
-│ │ app/dockerfile  Sending build context to Docker daemon  4.096kB
-│ │ app/dockerfile  Step 1/14 : FROM alpine:3.14
+│ app/dockerfile  Sending build context to Docker daemon  4.096kB
+│ │ app/dockerfile  Step 1/13 : FROM alpine:3.14
 │ │ app/dockerfile   ---> d4ff818577bc
-│ │ app/dockerfile  Step 2/14 : WORKDIR /app
-│ │ app/dockerfile   ---> Using cache
+│ │ app/dockerfile  Step 2/13 : WORKDIR /app
 │ │ app/dockerfile   ---> fecacd1a1c75
-│ │ app/dockerfile  Step 3/14 : RUN apk add --no-cache --update nmap-ncat
-│ │ app/dockerfile   ---> Running in 67769942bb21
+│ │ app/dockerfile  Step 3/13 : RUN apk add --no-cache --update bash nmap-ncat
+│ │ app/dockerfile   ---> Running in 94216deab08f
 │ │ app/dockerfile  fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
 │ │ app/dockerfile  fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
-│ │ app/dockerfile  (1/3) Installing lua5.3-libs (5.3.6-r0)
-│ │ app/dockerfile  (2/3) Installing libpcap (1.10.0-r0)
-│ │ app/dockerfile  (3/3) Installing nmap-ncat (7.91-r0)
+│ │ app/dockerfile  (1/7) Installing ncurses-terminfo-base (6.2_p20210612-r0)
+│ │ app/dockerfile  (2/7) Installing ncurses-libs (6.2_p20210612-r0)
+│ │ app/dockerfile  (3/7) Installing readline (8.1.0-r0)
+│ │ app/dockerfile  (4/7) Installing bash (5.1.4-r0)
+│ │ app/dockerfile  Executing bash-5.1.4-r0.post-install
+│ │ app/dockerfile  (5/7) Installing lua5.3-libs (5.3.6-r0)
+│ │ app/dockerfile  (6/7) Installing libpcap (1.10.0-r0)
+│ │ app/dockerfile  (7/7) Installing nmap-ncat (7.91-r0)
 │ │ app/dockerfile  Executing busybox-1.33.1-r2.trigger
-│ │ app/dockerfile  OK: 6 MiB in 17 packages
-│ │ app/dockerfile  Removing intermediate container 67769942bb21
-│ │ app/dockerfile   ---> 91b1911a8e94
-│ │ app/dockerfile  Step 4/14 : COPY start.sh .
+│ │ app/dockerfile  OK: 9 MiB in 21 packages
+│ │ app/dockerfile  Removing intermediate container 94216deab08f
+│ │ app/dockerfile   ---> 17674bdc70b5
+│ │ app/dockerfile  Step 4/13 : COPY start.sh .
 │ │ app/dockerfile   ---> fac3c847e1e8
-│ │ app/dockerfile  Step 5/14 : RUN chmod +x start.sh
+│ │ app/dockerfile  Step 5/13 : RUN chmod +x start.sh
 │ │ app/dockerfile   ---> Running in 1cd618ff2f61
 │ │ app/dockerfile  ...
 │ │ app/dockerfile  Successfully built 4c3c2a9e934c
