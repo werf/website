@@ -143,7 +143,7 @@ metadata:
 Рассмотрим Deployment нашего приложения подробнее:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_initial %}
 
-> Deployment нашего приложения не является примером того, как должен выглядеть production-ready Deployment. Лучшие практики по организации ресурсов для ваших приложений мы рассмотрим в следующих главах. Более подробное описание Deployment доступно в [официальной документации](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
+> Более подробное описание Deployment доступно в [официальной документации](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
 
 Развернём наше приложение:
 ```shell

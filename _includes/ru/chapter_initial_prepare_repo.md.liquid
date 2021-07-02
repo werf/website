@@ -7,8 +7,10 @@
 
 <div id="tabs__from_scratch__continuing" class="tabs__content tabs__from_scratch__content active" markdown="1">
 {%- if include.no_changes %}
-Используем уже существующий репозиторий с приложением:
-{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=true %}
+Используем уже существующий репозиторий с приложением (выполните в Bash/PowerShell):
+```shell
+cd ~/werf-guide/app
+```
 
 Возникли проблемы с репозиторием? Попробуйте инструкции на вкладке "Начинаю проходить руководство с этой главы" выше.
 {%- else %}
