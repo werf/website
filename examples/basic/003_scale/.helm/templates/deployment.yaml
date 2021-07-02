@@ -16,7 +16,7 @@ spec:
       - name: registrysecret
       containers:
       - name: app
-        image: {{ .Values.werf.image.app | quote }}
+        image: {{ .Values.werf.image.app }}
         command: ["/app/start.sh"]
         ports:
         - containerPort: 8000
