@@ -80,7 +80,7 @@ status:
 * [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач 
   в Pod'ах по расписанию (например, регулярная очистка чего-либо).
 
-Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех pod, deployment, statefulset, job, cronjob из всех namespace):
+Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех Pod'ов, Deployment, Statefulset, Job, Cronjob из всех namespace):
 
 ```shell
 kubectl get --all-namespaces pod
@@ -208,8 +208,8 @@ spec:
           httpGet:
             path: /liveness
             port: 80
-      # InitContainers используются для разовых задач, выполняющихся перед запуском основных контейнеров.
-      # Основные контейнеры Pod'а не запустятся, пока не выполнятся initContainers.
+      # InitContainers используются для разовых задач, выполняющихся перед запуском основных контейнеров
+      # основные контейнеры Pod'а не запустятся, пока не выполнятся initContainers
       initContainers:
         - name: wait-postgres
           image: postgres
@@ -227,9 +227,14 @@ kubectl apply -f deployment.yaml
 > В этой главе для деплоя вместо `werf converge` мы будем использовать `kubectl apply`. Он удобен для быстрого и простого создания ресурсов в кластере, но для деплоя реального приложения необходимо использовать `werf converge`.
 
 Убедимся, что наш Deployment создался:
-
 ```shell
 kubectl get deployment werf-kube-basics
+```
+
+В ответ отобразится примерно следующее:
+```shell
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+kubernetes-basics-app   0/2     2            0           25s
 ```
 
 А теперь понаблюдаем за развертыванием Pod'ов, создаваемых нашим Deployment'ом:
@@ -237,9 +242,16 @@ kubectl get deployment werf-kube-basics
 kubectl get pod -l app=werf-kube-basics
 ```
 
+В ответ отобразится примерно следующее:
+```shell
+NAME                                    READY   STATUS    RESTARTS   AGE
+kubernetes-basics-app-6f59b7cf5-pjmrd   1/1     Running   0          109s
+kubernetes-basics-app-6f59b7cf5-thzcc   1/1     Running   0          109s
+```
+
 ## Service и Ingress
 
-С помощью Deployment мы можем развернуть наше stateless-приложение, но если пользователям или другим приложениям потребуется связываться с этим приложением изнутри или снаружи кластера, то нам потребуются два дополнительных ресурса: Ingress и Service.
+С помощью Deployment'а мы можем развернуть наше stateless-приложение, но если пользователям или другим приложениям потребуется связываться с этим приложением изнутри или снаружи кластера, то потребуются два дополнительных ресурса: Ingress и Service.
 
 Создадим файл `ingress.yaml`:
 ```yaml
@@ -279,13 +291,27 @@ spec:
 kubectl apply -f ingress.yaml -f service.yaml
 ```
 
-Убедимся, что наши ресурсы создались:
+Убедимся, что ресурс Service создался:
 ```shell
 kubectl get service werf-kube-basics
-kubectl get ingress werf-kube-basics
 ```
 
-Если несколько упрощать, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: werf-kube-basics`, быть перенаправленными на 80-й порт Service'а `werf-kube-basics`, а оттуда — на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
+В ответ получим следующее:
+```shell
+NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+werf-kube-basics   ClusterIP   10.107.19.126   <none>        80/TCP    35s
+```
+Убедимся, что ресурс ingress создался:
+```shell
+kubectl get ingress werf-kube-basics
+```
+В ответ получим следующее:
+```shell
+NAME                    CLASS    HOSTS                               ADDRESS   PORTS   AGE
+werf-kube-basics   <none>   werf-kube-basics.example.com             80      3m21s
+```
+
+Если несколько упростить, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: werf-kube-basics`, быть перенаправленными на 80-й порт Service'а `werf-kube-basics`, а оттуда — на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
 
 Обратимся к нашему приложению через Ingress:
 
@@ -328,4 +354,11 @@ Our $MY_ENV_VAR value is "myEnvVarValue".
 Удалим созданные нами ресурсы, так как они больше не понадобятся:
 ```shell
 kubectl delete -f deployment.yaml -f service.yaml -f ingress.yaml
+```
+
+В ответ получим сообщение об успешном удалении ресурсов:
+```shell
+deployment.apps "kubernetes-basics-app" deleted
+service "kubernetes-basics-app" deleted
+ingress.networking.k8s.io "kubernetes-basics-app" deleted
 ```
