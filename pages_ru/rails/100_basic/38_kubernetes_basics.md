@@ -99,7 +99,6 @@ kube-system         kube-controller-manager-minikube            1/1     Running 
 kube-system         kube-proxy-gtrcq                            1/1     Running     1          13d
 kube-system         kube-scheduler-minikube                     1/1     Running     1          13d
 kube-system         storage-provisioner                         1/1     Running     2          13d
-werf-guided-rails   basicapp-68c79f8cd7-6h888                   1/1     Running     1          11d
 ```
 {% endofftopic %}
 
@@ -112,7 +111,6 @@ kubectl get --all-namespaces deployment
 NAMESPACE           NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
 ingress-nginx       ingress-nginx-controller   1/1     1            1           11d
 kube-system         coredns                    1/1     1            1           13d
-werf-guided-rails   basicapp                   1/1     1            1           11d
 ```
 {% endofftopic %}
 
@@ -125,7 +123,7 @@ kubectl get --all-namespaces cronjob
 Также можно получить полную конфигурацию ресурса в yaml-формате, если добавить в команду `kubectl get` опцию `--output yaml`:
 
 ```shell
-kubectl get --namespace default deployment somedeployment --output yaml
+kubectl get deployment somedeployment --output yaml
 ```
 
 В ответ отобразится следующее:
@@ -136,7 +134,7 @@ metadata:
   name: somedeployment
 ...
 
-kubectl get -n default pod somepod -o yaml
+kubectl get pod somepod -o yaml
 ...
 kind: Pod
 metadata:
@@ -154,19 +152,19 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment  # Тип ресурса.
 metadata:
-  name: kubernetes-basics-app  #  имя Deployment'а
+  name: werf-kube-basics  # Имя Deployment'а.
 spec:
   replicas: 2  # можно развернуть несколько Pod'ов сразу
   selector:
     # label, по которому будет происходить выборка
     matchLabels:
-      app: kubernetes-basics-app
+      app: werf-kube-basics
   # секция, описывающая шаблон, по которому приложению будут назначаться значения параметров
   template:
     metadata:
       # label ресурса
       labels:
-        app: kubernetes-basics-app
+        app: werf-kube-basics
     spec:
       terminationGracePeriodSeconds: 60  # сколько секунд есть у процессов Pod'а на graceful-завершение после получения TERM-сигнала при остановке Pod'а
       # описание конфигурации контейнеров Pod'а:
@@ -200,7 +198,7 @@ spec:
               command: ["/bin/trigger-graceful-shutdown-for-my-app"]  # запустится перед завершением контейнера
         startupProbe:  # проверка готовности контейнера, при нескольких неудачах контейнер перезапустится
           httpGet:
-            path: /startup  # будет выполняться GET-запрос на http://<PodIP>:3000/startup.
+            path: /startup  # будет выполняться GET-запрос на http://<PodIP>/startup.
             port: 80
         readinessProbe:  # проверка готовности контейнера, запускается после startupProbe. При нескольких неудачах трафик перестаёт идти на Pod через Service
           httpGet:
@@ -230,7 +228,7 @@ kubectl apply -f deployment.yaml
 
 Убедимся, что наш Deployment создался:
 ```shell
-kubectl get deployment kubernetes-basics-app
+kubectl get deployment werf-kube-basics
 ```
 
 В ответ отобразится примерно следующее:
@@ -240,8 +238,8 @@ kubernetes-basics-app   0/2     2            0           25s
 ```
 
 А теперь понаблюдаем за развертыванием Pod'ов, создаваемых нашим Deployment'ом:
-```shell
-kubectl get pod -l app=kubernetes-basics-app
+```bash
+kubectl get pod -l app=werf-kube-basics
 ```
 
 В ответ отобразится примерно следующее:
@@ -262,15 +260,15 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-  name: kubernetes-basics-app
+  name: werf-kube-basics
 spec:
   rules:
-  - host: kubernetes-basics-app.example.com  # домен, запросы на который будут обрабатываться в paths ниже
+  - host: werf-kube-basics  # домен, запросы на который будут обрабатываться в paths ниже
     http:
       paths:
       - path: /  # запросы с префиксом / (все запросы) перенаправятся на порт 80 нашего Service'а
         backend:
-          serviceName: kubernetes-basics-app
+          serviceName: werf-kube-basics
           servicePort: 80
 ```
 
@@ -279,10 +277,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kubernetes-basics-app
+  name: werf-kube-basics
 spec:
   selector:
-    app: kubernetes-basics-app  # этот Service перенаправляет трафик на Pod'ы с этим лейблом
+    app: werf-kube-basics  # этот Service перенаправляет трафик на Pod'ы с этим лейблом
   ports:
   - name: http
     port: 80  # перенаправить трафик с 80-го порта Service'а на 80-й порт Pod'а
@@ -295,30 +293,30 @@ kubectl apply -f ingress.yaml -f service.yaml
 
 Убедимся, что ресурс Service создался:
 ```shell
-kubectl get service kubernetes-basics-app
+kubectl get service werf-kube-basics
 ```
 
 В ответ получим следующее:
 ```shell
 NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-kubernetes-basics-app   ClusterIP   10.107.19.126   <none>        80/TCP    35s
+werf-kube-basics   ClusterIP   10.107.19.126   <none>        80/TCP    35s
 ```
 Убедимся, что ресурс ingress создался:
 ```shell
-kubectl get ingress kubernetes-basics-app
+kubectl get ingress werf-kube-basics
 ```
-В ответ получим Podследующее:
+В ответ получим следующее:
 ```shell
 NAME                    CLASS    HOSTS                               ADDRESS   PORTS   AGE
-kubernetes-basics-app   <none>   kubernetes-basics-app.example.com             80      3m21s
+werf-kube-basics   <none>   werf-kube-basics.example.com             80      3m21s
 ```
 
-Если несколько упростить, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: kubernetes-basics-app.example.com`, быть перенаправленными на 80-й порт Service'а `kubernetes-basics-app`, а оттуда — на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
+Если несколько упростить, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: werf-kube-basics`, быть перенаправленными на 80-й порт Service'а `werf-kube-basics`, а оттуда — на 80-й порт одного из Pod'ов нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pod'ы Deployment'а поровну.
 
 Обратимся к нашему приложению через Ingress:
 
 ```shell
-curl http://kubernetes-basics-app.example.com
+curl http://werf-kube-basics
 ```
 
 В ответ отобразится следующее:
@@ -333,14 +331,14 @@ Our $MY_ENV_VAR value is "myEnvVarValue".
 
 Создадим новый контейнер, не имеющий отношения к нашему приложению:
 ```shell
-kubectl run another-kubernetes-basics-app --image=alpine --rm -it -- sh
+kubectl run werf-temporary-deployment --image=alpine --rm -it -- sh
 ```
 
 В запустившемся контейнере обратимся к нашему приложению через Service:
 
 ```shell
 apk add curl  # Установим curl внутри контейнера.
-curl http://kubernetes-basics-app  # Обратимся к одному из Pod'ов нашего приложения через Service.
+curl http://werf-kube-basics  # Обратимся к одному из Pod'ов нашего приложения через Service.
 ```
 
 В ответ отобразится следующее:
