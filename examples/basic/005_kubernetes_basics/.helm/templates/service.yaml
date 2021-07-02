@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # [<ru>] Имя Service.
+  name: werf-guide-app
+spec:
+  selector:
+    # [<ru>] Этот Service перенаправит трафик на Pods с этим лейблом.
+    app: werf-guide-app
+  ports:
+  - name: http
+    # [<ru>] Трафик с 8000-го порта Service перенаправится на 8000-й порт Pod'а.
+    port: 8000
