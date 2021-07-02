@@ -81,8 +81,8 @@ _Более подробную документацию по гитермини�
 {% raw %}
 ```yaml
       - name: app
-        command: ["bundle","exec", "puma"]
         image: {{ .Values.werf.image.app }}
+        command: ["/app/start.sh"]
 ```
 {% endraw %}
 
