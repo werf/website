@@ -89,32 +89,28 @@ werf build
 ┌ ⛵ image app
 │ ┌ Building stage app/dockerfile
 │ │ app/dockerfile  Sending build context to Docker daemon  4.096kB
-│ │ app/dockerfile  Step 1/13 : FROM alpine:3.14
+│ │ app/dockerfile  Step 1/14 : FROM alpine:3.14
 │ │ app/dockerfile   ---> d4ff818577bc
-│ │ app/dockerfile  Step 2/13 : WORKDIR /app
+│ │ app/dockerfile  Step 2/14 : WORKDIR /app
+│ │ app/dockerfile   ---> Using cache
 │ │ app/dockerfile   ---> fecacd1a1c75
-│ │ app/dockerfile  Step 3/13 : RUN apk add --no-cache --update bash nmap-ncat
-│ │ app/dockerfile   ---> Running in 94216deab08f
+│ │ app/dockerfile  Step 3/14 : RUN apk add --no-cache --update nmap-ncat
+│ │ app/dockerfile   ---> Running in 9bead7817a6d
 │ │ app/dockerfile  fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/main/x86_64/APKINDEX.tar.gz
 │ │ app/dockerfile  fetch https://dl-cdn.alpinelinux.org/alpine/v3.14/community/x86_64/APKINDEX.tar.gz
-│ │ app/dockerfile  (1/7) Installing ncurses-terminfo-base (6.2_p20210612-r0)
-│ │ app/dockerfile  (2/7) Installing ncurses-libs (6.2_p20210612-r0)
-│ │ app/dockerfile  (3/7) Installing readline (8.1.0-r0)
-│ │ app/dockerfile  (4/7) Installing bash (5.1.4-r0)
-│ │ app/dockerfile  Executing bash-5.1.4-r0.post-install
-│ │ app/dockerfile  (5/7) Installing lua5.3-libs (5.3.6-r0)
-│ │ app/dockerfile  (6/7) Installing libpcap (1.10.0-r0)
-│ │ app/dockerfile  (7/7) Installing nmap-ncat (7.91-r0)
+│ │ app/dockerfile  (1/3) Installing lua5.3-libs (5.3.6-r0)
+│ │ app/dockerfile  (2/3) Installing libpcap (1.10.0-r0)
+│ │ app/dockerfile  (3/3) Installing nmap-ncat (7.91-r0)
 │ │ app/dockerfile  Executing busybox-1.33.1-r2.trigger
-│ │ app/dockerfile  OK: 9 MiB in 21 packages
-│ │ app/dockerfile  Removing intermediate container 94216deab08f
-│ │ app/dockerfile   ---> 17674bdc70b5
-│ │ app/dockerfile  Step 4/13 : COPY start.sh .
-│ │ app/dockerfile   ---> e87305886c45
-│ │ app/dockerfile  Step 5/13 : RUN chmod +x start.sh
-│ │ app/dockerfile   ---> Running in b6d5ce0215d1
-│ │ app/dockerfile  Removing intermediate container b6d5ce0215d1
-│ │ app/dockerfile   ---> 92a25c405551
+│ │ app/dockerfile  OK: 6 MiB in 17 packages
+│ │ app/dockerfile  Removing intermediate container 9bead7817a6d
+│ │ app/dockerfile   ---> ac1cbf858c89
+│ │ app/dockerfile  Step 4/14 : COPY start.sh .
+│ │ app/dockerfile   ---> 0f51cefb9aaf
+│ │ app/dockerfile  Step 5/14 : RUN chmod +x start.sh
+│ │ app/dockerfile   ---> Running in c87188cc85f7
+│ │ app/dockerfile  Removing intermediate container c87188cc85f7
+│ │ app/dockerfile   ---> 7d47843543ed
 │ │ app/dockerfile  ...
 │ │ app/dockerfile  Successfully built 3091b84c90c3
 │ │ app/dockerfile  Successfully tagged 10560bef-f182-4769-bb23-c4a465814016:latest
