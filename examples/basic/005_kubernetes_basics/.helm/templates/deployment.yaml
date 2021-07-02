@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+# [<ru>] Тип ресурса.
+kind: Deployment
+metadata:
+  # [<ru>] Имя этого Deployment.
+  name: werf-guide-app
+spec:
+  selector:
+    matchLabels:
+      # [<ru>] По этому лейблу Deployment находит обслуживаемые им Pods.
+      app: werf-guide-app
+  # [<ru>] Описание шаблона, на основе которого создаются Pods для этого Deployment.
+  template:
+    metadata:
+      labels:
+        # [<ru>] Лейблы создаваемых Pods.
+        app: werf-guide-app
+    spec:
+      imagePullSecrets:
+      # [<ru>] Имя секрета с Docker credentials для доступа к container registry.
+      - name: registrysecret
+      containers:
+      # [<ru>] Имя первого контейнера.
+      - name: app
+        # [<ru>] Имя и тег образа контейнера.
+        image: {{ .Values.werf.image.app }}
+        # [<ru>] Основная команда контейнера, начнёт выполняться при его запуске.
+        command: ["/app/start.sh"]
+        # [<ru>] Порт, на котором будет слушать запускаемое приложение.
+        ports:
+        - containerPort: 8000

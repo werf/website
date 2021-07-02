@@ -20,7 +20,7 @@ layout: page_base
 
 {%- if page.chapter_initial_prepare_repo %}
     {%- capture prepare_repo %}
-        {%- include chapter_initial_prepare_repo.md.liquid examples_to=page.examples examples_from=page.examples_initial %}
+        {%- include chapter_initial_prepare_repo.md.liquid examples_to=page.examples examples_from=page.examples_initial no_changes=page.chapter_initial_prepare_repo_no_changes %}
     {%- endcapture %}
     {{- prepare_repo | markdownify }}
 {%- endif %}
