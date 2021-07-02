@@ -307,7 +307,7 @@ kubernetes-basics-app   ClusterIP   10.107.19.126   <none>        80/TCP    35s
 ```shell
 kubectl get ingress kubernetes-basics-app
 ```
-В ответ получим следующее:
+В ответ получим Podследующее:
 ```shell
 NAME                    CLASS    HOSTS                               ADDRESS   PORTS   AGE
 kubernetes-basics-app   <none>   kubernetes-basics-app.example.com             80      3m21s
