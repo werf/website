@@ -1,4 +1,18 @@
 ## Подготовка репозитория
 
-Подготовим репозиторий с приложением:
-{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=include.from_scratch %}
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn active" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__continuing')">Продолжаю проходить руководство</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__just_started')">Начинаю проходить руководство с этой главы</a>
+</div>
+
+<div id="tabs__from_scratch__continuing" class="tabs__content tabs__from_scratch__content active" markdown="1">
+Обновим существующий репозиторий с приложением:
+{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false %}
+
+Не работает? Попробуйте инструкции на вкладке "Начинаю проходить руководство с этой главы" выше.
+</div>
+
+<div id="tabs__from_scratch__just_started" class="tabs__content tabs__from_scratch__content" markdown="1">
+Подготовим новый репозиторий с приложением:
+{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=true %}
+</div>

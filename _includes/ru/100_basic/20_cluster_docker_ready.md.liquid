@@ -1,7 +1,7 @@
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__docker_ready__btn" onclick="openTab(event, 'tabs__docker_ready__btn', 'tabs__docker_ready__content', 'tab__docker_ready__windows')">Windows</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__docker_ready__btn active" onclick="openTab(event, 'tabs__docker_ready__btn', 'tabs__docker_ready__content', 'tab__docker_ready__linux')">Linux</a>
 <a href="javascript:void(0)" class="tabs__btn tabs__docker_ready__btn" onclick="openTab(event, 'tabs__docker_ready__btn', 'tabs__docker_ready__content', 'tab__docker_ready__macos')">macOS</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__docker_ready__btn" onclick="openTab(event, 'tabs__docker_ready__btn', 'tabs__docker_ready__content', 'tab__docker_ready__linux')">Linux</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__docker_ready__btn" onclick="openTab(event, 'tabs__docker_ready__btn', 'tabs__docker_ready__content', 'tab__docker_ready__windows')">Windows</a>
 </div>
 
 <div id="tab__docker_ready__windows" class="tabs__content tabs__docker_ready__content" markdown="1">
@@ -46,7 +46,7 @@ This message shows that your installation appears to be working correctly.
 При возникновении проблем обратитесь к [документации Docker](https://docs.docker.com/docker-for-mac/troubleshoot/) для их устранения.
 </div>
 
-<div id="tab__docker_ready__linux" class="tabs__content tabs__docker_ready__content" markdown="1">
+<div id="tab__docker_ready__linux" class="tabs__content tabs__docker_ready__content active" markdown="1">
 Запустим Docker:
 ```shell
 sudo systemctl restart docker

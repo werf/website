@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: werf-guide-app
+spec:
+  rules:
+  - host: werf-guide-app
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: werf-guide-app
+          servicePort: 8000
