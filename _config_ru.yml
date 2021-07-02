@@ -68,7 +68,7 @@ defaults:
       chapter_initial_prepare_cluster: true
       chapter_initial_prepare_repo: true
   - scope:
-      path: "pages_ru/basic"
+      path: "pages_ru/rails/100_basic"
       type: "pages"
     values:
       chapter_production_disclaimer: false
