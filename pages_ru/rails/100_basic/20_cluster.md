@@ -72,14 +72,33 @@ Password: <пароль пользователя Docker Hub>
 Login Succeeded
 ```
 
-Создаём Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
+Создадим namespace для нашего приложения:
 ```shell
-kubectl create namespace werf-guide-app  # namespace для Secret'а ещё не существует, создадим его
+kubectl create namespace werf-guide-app
+```
+
+В ответ увидим:
+```shell
+namespace/werf-guide-app created
+```
+
+Создадим Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
+```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
   --docker-username='<имя пользователя Docker Hub>' \
   --docker-password='<пароль пользователя Docker Hub>'
 ```
+
+В ответ увидим:
+```shell
+secret/registrysecret created
+```
+
+{% offtopic title="Если нужно пересоздать secret" %}
+kubectl delete secret docker-registry
+{% endofftopic %}
+
 
 > Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
 > registry. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
