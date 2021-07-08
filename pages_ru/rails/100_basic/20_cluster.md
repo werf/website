@@ -62,6 +62,7 @@ curl http://werf-guide-app/ping
 
 Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет и любой другой Registry с TLS и аутентификацией ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), ...).
 
+### Авторизация в Docker Hub
 Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guide-app`, в котором будем хранить собираемые образы.
 
 С помощью `docker login` получаем доступ с текущего компьютера к новому репозиторию, вводя логин и пароль от нашего пользователя на Docker Hub:
@@ -72,6 +73,7 @@ Password: <пароль пользователя Docker Hub>
 Login Succeeded
 ```
 
+### Создание namespace
 Создадим namespace для нашего приложения:
 ```shell
 kubectl create namespace werf-guide-app
@@ -82,7 +84,8 @@ kubectl create namespace werf-guide-app
 namespace/werf-guide-app created
 ```
 
-Создадим Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
+### Создание Secret
+Создадим Secret в кластере, который обеспечит доступ к нашему новому приватному репозиторию уже нашему приложению:
 ```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \

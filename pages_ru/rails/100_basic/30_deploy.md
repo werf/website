@@ -10,6 +10,16 @@ description: |
 ---
 
 ## Deployment
+В общем случае схема взаимодействия между разными ресурсами внутри кластера выглядит следующим образом:
+
+{% plantuml %}
+@startuml
+[*] --> Ingress
+Ingress -> Service
+Service -> Pod
+Pod -> Container
+Container -> App
+{% endplantuml %}
 
 Ресурс Deployment создаёт набор ресурсов, запускающих приложение. Он должен выглядеть так:
 
