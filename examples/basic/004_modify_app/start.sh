@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 RESPONSE="hello world"
 
