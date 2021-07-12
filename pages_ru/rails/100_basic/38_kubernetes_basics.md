@@ -206,6 +206,18 @@ werf-guide-app          <none>   werf-guide-app                                8
 
 Если несколько упростить, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: werf-guide-app`, быть перенаправленными на 8000-й порт Service'а `werf-guide-app`, а оттуда — на 8000-й порт одного из Pods нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pods Deployment'а поровну.
 
+В общем случае схема взаимодействия между разными ресурсами внутри кластера выглядит следующим образом:
+
+{% plantuml %}
+@startuml
+[*] --> Ingress
+Ingress -> Service
+Service -> Deployment
+Deployment -> Pod
+Pod -> Container
+Container -> App
+{% endplantuml %}
+
 Обратимся к нашему приложению через Ingress:
 ```shell
 curl http://werf-guide-app/ping

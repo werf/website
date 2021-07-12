@@ -3,8 +3,8 @@ title: Логирование
 permalink: rails/200_real_apps/25_logging.html
 examples: examples/rails/100_logging
 layout: wip
-chapter_initial_prepare_cluster: true
-chapter_initial_prepare_repo: true
+chapter_initial_prepare_cluster: false
+chapter_initial_prepare_repo: false
 description: |
     В этой статье мы добавим в наше приложение новый метод API, рассмотрим тему логирования и просмотра логов запущенного приложения, сконфигурируем приложение чтобы логи мог подхватить Kubernetes.
 ---
@@ -86,4 +86,4 @@ I, [2021-06-07T16:47:28.498811 #1]  INFO -- :   Rendered text template (Duration
 I, [2021-06-07T16:47:28.498897 #1]  INFO -- : Sent data  (0.5ms)
 I, [2021-06-07T16:47:28.498972 #1]  INFO -- : Completed 200 OK in 463ms (Views: 0.4ms | ActiveRecord: 0.0ms | Allocations: 247)
 ```
-Ура! У нас всё получилось.
+Поздравляем, у нас всё получилось!
