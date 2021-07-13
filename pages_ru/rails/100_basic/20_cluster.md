@@ -65,11 +65,17 @@ curl http://werf-guide-app/ping
 ### Авторизация в Docker Hub
 Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guide-app`, в котором будем хранить собираемые образы.
 
-С помощью `docker login` получаем доступ с текущего компьютера к новому репозиторию, вводя логин и пароль от нашего пользователя на Docker Hub:
+С помощью `docker login` получим доступ с текущего компьютера к новому репозиторию, введя логин и пароль от нашего пользователя на Docker Hub:
 ```shell
-$ docker login
+docker login
+# Введем имя пользователя Docker Hub
 Username: <имя пользователя Docker Hub>
+# Введем пароль пользователя Docker Hub
 Password: <пароль пользователя Docker Hub>
+```
+
+В случае успеха получим ответ:
+```shell
 Login Succeeded
 ```
 
@@ -79,7 +85,7 @@ Login Succeeded
 kubectl create namespace werf-guide-app
 ```
 
-В ответ увидим:
+В ответ отобразится следующее:
 ```shell
 namespace/werf-guide-app created
 ```
@@ -93,7 +99,7 @@ kubectl create secret docker-registry registrysecret \
   --docker-password='<пароль пользователя Docker Hub>'
 ```
 
-В ответ увидим:
+В ответ отобразится следующее:
 ```shell
 secret/registrysecret created
 ```

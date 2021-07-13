@@ -6,6 +6,7 @@
 ```shell
 # удалим существующий minikube-кластер (если он есть)
 minikube delete
+# запустим новый minikube-кластер
 minikube start --driver=hyperkit
 ```
 
@@ -48,7 +49,7 @@ minikube addons enable ingress
 ```
 
 В ответ отобразится следующее:
-```powershell
+```shell
 ...
 🔎  Verifying ingress addon...
 🌟  The 'ingress' addon is enabled

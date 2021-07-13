@@ -63,7 +63,7 @@ kubectl get ns
 
 werf поддерживает [множество имплементаций]({{ site.url }}/documentation/advanced/supported_registry_implementations.html) registry.
 
-Убедитесь, что есть сетевая связность кластера и registry.
+Убедитесь, что есть доступ кластера по сети к registry.
 
 ### Hosts
 

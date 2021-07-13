@@ -6,6 +6,7 @@
 ```powershell
 # удалим существующий minikube-кластер (если он есть)
 minikube delete
+# запустим новый minikube-кластер
 minikube start --driver=docker
 ```
 
@@ -77,7 +78,7 @@ kubectl expose service -n ingress-nginx ingress-nginx-controller --name ingress-
 netstat -anb | grep :80
 ```
 
-В случае если порт занят, то результат будет подобным:
+В случае если порт занят, то в ответ отобразится примерно следующее:
 
 ```powershell
 TCP     0.0.0.0:80        0.0.0.0:0       LISTENING
