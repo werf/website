@@ -2,7 +2,7 @@
 title: Внесение изменений
 permalink: rails/100_basic/35_deploy_changes.html
 examples_initial: examples/basic/002_deploy
-examples_scale: examples/basic/003_scale
+examples: examples/basic/003_scale
 examples_modify_app: examples/basic/004_modify_app
 description: |
     Внесём изменения в уже выкаченное приложение и его инфраструктуру. Продемонстрируем, как работает подход infrastructure-as-code (IaC).
@@ -81,11 +81,11 @@ app-57789b68-kxcb9   1/1     Running   0          72m
 
 Как же соблюсти **гитерминизм** и сделать всё правильно? Выставим тот же `spec.replicas=4`, но уже через состояние приложения, описанное в Git:
 
-{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_scale from_scratch=false %}
+{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
 
 Через файл `.helm/templates/deployment.yaml`:
 
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_scale %}
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
 Запустим деплой:
 ```shell

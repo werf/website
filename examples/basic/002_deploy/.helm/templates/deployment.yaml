@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: werf-guide-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: werf-guide-app
