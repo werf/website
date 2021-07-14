@@ -209,13 +209,17 @@ werf-guide-app          <none>   werf-guide-app                                8
 В общем случае схема взаимодействия между разными ресурсами внутри кластера выглядит следующим образом:
 
 {% plantuml %}
-@startuml
-[User] -> Ingress
-Ingress -> Service
-Service -> Deployment
-Deployment -> Pod
-Pod -> Контейнер
-Контейнер -> Приложение
+agent Пользователь
+agent Ingress
+agent Service
+agent Deployment
+agent Pod
+agent Приложение
+Пользователь <--> Ingress : Запрос
+Ingress <--> Service
+Service <--> Deployment
+Deployment <--> Pod
+Pod <--> Приложение
 {% endplantuml %}
 
 Обратимся к нашему приложению через Ingress:
