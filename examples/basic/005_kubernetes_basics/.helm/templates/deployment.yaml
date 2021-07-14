@@ -5,6 +5,8 @@ metadata:
   # [<ru>] Имя этого Deployment.
   name: werf-guide-app
 spec:
+  # [<ru>] Кол-во реплик этого Deployment.
+  replicas: 1
   selector:
     matchLabels:
       # [<ru>] По этому лейблу Deployment находит обслуживаемые им Pods.
