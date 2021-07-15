@@ -52,12 +52,14 @@ defaults:
     values:
       framework_id: django
       framework_name: Django
+      multilang: true
   - scope:
       path: "pages_ru/golang"
       type: "pages"
     values:
       framework_id: golang
       framework_name: Go
+      multilang: true
   - scope:
       path: "pages_ru/rails"
       type: "pages"
