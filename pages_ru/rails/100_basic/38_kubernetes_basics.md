@@ -127,7 +127,7 @@ kubectl get --all-namespaces cronjob
 kubectl -n ingress-nginx get deployment ingress-nginx-controller --output yaml
 ```
 
-В ответ отобразится следующее:
+В ответ получим примерно следующее:
 ```yaml
 ...
 kind: Deployment
@@ -155,7 +155,7 @@ werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
 kubectl get deployment werf-guide-app
 ```
 
-В ответ отобразится следующее:
+В ответ получим примерно следующее:
 ```shell
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
 werf-guide-app          1/1     1            1           25s
@@ -198,7 +198,7 @@ werf-guide-app          ClusterIP   10.107.19.126   <none>        80/TCP    35s
 kubectl get ingress werf-guide-app
 ```
 
-В ответ получим следующее:
+В ответ получим примерно следующее:
 ```shell
 NAME                    CLASS    HOSTS                               ADDRESS   PORTS   AGE
 werf-guide-app          <none>   werf-guide-app                                80      3m21s
@@ -206,12 +206,28 @@ werf-guide-app          <none>   werf-guide-app                                8
 
 Если несколько упростить, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: werf-guide-app`, быть перенаправленными на 8000-й порт Service'а `werf-guide-app`, а оттуда — на 8000-й порт одного из Pods нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pods Deployment'а поровну.
 
+В общем случае схема взаимодействия между разными ресурсами внутри кластера выглядит следующим образом:
+
+{% plantuml %}
+agent Пользователь
+agent Ingress
+agent Service
+agent Deployment
+agent Pod
+agent Приложение
+Пользователь <--> Ingress : Запрос
+Ingress <--> Service
+Service <--> Deployment
+Deployment <--> Pod
+Pod <--> Приложение
+{% endplantuml %}
+
 Обратимся к нашему приложению через Ingress:
 ```shell
 curl http://werf-guide-app/ping
 ```
 
-В ответ отобразится следующее:
+В ответ получим примерно следующее:
 ```shell
 pong
 ```
@@ -232,7 +248,7 @@ apk add curl  # Установим curl внутри контейнера.
 curl http://werf-guide-app/ping  # Обратимся к одному из Pod'ов нашего приложения через Service.
 ```
 
-В ответ отобразится следующее:
+В ответ получим:
 ```shell
 pong
 ```

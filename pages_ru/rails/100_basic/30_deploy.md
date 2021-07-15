@@ -10,7 +10,6 @@ description: |
 ---
 
 ## Deployment
-
 Ресурс Deployment создаёт набор ресурсов, запускающих приложение. Он должен выглядеть так:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
@@ -32,6 +31,8 @@ Werf пересобирает образы только при изменени�
 {% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
 
 ## Деплой в Kubernetes
+
+> В случае, если вы удалили namespace приложения, то необходимо вернуться к предыдущей главе и заново пересоздать registry secret.
 
 Команда [werf converge]({{ site.url }}/documentation/reference/cli/werf_converge.html) выполнит сразу и сборку, и развертывание приложения в Kubernetes:
 ```shell

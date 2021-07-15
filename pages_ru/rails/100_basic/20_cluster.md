@@ -62,24 +62,52 @@ curl http://werf-guide-app/ping
 
 Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет и любой другой Registry с TLS и аутентификацией ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), ...).
 
+### Авторизация в Docker Hub
 Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guide-app`, в котором будем хранить собираемые образы.
 
-С помощью `docker login` получаем доступ с текущего компьютера к новому репозиторию, вводя логин и пароль от нашего пользователя на Docker Hub:
+С помощью `docker login` получим доступ с текущего компьютера к новому репозиторию, введя логин и пароль от нашего пользователя на Docker Hub:
 ```shell
-$ docker login
+docker login
+# Введем имя пользователя Docker Hub
 Username: <имя пользователя Docker Hub>
+# Введем пароль пользователя Docker Hub
 Password: <пароль пользователя Docker Hub>
+```
+
+В случае успеха получим ответ:
+```shell
 Login Succeeded
 ```
 
-Создаём Secret в кластере, который поможет получить доступ к новому репозиторию уже нашим будущим приложениям:
+### Создание namespace
+Создадим namespace для нашего приложения:
 ```shell
-kubectl create namespace werf-guide-app  # namespace для Secret'а ещё не существует, создадим его
+kubectl create namespace werf-guide-app
+```
+
+В ответ отобразится следующее:
+```shell
+namespace/werf-guide-app created
+```
+
+### Создание Secret
+Создадим Secret в кластере, который обеспечит доступ к нашему новому приватному репозиторию уже нашему приложению:
+```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
   --docker-username='<имя пользователя Docker Hub>' \
   --docker-password='<пароль пользователя Docker Hub>'
 ```
+
+В ответ отобразится следующее:
+```shell
+secret/registrysecret created
+```
+
+{% offtopic title="Если нужно пересоздать secret" %}
+kubectl delete secret docker-registry
+{% endofftopic %}
+
 
 > Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
 > registry. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
