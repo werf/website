@@ -1,6 +1,6 @@
 ---
 title: Периодическое выполнение заданий
-permalink: rails/200_real_apps/60_cron.html
+permalink: laravel/200_real_apps/60_cron.html
 layout: wip
 ---
 

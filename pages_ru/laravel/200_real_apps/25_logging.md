@@ -1,7 +1,7 @@
 ---
 title: Логирование
-permalink: rails/200_real_apps/25_logging.html
-examples: examples/rails/100_logging
+permalink: laravel/200_real_apps/25_logging.html
+examples: examples/laravel/100_logging
 layout: wip
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
