@@ -2,8 +2,8 @@
 title: Инициализация БД и миграции
 permalink: laravel/200_real_apps/40_db_init_and_migrations.html
 layout: wip
-examples: examples/laravel/100_db_init_and_migrations
-examples_initial: examples/laravel/019_fixup_consistency
+examples: examples/rails/100_db_init_and_migrations
+examples_initial: examples/rails/019_fixup_consistency
 description: |
   В этой главе мы рассмотрим наиболее корректные способы выполнять подготовку базы данных приложения к работе.
 ---
