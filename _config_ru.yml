@@ -64,6 +64,12 @@ defaults:
       framework_name: Go
       multilang: true
   - scope:
+      path: "pages_ru/laravel"
+      type: "pages"
+    values:
+      framework_id: laravel
+      framework_name: Laravel
+  - scope:
       path: "pages_ru/rails"
       type: "pages"
     values:

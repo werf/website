@@ -12,6 +12,7 @@ exclude:
   - Gemfile.lock
   - examples
   - pages_ru
+
 include:
   - pages_en
 
@@ -22,8 +23,8 @@ defaults:
     values:
       layout: "page"
       lang: en
-      sitemap_include: true
       multilang: false
+      sitemap_include: true
   - scope:
       path: "pages_en"
       type: "pages"
@@ -49,11 +50,25 @@ defaults:
       framework_name: "Spring Boot"
       multilang: true
   - scope:
-      path: "pages_en/python_django"
+      path: "pages_en/django"
       type: "pages"
     values:
-      framework_id: python_django
+      framework_id: django
       framework_name: Django
+      multilang: true
+  - scope:
+      path: "pages_en/golang"
+      type: "pages"
+    values:
+      framework_id: golang
+      framework_name: Go
+      multilang: true
+  - scope:
+      path: "pages_en/laravel"
+      type: "pages"
+    values:
+      framework_id: laravel
+      framework_name: Laravel
   - scope:
       path: "pages_en/rails"
       type: "pages"
