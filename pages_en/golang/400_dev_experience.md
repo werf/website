@@ -1,8 +1,7 @@
 ---
-title: Повышение качества разработки
+title: Improving developer experience
 permalink: golang/400_dev_experience.html
 layout: development
 ---
 
-TODO: тут напишем что-то вводное
-
+{% include 400_dev_experience.md.liquid %}
