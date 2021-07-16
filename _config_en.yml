@@ -31,6 +31,9 @@ defaults:
       sidebar: guide
       multilang: true
       toc: false
+      chapter_production_disclaimer: true
+      chapter_initial_prepare_cluster: true
+      chapter_initial_prepare_repo: true
   - scope:
       path: "pages_en/nodejs"
       type: "pages"
@@ -57,6 +60,18 @@ defaults:
     values:
       framework_id: rails
       framework_name: Rails
+  - scope:
+      path: "pages_en/*/100_basic"
+      type: "pages"
+    values:
+      chapter_production_disclaimer: false
+  - scope:
+      path: "pages_en/*/*.md"
+      type: "pages"
+    values:
+      chapter_production_disclaimer: false
+      chapter_initial_prepare_cluster: false
+      chapter_initial_prepare_repo: false
 
 breadcrumbs:
   home_text: Guides
