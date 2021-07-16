@@ -1,5 +1,7 @@
 ---
-title: Повышение качества разработки
+title: Improving developer experience
 permalink: django/400_dev_experience.html
 layout: development
 ---
+
+{% include 400_dev_experience.md.liquid%}
