@@ -1,0 +1,100 @@
+{%- capture include_id %}{% increment include_id_counter %}{%- endcapture %}
+{%- assign tab_class = "tabs__prepare_repo__btn__" | append: include_id %}
+{%- assign content_class = "tabs__prepare_repo__content__" | append: include_id %}
+{%- assign content_id_unix = "tabs__prepare_repo__macos_linux__" | append: include_id %}
+{%- assign content_id_windows = "tabs__prepare_repo__windows__" | append: include_id %}
+
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn {{ tab_class }} active" onclick="openTab(event, '{{ tab_class }}', '{{ content_class }}', '{{ content_id_unix }}')">Linux / macOS</a>
+<a href="javascript:void(0)" class="tabs__btn {{ tab_class }}" onclick="openTab(event, '{{ tab_class }}', '{{ content_class }}', '{{ content_id_windows }}')">Windows</a>
+</div>
+
+<div id="{{ content_id_windows }}" class="tabs__content {{ content_class }}" markdown="1">
+
+Выполним следующий набор команд в PowerShell:
+
+```powershell
+{%- if include.from_scratch %}
+# Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
+if (-not (Test-Path ~/werf-guide/guides)) {
+  git clone https://github.com/werf/werf-guides $env:HOMEPATH/werf-guide/guides
+}
+
+# Скопируем файлы приложения (пока без изменений) в ~/werf-guide/app
+rm -Recurse -Force ~/werf-guide/app
+cp -Recurse -Force ~/werf-guide/guides/{{ include.examples_from }} ~/werf-guide/app
+
+# Сделаем из директории ~/werf-guide/app git-репозиторий
+cd ~/werf-guide/app
+git init
+git add .
+git commit -m initial
+{%- else %}
+cd ~/werf-guide/app
+{%- endif %}
+{%- if include.no_changes %}
+```
+{%- else %}
+
+# Чтобы увидеть, какие изменения мы собрались вносить далее в этой главе, заменим все файлы приложения
+# в репозитории новыми, уже измененными файлами приложения, которые содержат описанные далее изменения.
+git rm -r .
+cp -Recurse -Force ~/werf-guide/guides/{{ include.examples_to }}/* .
+git add .
+git commit -m WIP
+```
+
+{% offtopic title="Посмотреть, какие именно изменения мы произведём" %}
+```shell
+# Показать, какие файлы мы собираемся изменить
+git show --stat
+# Показать изменения
+git show
+```
+{% endofftopic %}
+{%- endif %}
+</div>
+
+<div id="{{ content_id_unix }}" class="tabs__content {{ content_class }} active" markdown="1">
+
+Выполним следующий набор команд в Bash:
+
+```shell
+{%- if include.from_scratch %}
+# Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
+test -e ~/werf-guide/guides || git clone https://github.com/werf/werf-guides ~/werf-guide/guides
+
+# Скопируем файлы приложения (пока без изменений) в ~/werf-guide/app
+rm -rf ~/werf-guide/app
+cp -rf ~/werf-guide/guides/{{ include.examples_from }} ~/werf-guide/app
+
+# Сделаем из директории ~/werf-guide/app git-репозиторий
+cd ~/werf-guide/app
+git init
+git add .
+git commit -m initial
+{%- else %}
+cd ~/werf-guide/app
+{%- endif %}
+{%- if include.no_changes %}
+```
+{%- else %}
+
+# Чтобы увидеть, какие изменения мы собрались вносить далее в этой главе, заменим все файлы приложения
+# в репозитории новыми, уже измененными файлами приложения, которые содержат описанные далее изменения.
+git rm -r .
+cp -rfT ~/werf-guide/guides/{{ include.examples_to }} .
+git add .
+git commit -m WIP
+```
+
+{% offtopic title="Посмотреть, какие именно изменения мы произведём" %}
+```shell
+# Показать, какие файлы мы собираемся изменить
+git show --stat
+# Показать изменения
+git show
+```
+{% endofftopic %}
+{%- endif %}
+</div>
