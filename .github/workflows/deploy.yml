@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - staging
   pull_request:
     types: [ labeled, synchronize ]
 
@@ -16,6 +15,7 @@ env:
 jobs:
   converge:
     name: Deploy
+    if: github.ref == 'refs/heads/master' || contains(github.event.pull_request.labels.*.name, 'test guides')
     runs-on: self-hosted
     steps:
 
@@ -32,7 +32,7 @@ jobs:
         WERF_KUBE_CONTEXT: dev
         WERF_LOG_VERBOSE: "on"
         WERF_NAMESPACE: "werfio-test"
-      if: ${{ github.ref == 'refs/heads/staging' || (github.event.label.name == 'test guides' && github.event.action == 'labeled') }}
+      if: contains(github.event.pull_request.labels.*.name, 'test guides')
 
     - name: Deploy to production
       uses: werf/actions/converge@v1.2
