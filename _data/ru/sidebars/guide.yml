@@ -19,6 +19,8 @@ entries:
     - title: Реалистичные приложения
       url: "200_real_apps.html"
       sf:
+        - title: Базовое приложение
+          url: "200_real_apps/010_basic_app.html"
         - title: Логирование
           url: "200_real_apps/25_logging.html"
         - title: Генерируем и раздаём ассеты
