@@ -1,0 +1,69 @@
+## Новое приложение на {{ page.framework_name }}
+
+Далее мы будем использовать простое приложение на {{ page.framework_name }}, функционально идентичное приложению из предыдущего раздела.
+
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/how_basic_app_was_made.md.liquid %}
+
+Что касается сборки и CI/CD, то основные изменения затронули сборку образа:
+{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+
+CI/CD изменилось незначительно. К примеру, так выглядит новый Deployment приложения:
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+
+Приложение полностью stateless и не требует базы данных для работы. Мы сделаем наше приложение stateful и развернём для него базу данных в следующих главах.
+
+## Деплой нового приложения
+
+Проверим работоспособность нового приложения, развернув его в Kubernetes:
+```shell
+werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+```
+
+Ожидаемый результат:
+```shell
+...
+┌ ⛵ image app
+│ ┌ Building stage app/dockerfile
+│ │ app/dockerfile  Sending build context to Docker daemon  28.67kB
+│ │ app/dockerfile  Step 1/13 : FROM ruby:2.7
+│ │ app/dockerfile   ---> 1faa5f2f8ca3
+...
+│ │ app/dockerfile  Successfully built c355eabb4711
+│ │ app/dockerfile  Successfully tagged 0da7d8d9-d233-47a4-b26d-1ffc545a3f08:latest
+│ ├ Info
+│ │      name: .../werf-guide-app:5458f4f29b7a0fab3de8e660eaeeaf2f9317b54f64e48c0fcf0addda-1626957111392
+│ │        id: c355eabb4711
+│ │   created: 2021-07-22 15:31:51 +0300 MSK
+│ │      size: 327.3 MiB
+│ └ Building stage app/dockerfile (15.57 seconds)
+└ ⛵ image app (23.22 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                                                          REPLICAS                       AVAILABLE                        UP-TO-DATE
+│ │ werf-guide-app           1/1                            1                                1
+│ │ │   POD                                                             READY                   RESTARTS                        STATUS
+│ │ ├── guide-app-59cc5db6b7-xkswr                                      1/1                     0                               Terminating
+│ │ └── guide-app-7765fddf75-vzmzm                                      1/1                     0                               Running
+│ └ Status progress
+└ Waiting for release resources to become ready (4.78 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Jul 22 15:32:10 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+Running time 30.27 seconds
+```
+
+Проверим, действительно ли наше приложение работает:
+```shell
+curl http://werf-guide-app/ping
+```
+
+Ожидаемый ответ:
+```shell
+pong
+```
