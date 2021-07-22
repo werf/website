@@ -6,6 +6,7 @@ examples: examples/basic/003_scale
 examples_modify_app: examples/basic/004_modify_app
 chapter_initial_prepare_cluster: true
 chapter_initial_prepare_repo: true
+chapter_initial_prepare_repo_no_changes: true
 description: |
     Внесём изменения в уже задеплоенное приложение и его инфраструктуру. Продемонстрируем, как работает подход infrastructure-as-code (IaC).
 ---
