@@ -1,0 +1,21 @@
+{% assign sidebar = site.data.sidebars[page.sidebar].entries %}
+<ul id="mysidebar" class="sidebar sidebar_static">
+  {%- for folder in sidebar.f %}
+  {% if folder.sf %}
+  <li class="sidebar__item sidebar__item_parent {%- if page.url contains folder.url %} active{%- endif %}">
+    {%- assign folder_page_permalink = page.framework_id | append: "/" | append: folder.url -%}
+    {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
+    <a href="{{ folder_relative_url }}" data-subhref="{{ folder.url }}">{{ folder.title }}</a>
+    <ul class="sidebar__submenu">
+      {%- for subfolder in folder.sf %}
+      {% include layouts/sidebar_li.html.liquid entry=subfolder base_li_class="sidebar__submenu-item" %}
+      {%- endfor %}
+    </ul>
+  </li>
+  {%- else %}
+  {% include layouts/sidebar_li.html.liquid entry=folder base_li_class="sidebar__item" %}
+  {%- endif %}
+  {%- endfor %}
+</ul>
+
+
