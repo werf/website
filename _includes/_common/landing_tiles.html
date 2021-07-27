@@ -76,10 +76,11 @@
         </a>
     </div>
     <div class="guides__tile">
-        {% asset landing/laravel.svg width="175" height="51" class="guides__tile-logo guides__tile-logo_disabled" %}
-        <span class="guides__tile__button guides__tile__button_small guides__tile__button_disabled">
-                <span>скоро...</span>
-              </span>
+        {% asset landing/laravel.svg width="175" height="51" class="guides__tile-logo" %}
+        <a href="{{ '/laravel/100_basic.html' | relative_url }}" class="guides__tile__button guides__tile__button_small">
+            <span>Laravel</span>
+            {% asset arrow.svg class="flip-horizontal" height="12" %}
+        </a>
     </div>
     {%- endif %}
 </div>
