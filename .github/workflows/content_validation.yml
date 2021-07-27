@@ -12,7 +12,7 @@ env:
 
 jobs:
   check_links:
-    container: jekyll/builder:3
+    container: jekyll/builder:4
     name: Check broken links
     runs-on: ubuntu-latest
     strategy:
@@ -43,7 +43,7 @@ jobs:
             --empty-alt-ignore \
             --check_html \
             --file_ignore "/____________/" \
-            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/,/guides\/(?!rails).*/" \
+            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/" \
             --url-swap "github.com/werf/werf-guides/blob/master:github.com/werf/werf-guides/blob/$GITHUB_SHA,github.com/werf/werf-guides/tree/master:github.com/werf/werf-guides/tree/$GITHUB_SHA" \
             --http-status-ignore 0 \
             ./_site/

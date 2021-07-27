@@ -33,12 +33,20 @@
     width: 860px;
 }
 
+.sidebar__item {
+    color: #bbb;
+}
+
+li.sidebar__disabled-item, li.sidebar__submenu-disabled-item {
+    font-size: 14px;
+    padding: 10px 0;
+}
+
 .sidebar__item.secondary > a {
     color: #939fb1;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: -0.26px;
-
 }
 
 .sidebar_static .sidebar__submenu {
