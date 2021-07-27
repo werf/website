@@ -1,8 +1,7 @@
 ---
 title: Динамические окружения
 permalink: nodejs/200_real_apps/99_dynamicenvs.html
-layout: wip
-multilang: false
+layout: development
 ---
 
 {% filesused title="Файлы, упомянутые в главе" %}
