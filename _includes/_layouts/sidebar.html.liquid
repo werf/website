@@ -3,17 +3,24 @@
   {%- for folder in sidebar.f %}
   {% if folder.sf %}
   <li class="sidebar__item sidebar__item_parent {%- if page.url contains folder.url %} active{%- endif %}">
-    {%- assign folder_page_permalink = page.framework_id | append: "/" | append: folder.url -%}
+    {%- capture folder_page_permalink %}{{ page.framework_id }}/{{ folder.url }}{% endcapture -%}
     {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
-    <a href="{{ folder_relative_url }}" data-subhref="{{ folder.url }}">{{ folder.title }}</a>
+    {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
+
+    {% if folder_page and folder_page.layout != "development" %}
+      <a href="{{ folder_relative_url }}" data-subhref="{{ folder.url }}">{{ folder.title }}</a>
+    {% else %}
+      {{ folder.title }}
+    {% endif %}
+
     <ul class="sidebar__submenu">
       {%- for subfolder in folder.sf %}
-      {% include layouts/sidebar_li.html.liquid entry=subfolder base_li_class="sidebar__submenu-item" %}
+      {% include layouts/sidebar_li.html.liquid entry=subfolder base_li_class="sidebar__submenu-item" li_disabled_class="sidebar__submenu-disabled-item" %}
       {%- endfor %}
     </ul>
   </li>
   {%- else %}
-  {% include layouts/sidebar_li.html.liquid entry=folder base_li_class="sidebar__item" %}
+  {% include layouts/sidebar_li.html.liquid entry=folder base_li_class="sidebar__item" li_disabled_class="sidebar__disabled-item" %}
   {%- endif %}
   {%- endfor %}
 </ul>
