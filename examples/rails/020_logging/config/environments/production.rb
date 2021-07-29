@@ -43,10 +43,12 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  # [<snippet logger>]
+  # [<snippet log_formatter>]
   config.log_formatter = JSONSimpleFormatter.new
 
+  # [<snippet logger>]
   config.logger           = ActiveSupport::Logger.new(STDOUT)
-  config.logger.formatter = config.log_formatter
   # [<endsnippet logger>]
+  config.logger.formatter = config.log_formatter
+  # [<endsnippet log_formatter>]
 end
