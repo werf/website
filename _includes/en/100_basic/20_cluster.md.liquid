@@ -1,6 +1,6 @@
-## Развертывание кластера
+## Deploying a cluster
 
-Выберите, каким образом будет развернут Kubernetes:
+Select your operating system:
 
 <div class="tabs">
 <a href="javascript:void(0)" class="tabs__btn tabs__install__btn active" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_linux')">Linux: minikube</a>
@@ -27,15 +27,15 @@
 </div>
 {% endcomment %}
 
-## Проверка
+## Testing
 
-Для проверки работоспособности выполните:
+Execute the following command to check if the cluster is up and running:
 
 ```shell
 curl http://werf-guide-app/ping
 ```
 
-Если всё работает как надо, то NGINX Ingress Controller вернёт ошибку 404:
+If it works, the NGINX Ingress Controller will return a 404 error:
 
 ```html
 <html>
@@ -47,65 +47,65 @@ curl http://werf-guide-app/ping
 </html>
 ```
 
-> Если у вас уже поднято приложение, на которое смотрит Ingress с доменом `werf-guide-app`, то вместо ошибки 404 вы получите ответ от своего приложения.
+> Note that if your application is running already and has an Ingress configured to use the `werf-guide-app` domain, you will get a response from your application instead of a 404 error.
 
-## Настройка Container Registry
+## Configuring the Container Registry
 
-Далее мы будем использовать Docker Hub Container Registry, но для этого руководства подойдет и любой другой Registry с TLS и аутентификацией ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), ...).
+In this guide, we will use the Docker Hub Container Registry. However, you can use any other Registry that supports TLS and authentication ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), etc.).
 
-### Авторизация в Docker Hub
-Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guide-app`, в котором будем хранить собираемые образы.
+### Authorizing in Docker Hub
+Create a [Docker Hub](https://hub.docker.com/signup) ID  and create a [private repository](https://hub.docker.com/repository/create) named `werf-guide-app`. We will store the built images in it.
 
-С помощью `docker login` получим доступ с текущего компьютера к новому репозиторию, введя логин и пароль от нашего пользователя на Docker Hub:
+Using the `docker login` command, log in to the new repository by entering the username and password of the Docker Hub user:
 ```shell
 docker login
-# Введем имя пользователя Docker Hub
-Username: <имя пользователя Docker Hub>
-# Введем пароль пользователя Docker Hub
-Password: <пароль пользователя Docker Hub>
+# Enter the name of the Docker Hub user
+Username: <Docker Hub username>
+# Enter the password of the Docker Hub user
+Password: <Docker Hub password>
 ```
 
-В случае успеха получим ответ:
+If the login is successful, you will see the following message:
 ```shell
 Login Succeeded
 ```
 
-### Создание namespace
-Создадим namespace для нашего приложения:
+### Creating a namespace
+Let's create a namespace for our application:
 ```shell
 kubectl create namespace werf-guide-app
 ```
 
-В ответ отобразится следующее:
+You will see the following output:
 ```shell
 namespace/werf-guide-app created
 ```
 
-### Создание Secret
-Создадим Secret в кластере, который обеспечит доступ к нашему новому приватному репозиторию уже нашему приложению:
+### Creating a Secret
+Now it is time to create a Secret in the cluster. With it, our application can access the private repository:
 ```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
-  --docker-username='<имя пользователя Docker Hub>' \
-  --docker-password='<пароль пользователя Docker Hub>'
+  --docker-username='<Docker Hub username>' \
+  --docker-password='<Docker Hub password>'
 ```
 
-В ответ отобразится следующее:
+You will see the following output:
 ```shell
 secret/registrysecret created
 ```
 
-{% offtopic title="Если нужно пересоздать secret" %}
+{% offtopic title="If you need to recreate a secret" %}
 kubectl delete secret docker-registry
 {% endofftopic %}
 
 
-> Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
-> registry. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
-> без опции и использовать значение по умолчанию.
+> Note the `--docker-server` parameter. It must correspond to the address of the registry being used.
+> For example, for GitHub Container Registry, this parameter must be set to `ghcr.io`, while for Docker Hub, 
+> you can omit it and use the default value.
 
-Теперь окружение для работы готово.
+Now the environment is ready for work.
 
-## Рабочее окружение работало, но перестало
+## The environment has stopped working
 
 {% include 100_basic/20_cluster/frequent_issues.md.liquid %}
