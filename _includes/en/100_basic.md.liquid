@@ -1,5 +1,5 @@
-В этой главе мы **пошагово** покажем, как с помощью werf собрать образ с приложением и запустить контейнер на основе собранного образа локально. После этого мы покажем, как разворачивать это же приложение в Kubernetes.
+This **step-be-step** guide will show you how to build an image using werf and run a container based on the built image locally. Then we proceed to deploy our application to Kubernetes.
 
-## Используемое приложение
+## The application
 
-В качестве тестового приложения мы будем использовать небольшой shell-скрипт, имитирующий простейшее приложение, которое возвращает `pong` при обращении на endpoint `/ping`. В разделе «Реалистичные приложения» мы поменяем этот shell-скрипт на простое приложение на {{ page.framework_name }}, в которое мы будем добавлять новую функциональность в каждой новой главе, в конечном итоге получив приложение, напоминающее реальное.
+We will use a tiny shell-script as an example application. This script returns `pong` in response to a request to the `/ping` endpoint. In the "Real-life applications" chapter, we will replace this shell-script with a {{ page.framework_name }} application. We will gradually add new functionality to it with each new chapter, eventually getting an app that resembles the real-life one.
