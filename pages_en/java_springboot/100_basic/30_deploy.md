@@ -1,12 +1,12 @@
 ---
-title: Деплой приложения
+title: Deploying the application
 permalink: java_springboot/100_basic/30_deploy.html
 examples: examples/basic/002_deploy
 examples_initial: examples/basic/001_build
 description: |
-    В предыдущих главах мы собрали образ приложения и подготовили окружение для его развертывания. Теперь развернём приложение в ранее подготовленном кластере Kubernetes.
+    In the previous chapters, we built an image of the application and set up the environment to deploy it. Now let's deploy the application to the Kubernetes cluster we configured.
 
-    При деплое в Kubernetes используются Kubernetes-манифесты, которые описывают ресурсы (объекты Kubernetes), необходимые для работы приложений. Эти ресурсы включают в себя, к примеру, Deployment, отвечающий за запуск приложений в контейнерах, и Service/Ingress, отвечающие за доступ к запущенным приложениям изнутри и извне кластера.
+    Kubernetes manifests are used for deploying to Kubernetes. They describe the resources (Kubernetes objects) required for the application to run. These resources include Deployment (it is responsible for running applications in containers) and Service/Ingress (these are responsible for accessing running applications from inside and outside of the cluster).
 ---
 
 {% include 100_basic/30_deploy.md.liquid %}
