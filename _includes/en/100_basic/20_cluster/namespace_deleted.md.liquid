@@ -1,4 +1,4 @@
-Если вы непреднамеренно удалили Namespace приложения, то необходимо выполнить следующие команды, чтобы продолжить прохождение руководства:
+If you have inadvertently deleted Namespace of the application, you must run the following commands to proceed with the guide:
 ```shell
 kubectl create namespace werf-guide-app
 kubectl create secret docker-registry registrysecret \
@@ -7,7 +7,7 @@ kubectl create secret docker-registry registrysecret \
   --docker-password='<пароль пользователя Docker Hub>'
 ```
 
-Результат успешного выполнения команды:
+You will see the following output if the command completes successfully:
 ```shell
 namespace/werf-guide-app created
 secret/registrysecret created
