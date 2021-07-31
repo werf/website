@@ -1,15 +1,15 @@
 ---
-title: Необходимо знать
+title: Things You Need to Know
 permalink: java_springboot/100_basic/40_must_haves.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 description: |
-  В данной главе приведена основная информация для комфортной и уверенной работы с werf:
+  This chapter provides essential information for using werf comfortably:
 
-  - **Принципы работы с исходным кодом и гитерминизм**, что обеспечивают надежность и гарантию воспроизводимости, а также унифицируют все процессы.
-  - Как в werf **тегируются образы** и надо ли беспокоиться о тегах, чтобы организовать сборку и деплой _(нет, не надо)_.
-  - Как выглядит **релиз** и как производится его **отладка**.
-  - Как освободить **место в хранилище образов**, которое рано или поздно начнет заканчиваться.
+  - **Principles of working with source code and giterminism**. These ensure reliability and reproducibility and unify all processes.
+  - werf's **image tagging strategy**. This strategy _frees you of worries_ about tagging rules, building and deploying images.
+  - What is a **release** and how to **debug** it.
+  - How to free up **space in the image repository** that will run out sooner or later.
 ---
 
 {% include 100_basic/40_must_haves.md.liquid %}
