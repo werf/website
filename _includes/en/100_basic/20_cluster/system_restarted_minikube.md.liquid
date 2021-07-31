@@ -4,17 +4,17 @@
 </div>
 
 <div id="tab__system_restarted__minikube_windows" class="tabs__content tabs__system_restarted__content" markdown="1">
-Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
+Let's start the minikube cluster we have already configured in the chapter ["Preparing the environment"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
 ```powershell
 minikube start
 ```
 
-Выставим Namespace по умолчанию, чтобы не указывать его при каждом вызове `kubectl`:
+Set the default Namespace so that you don't have to specify it every time you invoke `kubectl`:
 ```powershell
 kubectl config set-context minikube --namespace=werf-guide-app
 ```
 
-Результат успешного выполнения команды:
+You will see the following output if the command completes successfully:
 ```shell
 😄  minikube v1.20.0 on Ubuntu 20.04
 ✨  Using the docker driver based on existing profile
@@ -38,31 +38,31 @@ kubectl config set-context minikube --namespace=werf-guide-app
 🏄  Done! kubectl is now configured to use "minikube" cluster and "werf-guide-app" namespace by default
 ```
 
-Убедитесь, что вывод команды содержит строку:
+Make sure that the command output contains the following line:
 ```shell
 Restarting existing docker container for "minikube"
 ```
 
-Если её нет, значит был создан новый кластер minikube вместо использования старого. В таком случае повторите установку рабочего окружения с minikube [с самого начала]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}).
+Its lack means that a new minikube cluster was created instead of using the old one. In this case, repeat [all the steps]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) required to install the environment using minikube.
 
-Теперь запустите команду в фоновом PowerShell-терминале и не закрывайте его:
+Now run the command in the background PowerShell terminal (do not close its window):
 ```powershell
 minikube tunnel --cleanup=true
 ```
 </div>
 
 <div id="tab__system_restarted__minikube_macos_linux" class="tabs__content tabs__system_restarted__content active" markdown="1">
-Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
+Let's start the minikube cluster we have already configured in the chapter ["Preparing the environment"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
 ```shell
 minikube start --namespace werf-guide-app
 ```
 
-Выставим Namespace по умолчанию, чтобы не указывать его при каждом вызове `kubectl`:
+Set the default Namespace so that you don't have to specify it every time you invoke `kubectl`:
 ```shell
 kubectl config set-context minikube --namespace=werf-guide-app
 ```
 
-Результат успешного выполнения команды:
+You will see the following output if the command completes successfully:
 ```shell
 😄  minikube v1.20.0 on Ubuntu 20.04
 ✨  Using the docker driver based on existing profile
@@ -86,10 +86,10 @@ kubectl config set-context minikube --namespace=werf-guide-app
 🏄  Done! kubectl is now configured to use "minikube" cluster and "werf-guide-app" namespace by default
 ```
 
-Убедитесь, что вывод команды содержит строку:
+Make sure that the command output contains the following line:
 ```shell
 Restarting existing docker container for "minikube"
 ```
 
-Если её нет, значит был создан новый кластер minikube вместо использования старого. В таком случае повторите установку рабочего окружения с minikube [с самого начала]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}).
+Its lack means that a new minikube cluster was created instead of using the old one. In this case, repeat [all the steps]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) required to install the environment from scratch using minikube.
 </div>
