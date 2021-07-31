@@ -1,8 +1,8 @@
-## Шаблоны, манифесты и ресурсы
+## Templates, manifests, and resources
 
-werf при деплое использует YAML-манифесты, описывающие Kubernetes-ресурсы. Эти манифесты получаются из Helm-шаблонов, которые лежат в `.helm/templates` и `.helm/charts`.
+werf uses YAML manifests that describe Kubernetes resources.  These manifests are generated based on Helm templates stored in `.helm/templates` and `.helm/charts`. 
 
-_Helm-шаблон_, описывающий Pod (один из Kubernetes-ресурсов), мог бы лежать в `.helm/templates/pod.yaml` и выглядеть так:
+For example, _Helm template_ that describes a Pod (one of the Kubernetes resources) can be stored in `.helm/templates/pod.yaml` and have the following contents:
 {% raw %}
 ```yaml
 apiVersion: v1
@@ -12,12 +12,12 @@ metadata:
 spec:
   containers:
   - name: main
-    image: {{ $.Values.image }}  # Helm-шаблонизация, позволяет параметризовать имя образа для контейнера
+    image: {{ $.Values.image }}  # Helm-templating to parameterize the image name for the container
     command: ["tail", "-f", "/dev/null"]
 ```
 {% endraw %}
 
-Перед деплоем этот Helm-шаблон с помощью werf преобразовался бы в _манифест_, который выглядел бы так:
+Before deployment, werf transforms this Helm template to the following _manifest_:
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -26,16 +26,16 @@ metadata:
 spec:
   containers:
   - name: main
-    image: alpine  # если пользователь в качестве имени образа указал "alpine"
+    image: alpine  # if the user has specified "alpine" as the image name.
     command: ["tail", "-f", "/dev/null"]
 ```
 
-А уже во время деплоя этот манифест стал бы _ресурсом_ Pod в Kubernetes-кластере. Посмотреть, как этот ресурс выглядел бы в кластере, можно было бы с помощью команды `kubectl get`:
+During deployment, Kubernetes creates a Pod _resource_ in the cluster based on this manifest. You can use the following command to view this resource:
 ```yaml
 kubectl get pod standalone-pod --output yaml
 ```
 
-Так бы выглядел результат:
+This is what its output looks like:
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -54,31 +54,30 @@ status:
   startTime: "2021-06-02T13:17:47Z"
 ```
 
-## Запуск приложений
+## Running applications
 
-Использование ресурса Pod — простейший способ запустить в Kubernetes один или несколько контейнеров. В манифесте Pod'а описываются контейнеры и их конфигурация. Но на практике сами по себе Pod'ы стараются не деплоить — вместо них деплоят Controller'ы, которые создают и управляют Pod'ами за вас. Один из таких контроллеров — **Deployment**. Создавая Pod'ы с помощью Deployment, вы сильно упрощаете управление Pod'ами.
+The Pod resource is the simplest way to run one or more containers in Kubernetes. The Pod manifest describes the containers and their parameters. However, in practice, you do not deploy Pods yourself. Instead, you delegate this task to Controllers that create and manage Pods for you. The **Deployment** is one of these controllers. By creating Pods using Deployment, you greatly simplify their management.
 
-Вот некоторые возможности, которые предоставляет Deployment (и которых нет у Pod'ов самих по себе):
-* При автоматическом или ручном удалении Pod'а в Deployment'е этот Pod будет перезапущен;
-* Большая часть конфигурации Pod'а не может быть обновлена. Чтобы обновить его конфигурацию, Pod нужно пересоздать. Конфигурацию же Pod'а в Deployment'е можно обновлять без пересоздания Deployment'а;
-* Обновление конфигурации Pod'ов происходит без простоя: при обновлении часть Pod'ов со старой конфигурацией остаётся активной до тех пор, пока новые Pod'ы не начнут успешно запускаться;
-* Одним Deployment'ом можно запускать нескольких Pod'ов сразу, в том числе на разных Node'ах.
+Below are some features that Deployments provide (and which the Pods themselves do not have):
+* The Deployment restarts the Pod if it gets deleted (manually or automatically); 
+* In most cases, you cannot update the Pod configuration on the fly. To edit its configuration, you need to recreate the Pod. On the other hand, you can edit Pod configuration in the Deployment without the need to restart the latter;
+* No downtime involved in updating the Pod configuration: some of the Pods with the old configuration are running until Pods having the new configuration are up and running fine;
+* A single Deployment can run several Pods simultaneously (including on different Nodes).
 
-Разные контроллеры имеют разные возможности, связанные с созданием и управлением Pod'ами. Вот основные контроллеры и их практическое применение:
-* [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) — стандарт для деплоя stateless-приложений;
-* [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) — стандарт для деплоя stateful-приложений;
-* [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) — для деплоя приложений, которые должны быть запущены только по одному экземпляру на каждом узле (агенты для логирования, мониторинга);
-* [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) — для запуска разовых задач в Pod'ах (например, миграции базы данных);
-* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач 
-  в Pod'ах по расписанию (например, регулярная очистка чего-либо).
+Different controllers have different capabilities related to creating and managing Pods. Below is the list of standard controllers and their typical usage:
+* [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) is used for deploying stateless applications;
+* [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) is used for deploying stateful applications;
+* [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) is used for deploying applications only one instance of which can run on each node at a time (logging, monitoring agents);
+* [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) is used for running one-time tasks in Pods (e.g., database migration);
+* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) is used for running repeated tasksin Pods on a schedule (e.g., to perform regular cleaning of some resource).
 
-Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех Pod, Deployment, StatefulSet, Job и CronJob из всех namespace):
+You can get a list of resources of a specific type in the cluster using the `kubectl get` command (in the examples below, commands return all Pods, Deployments, StatefulSets, Jobs and CronJobs from all namespace):
 
 ```shell
 kubectl get --all-namespaces pod
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAMESPACE           NAME                                        READY   STATUS      RESTARTS   AGE
 ingress-nginx       ingress-nginx-admission-create-8bgk7        0/1     Completed   0          11d
@@ -98,7 +97,7 @@ kube-system         storage-provisioner                         1/1     Running 
 kubectl get --all-namespaces deployment
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAMESPACE           NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
 ingress-nginx       ingress-nginx-controller   1/1     1            1           11d
@@ -112,13 +111,13 @@ kubectl get --all-namespaces job
 kubectl get --all-namespaces cronjob
 ```
 
-Также можно получить полную конфигурацию любого ресурса в YAML-формате, если добавить в команду `kubectl get` опцию `--output yaml`, например:
+Also, you can view the configuration of any resource in YAML format — just add the `--output yaml` parameter to the `kubectl get` command:
 
 ```shell
 kubectl -n ingress-nginx get deployment ingress-nginx-controller --output yaml
 ```
 
-В ответ получим примерно следующее:
+You will see something like this:
 ```yaml
 ...
 kind: Deployment
@@ -127,37 +126,37 @@ metadata:
 ...
 ```
 
-Чаще всего вам придется сталкиваться с ресурсом Deployment, поэтому рассмотрим его подробнее. Про остальные типы контроллеров можно прочитать в [документации к Kubernetes](https://kubernetes.io/docs/concepts/workloads/).
+The Deployment type is the most commonly used one, so let's look at it in more detail. You can learn more about the other controller types in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/).
 
 ## Deployment
 
-Рассмотрим Deployment нашего приложения подробнее:
+Let's look at the Deployment of our application in more detail:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_initial %}
 
-> Более подробное описание Deployment доступно в [официальной документации](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
+> A more detailed description of Deployment is available in the [official documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
 
-Развернём наше приложение:
+Let's deploy our application:
 ```shell
-werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+werf converge --repo <Docker Hub username>/werf-guide-app
 ```
 
-Убедимся, что наш Deployment создался:
+Make sure that our Deployment has been created:
 ```shell
 kubectl get deployment werf-guide-app
 ```
 
-В ответ получим примерно следующее:
+You will see something like this:
 ```shell
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
 werf-guide-app          1/1     1            1           25s
 ```
 
-А теперь посмотрим на Pod, созданный нашим Deployment:
+Now let's look at the Pod created by the Deployment:
 ```shell
 kubectl get pod -l app=werf-guide-app
 ```
 
-В ответ отобразится примерно следующее:
+You will see something like this:
 ```shell
 NAME                             READY   STATUS    RESTARTS   AGE
 werf-guide-app-8b748b85d-829j9   1/1     Running   0          25h
@@ -165,83 +164,83 @@ werf-guide-app-8b748b85d-829j9   1/1     Running   0          25h
 
 ## Service и Ingress
 
-С помощью Deployment'а мы можем развернуть наше stateless-приложение, но если пользователям или другим приложениям потребуется связываться с этим приложением изнутри или снаружи кластера, то в этом нам помогут два других ресурса: Ingress и Service.
+You can deploy your stateless application using the Deployment we created. However, for users/other applications to be able to connect to your application, you have to configure two other types of resources: Ingress and Service.
 
-Рассмотрим наш Ingress-ресурс:
+Let's look at our Ingress resource:
 {% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples_initial %}
 
-И рассмотрим Service-ресурс:
+... as well as at our Service resource:
 {% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples_initial %}
 
-Убедимся, что ресурс Service создан:
+Make sure that the Service resource is created:
 ```shell
 kubectl get service werf-guide-app
 ```
 
-В ответ получим примерно следующее:
+You will see something like this:
 ```shell
 NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 werf-guide-app          ClusterIP   10.107.19.126   <none>        80/TCP    35s
 ```
 
-Также убедимся, что ресурс Ingress создан:
+Now it is time to check if the Ingress resource is created:
 ```shell
 kubectl get ingress werf-guide-app
 ```
 
-В ответ получим примерно следующее:
+You will see something like this:
 ```shell
 NAME                    CLASS    HOSTS                               ADDRESS   PORTS   AGE
 werf-guide-app          <none>   werf-guide-app                                80      3m21s
 ```
 
-Если несколько упростить, то эти два ресурса позволят HTTP-пакетам, приходящим на [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/), у которых есть заголовок `Host: werf-guide-app`, быть перенаправленными на 8000-й порт Service'а `werf-guide-app`, а оттуда — на 8000-й порт одного из Pods нашего Deployment'а. В конфигурации по умолчанию Service будет перенаправлять запросы на все Pods Deployment'а поровну.
+Without getting too technical, these two resources will redirect HTTP packets with the `Host: werf-guide-app` header from [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/) to port 8000 of the `werf-guide-app` Service. They will then be redirected to port 8000 of one of the Pods belonging to our Deployment. Note that the Service configured by default distributes requests between the Deployment's Pods evenly.
 
-В общем случае схема взаимодействия между разными ресурсами внутри кластера выглядит следующим образом:
+The general interaction scheme between different resources within a cluster looks as follows:
 
 {% plantuml %}
-agent Пользователь
+agent User
 agent Ingress
 agent Service
 agent Deployment
 agent Pod
-agent Приложение
-Пользователь <--> Ingress : Запрос
+agent Application
+User <--> Ingress : Request
 Ingress <--> Service
 Service <--> Deployment
 Deployment <--> Pod
-Pod <--> Приложение
+Pod <--> Application
 {% endplantuml %}
 
-Обратимся к нашему приложению через Ingress:
+Let's connect to our application via Ingress:
 ```shell
 curl http://werf-guide-app/ping
 ```
 
-В ответ получим примерно следующее:
+You will see something like this:
 ```shell
 pong
 ```
 
-При этом Service-ресурсы нужны не только для связи Ingress и приложения. Service-ресурсы также дают возможность ресурсам внутри кластера общаться между собой. При создании Service создается доменное имя `<ServiceName>.<NamespaceName>.svc.cluster.local`, доступное изнутри кластера. Также Service доступен и по более коротким доменным именам:
-* `<ServiceName>` — при обращении из того же Namespace,
-* `<ServiceName>.<NamespaceName>` — при обращении из другого Namespace.
+Note that the scope of Service resources is not limited to the connecting Ingress with the application. They also allow resources within the cluster to communicate with each other. When a Service gets created, a `<ServiceName>.<NamespaceName>.svc.cluster.local` is also created. It is accessible from within the cluster. Also, you can connect to the Service using its shorter names: 
+* `<ServiceName>` —  if the request comes from the same namespace;
+* `<ServiceName>.<NamespaceName>` — if the request comes from a different namespace.
 
-Создадим новый контейнер, не имеющий отношения к нашему приложению:
+Let's create a new container that is not related to our application:
 ```shell
 kubectl run werf-temporary-deployment --image=alpine --rm -it -- sh
 ```
 
-В запустившемся контейнере обратимся к нашему приложению через Service:
+In the new container, curl to our application using the service we created:
 
 ```shell
-apk add curl  # Установим curl внутри контейнера.
-curl http://werf-guide-app/ping  # Обратимся к одному из Pod'ов нашего приложения через Service.
+apk add curl  # Installing curl in the container.
+curl http://werf-guide-app/ping  # curl to one of the pods of our application using the service.
 ```
 
-В ответ получим:
+You will see the following response:
 ```shell
 pong
 ```
 
-> Использование Ingress-ресурсов — не единственный способ получить доступ к приложению снаружи кластера. Service'ы типа `LoadBalancer` и `NodePort` позволяют предоставить доступ к приложению снаружи и без Ingress'ов. Почитать подробнее про Service'ы можно в [официальной документации](https://kubernetes.io/docs/concepts/services-networking/service/). А про Ingress'ы — [здесь](https://kubernetes.io/docs/concepts/services-networking/ingress/).
+> Using Ingress resources is not the only way to access the application from outside the cluster. `LoadBalancer` and `NodePort` Services also provide access to the application from outside the cluster, bypassing the Ingress. The official Kubernetes documentation provides a detailed description of [Service](https://kubernetes.io/docs/concepts/services-networking/service/) and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) concepts.
