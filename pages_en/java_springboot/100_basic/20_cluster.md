@@ -1,10 +1,10 @@
 ---
-title: Подготовка окружения
+title: Preparing the environment
 permalink: java_springboot/100_basic/20_cluster.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 description: |
-  В этой главе мы подготовим кластер Kubernetes, Container Registry и локальное окружение для развертывания приложений.
+  In this chapter, we will set up a Kubernetes cluster, Container Registry, and local environment for deploying applications.
 ---
 
 {% include 100_basic/20_cluster.md.liquid %}
