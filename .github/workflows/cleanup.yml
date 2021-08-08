@@ -7,8 +7,7 @@ on:
 
 env:
   WERF_ENV: "production"
-  WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
-  WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
+  WERF_REPO: "registry.flant.com/werf/werf-werf-guides"
 
 jobs:
   cleanup:
@@ -20,6 +19,13 @@ jobs:
 
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
+
+      - name: Log in to the registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.WERF_REPO }}
+          username: ${{ secrets.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
 
       - name: Cleanup
         uses: werf/actions/cleanup@v1.2
