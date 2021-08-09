@@ -2,6 +2,24 @@
 
 > In this chapter, we will learn some commands for interacting with the cluster, and in the [next](../100_basic/38_kubernetes_basics.html) chapter, we will look at them in more detail.
 
+Let's make sure that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
+```shell
+werf converge --repo <Docker Hub username>/werf-guide-app
+```
+
+The expected result:
+```shell
+...
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Jul 22 15:32:10 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+Running time 30.27 seconds
+```
+
 ### Viewing the status
 
 There are several commands to view the status of a running application in Kubernetes.
