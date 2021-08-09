@@ -20,19 +20,16 @@ _The detailed documentation on determinism is available [here]({{ site.url }}/do
 
 ### The dev mode
 
-With the dev mode, you can loosen giterminism restrictions and work with non-committed files. The mode can be activated by the `--dev` option or `WERF_DEV` environment variable. The development mode has two different modes (you can select the preferred one using the `--dev-mode` parameter):
+With the dev mode, you can loosen giterminism restrictions and work with non-committed changes. The mode can be activated by the `--dev` option or `WERF_DEV` environment variable. 
 
-- _simple_: for working with the worktree state of the project's Git repository (default);
-- _strict_: for working with the [index state](http://shafiul.github.io/gitbook/1_the_git_index.html) of the Git repository.
-
-Note that you must add new (_untracked_) files to the index manually (this is a one-time task) using the `git add` command for each new file.
+In the developer mode, werf uses all tracked and untracked changes while taking into account the `.gitignore` rules as well as user-defined exceptions set by the `--dev-ignore=<glob>` option or the `WERF_DEV_IGNORE_<ANY>` environment variable.
 
 ### The follow mode
 
 In the follow mode, werf automatically re-runs the command in response to the Git state changes:
 
 - the command is restarted when a new commit is created;
-- together with the [dev mode](#the-dev-mode) (`--dev`) , werf also monitors the state of the Git repository index; you can simply add new changes to the index (via the `git add` command) to restart the command in question.
+- together with the [dev mode](#the-dev-mode) (`--dev`) in response to any changes.
 
 You can enable it via the `--follow` parameter or `WERF_FOLLOW` environment variable.
 
@@ -43,7 +40,7 @@ Summary table of werf operating modes:
 | Mode                                               | no flags   | \-\-dev   | \-\-follow | \-\-dev \-\-follow |
 | -------------------------------------------------- | ------------ | --------- | ---------- | ------------------ |
 | working with committed files only                  | +            | -         | +          | -                  |
-| working with non-committed files                   | -            | +         | -          | +                  |
+| working with non-committed changes                 | -            | +         | -          | +                  |
 | restarting the deploy process automatically        | -            | -         | +          | +                  |
 
 ## Building and tagging images
