@@ -11,20 +11,20 @@
 
 <div id="{{ content_id_windows }}" class="tabs__content {{ content_class }}" markdown="1">
 
-Выполним следующий набор команд в PowerShell:
+Run the following commands in PowerShell:
 
 ```powershell
 {%- if include.from_scratch %}
-# Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
+# Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet)
 if (-not (Test-Path ~/werf-guide/guides)) {
   git clone https://github.com/werf/werf-guides $env:HOMEPATH/werf-guide/guides
 }
 
-# Скопируем файлы приложения (пока без изменений) в ~/werf-guide/app
+# Copy the (unchanged) application files to ~/werf-guide/app
 rm -Recurse -Force ~/werf-guide/app
 cp -Recurse -Force ~/werf-guide/guides/{{ include.examples_from }} ~/werf-guide/app
 
-# Сделаем из директории ~/werf-guide/app git-репозиторий
+# Make the ~/werf-guide/app directory a git repository
 cd ~/werf-guide/app
 git init
 git add .
@@ -36,19 +36,19 @@ cd ~/werf-guide/app
 ```
 {%- else %}
 
-# Чтобы увидеть, какие изменения мы собрались вносить далее в этой главе, заменим все файлы приложения
-# в репозитории новыми, уже измененными файлами приложения, которые содержат описанные далее изменения.
+# To see what changes we will make later in this chapter, let's replace all the application files
+# in the repository with new, modified files containing the changes described below
 git rm -r .
 cp -Recurse -Force ~/werf-guide/guides/{{ include.examples_to }}/* .
 git add .
 git commit -m WIP
 ```
 
-{% offtopic title="Посмотреть, какие именно изменения мы произведём" %}
+{% offtopic title="What changes we will make" %}
 ```shell
-# Показать, какие файлы мы собираемся изменить
+# Enter the command below to show the files we are going to change
 git show --stat
-# Показать изменения
+# Enter the command below to show the changes that will be made
 git show
 ```
 {% endofftopic %}
@@ -57,18 +57,18 @@ git show
 
 <div id="{{ content_id_unix }}" class="tabs__content {{ content_class }} active" markdown="1">
 
-Выполним следующий набор команд в Bash:
+Run the following commands in Bash:
 
 ```shell
 {%- if include.from_scratch %}
-# Склонируем репозиторий с примерами в ~/werf-guide/guides, если он ещё не был склонирован
+# Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet)
 test -e ~/werf-guide/guides || git clone https://github.com/werf/werf-guides ~/werf-guide/guides
 
-# Скопируем файлы приложения (пока без изменений) в ~/werf-guide/app
+# Copy the (unchanged) application files to ~/werf-guide/app
 rm -rf ~/werf-guide/app
 cp -rf ~/werf-guide/guides/{{ include.examples_from }} ~/werf-guide/app
 
-# Сделаем из директории ~/werf-guide/app git-репозиторий
+# Make the ~/werf-guide/app directory a git repository
 cd ~/werf-guide/app
 git init
 git add .
@@ -80,19 +80,19 @@ cd ~/werf-guide/app
 ```
 {%- else %}
 
-# Чтобы увидеть, какие изменения мы собрались вносить далее в этой главе, заменим все файлы приложения
-# в репозитории новыми, уже измененными файлами приложения, которые содержат описанные далее изменения.
+# To see what changes we will make later in this chapter, let's replace all the application files
+# in the repository with new, modified files containing the changes described below
 git rm -r .
 cp -rfT ~/werf-guide/guides/{{ include.examples_to }} .
 git add .
 git commit -m WIP
 ```
 
-{% offtopic title="Посмотреть, какие именно изменения мы произведём" %}
+{% offtopic title="What changes we will make" %}
 ```shell
-# Показать, какие файлы мы собираемся изменить
+# Enter the command below to show files we are going to change
 git show --stat
-# Показать изменения
+# Enter the command below to show the changes that will be made
 git show
 ```
 {% endofftopic %}

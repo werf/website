@@ -1,17 +1,35 @@
-## Работаем с инфраструктурой
+## Using the infrastructure
 
-> Сейчас попробуем некоторые команды по взаимодействию с кластером, а в [следующей](../100_basic/38_kubernetes_basics.html) главе рассмотрим их более подробно.
+> In this chapter, we will learn some commands for interacting with the cluster, and in the [next](../100_basic/38_kubernetes_basics.html) chapter, we will look at them in more detail.
 
-### Просмотр состояния
+Let's make sure that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
+```shell
+werf converge --repo <Docker Hub username>/werf-guide-app
+```
 
-Чтобы посмотреть состояние запущенного приложения в Kubernetes, существует несколько команд.
+The expected result:
+```shell
+...
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Jul 22 15:32:10 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+Running time 30.27 seconds
+```
 
-Получить список запущенных Deployment'ов и Pod'ов:
+### Viewing the status
+
+There are several commands to view the status of a running application in Kubernetes.
+
+Here is how you can get a list of running Deployments and Pods:
 ```shell
 kubectl get deployment
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
 werf-guide-app   1/1     1            1           5m41s
@@ -22,19 +40,19 @@ werf-guide-app   1/1     1            1           5m41s
 kubectl get pod
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAME                              READY   STATUS    RESTARTS   AGE
 werf-guide-app-57f854484f-8ktqp   1/1     Running   0          7m24s
 ```
 {% endofftopic %}
 
-Посмотреть summary-информацию по Deployment'у `werf-guide-app`:
+Display the summary of the `werf-guide-app` Deployment:
 ```shell
 kubectl describe deployment werf-guide-app
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 Name:                   werf-guide-app
 Namespace:              werf-guide-app
@@ -77,12 +95,12 @@ Events:
 ```
 {% endofftopic %}
 
-Deployment запускает Pod'ы. Логи пишутся в Pod'ах. Получить логи одного из запущенных Pod'ов можно командой:
+Deployment runs the Pods, while logs are stored in the Pods. You can browse logs of one of the running Pods with the following command:
 ```shell
 kubectl logs app-<podId>
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 GET /ping HTTP/1.1
 Host: werf-guide-app
@@ -98,33 +116,33 @@ Accept: */*
 ```
 {% endofftopic %}
 
-### Масштабирование
+### Scaling
 
-Веб-сервер запущен в Deployment'е `werf-guide-app`. Помотрим, сколько реплик запущено:
+The web server is running as part of the `werf-guide-app` Deployment. Let's see how many replicas are running:
 
 ```shell
 kubectl get pod
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAME                              READY   STATUS    RESTARTS   AGE
 werf-guide-app-57f854484f-8ktqp   1/1     Running   0          7m24s
 ```
 {% endofftopic %}
 
-Поменяем вручную на 4 реплики:
+Let's change it to 4 replicas:
 ```shell
 kubectl edit deployment werf-guide-app
 ```
 
-В открывшемся редакторе выставляем `spec.replicas=4`, закрываем редактор.
-Снова посмотрим, сколько реплик запущено:
+Set `spec.replicas=4` and close the editor.
+Let's see how many replicas are running once again:
 ```shell
 kubectl get pod
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAME                              READY   STATUS    RESTARTS   AGE
 werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
@@ -134,45 +152,45 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 ```
 {% endofftopic %}
 
-Мы произвели масштабирование вручную. Теперь снова запустим `werf converge`:
+As you can see, we have scaled the cluster manually. Now, run `werf converge` once again:
 ```shell
-werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+werf converge --repo <Docker Hub username>/werf-guide-app
 ```
 
-И снова посмотрим, сколько реплик запущено:
+... and check the number of running replicas:
 ```shell
 kubectl get pod
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAME                              READY   STATUS    RESTARTS   AGE
 werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
 ```
 {% endofftopic %}
 
-Количество реплик снова соответствует таковому в Git-репозитории. Дело в том, что werf привела состояние кластера к состоянию, описанному в текущем Git-коммите. Этот принцип называется [**гитерминизмом**](https://ru.werf.io/documentation/v1.2/advanced/giterminism.html) (giterminism).
+The number of replicas corresponds to that specified in the Git repository. As you can see, werf brought the cluster state to the state described in the current Git commit. This principle is called [**giterminism**](https://en.werf.io/documentation/v1.2/advanced/giterminism.html).
 
-Как же соблюсти **гитерминизм** и сделать всё правильно? Выставим тот же `spec.replicas=4`, но уже через состояние приложения, описанное в Git:
+So how do you comply with the principles of **giterminism** and do it all right? This time, let's set `spec.replicas=4` by describing the application state in Git:
 
 {% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
 
-Через файл `.helm/templates/deployment.yaml`:
+For this, we will use the `.helm/templates/deployment.yaml` file:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
-Запустим деплой:
+Run the deployment process:
 ```shell
-werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+werf converge --repo <Docker Hub user name>/werf-guide-app
 ```
 
-Проверим сколько реплик запущено теперь:
+And check how many replicas are running now:
 
 ```shell
 kubectl get pod
 ```
 
-{% offtopic title="Посмотреть ответ" %}
+{% offtopic title="View the output" %}
 ```shell
 NAME                              READY   STATUS    RESTARTS   AGE
 werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
@@ -182,45 +200,45 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 ```
 {% endofftopic %}
 
-Вернём состояние рабочей директории к предыдущему, с одной репликой:
+Let's clean up the working directory so that it contains only one replica:
 
 {% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
 
-Проверим содержимое `.helm/templates/deployment.yaml`:
+Check the contents of the `.helm/templates/deployment.yaml` file:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_initial %}
 
-Запустим деплой:
+Run the deployment process:
 ```shell
 werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
 ```
 
-## Меняем приложение
+## Making changes to the application
 
-Наше приложение — это простейший эхо сервер, который при запросе при помощи curl:
+Our application is a basic echo server that, when requested using curl:
 ```shell
 curl "http://werf-guide-app/ping"
 ```
 
-Ответит словом `pong`.
+...responds with the `pong` word.
 
-Внесём изменение в код приложения:
+Let's make changes to the application code:
 
 {% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_modify_app from_scratch=false %}
 
-В коде приложения ответ сервера изменится на `hello world`:
+In the application code, the server response will change to `hello world`:
 
 {% include snippetcut_example path="start.sh" syntax="bash" examples=page.examples_modify_app %}
 
-Запустим деплой:
+Run the deployment process:
 ```shell
-werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+werf converge --repo <Docker Hub username>/werf-guide-app
 ```
 
-Проверим результат:
+Check the result:
 ```shell
 curl "http://werf-guide-app/ping"
 ```
 
-В ответе увидим `hello world`.
-Поздравляем, у нас всё получилось!
+The server will respond with `hello world`.
+Congratulations, we did it!

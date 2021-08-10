@@ -1,12 +1,12 @@
 ---
-title: Сборка образа
+title: Building an Image
 permalink: java_springboot/100_basic/10_build.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 examples: examples/basic/001_build
 examples_initial: examples/basic/000_app
 description: |
-    В этой главе мы соберём Docker-образ с приложением, используя werf и [Dockerfile](https://docs.docker.com/engine/reference/builder/), а потом проверим собранный образ, запустив его локально.
+    In this chapter, we will build an application's Docker image using werf and [Dockerfile](https://docs.docker.com/engine/reference/builder/). Then, we will test the built image by running it locally.
 ---
 
 {% include 100_basic/10_build.md.liquid %}

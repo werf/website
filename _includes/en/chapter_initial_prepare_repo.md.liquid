@@ -1,27 +1,27 @@
-## Подготовка репозитория
+## Preparing the repository
 
 <div class="tabs">
-<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn active" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__continuing')">Продолжаю проходить руководство</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__just_started')">Начинаю проходить руководство с этой главы</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn active" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__continuing')">I am going through the guide</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__just_started')">I started with this chapter</a>
 </div>
 
 <div id="tabs__from_scratch__continuing" class="tabs__content tabs__from_scratch__content active" markdown="1">
 {%- if include.no_changes %}
-Используем уже существующий репозиторий с приложением (выполните в Bash/PowerShell):
+Switch to the existing repository (run in Bash/PowerShell):
 ```shell
 cd ~/werf-guide/app
 ```
 
-Возникли проблемы с репозиторием? Попробуйте инструкции на вкладке "Начинаю проходить руководство с этой главы" выше.
+Problems with the repository? Try the instructions on the "I started with this chapter" tab above.
 {%- else %}
-Обновим существующий репозиторий с приложением:
+Update the existing repository containing the application:
 {% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=false %}
 
-Не работает? Попробуйте инструкции на вкладке "Начинаю проходить руководство с этой главы" выше.
+Doesn't work? Try the instructions on the "I started with this chapter" tab above.
 {%- endif %}
 </div>
 
 <div id="tabs__from_scratch__just_started" class="tabs__content tabs__from_scratch__content" markdown="1">
-Подготовим новый репозиторий с приложением:
+Prepare a new repository with the application:
 {% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=true no_changes=include.no_changes %}
 </div>

@@ -1,9 +1,9 @@
-## Подготовка
+## Preliminary steps
 
-Установите werf и его зависимости, [следуя инструкциям]({{ site.url }}/installation.html).
+Install werf and its dependencies using [this guide]({{ site.url }}/installation.html).
 
-{% offtopic title="В Windows пользователю также понадобятся права на создание символьных ссылок" %}
-1. В PowerShell выполните для текущего пользователя с правами администратора:
+{% offtopic title="In Windows, the user also needs permissions to create symbolic links" %}
+1. In PowerShell, for the current user with administrator permissions, run the following:
 ```powershell
 $ntprincipal = new-object System.Security.Principal.NTAccount "$env:UserName"
 $sidstr = $ntprincipal.Translate([System.Security.Principal.SecurityIdentifier]).Value.ToString()
@@ -36,43 +36,43 @@ SECreateSymbolicLinkPrivilege = $($currentSetting)
     secedit.exe /configure /db "secedit.sdb" /cfg "$($tmp2)" /areas USER_RIGHTS
 }
 ```
-1. Для применения изменений перезайдем в учетную запись Windows, либо выполним команду:
+1. To apply changes, re-login to the Windows account or run the following command:
 ```powershell
 gpupdate /force
 ```
 {% endofftopic %}
 
-## Создадим новый репозиторий с приложением
+## Create a new repository with the application
 
 {% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples examples_from=page.examples_initial from_scratch=true %}
 
 ## Dockerfile
 
-> В Windows во избежание проблем при редактировании файлов рекомендуем использовать [Notepad++](https://notepad-plus-plus.org/downloads/) или любой другой редактор вместо стандартного Блокнота.
+> In Windows, we recommend using [Notepad++](https://notepad-plus-plus.org/downloads/) or any other suitable editor instead of regular Notepad bundled with the OS.
 
-Логика сборки нашего приложения будет реализована в [Dockerfile](https://docs.docker.com/engine/reference/builder/):
+[Dockerfile](https://docs.docker.com/engine/reference/builder/) contains all the steps required to build our application::
 
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-## Интеграция werf и Dockerfile
+## Integrating werf with Dockerfile
 
-В корне репозитория, в основном файле конфигурации werf `werf.yaml` будет указано, какой `Dockerfile` должен будет использоваться при сборке с werf:
+The primary werf configuration file, `werf.yaml` (in the repository's root) specifies `Dockerfile` to use when building an application with werf:
 
 {% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
 
-В `werf.yaml` может описываться сборка сразу нескольких образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться в [документации]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
+The `werf.yaml` file can describe the assembly of multiple images at once. There are also some additional settings for building an image. You can learn more about them in the [documentation]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
 
-## Сборка с werf
+## Building using werf
 
-> Обратите внимание, что перед запуском сборки/деплоя с werf все файлы должны быть добавлены в коммит. Чуть позже мы разберём, для чего это нужно и как обойтись без постоянного создания новых коммитов при локальной разработке.
+> Note that before starting the build/deploy process, you must add all the files to the commit. Below, we will discuss why this is necessary and how to avoid creating unnecessary commits during local development.
 
-Запустим сборку командой [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html):
+Start the build using the [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html) command:
 
 ```shell
 werf build
 ```
 
-Результат выполнения команды при успешной сборке:
+Here is the output if the build was successful:
 
 ```shell
 ┌ ⛵ image app
@@ -114,23 +114,23 @@ werf build
 Running time 11.02 seconds
 ```
 
-## Запуск приложения
+## Starting the application
 
-Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/documentation/cli/main/run.html):
+You can run the container locally using the built image via the [werf run]({{ site.url }}/documentation/cli/main/run.html) command:
 
 ```shell
 werf run app --docker-options="-ti --rm -p 8000:8000" -- /app/start.sh
 ```
 
-Здесь [параметры Docker](https://docs.docker.com/engine/reference/run/) мы задали опцией `--docker-options`, а команду для выполнения в контейнере указали в конце, после двух дефисов.
+Here, the `--docker-options` flag sets the [Docker parameters](https://docs.docker.com/engine/reference/run/), while the command to run in the container is given at the end (after two hyphens).
 
-Для проверки работоспособности можно открыть страницу [http://127.0.0.1:8000/ping](http://127.0.0.1:8000/ping) в браузере или воспользоваться утилитой `curl` в соседнем терминале:
+Go to [http://127.0.0.1:8000/ping](http://127.0.0.1:8000/ping) in the browser to check if the application is running. Alternatively, you can use the `curl` utility:
 
 ```shell
 curl http://127.0.0.1:8000/ping
 ```
 
-В результате вернётся сообщение `pong`, а в логе контейнера появится следующий текст:
+You will get the `pong` message in response, and the following text will appear in the container log:
 
 ```shell
 GET /ping HTTP/1.1
