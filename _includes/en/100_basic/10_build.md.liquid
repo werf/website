@@ -3,7 +3,7 @@
 Install werf and its dependencies using [this guide]({{ site.url }}/installation.html).
 
 {% offtopic title="In Windows, the user also needs permissions to create symbolic links" %}
-1. In PowerShell, for the current user with administrator permissions, run the following:
+1. In PowerShell, run the following as a user with administrator permissions:
 ```powershell
 $ntprincipal = new-object System.Security.Principal.NTAccount "$env:UserName"
 $sidstr = $ntprincipal.Translate([System.Security.Principal.SecurityIdentifier]).Value.ToString()
@@ -50,7 +50,7 @@ gpupdate /force
 
 > In Windows, we recommend using [Notepad++](https://notepad-plus-plus.org/downloads/) or any other suitable editor instead of regular Notepad bundled with the OS.
 
-[Dockerfile](https://docs.docker.com/engine/reference/builder/) contains all the steps required to build our application::
+[Dockerfile](https://docs.docker.com/engine/reference/builder/) contains all the steps required to build our application:
 
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 

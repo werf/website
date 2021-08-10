@@ -1,5 +1,5 @@
 ---
-title: Developer's Quick Start Guide
+title: Developer's quick start guide
 permalink: java_springboot/100_basic.html
 ---
 

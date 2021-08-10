@@ -1,5 +1,5 @@
 ---
-title: Things You Need to Know
+title: Things you need to know
 permalink: java_springboot/100_basic/40_must_haves.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false

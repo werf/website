@@ -136,7 +136,7 @@ Let's change it to 4 replicas:
 kubectl edit deployment werf-guide-app
 ```
 
-Set `spec.replicas=4` and close the editor.
+Text editor will be launched where you need to set `spec.replicas=4`; then close the editor.
 Let's see how many replicas are running once again:
 ```shell
 kubectl get pod
@@ -215,12 +215,12 @@ werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
 
 ## Making changes to the application
 
-Our application is a basic echo server that, when requested using curl:
+Our application is a basic echo server. When requested using curl:
 ```shell
 curl "http://werf-guide-app/ping"
 ```
 
-...responds with the `pong` word.
+… it responds with the `pong` word.
 
 Let's make changes to the application code:
 

@@ -1,6 +1,6 @@
 ## Deploying a cluster
 
-Select your operating system:
+Choose the way you will install Kubernetes in your operating system:
 
 <div class="tabs">
 <a href="javascript:void(0)" class="tabs__btn tabs__install__btn active" onclick="openTab(event, 'tabs__install__btn', 'tabs__install__content', 'tab__install__minikube_linux')">Linux: minikube</a>
@@ -82,7 +82,7 @@ namespace/werf-guide-app created
 ```
 
 ### Creating a Secret
-Now it is time to create a Secret in the cluster. With it, our application can access the private repository:
+Now it is time to create a Secret in the cluster. Using it, our application can access the private repository:
 ```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
@@ -95,7 +95,7 @@ You will see the following output:
 secret/registrysecret created
 ```
 
-{% offtopic title="If you need to recreate a secret" %}
+{% offtopic title="If you need to recreate a Secret" %}
 kubectl delete secret docker-registry
 {% endofftopic %}
 

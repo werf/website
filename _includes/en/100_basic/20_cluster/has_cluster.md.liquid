@@ -4,10 +4,10 @@
 
 If you already have a cluster, you have probably had to configure it before. Check your cluster using the checklist at the beginning of this article.
 
-Regardless of how the cluster is installed, you need to get keys for accessing the Kubernetes cluster in the form of the `.kube/config' file.
+Regardless of how the cluster is installed, you need to get the keys for accessing the Kubernetes cluster in the form of the `.kube/config' file.
 
 <!--  .kube/config -->
-{% offtopic title="Что за .kube/config?" %}
+{% offtopic title="What is .kube/config?" %}
 This file stores the cluster access credentials. By placing it to `~/.kube/config`, you will enable utilities working with Kubernetes to connect to the cluster.
 
 File contents look more or less like this:
@@ -43,11 +43,11 @@ Note that the file contains the path to the Kubernetes API (e.g., `server: https
 {% endofftopic %}
 <!-- / .kube/config -->
 
-### Checking cluster functionality/access
+### Checking whether cluster is operating and accessible
 
 Check your cluster using the checklist above.
 
-As a result, you have to be able to access the cluster using the `kubectl` tool ( you may have to install it separately). For example, the command:
+As a result, you have to be able to access the cluster using the `kubectl` tool (you may have to install it separately). For example, the command:
 
 ```bash
 kubectl get ns
@@ -57,7 +57,7 @@ kubectl get ns
 
 ### Ingress
 
-Your cluster must have Nginx Ingress installed.  If it is not installed, you can find [detailed instructions](https://kubernetes.github.io/ingress-nginx/deploy/) in the Kubernetes documentation.
+Your cluster must have Nginx Ingress installed. If it is not installed, you can find [detailed instructions](https://kubernetes.github.io/ingress-nginx/deploy/) in the Kubernetes documentation.
 
 ### Registry
 
@@ -67,9 +67,9 @@ Make sure that your cluster can connect to the registry over the network.
 
 ### Hosts
 
-This guide assumes that the example application (or its Nginx Ingress, to be more precise) is available at `werf-guide-app`, and the docker hub registry is used. We will modify the hosts file as we go through the guide. Thus, we expect you can determine and configure the necessary DNS records yourself, as well as substitute your domains in the code (when required) as you progress through the guide.
+This guide assumes that the example application (or its Nginx Ingress, to be more precise) is available at `werf-guide-app`, and the Docker Hub Registry is used. We will modify the `hosts` file as we go through the guide. Thus, we expect you can determine and configure the necessary DNS records on your own, as well as substitute your domains in the code (when required) as you progress through the guide.
 
-### Registry Authorization
+### Registry authorization
 
 You must be logged on the local machine using `docker login` for werf to be able to push the built image to the registry:
 

@@ -15,16 +15,16 @@ Run the following commands in PowerShell:
 
 ```powershell
 {%- if include.from_scratch %}
-# Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet)
+# Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet).
 if (-not (Test-Path ~/werf-guide/guides)) {
   git clone https://github.com/werf/werf-guides $env:HOMEPATH/werf-guide/guides
 }
 
-# Copy the (unchanged) application files to ~/werf-guide/app
+# Copy the (unchanged) application files to ~/werf-guide/app.
 rm -Recurse -Force ~/werf-guide/app
 cp -Recurse -Force ~/werf-guide/guides/{{ include.examples_from }} ~/werf-guide/app
 
-# Make the ~/werf-guide/app directory a git repository
+# Make the ~/werf-guide/app directory a git repository.
 cd ~/werf-guide/app
 git init
 git add .
@@ -37,7 +37,7 @@ cd ~/werf-guide/app
 {%- else %}
 
 # To see what changes we will make later in this chapter, let's replace all the application files
-# in the repository with new, modified files containing the changes described below
+# in the repository with new, modified files containing the changes described below.
 git rm -r .
 cp -Recurse -Force ~/werf-guide/guides/{{ include.examples_to }}/* .
 git add .
@@ -46,9 +46,9 @@ git commit -m WIP
 
 {% offtopic title="What changes we will make" %}
 ```shell
-# Enter the command below to show the files we are going to change
+# Enter the command below to show the files we are going to change.
 git show --stat
-# Enter the command below to show the changes that will be made
+# Enter the command below to show the changes that will be made.
 git show
 ```
 {% endofftopic %}
@@ -61,14 +61,14 @@ Run the following commands in Bash:
 
 ```shell
 {%- if include.from_scratch %}
-# Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet)
+# Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet).
 test -e ~/werf-guide/guides || git clone https://github.com/werf/werf-guides ~/werf-guide/guides
 
-# Copy the (unchanged) application files to ~/werf-guide/app
+# Copy the (unchanged) application files to ~/werf-guide/app.
 rm -rf ~/werf-guide/app
 cp -rf ~/werf-guide/guides/{{ include.examples_from }} ~/werf-guide/app
 
-# Make the ~/werf-guide/app directory a git repository
+# Make the ~/werf-guide/app directory a git repository.
 cd ~/werf-guide/app
 git init
 git add .
@@ -81,7 +81,7 @@ cd ~/werf-guide/app
 {%- else %}
 
 # To see what changes we will make later in this chapter, let's replace all the application files
-# in the repository with new, modified files containing the changes described below
+# in the repository with new, modified files containing the changes described below.
 git rm -r .
 cp -rfT ~/werf-guide/guides/{{ include.examples_to }} .
 git add .
@@ -90,9 +90,9 @@ git commit -m WIP
 
 {% offtopic title="What changes we will make" %}
 ```shell
-# Enter the command below to show files we are going to change
+# Enter the command below to show files we are going to change.
 git show --stat
-# Enter the command below to show the changes that will be made
+# Enter the command below to show the changes that will be made.
 git show
 ```
 {% endofftopic %}

@@ -1,5 +1,5 @@
 ---
-title: Building an Image
+title: Building an image
 permalink: java_springboot/100_basic/10_build.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false

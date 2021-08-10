@@ -4,7 +4,7 @@ Install/update minikube [using this guide](https://minikube.sigs.k8s.io/docs/sta
 
 Create a new Kubernetes cluster using minikube:
 ```shell
-# delete the existing minikube cluster (if there is one)
+# delete the existing minikube cluster (if exists)
 minikube delete
 # start a new minikube cluster
 minikube start --driver=hyperkit
@@ -22,7 +22,7 @@ Context "minikube" modified.
 
 If you do not have the kubectl utility installed, then install it [using this guide](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/).
 
-Now let's check if the new Kubernetes cluster is operational by displaying the list of Pods running in it:
+Now let's check if the new Kubernetes cluster is working by displaying the list of Pods running in it:
 ```shell
 kubectl get --all-namespaces pod
 ```
@@ -39,7 +39,11 @@ kube-system   kube-scheduler-minikube            1/1     Running   0          65
 kube-system   storage-provisioner                1/1     Running   0          56s
 ```
 
-If all the Pods from the list are `Running` or `Completed` (4th column), and the digit to the left of `/` is equal to the number to the right in the 3rd column for `Running` Pods (i.e., Pod containers have started successfully), then your Kubernetes cluster is up and running. Wait a while and run the command above again to get the status of Pods, if not all of them have started successfully.
+Your Kubernetes cluster is up and running if both statements are true:
+* in the 4th column, all the Pods from the list are `Running` or `Completed`;
+* in the 3rd column, for all `Running` Pods, the left (`X`) and right (`Y`) numbers are equal in the `X/Y` statement (i.e., Pod containers have started successfully).
+
+Please wait a while and run the command above again to get the status of Pods, if not all of them have started successfully.
 
 ### Installing NGINX Ingress Controller
 
