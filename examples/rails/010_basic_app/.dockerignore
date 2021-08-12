@@ -1,0 +1,5 @@
+/.helm/
+
+/.bundle
+/log/*
+/tmp/*

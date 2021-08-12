@@ -2,6 +2,24 @@
 
 > Сейчас попробуем некоторые команды по взаимодействию с кластером, а в [следующей](../100_basic/38_kubernetes_basics.html) главе рассмотрим их более подробно.
 
+Убедимся, что приложение развернуто (либо развернём его, если оно ещё не развернуто) выполнив команду:
+```shell
+werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+```
+
+Ожидаемый результат:
+```shell
+...
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Jul 22 15:32:10 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+Running time 30.27 seconds
+```
+
 ### Просмотр состояния
 
 Чтобы посмотреть состояние запущенного приложения в Kubernetes, существует несколько команд.

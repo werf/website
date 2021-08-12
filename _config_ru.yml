@@ -78,6 +78,12 @@ defaults:
     values:
       framework_id: rails
       framework_name: Rails
+  - scope:
+      path: "pages_ru/laravel"
+      type: "pages"
+    values:
+      framework_id: laravel
+      framework_name: Laravel
 
 breadcrumbs:
   home_text: Руководства

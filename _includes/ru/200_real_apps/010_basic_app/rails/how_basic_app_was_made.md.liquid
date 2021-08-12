@@ -1,0 +1,15 @@
+Чтобы его получить, сначала был сгенерирован скелет нового {{ page.framework_name }}-приложения командой:
+```shell
+rails new --api --skip-keeps --skip-action-mailer --skip-action-mailbox \
+  --skip-action-text --skip-active-record --skip-active-job \
+  --skip-active-storage --skip-action-cable --skip-sprockets \
+  --skip-spring --skip-listen --skip-javascript --skip-turbolinks \
+  --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
+```
+В нём была оставлена конфигурация только для production-окружения и убрано всё, что не требуется на данном этапе.
+
+Был добавлен новый путь `/ping` для нашего API:
+{% include snippetcut_example path="config/routes.rb" syntax="ruby" examples=page.examples %}
+
+Этот путь будет обрабатываться методом `ping` стандартного контроллера, возвращающим текст `pong`:
+{% include snippetcut_example path="app/controllers/application_controller.rb" syntax="ruby" examples=page.examples %}

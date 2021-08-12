@@ -4,7 +4,7 @@ project: werfio-guides
 
 image: jekyll_base
 fromCacheVersion: "1"
-from: jekyll/builder:3
+from: jekyll/builder:4
 git:
   - add: /
     to: /guides
