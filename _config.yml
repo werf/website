@@ -4,6 +4,7 @@ site_title: werf
 site_urls:
   ru: https://ru.werf.io
   en: https://werf.io
+editlink: "https://github.com/werf/werf-guides/edit/master"
 
 highlighter: rouge
 
