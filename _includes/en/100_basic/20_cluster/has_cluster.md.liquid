@@ -1,0 +1,78 @@
+{% comment %} TODO(lesikov): этот файл не трогал, надо переработать. Где-то здесь должен быть также указан чеклист, что должно быть в кластере развернуто (либо нормально описано, что ожидается от кластера). {% endcomment %}
+
+## I have a cluster already
+
+If you already have a cluster, you have probably had to configure it before. Check your cluster using the checklist at the beginning of this article.
+
+Regardless of how the cluster is installed, you need to get the keys for accessing the Kubernetes cluster in the form of the `.kube/config' file.
+
+<!--  .kube/config -->
+{% offtopic title="What is .kube/config?" %}
+This file stores the cluster access credentials. By placing it to `~/.kube/config`, you will enable utilities working with Kubernetes to connect to the cluster.
+
+File contents look more or less like this:
+
+{% snippetcut name=".kube/config" url="#" %}
+{% raw %}
+```yaml
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: ALotOfNumbersAndLettersAndSoOnAveryVERYveryLongStringInBase64=
+    server: https://127.0.0.1:6445
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: ManyNumbersAndLettersAVERYveryVerylongString=
+    client-key-data: ManyLettersAndNumbersAveryVeryVERYlongString=
+```
+{% endraw %}
+{% endsnippetcut %}
+
+Note that the file contains the path to the Kubernetes API (e.g., `server: https://127.0.0.1:6445`) in addition to the connection keys. This path must be correct. Some utilities that generate `.kube/config` do not insert public IP in the file. In this case, you have to do it manually. 
+
+{% endofftopic %}
+<!-- / .kube/config -->
+
+### Checking whether cluster is operating and accessible
+
+Check your cluster using the checklist above.
+
+As a result, you have to be able to access the cluster using the `kubectl` tool (you may have to install it separately). For example, the command:
+
+```bash
+kubectl get ns
+```
+
+… will list all namespaces in the cluster rather than an error message.
+
+### Ingress
+
+Your cluster must have Nginx Ingress installed. If it is not installed, you can find [detailed instructions](https://kubernetes.github.io/ingress-nginx/deploy/) in the Kubernetes documentation.
+
+### Registry
+
+werf supports [many registry implementations]({{ site.url }}/documentation/advanced/supported_registry_implementations.html).
+
+Make sure that your cluster can connect to the registry over the network.
+
+### Hosts
+
+This guide assumes that the example application (or its Nginx Ingress, to be more precise) is available at `werf-guide-app`, and the Docker Hub Registry is used. We will modify the `hosts` file as we go through the guide. Thus, we expect you can determine and configure the necessary DNS records on your own, as well as substitute your domains in the code (when required) as you progress through the guide.
+
+### Registry authorization
+
+You must be logged on the local machine using `docker login` for werf to be able to push the built image to the registry:
+
+```bash
+docker login <registry_domain> -u <account_login> -p <account_password>
+```

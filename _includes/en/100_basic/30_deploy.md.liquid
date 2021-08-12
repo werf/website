@@ -1,0 +1,69 @@
+## Deployment
+
+The Deployment resource creates a set of resources for launching the application. Here is the example of the Deployment resource:
+
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+
+Here, we have created a werf template for generating a Deployment resource. This template is essentially a Helm template with some [additional functionality]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html) provided by werf. For example, {% raw %}`image: {{ .Values.werf.image.app }}`{% endraw %} instructs werf to insert the generated image tag (and name) automatically to the `image` field because the image tag becomes known only during the build.
+
+werf only rebuilds images if the files specified in `werf.yaml` are changed or if `werf.yaml` itself is changed. The image tag will also change during a rebuild resulting in the Deployment update. If no changes were made to the files mentioned above, the werf would not rebuild the image. The Deployment and the resources it creates will not be redeployed because the latest version of the application is already running in the cluster.
+
+## Service
+
+The Service resource allows other applications in the cluster to connect to your application:
+
+{% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
+
+## Ingress
+
+The Ingress resource manages *external* access to the cluster (unlike a Service in Kuberneters that defines a policy for accessing applications *inside* the cluster). The Ingress configuration defines what Service to use for external traffic sent to the `werf-guide-app` domain. The `.helm/templates/ingress.yaml` file is used to configure the Ingress resource:
+
+{% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
+
+## Deploying to Kubernetes
+
+> Note that you need to go back to the previous chapter and recreate the registry secret if you deleted the application namespace.
+
+The [werf converge]({{ site.url }}/documentation/reference/cli/werf_converge.html) command builds the application and deploys it to Kubernetes:
+```shell
+werf converge --repo <Docker Hub username>/werf-guide-app
+```
+
+The following output indicates that the process has been completed successfully:
+```shell
+...
+│ app/dockerfile  Successfully built 4c1054085159
+│ │ app/dockerfile  Successfully tagged 93c05bf8-c459-4768-b388-3cdbc80e2868:latest
+│ ├ Info
+│ │       name: .../werf-guide-app:f4caaa836701e5346c4a0514bb977362ba5fe4ae114d0176f6a6c8cc-1612277803607
+│ │       size: 371.4 MiB
+│ └ Building stage app/dockerfile (40.31 seconds)
+└ :boat: image app (41.13 seconds)
+...
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                                                      REPLICAS                      AVAILABLE                        UP-TO-DATE
+│ │ app                                                                                                                                                        1/1                           1                                1
+│ │ │   POD                                                           READY                  RESTARTS                       STATUS
+│ │ └── 687f8cc569-n6gkw                                              1/1                    0                              Running
+│ └ Status progress
+└ Waiting for release resources to become ready (0.02 seconds)
+
+NAME: werf-guide-app
+LAST DEPLOYED: Tue Feb  2 21:57:23 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+Running time 62.66 seconds
+```
+
+Now, if you make a request to the application:
+```shell
+curl http://werf-guide-app/ping
+```
+
+... you will get the following response:
+```shell
+pong
+```

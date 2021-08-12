@@ -62,17 +62,16 @@ status:
 * При автоматическом или ручном удалении Pod'а в Deployment'е этот Pod будет перезапущен;
 * Большая часть конфигурации Pod'а не может быть обновлена. Чтобы обновить его конфигурацию, Pod нужно пересоздать. Конфигурацию же Pod'а в Deployment'е можно обновлять без пересоздания Deployment'а;
 * Обновление конфигурации Pod'ов происходит без простоя: при обновлении часть Pod'ов со старой конфигурацией остаётся активной до тех пор, пока новые Pod'ы не начнут успешно запускаться;
-* Одним Deployment'ом можно запускать нескольких Pod'ов сразу, в том числе на разных Node'ах.
+* Одним Deployment'ом можно запускать нескольких Pod'ов сразу, в том числе на разных узлах (Node'ах).
 
 Разные контроллеры имеют разные возможности, связанные с созданием и управлением Pod'ами. Вот основные контроллеры и их практическое применение:
 * [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) — стандарт для деплоя stateless-приложений;
 * [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) — стандарт для деплоя stateful-приложений;
 * [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) — для деплоя приложений, которые должны быть запущены только по одному экземпляру на каждом узле (агенты для логирования, мониторинга);
 * [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) — для запуска разовых задач в Pod'ах (например, миграции базы данных);
-* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач 
-  в Pod'ах по расписанию (например, регулярная очистка чего-либо).
+* [CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) — для многоразового запуска задач в Pod'ах по расписанию (например, регулярная очистка чего-либо).
 
-Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех Pod, Deployment, StatefulSet, Job и CronJob из всех namespace):
+Получить список ресурсов определенного типа в кластере можно с помощью всё той же команды `kubectl get` (в данном примере команды последовательно возвратят список всех Pod, Deployment, StatefulSet, Job и CronJob из всех namespace'ов):
 
 ```shell
 kubectl get --all-namespaces pod
@@ -131,7 +130,7 @@ metadata:
 
 ## Deployment
 
-Рассмотрим Deployment нашего приложения подробнее:
+Рассмотрим Deployment нашего приложения:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_initial %}
 
 > Более подробное описание Deployment доступно в [официальной документации](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
@@ -218,7 +217,7 @@ Pod <--> Приложение
 curl http://werf-guide-app/ping
 ```
 
-В ответ получим примерно следующее:
+В ответ получим:
 ```shell
 pong
 ```

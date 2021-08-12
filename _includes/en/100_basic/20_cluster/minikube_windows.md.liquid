@@ -1,0 +1,104 @@
+### Installing and running minikube
+
+Install/update minikube [using this guide](https://minikube.sigs.k8s.io/docs/start/). Make sure that you have the latest version installed.
+
+Create a new Kubernetes cluster using minikube:
+```powershell
+# delete the existing minikube cluster (if exists)
+minikube delete
+# start a new minikube cluster
+minikube start --driver=docker
+```
+
+Set the default Namespace so that you don't have to specify it every time you invoke `kubectl`:
+```powershell
+kubectl config set-context minikube --namespace=werf-guide-app
+```
+
+You will see the following output:
+```powershell
+Context "minikube" modified.
+```
+
+If you do not have the kubectl utility installed, then install it [using this guide](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/).
+
+Now let's check if the new Kubernetes cluster is working by displaying the list of Pods running in it:
+```powershell
+kubectl get --all-namespaces pod
+```
+
+You will see something like this:
+```powershell
+NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
+kube-system   coredns-558bd4d5db-8jfng           1/1     Running   0          48s
+kube-system   etcd-minikube                      1/1     Running   0          61s
+kube-system   kube-apiserver-minikube            1/1     Running   0          54s
+kube-system   kube-controller-manager-minikube   1/1     Running   0          54s
+kube-system   kube-proxy-b87f2                   1/1     Running   0          48s
+kube-system   kube-scheduler-minikube            1/1     Running   0          65s
+kube-system   storage-provisioner                1/1     Running   0          56s
+```
+
+Your Kubernetes cluster is up and running if both statements are true:
+* in the 4th column, all the Pods from the list are `Running` or `Completed`;
+* in the 3rd column, for all `Running` Pods, the left (`X`) and right (`Y`) numbers are equal in the `X/Y` statement (i.e., Pod containers have started successfully).
+
+Please wait a while and run the command above again to get the status of Pods, if not all of them have started successfully.
+
+### Installing NGINX Ingress Controller
+
+Install the NGINX Ingress Controller:
+```powershell
+minikube addons enable ingress
+```
+
+You will see the following output:
+```powershell
+...
+🔎  Verifying ingress addon...
+🌟  The 'ingress' addon is enabled
+```
+
+Give it a few minutes and check if the Ingress Controller has started successfully:
+```powershell
+kubectl -n ingress-nginx get pod
+```
+
+You will see something like this:
+```powershell
+NAME                                        READY   STATUS      RESTARTS   AGE
+ingress-nginx-admission-create-qrcdg        0/1     Completed   0          8m12s
+ingress-nginx-admission-patch-8pw4d         0/1     Completed   0          8m12s
+ingress-nginx-controller-59b45fb494-fscgf   1/1     Running     0          8m12s
+```
+
+Let's make the NGINX Ingress Controller accessible on port 80 after starting the `minikube tunnel`:
+```powershell
+kubectl expose service -n ingress-nginx ingress-nginx-controller --name ingress-nginx-controller-lb --type LoadBalancer --port 80 --target-port http
+```
+
+Now, let's check that port 80 is available in the system. The following command should return an empty result:
+```powershell
+netstat -anb | grep :80
+```
+
+If the port is busy, you will see something like this:
+
+```powershell
+TCP     0.0.0.0:80        0.0.0.0:0       LISTENING
+TCP     [::]:80           [::]:0          LISTENING
+```
+
+— in this case, you need to locate and stop the running server.
+
+Keep in mind that `minikube tunnel` must be running in a separate PowerShell window. This is a prerequisite to access cluster resources via Ingress:
+```powershell
+minikube tunnel --cleanup=true
+```
+
+### Updating the hosts file
+
+We will use the 'werf-guide-app' domain for accessing the application. To do this, update the hosts file (in PowerShell as an administrator):
+```powershell
+Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 werf-guide-app"
+```

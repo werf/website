@@ -1,3 +1,27 @@
-{% comment %}
-TODO
-{% endcomment %}
+## Preparing the repository
+
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn active" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__continuing')">I am following the guide from beginning</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__just_started')">I am just starting from this chapter</a>
+</div>
+
+<div id="tabs__from_scratch__continuing" class="tabs__content tabs__from_scratch__content active" markdown="1">
+{%- if include.no_changes %}
+Switch to the existing repository (run in Bash/PowerShell):
+```shell
+cd ~/werf-guide/app
+```
+
+Problems with the repository? Try the instructions on the "I am just starting from this chapter" tab above.
+{%- else %}
+Update the existing repository containing the application:
+{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=false %}
+
+Doesn't work? Try the instructions on the "I am just starting from this chapter" tab above.
+{%- endif %}
+</div>
+
+<div id="tabs__from_scratch__just_started" class="tabs__content tabs__from_scratch__content" markdown="1">
+Prepare a new repository with the application:
+{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=true no_changes=include.no_changes %}
+</div>
