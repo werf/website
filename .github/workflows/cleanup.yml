@@ -25,3 +25,4 @@ jobs:
         uses: werf/actions/cleanup@v1.2
         env:
           WERF_LOG_VERBOSE: "on"
+          WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
