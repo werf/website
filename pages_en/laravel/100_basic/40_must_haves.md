@@ -1,6 +1,6 @@
 ---
 title: Things you need to know
-permalink: nodejs/100_basic/40_must_haves.html
+permalink: laravel/100_basic/40_must_haves.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 description: |

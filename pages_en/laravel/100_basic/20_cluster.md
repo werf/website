@@ -1,6 +1,6 @@
 ---
 title: Preparing the environment
-permalink: nodejs/100_basic/20_cluster.html
+permalink: laravel/100_basic/20_cluster.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 description: |

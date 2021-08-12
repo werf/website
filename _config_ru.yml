@@ -47,20 +47,19 @@ defaults:
       type: "pages"
     values:
       chapter_production_disclaimer: false
+      multilang: true
   - scope:
       path: "pages_ru/nodejs"
       type: "pages"
     values:
       framework_id: nodejs
       framework_name: "Node.js"
-      multilang: true
   - scope:
       path: "pages_ru/java_springboot"
       type: "pages"
     values:
       framework_id: java_springboot
       framework_name: "Spring Boot"
-      multilang: true
   - scope:
       path: "pages_ru/django"
       type: "pages"

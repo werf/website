@@ -21,16 +21,9 @@ defaults:
       type: "pages"
     values:
       layout: "page"
-      lang: en
-      sitemap_include: true
+      lang: ru
       multilang: false
-  - scope:
-      path: "pages_en"
-      type: "pages"
-    values:
-      sidebar: guide
-      multilang: true
-      toc: false
+      sitemap_include: true
   - scope:
       path: "pages_en"
       type: "pages"
@@ -53,20 +46,43 @@ defaults:
       type: "pages"
     values:
       chapter_production_disclaimer: false
+      multilang: true
   - scope:
       path: "pages_en/nodejs"
       type: "pages"
     values:
       framework_id: nodejs
       framework_name: "Node.js"
-      multilang: true
   - scope:
       path: "pages_en/java_springboot"
       type: "pages"
     values:
       framework_id: java_springboot
       framework_name: "Spring Boot"
-      multilang: true
+  - scope:
+      path: "pages_en/django"
+      type: "pages"
+    values:
+      framework_id: django
+      framework_name: Django
+  - scope:
+      path: "pages_en/golang"
+      type: "pages"
+    values:
+      framework_id: golang
+      framework_name: Go
+  - scope:
+      path: "pages_en/rails"
+      type: "pages"
+    values:
+      framework_id: rails
+      framework_name: Rails
+  - scope:
+      path: "pages_en/laravel"
+      type: "pages"
+    values:
+      framework_id: laravel
+      framework_name: Laravel
 
 breadcrumbs:
   home_text: Guides

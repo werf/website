@@ -1,6 +1,6 @@
 ---
 title: Building an image
-permalink: nodejs/100_basic/10_build.html
+permalink: golang/100_basic/10_build.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 examples: examples/basic/001_build

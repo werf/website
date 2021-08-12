@@ -1,6 +1,6 @@
 ---
 title: Deploying the application
-permalink: nodejs/100_basic/30_deploy.html
+permalink: rails/100_basic/30_deploy.html
 examples: examples/basic/002_deploy
 examples_initial: examples/basic/001_build
 description: |
