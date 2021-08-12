@@ -3,7 +3,6 @@ title: Логирование
 permalink: rails/200_real_apps/020_logging.html
 examples_initial: examples/rails/010_basic_app
 examples: examples/rails/020_logging
-layout: wip
 description: |
     Конфигурация подсистемы логирования в Rails-приложениях по умолчанию плохо подходит для Kubernetes и для систем сбора логов. В этой главе мы исправим эту конфигурацию, потребовав от приложения писать логи туда, откуда Kubernetes сможет их достать, а также сделаем формат логов структурированным, т.е. готовым к парсингу системами сбора и анализа логов.
 ---
