@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: basicapp-configmap
-data:
-  env.json: {{ .Values.assetsValues | mustToJson | quote }}

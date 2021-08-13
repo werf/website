@@ -24,7 +24,7 @@ entries:
         - title: Логирование
           url: "200_real_apps/020_logging.html"
         - title: Генерируем и раздаём ассеты
-          url: "200_real_apps/30_assets.html"
+          url: "200_real_apps/030_assets.html"
         - title: Инициализация БД и миграции
           url: "200_real_apps/40_db_init_and_migrations.html"
         - title: Подключаем приложение к S3
