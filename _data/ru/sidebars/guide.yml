@@ -23,18 +23,14 @@ entries:
           url: "200_real_apps/010_basic_app.html"
         - title: Логирование
           url: "200_real_apps/020_logging.html"
-        - title: Генерируем и раздаём ассеты
+        - title: Раздача ассетов
           url: "200_real_apps/030_assets.html"
-        - title: Инициализация БД и миграции
-          url: "200_real_apps/40_db_init_and_migrations.html"
-        - title: Подключаем приложение к S3
+        - title: Работа с базой данных
+          url: "200_real_apps/040_db.html"
+        - title: Использование S3
           url: "200_real_apps/85_s3.html"
         - title: Периодическое выполнение заданий
           url: "200_real_apps/60_cron.html"
-        - title: Подключаем внешний PostgreSQL
-          url: "200_real_apps/80_database.html"
-        - title: Stateful-приложение
-          url: "200_real_apps/90_stateful.html"
         - title: Управление конфигурацией приложения
           url: "200_real_apps/110_configuration.html"
 

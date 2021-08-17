@@ -1,12 +1,11 @@
 ---
-title: Генерируем и раздаём ассеты
+title: Раздача ассетов
 permalink: rails/200_real_apps/030_assets.html
 examples_initial: examples/rails/020_logging
 examples: examples/rails/030_assets
 base_url: https://github.com/werf/werf-guides/blob/master/
-layout: wip
 description: |
-  В этой главе мы добавим нашему приложению страницу, доступную по пути `/image`, которая будет отдавать набор статических файлов: JS-файл, CSS-файл и изображение. Затем мы покажем, как правильно эти статические файлы отдать клиенту, используя Rails, Webpacker и NGINX.
+  В этой главе мы реализуем в приложении работу со статическими файлами и покажем, как правильно отдавать их клиенту.
 ---
 
 ## Добавление страницы `/image` в приложение
@@ -15,11 +14,7 @@ description: |
 
 Наше приложение сейчас представляет из себя простое API без нормальных средств менеджмента статичных файлов и frontend-кода. Чтобы сделать из нашего API простое веб-приложение, мы сгенерировали скелет нового Rails-приложения, но без ранее использованных флагов `--api` и `--skip-javascript`:
 ```shell
-rails new --skip-keeps --skip-action-mailer --skip-action-mailbox \
-  --skip-action-text --skip-active-record --skip-active-job \
-  --skip-active-storage --skip-action-cable --skip-sprockets \
-  --skip-spring --skip-listen --skip-turbolinks \
-  --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
+rails new --skip-keeps --skip-action-mailer --skip-action-mailbox --skip-action-text --skip-active-record --skip-active-job --skip-active-storage --skip-action-cable --skip-sprockets --skip-spring --skip-listen --skip-turbolinks --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
 ```
 
 Из этого скелета мы позаимствовали всё, что связано с менеджментом JS-кода и статических файлов. Основные изменения, принесённые в наше приложение, включают в себя:

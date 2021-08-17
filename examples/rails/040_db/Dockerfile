@@ -2,6 +2,8 @@
 FROM ruby:2.7 as base
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y default-mysql-client
+
 # [<ru>] Копируем в образ файлы, нужные для установки зависимостей приложения.
 COPY Gemfile Gemfile.lock ./
 # [<ru>] Уставливаем зависимости приложения.
