@@ -83,7 +83,7 @@ cd ~/werf-guide/app
 # Чтобы увидеть, какие изменения мы собрались вносить далее в этой главе, заменим все файлы приложения
 # в репозитории новыми, уже измененными файлами приложения, которые содержат описанные далее изменения.
 git rm -r .
-cp -rfT ~/werf-guide/guides/{{ include.examples_to }} .
+cp -rf ~/werf-guide/guides/{{ include.examples_to }}/. .
 git add .
 git commit -m WIP
 ```
