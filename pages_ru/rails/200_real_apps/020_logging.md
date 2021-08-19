@@ -4,7 +4,7 @@ permalink: rails/200_real_apps/020_logging.html
 examples_initial: examples/rails/010_basic_app
 examples: examples/rails/020_logging
 description: |
-  В этой главе мы настроим приложение для сбора логов с Kubernetes и системами сбора и анализа логов.
+  В этой главе мы настроим и разберём особенности логирования приложения в Kubernetes, а также сделаем структурированный формат логов для последущеющего парсинга системами сбора и анализа логов.
 ---
 
 ## Вывод логов в stdout
