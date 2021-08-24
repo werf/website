@@ -1,13 +1,13 @@
 ## A new {{ page.framework_name }} application
 
-In this chapter, we will use a basic {{ page.framework_name }} application with the same feature set as the application from the previous chapter.
+In this chapter, we will use a new basic {{ page.framework_name }} application with the same feature set as the application from the previous section.
 
 {% include 200_real_apps/010_basic_app/{{ page.framework_id }}/how_basic_app_was_made.md.liquid %}
 
-As for the assembly and CI/CD, the most significant changes were with the image build process:
+As for the building and CI/CD, the most significant changes affected the image build process:
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-...while CI/CD changes were minimal. For example, here is the Deployment.yaml file of the new application:
+… while CI/CD changes were minimal. For example, here is the Deployment of the new application:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
 Our current application is stateless and does not need a database to run. We will show you how to turn it into a stateful application and deploy a dedicated database in the following chapters.
