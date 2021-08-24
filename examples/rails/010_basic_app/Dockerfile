@@ -5,7 +5,7 @@ WORKDIR /app
 # [<ru>] Копируем в образ файлы, нужные для установки зависимостей приложения.
 COPY Gemfile Gemfile.lock ./
 # [<en>] Install the application dependencies.
-# [<ru>] Уставливаем зависимости приложения.
+# [<ru>] Устанавливаем зависимости приложения.
 RUN bundle install
 
 # [<en>] Copy all other application files into the image.
