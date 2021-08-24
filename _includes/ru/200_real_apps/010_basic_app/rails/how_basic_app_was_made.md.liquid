@@ -8,7 +8,7 @@ rails new --api --skip-keeps --skip-action-mailer --skip-action-mailbox \
 ```
 В нём была оставлена конфигурация только для production-окружения и убрано всё, что не требуется на данном этапе.
 
-Был добавлен новый путь `/ping` для нашего API:
+После этого был добавлен новый путь `/ping` для нашего API:
 {% include snippetcut_example path="config/routes.rb" syntax="ruby" examples=page.examples %}
 
 Этот путь будет обрабатываться методом `ping` стандартного контроллера, возвращающим текст `pong`:

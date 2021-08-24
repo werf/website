@@ -1,13 +1,13 @@
 ## Новое приложение на {{ page.framework_name }}
 
-Далее мы будем использовать простое приложение на {{ page.framework_name }}, функционально идентичное приложению из предыдущего раздела.
+Далее мы будем использовать новое простое приложение на {{ page.framework_name }}, функционально идентичное приложению из предыдущего раздела.
 
 {% include 200_real_apps/010_basic_app/{{ page.framework_id }}/how_basic_app_was_made.md.liquid %}
 
 Что касается сборки и CI/CD, то основные изменения затронули сборку образа:
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-CI/CD изменилось незначительно. К примеру, так выглядит новый Deployment приложения:
+… а CI/CD изменилось незначительно. К примеру, так выглядит новый Deployment приложения:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
 Приложение — полностью stateless, не требует базы данных для работы. Мы сделаем его stateful и развернём для него базу данных в следующих главах.
