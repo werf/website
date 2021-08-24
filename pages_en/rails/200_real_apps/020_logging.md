@@ -4,7 +4,7 @@ permalink: rails/200_real_apps/020_logging.html
 examples_initial: examples/rails/010_basic_app
 examples: examples/rails/020_logging
 description: |
-  This chapter is about modifying the configuration to save application logs to a place where Kubernetes can read them. Additionally, we will introduce a structure to the log format to make it ready for parsing by log collection and analysis systems.
+  In this chapter, we will learn about application logging in Kubernetes and implement it. Additionally, we will introduce a structured logging format to make it ready for parsing by log collection and analysis systems.
 ---
 
 ## Redirecting logs to stdout
@@ -13,7 +13,7 @@ All applications deployed to a Kubernetes cluster must write logs to [stdout/std
 
 By default, Rails saves logs to a file instead of stdout/stderr. Set the appropriate environment variable (`RAILS_LOG_TO_STDOUT=1`) to enable redirecting logs (including errors) to stdout.
 
-Since streaming logs to stdout is all we need, they will be directed to stdout in all cases regardless of the environment variables.
+Since streaming logs to stdout is all we need, they will be directed to stdout **in all cases** regardless of the environment variables:
 
 {% include snippetcut_example path="config/environments/production.rb" syntax="ruby" snippet="logger" examples=page.examples %}
 
@@ -39,7 +39,7 @@ I, [2021-06-07T16:47:28.498897 #1]  INFO -- : Completed 200 OK in 0ms (Views: 0.
 
 Note how the application logs end up mixed with Rails and Puma logs. All these logs have different formats. Regular log collection and analysis systems will probably struggle with parsing all this gibberish.
 
-You can solve this problem by shipping logs in a structured JSON-like format. Most log collection systems can easily parse JSON and correctly process logs/messages in unexpected, unstructured formats (even if they sneak in between JSON-formatted logs).
+You can solve this problem by shipping logs in a structured JSON-like format. Most log collection systems can both, easily parse JSON and correctly process logs/messages in other (unexpected, unstructured) formats when they sneak in between JSON-formatted logs.
 
 Let's define an `ActiveSupport::Logger::SimpleFormatter` class that converts plain text logs into JSON-formatted ones:
 {% include snippetcut_example path="lib/json_simple_formatter.rb" syntax="ruby" examples=page.examples %}
