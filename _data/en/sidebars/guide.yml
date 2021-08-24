@@ -13,22 +13,26 @@ entries:
           url: "100_basic/35_deploy_changes.html"
         - title: Kubernetes basics
           url: "100_basic/38_kubernetes_basics.html"
-        - title: Must haves
+        - title: Things you need to know
           url: "100_basic/40_must_haves.html"
 
-    - title: Real world apps
+    - title: Real-world apps
       url: "200_real_apps.html"
       sf:
         - title: Basic application
           url: "200_real_apps/010_basic_app.html"
         - title: Logging
           url: "200_real_apps/020_logging.html"
-        - title: Assets generation
+        - title: Generating assets
           url: "200_real_apps/030_assets.html"
-        - title: Storing files
-          url: "200_real_apps/50_files.html"
-        - title: Running automated tasks
+        - title: Using database
+          url: "200_real_apps/040_db.html"
+        - title: Using S3
+          url: "200_real_apps/85_s3.html"
+        - title: Running scheduled jobs
           url: "200_real_apps/60_cron.html"
+        - title: Managing app's configuration
+          url: "200_real_apps/110_configuration.html"
 
     - title: Development process
       url: "300_dev_process.html"
