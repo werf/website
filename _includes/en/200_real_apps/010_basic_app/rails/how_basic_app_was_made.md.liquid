@@ -1,4 +1,4 @@
-To create it, use the following command to generate the basis of the {{ page.framework_name }}-application:
+To create it, use the following command to generate the directory structure for your {{ page.framework_name }} application:
 ```shell
 rails new --api --skip-keeps --skip-action-mailer --skip-action-mailbox \
   --skip-action-text --skip-active-record --skip-active-job \
@@ -6,9 +6,9 @@ rails new --api --skip-keeps --skip-action-mailer --skip-action-mailbox \
   --skip-spring --skip-listen --skip-javascript --skip-turbolinks \
   --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
 ```
-All functionality that is not needed at this stage has been removed from the application. The only thing left is the configuration for the production environment.
+This application doesn't have any functionality that is not needed at this stage. The only thing left is the configuration for the production environment.
 
-A new `/ping` route has been added to the API:
+Then, a new `/ping` route has been added to the API:
 {% include snippetcut_example path="config/routes.rb" syntax="ruby" examples=page.examples %}
 
 The `ping` method of the standard controller will handle this route (and return the `pong` string):
