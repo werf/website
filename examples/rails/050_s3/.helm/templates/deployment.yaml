@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: werf-guide-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: werf-guide-app
+  template:
+    metadata:
+      labels:
+        app: werf-guide-app
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      initContainers:
+      - name: wait-db-readiness
+        image: {{ .Values.werf.image.backend }}
+        command:
+        - sh
+        - -euc
+        - |
+          # [<ru>] Дожидаемся доступности БД и выполнения миграций.
+          until bundle exec rails db:migrate:status; do
+            sleep 1
+          done
+        env:
+        - name: RAILS_ENV
+          value: production
+      containers:
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
+        command: ["bundle", "exec", "rails", "server"]
+        ports:
+        - containerPort: 3000
+        env:
+        - name: RAILS_ENV
+          value: production
+      - name: frontend
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+        - containerPort: 80

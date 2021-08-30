@@ -1,0 +1,10 @@
+production:
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: 5
+  host: mysql
+  port: 3306
+  username: root
+  password: password
+  database: werf-guide-app
+  encoding: utf8

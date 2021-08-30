@@ -1,0 +1,8 @@
+minio:
+  service: S3
+  endpoint: http://minio:9000
+  region: us-east-1
+  bucket: werf-guide-app
+  access_key_id: minioadmin
+  secret_access_key: minioadmin
+  force_path_style: true
