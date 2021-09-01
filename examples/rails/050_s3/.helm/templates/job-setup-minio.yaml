@@ -1,5 +1,3 @@
-# [<ru>] Эта Job запустится только при первом развертывании MinIO.
-{{- if $.Release.IsInstall }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -36,4 +34,3 @@ spec:
 
           # [<ru>] Создадим bucket для нашего приложения.
           mc mb --ignore-existing minio/werf-guide-app
-{{- end }}
