@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>werf-guide-app</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- [<ru>] Загрузим CSS-файлы. -->
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <!-- [<ru>] Загрузим JS-файлы. -->
+    <%= javascript_pack_tag 'application' %>
+  </head>
+
+  <body>
+    <div id="container">
+      <!-- [<ru>] Кнопка "Get image", при нажатии на которую будет выполняться Ajax-запрос. -->
+      <button type="button" id="show-image-btn">Get image</button>
+    </div>
+  </body>
+</html>

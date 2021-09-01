@@ -27,8 +27,8 @@ entries:
           url: "200_real_apps/030_assets.html"
         - title: Работа с базой данных
           url: "200_real_apps/040_db.html"
-        - title: Использование S3
-          url: "200_real_apps/85_s3.html"
+        - title: Работа с файлами
+          url: "200_real_apps/050_s3.html"
         - title: Периодическое выполнение заданий
           url: "200_real_apps/60_cron.html"
         - title: Управление конфигурацией приложения

@@ -23,12 +23,12 @@ entries:
           url: "200_real_apps/010_basic_app.html"
         - title: Logging
           url: "200_real_apps/020_logging.html"
-        - title: Generating assets
+        - title: Serving assets
           url: "200_real_apps/030_assets.html"
-        - title: Using database
+        - title: Working with database
           url: "200_real_apps/040_db.html"
-        - title: Using S3
-          url: "200_real_apps/85_s3.html"
+        - title: Working with files
+          url: "200_real_apps/050_s3.html"
         - title: Running scheduled jobs
           url: "200_real_apps/60_cron.html"
         - title: Managing app's configuration
