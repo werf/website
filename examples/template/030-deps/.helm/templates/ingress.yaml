@@ -1,5 +1,5 @@
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -11,6 +11,9 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 3000
+          service:
+            name: {{ .Chart.Name }}
+            port:
+              number: 3000

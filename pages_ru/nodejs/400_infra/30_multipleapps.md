@@ -172,9 +172,12 @@ spec:
       paths:
 <...>
       - path: /pyapp
+        pathType: Prefix
         backend:
-          serviceName: {{ .Chart.Name }}-py
-          servicePort: 5000
+          service:
+            name: {{ .Chart.Name }}-py
+            port:
+              number: 5000
 ```
 {% endraw %}
 {% endsnippetcut %}
