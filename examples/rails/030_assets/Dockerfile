@@ -4,7 +4,7 @@ WORKDIR /app
 
 # [<ru>] Копируем в образ файлы, нужные для установки зависимостей приложения.
 COPY Gemfile Gemfile.lock ./
-# [<ru>] Уставливаем зависимости приложения.
+# [<ru>] Устанавливаем зависимости приложения.
 RUN bundle install
 
 #############################################################################
@@ -12,14 +12,14 @@ RUN bundle install
 # [<ru>] Временный образ, в котором произойдет сборка ассетов.
 FROM base as assets
 
-# [<ru>] Устанавливаем NodeJS.
+# [<ru>] Устанавливаем Node.js.
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
 # [<ru>] Устанавливаем Yarn.
 RUN npm install yarn --global
 
-# [<ru>] Устанавливаем JS зависимости приложения.
+# [<ru>] Устанавливаем JS-зависимости приложения.
 COPY yarn.lock package.json ./
 RUN yarn install
 
@@ -49,5 +49,5 @@ WORKDIR /www
 # [<ru>] Копируем собранные ассеты из предыдушего сборочного образа.
 COPY --from=assets /app/public /www
 
-# [<ru>] Копируем конфигурацию Nginx.
+# [<ru>] Копируем конфигурацию NGINX.
 COPY .werf/nginx.conf /etc/nginx/nginx.conf
