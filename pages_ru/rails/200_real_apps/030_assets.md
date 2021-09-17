@@ -17,7 +17,7 @@ description: |
 rails new --skip-keeps --skip-action-mailer --skip-action-mailbox --skip-action-text --skip-active-record --skip-active-job --skip-active-storage --skip-action-cable --skip-sprockets --skip-spring --skip-listen --skip-turbolinks --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
 ```
 
-Из этого скелета мы позаимствовали всё, что связано с управлением JS-кодом и статическими файлами. Основные изменения, принесённые в наше приложение:
+Из этого скелета мы позаимствовали всё, что связано с управлением JS-кодом и статическими файлами. Основные изменения, сделанные в нашем приложении:
 1. Добавление `webpacker` в [Gemfile]({{ page.base_url | append: page.examples | append: "/Gemfile" }}).
 1. Создание стандартных конфигурационных файлов Webpacker:
   * [config/webpacker.yml]({{ page.base_url | append: page.examples | append: "/config/webpacker.yml" }})
