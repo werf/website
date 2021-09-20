@@ -43,3 +43,11 @@ jobs:
         WERF_KUBE_CONTEXT: prod
         WERF_NAMESPACE: "werfio-production"
       if: github.ref == 'refs/heads/master'
+
+    - name: Deploy to production has failed
+      if: ${{ failure() }} && github.ref == 'refs/heads/master'
+      run: |
+        curl -X POST \
+             -H 'Content-type: application/json' \
+             --data "{\"text\":\"[werf guides] Deploy to production has failed (job <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|$GITHUB_RUN_ID>)\"}" \
+             ${{ secrets.SLACK_WEBHOOK }}
