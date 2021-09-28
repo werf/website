@@ -7,7 +7,7 @@
 
 {% if entry_page and entry_page.layout != "development" %}
 {% capture li_class %}{{ base_li_class }}{% if page.url contains entry.url %} active{% endif %}{% endcapture %}
-<li class="{{ li_class }}">
+<li class="{{ li_class }}{% if entry_page.layout == "wip" %} wip{% endif %}">
 <a href="{{ entry_relative_url }}" data-subhref="{{ entry.url }}">{{ entry.title }}</a>
 </li>
 {% else %}
