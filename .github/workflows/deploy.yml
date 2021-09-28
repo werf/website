@@ -44,10 +44,16 @@ jobs:
         WERF_NAMESPACE: "werfio-production"
       if: github.ref == 'refs/heads/master'
 
-    - name: Deploy to production has failed
-      if: ${{ failure() }} && github.ref == 'refs/heads/master'
-      run: |
-        curl -X POST \
-             -H 'Content-type: application/json' \
-             --data "{\"text\":\"[werf guides] Deploy to production has failed (job <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|$GITHUB_RUN_ID>)\"}" \
-             ${{ secrets.SLACK_WEBHOOK }}
+  notify:
+    runs-on: self-hosted
+    needs: converge
+    if: always()
+    steps:
+      - uses: technote-space/workflow-conclusion-action@v2
+      - name: (Notifications) Deploy to production has failed
+        if: github.ref == 'refs/heads/master' && env.WORKFLOW_CONCLUSION == 'failure'
+        run: |
+          curl -X POST \
+               -H 'Content-type: application/json' \
+               --data "{\"text\":\"[werf guides] Deploy to production has failed (job <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|$GITHUB_RUN_ID>)\"}" \
+               ${{ secrets.SLACK_WEBHOOK }}
