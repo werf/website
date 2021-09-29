@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  nginx.conf: |
+    user nginx;
+    worker_processes 1;
+    pid /run/nginx.pid;
+
+    events {
+      worker_connections 1024;
+    }
+
+    http {
+      include /etc/nginx/mime.types;
+      default_type application/octet-stream;
+
+      upstream backend {
+        server 127.0.0.1:3000 fail_timeout=0;
+      }
+
+      server {
+        listen 80;
+        server_name _;
+
+        root /www;
+
+        client_max_body_size 100M;
+        keepalive_timeout 10s;
+
+        # [<ru>] По пути /packs Отдадим ассеты напрямую из файловой системы NGINX-контейнера.
+        location /packs/ {
+          # [<ru>] В силу особенностей механизма сборки ассетов с Webpacker клиент может хранить кеш ассетов сколь
+          # [<ru>] угодно долго, не беспокоясь об их инвалидации.
+          expires 1y;
+          add_header Cache-Control public;
+          add_header Last-Modified "";
+          add_header ETag "";
+
+          # [<ru>] Когда есть возможность, то отдаём заранее сжатые файлы, вместо сжатия на лету.
+          gzip_static on;
+
+          access_log off;
+
+          try_files $uri =404;
+        }
+
+        # [<ru>] Ассеты медиа-файлов (картинки и т.п.) также отдадим из файловой системы NGINX-контейнера, но
+        # [<ru>] отключим для них отдачу gzip-версий.
+        location /packs/media {
+          expires 1y;
+          add_header Cache-Control public;
+          add_header Last-Modified "";
+          add_header ETag "";
+
+          access_log off;
+
+          try_files $uri =404;
+        }
+
+        # [<ru>] Все запросы, кроме запросов на получение ассетов, отправляются на Puma-бэкенд.
+        location / {
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header Host $http_host;
+          proxy_redirect off;
+
+          proxy_pass http://backend;
+        }
+      }
+    }

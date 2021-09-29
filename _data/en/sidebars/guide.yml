@@ -29,10 +29,8 @@ entries:
           url: "200_real_apps/040_db.html"
         - title: Working with files
           url: "200_real_apps/050_s3.html"
-        - title: Running scheduled jobs
-          url: "200_real_apps/60_cron.html"
-        - title: Managing app's configuration
-          url: "200_real_apps/110_configuration.html"
+        - title: Configuration and secrets
+          url: "200_real_apps/080_config.html"
 
     - title: Development process
       url: "300_dev_process.html"

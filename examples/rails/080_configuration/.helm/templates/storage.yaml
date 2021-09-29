@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio
+spec:
+  serviceName: minio
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+      annotations:
+        checksum/secret-minio-envs: '{{ include (print $.Template.BasePath "/secret-minio-envs.yaml") . | sha256sum }}'
+    spec:
+      containers:
+      - name: minio
+        image: minio/minio
+        args: ["server", "/data", "--console-address", ":9001"]
+        ports:
+        - containerPort: 9000
+          name: minio
+        - containerPort: 9001
+          name: console
+        volumeMounts:
+        - name: minio-data
+          mountPath: /data
+        envFrom:
+        - secretRef:
+            name: minio-envs
+  volumeClaimTemplates:
+  - metadata:
+      name: minio-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: "{{ .Values.minio.storageSize }}"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+spec:
+  selector:
+    app: minio
+  ports:
+  - port: 9000
+    name: minio
+  - port: 9001
+    name: console

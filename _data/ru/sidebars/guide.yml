@@ -29,10 +29,8 @@ entries:
           url: "200_real_apps/040_db.html"
         - title: Работа с файлами
           url: "200_real_apps/050_s3.html"
-        - title: Периодическое выполнение заданий
-          url: "200_real_apps/60_cron.html"
-        - title: Управление конфигурацией приложения
-          url: "200_real_apps/110_configuration.html"
+        - title: Конфигурация и секреты
+          url: "200_real_apps/080_config.html"
 
     - title: Организация разработки
       url: "300_dev_process.html"
