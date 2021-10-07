@@ -4,7 +4,7 @@ docker run --rm \
     -v $(pwd):/opt \
     -w /opt \
     laravelsail/php80-composer:latest \
-    bash -c "laravel new example-app"
+    bash -c "composer create-project laravel/laravel ."
 ```
 В нём была оставлена конфигурация только для production-окружения и убрано всё, что не требуется на данном этапе.
 
