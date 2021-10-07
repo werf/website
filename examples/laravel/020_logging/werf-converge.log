@@ -1,0 +1,52 @@
+...
+┌ ⛵ image backend
+│ ┌ Building stage backend/dockerfile
+│ │ backend/dockerfile  Sending build context to Docker daemon    490kB
+│ │ backend/dockerfile  Step 1/18 : FROM php:8.0-fpm-alpine as backend
+│ │ backend/dockerfile   ---> 52c511f481c5
+...
+│ │ backend/dockerfile  Successfully built d3ad86893808
+│ │ backend/dockerfile  Successfully tagged 894dff63-2ffb-4311-807b-6ff1f38415bb:latest
+│ ├ Info
+│ │      name: golovinps/werf-guide-app:f2b022ecef61a8b08f36147c3fd832a1b179bd9144f8f94be1c9920b-1633617910563
+│ │        id: d3ad86893808
+│ │   created: 2021-10-07 17:45:10 +0300 MSK
+│ │      size: 48.8 MiB
+│ └ Building stage backend/dockerfile (17.00 seconds)
+└ ⛵ image backend (21.54 seconds)
+
+┌ ⛵ image frontend
+│ ┌ Building stage frontend/dockerfile
+│ │ frontend/dockerfile  Sending build context to Docker daemon    490kB
+│ │ frontend/dockerfile  Step 1/23 : FROM php:8.0-fpm-alpine as backend
+│ │ frontend/dockerfile   ---> 52c511f481c5
+...
+│ │ frontend/dockerfile  Successfully built bf8f27681b68
+│ │ frontend/dockerfile  Successfully tagged d9147ff4-9a3e-46df-9f5a-45e13b666f21:latest
+│ ├ Info
+│ │      name: golovinps/werf-guide-app:d1508f77a2abe02adefbe3f5653cc9b1978297d9fbcfc2716800b80d-1633617910174
+│ │        id: bf8f27681b68
+│ │   created: 2021-10-07 17:45:10 +0300 MSK
+│ │      size: 9.4 MiB
+│ └ Building stage frontend/dockerfile (12.85 seconds)
+└ ⛵ image frontend (17.58 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                      REPLICAS          AVAILABLE           UP-TO-DATE
+│ │ werf-guide-app                                                                                  2->1/1            1                   1
+│ │ │   POD                                 READY        RESTARTS          STATUS
+│ │ ├── guide-app-57489dcc89-5js95          2/2          0                 ContainerCreating ->
+│ │ │                                                                      Running
+│ │ └── guide-app-58497f7ccb-96tl6          2/2          0                 Running -> Terminating
+│ └ Status progress
+└ Waiting for release resources to become ready (8.32 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Oct  7 17:45:29 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 11
+TEST SUITE: None
+Running time 41.58 seconds
