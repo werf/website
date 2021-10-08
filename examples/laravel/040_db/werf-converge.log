@@ -1,0 +1,70 @@
+...
+┌ ⛵ image backend
+│ ┌ Building stage backend/dockerfile
+│ │ backend/dockerfile  Sending build context to Docker daemon  501.2kB
+│ │ backend/dockerfile  Step 1/19 : FROM php:8.0-fpm-alpine as base
+│ │ backend/dockerfile   ---> 52c511f481c5
+...
+│ │ backend/dockerfile  Successfully built 1ca8f41e400b
+│ │ backend/dockerfile  Successfully tagged 96788dcb-5796-4068-9be4-d5c747184419:latest
+│ ├ Info
+│ │      name: golovinps/werf-guide-app:2212ff6d5ce7b74c65f7838523ca3aa37be1a4408aca105f907e45bb-1633685776086
+│ │        id: 1ca8f41e400b
+│ │   created: 2021-10-08 12:36:15 +0300 MSK
+│ │      size: 48.8 MiB
+│ └ Building stage backend/dockerfile (18.99 seconds)
+└ ⛵ image backend (24.49 seconds)
+
+┌ ⛵ image frontend
+│ ┌ Building stage frontend/dockerfile
+│ │ frontend/dockerfile  Sending build context to Docker daemon  501.2kB
+│ │ frontend/dockerfile  Step 1/30 : FROM php:8.0-fpm-alpine as base
+│ │ frontend/dockerfile   ---> 52c511f481c5
+...
+│ │ frontend/dockerfile
+│ │ frontend/dockerfile     Laravel Mix v6.0.31
+│ │ frontend/dockerfile
+│ │ frontend/dockerfile
+│ │ frontend/dockerfile  ✔ Compiled Successfully in 6277ms
+│ │ frontend/dockerfile  ┌───────────────────────────────────┬───────────┐
+│ │ frontend/dockerfile  │                              File │ Size      │
+│ │ frontend/dockerfile  ├───────────────────────────────────┼───────────┤
+│ │ frontend/dockerfile  │             /images/werf-logo.svg │ 2.67 KiB  │
+│ │ frontend/dockerfile  │                        /js/app.js │ 89.4 KiB  │
+│ │ frontend/dockerfile  │            /js/app.js.LICENSE.txt │ 336 bytes │
+│ │ frontend/dockerfile  │                      /js/image.js │ 356 bytes │
+│ │ frontend/dockerfile  │                       css/app.css │ 1 bytes   │
+│ │ frontend/dockerfile  │                      css/site.css │ 160 bytes │
+│ │ frontend/dockerfile  └───────────────────────────────────┴───────────┘
+│ │ frontend/dockerfile  ✔ Mix: Compiled successfully in 6.36s
+│ │ frontend/dockerfile  webpack compiled successfully
+...
+│ │ frontend/dockerfile  Successfully built 1d182d7f314b
+│ │ frontend/dockerfile  Successfully tagged 8b6e9f6c-94d7-4a52-af7c-8a97aaae6e2c:latest
+│ ├ Info
+│ │      name: golovinps/werf-guide-app:73588c2be51068fa6b336746b8cfe11e890bcf7c00b44b94aaa6cb3e-1633685835794
+│ │        id: 1d182d7f314b
+│ │   created: 2021-10-08 12:37:15 +0300 MSK
+│ │      size: 9.4 MiB
+│ └ Building stage frontend/dockerfile (77.50 seconds)
+└ ⛵ image frontend (82.38 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                      REPLICAS          AVAILABLE           UP-TO-DATE
+│ │ werf-guide-app                                                                                  2->1/1            1                   1
+│ │ │   POD                                 READY        RESTARTS          STATUS
+│ │ ├── guide-app-645c598898-lfncm          2/2          0                 ContainerCreating ->
+│ │ │                                                                      Running
+│ │ └── guide-app-c5885499f-n9lm4           2/2          0                 Running -> Terminating
+│ └ Status progress
+└ Waiting for release resources to become ready (9.32 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Fri Oct  8 12:37:34 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 13
+TEST SUITE: None
+Running time 102.90 seconds
