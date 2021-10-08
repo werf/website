@@ -33,6 +33,16 @@ spec:
             - name: LOG_LEVEL
               value: info
             # [<endsnippet log-level>]
+            # [<snippet database-config>]
+            - name: DB_HOST
+              value: mysql
+            - name: DB_DATABASE
+              value: werf-guide-app
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              value: password
+            # [<endsnippet database-config>]
           volumeMounts:
             - mountPath: /var/run/php
               name: run-php

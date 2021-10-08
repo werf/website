@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PingController;
+use App\Http\Controllers\TalkerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,6 @@ Route::get('/ping', [PingController::class, 'ping']);
 Route::get('/image', function () {
     return view('image');
 });
+
+Route::get('/say', [TalkerController::class, 'say']);
+Route::get('/remember', [TalkerController::class, 'remember']);

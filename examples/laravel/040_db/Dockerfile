@@ -5,6 +5,8 @@ WORKDIR /app
 # [<ru>] Устанавливаем системные зависимости, необходимые php-модули и composer.
 RUN set -x \
     && apk add --no-cache \
+        mysql-client \
+        mariadb-connector-c \
         icu-libs \
         bash \
     && apk add --no-cache --virtual .build-deps \
@@ -14,6 +16,7 @@ RUN set -x \
         make \
         g++ \
     && docker-php-ext-install -j$(nproc) \
+        pdo_mysql \
         sockets \
         opcache \
         pcntl \
