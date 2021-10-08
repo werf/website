@@ -1,5 +1,5 @@
-# [<ru>] Основной backend-образ с приложением и php-fpm.
-FROM php:8.0-fpm-alpine as backend
+# [<ru>] Базовый образ. Используется и для сборки ассетов, и как основа для backend-образа.
+FROM php:8.0-fpm-alpine as base
 WORKDIR /app
 
 # [<ru>] Устанавливаем системные зависимости, необходимые php-модули и composer.
@@ -28,6 +28,11 @@ COPY ./composer.* /app/
 # [<ru>] Устанавливаем зависимости приложения (`dump-autoload` запустим после копирования остальных файлов приложения).
 RUN composer install -n --no-dev --no-cache --no-ansi --no-autoloader --no-scripts --prefer-dist
 
+#############################################################################
+
+# [<ru>] Основной backend-образ с приложением и php-fpm.
+FROM base as backend
+
 # [<ru>] Копируем в образ все остальные файлы приложения.
 COPY --chown=www-data:www-data . /app/
 # [<ru>] Перегенерируем автозагрузчик классов.
@@ -40,14 +45,36 @@ EXPOSE 9000
 
 #############################################################################
 
+# [<snippet assets>]
+# [<ru>] Временный образ, в котором произойдет сборка ассетов.
+FROM base as assets
+
+# [<ru>] Устанавливаем Node.js.
+RUN apk add --no-cache nodejs npm
+
+# [<ru>] Устанавливаем JS-зависимости приложения.
+COPY package.json ./
+RUN npm install
+
+# [<ru>] Копируем в образ все остальные файлы приложения.
+COPY . .
+
+# [<ru>] Собираем ассеты.
+RUN npm run prod
+# [<endsnippet assets>]
+
+#############################################################################
+
+# [<snippet frontend>]
 # [<ru>] NGINX-образ с публичными файлами.
 FROM nginx:stable-alpine as frontend
 WORKDIR /www
 
-# [<ru>] Копируем публичные файлы из backend образа.
-COPY --from=backend /app/public /www
+# [<ru>] Копируем публичные файлы из assets образа.
+COPY --from=assets /app/public /www
 
 # [<ru>] Копируем конфигурацию NGINX.
 COPY .werf/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8080
+# [<endsnippet frontend>]

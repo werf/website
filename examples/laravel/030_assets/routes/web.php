@@ -19,3 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/ping', [PingController::class, 'ping']);
+
+Route::get('/image', function () {
+    return view('image');
+});
