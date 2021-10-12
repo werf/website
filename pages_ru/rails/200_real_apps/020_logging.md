@@ -87,7 +87,7 @@ annotations:
   werf.io/log-regex: ".*ERROR.*"
 ```
 
-Список всех доступных аннотаций можно посмотреть [здесь](https://ru.werf.io/documentation/v1.2/reference/deploy_annotations.html).
+Список всех доступных аннотаций можно посмотреть [здесь]({{ site.url }}/documentation/reference/deploy_annotations.html).
 
 > _Эти аннотации влияют только на то, как логи отображаются при деплое с werf. Они не оказывают никакого влияния на развертываемое приложение или его конфигурацию. Логи по-прежнему доступны в stdout/stderr контейнера в первоначальном виде._
 
