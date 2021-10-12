@@ -1,0 +1,83 @@
+...
+┌ ⛵ image backend
+│ ┌ Building stage backend/dockerfile
+│ │ backend/dockerfile  Sending build context to Docker daemon  510.5kB
+│ │ backend/dockerfile  Step 1/19 : FROM php:8.0-fpm-alpine as base
+│ │ backend/dockerfile   ---> 52c511f481c5
+...
+│ │ backend/dockerfile  Successfully built 0a1d03dc74ac
+│ │ backend/dockerfile  Successfully tagged c5514065-5c4c-4e73-9a84-a777c9be56a3:latest
+│ ├ Info
+│ │      name: golovinps/werf-guide-app:c1c78d5859300a5b439f0aff914ca2025ff5af4ad7cac3022d561bac-1633696904980
+│ │        id: 0a1d03dc74ac
+│ │   created: 2021-10-08 15:41:44 +0300 MSK
+│ │      size: 56.7 MiB
+│ └ Building stage backend/dockerfile (28.12 seconds)
+└ ⛵ image backend (33.26 seconds)
+
+┌ ⛵ image frontend
+│ ┌ Building stage frontend/dockerfile
+│ │ frontend/dockerfile  Sending build context to Docker daemon  510.5kB
+│ │ frontend/dockerfile  Step 1/30 : FROM php:8.0-fpm-alpine as base
+│ │ frontend/dockerfile   ---> 52c511f481c5
+...
+│ │ frontend/dockerfile  Successfully built 0644ab57979f
+│ │ frontend/dockerfile  Successfully tagged 2128b312-2942-4163-9de5-06f9fd191bc9:latest
+│ ├ Info
+│ │      name: golovinps/werf-guide-app:773d56f3d626435554c0d2d85e7949ecd4cc0a6fea3e8557848366b0-1633696968872
+│ │        id: 0644ab57979f
+│ │   created: 2021-10-08 15:42:48 +0300 MSK
+│ │      size: 9.4 MiB
+│ └ Building stage frontend/dockerfile (89.50 seconds)
+└ ⛵ image frontend (94.24 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                      REPLICAS          AVAILABLE           UP-TO-DATE
+│ │ werf-guide-app                                                                                  2->1/1            2->1                1
+│ │ │   POD                                 READY        RESTARTS          STATUS
+│ │ ├── guide-app-645c598898-lfncm          0/2          0                 Terminating
+│ │ └── guide-app-6b57898748-tjg9k          2/2          0                 Running
+│ │ STATEFULSET                                                                                     REPLICAS          READY               UP-TO-DATE
+│ │ mysql                                                                                           1/1               0->1                1
+│ │ │   POD                                 READY        RESTARTS          STATUS
+│ │ └── 0                                   1/1          0                 ContainerCreating ->
+│ │                                                                        Running
+│ └ Status progress
+└ Waiting for release resources to become ready (12.62 seconds)
+
+┌ Waiting for helm hook job/migrate-db termination
+│ ┌ job/migrate-db po/migrate-db-ddrgt container/migrate-db logs
+│ │ mysqld is alive
+│ │ mysqld is alive
+│ │ Migration table created successfully.
+│ │ Migrating: 2014_10_12_000000_create_users_table
+│ │ Migrated:  2014_10_12_000000_create_users_table (103.71ms)
+│ │ Migrating: 2014_10_12_100000_create_password_resets_table
+│ │ Migrated:  2014_10_12_100000_create_password_resets_table (96.17ms)
+│ │ Migrating: 2019_08_19_000000_create_failed_jobs_table
+│ │ Migrated:  2019_08_19_000000_create_failed_jobs_table (90.92ms)
+│ │ Migrating: 2019_12_14_000001_create_personal_access_tokens_table
+│ │ Migrated:  2019_12_14_000001_create_personal_access_tokens_table (139.30ms)
+│ │ Migrating: 2021_10_04_000000_create_talkers_table
+│ │ Migrated:  2021_10_04_000000_create_talkers_table (50.37ms)
+│ │ Migrating: 2021_10_04_000001_add_name_to_talkers
+│ │ Migrated:  2021_10_04_000001_add_name_to_talkers (40.98ms)
+│ └ job/migrate-db po/migrate-db-ddrgt container/migrate-db logs
+│
+│ ┌ Status progress
+│ │ JOB                                                                                             ACTIVE            DURATION            SUCCEEDED/FAILED
+│ │ migrate-db                                                                                      0                 29s                 0->1/0
+│ │ │   POD                                 READY        RESTARTS          STATUS
+│ │ └── db-ddrgt                            0/1          0                 Running -> Completed
+│ └ Status progress
+└ Waiting for helm hook job/migrate-db termination (29.70 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Fri Oct  8 15:43:57 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 14
+TEST SUITE: None
+Running time 57.27 seconds
