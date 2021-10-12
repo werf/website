@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PingController;
+use App\Http\Controllers\S3FileController;
 use App\Http\Controllers\TalkerController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,8 @@ Route::get('/image', function () {
 
 Route::get('/say', [TalkerController::class, 'say']);
 Route::get('/remember', [TalkerController::class, 'remember']);
+
+# [<snippet s3>]
+Route::get('/download', [S3FileController::class, 'download']);
+Route::post('/upload', [S3FileController::class, 'upload']);
+# [<endsnippet s3>]

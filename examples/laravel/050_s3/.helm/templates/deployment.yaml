@@ -43,6 +43,20 @@ spec:
             - name: DB_PASSWORD
               value: password
             # [<endsnippet database-config>]
+            # [<snippet s3-config>]
+            - name: AWS_ENDPOINT
+              value: http://minio:9000
+            - name: AWS_ACCESS_KEY_ID
+              value: minioadmin
+            - name: AWS_SECRET_ACCESS_KEY
+              value: minioadmin
+            - name: AWS_DEFAULT_REGION
+              value: us-east-1
+            - name: AWS_BUCKET
+              value: werf-guide-app
+            - name: AWS_USE_PATH_STYLE_ENDPOINT
+              value: "true"
+            # [<endsnippet s3-config>]
           volumeMounts:
             - mountPath: /var/run/php
               name: run-php
