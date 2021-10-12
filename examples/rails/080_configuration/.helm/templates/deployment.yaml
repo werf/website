@@ -38,7 +38,8 @@ spec:
             name: app-envs
         - secretRef:
             name: app-envs
-      # [<snippet backend>]
+      # [<snippet backend_conf>]
+      # [<snippet backend_secret>]
       containers:
       - name: backend
         image: {{ .Values.werf.image.backend }}
@@ -48,9 +49,10 @@ spec:
         envFrom:
         - configMapRef:
             name: app-envs
+      # [<endsnippet backend_conf>]
         - secretRef:
             name: app-envs
-      # [<endsnippet backend>]
+      # [<endsnippet backend_secret>]
       # [<snippet nginx_conf>]
       - name: frontend
         image: {{ .Values.werf.image.frontend }}
