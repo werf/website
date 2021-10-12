@@ -76,8 +76,5 @@ WORKDIR /www
 # [<ru>] Копируем публичные файлы из assets образа.
 COPY --from=assets /app/public /www
 
-# [<ru>] Копируем конфигурацию NGINX.
-COPY .werf/nginx.conf /etc/nginx/nginx.conf
-
 EXPOSE 8080
 # [<endsnippet frontend>]

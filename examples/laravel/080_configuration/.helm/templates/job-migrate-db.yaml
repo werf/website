@@ -37,12 +37,8 @@ spec:
 
           # [<ru>] Выполним миграции.
           php artisan migrate --force
-        env:
-        - name: DB_HOST
-          value: mysql
-        - name: DB_DATABASE
-          value: werf-guide-app
-        - name: DB_USERNAME
-          value: root
-        - name: DB_PASSWORD
-          value: password
+        envFrom:
+        - configMapRef:
+            name: app-envs
+        - secretRef:
+            name: app-envs

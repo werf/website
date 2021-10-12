@@ -1,0 +1,24 @@
+# [<snippet app>]
+app:
+  envs:
+    APP_ENV: "production"
+    LOG_CHANNEL: stderr
+    LOG_STDERR_FORMATTER: Monolog\\Formatter\\JsonFormatter
+    LOG_LEVEL: info
+    DB_HOST: mysql
+    DB_DATABASE: werf-guide-app
+    AWS_ENDPOINT: "http://minio:9000"
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_BUCKET: werf-guide-app
+    AWS_USE_PATH_STYLE_ENDPOINT: "true"
+# [<endsnippet app>]
+
+minio:
+  storageSize: "100Mi"
+
+# [<snippet mysql>]
+mysql:
+  storageSize: "100Mi"
+# [<endsnippet mysql>]
+  envs:
+    MYSQL_DATABASE: werf-guide-app

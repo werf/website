@@ -1,69 +1,80 @@
 ...
 ┌ ⛵ image backend
 │ ┌ Building stage backend/dockerfile
-│ │ backend/dockerfile  Sending build context to Docker daemon  523.8kB
+│ │ backend/dockerfile  Sending build context to Docker daemon    533kB
 │ │ backend/dockerfile  Step 1/19 : FROM php:8.0-fpm-alpine as base
 │ │ backend/dockerfile   ---> 52c511f481c5
 ...
-│ │ backend/dockerfile  Successfully built 827b4e8a1dbc
-│ │ backend/dockerfile  Successfully tagged 84faa251-5b40-47ec-b3ff-15f5e74ca2c0:latest
+│ │ backend/dockerfile  Successfully built 91ec44f42d84
+│ │ backend/dockerfile  Successfully tagged d972fcf1-88cc-4a11-a2b8-e76e397914f1:latest
 │ ├ Info
-│ │      name: .../werf-guide-app:ec74eb832fd53166cee3165029dc1972ccfaca61f6c8c4c16764ff74-1634030394327
-│ │        id: 827b4e8a1dbc
-│ │   created: 2021-10-12 12:19:54 +0300 MSK
+│ │      name: golovinps/werf-guide-app:b12f6a22c119f88d808e9bf5daf5bb0eab8138f0539769e478647e70-1634037356083
+│ │        id: 91ec44f42d84
+│ │   created: 2021-10-12 14:15:55 +0300 MSK
 │ │      size: 58.9 MiB
-│ └ Building stage backend/dockerfile (31.12 seconds)
-└ ⛵ image backend (37.41 seconds)
+│ └ Building stage backend/dockerfile (19.73 seconds)
+└ ⛵ image backend (24.98 seconds)
 
 ┌ ⛵ image frontend
 │ ┌ Building stage frontend/dockerfile
-│ │ frontend/dockerfile  Sending build context to Docker daemon  523.8kB
-│ │ frontend/dockerfile  Step 1/30 : FROM php:8.0-fpm-alpine as base
+│ │ frontend/dockerfile  Sending build context to Docker daemon    533kB
+│ │ frontend/dockerfile  Step 1/29 : FROM php:8.0-fpm-alpine as base
 │ │ frontend/dockerfile   ---> 52c511f481c5
 ...
-│ │ frontend/dockerfile  Successfully built b9edbffedeaa
-│ │ frontend/dockerfile  Successfully tagged a0ef6fe8-6c05-47fe-9bcb-61ae41007bff:latest
+│ │ frontend/dockerfile  Successfully built a61e4952387d
+│ │ frontend/dockerfile  Successfully tagged b6cc14ad-f7d6-47d9-a53d-b53cd80838d3:latest
 │ ├ Info
-│ │      name: .../werf-guide-app:28b54c42d4db8dcdfe88212b67869b896dffb94a47590c5aa9916ef7-1634030450234
-│ │        id: b9edbffedeaa
-│ │   created: 2021-10-12 12:20:50 +0300 MSK
+│ │      name: golovinps/werf-guide-app:55170630d763de2af7ac5f4ca4a3c1bdb4f98c9782e99fdd8b07d2bb-1634037415695
+│ │        id: a61e4952387d
+│ │   created: 2021-10-12 14:16:55 +0300 MSK
 │ │      size: 9.4 MiB
-│ └ Building stage frontend/dockerfile (81.60 seconds)
-└ ⛵ image frontend (87.70 seconds)
+│ └ Building stage frontend/dockerfile (77.28 seconds)
+└ ⛵ image frontend (82.49 seconds)
 
 ┌ Waiting for release resources to become ready
 │ ┌ Status progress
 │ │ DEPLOYMENT                                                                                      REPLICAS          AVAILABLE           UP-TO-DATE
-│ │ werf-guide-app                                                                                  2->1/1            1                   1
+│ │ werf-guide-app                                                                                  1/1               1                   1
 │ │ │   POD                                 READY        RESTARTS          STATUS
-│ │ ├── guide-app-5bb9488dd8-k7cf6          2/2          0                 ContainerCreating ->
-│ │ │                                                                      Running
-│ │ └── guide-app-8848f446b-7hmkl           2/2          0                 Running -> Terminating
+│ │ ├── guide-app-54d48f7d4-zvkqd           2/2          0                 Running
+│ │ └── guide-app-6b8cf46f5b-zj4d9          2/2          0                 Terminating
 │ │ STATEFULSET                                                                                     REPLICAS          READY               UP-TO-DATE
 │ │ minio                                                                                           1/1               1                   1
-│ │ mysql                                                                                           1/1               1                   1                            ↵
+│ │ mysql                                                                                           1/1               0->1                1                            ↵
 │ │
+│ │ │   POD                                 READY        RESTARTS          STATUS
+│ │ └── 0                                   0/1          0                 ContainerCreating
 │ └ Status progress
-└ Waiting for release resources to become ready (13.39 seconds)
-...
-┌ Waiting for helm hook job/setup-minio termination
-│ ┌ job/setup-minio po/setup-minio-xx2np container/setup-minio logs
-│ │ Added `minio` successfully.
-│ │ Bucket created successfully `minio/werf-guide-app`.
-│ └ job/setup-minio po/setup-minio-xx2np container/setup-minio logs
+└ Waiting for release resources to become ready (30.34 seconds)
+
+┌ Waiting for helm hook job/migrate-db termination
+│ ┌ job/migrate-db po/migrate-db-vvtfd container/migrate-db logs
+│ │ mysqld is alive
+│ │ Nothing to migrate.
+│ └ job/migrate-db po/migrate-db-vvtfd container/migrate-db logs
 │
+│ ┌ Status progress
+│ │ JOB                                                                                             ACTIVE            DURATION            SUCCEEDED/FAILED
+│ │ migrate-db                                                                                      0                 13s                 0->1/0
+│ │ │   POD                                 READY        RESTARTS          STATUS
+│ │ └── db-vvtfd                            0/1          0                 Running -> Completed
+│ └ Status progress
+└ Waiting for helm hook job/migrate-db termination (13.08 seconds)
+
+┌ Waiting for helm hook job/setup-minio termination
 │ ┌ Status progress
 │ │ JOB                                                                                             ACTIVE            DURATION            SUCCEEDED/FAILED
 │ │ setup-minio                                                                                     0                 13s                 0->1/0
 │ │ │   POD                                 READY        RESTARTS          STATUS
-│ │ └── minio-xx2np                         0/1          0                 Running -> Completed
+│ │ └── minio-d8cmm                         0/1          0                 Running -> Completed
 │ └ Status progress
-└ Waiting for helm hook job/setup-minio termination (13.96 seconds)
+└ Waiting for helm hook job/setup-minio termination (14.02 seconds)
 
+Release "werf-guide-app" has been upgraded. Happy Helming!
 NAME: werf-guide-app
-LAST DEPLOYED: Tue Oct 12 12:21:07 2021
+LAST DEPLOYED: Tue Oct 12 14:17:12 2021
 NAMESPACE: werf-guide-app
 STATUS: deployed
-REVISION: 18
+REVISION: 20
 TEST SUITE: None
-Running time 142.49 seconds
+Running time 155.26 seconds

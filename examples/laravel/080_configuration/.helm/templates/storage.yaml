@@ -21,11 +21,9 @@ spec:
           name: minio
         - containerPort: 9001
           name: console
-        env:
-        - name: MINIO_ROOT_USER
-          value: minioadmin
-        - name: MINIO_ROOT_PASSWORD
-          value: minioadmin
+        envFrom:
+        - secretRef:
+            name: minio-envs
         volumeMounts:
         - name: minio-data
           mountPath: /data
@@ -36,7 +34,7 @@ spec:
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
-          storage: 100Mi
+          storage: "{{ .Values.minio.storageSize }}"
 
 ---
 apiVersion: v1
