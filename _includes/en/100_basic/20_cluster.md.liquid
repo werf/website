@@ -60,9 +60,9 @@ Using the `docker login` command, log in to the new repository by entering the u
 ```shell
 docker login
 # Enter the name of the Docker Hub user
-Username: <Docker Hub username>
+Username: <Docker Hub USERNAME>
 # Enter the password of the Docker Hub user
-Password: <Docker Hub password>
+Password: <Docker Hub PASSWORD>
 ```
 
 If the login is successful, you will see the following message:
@@ -86,9 +86,11 @@ Now it is time to create a Secret in the cluster. Using it, our application can 
 ```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
-  --docker-username='<Docker Hub username>' \
-  --docker-password='<Docker Hub password>'
+  --docker-username='<Docker Hub USERNAME>' \
+  --docker-password='<Docker Hub PASSWORD>'
 ```
+
+> Make sure you have entered the correct Docker Pub username and password
 
 You will see the following output:
 ```shell
