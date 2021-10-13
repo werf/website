@@ -87,7 +87,7 @@ annotations:
   werf.io/log-regex: ".*ERROR.*"
 ```
 
-A list of all available annotations can be found [here](https://werf.io/documentation/v1.2/reference/deploy_annotations.html).
+A list of all available annotations can be found [here]({{ site.url }}/documentation/v1.2/reference/deploy_annotations.html).
 
 > _Note that these annotations only influence the way logs are shown during the werf-based deployment process. They do not affect the application being deployed or its configuration in any way. You can still use stdout/stderr streams of the container to view raw logs._
 

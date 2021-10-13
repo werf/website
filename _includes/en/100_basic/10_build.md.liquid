@@ -60,13 +60,13 @@ The primary werf configuration file, `werf.yaml` (in the repository's root) spec
 
 {% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
 
-The `werf.yaml` file can describe the assembly of multiple images at once. There are also some additional settings for building an image. You can learn more about them in the [documentation]({{ site.url }}/documentation/reference/werf_yaml.html#dockerfile-image-section-image).
+The `werf.yaml` file can describe the assembly of multiple images at once. There are also some additional settings for building an image. You can learn more about them in the [documentation]({{ site.url }}/documentation/v1.2/reference/werf_yaml.html#dockerfile-image-section-image).
 
 ## Building using werf
 
 > Note that before starting the build/deploy process, you must add all the files to the commit. Below, we will discuss why this is necessary and how to avoid creating unnecessary commits during local development.
 
-Start the build using the [`werf build`]({{ site.url }}/documentation/reference/cli/werf_build.html) command:
+Start the build using the [`werf build`]({{ site.url }}/documentation/v1.2/reference/cli/werf_build.html) command:
 
 ```shell
 werf build
@@ -116,7 +116,7 @@ Running time 11.02 seconds
 
 ## Starting the application
 
-You can run the container locally using the built image via the [werf run]({{ site.url }}/documentation/cli/main/run.html) command:
+You can run the container locally using the built image via the [werf run]({{ site.url }}/documentation/v1.2/reference/cli/werf_run.html) command:
 
 ```shell
 werf run app --docker-options="-ti --rm -p 8000:8000" -- /app/start.sh
