@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: werf-guide-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: werf-guide-app
+  template:
+    metadata:
+      labels:
+        app: werf-guide-app
+    spec:
+      imagePullSecrets:
+        - name: registrysecret
+      volumes:
+        - name: run-php
+          emptyDir: {}
+      containers:
+        - name: backend
+          image: {{ .Values.werf.image.backend }}
+          env:
+            - name: APP_ENV
+              value: production
+            - name: APP_KEY
+              value: base64:GcPVmSxMZwsOJtNOJ9eVNNeU6B5buHuln93+w0TSvfE=
+            - name: LOG_CHANNEL
+              value: stderr
+            - name: LOG_STDERR_FORMATTER
+              value: "Monolog\\Formatter\\JsonFormatter"
+            # [<snippet log-level>]
+            - name: LOG_LEVEL
+              value: info
+            # [<endsnippet log-level>]
+            # [<snippet database-config>]
+            - name: DB_HOST
+              value: mysql
+            - name: DB_DATABASE
+              value: werf-guide-app
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              value: password
+            # [<endsnippet database-config>]
+          volumeMounts:
+            - mountPath: /var/run/php
+              name: run-php
+        - name: frontend
+          image: {{ .Values.werf.image.frontend }}
+          ports:
+            - containerPort: 8080
+              name: http
+          volumeMounts:
+            - mountPath: /var/run/php
+              name: run-php
