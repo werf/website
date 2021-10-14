@@ -26,8 +26,10 @@ The Ingress resource manages *external* access to the cluster (unlike a Service 
 
 The [werf converge]({{ site.url }}/documentation/v1.2/reference/cli/werf_converge.html) command builds the application and deploys it to Kubernetes:
 ```shell
-werf converge --repo <Docker Hub username>/werf-guide-app
+werf converge --repo <Docker Hub USERNAME>/werf-guide-app
 ```
+
+> Make sure you have used the correct Docker Pub username.
 
 The following output indicates that the process has been completed successfully:
 ```shell
