@@ -149,7 +149,8 @@ curl http://werf-guide-app/ping       # вернёт "pong" и код возвр
 curl http://werf-guide-app/not_found  # ничего не вернёт, только код возврата 404
 ```
 
-Проверим логи:
+Возвращаемые сервером коды возврата можно посмотреть в логах. Проверим их:
+
 ```shell
 kubectl logs deploy/werf-guide-app
 ```
