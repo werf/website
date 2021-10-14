@@ -16,8 +16,10 @@ Our current application is stateless and does not need a database to run. We wil
 
 Let's check if the new application is running fine by deploying it to the Kubernetes cluster:
 ```shell
-werf converge --repo <Docker Hub username>/werf-guide-app
+werf converge --repo <Docker Hub USERNAME>/werf-guide-app
 ```
+
+> Make sure you have used the correct Docker Pub username.
 
 You should see the following output:
 ```shell
