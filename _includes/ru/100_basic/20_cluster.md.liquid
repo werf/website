@@ -60,9 +60,9 @@ curl http://werf-guide-app/ping
 ```shell
 docker login
 # Введем имя пользователя Docker Hub
-Username: <ИМЯ ПОЛЬЗОВАТЕЛЯ Docker Hub>
+Username: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>
 # Введем пароль пользователя Docker Hub
-Password: <ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ Docker Hub>
+Password: <ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>
 ```
 
 В случае успеха получим ответ:
@@ -86,11 +86,9 @@ namespace/werf-guide-app created
 ```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
-  --docker-username='<ИМЯ ПОЛЬЗОВАТЕЛЯ Docker Hub>' \
-  --docker-password='<ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ Docker Hub>'
+  --docker-username='<ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>' \
+  --docker-password='<ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>'
 ```
-
-> Убедитесь, что указали правильные имя пользователя и пароль от Docker Hub.
 
 В ответ отобразится следующее:
 ```shell
