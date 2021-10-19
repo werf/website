@@ -1,0 +1,7 @@
+```shell
+docker run --rm \
+    -v $(pwd):/opt \
+    -w /opt \
+    laravelsail/php80-composer:latest \
+    bash -c "composer create-project laravel/laravel ."
+```
