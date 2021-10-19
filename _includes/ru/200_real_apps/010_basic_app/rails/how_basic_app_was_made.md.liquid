@@ -1,4 +1,4 @@
-Чтобы его получить, сначала был сгенерирован скелет нового {{ page.framework_name }}-приложения командой:
+Получили мы его следующим образом - сначала был сгенерирован скелет нового {{ page.framework_name }}-приложения командой:
 ```shell
 rails new --api --skip-keeps --skip-action-mailer --skip-action-mailbox \
   --skip-action-text --skip-active-record --skip-active-job \
@@ -6,6 +6,9 @@ rails new --api --skip-keeps --skip-action-mailer --skip-action-mailbox \
   --skip-spring --skip-listen --skip-javascript --skip-turbolinks \
   --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
 ```
+
+> **ОБРАТИТЕ ВНИМАНИЕ!** Эту команду и нижеследующие не нужно выполнять, здесь мы просто рассказываем, как получили приложение, которое используется в примере. К выполнению предназначен раздел "Деплой нового приложения"
+
 В нём была оставлена конфигурация только для production-окружения и убрано всё, что не требуется на данном этапе.
 
 После этого был добавлен новый путь `/ping` для нашего API:

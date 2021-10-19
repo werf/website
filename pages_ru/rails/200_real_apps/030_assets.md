@@ -79,7 +79,7 @@ JS-файл, CSS-файл и SVG-картинка будут собраны с W
 
 Теперь попробуем переразвернуть приложение:
 ```shell
-werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
 Ожидаемый результат:

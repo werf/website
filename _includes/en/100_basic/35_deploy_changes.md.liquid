@@ -4,10 +4,8 @@
 
 Let's make sure that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
 ```shell
-werf converge --repo <Docker Hub USERNAME>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
-
-> Make sure you have used the correct Docker Pub username.
 
 The expected result:
 ```shell
@@ -156,7 +154,7 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 
 As you can see, we have scaled the cluster manually. Now, run `werf converge` once again:
 ```shell
-werf converge --repo <Docker Hub USERNAME>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 ... and check the number of running replicas:
@@ -183,7 +181,7 @@ For this, we will use the `.helm/templates/deployment.yaml` file:
 
 Run the deployment process:
 ```shell
-werf converge --repo <Docker Hub USERNAME>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 And check how many replicas are running now:
@@ -212,7 +210,7 @@ Check the contents of the `.helm/templates/deployment.yaml` file:
 
 Run the deployment process:
 ```shell
-werf converge --repo <Docker Hub USERNAME>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 ## Making changes to the application
@@ -234,7 +232,7 @@ In the application code, the server response will change to `hello world`:
 
 Run the deployment process:
 ```shell
-werf converge --repo <Docker Hub USERNAME>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 Check the result:

@@ -128,7 +128,7 @@ minio:
 
 Убедимся, что изменения в конфигурации не повлияли на работоспособность приложения:
 ```shell
-werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
 Ожидаемый результат:

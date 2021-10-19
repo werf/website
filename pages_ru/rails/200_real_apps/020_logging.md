@@ -95,7 +95,7 @@ annotations:
 
 Теперь попробуем развернуть приложение:
 ```shell
-werf converge --repo <имя пользователя Docker Hub>/werf-guide-app
+werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
 Ожидаемый результат:
@@ -147,7 +147,8 @@ curl http://werf-guide-app/ping       # вернёт "pong" и код возвр
 curl http://werf-guide-app/not_found  # ничего не вернёт, только код возврата 404
 ```
 
-Проверим логи:
+Возвращаемые сервером коды возврата можно посмотреть в логах. Проверим их:
+
 ```shell
 kubectl logs deploy/werf-guide-app
 ```
