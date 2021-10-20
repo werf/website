@@ -6,14 +6,17 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <!-- [<en>] Preloading CSS files. -->
     <!-- [<ru>] Загрузим CSS-файлы. -->
     <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <!-- [<en>] Preloading JS files. -->
     <!-- [<ru>] Загрузим JS-файлы. -->
     <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>
     <div id="container">
+      <!-- [<en>] The "Get image" button; it will generate an Ajax request when clicked. -->
       <!-- [<ru>] Кнопка "Get image", при нажатии на которую будет выполняться Ajax-запрос. -->
       <button type="button" id="show-image-btn">Get image</button>
     </div>
