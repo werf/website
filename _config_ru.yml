@@ -77,12 +77,20 @@ defaults:
     values:
       framework_id: rails
       framework_name: Rails
+      framework_log_var: RAILS_LOG_TO_STDOUT=1
+      framework_channel: stdout
+      framework_loglevel: info
+      framework_default_log_var: RAILS_LOG_LEVEL
   - scope:
       path: "pages_ru/laravel"
       type: "pages"
     values:
       framework_id: laravel
       framework_name: Laravel
+      framework_log_var: LOG_CHANNEL=stderr
+      framework_channel: stderr
+      framework_loglevel: debug
+      framework_default_log_var: LOG_LEVEL
 
 breadcrumbs:
   home_text: Руководства
