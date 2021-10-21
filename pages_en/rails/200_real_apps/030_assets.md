@@ -45,7 +45,7 @@ Let's update the controller and routes by adding a new `/image` endpoint that ta
 
 The application now has a new endpoint called `/image` in addition to the `/ping` endpoint we made in previous chapters. This new endpoint displays a page that uses different types of static files.
 
->_The commands provided at the [beginning of the chapter](#preparing-a-repository) allow you to view a complete, exhaustive list of the changes made to the application in the current chapter._
+>_The commands provided at the [beginning of the chapter](#preparing-the-repository) allow you to view a complete, exhaustive list of the changes made to the application in the current chapter._
 
 ## Delivering static files
 
