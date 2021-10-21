@@ -34,7 +34,7 @@ Now let's add an HTML page template (available at `/image`) with the _Get image_
 Clicking the _Get image_ button must result in an Ajax request that pulls and displays an [SVG image]({{ page.base_url | append: page.examples | append: "/app/javascript/images/werf-logo.svg" }}):
 {% include snippetcut_example path="app/javascript/src/image.js" syntax="js" examples=page.examples %}
 
-Our page will also use a [app/javascript/styles/site.css]({{ page.base_url | append: page.examples | append: "/app/javascript/styles/site.css" }}) CSS file that describes the presentation of our HTML document.
+Our page will also use a [app/javascript/styles/site.css]({{ page.base_url | append: page.examples | append: "/app/javascript/styles/site.css" }}) CSS file.
 
 JS and CSS files as well as an SVG image will be bundled with Webpack and placed to `/packs/...`:
 {% include snippetcut_example path="app/javascript/packs/application.js" syntax="js" examples=page.examples %}
