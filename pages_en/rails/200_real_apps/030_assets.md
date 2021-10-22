@@ -10,16 +10,16 @@ description: |
 
 ## Adding an `/image` page to the application
 
-Let's add a new `/image` endpoint to our application. It will return a page generated using a set of static files. We will use Webpacker (instead of Sprockets) to bundle all JS, CSS, and media files.
+Let's add a new `/image` endpoint to our application. It will return a page with a set of static files. We will use Webpacker (instead of Sprockets) to bundle all JS, CSS, and media files.
 
-Currently, our application provides a basic API with no means to manage static files and frontend code. To turn this API into a simple web application, we have generated a backbone of the new Rails application (without the `--api` and `--skip-javascript` flags):
+Currently, our application provides a basic API with no means to manage static files and frontend code. To turn this API into a simple web application, we have generated a skeleton of the new Rails application (omitting the `--api` and `--skip-javascript` flags we used before):
 ```shell
 rails new --skip-keeps --skip-action-mailer --skip-action-mailbox --skip-action-text --skip-active-record --skip-active-job --skip-active-storage --skip-action-cable --skip-sprockets --skip-spring --skip-listen --skip-turbolinks --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
 ```
 
-This backbone includes all the functionality we need for managing JS code and static files. The following changes have been made to our application:
+This skeleton includes all the functionality we need for managing JS code and static files. The following changes have been made to our application:
 1. Adding `webpacker` to [Gemfile]({{ page.base_url | append: page.examples | append: "/Gemfile" }}).
-1. Generating standard Webpacker configuration files:
+1. Generating basic Webpacker configuration files:
   * [config/webpacker.yml]({{ page.base_url | append: page.examples | append: "/config/webpacker.yml" }})
   * [config/webpack/environment.js]({{ page.base_url | append: page.examples | append: "/config/webpack/environment.js" }})
   * [config/webpack/production.js]({{ page.base_url | append: page.examples | append: "/config/webpack/production.js" }})
@@ -31,10 +31,10 @@ This backbone includes all the functionality we need for managing JS code and st
 Now let's add an HTML page template (available at `/image`) with the _Get image_ button:
 {% include snippetcut_example path="app/views/layouts/image.html.erb" syntax="erb" examples=page.examples %}
 
-Clicking the _Get image_ button must result in an Ajax request that pulls and displays an [SVG image]({{ page.base_url | append: page.examples | append: "/app/javascript/images/werf-logo.svg" }}):
+Clicking the _Get image_ button must result in an Ajax request that fetches and displays an [SVG image]({{ page.base_url | append: page.examples | append: "/app/javascript/images/werf-logo.svg" }}):
 {% include snippetcut_example path="app/javascript/src/image.js" syntax="js" examples=page.examples %}
 
-Our page will also use a [app/javascript/styles/site.css]({{ page.base_url | append: page.examples | append: "/app/javascript/styles/site.css" }}) CSS file.
+Our page will also use the [app/javascript/styles/site.css]({{ page.base_url | append: page.examples | append: "/app/javascript/styles/site.css" }}) CSS file.
 
 JS and CSS files as well as an SVG image will be bundled with Webpack and placed to `/packs/...`:
 {% include snippetcut_example path="app/javascript/packs/application.js" syntax="js" examples=page.examples %}
@@ -51,9 +51,9 @@ The application now has a new endpoint called `/image` in addition to the `/ping
 
 By default, Rails does not even try to distribute static files in production environments. Instead, Rails developers suggest using a reverse proxy like NGINX for this task. This is because the reverse proxy distributes static files much more efficiently than Rails and Puma.
 
-In practice, you can do without the reverse proxy running in front of an application only during development. In addition to efficiently serving static files, the reverse proxy nicely complements the application server (Puma) by providing many additional features not available at the application server level. In addition, it allows for fast and flexible request routing.
+In practice, you can do without the reverse proxy running in front of an application only during development. In addition to efficiently serving static files, the reverse proxy nicely complements the application server (Puma) by providing many additional features not available at the application server itself. It also allows for fast and flexible request routing.
 
-There are several ways to deploy the application server behind the reverse proxy in Kubernetes. We will use a popular and straightforward method that nevertheless scales well. As part of it, the NGINX container is deployed into each Pod with the Rails/Puma container. This auxiliary container serves as a proxy for all Rails/Puma requests except for static file requests. These astatic files are delivered by the NGINX container.
+There are several ways to deploy the application server behind the reverse proxy in Kubernetes. We will use a popular and straightforward approach that nevertheless scales well. As part of it, the NGINX container is deployed into each Pod with the Rails/Puma container. This auxiliary container serves as a proxy for all Rails/Puma requests except for static file requests. These astatic files are delivered by the NGINX container.
 
 Now, let's get to the implementation.
 
@@ -161,7 +161,7 @@ Go to [http://werf-guide-app/image](http://werf-guide-app/image) in your browser
 
 {% asset guides/rails/030_assets_success.png %}
 
-Note which resources were requested and which links were used (the last resource was retrieved via the Ajax request):
+Note which resources were requested and which links were used (the last resource here was retrieved via the Ajax request):
 
 {% asset guides/rails/030_assets_resources.png %}
 
