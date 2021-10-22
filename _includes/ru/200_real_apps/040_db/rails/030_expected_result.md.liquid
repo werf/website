@@ -1,0 +1,84 @@
+```shell
+...
+┌ ⛵ image backend
+│ ┌ Building stage backend/dockerfile
+│ │ backend/dockerfile  Sending build context to Docker daemon  329.2kB
+│ │ backend/dockerfile  Step 1/25 : FROM ruby:2.7 as base
+│ │ backend/dockerfile   ---> 1faa5f2f8ca3
+...
+│ │ backend/dockerfile  Step 25/25 : LABEL werf-version=v1.2.12+fix2
+│ │ backend/dockerfile   ---> Running in be5cd3407213
+│ │ backend/dockerfile  Removing intermediate container be5cd3407213
+│ │ backend/dockerfile   ---> 8a86b0b0ad77
+│ │ backend/dockerfile  Successfully built 8a86b0b0ad77
+│ │ backend/dockerfile  Successfully tagged 90e9d19d-0e9a-463e-904a-c6ce4ed9ed51:latest
+│ │ ┌ Store stage into .../werf-guide-app
+│ │ └ Store stage into .../werf-guide-app (17.26 seconds)
+│ ├ Info
+│ │      name: .../werf-guide-app:0eab31032c0afad388f642f8bcf05fdef43adfa68b9ddd21c1ca5e6d-1629288112709
+│ │        id: 8a86b0b0ad77
+│ │   created: 2021-08-18 15:01:52 +0300 MSK
+│ │      size: 364.7 MiB
+│ └ Building stage backend/dockerfile (82.09 seconds)
+└ ⛵ image backend (87.87 seconds)
+
+┌ ⛵ image frontend
+│ ┌ Building stage frontend/dockerfile
+│ │ frontend/dockerfile  Sending build context to Docker daemon  329.2kB
+│ │ frontend/dockerfile  Step 1/29 : FROM ruby:2.7 as base
+│ │ frontend/dockerfile   ---> 1faa5f2f8ca3
+...
+│ │ frontend/dockerfile  Step 29/29 : LABEL werf-version=v1.2.12+fix2
+│ │ frontend/dockerfile   ---> Running in bb3c5dad93fd
+│ │ frontend/dockerfile  Removing intermediate container bb3c5dad93fd
+│ │ frontend/dockerfile   ---> 4e5dad5c8103
+│ │ frontend/dockerfile  Successfully built 4e5dad5c8103
+│ │ frontend/dockerfile  Successfully tagged 798eca35-72b4-4bcd-8b1c-9192845bf5c4:latest
+│ │ ┌ Store stage into .../werf-guide-app
+│ │ └ Store stage into .../werf-guide-app (9.93 seconds)
+│ ├ Info
+│ │      name: .../werf-guide-app:b6e90d80c9419ca3e1cb93fd3baf0f46632f05c2490881585e9f6598-1629288112504
+│ │        id: 4e5dad5c8103
+│ │   created: 2021-08-18 15:01:52 +0300 MSK
+│ │      size: 9.4 MiB
+│ └ Building stage frontend/dockerfile (74.28 seconds)
+└ ⛵ image frontend (81.25 seconds)
+...
+│ ┌ job/setup-and-migrate-db-rev5 po/setup-and-migrate-db-rev5-kdb4t container/setup-and-migrate-db logs
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+...
+│ ┌ deploy/werf-guide-app po/werf-guide-app-78f77cf6c4-8fzw6 container/wait-db-readiness logs
+│ │
+│ │ database: werf-guide-app
+│ │
+│ │  Status   Migration ID    Migration Name
+│ │ --------------------------------------------------
+│ │    up     20210817162438  Create talkers
+│ │    up     20210817164348  Add name to talkers
+│ │
+│ └ deploy/werf-guide-app po/werf-guide-app-78f77cf6c4-8fzw6 container/wait-db-readiness logs
+...
+│ ┌ Status progress
+│ │  DEPLOYMENT      REPLICAS  AVAILABLE  UP-TO-DATE
+│ │  werf-guide-app  1/1       1          1
+│ │  │    POD                         READY  RESTARTS  STATUS
+│ │  ├──  guide-app-78f77cf6c4-8fzw6  2/2    0         Running
+│ │  └──  guide-app-f98f5ccd9-69xwm   2/2    0         Terminating
+│ │  STATEFULSET  REPLICAS  READY  UP-TO-DATE
+│ │  mysql        1/1       1      1
+│ │  JOB                        ACTIVE  DURATION  SUCCEEDED/FAILED
+│ │  setup-and-migrate-db-rev5  0       19s       0->1/0
+│ │  │    POD                        READY  RESTARTS  STATUS
+│ │  └──  and-migrate-db-rev5-kdb4t  0/1    0         Running  ->  Completed
+│ └  Status                     progress
+└ Waiting for release resources to become ready (18.57 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Wed Aug 18 15:02:13 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 5
+TEST SUITE: None
+```
