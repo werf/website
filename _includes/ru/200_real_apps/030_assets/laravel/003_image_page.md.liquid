@@ -1,0 +1,31 @@
+Создадим шаблон HTML-страницы, которая будет доступна по адресу `/image` и отображать кнопку _Get image_:
+{% include snippetcut_example path="resources/views/image.blade.php" syntax="php" examples=page.examples %}
+
+При нажатии на кнопку _Get image_ должен выполняться Ajax-запрос, с помощью которого мы получим и отобразим [SVG-картинку]({{ page.base_url | append: page.examples | append: "/resources/images/werf-logo.svg" }}):
+{% include snippetcut_example path="resources/js/image.js" syntax="js" examples=page.examples %}
+
+Также на странице будет использоваться CSS-файл [resources/css/site.css]({{ page.base_url | append: page.examples | append: "/resources/css/site.css" }}).
+
+JS-файл, CSS-файл и SVG-картинка будут собраны с Webpack и будут доступны в поддиректориях `public/...`:
+```shell
+$ tree public/
+public/
+├── css
+│   ├── app.css
+│   └── site.css
+├── favicon.ico
+├── images
+│   └── werf-logo.svg
+├── index.php
+├── js
+│   ├── app.js
+│   ├── app.js.LICENSE.txt
+│   └── image.js
+├── mix-manifest.json
+├── robots.txt
+└── web.config
+
+```
+
+Обновим маршруты, добавив в них новый endpoint `/image`, обрабатывающий созданный выше HTML-шаблон:
+{% include snippetcut_example path="routes/web.php" syntax="php" examples=page.examples %}
