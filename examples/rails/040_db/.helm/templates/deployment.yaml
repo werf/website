@@ -21,6 +21,7 @@ spec:
         - sh
         - -euc
         - |
+          # [<en>] Waiting until the database is available and migrations are completed.
           # [<ru>] Дожидаемся доступности БД и выполнения миграций.
           until bundle exec rails db:migrate:status; do
             sleep 1
