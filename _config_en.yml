@@ -20,7 +20,7 @@ defaults:
       type: "pages"
     values:
       layout: "page"
-      lang: ru
+      lang: en
       multilang: false
       sitemap_include: true
   - scope:
