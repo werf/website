@@ -1,0 +1,23 @@
+version: '3.5'
+services:
+  frontend:
+    build:
+      target: frontend
+    ports:
+      - "80:8080"
+    container_name: example-app-frontend
+    volumes:
+      - ./public:/app/public
+      - run-php:/var/run/php
+  backend:
+    build:
+      target: backend
+    container_name: example-app-backend
+    environment:
+      APP_KEY: base64:GcPVmSxMZwsOJtNOJ9eVNNeU6B5buHuln93+w0TSvfE=
+      APP_DEBUG: true
+    volumes:
+      - .:/app
+      - run-php:/var/run/php
+volumes:
+  run-php:

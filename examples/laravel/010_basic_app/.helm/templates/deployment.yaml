@@ -21,8 +21,6 @@ spec:
         - name: backend
           image: {{ .Values.werf.image.backend }}
           env:
-            - name: APP_ENV
-              value: production
             - name: APP_KEY
               value: base64:GcPVmSxMZwsOJtNOJ9eVNNeU6B5buHuln93+w0TSvfE=
           volumeMounts:
