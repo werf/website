@@ -240,7 +240,7 @@ curl http://werf-guide-app:8000/ping  # Обратимся к одному из 
 
 В ответ получим:
 ```shell
-pong
+hello world
 ```
 
 > Использование Ingress-ресурсов — не единственный способ получить доступ к приложению снаружи кластера. Service'ы типа `LoadBalancer` и `NodePort` позволяют предоставить доступ к приложению снаружи и без Ingress'ов. Почитать подробнее про Service'ы можно в [официальной документации](https://kubernetes.io/docs/concepts/services-networking/service/). А про Ingress'ы — [здесь](https://kubernetes.io/docs/concepts/services-networking/ingress/).
