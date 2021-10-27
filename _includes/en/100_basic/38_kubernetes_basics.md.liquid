@@ -235,7 +235,7 @@ In the new container, curl to our application using the service we created:
 
 ```shell
 apk add curl  # Installing curl in the container.
-curl http://werf-guide-app/ping  # curl to one of the pods of our application using the service.
+curl http://werf-guide-app:8000/ping  # curl to one of the pods of our application using the service.
 ```
 
 You will see the following response:

@@ -235,7 +235,7 @@ kubectl run werf-temporary-deployment --image=alpine --rm -it -- sh
 
 ```shell
 apk add curl  # Установим curl внутри контейнера.
-curl http://werf-guide-app/ping  # Обратимся к одному из Pod'ов нашего приложения через Service.
+curl http://werf-guide-app:8000/ping  # Обратимся к одному из Pod'ов нашего приложения через Service.
 ```
 
 В ответ получим:
