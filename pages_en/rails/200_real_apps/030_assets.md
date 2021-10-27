@@ -1,11 +1,11 @@
 ---
-title: Delivering assets
+title: Serving assets
 permalink: rails/200_real_apps/030_assets.html
 examples_initial: examples/rails/020_logging
 examples: examples/rails/030_assets
 base_url: https://github.com/werf/werf-guides/blob/master/
 description: |
-  In this chapter, you will learn how to work with static files and deliver them to the client correctly.
+  In this chapter, you will learn how to work with static files and serve them to the client correctly.
 ---
 
 ## Adding an `/image` page to the application
@@ -52,13 +52,13 @@ The application now has a new endpoint called `/image` in addition to the `/ping
 
 >_The commands provided at the [beginning of the chapter](#preparing-the-repository) allow you to view a complete, exhaustive list of the changes made to the application in the current chapter._
 
-## Delivering static files
+## Serving static files
 
 By default, Rails does not even try to distribute static files in production environments. Instead, Rails developers suggest using a reverse proxy like NGINX for this task. This is because the reverse proxy distributes static files much more efficiently than Rails and Puma.
 
 In practice, you can do without the reverse proxy running in front of an application only during development. In addition to efficiently serving static files, the reverse proxy nicely complements the application server (Puma) by providing many additional features not available at the application server itself. It also allows for fast and flexible request routing.
 
-There are several ways to deploy the application server behind the reverse proxy in Kubernetes. We will use a popular and straightforward approach that nevertheless scales well. As part of it, the NGINX container is deployed into each Pod with the Rails/Puma container. This auxiliary container serves as a proxy for all Rails/Puma requests except for static file requests. These astatic files are delivered by the NGINX container.
+There are several ways to deploy the application server behind the reverse proxy in Kubernetes. We will use a popular and straightforward approach that nevertheless scales well. As part of it, the NGINX container is deployed into each Pod with the Rails/Puma container. This auxiliary container serves as a proxy for all Rails/Puma requests except for static file requests. These static files are served by the NGINX container.
 
 Now, let's get to the implementation.
 
