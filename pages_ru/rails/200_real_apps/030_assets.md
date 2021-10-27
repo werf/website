@@ -14,7 +14,11 @@ description: |
 
 Сейчас наше приложение представляет собой простой API без адекватных средств управления статичными файлами и frontend-кодом. Чтобы сделать из этого API простое веб-приложение, мы сгенерировали скелет нового Rails-приложения, но без ранее использованных флагов `--api` и `--skip-javascript`:
 ```shell
-rails new --skip-keeps --skip-action-mailer --skip-action-mailbox --skip-action-text --skip-active-record --skip-active-job --skip-active-storage --skip-action-cable --skip-sprockets --skip-spring --skip-listen --skip-turbolinks --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
+rails new --skip-keeps --skip-action-mailer --skip-action-mailbox \
+  --skip-action-text --skip-active-record --skip-active-job \
+  --skip-active-storage --skip-action-cable --skip-sprockets \
+  --skip-spring --skip-listen --skip-turbolinks --skip-jbuilder \
+  --skip-test --skip-system-test --skip-bootsnap .
 ```
 
 Из этого скелета мы позаимствовали всё, что связано с управлением JS-кодом и статическими файлами. Основные изменения, сделанные в нашем приложении:

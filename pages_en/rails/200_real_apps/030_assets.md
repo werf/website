@@ -14,7 +14,11 @@ Let's add a new `/image` endpoint to our application. It will return a page with
 
 Currently, our application provides a basic API with no means to manage static files and frontend code. To turn this API into a simple web application, we have generated a skeleton of the new Rails application (omitting the `--api` and `--skip-javascript` flags we used before):
 ```shell
-rails new --skip-keeps --skip-action-mailer --skip-action-mailbox --skip-action-text --skip-active-record --skip-active-job --skip-active-storage --skip-action-cable --skip-sprockets --skip-spring --skip-listen --skip-turbolinks --skip-jbuilder --skip-test --skip-system-test --skip-bootsnap .
+rails new --skip-keeps --skip-action-mailer --skip-action-mailbox \
+  --skip-action-text --skip-active-record --skip-active-job \
+  --skip-active-storage --skip-action-cable --skip-sprockets \
+  --skip-spring --skip-listen --skip-turbolinks --skip-jbuilder \
+  --skip-test --skip-system-test --skip-bootsnap .
 ```
 
 This skeleton includes all the functionality we need for managing JS code and static files. The following changes have been made to our application:
