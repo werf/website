@@ -1,4 +1,4 @@
-# [<en>] The basic image. It is used both for assembling assets and as the basis for a backend image.
+# [<en>] The base image. It is used both for assembling assets and as the base for a backend image.
 # [<ru>] Базовый образ. Используется и для сборки ассетов, и как основа для backend-образа.
 FROM ruby:2.7 as base
 WORKDIR /app
