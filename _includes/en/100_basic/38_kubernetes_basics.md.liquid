@@ -59,7 +59,7 @@ status:
 The Pod resource is the simplest way to run one or more containers in Kubernetes. The Pod manifest describes the containers and their parameters. However, in practice, you do not deploy Pods themselves. Instead, you delegate this task to Controllers that create and manage Pods for you. The **Deployment** is one of these controllers. By creating Pods using Deployment, you greatly simplify their management.
 
 Below are some features that Deployments provide (and which the Pods themselves do not have):
-* The Deployment restarts the Pod if it gets deleted (manually or automatically); 
+* The Deployment restarts the Pod if it gets deleted (manually or automatically);
 * In most cases, you cannot update the Pod configuration on the fly. To edit its configuration, you need to recreate the Pod. On the other hand, you can edit Pod configuration in the Deployment without the need to restart the latter;
 * No downtime is involved in updating the Pod configuration: some of the Pods with the old configuration are running until Pods having the new configuration are up and running fine;
 * A single Deployment can run several Pods simultaneously (including on different Nodes).
@@ -180,7 +180,7 @@ kubectl get service werf-guide-app
 You will see something like this:
 ```shell
 NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-werf-guide-app          ClusterIP   10.107.19.126   <none>        80/TCP    35s
+werf-guide-app          ClusterIP   10.107.19.126   <none>        8000/TCP  35s
 ```
 
 Now it is time to check if the Ingress resource is created:
@@ -219,10 +219,10 @@ curl http://werf-guide-app/ping
 
 You will see the following response:
 ```shell
-pong
+hello world
 ```
 
-Note that the scope of Service resources is not limited to connecting Ingress with the application. They also allow resources within the cluster to communicate with each other. When a Service gets created, a `<ServiceName>.<NamespaceName>.svc.cluster.local` is also created. It is accessible from within the cluster. Also, you can connect to the Service using its shorter names: 
+Note that the scope of Service resources is not limited to connecting Ingress with the application. They also allow resources within the cluster to communicate with each other. When a Service gets created, a `<ServiceName>.<NamespaceName>.svc.cluster.local` is also created. It is accessible from within the cluster. Also, you can connect to the Service using its shorter names:
 * `<ServiceName>` — if the request comes from the same namespace;
 * `<ServiceName>.<NamespaceName>` — if the request comes from a different namespace.
 
@@ -235,12 +235,12 @@ In the new container, curl to our application using the service we created:
 
 ```shell
 apk add curl  # Installing curl in the container.
-curl http://werf-guide-app/ping  # curl to one of the pods of our application using the service.
+curl http://werf-guide-app:8000/ping  # curl to one of the pods of our application using the service.
 ```
 
 You will see the following response:
 ```shell
-pong
+hello world
 ```
 
 > Using Ingress resources is not the only way to access the application from outside the cluster. Services of `LoadBalancer` and `NodePort` types also provide access to the application from outside the cluster, bypassing the Ingress. The official Kubernetes documentation provides a detailed description of [Service](https://kubernetes.io/docs/concepts/services-networking/service/) and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) concepts.
