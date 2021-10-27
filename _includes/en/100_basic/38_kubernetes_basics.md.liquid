@@ -219,7 +219,7 @@ curl http://werf-guide-app/ping
 
 You will see the following response:
 ```shell
-pong
+hello world
 ```
 
 Note that the scope of Service resources is not limited to connecting Ingress with the application. They also allow resources within the cluster to communicate with each other. When a Service gets created, a `<ServiceName>.<NamespaceName>.svc.cluster.local` is also created. It is accessible from within the cluster. Also, you can connect to the Service using its shorter names:
