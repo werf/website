@@ -45,5 +45,5 @@ jobs:
             --file_ignore "/____________/" \
             --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/werf-guides\/edit/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/guides.html/" \
             --url-swap "github.com/werf/werf-guides/blob/master:github.com/werf/werf-guides/blob/$GITHUB_SHA,github.com/werf/werf-guides/tree/master:github.com/werf/werf-guides/tree/$GITHUB_SHA" \
-            --http-status-ignore 0 \
+            --http-status-ignore "0,429" \
             ./_site/
