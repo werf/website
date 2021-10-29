@@ -83,6 +83,12 @@ defaults:
     values:
       framework_id: laravel
       framework_name: Laravel
+  - scope:
+      path: "pages_ru/framework_id"
+      type: "pages"
+    values:
+      framework_id: framework_id
+      framework_name: FRAMEWORK_ID
 breadcrumbs:
   home_text: Руководства
   home_url: /guides.html

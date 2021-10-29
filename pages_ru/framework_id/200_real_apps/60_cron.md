@@ -103,7 +103,7 @@ git commit -m "Add cronjobs"
 Запустим выкат:
 
 ```shell
-werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ Docker Hub>/werf-guided-rails
+werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guided-rails
 ```
 
 > Убедитесь, что правильно указали имя пользователя от Docker Hub.
