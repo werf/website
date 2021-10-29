@@ -1,0 +1,15 @@
+Теперь нам требуется собрать не только образ с Rails и Puma, но и образ с NGINX, где должны находиться статические файлы приложения, которые NGINX сможет сразу отдать клиенту:
+{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+
+Во время сборки в образ с NGINX будет добавлен его конфигурационный файл:
+{% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
+
+Обновим конфигурацию `werf.yaml`, чтобы werf собрал и сохранил два образа (backend, frontend) вместо одного:
+{% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
+
+Добавим новый NGINX-контейнер в Deployment приложения:
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+
+Теперь Service и Ingress должны обращаться на 80-й порт, а не 3000-й, чтобы все запросы шли через NGINX, а не напрямую на Rails/Puma:
+{% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
+{% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}

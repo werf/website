@@ -2,7 +2,21 @@
 
 Далее мы будем использовать новое простое приложение на {{ page.framework_name }}, функционально идентичное приложению из предыдущего раздела.
 
-{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/how_basic_app_was_made.md.liquid %}
+Получили мы его следующим образом - сначала был сгенерирован скелет нового {{ page.framework_name }}-приложения командой:
+
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/001_generate_app.md.liquid %}
+
+> **ОБРАТИТЕ ВНИМАНИЕ!** Эту команду и нижеследующие не нужно выполнять, здесь мы просто рассказываем, как получили приложение, которое используется в примере. К выполнению предназначен раздел "Деплой нового приложения"
+
+В нём была оставлена конфигурация только для production-окружения и убрано всё, что не требуется на данном этапе.
+
+После этого был добавлен новый путь `/ping` для нашего API:
+
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/005_add_ping.md.liquid %}
+
+Этот путь будет обрабатываться методом `ping` стандартного контроллера, возвращающим текст `pong`:
+
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/010_return_pong.md.liquid %}
 
 Что касается сборки и CI/CD, то основные изменения затронули сборку образа:
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
@@ -20,7 +34,8 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
 Ожидаемый результат:
-{% include snippetcut_example path="werf-converge.log" syntax="shell" examples=page.examples %}
+
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/015_expected_result.md.liquid %}
 
 Проверим, действительно ли наше приложение работает:
 ```shell

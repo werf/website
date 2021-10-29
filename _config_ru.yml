@@ -83,7 +83,6 @@ defaults:
     values:
       framework_id: laravel
       framework_name: Laravel
-
 breadcrumbs:
   home_text: Руководства
   home_url: /guides.html
