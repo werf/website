@@ -1,6 +1,6 @@
 ---
 title: Необходимо знать
-permalink: new-framework/100_basic/40_must_haves.html
+permalink: framework_id/100_basic/40_must_haves.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 description: |

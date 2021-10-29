@@ -1,6 +1,6 @@
 ---
 title: Подготовка окружения
-permalink: new-framework/100_basic/20_cluster.html
+permalink: framework_id/100_basic/20_cluster.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
 description: |

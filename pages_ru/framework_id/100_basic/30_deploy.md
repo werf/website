@@ -1,6 +1,6 @@
 ---
 title: Деплой приложения
-permalink: new-framework/100_basic/30_deploy.html
+permalink: framework_id/100_basic/30_deploy.html
 examples: examples/basic/002_deploy
 examples_initial: examples/basic/001_build
 description: |
