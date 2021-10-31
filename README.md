@@ -5,19 +5,10 @@ ___
 
 ## Development
 
-### Running the site locally
+### How do I run the guides site locally?
 
-Up site and synchronize the state in case of local changes:
+> Add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site. 
 
-```shell
-werf compose up --dev --follow \
-                --env development \
-                --docker-compose-command-options="-d"
-```
-
-Now you can access the site:
-```shell
-curl localhost
-```
-
-> To access the Russian version of the site add `ru.localhost` record in your `/etc/hosts`
+- Install [werf](https://werf.io/installation.html)
+- Run `./serve-dev.sh` and wait for about 1 minute (you can check `werf-guides_ru_1` and `werf-guides_en_1` logs)
+- Check the English version is available on [https://localhost](https://localhost), and the Russian version on [https://ru.localhost](https://ru.localhost)
