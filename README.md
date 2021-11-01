@@ -7,11 +7,9 @@ ___
 
 ### How do I run the guides site locally?
 
-> Add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site. 
-
-- Install [werf](https://werf.io/installation.html)
+- Install [werf](http://werf.io/installation.html)
 - Run:
   ```shell
-  werf compose up --follow --docker-compose-command-options="-d" jekyll_base
+  werf compose up jekyll_base
   ```
-- Check the English version is available on [https://localhost](https://localhost), and the Russian version on [https://ru.localhost](https://ru.localhost)
+- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site.)
