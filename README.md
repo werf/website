@@ -5,19 +5,11 @@ ___
 
 ## Development
 
-### Running the site locally
+### Run the site locally
 
-Up site and synchronize the state in case of local changes:
-
-```shell
-werf compose up --dev --follow \
-                --env development \
-                --docker-compose-command-options="-d"
-```
-
-Now you can access the site:
-```shell
-curl localhost
-```
-
-> To access the Russian version of the site add `ru.localhost` record in your `/etc/hosts`
+- Install [werf](http://werf.io/installation.html). 
+- Run:
+  ```shell
+  werf compose up jekyll_base
+  ```
+- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site). 
