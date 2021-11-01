@@ -10,5 +10,9 @@ ___
 > Add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site. 
 
 - Install [werf](https://werf.io/installation.html)
-- Run `./serve-dev.sh` and wait for about 1 minute (you can check `werf-guides_ru_1` and `werf-guides_en_1` logs)
+- Run:
+  ```shell
+  werf compose up --follow --docker-compose-command-options="-d" jekyll_base
+  ```
+- Wait for about 1 minute (you can check `werf-guides_ru_1` and `werf-guides_en_1` logs).
 - Check the English version is available on [https://localhost](https://localhost), and the Russian version on [https://ru.localhost](https://ru.localhost)
