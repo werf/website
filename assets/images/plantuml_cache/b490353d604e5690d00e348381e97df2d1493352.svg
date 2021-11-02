@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="556px" preserveAspectRatio="none" style="width:146px;height:556px;background:#FFFFFF;" version="1.1" viewBox="0 0 146 556" width="146px" zoomAndPan="magnify"><defs><filter height="300%" id="fhxx3tzwcpt6w" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6a3bf63af39c3179cd22a6db35b75f44]
+entity Пользователь--><rect fill="#FEFECE" filter="url(#fhxx3tzwcpt6w)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="127" x="7" y="7"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="107" x="17" y="29.9951">Пользователь</text><!--MD5=[76135f9afc5f2b97af6996623fc8da30]
+entity Ingress--><rect fill="#FEFECE" filter="url(#fhxx3tzwcpt6w)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="71" x="35" y="120"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="51" x="45" y="142.9951">Ingress</text><!--MD5=[17737e49c286898813382e12d6080e03]
+entity Service--><rect fill="#FEFECE" filter="url(#fhxx3tzwcpt6w)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="73" x="34" y="217"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="53" x="44" y="239.9951">Service</text><!--MD5=[34e7ff30b8f6ff5e95d41db522d01679]
+entity Deployment--><rect fill="#FEFECE" filter="url(#fhxx3tzwcpt6w)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="110" x="15.5" y="314"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="90" x="25.5" y="336.9951">Deployment</text><!--MD5=[825324b7f558f659a104b3dc0e220d0f]
+entity Pod--><rect fill="#FEFECE" filter="url(#fhxx3tzwcpt6w)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="47" x="47" y="411"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="27" x="57" y="433.9951">Pod</text><!--MD5=[63a27a45685fefc0edc1562797a26e46]
+entity Приложение--><rect fill="#FEFECE" filter="url(#fhxx3tzwcpt6w)" height="36.2969" style="stroke:#A80036;stroke-width:1.5;" width="116" x="12.5" y="508"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96" x="22.5" y="530.9951">Приложение</text><!--MD5=[b011e1898cf16b09afdcc24f21c4fa93]
+link Пользователь to Ingress--><path d="M70.5,48.473 C70.5,67.735 70.5,95.34 70.5,114.585 " fill="none" id="Пользователь-Ingress" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,119.778,74.5,110.778,70.5,114.778,66.5,110.778,70.5,119.778" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,43.344,66.5,52.344,70.5,48.344,74.5,52.344,70.5,43.344" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="47" x="71.5" y="86.0669">Запрос</text><!--MD5=[27022ce52f07ef8d12a98d49941cead5]
+link Ingress to Service--><path d="M70.5,161.465 C70.5,176.517 70.5,196.265 70.5,211.355 " fill="none" id="Ingress-Service" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,216.686,74.5,207.686,70.5,211.686,66.5,207.686,70.5,216.686" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,156.424,66.5,165.424,70.5,161.424,74.5,165.424,70.5,156.424" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[cd6bf5e64c7e7aa9c52cec552d241fac]
+link Service to Deployment--><path d="M70.5,258.465 C70.5,273.517 70.5,293.265 70.5,308.355 " fill="none" id="Service-Deployment" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,313.686,74.5,304.686,70.5,308.686,66.5,304.686,70.5,313.686" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,253.424,66.5,262.424,70.5,258.424,74.5,262.424,70.5,253.424" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[6237b471783828d5b8f71e49b431258e]
+link Deployment to Pod--><path d="M70.5,355.465 C70.5,370.517 70.5,390.265 70.5,405.355 " fill="none" id="Deployment-Pod" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,410.686,74.5,401.686,70.5,405.686,66.5,401.686,70.5,410.686" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,350.424,66.5,359.424,70.5,355.424,74.5,359.424,70.5,350.424" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[a95e461ea2e419586ab5cc86add96a45]
+link Pod to Приложение--><path d="M70.5,452.4648 C70.5,467.517 70.5,487.2653 70.5,502.3548 " fill="none" id="Pod-Приложение" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,507.686,74.5,498.686,70.5,502.686,66.5,498.686,70.5,507.686" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="70.5,447.4245,66.5,456.4245,70.5,452.4245,74.5,456.4245,70.5,447.4245" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[3571038ff239533e0a17e96fe685d95b]
+@startuml
+agent Пользователь
+agent Ingress
+agent Service
+agent Deployment
+agent Pod
+agent Приложение
+Пользователь <- -> Ingress : Запрос
+Ingress <- -> Service
+Service <- -> Deployment
+Deployment <- -> Pod
+Pod <- -> Приложение
+@enduml
+
+PlantUML version 1.2021.13beta8(Unknown compile time)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
