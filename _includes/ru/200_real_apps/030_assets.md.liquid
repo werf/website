@@ -32,12 +32,12 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Откроем в браузере [http://werf-guide-app/image](http://werf-guide-app/image) и нажмём на кнопку _Get image_. Ожидаемый результат:
 
-{% asset 'guides/{{ page.framework_id }}/030_assets_success.png' %}
+{% include 200_real_apps/030_assets/{{ page.framework_id }}/020_image_first.md.liquid %}
 
 Также обратим внимание на то, какие ресурсы были запрошены и по каким ссылкам (последний ресурс здесь получен через Ajax-запрос):
 
-{% asset 'guides/{{ page.framework_id }}/030_assets_resources.png' %}
+{% include 200_real_apps/030_assets/{{ page.framework_id }}/025_image_second.md.liquid %}
 
 Теперь наше приложение является не просто API, но веб-приложением, которое имеет средства для эффективного менеджмента статических файлов и JavaScript.
 
-Также наше приложение готово выдерживать приличные нагрузки при большом количестве запросов к статическим файлам, и эти запросы не будут сказываться на работе приложения в целом. Масштабирование же {% include 200_real_apps/030_assets/{{ page.framework_id }}/020_framework_scaling.md.liquid %} (отвечает за динамический контент) и NGINX (статический контент) происходит простым увеличением количества реплик (`replicas`) в Deployment'е приложения.
+Также наше приложение готово выдерживать приличные нагрузки при большом количестве запросов к статическим файлам, и эти запросы не будут сказываться на работе приложения в целом. Масштабирование же {% include 200_real_apps/030_assets/{{ page.framework_id }}/030_framework_scaling.md.liquid %} (отвечает за динамический контент) и NGINX (статический контент) происходит простым увеличением количества реплик (`replicas`) в Deployment'е приложения.
