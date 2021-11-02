@@ -19,10 +19,10 @@
 {% include 200_real_apps/010_basic_app/{{ page.framework_id }}/010_return_pong.md.liquid %}
 
 Что касается сборки и CI/CD, то основные изменения затронули сборку образа:
-{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/015_building_image.md.liquid %}
 
 … а CI/CD изменилось незначительно. К примеру, так выглядит новый Deployment приложения:
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/020_new_deployment.md.liquid %}
 
 Приложение — полностью stateless, не требует базы данных для работы. Мы сделаем его stateful и развернём для него базу данных в следующих главах.
 
@@ -35,7 +35,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Ожидаемый результат:
 
-{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/015_expected_result.md.liquid %}
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/025_expected_result.md.liquid %}
 
 Проверим, действительно ли наше приложение работает:
 ```shell
