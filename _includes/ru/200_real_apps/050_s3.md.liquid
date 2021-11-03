@@ -13,3 +13,20 @@
 Далее мы продемонстрируем, как хранить файлы не в локальной файловой системе, а в S3-совместимом хранилище, чтобы ваши приложения оставались stateless и не испытывали проблем при работе с Kubernetes.
 
 {% include 200_real_apps/050_s3/{{ page.framework_id }}/001_preparing.md.liquid %}
+
+## Добавление endpoint'ов `/upload` и `/download` в приложение
+
+Для демонстрации работы загрузки и отдачи файлов мы добавим два новых endpoints, один из которых будет загружать файл в S3-совместимое объектное хранилище (`/upload`), а другой — отдавать его оттуда (`/download`).
+
+Добавим новый контроллер{% include 200_real_apps/050_s3/{{ page.framework_id }}/005_add_model.md.liquid %}:
+
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
+
+Добавим новые пути в маршруты:
+
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
+
+{% comment %} Adding new migrations if they are needed {% endcomment %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
+
+Новые endpoint'ы — `/upload` и `/download` — добавлены. Осталось только настроить для них работу с хранилищем.
