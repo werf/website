@@ -120,7 +120,7 @@ minio:
 {% include snippetcut_example path="config/storage.yml" syntax="yaml" examples=page.examples %}
 {% include snippetcut_example path="config/secrets.yml" syntax="yaml" examples=page.examples %}
 
-Для хранения и монтирования секретных конфигурационных файлов целиком также можно использовать Secret. Выглядит это аналогично использованию ConfigMap для монтирования несекретных файлов конфигурации, [описанному выше](#хранение-конфигурационных-файлов-приложения-в-configmap) за тем лишь исключением, что само содержание Secret должно храниться зашифрованным в файлах `.helm/secret/...` или в `.helm/secret-values.yaml`. Подробнее об этом можно прочитать в [документации werf]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#%D1%81%D0%B5%D0%BA%D1%80%D0%B5%D1%82%D0%BD%D1%8B%D0%B5-%D1%84%D0%B0%D0%B9%D0%BB%D1%8B).
+Для хранения и монтирования секретных конфигурационных файлов целиком также можно использовать Secret. Выглядит это аналогично использованию ConfigMap для монтирования несекретных файлов конфигурации, [описанному выше](#хранение-конфигурационных-файлов-приложения-в-configmap), за тем лишь исключением, что само содержание Secret должно храниться зашифрованным в файлах `.helm/secret/...` или в `.helm/secret-values.yaml`. Подробнее об этом можно прочитать в [документации werf]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#%D1%81%D0%B5%D0%BA%D1%80%D0%B5%D1%82%D0%BD%D1%8B%D0%B5-%D1%84%D0%B0%D0%B9%D0%BB%D1%8B).
 
 Больше информации по работе с секретами также доступно в [документации werf]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html).
 

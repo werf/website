@@ -9,7 +9,7 @@ description: |
 
   In previous chapters, we added the configuration directly to containers during the build or used the container's environment variables to pass parameters during the deployment.
   
-  In this chapter, you will learn how to store application parameters in ConfigMaps and Secrets for security and flexibility. We will show how you can use Helm chart values and werf secrets and discuss parameterization and configuration reuse approaches. In addition, you will learn how to store sensitive data along with the code in the application's Git repository.
+  Now, you will learn how to store application parameters in ConfigMaps and Secrets for security and flexibility. We will show how you can use Helm chart values and werf secrets and discuss parameterization and configuration reuse approaches. In addition, you will learn how to store sensitive data along with the code in the application's Git repository.
 ---
 
 ## ConfigMap and Secret
@@ -18,27 +18,27 @@ ConfigMap and Secret Kubernetes resources allow you to separate environment-depe
 
 Both objects store data in key-value pairs and provide them to Pods as environment variables, command-line arguments, or configuration files mounted in a selected container.
 
-ConfigMap stores non-confidential data in plain text, while Secret stores confidential data (various secret types) in base64 format.
+ConfigMap stores non-confidential data, while Secret stores confidential data (various secret types).
 
 You can learn more about these resource types in the official Kubernetes documentation ([ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/), [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)). This chapter discusses various use cases for ConfigMaps and Secrets using our application as an example.
 
 ## Storing application's config files in the ConfigMap
 
-Currently, the [nginx.conf]({{ page.base_url | append: page.examples_initial | append: "/.werf/nginx.conf" }}) config file gets copied into the image during the build. As a result, the image is rebuilt, and Pods are restarted each time the file is modified. In addition, there is no easy way to turn nginx.conf into a template.
+Currently, the [nginx.conf]({{ page.base_url | append: page.examples_initial | append: "/.werf/nginx.conf" }}) config file gets copied into the image during the build. As a result, the image is rebuilt, and Pods are restarted each time the file is modified. In addition, there is no easy way to benefit from templating in our `nginx.conf`.
 
 You can get around these obstacles by moving `.werf/nginx.conf` into a dedicated ConfigMap. This way, you can mount `nginx.conf` when deploying instead of adding the file during the build:
 {% include snippetcut_example path=".helm/templates/configmap-nginx.yaml" syntax="yaml" examples=page.examples %}
-Now let's add our ConfigMap to the Deployment - we will mount it as a file in the `frontend` container:
+Now, let's add our ConfigMap to the Deployment — we will mount it as a file in the `frontend` container:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="nginx_conf" examples=page.examples %}
-Delete the no longer needed `.werf/nginx.conf` as well as a command to copy this file to an image during the build. The Dockerfile for the `frontend` image will look as follows:
+We also need to delete the no longer needed `.werf/nginx.conf` as well as a command to copy this file to an image during the build. The Dockerfile for the `frontend` image will look as follows:
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" snippet="frontend" examples=page.examples %}
 
 ## Handling ConfigMap and Secret changes
 
-Note that by default, changes in ConfigMaps or Secrets mounted in a Deployment, StatefulSet, or DaemonSet will not trigger Pod restarts for the new configuration to take effect. To trigger Pod restart, you need to add annotations with hashes of all ConfigMaps and Secrets used by this Pod. In this case, the annotations will change in response to ConfigMap and Secret modifications, leading to the Pod restart. Below is an example of an annotation that includes the hash of the `nginx.conf`ConfigMap:
+Note that by default, changes in ConfigMaps or Secrets mounted in a Deployment, StatefulSet, or DaemonSet will not trigger Pod restarts for the new configuration to take effect. To trigger Pod restart, you need to add annotations with checksums of all ConfigMaps and Secrets used by this Pod. In this case, the annotations will change in response to ConfigMap and Secret modifications, leading to the Pod restart. Below is an example of an annotation that includes the checksum of the `nginx.conf` ConfigMap:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="nginx_conf_checksum" examples=page.examples %}
 Note that you will need a unique annotation for each mounted ConfigMap/Secret.
->_The authors of this tutorial prefer to use operators like [stakater/Reloader](https://github.com/stakater/Reloader) instead of hash-containing annotations because they are simpler, more flexible, and easier to work with._
+>_The authors of this tutorial prefer to use operators like [stakater/Reloader](https://github.com/stakater/Reloader) instead of checksum-containing annotations because they are simpler, more flexible, and easier to work with._
 
 ## Values
 
@@ -61,14 +61,14 @@ Probably, the most useful feature is the ability to place repetitive configurati
 {% include snippetcut_example path=".helm/values.yaml" syntax="yaml" snippet="app" examples=page.examples %}
 The environment variables from `.Values.app.envs` can be inserted either into the container manifest as `env` values (as we did before), or you can put them into the ConfigMap and load it into the container via `envFrom`.
 
-The first option is easier to do, but the ConfigMap option is more convenient if you have a large number of shared environment variables (this way, you will avoid duplicating them between controllers. Your ConfigMap may look like this:
+The first option is easier to do, but the ConfigMap option is more convenient if you have a large number of shared environment variables. This way, you will avoid duplicating them between controllers. Your ConfigMap may look like this:
 {% include snippetcut_example path=".helm/templates/configmap-app-envs.yaml" syntax="yaml" examples=page.examples %}
 
 Now you can use `envFrom` in the Deployment to define ConfigMap's data as container environment variables:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="backend_conf" examples=page.examples %}
 
-Don't forget to add hash-containing annotations to trigger Pod re-deployment in response to ConfigMap changes:
+Don't forget to add checksum-containing annotations to trigger Pod re-deployment in response to ConfigMap changes:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="configmap_app_envs_checksum" examples=page.examples %}
 
@@ -76,12 +76,12 @@ Similarly, you can load this ConfigMap into other resources that use the same en
 
 ## Handling confidential data using Values and Secrets
 
-To start working with secrets, you first need to generate a symmetric encryption key. Use the following command to do this: `werf helm secret generate-secret-key`. Note that we have already generated the encryption key as well as prepared/encrypted the secrets for you. The encryption key is stored in the repository in the `.werf_secret_key` file; werf uses it automatically.
+To start working with secrets, you first need to generate a symmetric encryption key. You can use the following command to do this: `werf helm secret generate-secret-key`. However, since we have already prepared/encrypted the secrets for you, the encryption key that will be used in this chapter is generated as well. This encryption key is stored in the repository in the `.werf_secret_key` file; werf uses it automatically.
 >_Caution! You MUST NOT store the key in the repository when working with real-life applications. We recommend keeping it in a safe place and passing via the `WERF_SECRET_KEY` environment variable. You can read more about using encryption keys in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#encryption-key)._
 
-The application configuration contains data that should not be stored in unencrypted form in the repository (e.g., the database login and password). Instead of storing the login and password in plain text in the configuration file (as we currently do):
+The application configuration contains data that should not be stored in unencrypted form in the repository (e.g., the database login and password). Thus, we won't store the login and password in plain text in the configuration file (as we currently do):
 {% include snippetcut_example path="config/database.yml" syntax="yaml" examples=page.examples_initial %}
-... we will store them encrypted in the `.helm/secret-values.yaml` file along with other confidential parameters:
+Instead, we will store them encrypted in the `.helm/secret-values.yaml` file along with other confidential parameters:
 {% include snippetcut_example path=".helm/secret-values.yaml" syntax="yaml" examples=page.examples %}
 
 Use the command below to decrypt the secrets stored in `.helm/secret-values.yaml`:
@@ -107,7 +107,7 @@ minio:
     MINIO_ROOT_PASSWORD: minioadmin
 ```
 
-Now you need to pass the secrets contained in `.helm/secret-values.yaml` back to the application config. To do this, let's first pass them to the Secret resource:
+Now, you need to pass the secrets contained in `.helm/secret-values.yaml` back to the application config. To do this, let's first pass them to the Secret resource:
 {% include snippetcut_example path=".helm/templates/secret-app-envs.yaml" syntax="yaml" examples=page.examples %}
 
 ... and then load this resource's data as a set of environment variables by mounting it in containers:
@@ -115,7 +115,7 @@ Now you need to pass the secrets contained in `.helm/secret-values.yaml` back to
 
 You have to make similar changes to the rest of the `.helm/templates` files (we won't delve into details here; you can take a look at their contents in the [repository]({{ page.base_url | append: page.examples | append: "/.helm/templates/" }}).)
 
-After passing environment variables to the container, you have to substitute EVs in the application's configuration files with them:
+After passing environment variables to the container, you have to substitute them in the application's configuration files:
 {% include snippetcut_example path="config/database.yml" syntax="yaml" examples=page.examples %}
 {% include snippetcut_example path="config/storage.yml" syntax="yaml" examples=page.examples %}
 {% include snippetcut_example path="config/secrets.yml" syntax="yaml" examples=page.examples %}
@@ -126,7 +126,7 @@ Note: learn more about working with secrets in the [werf documentation]({{ site.
 
 ## Checking whether the application runs as expected
 
-Let's make sure that the configuration changes did not affect the application performance:
+Let's make sure the configuration changes did not affect the application performance:
 ```shell
 werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
