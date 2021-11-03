@@ -37,16 +37,16 @@
 > _Обратите внимание, что если вы используете иное S3-хранилище, то создание нижеописанных StatefulSet и Job для MinIO не потребуется, но остальные инструкции останутся актуальными._
 
 Добавим StatefulSet с MinIO:
-{% include snippetcut_example path=".helm/templates/storage.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/025_stateful_minio.md.liquid %}
 
 Создадим Job для настройки MinIO:
-{% include snippetcut_example path=".helm/templates/job-setup-minio.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/030_job_minio.md.liquid %}
 
 Добавим в приложение конфигурацию для подключения к MinIO:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/025_minio_configuration.md.liquid %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/035_minio_configuration.md.liquid %}
 
 {% comment %} Minio activation, if needed {% endcomment %}
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/030_minio_activation.md.liquid %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/040_minio_activation.md.liquid %}
 
 Теперь MinIO готов к развертыванию, а приложение — настроено на хранение файлов в нём.
 
@@ -58,7 +58,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
 Ожидаемый результат:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/035_expected_result.md.liquid %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/045_expected_result.md.liquid %}
 
 Обратимся на `/download`, который должен попытаться достать файл из S3:
 ```shell
