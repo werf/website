@@ -115,7 +115,7 @@ minio:
 
 Изменения в остальных файлах `.helm/templates` для вынесения секретной конфигурации в Secret аналогичны, поэтому приводить здесь листинги не будем. (На их содержимое можно посмотреть в [репозитории]({{ page.base_url | append: page.examples | append: "/.helm/templates/" }}).)
 
-После передачи переменных окружения в контейнер остаётся только подставить переменные окружения в конфигурационных файлах приложения:
+После передачи переменных окружения в контейнер остаётся только подставить их в конфигурационных файлах приложения:
 {% include snippetcut_example path="config/database.yml" syntax="yaml" examples=page.examples %}
 {% include snippetcut_example path="config/storage.yml" syntax="yaml" examples=page.examples %}
 {% include snippetcut_example path="config/secrets.yml" syntax="yaml" examples=page.examples %}
