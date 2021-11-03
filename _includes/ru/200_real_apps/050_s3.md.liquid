@@ -23,10 +23,27 @@
 {% include 200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
 
 Добавим новые пути в маршруты:
-
 {% include 200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
 
 {% comment %} Adding new migrations if they are needed {% endcomment %}
 {% include 200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
 
 Новые endpoint'ы — `/upload` и `/download` — добавлены. Осталось только настроить для них работу с хранилищем.
+
+## Развертывание и подключение MinIO
+
+Для демонстрации, в качестве S3-совместимого объектного хранилища мы будем использовать [MinIO](https://min.io/), но вместо него может использоваться и любое другое S3-хранилище (например, Amazon S3).
+
+> _Обратите внимание, что если вы используете иное S3-хранилище, то создание нижеописанных StatefulSet и Job для MinIO не потребуется, но остальные инструкции останутся актуальными._
+
+Добавим StatefulSet с MinIO:
+{% include snippetcut_example path=".helm/templates/storage.yaml" syntax="yaml" examples=page.examples %}
+
+Создадим Job для настройки MinIO:
+{% include snippetcut_example path=".helm/templates/job-setup-minio.yaml" syntax="yaml" examples=page.examples %}
+
+Добавим в приложение конфигурацию для подключения к MinIO:
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/025_minio_configuration.md.liquid %}
+
+{% comment %} Minio activation, if needed {% endcomment %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/030_minio_activation.md.liquid %}
