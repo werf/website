@@ -12,7 +12,17 @@ description: |
 
 Добавим нашему приложению новый endpoint `/image`, который будет отдавать страницу, использующую набор статических файлов. Для сборки JS-, CSS- и медиафайлов будем использовать штатный [laravel-mix](https://laravel.com/docs/8.x/mix), являющийся по сути надстройкой над webpack.
 
-Создадим шаблон HTML-страницы, которая будет доступна по адресу `/image` и отображать кнопку _Get image_:
+Сейчас наше приложение представляет собой простой API без адекватных средств управления статичными файлами и frontend-кодом. 
+
+Чтобы сделать из этого API простое веб-приложение, мы позаимствовали всё, что связано с управлением JS-кодом и статическими файлами из [официального репозитория Laravel](https://github.com/laravel/laravel). Основные изменения, сделанные в нашем приложении:
+1. Добавление файла [package.json]({{ page.base_url | append: page.examples | append: "/package.json" }}).
+1. Создание конфигурационного файла laravel-mix [webpack.mix.js]({{ page.base_url | append: page.examples | append: "/webpack.mix.js" }}).
+1. Создание набора директорий для размещения исходных статических файлов:
+* [resources/css]({{ page.base_url | append: page.examples | append: "/resources/css" }})
+* [resources/js]({{ page.base_url | append: page.examples | append: "/resources/js" }})
+* [resources/images]({{ page.base_url | append: page.examples | append: "/resources/images" }})
+
+Теперь добавим шаблон HTML-страницы, которая будет доступна по адресу `/image` и отображать кнопку _Get image_:
 {% include snippetcut_example path="resources/views/image.blade.php" syntax="php" examples=page.examples %}
 
 При нажатии на кнопку _Get image_ должен выполняться Ajax-запрос, с помощью которого мы получим и отобразим [SVG-картинку]({{ page.base_url | append: page.examples | append: "/resources/images/werf-logo.svg" }}):
@@ -25,20 +35,15 @@ JS-файл, CSS-файл и SVG-картинка будут собраны с W
 $ tree public/
 public/
 ├── css
-│   ├── app.css
 │   └── site.css
 ├── favicon.ico
 ├── images
 │   └── werf-logo.svg
 ├── index.php
 ├── js
-│   ├── app.js
-│   ├── app.js.LICENSE.txt
 │   └── image.js
 ├── mix-manifest.json
-├── robots.txt
-└── web.config
-
+└── robots.txt
 ```
 
 Обновим маршруты, добавив в них новый endpoint `/image`, обрабатывающий созданный выше HTML-шаблон:
