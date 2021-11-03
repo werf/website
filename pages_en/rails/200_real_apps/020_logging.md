@@ -147,7 +147,7 @@ curl http://werf-guide-app/ping       # returns "pong" + 200 OK status code
 curl http://werf-guide-app/not_found  # no response; returns 404 Not Found
 ```
 
-Now let's take a look at the logs:
+While our requests are being made, we won't see any codes returned by the server. However, we can find them in the logs — let's take a look at them:
 ```shell
 kubectl logs deploy/werf-guide-app
 ```
