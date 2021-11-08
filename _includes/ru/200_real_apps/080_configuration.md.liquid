@@ -7,3 +7,18 @@
 ConfigMap предназначен для хранения неконфиденциальных данных, в отличие от Secret, который используется для хранения различных типов секретов.
 
 Подробнее про эти типы ресурсов можно почитать в официальной документации Kubernetes ([ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/), [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)). Далее мы разберём частые случаи их использования на примере нашего приложения.
+
+## Хранение конфигурационных файлов приложения в ConfigMap
+
+Сейчас конфигурационный файл [nginx.conf]({% include 200_real_apps/080_configuration/{{ page.framework_id }}/001_nginx_config.md.liquid %}) копируется в образ прямо во время сборки. Из-за этого при каждом его изменении будут происходить пересборка образа и перезапуск Pod'ов. Также сейчас нет простой возможности шаблонизировать `nginx.conf`.
+
+Эти проблемы решаются, если перенести `.werf/nginx.conf` в отдельный ConfigMap — для того, чтобы монтировать `nginx.conf` во время деплоя, а не добавлять файл при сборке:
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/005_nginx_config_map.md.liquid %}
+
+Теперь добавим этот ConfigMap в Deployment, примонтировав его как файл внутрь контейнера `frontend`:
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/010_config_map_deployment.md.liquid %}
+
+Не забудем удалить более ненужный файл `.werf/nginx.conf`, а также команду копирования этого файла в образ во время сборки, после чего сборка образа `frontend` станет выглядеть так:
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/015_new_dockerfile.md.liquid %}
+
+
