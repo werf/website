@@ -88,7 +88,7 @@ werf helm secret values decrypt .helm/secret-values.yaml
 ... а затем примонтируем Secret в контейнеры как набор переменных окружения:
 {% include 200_real_apps/080_configuration/{{ page.framework_id }}/075_secret_mounting.md.liquid %}
 
-Изменения в остальных файлах `.helm/templates` для вынесения секретной конфигурации в Secret аналогичны, поэтому приводить здесь листинги не будем. (На их содержимое можно посмотреть в [репозитории]({% include 200_real_apps/080_configuration/{{ page.framework_id }}/080_repo_link.md.liquid %}).)
+Изменения в остальных файлах `.helm/templates` для вынесения секретной конфигурации в Secret аналогичны, поэтому приводить здесь листинги не будем, на их содержимое можно посмотреть в [репозитории]({% include 200_real_apps/080_configuration/{{ page.framework_id }}/080_repo_link.md.liquid %}).
 
 {% include 200_real_apps/080_configuration/{{ page.framework_id }}/085_configs_including.md.liquid %}
 
