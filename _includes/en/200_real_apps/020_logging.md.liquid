@@ -6,38 +6,28 @@ By default, {{ page.framework_name }} saves logs to a file instead of stdout/std
 
 {% include 200_real_apps/020_logging/{{ page.framework_id }}/015_direction_logs.md.liquid %}
 
-
 ## Formatting logs
 
-By default, Rails-based application generate plain text logs:
-```shell
-=> Booting Puma
-=> Rails 6.1.4 application starting in production
-=> Run "bin/rails server --help" for more startup options
-Puma starting in single mode...
-* Puma version: 5.3.2 (ruby 2.7.4-p191) ("Sweetnighter")
-*  Min threads: 5
-*  Max threads: 5
-*  Environment: production
-*          PID: 1
-* Listening on http://0.0.0.0:3000
-Use Ctrl-C to stop
-I, [2021-06-07T16:47:28.498897 #1]  INFO -- : Started GET \"/ping\" for 192.168.49.1 at 2021-07-23 15:08:16 +0000
-I, [2021-06-07T16:47:28.498972 #1]  INFO -- : Processing by ApplicationController#ping as */*
-I, [2021-06-07T16:47:28.498897 #1]  INFO -- : Completed 200 OK in 0ms (Views: 0.1ms | Allocations: 166)
-```
+By default, {% include 200_real_apps/020_logging/{{ page.framework_id }}/017_additional_entity.md.liquid %} {{ page.framework_name }}-based application generate plain text logs:
 
-Note how the application logs end up mixed with Rails and Puma logs. All these logs have different formats. Regular log collection and analysis systems will probably struggle with parsing all this gibberish.
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/020_log_format.md.liquid %}
+
+{% comment %} Text output about the format and complexity of parsing {% endcomment %}
+
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/025_log_parsing.md.liquid %} 
+Regular log collection and analysis systems will probably struggle with parsing all this gibberish.
 
 You can solve this problem by shipping logs in a structured JSON-like format. Most log collection systems can both, easily parse JSON and correctly process logs/messages in other (unexpected, unstructured) formats when they sneak in between JSON-formatted logs.
 
-Let's define an `ActiveSupport::Logger::SimpleFormatter` class that converts plain text logs into JSON-formatted ones:
-{% include snippetcut_example path="lib/json_simple_formatter.rb" syntax="ruby" examples=page.examples %}
+{% comment %} Activation of JSON log output {% endcomment %}
+
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/030_installing_json.md.liquid %}
 
 > _Log tagging support is beyond the scope of this guide; however, you can implement it if necessary._
 
-Now let's make the new `JSONSimpleFormatter` class the default one to convert all logs to JSON: 
-{% include snippetcut_example path="config/environments/production.rb" syntax="ruby" snippet="log_formatter" examples=page.examples %}
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/033_default_json.md.liquid %}
+
+> **Please Note!** The commands in the current section are for illustrative purposes only. They show how a basic application was generated. Only the commands in the "Checking whether the application is running" section are intended to be executed.
 
 ## Managing the logging level
 
