@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
 class PingController extends Controller
