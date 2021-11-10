@@ -2,7 +2,17 @@
 
 In this chapter, we will use a new basic {{ page.framework_name }} application with the same feature set as the application from the previous section.
 
-{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/how_basic_app_was_made.md.liquid %}
+We got it like this - generated the directory structure for our {{ page.framework_name }} application by the command:
+
+{% include 200_real_apps/010_basic_app/{{ page.framework_id }}/001_generate_app.md.liquid %}
+
+This application doesn't have any functionality that is not needed at this stage. The only thing left is the configuration for the production environment.
+
+Then, a new `/ping` route has been added to the API:
+{% include snippetcut_example path="config/routes.rb" syntax="ruby" examples=page.examples %}
+
+The `ping` method of the standard controller will handle this route (and return the `pong` string):
+{% include snippetcut_example path="app/controllers/application_controller.rb" syntax="ruby" examples=page.examples %}
 
 As for the building and CI/CD, the most significant changes affected the image build process:
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
