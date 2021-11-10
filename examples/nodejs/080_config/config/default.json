@@ -1,0 +1,17 @@
+{
+  "minio": {
+    "region": "us-east-1",
+    "endpoint": {
+      "protocol": "http",
+      "hostname": "minio",
+      "port": 9000,
+      "path": "/"
+    },
+    "bucket": "werf-guide-app",
+    "forcePathStyle": true,
+    "credentials": {
+      "accessKeyId": "minioadmin",
+      "secretAccessKey": "minioadmin"
+    }
+  }
+}

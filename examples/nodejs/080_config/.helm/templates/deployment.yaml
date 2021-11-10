@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: werf-guide-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: werf-guide-app
+  # [<snippet nginx_conf_checksum>]
+  # [<snippet configmap_app_envs_checksum>]
+  template:
+    metadata:
+      labels:
+        app: werf-guide-app
+      annotations:
+        checksum/configmap-nginx: '{{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}'
+  # [<endsnippet nginx_conf_checksum>]
+        checksum/configmap-app-envs: '{{ include (print $.Template.BasePath "/configmap-app-envs.yaml") . | sha256sum }}'
+  # [<endsnippet configmap_app_envs_checksum>]
+        checksum/secret-app-envs: '{{ include (print $.Template.BasePath "/secret-app-envs.yaml") . | sha256sum }}'
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      initContainers:
+      - name: wait-db-readiness
+        image: {{ .Values.werf.image.backend }}
+        command:
+        - sh
+        - -euc
+        - |
+          # [<en>] Waiting until the database is available and migrations are completed.
+          # [<ru>] Дожидаемся доступности БД и выполнения миграций.
+          until ./node_modules/.bin/sequelize-cli db:migrate:status; do
+            sleep 1
+          done
+        envFrom:
+        - configMapRef:
+            name: app-envs
+        - secretRef:
+            name: app-envs
+      # [<snippet backend_conf>]
+      # [<snippet backend_secret>]
+      containers:
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
+        command: ["node", "./bin/www"]
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: app-envs
+      # [<endsnippet backend_conf>]
+        - secretRef:
+            name: app-envs
+      # [<endsnippet backend_secret>]
+      # [<snippet nginx_conf>]
+      - name: frontend
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          name: nginx-conf
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+      # [<endsnippet nginx_conf>]

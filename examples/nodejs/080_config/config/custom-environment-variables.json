@@ -1,0 +1,10 @@
+{
+  "database": {
+    "username": "DB_USERNAME",
+    "password": "DB_PASSWORD"
+  },
+  "credentials": {
+    "accessKeyId": "S3_USERNAME",
+    "secretAccessKey": "S3_PASSWORD"
+  }
+}
