@@ -17,21 +17,7 @@ Now, let's get to the implementation.
 
 ## Making changes to the build and deploy process
 
-First of all, we have to make changes to the application build process. Now we need to build an NGINX image in addition to the Rails/Puma one. This NGINX image must have all the static files to serve to the client:
-{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
-
-The NIGINX config will be added to the NGINX image during the build:
-{% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
-
-Let's update `werf.yaml` so that werf can build two images (backend, frontend) instead of one:
-{% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
-
-Add a new NGINX container to the application's Deployment:
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
-
-Services and Ingresses should now connect to port 80 instead of 3000 so that all requests are routed through the NGINX proxy instead of sending them directly to Rails/Puma:
-{% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
-{% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
+First of all, we have to make changes to the application build process. {% include 200_real_apps/030_assets/{{ page.framework_id }}/010_build_and_deployment.md.liquid %}
 
 ## Checking that everything works as expected
 
