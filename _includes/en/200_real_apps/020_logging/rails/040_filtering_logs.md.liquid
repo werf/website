@@ -1,6 +1,6 @@
-## Фильтрация логов
+## Log filtering
 
-Добавим следующую конфигурацию для скрытия секретных параметров в логах:
+Let's enable log filtering to filter out secrets from the log file:
 {% include snippetcut_example path="config/initializers/filter_parameter_logging.rb" syntax="ruby" examples=page.examples %}
 
-> _Не забывайте обновлять этот список при добавлении новых секретов._
+> _Keep in mind that you need to update this list after adding new secrets._

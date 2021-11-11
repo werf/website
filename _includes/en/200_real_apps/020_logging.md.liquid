@@ -31,23 +31,18 @@ You can solve this problem by shipping logs in a structured JSON-like format. Mo
 
 ## Managing the logging level
 
-By default, the application logging level for the production environment is set to `info`. However, sometimes you may wish to change that.
+By default, the application logging level for the production environment is set to `{% include 200_real_apps/020_logging/{{ page.framework_id }}/035_fr_loglevel.md.liquid %}`. However, sometimes you may wish to change that.
 
 For example, switching the logging level from `info` to `debug` can provide additional debugging information and help in troubleshooting problems in production. However, if the application has many replicas, switching them all to the `debug` level may not be the best idea. It may affect security and significantly increase the load on log collection, storage, and analysis components.
 
 You can use an environment variable to set the logging level, thus solving the above problem. Using this approach, you can run a single Deployment replica with the `debug` logging level next to the existing replicas with the `info` logging level enabled. Moreover, you can disable centralized log collection for this new Deployment (if any). Together, all these measures prevent overloading log collection systems while keeping debug logs containing potentially sensitive information from being streamed to them.
 
-Here is how you can set the logging level using the `RAILS_LOG_LEVEL` environment variable:
-{% include snippetcut_example path="config/environments/production.rb" syntax="ruby" snippet="log_level" examples=page.examples %}
+Here is how you can set the logging level using the `{% include 200_real_apps/020_logging/{{ page.framework_id }}/036_fr_def_log_var.md.liquid %}` environment variable:
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/037_logs_via_variable.md.liquid %}
 
-If the environment variable is omitted, the `info` level is used by default.
+If the environment variable is omitted, the `{% include 200_real_apps/020_logging/{{ page.framework_id }}/035_fr_loglevel.md.liquid %}` level is used by default.
 
-## Log filtering
-
-Let's enable log filtering to filter out secrets from the log file:
-{% include snippetcut_example path="config/initializers/filter_parameter_logging.rb" syntax="ruby" examples=page.examples %}
-
-> _Keep in mind that you need to update this list after adding new secrets._
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/040_filtering_logs.md.liquid %}
 
 ## Displaying logs in werf-based deploys
 
