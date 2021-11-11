@@ -70,51 +70,13 @@ A list of all available annotations can be found [here]({{ site.url }}/documenta
 
 Let's deploy our application:
 ```shell
-werf converge --repo <Docker Hub username>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 You should see the following output:
-```shell
-...
-┌ ⛵ image app
-│ ┌ Building stage app/dockerfile
-│ │ app/dockerfile  Sending build context to Docker daemon  30.72kB
-│ │ app/dockerfile  Step 1/13 : FROM ruby:2.7
-│ │ app/dockerfile   ---> 1faa5f2f8ca3
-...
-│ │ app/dockerfile  Step 13/13 : LABEL werf-version=v1.2.11+fix10
-│ │ app/dockerfile   ---> Running in db6e76c3f427
-│ │ app/dockerfile  Removing intermediate container db6e76c3f427
-│ │ app/dockerfile   ---> d7f69fbfdedb
-│ │ app/dockerfile  Successfully built d7f69fbfdedb
-│ │ app/dockerfile  Successfully tagged eb50cb50-1191-4d0b-8bf2-a4d5bba18ecf:latest
-│ ├ Info
-│ │      name: .../werf-guide-app:...
-│ │        id: d7f69fbfdedb
-│ │   created: 2021-07-23 18:00:19 +0300 MSK
-│ │      size: 327.3 MiB
-│ └ Building stage app/dockerfile (12.72 seconds)
-└ ⛵ image app (17.81 seconds)
 
-┌ Waiting for release resources to become ready
-│ ┌ Status progress
-│ │ DEPLOYMENT      REPLICAS  AVAILABLE  UP-TO-DATE
-│ │ werf-guide-app  1/1       1          1
-│ │ │   POD                         READY  RESTARTS  STATUS
-│ │ ├── guide-app-5f97776488-vwqfg  1/1    0         Terminating
-│ │ └── guide-app-fcf7c4ff5-wvb62   1/1    0         Running
-│ └ Status progress
-└ Waiting for release resources to become ready (4.89 seconds)
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/045_expected_result.md.liquid %}
 
-Release "werf-guide-app" has been upgraded. Happy Helming!
-NAME: werf-guide-app
-LAST DEPLOYED: Fri Jul 23 18:00:34 2021
-NAMESPACE: werf-guide-app
-STATUS: deployed
-REVISION: 14
-TEST SUITE: None
-Running time 26.67 seconds
-```
 
 Make several requests in order to generate some logging data:
 ```shell
@@ -123,28 +85,11 @@ curl http://werf-guide-app/not_found  # no response; returns 404 Not Found
 ```
 
 While our requests are being made, we won't see any codes returned by the server. However, we can find them in the logs — let's take a look at them:
-```shell
-kubectl logs deploy/werf-guide-app
-```
+
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/050_checking_logs.md.liquid %}
 
 You should see the following output:
-```shell
-=> Booting Puma
-=> Rails 6.1.4 application starting in production
-=> Run `bin/rails server --help` for more startup options
-Puma starting in single mode...
-* Puma version: 5.3.2 (ruby 2.7.4-p191) ("Sweetnighter")
-*  Min threads: 5
-*  Max threads: 5
-*  Environment: production
-*          PID: 1
-* Listening on http://0.0.0.0:3000
-Use Ctrl-C to stop
-{"type":"INFO","time":"2021-07-23T15:11:36+00:00","message":"Started GET \"/ping\" for 192.168.49.1 at 2021-07-23 15:11:36 +0000"}
-{"type":"INFO","time":"2021-07-23T15:11:36+00:00","message":"Processing by ApplicationController#ping as */*"}
-{"type":"INFO","time":"2021-07-23T15:11:36+00:00","message":"Completed 200 OK in 0ms (Views: 0.1ms | Allocations: 135)"}
-{"type":"INFO","time":"2021-07-23T15:11:30+00:00","message":"Started GET \"/not_found\" for 192.168.49.1 at 2021-07-23 15:11:30 +0000"}
-{"type":"FATAL","time":"2021-07-23T15:11:30+00:00","message":"  \nActionController::RoutingError (No route matches [GET] \"/not_found\"):\n  "}
-```
+
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/055_second_expected_result.md.liquid %}
 
 Note that application logs are now rendered in JSON format, and most log processing systems can easily parse them. At the same time, Rails and Puma logs are streamed in plain text just like before. The main advantage of this approach is that log processing systems will no longer try to parse application logs and Rails/Puma logs as if they have the same format. JSON logs will be stored separately, letting you perform searching/filtering based on the selected fields.
