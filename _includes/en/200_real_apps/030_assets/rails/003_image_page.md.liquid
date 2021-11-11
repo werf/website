@@ -1,4 +1,4 @@
-Сейчас наше приложение представляет собой простой API без адекватных средств управления статичными файлами и frontend-кодом. Чтобы сделать из этого API простое веб-приложение, мы сгенерировали скелет нового Rails-приложения, но без ранее использованных флагов `--api` и `--skip-javascript`:
+Currently, our application provides a basic API with no means to manage static files and frontend code. To turn this API into a simple web application, we have generated a skeleton of the new Rails application (omitting the `--api` and `--skip-javascript` flags we used before):
 ```shell
 rails new \
   --skip-action-cable --skip-action-mailbox --skip-action-mailer --skip-action-text \
@@ -8,30 +8,28 @@ rails new \
   --skip-test --skip-system-test .
 ```
 
-> **ОБРАТИТЕ ВНИМАНИЕ!** Эту команду и нижеследующие не нужно выполнять, здесь мы просто рассказываем, как получили приложение, которое используется в примере. К выполнению предназначена глава "Проверка".
-
-Из этого скелета мы позаимствовали всё, что связано с управлением JS-кодом и статическими файлами. Основные изменения, сделанные в нашем приложении:
-1. Добавление `webpacker` в [Gemfile]({{ page.base_url | append: page.examples | append: "/Gemfile" }}).
-1. Создание стандартных конфигурационных файлов Webpacker:
+This skeleton includes all the functionality we need for managing JS code and static files. The following changes have been made to our application:
+1. Adding `webpacker` to [Gemfile]({{ page.base_url | append: page.examples | append: "/Gemfile" }}).
+1. Generating basic Webpacker configuration files:
   * [config/webpacker.yml]({{ page.base_url | append: page.examples | append: "/config/webpacker.yml" }})
   * [config/webpack/environment.js]({{ page.base_url | append: page.examples | append: "/config/webpack/environment.js" }})
   * [config/webpack/production.js]({{ page.base_url | append: page.examples | append: "/config/webpack/production.js" }})
-1. Создание набора директорий для размещения исходных статических файлов:
+1. Creating a set of directories to host the source static files:
   * [app/javascript/styles]({{ page.base_url | append: page.examples | append: "/app/javascript/styles" }})
   * [app/javascript/src]({{ page.base_url | append: page.examples | append: "/app/javascript/src" }})
   * [app/javascript/images]({{ page.base_url | append: page.examples | append: "/app/javascript/images" }})
 
-Теперь добавим шаблон HTML-страницы, которая будет доступна по адресу `/image` и отображать кнопку _Get image_:
+Now let's add an HTML page template (available at `/image`) with the _Get image_ button:
 {% include snippetcut_example path="app/views/layouts/image.html.erb" syntax="erb" examples=page.examples %}
 
-При нажатии на кнопку _Get image_ должен выполняться Ajax-запрос, с помощью которого мы получим и отобразим [SVG-картинку]({{ page.base_url | append: page.examples | append: "/app/javascript/images/werf-logo.svg" }}):
+Clicking the _Get image_ button must result in an Ajax request that fetches and displays an [SVG image]({{ page.base_url | append: page.examples | append: "/app/javascript/images/werf-logo.svg" }}):
 {% include snippetcut_example path="app/javascript/src/image.js" syntax="js" examples=page.examples %}
 
-Также на странице будет использоваться CSS-файл [app/javascript/styles/site.css]({{ page.base_url | append: page.examples | append: "/app/javascript/styles/site.css" }}).
+Our page will also use the [app/javascript/styles/site.css]({{ page.base_url | append: page.examples | append: "/app/javascript/styles/site.css" }}) CSS file.
 
-JS-файл, CSS-файл и SVG-картинка будут собраны с Webpack и доступны по адресу `/packs/...`:
+JS and CSS files as well as an SVG image will be bundled with Webpack and placed to `/packs/...`:
 {% include snippetcut_example path="app/javascript/packs/application.js" syntax="js" examples=page.examples %}
 
-Обновим контроллер и маршруты, добавив в них новый endpoint `/image`, обрабатывающий созданный выше HTML-шаблон:
+Let's update the controller and routes by adding a new `/image` endpoint that takes care of the HTML template created above:
 {% include snippetcut_example path="app/controllers/application_controller.rb" syntax="rb" examples=page.examples %}
 {% include snippetcut_example path="config/routes.rb" syntax="rb" examples=page.examples %}

@@ -1,42 +1,9 @@
 ## Adding an `/image` page to the application
 
-Let's add a new `/image` endpoint to our application. It will return a page with a set of static files. We will use Webpacker (instead of Sprockets) to bundle all JS, CSS, and media files.
+Let's add a new `/image` endpoint to our application. It will return a page with a set of static files. We will use {% include 200_real_apps/030_assets/{{ page.framework_id }}/001_js_css_builder.md.liquid %} to bundle all JS, CSS, and media files.
 
-Currently, our application provides a basic API with no means to manage static files and frontend code. To turn this API into a simple web application, we have generated a skeleton of the new Rails application (omitting the `--api` and `--skip-javascript` flags we used before):
-```shell
-rails new \
-  --skip-action-cable --skip-action-mailbox --skip-action-mailer --skip-action-text \
-  --skip-active-job --skip-active-record --skip-active-storage \
-  --skip-jbuilder --skip-turbolinks \
-  --skip-keeps --skip-listen --skip-bootsnap --skip-spring --skip-sprockets \
-  --skip-test --skip-system-test .
-```
-
-This skeleton includes all the functionality we need for managing JS code and static files. The following changes have been made to our application:
-1. Adding `webpacker` to [Gemfile]({{ page.base_url | append: page.examples | append: "/Gemfile" }}).
-1. Generating basic Webpacker configuration files:
-  * [config/webpacker.yml]({{ page.base_url | append: page.examples | append: "/config/webpacker.yml" }})
-  * [config/webpack/environment.js]({{ page.base_url | append: page.examples | append: "/config/webpack/environment.js" }})
-  * [config/webpack/production.js]({{ page.base_url | append: page.examples | append: "/config/webpack/production.js" }})
-1. Creating a set of directories to host the source static files:
-  * [app/javascript/styles]({{ page.base_url | append: page.examples | append: "/app/javascript/styles" }})
-  * [app/javascript/src]({{ page.base_url | append: page.examples | append: "/app/javascript/src" }})
-  * [app/javascript/images]({{ page.base_url | append: page.examples | append: "/app/javascript/images" }})
-
-Now let's add an HTML page template (available at `/image`) with the _Get image_ button:
-{% include snippetcut_example path="app/views/layouts/image.html.erb" syntax="erb" examples=page.examples %}
-
-Clicking the _Get image_ button must result in an Ajax request that fetches and displays an [SVG image]({{ page.base_url | append: page.examples | append: "/app/javascript/images/werf-logo.svg" }}):
-{% include snippetcut_example path="app/javascript/src/image.js" syntax="js" examples=page.examples %}
-
-Our page will also use the [app/javascript/styles/site.css]({{ page.base_url | append: page.examples | append: "/app/javascript/styles/site.css" }}) CSS file.
-
-JS and CSS files as well as an SVG image will be bundled with Webpack and placed to `/packs/...`:
-{% include snippetcut_example path="app/javascript/packs/application.js" syntax="js" examples=page.examples %}
-
-Let's update the controller and routes by adding a new `/image` endpoint that takes care of the HTML template created above:
-{% include snippetcut_example path="app/controllers/application_controller.rb" syntax="rb" examples=page.examples %}
-{% include snippetcut_example path="config/routes.rb" syntax="rb" examples=page.examples %}
+{% comment %} Adding the `/image' page to the application {% endcomment %}
+{% include 200_real_apps/030_assets/{{ page.framework_id }}/003_image_page.md.liquid %}
 
 The application now has a new endpoint called `/image` in addition to the `/ping` endpoint we made in previous chapters. This new endpoint displays a page that uses different types of static files.
 
