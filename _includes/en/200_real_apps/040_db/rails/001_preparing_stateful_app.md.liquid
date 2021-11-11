@@ -1,6 +1,6 @@
-включить Active Record и подготовить приложение к работе с MySQL, которую мы будем использовать для хранения состояния.
+to enable Active Record and configure the application to work with MySQL (we will use the database to store the application state).
 
-Мы перенесли конфигурацию для Active Record и MySQL из скелета нового Rails-приложения, сгенерированного следующей командой (в команде добавлено `--database mysql` и убрано `--skip-active-record`):
+To get the Active Record and MySQL configuration, our skeleton Rails application was now generated using the following command (note that the `--database mysql` flag was added to the arguments while `--skip-active-record` was omitted):
 ```shell
 rails new --database mysql \
   --skip-action-cable --skip-action-mailbox --skip-action-mailer --skip-action-text \

@@ -1,21 +1,12 @@
 ## Making our application stateful
 
-At this point, our application does not use a database and does not store any data (i.e., it is stateless). To make it stateful, we need to enable Active Record and configure the application to work with MySQL (we will use the database to store the application state).
+At this point, our application does not use a database and does not store any data (i.e., it is stateless). To make it stateful, we need {% include 200_real_apps/040_db/{{ page.framework_id }}/001_preparing_stateful_app.md.liquid %}
 
-To get the Active Record and MySQL configuration, our skeleton Rails application was now generated using the following command (note that the `--database mysql` flag was added to the arguments while `--skip-active-record` was omitted):
-```shell
-rails new --database mysql \
-  --skip-action-cable --skip-action-mailbox --skip-action-mailer --skip-action-text \
-  --skip-active-job --skip-active-storage \
-  --skip-javascript --skip-jbuilder --skip-turbolinks \
-  --skip-keeps --skip-listen --skip-bootsnap --skip-spring --skip-sprockets \
-  --skip-test --skip-system-test .
-```
+> **Please Note!** The commands in the current section are for illustrative purposes only. They show how a basic application was generated. Only the commands in the "Checking whether the application is running" section are intended to be executed.
 
 The following changes were made to our application:
-1. Adding `mysql2` to [Gemfile]({{ page.base_url | append: page.examples | append: "/Gemfile" }}).
-1. Enabling Active Record in [config/application.rb]({{ page.base_url | append: page.examples | append: "/config/application.rb" }}).
-1. Generating a [config/database.yml]({{ page.base_url | append: page.examples | append: "/config/database.yml" }})  configuration file..
+
+{% include 200_real_apps/040_db/{{ page.framework_id }}/005_major_changes.md.liquid %}
 
 ## Adding `/remember` and `/say` endpoints to the application
 
