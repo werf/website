@@ -29,11 +29,11 @@ New endpoints, `/remember` and `/say`, are ready.
 ## Deploying a MySQL database and connecting to it
 
 In real life, a database can be a part of the Kubernetes infrastructure or run outside of it. Outside of Kubernetes, you can deploy and maintain a database yourself or use a managed solution like Amazon RDS. For illustrative purposes, let's deploy a MySQL database inside the Kubernetes cluster using the following basic StatefulSet:
-{% include snippetcut_example path=".helm/templates/database.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/040_db/{{ page.framework_id }}/017_stateful_set.md.liquid %}
 >_Note that you can also use a database deployed differently. In this case, you will not need the above StatefulSet, while all further steps remain unchanged._
 
 Now let's configure our application to use the new database:
-{% include snippetcut_example path="config/database.yml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/040_db/{{ page.framework_id }}/020_setup_db_work.md.liquid %}
 
 Great, the database and the application are ready to be deployed.
 
