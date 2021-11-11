@@ -13,18 +13,16 @@ The following changes were made to our application:
 Let's add two new endpoints to our application. The `/remember` endpoint will store the data to the database while the `/say` endpoint will retrieve the data from it.
 
 Below are our listings for a new controller and model:
-{% include snippetcut_example path="app/controllers/talker_controller.rb" syntax="rb" examples=page.examples %}
-{% include snippetcut_example path="app/models/talker.rb" syntax="rb" examples=page.examples %}
+
+{% include 200_real_apps/040_db/{{ page.framework_id }}/010_new_controllers.md.liquid %}
 
 Let's add new paths to the route list:
-{% include snippetcut_example path="config/routes.rb" syntax="rb" examples=page.examples %}
+
+{% include 200_real_apps/040_db/{{ page.framework_id }}/013_list_of_routes.md.liquid %}
 
 Now it's time to define two basic migrations:
-{% include snippetcut_example path="db/migrate/20210817162438_create_talkers.rb" syntax="rb" examples=page.examples %}
-{% include snippetcut_example path="db/migrate/20210817164348_add_name_to_talkers.rb" syntax="rb" examples=page.examples %}
 
-... and `schema.rb` generated based on those migrations:
-{% include snippetcut_example path="db/schema.rb" syntax="rb" examples=page.examples %}
+{% include 200_real_apps/040_db/{{ page.framework_id }}/015_two_simple_migrations.md.liquid %}
 
 New endpoints, `/remember` and `/say`, are ready.
 
