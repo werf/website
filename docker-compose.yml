@@ -21,7 +21,7 @@ services:
       jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml --baseurl /guides --destination /tmp/_site -P 80"
     volumes:
       - "./:/srv/jekyll-data/"
-    restart: always
+    restart: unless-stopped
     # depends_on:
     #   - en
 
