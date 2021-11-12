@@ -1,2 +1,2 @@
-Теперь добавим в Deployment приложения *init-контейнер*, который будет дожидаться всего сразу: и доступности базы данных, и выполнения инициализации БД, и выполнения миграций:
+Now let's add an *init container* to the application's Deployment. It will wait until the database is ready/initialized and the migrations are completed:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}

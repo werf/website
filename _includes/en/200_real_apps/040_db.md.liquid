@@ -33,6 +33,7 @@ In real life, a database can be a part of the Kubernetes infrastructure or run o
 >_Note that you can also use a database deployed differently. In this case, you will not need the above StatefulSet, while all further steps remain unchanged._
 
 Now let's configure our application to use the new database:
+
 {% include 200_real_apps/040_db/{{ page.framework_id }}/020_setup_db_work.md.liquid %}
 
 Great, the database and the application are ready to be deployed.
@@ -51,7 +52,8 @@ This way, all K8s resources are created at the same time but being run in the fo
 1. The applications start.
 
 Let's now add a Job to perform database migrations/initializations:
-{% include snippetcut_example path=".helm/templates/job-db-setup-and-migrate.yaml" syntax="yaml" examples=page.examples %}
+
+{% include 200_real_apps/040_db/{{ page.framework_id }}/025_migration_job.md.liquid %}
 
 {% offtopic title="Why wait for ten consecutive successful DB availability checks?" %}
 Running `mysqladmin ping`, say, once may result in an incorrect conclusion that the database is ready. This is because the check has been completed before MySQL's StatefulSet restart during deployment. In such cases, the database may be unavailable during initialization/migrations.
@@ -61,8 +63,7 @@ In addition, in database images, the main database process may restart several t
 You can change the number of successful checks in a row; 10 is used as an example.
 {% endofftopic %}
 
-Now let's add an *init container* to the application's Deployment. It will wait until the database is ready/initialized and the migrations are completed:
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/040_db/{{ page.framework_id }}/027_init_container.md.liquid %}
 
 ## Testing the application/database
 
