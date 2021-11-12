@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/image', imageRouter);
 app.use('/ping', pingRouter);
-app.use('/talkers', talkersRouter(db));
+app.use('/', talkersRouter(db));
 
 // [<en>] Error handler helps to avoid raw stack traces on logs and to use the logger of choise.
 // [<ru>] Обработчик ошибок поможет избежать «сырых» трейсов в логе и использовать выбранный логгер.
