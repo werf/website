@@ -10,14 +10,17 @@ You can learn more about these resource types in the official Kubernetes documen
 
 ## Storing application's config files in the ConfigMap
 
-Currently, the [nginx.conf]({{ page.base_url | append: page.examples_initial | append: "/.werf/nginx.conf" }}) config file gets copied into the image during the build. As a result, the image is rebuilt, and Pods are restarted each time the file is modified. In addition, there is no easy way to benefit from templating in our `nginx.conf`.
+Currently, the [nginx.conf]({% include 200_real_apps/080_configuration/{{ page.framework_id }}/001_nginx_config.md.liquid %}) config file gets copied into the image during the build. As a result, the image is rebuilt, and Pods are restarted each time the file is modified. In addition, there is no easy way to benefit from templating in our `nginx.conf`.
 
 You can get around these obstacles by moving `.werf/nginx.conf` into a dedicated ConfigMap. This way, you can mount `nginx.conf` when deploying instead of adding the file during the build:
-{% include snippetcut_example path=".helm/templates/configmap-nginx.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/005_nginx_config_map.md.liquid %}
+
 Now, let's add our ConfigMap to the Deployment — we will mount it as a file in the `frontend` container:
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="nginx_conf" examples=page.examples %}
+
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/010_config_map_deployment.md.liquid %}
+
 We also need to delete the no longer needed `.werf/nginx.conf` as well as a command to copy this file to an image during the build. The Dockerfile for the `frontend` image will look as follows:
-{% include snippetcut_example path="Dockerfile" syntax="dockerfile" snippet="frontend" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/015_new_dockerfile.md.liquid %}
 
 ## Handling ConfigMap and Secret changes
 
