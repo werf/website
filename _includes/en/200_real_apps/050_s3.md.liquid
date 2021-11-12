@@ -18,17 +18,15 @@ Below, we will show you how to store files in S3-compatible storage instead of a
 
 Let's add two new endpoints, `/upload` (to upload a file to the S3-compatible object storage) and `/download` (to download a file from the S3-compatible object storage), to see how uploading and downloading works.
 
-Let's add a new controller and model:
-{% include snippetcut_example path="app/controllers/s3_file_controller.rb" syntax="rb" examples=page.examples %}
-{% include snippetcut_example path="app/models/s3_file.rb" syntax="rb" examples=page.examples %}
+Let's add a new controller {% include 200_real_apps/050_s3/{{ page.framework_id }}/005_add_model.md.liquid %}:
+
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
 
 Now it is time to add new paths to the routes:
-{% include snippetcut_example path="config/routes.rb" syntax="rb" snippet="s3" examples=page.examples %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
 
-Don’t forget about the migration to create tables:
-{% include snippetcut_example path="db/migrate/20210830171006_create_s3_files.rb" syntax="rb" examples=page.examples %}
-
-Now let’s generate and save new [db/schema.rb]({{ page.base_url | append: page.examples | append: "/db/schema.rb" }}).
+{% comment %} Adding new migrations if they are needed {% endcomment %}
+{% include 200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
 
 New endpoints, `/upload` and `/download`, have been added. Next, we need to configure them to work with the storage.
 
