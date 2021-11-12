@@ -9,6 +9,7 @@ const indexRouter = require('./routes/index');
 const imageRouter = require('./routes/image');
 const pingRouter = require('./routes/ping');
 
+// [<snippet webpack-dev>]
 const app = express();
 
 if (process.env.NODE_ENV != 'production') {
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV != 'production') {
     })
   );
 }
+// [<endsnippet webpack-dev>]
 
 app.use(
   pinoHttp({

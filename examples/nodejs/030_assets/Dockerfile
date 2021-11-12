@@ -24,15 +24,20 @@ WORKDIR /app
 
 # [<en>] Copy the files needed to install the application dependencies into the image.
 # [<ru>] Копируем в образ файлы, нужные для установки зависимостей приложения.
-COPY package.json package-lock.json app.js ./
+COPY package.json package-lock.json ./
+
+# [<en>] Install the application dependencies.
+# [<ru>] Устанавливаем зависимости приложения.
+RUN npm ci --production
+
+# [<en>] The app files.
+# [<ru>] Файлы самого приложения.
+COPY app.js ./
 RUN mkdir dist
 COPY --from=builder /app/dist/*.html ./dist/
 COPY --from=builder /app/bin         ./bin/
 COPY --from=builder /app/routes      ./routes/
 
-# [<en>] Install the application dependencies.
-# [<ru>] Устанавливаем зависимости приложения.
-RUN npm ci --production
 
 #############################################################################
 

@@ -31,7 +31,7 @@ data:
 
         # [<en>] For the /static path, assets are delivered directly from the NGINX container file system.
         # [<ru>] По пути /static отдадим ассеты напрямую из файловой системы NGINX-контейнера.
-        location /static/ {
+        location /static {
           # [<en>] Due to the nature of the Webpacker's bundling mechanism, the client can keep an asset cache
           # [<en>] for as long as necessary without worrying about invalidation.
           # [<ru>] В силу особенностей механизма сборки ассетов с Webpacker клиент может хранить кэш ассетов сколь
