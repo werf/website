@@ -4,7 +4,7 @@
 
 Убедимся, что приложение развернуто (либо развернём его, если оно ещё не развернуто) выполнив команду:
 ```shell
-werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 Ожидаемый результат:
@@ -61,7 +61,7 @@ Labels:                 app.kubernetes.io/managed-by=Helm
 Annotations:            deployment.kubernetes.io/revision: 1
                         meta.helm.sh/release-name: werf-guide-app
                         meta.helm.sh/release-namespace: werf-guide-app
-                        project.werf.io/env: 
+                        project.werf.io/env:
                         project.werf.io/name: werf-guide-app
                         werf.io/version: v1.2.11+fix10
 Selector:               app=werf-guide-app
@@ -154,7 +154,7 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 
 Мы произвели масштабирование вручную. Теперь снова запустим `werf converge`:
 ```shell
-werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 И снова посмотрим, сколько реплик запущено:
@@ -181,7 +181,7 @@ werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
 
 Запустим деплой:
 ```shell
-werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 Проверим сколько реплик запущено теперь:
@@ -210,7 +210,7 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 
 Запустим деплой:
 ```shell
-werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 ## Меняем приложение
@@ -232,7 +232,7 @@ curl "http://werf-guide-app/ping"
 
 Запустим деплой:
 ```shell
-werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 Проверим результат:
