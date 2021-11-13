@@ -30,8 +30,8 @@ COPY package.json package-lock.json ./
 # [<ru>] Устанавливаем зависимости приложения.
 RUN npm ci --production
 
-# [<en>] The app files.
-# [<ru>] Файлы самого приложения.
+# [<en>] Copy app files.
+# [<ru>] Копируем файлы приложения.
 COPY app.js ./
 RUN mkdir dist
 COPY --from=builder /app/dist/*.html ./dist/
