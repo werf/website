@@ -3,7 +3,7 @@
 
 ```shell
 $ npm uninstall morgan
-$ npm install pino express-pino-logger
+$ npm install pino pino-http
 ```
 
 Подключим логгер к серверу
@@ -12,6 +12,7 @@ $ npm install pino express-pino-logger
 
 {% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-usage" examples=page.examples %}
 
-Библиотека `express-pino-logger` добавила доступ к `pino` через объект ответа: `res.log`. Так логгер можно использовать на более глубоком уровне.
+Библиотека `pino-http` добавила доступ к `pino` через объект ответа: `res.log`. Так логгер можно
+инициализировать один раз и использовать как зависимость в другом коде.
 
 {% include snippetcut_example path="routes/ping.js" syntax="javascript" snippet="logger-usage" examples=page.examples %}
