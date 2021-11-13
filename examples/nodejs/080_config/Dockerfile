@@ -28,7 +28,7 @@ RUN apk add -U mysql-client
 
 # [<en>] Copy the files needed to install the application dependencies into the image.
 # [<ru>] Копируем в образ файлы, нужные для установки зависимостей приложения.
-COPY package.json package-lock.json   ./
+COPY package.json package-lock.json ./
 
 # [<en>] Install the application dependencies.
 # [<ru>] Устанавливаем зависимости приложения.
@@ -36,13 +36,15 @@ RUN npm ci --production
 
 # [<en>] Copy app files.
 # [<ru>] Копируем файлы приложения.
-COPY --from=builder /app/app.js /app/.sequelizerc ./
-COPY --from=builder /app/bin     ./bin/
-COPY --from=builder /app/routes  ./routes/
-COPY --from=builder /app/config  ./config/
-COPY --from=builder /app/db      ./db/
 RUN mkdir dist
-COPY --from=builder /app/dist/*.html ./dist/
+COPY --from=builder /app/dist/*.html   ./dist/
+COPY --from=builder /app/app.js        ./
+COPY --from=builder /app/bin           ./bin/
+COPY --from=builder /app/routes        ./routes/
+COPY --from=builder /app/config        ./config/
+COPY --from=builder /app/db            ./db/
+COPY --from=builder /app/.sequelizerc  ./
+
 
 #############################################################################
 
@@ -51,6 +53,5 @@ COPY --from=builder /app/dist/*.html ./dist/
 FROM nginx:stable-alpine as frontend
 WORKDIR /www
 
-# [<en>] Copy the pre-built assets from the above image.
-# [<ru>] Копируем собранные ассеты из предыдушего сборочного образа.
+# Copy the pre-built assets from the above image.
 COPY --from=builder /app/dist /www/static
