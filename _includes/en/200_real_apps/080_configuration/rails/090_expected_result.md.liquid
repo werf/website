@@ -1,0 +1,53 @@
+```
+...
+┌ ⛵ image backend
+│ Use cache image for backend/dockerfile
+│      name: .../werf-guide-app:8df39a540816b5851314934d932f0152a8fa409369a58dbfeccce4be-1632852281567
+│        id: 0825950bfd70
+│   created: 2021-09-28 21:04:41 +0300 MSK
+│      size: 366.3 MiB
+└ ⛵ image backend (7.19 seconds)
+
+┌ ⛵ image frontend
+│ Use cache image for frontend/dockerfile
+│      name: .../werf-guide-app:18b3a25a107798890200664b7de037c998bef8ed9d9bbe4d66efaf53-1632852281351
+│        id: 7d029b84655e
+│   created: 2021-09-28 21:04:41 +0300 MSK
+│      size: 9.5 MiB
+└ ⛵ image frontend (7.60 seconds)
+
+┌ Waiting for release resources to become ready
+...
+│ ┌ Status progress
+│ │ DEPLOYMENT      REPLICAS  AVAILABLE  UP-TO-DATE
+│ │ werf-guide-app  1/1       1          1
+│ │ │    POD                         READY  RESTARTS  STATUS
+│ │ ├──  guide-app-85bd8c68f5-w9nff  2/2    0         Running
+│ │ └──  guide-app-865b6d68bc-bkt9l  2/2    0         Terminating
+│ │ STATEFULSET  REPLICAS  READY  UP-TO-DATE
+│ │ minio        1/1       1      1
+│ │ │    POD  READY  RESTARTS  STATUS
+│ │ └──  0    1/1    0         Running
+│ │ mysql        1/1       1      1
+│ │ │    POD  READY  RESTARTS  STATUS
+│ │ └──  0    1/1    0         Running
+│ │ JOB                        ACTIVE  DURATION  SUCCEEDED/FAILED
+│ │ setup-and-migrate-db-rev2  0       24s       1/0
+│ │ │    POD                        READY  RESTARTS  STATUS
+│ │ └──  and-migrate-db-rev2-lhnq7  0/1    0         Completed
+│ │ setup-minio-rev2           0       33s       0->1/0
+│ │ │    POD               READY  RESTARTS  STATUS
+│ │ └──  minio-rev2-wr7tw  0/1    0         Running  ->
+│ │ Completed
+│ └ Status progress
+└ Waiting for release resources to become ready (33.05 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Tue Sep 28 21:26:48 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+Running time 43.88 seconds
+```
