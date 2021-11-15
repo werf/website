@@ -1,0 +1,13 @@
+to enable Active Record and configure the application to work with MySQL (we will use the database to store the application state).
+
+To get the Active Record and MySQL configuration, our skeleton Rails application was now generated using the following command (note that the `--database mysql` flag was added to the arguments while `--skip-active-record` was omitted):
+```shell
+rails new --database mysql \
+  --skip-action-cable --skip-action-mailbox --skip-action-mailer --skip-action-text \
+  --skip-active-job --skip-active-storage \
+  --skip-javascript --skip-jbuilder --skip-turbolinks \
+  --skip-keeps --skip-listen --skip-bootsnap --skip-spring --skip-sprockets \
+  --skip-test --skip-system-test .
+```
+
+> **Please Note!** The commands in the current section are for illustrative purposes only. They show how a basic application was generated. Only the commands in the "Testing the application/database" section are intended to be executed.
