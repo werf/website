@@ -50,19 +50,20 @@ Frequently used parameters can be put into `.helm/values.yaml`:
 This way, you can adjust the parameters to the specific environment (we will discuss this in more detail in the following tutorial chapters).
 
 Probably, the most useful feature is the ability to place repetitive configuration snippets into `.helm/values.yaml`. For example, you can store in this file environment variables used in multiple places:
-{% include snippetcut_example path=".helm/values.yaml" syntax="yaml" snippet="app" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/035_values_yaml_env.md.liquid %}
+
 The environment variables from `.Values.app.envs` can be inserted either into the container manifest as `env` values (as we did before), or you can put them into the ConfigMap and load it into the container via `envFrom`.
 
 The first option is easier to do, but the ConfigMap option is more convenient if you have a large number of shared environment variables. This way, you will avoid duplicating them between controllers. Your ConfigMap may look like this:
-{% include snippetcut_example path=".helm/templates/configmap-app-envs.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/040_configmap_envs.md.liquid %}
 
 Now you can use `envFrom` in the Deployment to define ConfigMap's data as container environment variables:
 
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="backend_conf" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/045_configmap_deployment.md.liquid %}
 
 Don't forget to add checksum-containing annotations to trigger Pod re-deployment in response to ConfigMap changes:
 
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="configmap_app_envs_checksum" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/050_annotation_hashsum.md.liquid %}
 
 Similarly, you can load this ConfigMap into other resources that use the same environment variables.
 
