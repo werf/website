@@ -70,12 +70,13 @@ Similarly, you can load this ConfigMap into other resources that use the same en
 ## Handling confidential data using Values and Secrets
 
 To start working with secrets, you first need to generate a symmetric encryption key. You can use the following command to do this: `werf helm secret generate-secret-key`. However, since we have already prepared/encrypted the secrets for you, the encryption key that will be used in this chapter is generated as well. This encryption key is stored in the repository in the `.werf_secret_key` file; werf uses it automatically.
+
 >_Caution! You MUST NOT store the key in the repository when working with real-life applications. We recommend keeping it in a safe place and passing via the `WERF_SECRET_KEY` environment variable. You can read more about using encryption keys in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#encryption-key)._
 
 The application configuration contains data that should not be stored in unencrypted form in the repository (e.g., the database login and password). Thus, we won't store the login and password in plain text in the configuration file (as we currently do):
-{% include snippetcut_example path="config/database.yml" syntax="yaml" examples=page.examples_initial %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/055_loginpas_storage.md.liquid %}
 Instead, we will store them encrypted in the `.helm/secret-values.yaml` file along with other confidential parameters:
-{% include snippetcut_example path=".helm/secret-values.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/060_secret_values.md.liquid %}
 
 Use the command below to decrypt the secrets stored in `.helm/secret-values.yaml`:
 ```bash
@@ -83,35 +84,17 @@ werf helm secret values decrypt .helm/secret-values.yaml
 ```
 
 You should see the following output:
-```yaml
-app:
-  secretEnvs:
-    S3_USERNAME: minioadmin
-    S3_PASSWORD: minioadmin
-    DB_USERNAME: root
-    DB_PASSWORD: password
-    SECRET_KEY_BASE: something
-mysql:
-  secretEnvs:
-    MYSQL_ROOT_PASSWORD: password
-minio:
-  secretEnvs:
-    MINIO_ROOT_USER: minioadmin
-    MINIO_ROOT_PASSWORD: minioadmin
-```
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/065_expected_result.md.liquid %}
 
 Now, you need to pass the secrets contained in `.helm/secret-values.yaml` back to the application config. To do this, let's first pass them to the Secret resource:
-{% include snippetcut_example path=".helm/templates/secret-app-envs.yaml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/070_secret_resource.md.liquid %}
 
 ... and then load this resource's data as a set of environment variables by mounting it in containers:
-{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="backend_secret" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/075_secret_mounting.md.liquid %}
 
-You have to make similar changes to the rest of the `.helm/templates` files (we won't delve into details here; you can take a look at their contents in the [repository]({{ page.base_url | append: page.examples | append: "/.helm/templates/" }}).)
+You have to make similar changes to the rest of the `.helm/templates` files (we won't delve into details here; you can take a look at their contents in the [repository]({% include 200_real_apps/080_configuration/{{ page.framework_id }}/080_repo_link.md.liquid %}).)
 
-After passing environment variables to the container, you have to substitute them in the application's configuration files:
-{% include snippetcut_example path="config/database.yml" syntax="yaml" examples=page.examples %}
-{% include snippetcut_example path="config/storage.yml" syntax="yaml" examples=page.examples %}
-{% include snippetcut_example path="config/secrets.yml" syntax="yaml" examples=page.examples %}
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/085_configs_including.md.liquid %}
 
 You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)], except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#secret-files).
 
@@ -125,59 +108,7 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 You should see the following output:
-```
-...
-┌ ⛵ image backend
-│ Use cache image for backend/dockerfile
-│      name: .../werf-guide-app:8df39a540816b5851314934d932f0152a8fa409369a58dbfeccce4be-1632852281567
-│        id: 0825950bfd70
-│   created: 2021-09-28 21:04:41 +0300 MSK
-│      size: 366.3 MiB
-└ ⛵ image backend (7.19 seconds)
-
-┌ ⛵ image frontend
-│ Use cache image for frontend/dockerfile
-│      name: .../werf-guide-app:18b3a25a107798890200664b7de037c998bef8ed9d9bbe4d66efaf53-1632852281351
-│        id: 7d029b84655e
-│   created: 2021-09-28 21:04:41 +0300 MSK
-│      size: 9.5 MiB
-└ ⛵ image frontend (7.60 seconds)
-
-┌ Waiting for release resources to become ready
-...
-│ ┌ Status progress
-│ │ DEPLOYMENT      REPLICAS  AVAILABLE  UP-TO-DATE
-│ │ werf-guide-app  1/1       1          1
-│ │ │    POD                         READY  RESTARTS  STATUS
-│ │ ├──  guide-app-85bd8c68f5-w9nff  2/2    0         Running
-│ │ └──  guide-app-865b6d68bc-bkt9l  2/2    0         Terminating
-│ │ STATEFULSET  REPLICAS  READY  UP-TO-DATE
-│ │ minio        1/1       1      1
-│ │ │    POD  READY  RESTARTS  STATUS
-│ │ └──  0    1/1    0         Running
-│ │ mysql        1/1       1      1
-│ │ │    POD  READY  RESTARTS  STATUS
-│ │ └──  0    1/1    0         Running
-│ │ JOB                        ACTIVE  DURATION  SUCCEEDED/FAILED
-│ │ setup-and-migrate-db-rev2  0       24s       1/0
-│ │ │    POD                        READY  RESTARTS  STATUS
-│ │ └──  and-migrate-db-rev2-lhnq7  0/1    0         Completed
-│ │ setup-minio-rev2           0       33s       0->1/0
-│ │ │    POD               READY  RESTARTS  STATUS
-│ │ └──  minio-rev2-wr7tw  0/1    0         Running  ->
-│ │ Completed
-│ └ Status progress
-└ Waiting for release resources to become ready (33.05 seconds)
-
-Release "werf-guide-app" has been upgraded. Happy Helming!
-NAME: werf-guide-app
-LAST DEPLOYED: Tue Sep 28 21:26:48 2021
-NAMESPACE: werf-guide-app
-STATUS: deployed
-REVISION: 2
-TEST SUITE: None
-Running time 43.88 seconds
-```
+{% include 200_real_apps/080_configuration/{{ page.framework_id }}/090_expected_result.md.liquid %}
 
 Check if the application is available:
 ```shell
