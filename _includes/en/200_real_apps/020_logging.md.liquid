@@ -2,7 +2,7 @@
 
 All applications deployed to a Kubernetes cluster must write logs to [stdout/stderr](https://en.wikipedia.org/wiki/Standard_streams). Sending logs to standard streams makes them accessible by Kubernetes and log collection systems. Such an approach keeps logs from being deleted when containers are recreated and prevents consuming all available storage on Kubernetes nodes if the output is sent to log files in containers.
 
-By default, {{ page.framework_name }} saves logs to a file instead of stdout/stderr. Set the appropriate environment variable (`{% include 200_real_apps/020_logging/{{ page.framework_id }}/005_log_var.md.liquid %}`) to enable redirecting logs (including errors) to {% include 200_real_apps/020_logging/{{ page.framework_id }}/010_fm_channel.md.liquid %}.
+{% include 200_real_apps/020_logging/{{ page.framework_id }}/005_default_channel.md.liquid %}
 
 {% include 200_real_apps/020_logging/{{ page.framework_id }}/015_direction_logs.md.liquid %}
 
