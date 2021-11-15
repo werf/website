@@ -1,4 +1,5 @@
 ---
+title: "Kubernetes + werf tutorial: learn K8s and deploy your app"
 layout: landing
 permalink: index.html
 ---
@@ -19,14 +20,13 @@ permalink: index.html
         <div class="landing__container">
             <div class="landing__section landing__section_first" data-sm-trigger="intro">
                 <h1 class="landing__h1">
-                    Deploy to&nbsp;Kubernetes<br>
+                    Delivering to&nbsp;Kubernetes<br>
                     quickly and&nbsp;effortlessly<br>
                     using&nbsp;<b>werf</b>
                 </h1>
                 <div class="landing__text">
-                    In this free tutorial, you will learn<br>
-                    how to&nbsp;deploy complex applications to&nbsp;Kubernetes<br>
-                    by implementing a&nbsp;CI/CD process using the werf Open Source utility.
+                    In this free tutorial, you will learn how to&nbsp;make your applications ready for Kubernetes
+                    and continuously deploy them by implementing CI/CD using Open Source tools.
                 </div>
             </div>
             <div class="landing__section" data-sm-trigger="plan">
@@ -34,11 +34,11 @@ permalink: index.html
                     What am I getting into?
                 </h1>
                 <div class="landing__text">
-                    <p>This tutorial provides reasonably detailed information that combines the <b>theory and practice</b> of development (Dev) and operation (Ops).</p>
-                    <p>Its contents are aimed at developers seeking to acquire basic DevOps skills in organizing the continuous delivery of applications to Kubernetes. The DevOps engineers who want to solve their tasks more efficiently will also benefit from this tutorial.</p>
-                    <p>We will gradually consider all the tasks related to&nbsp;developing services and implementing the CI/CD process: <b>building</b>, <b>deploying</b>, <b>working with dependencies and&nbsp;assets</b>, <b>working with databases and&nbsp;in-memory storage</b>, <b>using e-mail and&nbsp;file storage</b>, <b>implementing autotests</b>, and&nbsp;more.</p>
-                    <p>Each version of&nbsp;the&nbsp;tutorial takes into account the specifics of the programming language/framework and includes examples of the application source code and infrastructure (IaC).</p>
-                    <p><i>This tutorial is based on a&nbsp;plain "vanilla" Kubernetes cluster. However, you can easily adapt it for&nbsp;custom builds.</i></p>
+                    <p>This tutorial combines the <b>theory and practice</b> of development (Dev) and operation (Ops).</p>
+                    <p>Its contents are aimed at developers seeking to acquire basic DevOps skills in organizing the continuous delivery of applications to Kubernetes. The DevOps engineers who want to solve their tasks more efficiently will also benefit from it.</p>
+                    <p>We will gradually cover <b>Kubernetes basics</b>, <b>preparing your applications to run in Kubernetes</b> and all the tasks related to&nbsp;developing services and implementing the CI/CD process for them (building, deploying, working with dependencies and&nbsp;assets, working with&nbsp;databases and&nbsp;files, storing sensitive and non-sensitive application configurations) as&nbsp;well&nbsp;as the <b>best practices for&nbsp;deploying</b> in&nbsp;K8s.</p>
+                    <p>The guides take into&nbsp;account the&nbsp;specifics of&nbsp;programming languages/frameworks and include examples of the&nbsp;application source&nbsp;code and related infrastructure (IaC).</p>
+                    <p><i>This tutorial is based on&nbsp;a&nbsp;plain "vanilla" Kubernetes cluster. However, you can easily adapt it for&nbsp;custom platforms.</i></p>
                 </div>
             </div>
             <div class="landing__section" data-sm-trigger="todo">
@@ -47,23 +47,22 @@ permalink: index.html
                 </h1>
                 <div class="landing__text">
                     <p>Mastering the skills using a self-study guide is a difficult challenge. You have to find the time, work hard, and focus on the process.</p>
-                    <p>Those who have the strength to go all the way to the end will be able to:</p>
+                    <p>If you go all the way to the end you will be able to:</p>
                 </div>
                 <ul class="landing__list">
                     <li>
-                        Gain expertise and better market their skills to employers
+                        Gain expertise and better market your skills to employers
                         <span>(in the area that combines the development and operation and commonly referred to as DevOps)</span>
                     </li>
                     <li>
-                        Introduce Kubernetes to their company
-                        <span>(and get a discount on the Kubernetes cluster from Flant)</span>
+                        Introduce Kubernetes to your company
                     </li>
                     <li>
-                        Learn how to solve problems in their company more efficiently
+                        Learn how to solve problems in your company more efficiently
                     </li>
                 </ul>
                 <div class="landing__text">
-                    <p>This tutorial will help you focus on your needs, and the <a href="https://t.me/werf_io">werf user community</a> will make it easier to overcome any obstacles along the way.</p>
+                    <p>This tutorial will help you focus on your needs, and the growing <a href="https://t.me/werf_io">werf user community</a> will make it easier to overcome any obstacles along the way.</p>
                 </div>
             </div>
             <div class="landing__section" data-sm-trigger="select">
@@ -71,11 +70,15 @@ permalink: index.html
                     Dive in! <span>(werf 1.2)</span>
                 </h1>
 
+                <div class="landing__text">
+                  <p>Choose the framework that fits you best:</p>
+                </div>
+
                 {% include common/landing_tiles.html %}
             </div>
             <div class="landing__section">
                 <div class="landing__credits">
-                    Made with <span class="icon">love</span> by <a href="https://flant.ru/" target="_blank">Flant</a>
+                    Made with <span class="icon">love</span> by <a href="https://flant.com/" target="_blank">Flant</a>
                 </div>
             </div>
         </div>
