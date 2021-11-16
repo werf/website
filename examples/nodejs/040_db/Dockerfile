@@ -46,12 +46,15 @@ COPY --from=builder /app/dist/*.html ./dist/
 
 #############################################################################
 
-# Add an NGINX image with the pre-built assets.
+# [<en>] Add an NIGINX image with the pre-built assets.
+# [<ru>] NGINX-образ с собранными ранее ассетами.
 FROM nginx:stable-alpine as frontend
 WORKDIR /www
 
-# Copy the pre-built assets from the above image.
+# [<en>] Copy the pre-built assets from the above image.
+# [<ru>] Копируем собранные ассеты из предыдушего сборочного образа.
 COPY --from=builder /app/dist /www/static
 
-# Copy the NGINX configuration.
+# [<en>] Copy the NGINX configuration.
+# [<ru>] Копируем конфигурацию NGINX.
 COPY .werf/nginx.conf /etc/nginx/nginx.conf
