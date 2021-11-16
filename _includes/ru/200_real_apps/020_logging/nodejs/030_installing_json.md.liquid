@@ -1,3 +1,17 @@
+Для этого нужно использовать логгер, который подерживает вывод в JSON. Для примера возьмем `pino` и
+заодно удалим логгер, который используется по умолчанию.
+
+```shell
+$ npm uninstall morgan
+$ npm install pino express-pino-logger
 ```
-TODO (_includes/ru/200_real_apps/020_logging/nodejs/030_installing_json.md.liquid): активация логов в формате JSON.
-```
+
+Подключим логгер к серверу
+
+{% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-import" examples=page.examples %}
+
+{% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-usage" examples=page.examples %}
+
+Библиотека `express-pino-logger` добавила доступ к `pino` через объект ответа: `res.log`. Так логгер можно использовать на более глубоком уровне.
+
+{% include snippetcut_example path="routes/ping.js" syntax="javascript" snippet="logger-usage" examples=page.examples %}

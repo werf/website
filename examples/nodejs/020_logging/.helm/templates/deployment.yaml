@@ -17,12 +17,15 @@ spec:
       containers:
       - name: app
         image: {{ .Values.werf.image.app }}
-        command: ["npm", "start"]
+        # [<snippet command>]
+        command: ["node", "./bin/www"]
+        # [<endsnippet command>]
         ports:
         - containerPort: 3000
+        # [<snippet env>]
         env:
         - name: NODE_ENV
-          # value: testing
           value: production
         - name: LOG_LEVEL
           value: debug
+        # [<endsnippet env>]
