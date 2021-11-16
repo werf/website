@@ -32,9 +32,9 @@ entries:
         - title: Конфигурация и секреты
           url: "200_real_apps/080_config.html"    
     - title: Лучшие практики деплоя
-      url: "300_deployment_practices"
+      url: "300_deployment_practices.html"
     - title: Жизненный цикл
-      url: "300_deployment_practices/010_life_cycle"
+      url: "300_deployment_practices/010_life_cycle.html"
       sf:
         - title: Остановка процессов в контейнерах
           url: "300_deployment_practices/010_life_cycle/010_stopping_containers.html" 
