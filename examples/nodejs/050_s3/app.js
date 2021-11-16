@@ -8,7 +8,9 @@ const indexRouter = require('./routes/index');
 const imageRouter = require('./routes/image');
 const pingRouter = require('./routes/ping');
 const talkersRouter = require('./routes/talkers');
+// [<snippet files-routes-import>]
 const filesRouter = require('./routes/files');
+// [<endsnippet files-routes-import>]
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 const db = require('./db/models')((msg) => logger.debug(msg));
@@ -40,7 +42,9 @@ app.use('/', indexRouter);
 app.use('/image', imageRouter);
 app.use('/ping', pingRouter);
 app.use('/', talkersRouter(db));
+// [<snippet files-routes-add>]
 app.use('/', filesRouter(logger));
+// [<endsnippet files-routes-add>]
 
 // [<en>] Error handler helps to avoid raw stack traces on logs and to use the logger of choise.
 // [<ru>] Обработчик ошибок поможет избежать «сырых» трейсов в логе и использовать выбранный логгер.
