@@ -1,3 +1,4 @@
-```
-TODO (_includes/ru/200_real_apps/040_db/nodejs/020_setup_db_work.md.liquid): настройка приложения на работу с новой БД.
-```
+{% include snippetcut_example path="config/database.json" syntax="json" examples=page.examples %}
+
+Sequlize предполагает, что полкючения для всех окружений будут определены в одном файле. Пока что мы
+оставим данные для production-окружения хардкодом, но в будущих разделах это будет исправлено.
