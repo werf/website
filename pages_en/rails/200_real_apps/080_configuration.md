@@ -1,7 +1,7 @@
 ---
 title: Configuration and secrets
 permalink: rails/200_real_apps/080_config.html
-examples_initial: examples/rails/080_configuration
+examples_initial: examples/rails/050_s3
 examples: examples/rails/080_configuration
 base_url: https://github.com/werf/werf-guides/blob/master/
 description: |

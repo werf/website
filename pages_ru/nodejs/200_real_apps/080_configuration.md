@@ -1,7 +1,7 @@
 ---
 title: Конфигурация и секреты
 permalink: nodejs/200_real_apps/080_config.html
-examples_initial: examples/nodejs/080_configuration
+examples_initial: examples/nodejs/050_s3
 examples: examples/nodejs/080_configuration
 base_url: https://github.com/werf/werf-guides/blob/master/
 description: |
