@@ -1,2 +1,106 @@
-**{{- "TODO (_includes/ru/200_real_apps/030_assets/nodejs/010_build_and_deployment.md.liquid): реорганизация сборки приложения." -}}**
 
+### Организация файлов
+
+Для сборки статики возьмем webpack. Сейчас в приложении есть одна главная страница, доступная на
+корневом маршруте `/`. Эта страница появилась со старта проекта. Ее содержимое лежит в файле
+`/public/index.html`. В этом разделе мы добавим еще одну страницу, которая будет доступна по адресу
+`/image`. Также мы реорганизуем структуру каталога `/public`, чтобы явно разделить его на две части:
+страницы (`pages`) и подключаемые к страницам файлы (`assets`).
+
+```shell
+$ tree public
+public/
+├── assets
+│   ├── images
+│   │   └── werf-logo.svg
+│   ├── javascripts
+│   │   ├── image.js
+│   │   └── index.js
+│   └── stylesheets
+│       ├── image.css
+│       └── style.css
+└── pages
+    ├── image.html
+    └── index.html
+```
+
+
+HTML-файлы будут служить нам шаблонами страниц. Страницы не будет кэшироваться, потому что они
+всегда остаются доступными на постоянном маршруте (`/`, `/image`), и нам нужно их время от времени
+менять и оперативно доносить изменения допользователей. Однако подключаемые файлы будут собираться
+так, что их имена будут менятьcя в зависимости от их содержимого. Так можно будет достичь двух
+целей: надолго кэшировать эти файлы в браузере и заодно свободно менять их. После сборки статики, в
+каталоге `dist` будет такой результат. Ниже покажем, как его получить.
+
+```shell
+$ tree dist/
+├── css
+│   ├── image.40428375b4e566574c8f.css
+│   └── index.1e6f9f5ee05a92734053.css
+├── image.html
+├── index.html
+├── js
+│   ├── image.e67ef581c6705e6bd9a0.js
+│   ├── index.e5a57023092221b727e0.js
+│   └── runtime.f9a303951d184e8c1ce3.js
+└── media
+    └── 2c6aa8e8ef0b96213f30.svg
+```
+
+### Сборка статики
+
+Чтобы собирать статику, добавим следующие модули
+
+```shell
+$ npm install --save-dev \
+  webpack webpack-cli webpack-dev-middleware \
+  html-webpack-plugin \
+  css-loader mini-css-extract-plugin css-minimizer-webpack-plugin
+```
+
+- `webpack`, `webpack-cli` — собирать статику
+- `webpack-dev-middleware` — отдавать статику приложением во время разработки
+- `html-webpack-plugin` — генерировать HTML-страницы с динамическим подключением ассетов
+- `css-loader` — задействовать CSS в сборке
+- `mini-css-extract-plugin` — выделить CSS в отдельные файлы, чтобы кэшировать отдельно от JS
+- `css-minimizer-webpack-plugin` — минифицировать CSS (работает с параметром `mode: "production"`)
+
+Добавим команду для сборки в `package.json`: `"build": "webpack"` и обработчик запросов к статике,
+если приложение запущено не в режиме `production`:
+
+{% include snippetcut_example path="app.js" syntax="javascript" snippet="webpack-dev" examples=page.examples %}
+
+Убедимся, что локально сборка и сервер работают. Для этого соберем статику, запустим сервер и
+откроем в браузере страницу с изображением
+[http://localhost:3000/image](http://localhost:3000/image):
+
+```shell
+$ npm run build && npm start
+```
+
+{% include snippetcut_example path="webpack.config.js" syntax="javascript" examples=page.examples %}
+
+### Деплой статики и приложения
+
+Теперь, когда у нас есть статика для NGINX и страницы для сервера приложений, нужно разделить
+статику по контейнерам: HTML — в контейнере с приложением, остальное — с NGINX.
+
+{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+
+Во время сборки в образ с NGINX будет добавлен его конфигурационный файл:
+
+{% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
+
+Обновим конфигурацию `werf.yaml`, чтобы werf собрал и сохранил два образа (backend и frontend) вместо одного:
+
+{% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
+
+Добавим новый NGINX-контейнер в Deployment приложения:
+
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+
+Теперь Service и Ingress должны обращаться к NGINX на 80-й порт, а не 3000-й. Так NGINX будет раздавать статику и проксировать запросы к приложению:
+
+{% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
+
+{% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}

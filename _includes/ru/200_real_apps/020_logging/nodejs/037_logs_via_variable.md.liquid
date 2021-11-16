@@ -1,3 +1,5 @@
-```
-TODO (_includes/ru/200_real_apps/020_logging/nodejs/037_logs_via_variable.md.liquid): реализация возможности указывать уровень логирования через переменную окружения.
-```
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" snippet="env" examples=page.examples %}
+
+Мы сами определили переменную окружения для управления уровнем логгирования. Несмотря на то, что мы также сами определили уровень `info` по умолчанию, это поведение в `pino` реализовано изначально:
+
+{% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-usage" examples=page.examples %}

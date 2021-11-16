@@ -1,3 +1,6 @@
-```
-TODO (_includes/ru/200_real_apps/030_assets/nodejs/003_image_page.md.liquid): добавление приложению нового endpoint `/image`
-```
+Собирать статику будем в директории dist. Там же будет главная страница и страница с изображением:
+
+
+{% include snippetcut_example path="routes/index.js" syntax="javascript" snippet="home-static" examples=page.examples %}
+
+{% include snippetcut_example path="routes/image.js" syntax="javascript" examples=page.examples %}

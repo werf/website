@@ -1,0 +1,13 @@
+# [<snippet app>]
+app:
+  envs:
+    NODE_ENV: "production"
+# [<endsnippet app>]
+
+minio:
+  storageSize: "100Mi"
+
+# [<snippet mysql>]
+mysql:
+  storageSize: "100Mi"
+# [<endsnippet mysql>]
