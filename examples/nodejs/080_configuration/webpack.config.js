@@ -10,7 +10,7 @@ module.exports = {
 
   // [<en>] Two entrypoints to collect bundles to. Thus we split CSS and JS between two pages.
   // [<ru>] Две точки входа, для которых мы собираем бандлы. Таким образом мы разделяем стили и
-  // [<ru>]  скрипты для двух страниц.
+  // [<ru>] скрипты для двух страниц.
   entry: {
     index: path.resolve(__dirname, 'public/assets/javascripts/index.js'),
     image: path.resolve(__dirname, 'public/assets/javascripts/image.js'),
@@ -33,8 +33,8 @@ module.exports = {
       filename: 'css/[name].[contenthash].css',
     }),
     // [<ru>] Генерируем главную страницу из ее шаблона и указываем, что подключить нужно только
-    // [<ru>] точку входа index, включая CSS и JS. Так мы избежим того, чтобы подключить скрипты
-    // [<ru>] и стили от страницы с изображением.
+    // [<ru>] точку входа index, включая CSS и JS. Так мы избежим подключения скриптов
+    // [<ru>] и стилей от страницы с изображением.
     // [<en>] Generate home page from its template and include only index entry to it including
     // [<en>] JS and CSS. Thus we avoid including JS and CSS from image page.
     new HtmlWebpackPlugin({
@@ -42,7 +42,7 @@ module.exports = {
       template: 'public/pages/index.html',
       chunks: ['index'],
     }),
-    // [<ru>] То же самое для страницы и изображением, но еще явно указываем конечное имя HTML-файла.
+    // [<ru>] То же самое для страницы c изображением, но еще явно указываем конечное имя HTML-файла.
     // [<en>] The same for the image page, except explicit destination name for the HTML file.
     new HtmlWebpackPlugin({
       title: 'Werf Logo',
