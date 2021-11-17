@@ -1,1 +1,15 @@
-## TODO (_includes/ru/200_real_apps/050_s3/nodejs/001_preparing.md.liquid): подготовка
+## Подготовка
+
+Добавим библиотеки для работы с файлами:
+
+```shell
+npm i @aws-sdk/client-s3 express-fileupload readable-web-to-node-stream
+```
+
+- `@aws-sdk/client-s3` — для работы с хранилищем, совместимым с AWS S3
+- `express-fileupload` — для простого получения файла в запросе express
+- `readable-web-to-node-stream` — для конвертирования потока *web stream* в *node stream*, что
+пригодится для отправки файлов клиенту
+
+Нам подойдет библиоткека `@aws-sdk/client-s3`, так как интерфейс minio совместим с AWS S3. Заодно
+так будет проще мигрировать на сам AWS S3, если предстоит такая необходимость.

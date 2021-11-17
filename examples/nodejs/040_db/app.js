@@ -7,7 +7,9 @@ const pinoHttp = require('pino-http');
 const indexRouter = require('./routes/index');
 const imageRouter = require('./routes/image');
 const pingRouter = require('./routes/ping');
+// [<snippet talkers-router-import>]
 const talkersRouter = require('./routes/talkers');
+// [<endsnippet talkers-router-import>]
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 const db = require('./db/models')((msg) => logger.debug(msg));
@@ -38,7 +40,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/image', imageRouter);
 app.use('/ping', pingRouter);
-app.use('/talkers', talkersRouter(db));
+// [<snippet talkers-router-add>]
+app.use('/', talkersRouter(db));
+// [<endsnippet talkers-router-add>]
 
 // [<en>] Error handler helps to avoid raw stack traces on logs and to use the logger of choise.
 // [<ru>] Обработчик ошибок поможет избежать «сырых» трейсов в логе и использовать выбранный логгер.

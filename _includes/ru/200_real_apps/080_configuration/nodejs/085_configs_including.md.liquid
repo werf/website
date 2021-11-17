@@ -1,3 +1,24 @@
+После передачи переменных окружения в контейнер остаётся только подставить их в конфигурационных
+файлах приложения.
+
+Чтобы единообразно управлять конфигурацией приложения, установим модуль `config`:
+
+```shell
+npm i config
 ```
-TODO (_includes/ru/200_real_apps/080_configuration/nodejs/085_configs_including.md.liquid): работа с переменными окружения после передачи их в контейнер (если нужно).
-```
+
+
+Этот модуль позволит переопределять конфигурацию в зависимости от типа окружения, а также
+использовать переменные окружения. Это конфигурационный файл со значениями по умолчанию:
+
+{% include snippetcut_example path="config/default.json" syntax="json" examples=page.examples %}
+
+Здесь задается переопределение конфигурации приложения через переменные окружения:
+
+{% include snippetcut_example path="config/custom-environment-variables.json" syntax="json" examples=page.examples %}
+
+К сожалению, sequelize нельзя использовать с модулем `config`, так как в конфиг первого определяются
+все окружения, а у `config` окружения делятся по файлам. Чтобы обойти это ограничение, можно
+переписать конфигурацию sequelize на JavaScript и подставить переменные окружения с помощью `node`:
+
+{% include snippetcut_example path="config/database.js" syntax="javascript" examples=page.examples %}
