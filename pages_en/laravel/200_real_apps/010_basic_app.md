@@ -1,6 +1,7 @@
 ---
 title: Basic application
 permalink: laravel/200_real_apps/010_basic_app.html
+layout: wip
 examples_initial: examples/basic/004_modify_app
 examples: examples/laravel/010_basic_app
 chapter_production_disclaimer: false
