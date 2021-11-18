@@ -103,9 +103,7 @@ Love you, sweetie!
 ```
 
 You can also make sure that the data is in the database by directly querying the table contents:
-```shell
-kubectl exec -it statefulset/mysql -- mysql -ppassword -e "SELECT * from talkers" werf-guide-app
-```
+{% include 200_real_apps/040_db/{{ page.framework_id }}/033_database_request.md.liquid %}
 
 You should see the following output:
 {% include 200_real_apps/040_db/{{ page.framework_id }}/035_expected_result_db.md.liquid %}
