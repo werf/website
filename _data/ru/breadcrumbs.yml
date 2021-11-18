@@ -4,9 +4,9 @@
 /200_real_apps:
   title: Реалистичные приложения
   url: /200_real_apps.html
-/300_dev_process:
-  title: Организация разработки
-  url: /300_dev_process.html
+/300_deployment_practices:
+  title: Лучшие практики деплоя
+  url: /300_deployment_practices.html
 /400_dev_experience:
   title: Повышение качества разработки
   url: /400_dev_experience.html
