@@ -1,0 +1,39 @@
+Часто можно встретить совет проверять внешние зависимости вроде баз данных в `readinessProbe`. И хотя такой подход имеет право на существование, предпочтительно разделять проверку внешних зависимостей и проверку на то, не стоит ли остановить идущий на Pod трафик, когда приложение в нём полностью утилизировано.
+
+С помощью `initContainers` можно проверять внешние зависимости до того, как начнут запускаться `startupProbe/readinessProbe` основных контейнеров. В `readinessProbe`, соответственно, проверки внешних зависимостей уже не понадобится. Подобные `initContainers` не требуют изменений в коде приложения, не требуют собирать контейнеры приложения с дополнительными утилитами для проверок внешних зависимостей, а также в целом довольно просты в реализации:
+
+```yaml
+initContainers:
+      - name: wait-postgres
+        image: postgres:12.1-alpine
+        command:
+        - sh
+        - -ec
+        - |
+          until (pg_isready -h example.org -p 5432 -U postgres); do
+            sleep 1
+          done
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 50m
+            memory: 50Mi
+      - name: wait-redis
+        image: redis:6.0.10-alpine3.13
+        command:
+        - sh
+        - -ec
+        - |
+          until (redis-cli -u redis://redis:6379/0 ping); do
+            sleep 1
+          done
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 50m
+            memory: 50Mi
+```
