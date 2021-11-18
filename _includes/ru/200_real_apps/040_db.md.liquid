@@ -101,9 +101,7 @@ Love you, sweetie!
 ```
 
 Также мы можем убедиться, что данные в базе действительно сохранены, запросив напрямую из БД содержимое таблицы:
-```shell
-kubectl exec -it statefulset/mysql -- mysql -ppassword -e "SELECT * from talkers" werf-guide-app
-```
+{% include 200_real_apps/040_db/{{ page.framework_id }}/033_database_request.md.liquid %}
 
 Ожидаемый результат:
 {% include 200_real_apps/040_db/{{ page.framework_id }}/035_expected_result_db.md.liquid %}
