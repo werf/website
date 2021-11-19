@@ -1,7 +1,6 @@
 # [<snippet app>]
 app:
   envs:
-    APP_ENV: "production"
     LOG_CHANNEL: stderr
     LOG_STDERR_FORMATTER: Monolog\\Formatter\\JsonFormatter
     LOG_LEVEL: info
