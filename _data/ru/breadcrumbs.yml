@@ -7,9 +7,6 @@
 /300_deployment_practices:
   title: Лучшие практики деплоя
   url: /300_deployment_practices.html
-/300_deployment_practices/010_life_cycle:
-  title: Жизненный цикл
-  url: /300_deployment_practices/010_life_cycle.html
 /400_dev_experience:
   title: Повышение качества разработки
   url: /400_dev_experience.html

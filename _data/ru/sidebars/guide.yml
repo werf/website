@@ -33,16 +33,6 @@ entries:
           url: "200_real_apps/080_config.html"    
     - title: Лучшие практики деплоя
       url: "300_deployment_practices.html"
-    - title: Жизненный цикл
-      url: "300_deployment_practices/010_life_cycle.html"
       sf:
-        - title: Остановка процессов в контейнерах
-          url: "300_deployment_practices/010_life_cycle/010_stopping_containers.html" 
-        - title: Liveness probe
-          url: "300_deployment_practices/010_life_cycle/020_liveness_probe.html"
-        - title: Readiness probe
-          url: "300_deployment_practices/010_life_cycle/030_readiness_probe.html"
-        - title: Startup probe
-          url: "300_deployment_practices/010_life_cycle/040_startup_probe.html"
-        - title: Проверка внешних зависимостей
-          url: "300_deployment_practices/010_life_cycle/050_external_dependencies.html"
+        - title: Жизненный цикл
+          url: "300_deployment_practices/010_life_cycle.html"
