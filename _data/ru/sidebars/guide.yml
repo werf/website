@@ -30,4 +30,9 @@ entries:
         - title: Работа с файлами
           url: "200_real_apps/050_s3.html"
         - title: Конфигурация и секреты
-          url: "200_real_apps/080_config.html"
+          url: "200_real_apps/080_config.html"    
+    - title: Лучшие практики деплоя
+      url: "300_deployment_practices.html"
+      sf:
+        - title: Жизненный цикл
+          url: "300_deployment_practices/010_life_cycle.html"
