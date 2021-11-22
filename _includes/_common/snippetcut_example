@@ -29,7 +29,12 @@
 {% comment %} Render {% endcomment %}
 {% snippetcut name="{{ file_rel_path }}" url="{{ url }}" %}
   {% if include.snippet %}
-    {%- include_file "{{ file_path }}" syntax="{{ include.syntax }}" snippet="{{ include.snippet }}" %}
+{% assign snippets = include.snippet | split: "," %}
+```{{ include.syntax }}
+{% for snippet in snippets %}
+{%- include_file "{{ file_path }}" snippet="{{ snippet }}" %}
+{% endfor -%}
+```
   {% else %}
     {%- include_file "{{ file_path }}" syntax="{{ include.syntax }}" %}
   {% endif %}
