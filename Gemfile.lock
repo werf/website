@@ -129,7 +129,6 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (1.8.0)
-    wdm (0.1.1)
     yell (2.2.2)
     zeitwerk (2.5.1)
 
@@ -147,7 +146,6 @@ DEPENDENCIES
   kramdown-parser-gfm
   nokogiri (>= 1.10.8)
   sprockets (~> 4.0)
-  wdm (>= 0.1.0)
 
 BUNDLED WITH
    2.2.15
