@@ -12,21 +12,21 @@ But what if you need to keep some data? You can use standalone databases for tha
 
 Below, we will show you how to store files in S3-compatible storage instead of a local file system. This way, your application can remain stateless and avoid some issues when working in Kubernetes.
 
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/001_preparing.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/001_preparing.md.liquid %}
 
 ## Adding `/upload` and `/download` endpoints to the application
 
 Let's add two new endpoints, `/upload` (to upload a file to the S3-compatible object storage) and `/download` (to download a file from the S3-compatible object storage), to see how uploading and downloading works.
 
-Let's add a new controller {% include 200_real_apps/050_s3/{{ page.framework_id }}/005_add_model.md.liquid %}:
+Let's add a new controller {% include guides/200_real_apps/050_s3/{{ page.framework_id }}/005_add_model.md.liquid %}:
 
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
 
 Now it is time to add new paths to the routes:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
 
 {% comment %} Adding new migrations if they are needed {% endcomment %}
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
 
 New endpoints, `/upload` and `/download`, have been added. Next, we need to configure them to work with the storage.
 
@@ -37,16 +37,16 @@ For illustrative purposes, we will use the [MinIO](https://min.io/) S3-compatibl
 > _If the different type of S3 storage is used, you do not need to create MinIO’s StatefulSet and Job as described below. However, all further steps remain unchanged._
 
 Let's add a StatefulSet for MinIO:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/025_stateful_minio.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/025_stateful_minio.md.liquid %}
 
 The next step is to create a Job for setting up MinIO:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/030_job_minio.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/030_job_minio.md.liquid %}
 
 Add the configuration for connecting to MinIO:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/035_minio_configuration.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/035_minio_configuration.md.liquid %}
 
 {% comment %} Minio activation, if needed {% endcomment %}
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/040_minio_activation.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/040_minio_activation.md.liquid %}
 
 MinIO is now ready to be deployed while our application is configured to store files with it.
 
@@ -58,7 +58,7 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 You should see the following output:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/045_expected_result.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/045_expected_result.md.liquid %}
 
 Now let's access the `/download` endpoint to get the file from S3:
 ```shell

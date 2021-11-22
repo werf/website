@@ -1,6 +1,6 @@
 ---
 title: Быстрый старт разработчика
-permalink: golang/100_basic.html
+permalink: guides/golang/100_basic.html
 ---
 
-{% include 100_basic.md.liquid %}
+{% include guides/100_basic.md.liquid %}

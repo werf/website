@@ -1,8 +1,8 @@
 ## Подготовка stateful-приложения
 
-Сейчас наше приложение не использует БД и не хранит никаких данных (т.е. stateless). Поэтому, чтобы сделать его stateful, нам в первую очередь нужно {% include 200_real_apps/040_db/{{ page.framework_id }}/001_preparing_stateful_app.md.liquid %}
+Сейчас наше приложение не использует БД и не хранит никаких данных (т.е. stateless). Поэтому, чтобы сделать его stateful, нам в первую очередь нужно {% include guides/200_real_apps/040_db/{{ page.framework_id }}/001_preparing_stateful_app.md.liquid %}
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/005_major_changes.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/005_major_changes.md.liquid %}
 
 ## Добавление endpoints `/remember` и `/say` в приложение
 
@@ -10,25 +10,25 @@
 
 Наш новый контроллер и модель:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/010_new_controllers.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/010_new_controllers.md.liquid %}
 
 Добавим новые пути в список маршрутов:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/013_list_of_routes.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/013_list_of_routes.md.liquid %}
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/015_two_simple_migrations.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/015_two_simple_migrations.md.liquid %}
 
 Новые endpoints — `/remember` и `/say` — готовы к работе.
 
 ## Развертывание и подключение MySQL
 
 В реальной инфраструктуре базы данных могут быть развернуты как в Kubernetes, так и вне его. Вне Kubernetes базы данных могут развертываться и обслуживаться самостоятельно, либо могут использоваться managed-решения вроде Amazon RDS. Для нашего приложения, в целях демонстрации, мы развернём БД MySQL в Kubernetes с помощью простого StatefulSet:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/017_stateful_set.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/017_stateful_set.md.liquid %}
 >_Вы также можете использовать базы данных, развернутые любым другим способом. В таком случае вам не нужно развертывать вышеупомянутый StatefulSet, все же дальнейшие инструкции остаются без изменений._
 
 Теперь настроим приложение на работу с новой БД:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/020_setup_db_work.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/020_setup_db_work.md.liquid %}
 
 
 ## Инициализация и миграции БД
@@ -46,7 +46,7 @@
 
 Реализуем это, добавив Job для выполнения миграций/инициализации базы данных:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/025_migration_job.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/025_migration_job.md.liquid %}
 
 {% offtopic title="Зачем ждать выполнения 10 подряд успешных проверок доступности БД?" %}
 Это предохраняет нас от случая, когда `mysqladmin ping` выполняется только один раз и до того, как StatefulSet с MySQL начнёт перезапускаться при деплое. В таких случаях во время выполнения инициализации/миграций база данных может оказаться недоступна.
@@ -56,7 +56,7 @@
 Количество успешных проверок подряд можно изменять — значение 10 приведено как пример.
 {% endofftopic %}
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/027_init_container.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/027_init_container.md.liquid %}
 
 ## Проверка работы приложения и БД
 
@@ -66,7 +66,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
 Ожидаемый результат:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/030_expected_result.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/030_expected_result.md.liquid %}
 
 > Если кажется, что процесс завис, а в сообщениях сплошные ошибки — все нормально, просто идет проверка на состояние MySQL, и нужно немного подождать (обычно не более 1-2 минут).
 
@@ -101,10 +101,10 @@ Love you, sweetie!
 ```
 
 Также мы можем убедиться, что данные в базе действительно сохранены, запросив напрямую из БД содержимое таблицы:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/033_database_request.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/033_database_request.md.liquid %}
 
 Ожидаемый результат:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/035_expected_result_db.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/035_expected_result_db.md.liquid %}
 
 Готово!
 

@@ -1,9 +1,9 @@
 ## Добавление страницы `/image` в приложение
 
-Добавим нашему приложению новый endpoint `/image`, который будет отдавать страницу, использующую набор статических файлов. Для сборки JS-, CSS- и медиафайлов будем использовать {% include 200_real_apps/030_assets/{{ page.framework_id }}/001_js_css_builder.md.liquid %}.
+Добавим нашему приложению новый endpoint `/image`, который будет отдавать страницу, использующую набор статических файлов. Для сборки JS-, CSS- и медиафайлов будем использовать {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/001_js_css_builder.md.liquid %}.
 
 {% comment %} Adding the `/image' page to the application {% endcomment %}
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/003_image_page.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/003_image_page.md.liquid %}
 
 Приложение обновлено: теперь, в дополнение к уже знакомому по прошлым главам `/ping`, у приложения есть новый endpoint `/image`. На последнем отображается страница, использующая для работы разные типы статических файлов.
 
@@ -11,13 +11,13 @@
 
 ## Организация раздачи статических файлов
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/005_distribution_static_files.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/005_distribution_static_files.md.liquid %}
 
 Приступим к непосредственной реализации.
 
 ## Обновление сборки и деплоя
 
-Начнём с реорганизации сборки приложения. {% include 200_real_apps/030_assets/{{ page.framework_id }}/010_build_and_deployment.md.liquid %}
+Начнём с реорганизации сборки приложения. {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/010_build_and_deployment.md.liquid %}
 
 ## Проверка
 
@@ -28,16 +28,16 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Ожидаемый результат:
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/015_expected_result.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/015_expected_result.md.liquid %}
 
 Откроем в браузере [http://werf-guide-app.test/image](http://werf-guide-app.test/image) и нажмём на кнопку _Get image_. Ожидаемый результат:
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/020_image_first.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/020_image_first.md.liquid %}
 
 Также обратим внимание на то, какие ресурсы были запрошены и по каким ссылкам (последний ресурс здесь получен через Ajax-запрос):
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/025_image_second.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/025_image_second.md.liquid %}
 
 Теперь наше приложение является не просто API, но веб-приложением, которое имеет средства для эффективного менеджмента статических файлов и JavaScript.
 
-Также наше приложение готово выдерживать приличные нагрузки при большом количестве запросов к статическим файлам, и эти запросы не будут сказываться на работе приложения в целом. Масштабирование же {% include 200_real_apps/030_assets/{{ page.framework_id }}/030_framework_scaling.md.liquid %} (отвечает за динамический контент) и NGINX (статический контент) происходит простым увеличением количества реплик (`replicas`) в Deployment'е приложения.
+Также наше приложение готово выдерживать приличные нагрузки при большом количестве запросов к статическим файлам, и эти запросы не будут сказываться на работе приложения в целом. Масштабирование же {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/030_framework_scaling.md.liquid %} (отвечает за динамический контент) и NGINX (статический контент) происходит простым увеличением количества реплик (`replicas`) в Deployment'е приложения.

@@ -10,22 +10,22 @@ You can learn more about these resource types in the official Kubernetes documen
 
 ## Storing application's config files in the ConfigMap
 
-Currently, the [nginx.conf]({% include 200_real_apps/080_configuration/{{ page.framework_id }}/001_nginx_config.md.liquid %}) config file gets copied into the image during the build. As a result, the image is rebuilt, and Pods are restarted each time the file is modified. In addition, there is no easy way to benefit from templating in our `nginx.conf`.
+Currently, the [nginx.conf]({% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/001_nginx_config.md.liquid %}) config file gets copied into the image during the build. As a result, the image is rebuilt, and Pods are restarted each time the file is modified. In addition, there is no easy way to benefit from templating in our `nginx.conf`.
 
 You can get around these obstacles by moving `.werf/nginx.conf` into a dedicated ConfigMap. This way, you can mount `nginx.conf` when deploying instead of adding the file during the build:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/005_nginx_config_map.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/005_nginx_config_map.md.liquid %}
 
 Now, let's add our ConfigMap to the Deployment — we will mount it as a file in the `frontend` container:
 
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/010_config_map_deployment.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/010_config_map_deployment.md.liquid %}
 
 We also need to delete the no longer needed `.werf/nginx.conf` as well as a command to copy this file to an image during the build. The Dockerfile for the `frontend` image will look as follows:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/015_new_dockerfile.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/015_new_dockerfile.md.liquid %}
 
 ## Handling ConfigMap and Secret changes
 
 Note that by default, changes in ConfigMaps or Secrets mounted in a Deployment, StatefulSet, or DaemonSet will not trigger Pod restarts for the new configuration to take effect. To trigger Pod restart, you need to add annotations with checksums of all ConfigMaps and Secrets used by this Pod. In this case, the annotations will change in response to ConfigMap and Secret modifications, leading to the Pod restart. Below is an example of an annotation that includes the checksum of the `nginx.conf` ConfigMap:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/020_annotation_hashsum.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/020_annotation_hashsum.md.liquid %}
 Note that you will need a unique annotation for each mounted ConfigMap/Secret.
 >_The authors of this tutorial prefer to use operators like [stakater/Reloader](https://github.com/stakater/Reloader) instead of checksum-containing annotations because they are simpler, more flexible, and easier to work with._
 
@@ -42,28 +42,28 @@ When using werf, all data passed to the chart can be grouped into several catego
 
 Frequently used parameters can be put into `.helm/values.yaml`:
 
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/025_values_yaml.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/025_values_yaml.md.liquid %}
 
 ... to make manifest configuration easier:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/030_values_yaml_using.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/030_values_yaml_using.md.liquid %}
 
 This way, you can adjust the parameters to the specific environment (we will discuss this in more detail in the following tutorial chapters).
 
 Probably, the most useful feature is the ability to place repetitive configuration snippets into `.helm/values.yaml`. For example, you can store in this file environment variables used in multiple places:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/035_values_yaml_env.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/035_values_yaml_env.md.liquid %}
 
 The environment variables from `.Values.app.envs` can be inserted either into the container manifest as `env` values (as we did before), or you can put them into the ConfigMap and load it into the container via `envFrom`.
 
 The first option is easier to do, but the ConfigMap option is more convenient if you have a large number of shared environment variables. This way, you will avoid duplicating them between controllers. Your ConfigMap may look like this:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/040_configmap_envs.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/040_configmap_envs.md.liquid %}
 
 Now you can use `envFrom` in the Deployment to define ConfigMap's data as container environment variables:
 
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/045_configmap_deployment.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/045_configmap_deployment.md.liquid %}
 
 Don't forget to add checksum-containing annotations to trigger Pod re-deployment in response to ConfigMap changes:
 
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/050_annotation_hashsum.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/050_annotation_hashsum.md.liquid %}
 
 Similarly, you can load this ConfigMap into other resources that use the same environment variables.
 
@@ -74,9 +74,9 @@ To start working with secrets, you first need to generate a symmetric encryption
 >_Caution! You MUST NOT store the key in the repository when working with real-life applications. We recommend keeping it in a safe place and passing via the `WERF_SECRET_KEY` environment variable. You can read more about using encryption keys in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#encryption-key)._
 
 The application configuration contains data that should not be stored in unencrypted form in the repository (e.g., the database login and password). Thus, we won't store the login and password in plain text in the configuration file (as we currently do):
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/055_loginpas_storage.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/055_loginpas_storage.md.liquid %}
 Instead, we will store them encrypted in the `.helm/secret-values.yaml` file along with other confidential parameters:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/060_secret_values.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/060_secret_values.md.liquid %}
 
 Use the command below to decrypt the secrets stored in `.helm/secret-values.yaml`:
 ```bash
@@ -84,17 +84,17 @@ werf helm secret values decrypt .helm/secret-values.yaml
 ```
 
 You should see the following output:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/065_expected_result.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/065_expected_result.md.liquid %}
 
 Now, you need to pass the secrets contained in `.helm/secret-values.yaml` back to the application config. To do this, let's first pass them to the Secret resource:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/070_secret_resource.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/070_secret_resource.md.liquid %}
 
 ... and then load this resource's data as a set of environment variables by mounting it in containers:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/075_secret_mounting.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/075_secret_mounting.md.liquid %}
 
-You have to make similar changes to the rest of the `.helm/templates` files (we won't delve into details here; you can take a look at their contents in the [repository]({% include 200_real_apps/080_configuration/{{ page.framework_id }}/080_repo_link.md.liquid %}).)
+You have to make similar changes to the rest of the `.helm/templates` files (we won't delve into details here; you can take a look at their contents in the [repository]({% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/080_repo_link.md.liquid %}).)
 
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/085_configs_including.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/085_configs_including.md.liquid %}
 
 You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)], except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#secret-files).
 
@@ -108,7 +108,7 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 You should see the following output:
-{% include 200_real_apps/080_configuration/{{ page.framework_id }}/090_expected_result.md.liquid %}
+{% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/090_expected_result.md.liquid %}
 
 Check if the application is available:
 ```shell

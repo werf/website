@@ -173,7 +173,7 @@ werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
 
 Как же соблюсти **гитерминизм** и сделать всё правильно? Выставим тот же `spec.replicas=4`, но уже через состояние приложения, описанное в Git:
 
-{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
 
 Через файл `.helm/templates/deployment.yaml`:
 
@@ -202,7 +202,7 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 
 Вернём состояние рабочей директории к предыдущему, с одной репликой:
 
-{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
 
 Проверим содержимое `.helm/templates/deployment.yaml`:
 
@@ -224,7 +224,7 @@ curl "http://werf-guide-app.test/ping"
 
 Внесём изменение в код приложения:
 
-{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_modify_app from_scratch=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_modify_app from_scratch=false %}
 
 В коде приложения ответ сервера изменится на `hello world`:
 

@@ -1,9 +1,9 @@
 ## Adding an `/image` page to the application
 
-Let's add a new `/image` endpoint to our application. It will return a page with a set of static files. We will use {% include 200_real_apps/030_assets/{{ page.framework_id }}/001_js_css_builder.md.liquid %} to bundle all JS, CSS, and media files.
+Let's add a new `/image` endpoint to our application. It will return a page with a set of static files. We will use {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/001_js_css_builder.md.liquid %} to bundle all JS, CSS, and media files.
 
 {% comment %} Adding the `/image' page to the application {% endcomment %}
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/003_image_page.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/003_image_page.md.liquid %}
 
 The application now has a new endpoint called `/image` in addition to the `/ping` endpoint we made in previous chapters. This new endpoint displays a page that uses different types of static files.
 
@@ -11,13 +11,13 @@ The application now has a new endpoint called `/image` in addition to the `/ping
 
 ## Serving static files
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/005_distribution_static_files.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/005_distribution_static_files.md.liquid %}
 
 Now, let's get to the implementation.
 
 ## Making changes to the build and deploy process
 
-First of all, we have to make changes to the application build process. {% include 200_real_apps/030_assets/{{ page.framework_id }}/010_build_and_deployment.md.liquid %}
+First of all, we have to make changes to the application build process. {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/010_build_and_deployment.md.liquid %}
 
 ## Checking that everything works as expected
 
@@ -28,16 +28,16 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 
 You should see the following output:
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/015_expected_result.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/015_expected_result.md.liquid %}
 
 Go to [http://werf-guide-app/image](http://werf-guide-app/image) in your browser and click on the _Get image_ button. You should see the following output:
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/020_image_first.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/020_image_first.md.liquid %}
 
 Note which resources were requested and which links were used (the last resource here was retrieved via the Ajax request):
 
-{% include 200_real_apps/030_assets/{{ page.framework_id }}/025_image_second.md.liquid %}
+{% include guides/200_real_apps/030_assets/{{ page.framework_id }}/025_image_second.md.liquid %}
 
 Now our application not only provides an API but boasts a set of tools to manage static and JavaScript files effectively.
 
-Furthermore, our application can handle a high load since many requests for static files will not affect the operation of the application as a whole. Note that you can quickly scale {% include 200_real_apps/030_assets/{{ page.framework_id }}/030_framework_scaling.md.liquid %} (serves dynamic content) and NGINX (serves static content) by increasing the number of `replicas` in the application's Deployment.
+Furthermore, our application can handle a high load since many requests for static files will not affect the operation of the application as a whole. Note that you can quickly scale {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/030_framework_scaling.md.liquid %} (serves dynamic content) and NGINX (serves static content) by increasing the number of `replicas` in the application's Deployment.

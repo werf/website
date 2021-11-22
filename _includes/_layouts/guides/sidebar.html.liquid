@@ -15,12 +15,12 @@
 
     <ul class="sidebar__submenu">
       {%- for subfolder in folder.sf %}
-      {% include layouts/sidebar_li.html.liquid entry=subfolder base_li_class="sidebar__submenu-item" li_disabled_class="sidebar__submenu-disabled-item" %}
+      {% include layouts/guides/sidebar_li.html.liquid entry=subfolder base_li_class="sidebar__submenu-item" li_disabled_class="sidebar__submenu-disabled-item" %}
       {%- endfor %}
     </ul>
   </li>
   {%- else %}
-  {% include layouts/sidebar_li.html.liquid entry=folder base_li_class="sidebar__item" li_disabled_class="sidebar__disabled-item" %}
+  {% include layouts/guides/sidebar_li.html.liquid entry=folder base_li_class="sidebar__item" li_disabled_class="sidebar__disabled-item" %}
   {%- endif %}
   {%- endfor %}
 </ul>

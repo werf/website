@@ -1,7 +1,7 @@
 ---
 title: "Самоучитель по Kubernetes и werf: научись K8s и деплоить в него"
 layout: landing
-permalink: index.html
+permalink: guides/index.html
 ---
 
 <div class="landing">

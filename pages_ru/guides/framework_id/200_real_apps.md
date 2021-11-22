@@ -1,6 +1,6 @@
 ---
 title: Реалистичные приложения
-permalink: framework_id/200_real_apps.html
+permalink: guides/framework_id/200_real_apps.html
 ---
 
-{% include 200_real_apps.md.liquid %}
+{% include guides/200_real_apps.md.liquid %}

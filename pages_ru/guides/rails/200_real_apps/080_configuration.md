@@ -1,6 +1,6 @@
 ---
 title: Конфигурация и секреты
-permalink: rails/200_real_apps/080_config.html
+permalink: guides/rails/200_real_apps/080_config.html
 examples_initial: examples/rails/050_s3
 examples: examples/rails/080_configuration
 base_url: https://github.com/werf/werf-guides/blob/master/
@@ -12,4 +12,4 @@ description: |
   Теперь для безопасности и гибкости конфигурация будет сохраняться в ConfigMap и Secret. А в дополнение к параметрам Helm-чарта (Values) и секретам werf будут продемонстрированы подходы параметризации и переиспользования конфигурации, а также хранения конфиденциальных данных вместе с кодом в Git-репозитории проекта.
 ---
 
-{% include 200_real_apps/080_configuration.md.liquid %}
+{% include guides/200_real_apps/080_configuration.md.liquid %}

@@ -1,6 +1,6 @@
 ---
 title: Deploying the application
-permalink: laravel/100_basic/30_deploy.html
+permalink: guides/laravel/100_basic/30_deploy.html
 examples: examples/basic/002_deploy
 examples_initial: examples/basic/001_build
 description: |
@@ -9,4 +9,4 @@ description: |
     Kubernetes manifests are used for deploying to Kubernetes. They describe the resources (Kubernetes objects) required for the application to run. These resources include Deployment (it is responsible for running applications in containers) and Service/Ingress (these are responsible for accessing running applications from inside and outside of the cluster).
 ---
 
-{% include 100_basic/30_deploy.md.liquid %}
+{% include guides/100_basic/30_deploy.md.liquid %}

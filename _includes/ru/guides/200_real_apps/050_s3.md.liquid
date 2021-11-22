@@ -12,21 +12,21 @@
 
 Далее мы продемонстрируем, как хранить файлы не в локальной файловой системе, а в S3-совместимом хранилище, чтобы ваши приложения оставались stateless и не испытывали проблем при работе с Kubernetes.
 
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/001_preparing.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/001_preparing.md.liquid %}
 
 ## Добавление endpoint'ов `/upload` и `/download` в приложение
 
 Для демонстрации работы загрузки и отдачи файлов мы добавим два новых endpoints, один из которых будет загружать файл в S3-совместимое объектное хранилище (`/upload`), а другой — отдавать его оттуда (`/download`).
 
-Добавим новый контроллер{% include 200_real_apps/050_s3/{{ page.framework_id }}/005_add_model.md.liquid %}:
+Добавим новый контроллер{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/005_add_model.md.liquid %}:
 
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
 
 Добавим новые пути в маршруты:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
 
 {% comment %} Adding new migrations if they are needed {% endcomment %}
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
 
 Новые endpoint'ы — `/upload` и `/download` — добавлены. Осталось только настроить для них работу с хранилищем.
 
@@ -37,16 +37,16 @@
 > _Обратите внимание, что если вы используете иное S3-хранилище, то создание нижеописанных StatefulSet и Job для MinIO не потребуется, но остальные инструкции останутся актуальными._
 
 Добавим StatefulSet с MinIO:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/025_stateful_minio.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/025_stateful_minio.md.liquid %}
 
 Создадим Job для настройки MinIO:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/030_job_minio.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/030_job_minio.md.liquid %}
 
 Добавим в приложение конфигурацию для подключения к MinIO:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/035_minio_configuration.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/035_minio_configuration.md.liquid %}
 
 {% comment %} Minio activation, if needed {% endcomment %}
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/040_minio_activation.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/040_minio_activation.md.liquid %}
 
 Теперь MinIO готов к развертыванию, а приложение — настроено на хранение файлов в нём.
 
@@ -58,7 +58,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
 Ожидаемый результат:
-{% include 200_real_apps/050_s3/{{ page.framework_id }}/045_expected_result.md.liquid %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/045_expected_result.md.liquid %}
 
 Обратимся на `/download`, который должен попытаться достать файл из S3:
 ```shell

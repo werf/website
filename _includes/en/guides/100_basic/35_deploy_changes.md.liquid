@@ -173,7 +173,7 @@ The number of replicas corresponds to that specified in the Git repository. As y
 
 So how do you comply with the principles of **giterminism** and do it all right? This time, let's set `spec.replicas=4` by describing the application state in Git:
 
-{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
 
 For this, we will use the `.helm/templates/deployment.yaml` file:
 
@@ -202,7 +202,7 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 
 Let's clean up the working directory so that it contains only one replica:
 
-{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
 
 Check the contents of the `.helm/templates/deployment.yaml` file:
 
@@ -224,7 +224,7 @@ curl "http://werf-guide-app/ping"
 
 Let's make changes to the application code:
 
-{% include chapter_prepare_repo_commands.md.liquid examples_to=page.examples_modify_app from_scratch=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_modify_app from_scratch=false %}
 
 In the application code, the server response will change to `hello world`:
 

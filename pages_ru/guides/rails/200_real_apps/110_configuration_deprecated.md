@@ -1,6 +1,6 @@
 ---
 title: Управление конфигурацией приложения
-permalink: rails/200_real_apps/110_configuration.html
+permalink: guides/rails/200_real_apps/110_configuration.html
 layout: wip
 ---
 

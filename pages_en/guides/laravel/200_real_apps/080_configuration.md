@@ -1,6 +1,6 @@
 ---
 title: Configuration and secrets
-permalink: laravel/200_real_apps/080_config.html
+permalink: guides/laravel/200_real_apps/080_config.html
 examples_initial: examples/laravel/050_s3
 examples: examples/laravel/080_configuration
 base_url: https://github.com/werf/werf-guides/blob/master/
@@ -12,4 +12,4 @@ description: |
   Now, you will learn how to store application parameters in ConfigMaps and Secrets for security and flexibility. We will show how you can use Helm chart values and werf secrets and discuss parameterization and configuration reuse approaches. In addition, you will learn how to store sensitive data along with the code in the application's Git repository.
 ---
 
-{% include 200_real_apps/080_configuration.md.liquid %}
+{% include guides/200_real_apps/080_configuration.md.liquid %}

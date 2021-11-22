@@ -1,11 +1,11 @@
 ## Making our application stateful
 
-At this point, our application does not use a database and does not store any data (i.e., it is stateless). To make it stateful, we need {% include 200_real_apps/040_db/{{ page.framework_id }}/001_preparing_stateful_app.md.liquid %}
+At this point, our application does not use a database and does not store any data (i.e., it is stateless). To make it stateful, we need {% include guides/200_real_apps/040_db/{{ page.framework_id }}/001_preparing_stateful_app.md.liquid %}
 
 
 The following changes were made to our application:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/005_major_changes.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/005_major_changes.md.liquid %}
 
 ## Adding `/remember` and `/say` endpoints to the application
 
@@ -13,25 +13,25 @@ Let's add two new endpoints to our application. The `/remember` endpoint will st
 
 Below are our listings for a new controller and model:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/010_new_controllers.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/010_new_controllers.md.liquid %}
 
 Let's add new paths to the route list:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/013_list_of_routes.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/013_list_of_routes.md.liquid %}
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/015_two_simple_migrations.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/015_two_simple_migrations.md.liquid %}
 
 New endpoints, `/remember` and `/say`, are ready.
 
 ## Deploying a MySQL database and connecting to it
 
 In real life, a database can be a part of the Kubernetes infrastructure or run outside of it. Outside of Kubernetes, you can deploy and maintain a database yourself or use a managed solution like Amazon RDS. For illustrative purposes, let's deploy a MySQL database inside the Kubernetes cluster using the following basic StatefulSet:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/017_stateful_set.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/017_stateful_set.md.liquid %}
 >_Note that you can also use a database deployed differently. In this case, you will not need the above StatefulSet, while all further steps remain unchanged._
 
 Now let's configure our application to use the new database:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/020_setup_db_work.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/020_setup_db_work.md.liquid %}
 
 Great, the database and the application are ready to be deployed.
 
@@ -50,7 +50,7 @@ This way, all K8s resources are created at the same time but being run in the fo
 
 Let's now add a Job to perform database migrations/initializations:
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/025_migration_job.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/025_migration_job.md.liquid %}
 
 {% offtopic title="Why wait for ten consecutive successful DB availability checks?" %}
 Running `mysqladmin ping`, say, once may result in an incorrect conclusion that the database is ready. This is because the check has been completed before MySQL's StatefulSet restart during deployment. In such cases, the database may be unavailable during initialization/migrations.
@@ -60,7 +60,7 @@ In addition, in database images, the main database process may restart several t
 You can change the number of successful checks in a row; 10 is used as an example.
 {% endofftopic %}
 
-{% include 200_real_apps/040_db/{{ page.framework_id }}/027_init_container.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/027_init_container.md.liquid %}
 
 ## Testing the application/database
 
@@ -70,7 +70,7 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
 
 You should see the following output:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/030_expected_result.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/030_expected_result.md.liquid %}
 
 > Don't worry if the process seems to be stuck at this point and many errors appear in the messages. This happens due to checking the MySQL status; you just need to wait a bit when it's done (usually, it takes no more than 1-2 minutes).
 
@@ -105,10 +105,10 @@ Love you, sweetie!
 ```
 
 You can also make sure that the data is in the database by directly querying the table contents:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/033_database_request.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/033_database_request.md.liquid %}
 
 You should see the following output:
-{% include 200_real_apps/040_db/{{ page.framework_id }}/035_expected_result_db.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/035_expected_result_db.md.liquid %}
 
 Done!
 

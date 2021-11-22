@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes + werf tutorial: learn K8s and deploy your app"
 layout: landing
-permalink: index.html
+permalink: guides/index.html
 ---
 
 <div class="landing">

@@ -15,7 +15,7 @@ cd ~/werf-guide/app
 Problems with the repository? Try the instructions on the "I am just starting from this chapter" tab above.
 {%- else %}
 Update the existing repository containing the application:
-{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=false %}
 
 Doesn't work? Try the instructions on the "I am just starting from this chapter" tab above.
 {%- endif %}
@@ -23,5 +23,5 @@ Doesn't work? Try the instructions on the "I am just starting from this chapter"
 
 <div id="tabs__from_scratch__just_started" class="tabs__content tabs__from_scratch__content" markdown="1">
 Prepare a new repository with the application:
-{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=true no_changes=include.no_changes %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=true no_changes=include.no_changes %}
 </div>

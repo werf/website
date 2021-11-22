@@ -15,7 +15,7 @@ cd ~/werf-guide/app
 Возникли проблемы с репозиторием? Попробуйте инструкции на вкладке "Начинаю проходить руководство с этой главы" выше.
 {%- else %}
 Обновим существующий репозиторий с приложением:
-{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=false %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=false %}
 
 Не работает? Попробуйте инструкции на вкладке "Начинаю проходить руководство с этой главы" выше.
 {%- endif %}
@@ -23,5 +23,5 @@ cd ~/werf-guide/app
 
 <div id="tabs__from_scratch__just_started" class="tabs__content tabs__from_scratch__content" markdown="1">
 Подготовим новый репозиторий с приложением:
-{% include chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=true no_changes=include.no_changes %}
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=true no_changes=include.no_changes %}
 </div>
