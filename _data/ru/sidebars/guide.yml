@@ -38,3 +38,5 @@ entries:
           url: "300_deployment_practices/010_life_cycle.html"
         - title: Высокая доступность
           url: "300_deployment_practices/020_high_availability.html"
+        - title: Управление ресурсами
+          url: "300_deployment_practices/030_resource_management.html"
