@@ -270,7 +270,7 @@ spec:
     name: worker
   minReplicas: 1
   maxReplicas: 10
- metrics:
+metrics:
   - type: External
     external:
       metric:
@@ -298,7 +298,7 @@ spec:
     name: worker
   minReplicas: 1
   maxReplicas: 10
- metrics:
+metrics:
   - type: Resource
     resource:
       name: cpu
@@ -326,7 +326,7 @@ behavior:
     - type: Percent
       value: 5
       periodSeconds: 20
-   - type: Pods
+    - type: Pods
       value: 5
       periodSeconds: 60
     selectPolicy: Min
@@ -374,7 +374,7 @@ spec:
     name: worker
   minReplicas: 1
   maxReplicas: 10
- metrics:
+metrics:
   - type: External
     external:
       metric:
@@ -389,7 +389,7 @@ spec:
       - type: Percent
         value: 5
         periodSeconds: 20
-     - type: Pods
+      - type: Pods
         value: 5
         periodSeconds: 60
       selectPolicy: Min
