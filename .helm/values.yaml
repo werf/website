@@ -1,4 +1,12 @@
 host:
   production: werf.io
   stage: werf.stage.flant.com
+  dev: werf.dev.flant.com
   _default: werf.test.flant.com
+
+resources:
+  requests:
+    memory:
+      _default: 20M
+      production: 50M
+

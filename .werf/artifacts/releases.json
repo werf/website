@@ -1,0 +1,19 @@
+{
+  "releases": [
+    {
+      "tag_name": "v1.2.41",
+      "html_url": "https://github.com/werf/werf/releases/tag/v1.2.41",
+      "body": "{% raw %}  \n  \n### Bug Fixes  \n  \n* fix(deploy): fix broken 3 way merge cases: https://github.com/werf/werf/issues/3461 and https://github.com/werf/werf/issues/3462. Upstream helm issue: https://github.com/helm/helm/issues/10363.  \n{% endraw %}\n\n"
+    },
+    {
+      "tag_name": "v1.2.39",
+      "html_url": "https://github.com/werf/werf/releases/tag/v1.2.39",
+      "body": "{% raw %}  \n  \n### Bug Fixes  \n  \n* **buildah:** support --build-arg arguments defined in the werf.yaml ([8a2081e](https://www.github.com/werf/werf/commit/8a2081ef4499bba507fd66198370353460f04992))  \n{% endraw %}\n\n"
+    },
+    {
+      "tag_name": "v1.1.23+fix41",
+      "html_url": "https://github.com/werf/werf/releases/tag/v1.1.23%2Bfix41",
+      "body": "{% raw %}# Internals  \n  \nFIX: enable release publishing into the bintray mirror to support old multiwerf versions.  \n  \n# Installation  \n  \n[Linux amd64](https://storage.yandexcloud.net/werf/targets/releases/v1.1.23+fix41/werf-linux-amd64-v1.1.23+fix41)  \n  \n[Darwin amd64](https://storage.yandexcloud.net/werf/targets/releases/v1.1.23+fix41/werf-darwin-amd64-v1.1.23+fix41)  \n  \n[Windows amd64](https://storage.yandexcloud.net/werf/targets/releases/v1.1.23+fix41/werf-windows-amd64-v1.1.23+fix41)  \n  \n{% endraw %}\n\n"
+    }
+  ]
+}

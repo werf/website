@@ -3,6 +3,8 @@ company_url: https://flant.ru
 url: https://werf.io
 site_lang: en
 issuelink: "https://github.com/werf/werf-guides/issues/new"
+site_description: Consistent delivery tool. Git as a single source of truth. Build, deploy to Kubernetes, stay in sync.
+
 data_dir: _data/en
 includes_dir: _includes/en
 
@@ -11,6 +13,10 @@ exclude:
   - Gemfile.lock
   - examples
   - pages_ru
+  - werf.yaml
+  - "*.sh"
+  - backend
+
 include:
   - pages_en
 
@@ -21,8 +27,11 @@ defaults:
     values:
       layout: "page"
       lang: en
-      multilang: false
+      multilang: true
       sitemap_include: true
+      editme_button: true
+      search: true
+      topnav: topnav
   - scope:
       path: "pages_en/guides"
       type: "pages"
@@ -30,6 +39,7 @@ defaults:
       sidebar: guide
       multilang: true
       toc: false
+      layout: "guides"
       chapter_production_disclaimer: true
       chapter_initial_prepare_cluster: true
       chapter_initial_prepare_repo: true

@@ -1,5 +1,5 @@
 configVersion: 1
-project: werfio-guides
+project: werf-site
 ---
 
 image: jekyll_base
@@ -7,7 +7,7 @@ fromCacheVersion: "1"
 from: jekyll/builder:4
 git:
   - add: /
-    to: /guides
+    to: /app
     owner: jekyll
     group: jekyll
     includePaths:
@@ -17,16 +17,60 @@ git:
       setup: ["**/*"]
 shell:
   setup:
-    - cd /guides
+    - cd /app
     - bundle install
 ---
 
-{{- range $lang := list "en" "ru" }}
-image: guides_{{ $lang }}
+image: common_artifacts
 fromImage: jekyll_base
+ansible:
+  install:
+  - file:
+      path: "/artifacts"
+      state: directory
+      mode: 0777
+  - name: "releases.json"
+    copy:
+      content: |
+{{ .Files.Get ".werf/artifacts/releases.json" | indent 8 }}
+      dest:  /artifacts/releases.json
+  - name: "Strip escaping sequence from releases.json"
+    shell: |
+      sed -i 's#{% raw %}\ *##; s#{% endraw %}##' /artifacts/releases.json
+    args:
+      executable: /bin/bash
+      warn: false
+  - name: "releases_history.json"
+    copy:
+      content: |
+{{ .Files.Get ".werf/artifacts/releases_history.json" | indent 8 }}
+      dest:  /artifacts/releases_history.json
+  - name: "channels_versions.json"
+    copy:
+      content: |
+{{ .Files.Get ".werf/artifacts/channels_versions.json" | indent 8 }}
+      dest: /artifacts/channels_versions.json
+  - name: "feeds.base64"
+    copy:
+      content: |
+{{ .Files.Get ".werf/artifacts/feeds.tgz.base64" | indent 8 }}
+      dest: /artifacts/feeds.tgz.base64
+  - name: "unpack RSS feeds"
+    shell: |
+      if [ -f feeds.tgz.base64 ] ; then base64 -d feeds.tgz.base64 > feeds.tgz; tar -xzf feeds.tgz  --transform='s/feeds/./' --wildcards '*.xml'; else echo "RSS feeds file feeds.tgz is absent!";  exit 1 ; fi
+      rm feeds.tgz.base64
+      rm feeds.tgz
+    args:
+      executable: /bin/bash
+      warn: false
+      chdir: /artifacts
+---
+{{- range $lang := list "en" "ru" }}
+image: doc_{{ $lang }}
+fromImage: common_artifacts
 git:
   - add: /
-    to: /guides
+    to: /app
     owner: jekyll
     group: jekyll
     includePaths:
@@ -35,39 +79,82 @@ git:
       - _layouts
       - _plugins
       - assets
+      - examples
       - pages_{{ $lang }}
       - _config.yml
       - _config_dev.yml
       - _config_{{ $lang }}.yml
-      - sitemap.xml
-      - examples
+      - "*.xml"
+      - "*.png"
+      - "*.svg"
+      - favicon.ico
+      - robots.txt
     stageDependencies:
       setup: ["**/*"]
 shell:
   setup:
-    - cd /guides
+    - cd /app
     - set -u
+    - mkdir -m 0777 -p /app/_site/{{ $lang }}/
+    - cp -rf /artifacts /app/_data/common/
     - export JEKYLL_ENV="{{ $.Env }}"
     {{- if eq $.Env "development" }}
     - bundle exec jekyll build -tV --config _config.yml,_config_dev.yml,_config_{{ $lang }}.yml --baseurl /guides --destination _site/guides
     {{- else }}
-    - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --baseurl /guides --destination _site/guides
+    - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --destination _site/{{ $lang }}
     {{- end }}
 ---
 {{ end -}}
 
-image: frontend
-from: nginx:stable-alpine
-shell:
-  setup:
-    - |
-      head -c -1 <<'EOF' > /etc/nginx/nginx.conf
-{{ .Files.Get ".werf/nginx.conf" | indent 6 }}
-      EOF
+artifact: web-backend-artifact
+from: golang:1.16
+fromCacheVersion: 20210318
+ansible:
+  install:
+    - name: Build apis
+      shell: |
+        go get -d -v ./
+        go build -ldflags "-w -s" -v -o /go/src/app/server /go/src/app/
+      args:
+        executable: /bin/bash
+        chdir: /go/src/app
+git:
+  - add: /backend
+    to: /go/src/app
+    stageDependencies:
+      install: '**/*'
+---
+image: web-backend
+docker:
+  WORKDIR: /app
+from: ubuntu:20.04
+ansible:
+  install:
+    - apt:
+        name: ['git','curl', 'jq', 'vim']
+        state: present
+        update_cache: yes
 import:
+  - artifact: web-backend-artifact
+    add: /go/src/app/server
+    to: /app/server
+    before: setup
 {{- range $lang := list "en" "ru" }}
-  - image: guides_{{ $lang }}
-    add: /guides/_site
-    to: /site/{{ $lang }}
+  - image: doc_{{ $lang }}
+    add: /app/_site
+    to: /app/root/{{ $lang }}
     after: setup
 {{ end -}}
+---
+image: tuf-router
+from: fabiocicerchia/nginx-lua:1.21-alpine@sha256:525aa8fd0ac9bf5c7e82cd83b3f8ebf620bedb0d0b1e52955745fd53917eb24c
+ansible:
+  install:
+  - copy:
+      content: |
+{{ .Files.Get ".werf/nginx-tuf-router.conf" | indent 8 }}
+      dest: /etc/nginx/nginx.conf
+  - copy:
+      content: |
+{{ .Files.Get ".werf/tuf-router.lua" | indent 8 }}
+      dest: /etc/nginx/tuf-router.lua

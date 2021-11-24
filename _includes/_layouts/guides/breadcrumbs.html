@@ -25,7 +25,7 @@
    {{ breadcrumb_err | raise_error }}
    {% endunless -%}
    <li>
-      <a href="{{ site.baseurl }}/{{ page.framework_id }}{{ breadcrumb.url }}">{{ breadcrumb.title }}</a>
+      <a href="{{ site.baseurl }}/guides/{{ page.framework_id }}{{ breadcrumb.url }}">{{ breadcrumb.title }}</a>
    </li>
    {% endif -%}
    {%- endfor %}

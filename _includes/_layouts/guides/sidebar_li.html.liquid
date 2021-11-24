@@ -1,7 +1,7 @@
 {%- assign entry = include.entry -%}
 {%- assign base_li_class = include.base_li_class -%}
 {%- assign li_disabled_class = include.li_disabled_class -%}
-{%- assign entry_page_permalink = page.framework_id | append: "/" | append: entry.url -%}
+{%- assign entry_page_permalink = page.framework_id  | append: "/" | append: entry.url | prepend: "guides/" -%}
 {%- assign entry_relative_url = entry_page_permalink | relative_url -%}
 {% assign entry_page = site.pages | find: "permalink", entry_page_permalink %}
 

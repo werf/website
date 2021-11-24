@@ -1,18 +1,22 @@
-{{- $host := pluck .Values.global.env .Values.host | first | default .Values.host._default  }}
+{{- $host := pluck .Values.werf.env .Values.host | first | default .Values.host._default  }}
+{{- if  hasPrefix "review" .Values.werf.env }}
+{{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
+{{- end }}
+
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}
+  name: main
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header X-Original-URI         $request_uri;
       ssi on;
       ssi_silent_errors on;
-{{- if eq .Values.global.env "production" }}
+{{- include "rewrites" . | indent 6 }}
+{{- if eq .Values.werf.env "production" }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-{{- end }}
-{{- if ne .Values.global.env "production" }}
+{{- else }}
     nginx.ingress.kubernetes.io/auth-url: http://basic-auth.kube-basic-auth.svc.cluster.local/werfio
 {{- end }}
 spec:
@@ -20,7 +24,7 @@ spec:
   - hosts:
       - {{ $host }}
       - ru.{{ $host }}
-{{- if eq .Values.global.env "production" }}
+{{- if eq .Values.werf.env "production" }}
       - www.{{ $host }}
 {{- end }}
     secretName: tls-{{ $host }}
@@ -28,15 +32,55 @@ spec:
   - host: {{ $host }}
     http:
       paths:
-      - path: /guides
+      - path: /
         backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
+          serviceName: backend
+          servicePort: http
+      - backend:
+          serviceName: backend
+          servicePort: http
+        path: /guides.html
+        pathType: Exact
   - host: ru.{{ $host }}
     http:
       paths:
-      - path: /guides
+      - path: /
         backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
+          serviceName: backend
+          servicePort: http
+      - backend:
+          serviceName: backend
+          servicePort: http
+        path: /guides.html
+        pathType: Exact
 ---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ .Chart.Name }}-cert
+spec:
+  secretName: tls-{{ $host }}
+  issuerRef:
+    kind: ClusterIssuer
+{{- if hasPrefix "review" .Values.werf.env }}
+    name: letsencrypt-staging
+{{- else }}
+    name: letsencrypt
+{{- end }}
+  commonName: {{ $host }}
+  dnsNames:
+  - {{ $host }}
+  - ru.{{ $host }}
+{{- if eq .Values.werf.env "production" }}
+  - www.{{ $host }}
+{{- end }}
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - {{ $host }}
+      - ru.{{ $host }}
+{{- if eq .Values.werf.env "production" }}
+      - www.{{ $host }}
+{{- end }}

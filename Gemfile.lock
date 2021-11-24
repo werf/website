@@ -144,7 +144,7 @@ DEPENDENCIES
   jekyll_remote_plantuml_plugin
   kramdown (>= 2.3.0)
   kramdown-parser-gfm
-  nokogiri (>= 1.10.8)
+  nokogiri (>= 1.12.5)
   sprockets (~> 4.0)
 
 BUNDLED WITH

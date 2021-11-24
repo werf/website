@@ -3,7 +3,7 @@
   {%- for folder in sidebar.f %}
   {% if folder.sf %}
   <li class="sidebar__item sidebar__item_parent {%- if page.url contains folder.url %} active{%- endif %}">
-    {%- capture folder_page_permalink %}{{ page.framework_id }}/{{ folder.url }}{% endcapture -%}
+    {%- capture folder_page_permalink %}guides/{{ page.framework_id }}/{{ folder.url }}{% endcapture -%}
     {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
     {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
 
