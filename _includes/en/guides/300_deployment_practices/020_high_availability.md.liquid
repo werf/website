@@ -9,3 +9,14 @@ For example, when the autoscaler scales down your number of nodes, some of those
 The more replicas there are, the milder of a decline there will be in your application’s computing capacity in the event that some replica fails. For example, suppose you have two replicas and one fails due to network issues on a node. The load that the application can handle will be cut in half (with only one of the two replicas available). Of course, the new replica will be scheduled on a new node, and the load capacity of the application will be fully restored. But until then, increasing the load can lead to service disruptions, which is why you **must have some replicas in reserve**
 
 *The above recommendations are relevant to cases in which there is no HorizontalPodAutoscaler used. The best alternative for applications that have more than a few replicas is to configure HorizontalPodAutoscaler and let it manage the number of replicas. We will focus on HorizontalPodAutoscaler in the next article.*
+
+## The update strategy
+
+The default update strategy for Deployment entails a reduction of the number of old+new ReplicaSet Pods with a `Ready` status of 75% of their pre-update amount. Thus, during the update, the computing capacity of an application may drop to 75% of its regular level, and that may lead to a partial failure (degradation of the application’s performance). The `strategy.RollingUpdate.maxUnavailable` parameter allows you to configure the maximum percentage of Pods that can become unavailable during an update. Therefore, either make sure that your application runs smoothly even in the event that 25% of your Pods are unavailable or lower the `maxUnavailable` parameter. Note that the `maxUnavailable` parameter is rounded down.
+
+There’s a little trick to the default update strategy (`RollingUpdate`): the application will temporarily have not only a few replicas, but two different versions (the old one and the new one) running concurrently as well. Therefore, if running different replicas and different versions of the application side by side is unfeasible for some reason, then you can use `strategy.type: Recreate`. Under the `Recreate` strategy, all the existing Pods are killed before the new Pods are created. This results in a short-lived downtime.
+
+*Other deployment strategies (blue-green, canary, etc.) can often provide a much better alternative to the RollingUpdate strategy. However, we are not taking them into account in this article since their implementation depends on the software used to deploy the application. That goes beyond the scope of this article*. 
+
+>Here is a [great article](https://www.weave.works/blog/kubernetes-deployment-strategies) on the topic that we recommend and is well worth the read.
+
