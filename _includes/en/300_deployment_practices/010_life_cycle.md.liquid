@@ -74,7 +74,7 @@ Also, note that increasing `failureThreshold` instead of setting `initialDelaySe
 
 As you know, readinessProbe is often used for checking external dependencies (e.g. databases). While this approach has the right to exist, you’d be well advised to separate your means of checking for external dependencies and your means of checking whether the application in the Pod is running at full capacity (and cutting off the sending of traffic to it is a good idea as well).
 
-You can use `initContainers` to check external dependencies before running the main containers startupProbe/readinessProbe. It’s pretty clear that in that case, you will no longer need to check external dependencies using readinessProbe. `initContainers` do not require changes to the application code. You do not need to embed additional tools to use them for checking external dependencies in the application containers. Usually, they are reasonably easy to implement:
+You can use `initContainers` to check external dependencies before running the main containers' startupProbe/readinessProbe. It’s pretty clear that in that case, you will no longer need to check external dependencies using readinessProbe. `initContainers` do not require changes to the application code. You do not need to embed additional tools to use them for checking external dependencies in the application containers. Usually, they are reasonably easy to implement:
 
 ```yaml
 initContainers:
