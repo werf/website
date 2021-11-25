@@ -20,3 +20,19 @@ There’s a little trick to the default update strategy (`RollingUpdate`): the a
 
 >Here is a [great article](https://www.weave.works/blog/kubernetes-deployment-strategies) on the topic that we recommend and is well worth the read.
 
+## Uniform replicas distribution across nodes
+
+It is very important that you distribute Pods of the application across different nodes if you have multiple replicas of the application. To do so, **you can instruct your scheduler to avoid starting multiple Pods of the same Deployment on the same node**:
+
+```yaml
+affinity:
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - podAffinityTerm:
+      labelSelector:
+        matchLabels:
+          app: testapp
+      topologyKey: kubernetes.io/hostname
+```
+
+It is better to use `preferredDuringSchedulingaffinity` instead of `requiredDuringScheduling`. The latter may render it impossible to start new Pods if the number of nodes required for the new Pods is larger than the number of nodes available. Still, the `requiredDuringScheduling` affinity might come in handy when the number of nodes and application replicas is known in advance and you need to be sure that two Pods will not end up on the same node.
