@@ -1,0 +1,11 @@
+In this section, we will show you what features and settings Kubernetes should pay attention to in order to ensure high availability of your applications running in K8s.
+
+## Number of replicas
+
+You need at least two replicas for the application to be considered minimally available. But why, you may ask, is a single replica not enough? The problem is that many entities in Kubernetes (Node, Pod, ReplicaSet, etc.) are ephemeral, i.e. under certain conditions, they may be automatically deleted/recreated. Obviously, the Kubernetes cluster and applications running in it must account for that.
+
+For example, when the autoscaler scales down your number of nodes, some of those nodes will be deleted, including the Pods running on them. If the sole instance of your application is running on one of the nodes to be deleted, you may find your application completely unavailable, though this is usually short-lived. In general, if you only have one replica of the application, any abnormal termination of it will result in downtime. In other words, you must have **at least two running replicas of the application**.
+
+The more replicas there are, the milder of a decline there will be in your application’s computing capacity in the event that some replica fails. For example, suppose you have two replicas and one fails due to network issues on a node. The load that the application can handle will be cut in half (with only one of the two replicas available). Of course, the new replica will be scheduled on a new node, and the load capacity of the application will be fully restored. But until then, increasing the load can lead to service disruptions, which is why you **must have some replicas in reserve**
+
+*The above recommendations are relevant to cases in which there is no HorizontalPodAutoscaler used. The best alternative for applications that have more than a few replicas is to configure HorizontalPodAutoscaler and let it manage the number of replicas. We will focus on HorizontalPodAutoscaler in the next article.*
