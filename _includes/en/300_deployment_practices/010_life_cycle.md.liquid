@@ -69,3 +69,45 @@ startupProbe checks if an application in the container is ready. Then it marks t
 You should use startupProbe if your application receives traffic and your Kubernetes version is 1.18 or higher.
 
 Also, note that increasing `failureThreshold` instead of setting `initialDelaySeconds` is the preferred method for configuring the probe. This will allow the container to become available as quickly as possible.
+
+## Checking external dependencies
+
+As you know, readinessProbe is often used for checking external dependencies (e.g. databases). While this approach has the right to exist, you’d be well advised to separate your means of checking for external dependencies and your means of checking whether the application in the Pod is running at full capacity (and cutting off the sending of traffic to it is a good idea as well).
+
+You can use `initContainers` to check external dependencies before running the main containers startupProbe/readinessProbe. It’s pretty clear that in that case, you will no longer need to check external dependencies using readinessProbe. `initContainers` do not require changes to the application code. You do not need to embed additional tools to use them for checking external dependencies in the application containers. Usually, they are reasonably easy to implement:
+
+```yaml
+initContainers:
+- name: wait-postgres
+  image: postgres:12.1-alpine
+  command:
+  - sh
+  - -ec
+  - |
+    until (pg_isready -h example.org -p 5432 -U postgres); do
+      sleep 1
+    done
+  resources:
+    requests:
+      cpu: 50m
+      memory: 50Mi
+    limits:
+      cpu: 50m
+      memory: 50Mi
+- name: wait-redis
+  image: redis:6.0.10-alpine3.13
+  command:
+  - sh
+  - -ec
+  - |
+    until (redis-cli -u redis://redis:6379/0 ping); do
+      sleep 1
+    done
+  resources:
+    requests:
+      cpu: 50m
+      memory: 50Mi
+    limits:
+      cpu: 50m
+      memory: 50Mi
+```
