@@ -36,3 +36,49 @@ podAntiAffinity:
 ```
 
 It is better to use `preferredDuringSchedulingaffinity` instead of `requiredDuringScheduling`. The latter may render it impossible to start new Pods if the number of nodes required for the new Pods is larger than the number of nodes available. Still, the `requiredDuringScheduling` affinity might come in handy when the number of nodes and application replicas is known in advance and you need to be sure that two Pods will not end up on the same node.
+
+## PodDisruptionBudget
+
+The [PodDisruptionBudget](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#pod-disruption-budgets) (PDB) mechanism is a must-have for applications running in production. It provides you the means to specify a maximum limit to the number of application Pods that can be unavailable simultaneously. Earlier we discussed some methods that are instrumental in avoiding potentially risky situations: running several application replicas, specifying `podAntiAffinity` (to prevent several Pods from being assigned to the same node), etc.
+
+However, you may encounter a situation in which more than one K8s node becomes unavailable at the same time. For example, suppose you decide to switch instances to more powerful ones. There may be other reasons besides that, but that’s beyond the scope of this article. The thing is that several nodes get removed at the same time. “But that’s Kubernetes!” you might say. ”Everything is ephemeral here! The Pods will get moved to other nodes, so what’s the deal?” Well, let’s have a look.
+
+Suppose the application has three replicas. The load is evenly distributed between them, while the Pods are distributed across the nodes. In this case, the application will continue to run even if one of the replicas fails. However, the failure of two replicas will result in a service degradation: one single Pod simply cannot handle the entire load on its own. The clients will start getting 5XX errors. (Of course, you can set a rate limit in the nginx container; in that case, the error will be *429 Too Many Requests*. Still, the service will degrade nevertheless).
+
+And that’s where PodDisruptionBudget comes to help. Let’s take a look at its manifest:
+
+```yaml
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: app-pdb
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: app
+```
+
+The manifest is pretty straightforward; you are probably familiar with most of its fields, `maxUnavailable` being the most interesting among them. This field sets the maximum number of Pods that can be simultaneously unavailable. This can be either an absolute number or a percentage.
+
+Suppose the PDB is configured for the application. What will happen in the event that, for some reason, two or more nodes start evicting application Pods? The above PDB only allows for one Pod to be evicted at a time. Therefore, the second node will wait until the number of replicas reverts to the pre-eviction level, and only then will the second replica be evicted.
+
+As an alternative, you can also set a `minAvailable` parameter. For example:
+
+```yaml
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: app-pdb
+spec:
+  minAvailable: 80%
+  selector:
+    matchLabels:
+      app: app
+```
+
+This parameter ensures that at least 80% of replicas are available in the cluster at all times. Thus, only 20% of replicas can be evicted if necessary. `minAvailable` can be either an absolute number or a percentage.
+
+But there is a catch: there have to be enough nodes in the cluster that satisfy the `podAntiAffinity` criteria. Otherwise, you may encounter a situation in which a replica gets evicted, but the scheduler cannot re-deploy it due to a lack of suitable nodes. As a result, draining a node will take forever to complete, and will get you two application replicas instead of three. Granted, you can invoke `kubectl describe` for a *Pending* Pod to see what’s going on and eliminate the problem. But still, it is better to prevent this kind of situation from happening.
+
+To summarize, **lways configure the PDB for critical components of your system**.
