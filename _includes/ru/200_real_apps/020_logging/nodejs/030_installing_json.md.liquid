@@ -8,9 +8,7 @@ $ npm install pino pino-http
 
 Подключим логгер к серверу:
 
-{% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-import" examples=page.examples %}
-
-{% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-usage" examples=page.examples %}
+{% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-import,logger-usage" examples=page.examples %}
 
 Библиотека `pino-http` добавила доступ к `pino` через объект ответа: `res.log`. Так логгер можно
 инициализировать один раз и использовать как зависимость в другом коде:
