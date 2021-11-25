@@ -61,3 +61,11 @@ In practice, the first function is required in the vast majority of cases, while
 Still, readinessProbe comes with another crucial feature: it helps determine when a newly created container can handle the traffic so as not to forward load to an application that isn’t ready yet. This readinessProbe feature, au contraire, is necessary at all times.
 
 In other words, one feature of readinessProbe is in high demand, while the other is not necessary at all. This dilemma was solved with the introduction of startupProbe. It first appeared in Kubernetes 1.16 becoming beta in v1.18 and stable in v1.20. Thus, you’re best off **using readinessProbe to check if an application is ready in Kubernetes versions below 1.18, but startupProbe – in Kubernetes versions 1.18 and up**. Then again, you can use readinessProbe in Kubernetes 1.18+ if you have any need to stop traffic to individual Pods after the application has been started.
+
+## Startup probe
+
+startupProbe checks if an application in the container is ready. Then it marks the current Pod as ready to receive traffic or goes on updating/restarting the Deployment. Unlike readinessProbe, startupProbe stops working after the container has been started. We do not advise using startupProbe for checking external dependencies: its failure would trigger a container restart, which may eventually cause the Pod to go `CrashLoopBackOff`. In this state, the delay between attempts to restart a failed container can be as high as five minutes. It may lead to unnecessary downtime since, despite the application being ready to be restarted, the container continues to wait until the end of the `CrashLoopBackOff` period before trying to restart.
+
+You should use startupProbe if your application receives traffic and your Kubernetes version is 1.18 or higher.
+
+Also, note that increasing `failureThreshold` instead of setting `initialDelaySeconds` is the preferred method for configuring the probe. This will allow the container to become available as quickly as possible.
