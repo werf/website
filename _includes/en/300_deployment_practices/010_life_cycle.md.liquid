@@ -48,3 +48,16 @@ Also, ensure that livenessProbe does not stop responding if your application has
 And, of course, do not add any external dependency checks to your livenessProbe.
 
 >See [this article](https://srcco.de/posts/kubernetes-liveness-probes-are-dangerous.html) for more information on liveness probe issues and how to prevent them.
+
+## Readiness probe
+
+The design of readinessProbe has turned out not to be very successful. readinessProbe combines two different functions:
+
+* it finds out if an application is available during the container start;
+* it checks if an application remains available after the container has been successfully started.
+
+In practice, the first function is required in the vast majority of cases, while the second is only needed as often as the livenessProbe. The poorly configured readinessProbe can cause issues similar to those of livenessProbe. In the worst case, they can also end up causing long-term unavailability for the application.
+
+Still, readinessProbe comes with another crucial feature: it helps determine when a newly created container can handle the traffic so as not to forward load to an application that isn’t ready yet. This readinessProbe feature, au contraire, is necessary at all times.
+
+In other words, one feature of readinessProbe is in high demand, while the other is not necessary at all. This dilemma was solved with the introduction of startupProbe. It first appeared in Kubernetes 1.16 becoming beta in v1.18 and stable in v1.20. Thus, you’re best off **using readinessProbe to check if an application is ready in Kubernetes versions below 1.18, but startupProbe – in Kubernetes versions 1.18 and up**. Then again, you can use readinessProbe in Kubernetes 1.18+ if you have any need to stop traffic to individual Pods after the application has been started.
