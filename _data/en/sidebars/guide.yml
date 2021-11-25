@@ -31,3 +31,12 @@ entries:
           url: "200_real_apps/050_s3.html"
         - title: Configuration and secrets
           url: "200_real_apps/080_config.html"
+    - title: Best practices for deploying
+      url: "300_deployment_practices.html"
+      sf:
+        - title: Life cycle
+          url: "300_deployment_practices/010_life_cycle.html"
+        - title: High availability
+          url: "300_deployment_practices/020_high_availability.html"
+        - title: Resource management
+          url: "300_deployment_practices/030_resource_management.html"
