@@ -199,3 +199,205 @@ You can experiment with “Auto” and “Initial” modes in the dev environmen
 In the meantime, we are eagerly anticipating in-place (restart-free) updates for Pod resources.
 
 Note that there are some limitations associated with joint use of HPA and VPA. For instance, VPA should not be used together with HPA if the CPU- or Memory-based metric is used as a trigger. The reason is that when the threshold is reached, VPA increases resource requests/limits while HPA adds new replicas. Consequently, the load will drop off sharply, and the process will go in reverse, resulting in “flapping”. The [official documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#known-limitations) sheds more light on the existing limitations.
+
+## HorizontalPodAutoscaler
+
+Let’s consider another situation: what happens if an application has an unexpected load that is significantly higher than usual? Yes, you can scale up the cluster manually, but that is not the method we use.
+
+That is where [HorizontalPodAutoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) (HPA) comes in. With HPA, you can choose a metric and use it as a trigger for scaling the cluster up/down automatically, depending on the metric’s value. Imagine that on one quiet night your cluster suddenly gets blasted with a massive uptick in traffic, say, Reddit users have found out about your service. The CPU load (or some other Pod metric) increases, hits the threshold, and then HPA comes into play. It scales up the cluster, thus distributing the load between a larger number of Pods.
+
+Thanks to that, all the incoming requests are processed successfully. Just as important, after the load returns to the average level, **HPA scales the cluster down to reduce infrastructure costs and save money**. Sounds great, doesn’t it?
+
+Let’s see how exactly HPA calculates the number of replicas to be added. Here is the formula from the documentation:
+
+```shell
+desiredReplicas = ceil[currentReplicas * ( currentMetricValue / desiredMetricValue )]
+```
+
+Now suppose that:
+
+* the current number of replicas is 3;
+* the current metric value is 100;
+* the metric threshold value is 60;
+
+In this case, the resulting number is `3 * ( 100 / 60 )`, i.e. “about” 5 replicas (HPA will round the result up). Thus, the application will gain two more replicas. But that is not the end of the story: HPA will continue to calculate the number of replicas required (using the formula above) to scale down the cluster if the load decreases.
+
+And that brings us to the most exciting part. What metric should you use? The first thing that comes to mind is one of the primary metrics, such as CPU or Memory utilization. And that will work if your CPU and Memory consumption is directly proportional to the incoming load. But what if the Pods are handling different requests? Some requests require many CPU cycles, others may consume a lot of memory, and still others only demand minimum resources.
+
+Let’s take a look, for example, at the RabbitMQ queue and the instances processing it. Suppose there are ten messages in the queue. Monitoring shows that messages are being dequeued (as per RabbitMQ’s terminology) steadily and regularly. That is, we feel that ten messages in the queue on average is okay. But then the load suddenly increases, and the queue grows to 100 messages. However, the workers’ CPU and Memory consumption stays the same: they are steadily processing the queue, leaving about 80-90 messages in it.
+
+But **what if we use a custom metric** that describes the number of messages in the queue? Let’s configure our custom metric as follows:
+
+* the current number of replicas is 3;
+* the current metric value is 80;
+* the metric threshold value is 15.
+
+Thus, `3 * ( 80 / 15 ) = 16`. In this case, HPA can increase the number of workers to 16, and they quickly process all the messages in the queue (at which point HPA will decrease their number again). However, all the required infrastructure must be ready to accommodate this number of Pods. That is, they must fit on the existing nodes, or new nodes must be provisioned by the infrastructure provider (cloud provider) in the case that [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) is used. In other words, we are back to planning cluster resources.
+
+Now let’s take a look at some manifests:
+
+```yaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+```
+
+This one is simple. As soon as the CPU load reaches 50%, HPA starts scaling the number of replicas to a maximum of 10.
+
+Here is a more interesting one:
+
+```yaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: worker
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: worker
+  minReplicas: 1
+  maxReplicas: 10
+metrics:
+  - type: External
+    external:
+      metric:
+        name: queue_messages
+      target:
+        type: AverageValue
+        averageValue: 15
+```
+
+Note that in this example, HPA uses the [custom metric](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics). It will base its scaling decisions on the size of the queue (`queue_messages` metric). Given that the average number of messages in the queue is 10, we set the threshold to 15. This way, you can manage the number of replicas more accurately. As you can see, the custom metric enables more accurate cluster autoscaling than, say, a CPU-based metric.
+
+### Additional features
+
+The HPA configuration options are pretty diverse. For example, you can combine different metrics. In the manifest below, CPU utilization and queue size are used to trigger scaling decisions.
+
+```yaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: worker
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: worker
+  minReplicas: 1
+  maxReplicas: 10
+metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: External
+    external:
+      metric:
+        name: queue_messages
+      target:
+        type: AverageValue
+        averageValue: 15
+```
+
+What calculation algorithm does HPA apply? Well, it uses the highest calculated number of replicas regardless of the metric exploited. For example, if the calculation based on the CPU metric shows that 5 replicas need to be added while the queue size-based metric gives only 3 Pods, HPA will use the larger value and add 5 Pods.
+
+With the release of Kubernetes 1.18, you now [have the ability](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior) to define `scaleUp` and `scaleDown` policies. For example:
+
+```yaml
+behavior:
+  scaleDown:
+    stabilizationWindowSeconds: 60
+    policies:
+    - type: Percent
+      value: 5
+      periodSeconds: 20
+    - type: Pods
+      value: 5
+      periodSeconds: 60
+    selectPolicy: Min
+  scaleUp:
+    stabilizationWindowSeconds: 0
+    policies:
+    - type: Percent
+      value: 100
+      periodSeconds: 10
+```
+
+As you can see in the manifest above, it features two sections. The first one (`scaleDown`) defines the scaling down parameters while the second (`scaleUp`) is used for scaling up. Each section features the `stabilizationWindowSeconds`. This helps prevent what is referred to as “flapping” (or unnecessary scaling) as the number of replicas continues to oscillate. This parameter essentially serves as a timeout after the number of replicas is changed.
+
+Now let’s talk about the policies. The `scaleDown` policy allows you to specify the percent of Pods (`type: Percent`) to scale down over a specific period of time. If the load features a cyclical pattern, what you have to do is decrease the percentage and increase the duration period. In that case, as the load decreases, HPA will not kill a large number of Pods at once (according to its formula) but will do so gradually instead. Furthermore, you can set the maximum number of Pods (`type: Pods`) that HPA is allowed to kill over the specified time period.
+
+Note the `selectPolicy: Min` parameter. What that means is HPA uses the policy that affects the minimum number of Pods. Thus, HPA will choose a percent value if it (5% in the example above) is less than the numeric alternative (5 Pods in the example above). Conversely, the `selectPolicy: Max` policy will have the opposite effect.
+
+Similar parameters are used in the `scaleUp` section. Note that in most situations, the cluster must scale up (almost) instantly since even a slight delay can affect users and their experience. For that reason, `stabilizationWindowSeconds` is set to 0 in this section. If the load has a cyclical pattern, HPA can increase the replica count to `maxReplicas` (as defined in the HPA manifest) if necessary. Our policy allows HPA to add up to 100% to the currently running replicas every 10 seconds (`periodSeconds: 10`).
+
+Finally, you can set the `selectPolicy` parameter to `Disabled` to turn off scaling in the given direction:
+
+```yaml
+behavior:
+  scaleDown:
+    selectPolicy: Disabled
+```
+
+Most of the time that policies are used is when HPA does not work as expected. **Policies provide flexibility but render the manifest harder to grasp**.
+
+Recently, HPA [became capable](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#container-resource-metrics) to track the resource usage of individual containers across a set of Pods (introduced as an alpha feature in Kubernetes 1.20).
+
+### HPA: summary
+
+Let us conclude this section with an example of the complete HPA manifest:
+
+```yaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: worker
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: worker
+  minReplicas: 1
+  maxReplicas: 10
+metrics:
+  - type: External
+    external:
+      metric:
+        name: queue_messages
+      target:
+        type: AverageValue
+        averageValue: 15
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 5
+        periodSeconds: 20
+      - type: Pods
+        value: 5
+        periodSeconds: 60
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 10
+```
+
+>Please note this example is provided for informational purposes only. You will need to adapt it to suit the specifics of your own operation.
+
+Horizontal Pod Autoscaler resume: **HPA is perfect for production environments. But you have to be careful and forward-thinking when choosing metrics for HPA**. A mistaken metric or an incorrect threshold will result in either a waste of resources (from unnecessary replicas) or service degradation (if the number of replicas is not enough). Closely monitor the behavior of the application and test it until you’ve achieved the right balance.
