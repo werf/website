@@ -12,3 +12,36 @@ You will need to add several [PriorityClass](https://kubernetes.io/docs/concepts
 * *Default*. `Priority: 0`. Non-production applications.
 
 Setting priorities will help you to avoid sudden evictions of critical components. Also, critical applications will evict less important applications if there is a lack of node resources.
+
+## Reserving resources
+
+The scheduler uses a Pod’s `resources.requests` to decide which node to place the Pod on. For instance, a Pod cannot be scheduled on a Node that does not have enough free (i.e., *non-requested*) resources to cover that Pod’s resource requests. On the other hand, `resources.limits` allow you to limit Pods’ resource consumption that heavily exceeds their respective requests. A good tip is to **set limits equal to requests**. Setting limits at much higher than requests may lead to a situation when some of a node’s Pods not getting the requested resources. This may lead to the failure of other applications on the node (or even the node itself). Kubernetes assigns a [QoS class](https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod) to each Pod based on its resource scheme. K8s then uses QoS classes to make decisions about which Pods should be evicted from the nodes.
+
+Therefore, you **have to set both requests and limits for both the CPU and memory**. The only thing you can/should omit is the CPU limit if the [Linux kernel version is older than 5.4](https://engineering.indeedblog.com/blog/2019/12/cpu-throttling-regression-fix/) (in the case of EL7/CentOS7, the kernel version must be older than 3.10.0-1062.8.1.el7).
+
+>Подробнее о том, что такое requests и limits, какие бывают QoS-классы в Kubernetes, можно почитать в [этой внешней статье](https://habr.com/ru/company/flant/blog/459326/).
+
+Furthermore, the memory consumption of some applications tends to grow in an unlimited fashion. A good example of that is Redis used for caching or an application that basically runs “on its own”. To limit their impact on other applications on the node, you can (and should) set limits for the amount of memory to be consumed. The only problem with that is the application will be `KILL`ed when this limit is reached. Applications cannot predict/handle this signal, and this will probably prevent them from shutting down correctly. That is why, in addition to Kubernetes limits, we **highly recommend using application-specific mechanisms for limiting memory consumption** so that it does not exceed (or come close to) the amount set in a Pod’s `limits.memory` parameter.
+
+Here is a Redis configuration that can help you with this:
+
+```shell
+maxmemory 500mb   # if the amount of data exceeds 500 MB...
+maxmemory-policy allkeys-lru   # ...Redis would delete rarely used keys
+```
+
+As for Sidekiq, you can use the [Sidekiq worker killer](https://github.com/klaxit/sidekiq-worker-killer):
+
+```shell
+require 'sidekiq/worker_killer'
+Sidekiq.configure_server do |config|
+  config.server_middleware do |chain|
+    # Terminate Sidekiq correctly when it consumes 500 MB
+    chain.add Sidekiq::WorkerKiller, max_rss: 500
+  end
+end
+```
+
+It is clear that in all these cases that `limits.memory` needs to be higher than the thresholds for triggering the above mechanisms.
+
+Next we’ll discuss using VerticalPodAutoscaler to allocate resources automatically.
