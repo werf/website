@@ -1,0 +1,14 @@
+## Priority
+
+`priorityClassName` represents your Pod priority. The scheduler uses it to decide which Pods are to be scheduled first and which Pods should be evicted first if there is no space for Pods left on the nodes.
+
+You will need to add several [PriorityClass](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) type resources and map Pods to them using `priorityClassName`. Here is an example of how `PriorityClasses` may vary:
+
+* *Cluster*. `Priority > 10000`. Cluster-critical components, such as kube-apiserver.
+* *Daemonsets*. `Priority: 10000`. Usually, it is not advised for DaemonSet Pods to be evicted from cluster nodes and replaced by ordinary applications.
+* *Production-high*. `Priority: 9000`. Stateful applications.
+* *Production-medium*. `Priority: 8000`. Stateless applications.
+* *Production-low*. `Priority: 7000`. Less critical applications.
+* *Default*. `Priority: 0`. Non-production applications.
+
+Setting priorities will help you to avoid sudden evictions of critical components. Also, critical applications will evict less important applications if there is a lack of node resources.
