@@ -45,3 +45,157 @@ end
 It is clear that in all these cases that `limits.memory` needs to be higher than the thresholds for triggering the above mechanisms.
 
 Next we’ll discuss using VerticalPodAutoscaler to allocate resources automatically.
+
+## VerticalPodAutoscaler
+
+[VPA](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) analyzes the resource requirements of the containers and sets (if the corresponding mode is enabled) their limits and requests.
+
+Suppose you have deployed a new app version with some new functions and it turns out that, say, the imported library is a huge resource eater, or the code isn’t very well optimized. In other words, the application resource requirements have increased. You failed to notice this during testing (since it is hard to load the application in the same way as in production).
+
+And, of course, the relevant requests and limits had been set for the app before an update begins. And now the application reaches the memory limit, and its Pod gets killed due to OOM. VPA can prevent this! At first glance, **VPA looks like a great tool that should be used whenever and wherever possible. But in real life that isn’t always necessarily the case**, and you have to bear in mind the finer details involved.
+
+The main problem (it isn’t solved yet) is that the Pod needs to be restarted for resource changes to take effect. In the future, VPA will modify them without restarting the Pod, but for now, it simply isn’t capable of doing that. But no need to worry. That isn’t a big deal if you have a “well-written” application that is always ready for redeployment (say, it has a large number of replicas; its PodAntiAffinity, PodDistruptionBudget, HorizontalPodAutoscaler are carefully configured; etc.). In that case, you (probably) won’t even notice the VPA activity.
+
+Sadly, there are other less pleasant scenarios that may occur like: the application not taking redeployment very well, the number of replicas being limited due to a lack of nodes, our application running as a StatefulSet, etc. In the worst-case scenario, the Pods’ resource consumption grows due to an increased load, HPA starts to scale up the cluster, and then, suddenly, VPA proceeds to modify the resource parameters and restarts the Pods. As a result, this high load gets distributed across the rest of the Pods. Some of them may crash, rendering things even worse and resulting in a chain reaction of failure.
+
+That is why having a profound understanding of various VPA operating modes is important. Let’s start with the simplest one — “Off”.
+
+### Off mode
+
+All this mode does is calculate the resource consumption of Pods and make recommendations. Looking ahead, I would like to note that at Flant **we use this mode in the majority of cases** (and we recommend it). But first, let’s look at a few examples.
+
+Some basic manifests follow below:
+
+```yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: my-app-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: my-app
+  updatePolicy: 
+    updateMode: "Recreate"
+    containerPolicies:
+      - containerName: "*"
+        minAllowed:
+          cpu: 100m
+          memory: 250Mi
+        maxAllowed:
+          cpu: 1
+          memory: 500Mi
+        controlledResources: ["cpu", "memory"]
+        controlledValues: RequestsAndLimits
+```
+
+We will not go into detail about this manifest’s parameters: [this article](https://povilasv.me/vertical-pod-autoscaling-the-definitive-guide/) provides a detailed description of the features and aspects of VPA. In short, we specify the VPA target (`targetRef`) and select the update policy. Additionally, we specify the upper and lower limits for the resources VPA can use. The primary focus is on the `updateMode` field. In “Recreate” or “Auto” mode, VPA will recreate Pods with all consequences (until an above-mentioned patch for in-place Pod resource parameters update becomes available). Since we don’t want it, we use the “Off” mode:
+
+```yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: my-app-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: my-app
+  updatePolicy: 
+    updateMode: "Off"   # !!!
+  resourcePolicy:
+    containerPolicies:
+      - containerName: "*"
+        controlledResources: ["cpu", "memory"]
+```
+
+VPA starts collecting metrics. You can use the `kubectl describe vpa` command to see the recommendations (just let VPA run for a few minutes):
+
+```yaml
+Recommendation:
+Container Recommendations:
+  Container Name:  nginx
+  Lower Bound:
+    Cpu:     25m
+    Memory:  52428800
+  Target:
+    Cpu:     25m
+    Memory:  52428800
+  Uncapped Target:
+    Cpu:     25m
+    Memory:  52428800
+  Upper Bound:
+    Cpu:     25m
+    Memory:  52428800
+```
+
+The VPA recommendations will be more accurate after a couple of days (a week, a month, etc.) of running. And then is the perfect time to adjust limits in the application manifest. That way, you can avoid OOM kills due to a lack of resources and save on infrastructure (if initial requests/limits are too high).
+
+Now, let’s talk about some of the details of using VPA.
+
+### Other VPA modes
+
+Note that in “Initial” Mode, VPA assigns resources when Pods are started and never changes them later. Thus, VPA will set low requests/limits for newly created Pods if the load was relatively low over the past week. It may lead to problems if the load suddenly increases because the requests/limits will be much lower than what is required for such a load. This mode may come in handy if your load is uniformly distributed and grows in a linear fashion.
+
+In “Auto” mode, VPA recreates the Pods. Thus, the application must handle the restart properly. If it cannot shutdown gracefully (i.e. by closing the existing connections correctly and so on), you will most likely catch some avoidable 5XX errors. Using Auto mode with a StatefulSet is rarely advisable: imagine VPA attempting to add PostgreSQL resources to production…
+
+As for the dev environment, you can freely experiment to find the level of resources to use (later) in production that is acceptable to you. Suppose you want to use VPA in the “Initial” mode and we have Redis in the cluster using the `maxmemory` parameter. You will most likely need to change it to adjust it to your needs. The problem is Redis doesn’t care about the limits at the cgroups level. In other words, you are risking a lot if `maxmemory` is, say, 2GB while your Pod’s memory is capped at 1GB. But how can you set `maxmemory` to be the same as the limit? Well, there is a way! You can use the VPA-recommended values:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:6.2.1
+        ports:
+        - containerPort: 6379
+        resources:
+           requests:
+             memory: "100Mi"
+             cpu: "256m"
+           limits:
+             memory: "100Mi"
+             cpu: "256m"
+        env:
+          - name: MY_MEM_REQUEST
+            valueFrom:
+              resourceFieldRef:
+                containerName: app
+                resource: requests.memory
+          - name: MY_MEM_LIMIT
+            valueFrom:
+              resourceFieldRef:
+                containerName: app
+                resource: limits.memory
+```
+
+You can use environment variables to obtain the memory limit (and subtract, say, 10% from that for application needs) and set the resulting value as `maxmemory`. You will probably have to do something about the init container that uses `sed` to process the Redis config since the default Redis container image does not support passing `maxmemory` using an environment variable. Nevertheless, this solution is quite functional.
+
+Finally, I would like to turn your attention to the fact that VPA evicts the DaemonSet Pods all at once, en masse. We are currently working on a [patch](https://github.com/kubernetes/kubernetes/pull/98307) that fixes this.
+
+### Final VPA recommendations
+
+“Off” mode is suitable for the majority of cases.
+
+You can experiment with “Auto” and “Initial” modes in the dev environment.
+
+**Only use VPA in production if you have already accumulated recommendations and tested them thoroughly**. In addition, you have to clearly understand what you are doing and why you are doing it.
+
+In the meantime, we are eagerly anticipating in-place (restart-free) updates for Pod resources.
+
+Note that there are some limitations associated with joint use of HPA and VPA. For instance, VPA should not be used together with HPA if the CPU- or Memory-based metric is used as a trigger. The reason is that when the threshold is reached, VPA increases resource requests/limits while HPA adds new replicas. Consequently, the load will drop off sharply, and the process will go in reverse, resulting in “flapping”. The [official documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#known-limitations) sheds more light on the existing limitations.
