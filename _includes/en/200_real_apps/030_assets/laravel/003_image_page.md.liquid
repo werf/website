@@ -1,12 +1,12 @@
-Создадим шаблон HTML-страницы, которая будет доступна по адресу `/image` и отображать кнопку _Get image_:
+Let's create a template of an HTML page with the _Get image_ button (it will be accessible at `/image`):
 {% include snippetcut_example path="resources/views/image.blade.php" syntax="php" examples=page.examples %}
 
-При нажатии на кнопку _Get image_ должен выполняться Ajax-запрос, с помощью которого мы получим и отобразим [SVG-картинку]({{ page.base_url | append: page.examples | append: "/resources/images/werf-logo.svg" }}):
+Clicking the _Get image_ button must result in an Ajax request that fetches and displays an [SVG image]({{ page.base_url | append: page.examples | append: "/resources/images/werf-logo.svg" }}):
 {% include snippetcut_example path="resources/js/image.js" syntax="js" examples=page.examples %}
 
-Также на странице будет использоваться CSS-файл [resources/css/site.css]({{ page.base_url | append: page.examples | append: "/resources/css/site.css" }}).
+Our page will also use the [resources/css/site.css]({{ page.base_url | append: page.examples | append: "/resources/css/site.css" }}) file.
 
-JS-файл, CSS-файл и SVG-картинка будут собраны с Webpack и будут доступны в поддиректориях `public/...`:
+JS and CSS files as well as an SVG image will be bundled with Webpack and placed to `public/...` subdirectories:
 ```shell
 $ tree public/
 public/
@@ -27,5 +27,5 @@ public/
 
 ```
 
-Обновим маршруты, добавив в них новый endpoint `/image`, обрабатывающий созданный выше HTML-шаблон:
+Let's update our routes by adding a new `/image` endpoint that takes care of the HTML template created above:
 {% include snippetcut_example path="routes/web.php" syntax="php" examples=page.examples %}
