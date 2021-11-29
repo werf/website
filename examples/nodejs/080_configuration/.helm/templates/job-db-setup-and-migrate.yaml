@@ -38,6 +38,7 @@ spec:
 
           # [<en>] Performing the initial configuration (if necessary) or migrations.
           # [<ru>] Выполним первоначальную настройку базы, если она не выполнена, а иначе выполним миграции.
+          ./node_modules/.bin/sequelize-cli db:create
           ./node_modules/.bin/sequelize-cli db:migrate
         envFrom:
         - configMapRef:
