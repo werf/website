@@ -16,4 +16,4 @@ breadcrumbs: none
 <p>Please, choose the framework that fits you best:</p>
 
 <link rel="stylesheet" type="text/css" href="/assets/css/guides.css" />
-{% include common/landing_tiles.html %}
+{% include common/guides-landing-tiles.html %}

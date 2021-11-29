@@ -26,9 +26,6 @@ plugins:
   - jekyll_remote_plantuml_plugin
   - jekyll_include_plugin
 
-assets:
-  precompile: ['**/*.*']
-
 plantuml:
   format: svg
   save_images_locally: true

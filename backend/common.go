@@ -608,7 +608,7 @@ func getRootFilesPath(r *http.Request) (result string) {
 	if strings.HasPrefix(r.Host, "ru.") {
 		result += "ru"
 	} else {
-		result += "main"
+		result += "en"
 	}
 	return
 }

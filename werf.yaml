@@ -81,6 +81,7 @@ git:
       - assets
       - examples
       - pages_{{ $lang }}
+      - ssi
       - _config.yml
       - _config_dev.yml
       - _config_{{ $lang }}.yml
@@ -95,13 +96,13 @@ shell:
   setup:
     - cd /app
     - set -u
-    - mkdir -m 0777 -p /app/_site/{{ $lang }}/
+    - mkdir -m 0777 -p /app/_site
     - cp -rf /artifacts /app/_data/common/
     - export JEKYLL_ENV="{{ $.Env }}"
     {{- if eq $.Env "development" }}
-    - bundle exec jekyll build -tV --config _config.yml,_config_dev.yml,_config_{{ $lang }}.yml --baseurl /guides --destination _site/guides
+    - bundle exec jekyll build -tV --config _config.yml,_config_dev.yml,_config_{{ $lang }}.yml --destination _site/
     {{- else }}
-    - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --destination _site/{{ $lang }}
+    - bundle exec jekyll build --config _config.yml,_config_{{ $lang }}.yml --destination _site/
     {{- end }}
 ---
 {{ end -}}

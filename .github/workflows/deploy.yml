@@ -39,7 +39,7 @@ jobs:
       env:
         WERF_KUBE_CONTEXT: dev
         WERF_NAMESPACE: "werfio-test"
-        WERF_RELEASE: "werf-site-test"
+        WERF_RELEASE: "werfio-site-test"
         WERF_LOG_VERBOSE: "on"
 
     - name: Deploy to production

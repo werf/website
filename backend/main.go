@@ -16,7 +16,7 @@ import (
 func newRouter() *mux.Router {
 	r := mux.NewRouter()
 
-	staticFileDirectoryMain := http.Dir("./root/main")
+	staticFileDirectoryMain := http.Dir("./root/en")
 	staticFileDirectoryRu := http.Dir("./root/ru")
 
 	var ruHostMatch mux.MatcherFunc = func(r *http.Request, rm *mux.RouteMatch) bool {

@@ -19,6 +19,7 @@ exclude:
 
 include:
   - pages_en
+  - ssi
 
 defaults:
   - scope:

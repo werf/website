@@ -224,7 +224,7 @@ func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	page404File, err := os.Open(getRootFilesPath(r) + "/404.html")
 	defer page404File.Close()
 	if err != nil {
-		// 404.html file not found!
+		// 404.html built-in stub
 		log.Error("404.html file not found")
 		http.Error(w, `<html lang="en"><head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Page Not Found | werf</title><meta name="title" content="Page Not Found | werf">
@@ -233,9 +233,6 @@ func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 		<h1 class="docs__title">Page Not Found</h1>
 		<p>Sorry, the page you were looking for does not exist.<br>
 Try searching for it or check the URL to see if it looks correct.</p>
-<div class="error-image">
-    <img src="https://werf.io/assets/images/404.png" alt="">
-</div>
 </body></html>`, 404)
 		return
 	}

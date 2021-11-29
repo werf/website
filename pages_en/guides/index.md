@@ -74,7 +74,7 @@ permalink: guides/index.html
                   <p>Choose the framework that fits you best:</p>
                 </div>
 
-                {% include common/landing_tiles.html %}
+                {% include common/guides-landing-tiles.html %}
             </div>
             <div class="landing__section">
                 <div class="landing__credits">

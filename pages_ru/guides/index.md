@@ -75,7 +75,7 @@ permalink: guides/index.html
                   <p>Выберите наиболее близкий вам фреймворк:</p>
                 </div>
 
-                {% include common/landing_tiles.html %}
+                {% include common/guides-landing-tiles.html %}
             </div>
             <div class="landing__section">
                 <div class="landing__credits">

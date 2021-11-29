@@ -4,6 +4,6 @@ _site
 .jekyll-metadata
 .DS_Store
 .sqlite3
-site/backend/multiwerf/
-site/backend/vendor/
-site/backend/root/
+backend/multiwerf/
+backend/vendor/
+backend/root/
