@@ -1,4 +1,4 @@
-Чтобы Laravel начал отдавать логи в JSON вместо plain text в стандартной конфигурации необходимо использовать переменную окружения `LOG_STDERR_FORMATTER=Monolog\\Formatter\\JsonFormatter`.
+Чтобы Laravel начал отдавать логи в JSON вместо plain text в стандартной конфигурации, необходимо использовать переменную окружения `LOG_STDERR_FORMATTER=Monolog\\Formatter\\JsonFormatter`.
 
 Также зададим JSON-формат и для access-логов php-fpm:
 {% include snippetcut_example path=".werf/zzz-php-fpm-config.conf" syntax="ini" examples=page.examples %}
