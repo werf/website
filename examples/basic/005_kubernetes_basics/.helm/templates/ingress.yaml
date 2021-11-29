@@ -8,7 +8,7 @@ metadata:
 spec:
   rules:
   # [<ru>] Домен, запросы на который будут обрабатываться в paths ниже.
-  - host: werf-guide-app
+  - host: werf-guide-app.test
     http:
       paths:
       # [<ru>] Запросы с префиксом / (все запросы) перенаправятся на порт 8000 нашего Service.

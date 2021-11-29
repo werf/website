@@ -6,7 +6,7 @@ metadata:
   name: werf-guide-app
 spec:
   rules:
-  - host: werf-guide-app
+  - host: werf-guide-app.test
     http:
       paths:
       - path: /
