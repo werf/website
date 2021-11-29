@@ -4,6 +4,7 @@ layout: default-guides
 
 <div class="page__container">
     {% include layouts/guides/breadcrumbs.html %}
+    {% include layouts/guides/page_to_page_guide.liquid %}
 
     <div class="layout-sidebar">
         <div class="layout-sidebar__sidebar">
@@ -26,6 +27,84 @@ layout: default-guides
                     {%- include common/toc.html %}
                   {%- endunless %}
                   {{ content }}
+                  <div class="guides-post__nav">
+                    <div class="guides-post__nav--prev">
+                      {% if index <= 0 and sections.f.first %}
+                        <a href="{{ prev_url }}" style="visibility: hidden;"></a>
+                      {% elsif index_sub <= 0 %}
+                        {% if page.lang == 'en' %}
+                          <a href="{{ main_path_prev }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow ">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            prev
+                          </a>
+                        {% else %}
+                          <a href="{{ main_path_prev }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            назад
+                          </a>
+                        {% endif %}
+                      {% else %}
+                        {% if page.lang == 'en' %}
+                          <a href="{{ prev_url }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            prev
+                          </a>
+                        {% else %}
+                          <a href="{{ prev_url }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            назад
+                          </a>
+                        {% endif %}
+                      {% endif %}
+                    </div>
+                    <div class="guides-post__nav--next">
+                      {% if index_sub >= subsection_size and sections.f[index_next] == nil %}
+                        <a href="{{ next_url }}" style="visibility: hidden;"></a>
+                      {% elsif index_sub >= subsection_size and folder_page == nil %}
+                        <a href="{{ next_url }}" style="visibility: hidden;"></a>
+                      {% elsif index_sub >= subsection_size and folder_page != nil %}
+                        {% if page.lang == 'en' %}
+                          <a href="{{ main_path_next }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            next
+                          </a>
+                        {% else %}
+                          <a href="{{ main_path_next }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            далее
+                          </a>
+                        {% endif %}
+                      {% else %}
+                        {% if page.lang == 'en' %}
+                          <a href="{{ next_url }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            next
+                          </a>
+                        {% else %}
+                          <a href="{{ next_url }}" class="guides-post__nav--link">
+                            <div class="guides-post__nav-arrow">
+                              <span class="btn__icon--prev arrow-guides"></span>
+                            </div>
+                            далее
+                          </a>
+                        {% endif %}
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
