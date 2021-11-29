@@ -1,0 +1,80 @@
+```
+┌ Concurrent builds plan (no more than 5 images at the same time)
+│ Set #0:
+│ - ⛵ image backend
+│ - ⛵ image frontend
+└ Concurrent builds plan (no more than 5 images at the same time)
+
+┌ ⛵ image backend
+│ ┌ Building stage backend/dockerfile
+│ │ backend/dockerfile  Sending build context to Docker daemon  250.4kB
+│ │ backend/dockerfile  Step 1/23 : FROM node:12-alpine as builder
+    ...
+│ │ backend/dockerfile  Successfully built e946be9a8efb
+│ │ backend/dockerfile  Successfully tagged d81cab88-2050-4c42-96c1-206cd16f4e73:latest
+│ │ ┌ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+│ │ └ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app (18.04 seconds)
+│ ├ Info
+│ │      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:3b2118a74c218dc86950cfc5c392fd1cf77e99f451e200eb4db8be67-1636714673154
+│ │        id: e946be9a8efb
+│ │   created: 2021-11-12 13:57:53 +0300 MSK
+│ │      size: 30.3 MiB
+│ └ Building stage backend/dockerfile (27.87 seconds)
+└ ⛵ image backend (35.62 seconds)
+
+┌ ⛵ image frontend
+│ ┌ Building stage frontend/dockerfile
+│ │ frontend/dockerfile  Sending build context to Docker daemon  250.4kB
+│ │ frontend/dockerfile  Step 1/27 : FROM node:12-alpine as builder
+    ...
+│ │ frontend/dockerfile  Successfully built aca38d642814
+│ │ frontend/dockerfile  Successfully tagged 433fb7c7-d9bb-499d-a9fb-7557ad133b67:latest
+│ │ ┌ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+│ │ └ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app (18.17 seconds)
+│ ├ Info
+│ │      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:1bdbc7a2dd2038a9e81882ba4e2c4f795543eae30562925e4e4cb4bb-1636714673008
+│ │        id: aca38d642814
+│ │   created: 2021-11-12 13:57:52 +0300 MSK
+│ │      size: 9.4 MiB
+│ └ Building stage frontend/dockerfile (27.85 seconds)
+└ ⛵ image frontend (35.74 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                2/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ ├── guide-app-57ff8c54d6-nppmx   0/2        0             ContainerCreating   Waiting for: replicas 2->1                          ↵
+│ │
+│ │ └── guide-app-d47fd67f9-qln6t    1/1        0             Running
+│ └ Status progress
+│
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                2/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ ├── guide-app-57ff8c54d6-nppmx   0/2        0             ContainerCreating   Waiting for: replicas 2->1                          ↵
+│ │
+│ │ └── guide-app-d47fd67f9-qln6t    1/1        0             Running
+│ └ Status progress
+│
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                2->1/1        1               1
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ ├── guide-app-57ff8c54d6-nppmx   2/2        0             ContainerCreating
+│ │ │                                                         -> Running
+│ │ └── guide-app-d47fd67f9-qln6t    1/1        0             Running ->
+│ │                                                           Terminating
+│ └ Status progress
+└ Waiting for release resources to become ready (10.41 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Fri Nov 12 13:58:16 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+Running time 51.80 seconds
+```

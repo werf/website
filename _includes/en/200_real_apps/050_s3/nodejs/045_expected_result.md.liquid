@@ -1,0 +1,226 @@
+```
+
+┌ ⛵ image backend
+│ ┌ Building stage backend/dockerfile
+│ │ backend/dockerfile  Sending build context to Docker daemon  519.2kB
+│ │ backend/dockerfile  Step 1/27 : FROM node:12-alpine as builder
+    ...
+│ │ backend/dockerfile  Successfully built 1483efb79d3e
+│ │ backend/dockerfile  Successfully tagged 80de51be-533b-4360-a0a1-9649b8e5f340:latest
+│ │ ┌ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+│ │ └ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app (15.81 seconds)
+│ ├ Info
+│ │      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:89aa5375d6575fcbcba7848469df9b7cb1cd5b455c78c403a9922285-1637083461218
+│ │        id: 1483efb79d3e
+│ │   created: 2021-11-16 20:24:21 +0300 MSK
+│ │      size: 52.1 MiB
+│ └ Building stage backend/dockerfile (21.74 seconds)
+└ ⛵ image backend (29.16 seconds)
+
+┌ ⛵ image frontend
+│ ┌ Building stage frontend/dockerfile
+│ │ frontend/dockerfile  Sending build context to Docker daemon  519.2kB
+│ │ frontend/dockerfile  Step 1/31 : FROM node:12-alpine as builder
+    ...
+│ │ frontend/dockerfile  Successfully built 479b3ed46505
+│ │ frontend/dockerfile  Successfully tagged fdeee494-5aad-4d03-93bd-26884b2b7acf:latest
+│ │ ┌ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+│ │ └ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app (12.13 seconds)
+│ ├ Info
+│ │      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:931432640c233a0b42a2fed6311c9d2e7837792b207ce08516fe7384-1637083461046
+│ │        id: 479b3ed46505
+│ │   created: 2021-11-16 20:24:20 +0300 MSK
+│ │      size: 9.4 MiB
+│ └ Building stage frontend/dockerfile (17.97 seconds)
+└ ⛵ image frontend (25.02 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                2/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ ├── guide-app-66b78c6dd8-49mxt   0/2        0             Init:0/1            Waiting for: replicas 2->1                          ↵
+│ │
+│ │ └── guide-app-85c5c7c485-vkv28   2/2        0             Running
+│ │ STATEFULSET                                                                   REPLICAS      READY           UP-TO-DATE
+│ │ minio                                                                         1/1           0               1
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── 0                            0/1        0             ContainerCreating   Waiting for: ready 0->1                             ↵
+│ │
+│ │ mysql                                                                         1/1           1               1
+│ │ JOB                                                                           ACTIVE        DURATION        SUCCEEDED/FAILED
+│ │ setup-and-migrate-db-rev19                                                    1             2s              0/0                   ↵
+│ │
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── and-migrate-db-rev19--1-cw6l 0/1        0             ContainerCreating   Waiting for: pods should be terminated, succeeded 0->1
+│ │     l
+│ │ setup-minio-rev19                                                             1             2s              0/0
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── minio-rev19--1-xxbbv         0/1        0             ContainerCreating   Waiting for: pods should be terminated, succeeded 0->1
+│ └ Status progress
+│
+│ ┌ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ └ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                2/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ ├── guide-app-66b78c6dd8-49mxt   0/2        0             Init:0/1            Waiting for: replicas 2->1                          ↵
+│ │
+│ │ └── guide-app-85c5c7c485-vkv28   2/2        0             Running
+│ │ STATEFULSET                                                                   REPLICAS      READY           UP-TO-DATE
+│ │ minio                                                                         1/1           0->1            1
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ └── 0                            1/1        0             ContainerCreating
+│ │                                                           -> Running
+│ │ mysql                                                                         1/1           1               1
+│ │ JOB                                                                           ACTIVE        DURATION        SUCCEEDED/FAILED
+│ │ setup-and-migrate-db-rev19                                                    1             6s              0/0                   ↵
+│ │
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── and-migrate-db-rev19--1-cw6l 1/1        0             ContainerCreating   Waiting for: pods should be terminated, succeeded 0->1
+│ │     l                                                     -> Running
+│ │ setup-minio-rev19                                                             1             2s              0/0
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── minio-rev19--1-xxbbv         0/1        0             ContainerCreating   Waiting for: pods should be terminated, succeeded 0->1
+│ └ Status progress
+│
+│ ┌ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ └ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│
+│ ┌ job/setup-minio-rev19 po/setup-minio-rev19--1-xxbbv container/setup-minio logs
+│ │ curl: (7) Failed to connect to minio port 9000: Connection refused
+│ └ job/setup-minio-rev19 po/setup-minio-rev19--1-xxbbv container/setup-minio logs
+│
+│ ┌ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ └ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│
+│ ┌ deploy/werf-guide-app po/werf-guide-app-66b78c6dd8-49mxt container/wait-db-readiness logs
+│ │
+│ │ Sequelize CLI [Node: 12.22.7, CLI: 6.3.0, ORM: 6.9.0]
+│ │
+│ │ Loaded configuration file "config/database.json".
+│ │ Using environment "production".
+│ │ up 20211101064002-create-talker.js
+│ └ deploy/werf-guide-app po/werf-guide-app-66b78c6dd8-49mxt container/wait-db-readiness logs
+│
+│ ┌ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ │ mysqladmin: connect to server at 'mysql' failed
+│ │ error: 'Access denied for user 'root'@'172.17.0.1' (using password: YES)'
+│ └ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                2/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ ├── guide-app-66b78c6dd8-49mxt   0/2        0             Init:0/1 ->         Waiting for: replicas 2->1                          ↵
+│ │
+│ │ │                                                         PodInitializing
+│ │ └── guide-app-85c5c7c485-vkv28   2/2        0             Running
+│ │ STATEFULSET                                                                   REPLICAS      READY           UP-TO-DATE
+│ │ minio                                                                         1/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ └── 0                            1/1        0             Running
+│ │ mysql                                                                         1/1           1               1
+│ │ JOB                                                                           ACTIVE        DURATION        SUCCEEDED/FAILED
+│ │ setup-and-migrate-db-rev19                                                    1             6s              0/0                   ↵
+│ │
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── and-migrate-db-rev19--1-cw6l 1/1        0             Running             Waiting for: pods should be terminated, succeeded 0->1
+│ │     l
+│ │ setup-minio-rev19                                                             1             11s             0/0
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── minio-rev19--1-xxbbv         1/1        0             ContainerCreating   Waiting for: pods should be terminated, succeeded 0->1
+│ │                                                           -> Running
+│ └ Status progress
+│
+│ ┌ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│ │
+│ │ Sequelize CLI [Node: 12.22.7, CLI: 6.3.0, ORM: 6.9.0]
+│ │
+│ │ Loaded configuration file "config/database.json".
+│ │ Using environment "production".
+│ │ No migrations were executed, database schema was already up to date.
+│ └ job/setup-and-migrate-db-rev19 po/setup-and-migrate-db-rev19--1-cw6ll container/setup-and-migrate-db logs
+│
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                2->1/1        1               1
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ ├── guide-app-66b78c6dd8-49mxt   2/2        0             PodInitializing ->
+│ │ │                                                         Running
+│ │ └── guide-app-85c5c7c485-vkv28   2/2        0             Running ->
+│ │                                                           Terminating
+│ │ STATEFULSET                                                                   REPLICAS      READY           UP-TO-DATE
+│ │ minio                                                                         1/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ └── 0                            1/1        0             Running
+│ │ mysql                                                                         1/1           1               1
+│ │ JOB                                                                           ACTIVE        DURATION        SUCCEEDED/FAILED
+│ │ setup-and-migrate-db-rev19                                                    0             17s             0->1/0                ↵
+│ │
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ └── and-migrate-db-rev19--1-cw6l 0/1        0             Running ->
+│ │     l                                                     Completed
+│ │ setup-minio-rev19                                                             1             11s             0/0
+│ │ │   POD                          READY      RESTARTS      STATUS              ---
+│ │ └── minio-rev19--1-xxbbv         1/1        0             Running             Waiting for: pods should be terminated, succeeded 0->1
+│ └ Status progress
+│
+│ ┌ job/setup-minio-rev19 po/setup-minio-rev19--1-xxbbv container/setup-minio logs
+│ │ Added `minio` successfully.
+│ │ Bucket created successfully `minio/werf-guide-app`.
+│ └ job/setup-minio-rev19 po/setup-minio-rev19--1-xxbbv container/setup-minio logs
+│
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                    REPLICAS      AVAILABLE       UP-TO-DATE
+│ │ werf-guide-app                                                                1/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ ├── guide-app-66b78c6dd8-49mxt   2/2        0             Running
+│ │ └── guide-app-85c5c7c485-vkv28   2/2        0             Terminating
+│ │ STATEFULSET                                                                   REPLICAS      READY           UP-TO-DATE
+│ │ minio                                                                         1/1           1               1
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ └── 0                            1/1        0             Running
+│ │ mysql                                                                         1/1           1               1
+│ │ JOB                                                                           ACTIVE        DURATION        SUCCEEDED/FAILED
+│ │ setup-and-migrate-db-rev19                                                    0             17s             1/0                   ↵
+│ │
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ └── and-migrate-db-rev19--1-cw6l 0/1        0             Completed
+│ │     l
+│ │ setup-minio-rev19                                                             0             23s             0->1/0
+│ │ │   POD                          READY      RESTARTS      STATUS
+│ │ └── minio-rev19--1-xxbbv         0/1        0             Running ->
+│ │                                                           Completed
+│ └ Status progress
+└ Waiting for release resources to become ready (22.83 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Tue Nov 16 20:24:43 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 19
+TEST SUITE: None
+Running time 58.21 seconds
+```
