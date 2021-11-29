@@ -72,6 +72,8 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 You should see the following output:
 {% include 200_real_apps/040_db/{{ page.framework_id }}/030_expected_result.md.liquid %}
 
+> Don't worry if the process seems to be stuck at this point and many errors appear in the messages. This happens due to checking the MySQL status; you just need to wait a bit when it's done (usually, it takes no more than 1-2 minutes).
+
 Now let's try to access the `/say` endpoint that retrieves the data from the database:
 ```shell
 curl http://werf-guide-app/say
