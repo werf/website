@@ -1,7 +1,6 @@
 ---
 title: Logging
 permalink: laravel/200_real_apps/020_logging.html
-layout: wip
 examples_initial: examples/laravel/010_basic_app
 examples: examples/laravel/020_logging
 description: |
