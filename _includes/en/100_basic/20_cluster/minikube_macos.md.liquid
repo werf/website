@@ -74,7 +74,7 @@ ingress-nginx-controller-59b45fb494-fscgf   1/1     Running     0          8m12s
 
 ### Updating the hosts file
 
-We will use the 'werf-guide-app' domain for accessing the application. Let's append the IP address/hostname to the hosts file:
+We will use the `werf-guide-app.test` domain for accessing the application. Let's append the IP address/hostname to the hosts file:
 ```shell
-echo "$(minikube ip) werf-guide-app" | sudo tee -a /etc/hosts
+echo "$(minikube ip) werf-guide-app.test" | sudo tee -a /etc/hosts
 ```

@@ -103,11 +103,11 @@ kubectl logs app-<podId>
 {% offtopic title="Посмотреть ответ" %}
 ```shell
 GET /ping HTTP/1.1
-Host: werf-guide-app
+Host: werf-guide-app.test
 X-Request-ID: 3cdfedee7ff8f4fb27566446d587ccbd
 X-Real-IP: 192.168.49.1
 X-Forwarded-For: 192.168.49.1
-X-Forwarded-Host: werf-guide-app
+X-Forwarded-Host: werf-guide-app.test
 X-Forwarded-Port: 80
 X-Forwarded-Proto: http
 X-Scheme: http
