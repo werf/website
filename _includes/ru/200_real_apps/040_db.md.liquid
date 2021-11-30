@@ -72,7 +72,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Попробуем обратиться на `/say`, который должен попытаться достать данные из БД:
 ```shell
-curl http://werf-guide-app/say
+curl http://werf-guide-app.test/say
 ```
 
 Но так как в базе данных пока пусто, должно вернуться следующее:
@@ -82,7 +82,7 @@ I have nothing to say.
 
 Тогда сохраним данные в БД через `/remember`:
 ```shell
-curl "http://werf-guide-app/remember?answer=Love+you&name=sweetie"
+curl "http://werf-guide-app.test/remember?answer=Love+you&name=sweetie"
 ```
 
 Ожидаемый результат, означающий, что данные сохранены:
@@ -92,7 +92,7 @@ Got it.
 
 Снова попробуем получить данные из БД через `/say`:
 ```shell
-curl http://werf-guide-app/say
+curl http://werf-guide-app.test/say
 ```
 
 Ожидаемый успешный результат:

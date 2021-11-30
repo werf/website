@@ -98,7 +98,7 @@ minikube tunnel --cleanup=true
 
 ### Updating the hosts file
 
-We will use the 'werf-guide-app' domain for accessing the application. To do this, update the hosts file (in PowerShell as an administrator):
+We will use the `werf-guide-app.test` domain for accessing the application. To do this, update the hosts file (in PowerShell as an administrator):
 ```powershell
-Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 werf-guide-app"
+Add-Content "C:\Windows\System32\drivers\etc\hosts" "`n127.0.0.1 werf-guide-app.test"
 ```

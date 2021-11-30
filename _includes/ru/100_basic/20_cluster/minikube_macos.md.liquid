@@ -74,7 +74,7 @@ ingress-nginx-controller-59b45fb494-fscgf   1/1     Running     0          8m12s
 
 ### Обновление файла hosts
 
-Для доступа к приложению мы будем использовать домен `werf-guide-app`. Для этого обновим файл hosts:
+Для доступа к приложению мы будем использовать домен `werf-guide-app.test`. Для этого обновим файл hosts:
 ```shell
-echo "$(minikube ip) werf-guide-app" | sudo tee -a /etc/hosts
+echo "$(minikube ip) werf-guide-app.test" | sudo tee -a /etc/hosts
 ```
