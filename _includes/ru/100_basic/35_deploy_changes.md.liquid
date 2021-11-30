@@ -217,7 +217,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Наше приложение — это простейший эхо-сервер, который при запросе при помощи curl:
 ```shell
-curl "http://werf-guide-app/ping"
+curl "http://werf-guide-app.test/ping"
 ```
 
 … ответит словом `pong`.
@@ -237,7 +237,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Проверим результат:
 ```shell
-curl "http://werf-guide-app/ping"
+curl "http://werf-guide-app.test/ping"
 ```
 
 В ответе увидим `hello world`.
