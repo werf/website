@@ -1,6 +1,6 @@
-## Установка зависимостей
+## Installing dependencies
 
-Запустим установку недостающей зависимости в контейнере `composer`:
+Let's install the missing dependency using the `composer` container:
 ```shell
 docker run --rm \
     -v $(pwd):/opt \
@@ -9,5 +9,5 @@ docker run --rm \
     bash -c "composer require --with-all-dependencies league/flysystem-aws-s3-v3:\"~1.0\""
 ```
 
-Мы перенесли конфигурацию файловой системы Laravel из [официального репозитория](https://github.com/laravel/laravel). Основные изменения, сделанные в нашем приложении:
-1. Создание конфигурационного файла [config/filesystems.php]({{ page.base_url | append: page.examples | append: "/config/filesystems.php" }}).
+We ported the Laravel filesystem layout from the [official repository](https://github.com/laravel/laravel). The following changes have been made to our application:
+1. Generating a [config/filesystems.php]({{ page.base_url | append: page.examples | append: "/config/filesystems.php" }}) configuration file.
