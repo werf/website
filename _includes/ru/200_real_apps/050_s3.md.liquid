@@ -62,7 +62,7 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Обратимся на `/download`, который должен попытаться достать файл из S3:
 ```shell
-curl http://werf-guide-app/download
+curl http://werf-guide-app.test/download
 ```
 
 Так как пока никаких файлов не загружено, получим:
@@ -78,13 +78,13 @@ You haven't uploaded anything yet.
 <div id="tab__s3__linux_macos" class="tabs__content tabs__s3__content active" markdown="1">
 ```shell
 echo "This is file content." > file.txt
-curl -F "file=@file.txt" http://werf-guide-app/upload
+curl -F "file=@file.txt" http://werf-guide-app.test/upload
 ```
 </div>
 <div id="tab__s3__windows" class="tabs__content tabs__s3__content" markdown="1">
 ```shell
 "This is file content." | Out-File -Encoding ascii -FilePath file.txt
-curl.exe -F "file=@file.txt" http://werf-guide-app/upload
+curl.exe -F "file=@file.txt" http://werf-guide-app.test/upload
 ```
 </div>
 
@@ -95,7 +95,7 @@ File uploaded.
 
 Снова попробуем получить файл из хранилища:
 ```shell
-curl http://werf-guide-app/download
+curl http://werf-guide-app.test/download
 ```
 
 В ответ должно отобразиться содержимое файла:
