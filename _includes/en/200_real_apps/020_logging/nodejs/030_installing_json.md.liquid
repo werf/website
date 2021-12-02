@@ -1,16 +1,15 @@
-Для этого нужно использовать логгер, который поддерживает вывод в JSON. Для примера возьмем `pino` и
-заодно удалим логгер, который используется по умолчанию:
+To do this, you will need a logger that supports JSON output. In our example, we will use `pino` (don't forget to uninstall the default logger):
 
 ```shell
 $ npm uninstall morgan
 $ npm install pino pino-http
 ```
 
-Подключим логгер к серверу:
+Connect the logger to the server:
 
 {% include snippetcut_example path="app.js" syntax="javascript" snippet="logger-import,logger-usage" examples=page.examples %}
 
-Библиотека `pino-http` добавила доступ к `pino` через объект ответа: `res.log`. Так логгер можно
-инициализировать один раз и использовать как зависимость в другом коде:
+Thanks to the `pino-http` library, you can now access the `pino` logger via the `res.log` response object.
+This way, you only need to initialize the logger once, and then you can use it as a dependency in the code:
 
 {% include snippetcut_example path="routes/ping.js" syntax="javascript" snippet="logger-usage" examples=page.examples %}
