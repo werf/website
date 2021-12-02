@@ -53,12 +53,12 @@ $ npm install --save-dev \
   css-loader mini-css-extract-plugin css-minimizer-webpack-plugin
 ```
 
-- `webpack`, `webpack-cli` — собирать статику
-- `webpack-dev-middleware` — отдавать статику приложением во время разработки
-- `html-webpack-plugin` — генерировать HTML-страницы с динамическим подключением ассетов
-- `css-loader` — задействовать CSS в сборке
-- `mini-css-extract-plugin` — выделить CSS в отдельные файлы, чтобы кэшировать отдельно от JS
-- `css-minimizer-webpack-plugin` — минифицировать CSS (работает с параметром `mode: "production"`)
+- `webpack`, `webpack-cli` — for building static resources;
+- `webpack-dev-middleware` — for serving of the files emitted from webpack during development;
+- `html-webpack-plugin` — for generating HTML-pages with dynamic assets attaching
+- `css-loader` — for using CSS;
+- `mini-css-extract-plugin` — for extracting CSS into separate files and caching them independently of JS
+- `css-minimizer-webpack-plugin` — for optimizing and minifying CSS (it works together with the `mode: "production"` parameter)
 
 Let's add a build command to `package.json`: `"build": "webpack"` and a request handler for static files if the application is not running in `production` mode:
 
