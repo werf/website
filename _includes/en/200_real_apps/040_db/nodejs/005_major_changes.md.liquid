@@ -1,23 +1,22 @@
-Основные изменения, сделанные в нашем приложении:
+The following changes have been made to our application:
 
-1. Установлены зависимости для работы с MySQL
-1. Добавлена конфигурация доступа к БД
-1. Добавлена модель и миграция схемы БД
-1. Добавлены маршруты, использующие новую модель
+1. Installing dependencies for working with the MySQL database
+1. Configuring access to the database
+1. Adding a model and a migration for the database schema
+1. Adding routes that use the new model
 
-Новые зависимости были установлены командой:
+We used the following command to install the new dependencies:
 
 ```shell
 npm i mysql2 sequelize sequelize-cli express-async-handler
 ```
 
-- `mysql2` — драйвер работы с MySQL
-- `sequelize` — ORM для работы с базой данных
-- `sequelize-cli` — командная утилита для генерации моделей и миграции
-- `express-async-handler` — обертка над обработчиками запросов, чтобы писать код с async/await
+- `mysql2` — MySQL driver
+- `sequelize` — an ORM for the database
+- `sequelize-cli` — a command-line tool for generating models and performing migrations
+- `express-async-handler` — a wrapper over the query handlers to write async/await code
 
-Для sequelize мы добавили конфигурационный файл, который определяет структуру файлов sequelize и
-конфигурацию подключения к базе. Мы определим все связанные с БД каталоги в каталог `db`, а
-конфигурацию положим в `config/database.json`:
+Also, a sequelize configuration file was created. It defines the structure of sequelize files and the database connection configuration.
+All the DB-related directories are located in the `db` directory while the configuration is included in `config/database.json`:
 
 {% include snippetcut_example path=".sequelizerc" syntax="javascript" examples=page.examples %}
