@@ -1,6 +1,6 @@
 ---
 title: Configuration and secrets
-layout: wip
+layout: guides-wip
 permalink: guides/nodejs/200_real_apps/080_config.html
 examples_initial: examples/nodejs/050_s3
 examples: examples/nodejs/080_configuration

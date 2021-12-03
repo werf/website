@@ -7,7 +7,7 @@
     {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
     {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
 
-    {% if folder_page and folder_page.layout != "development" %}
+    {% if folder_page and folder_page.layout != "guides-development" %}
       <a href="{{ folder_relative_url }}" data-subhref="{{ folder.url }}">{{ folder.title }}</a>
     {% else %}
       {{ folder.title }}

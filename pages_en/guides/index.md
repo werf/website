@@ -1,6 +1,6 @@
 ---
 title: "Kubernetes + werf tutorial: learn K8s and deploy your app"
-layout: landing
+layout: guides-landing
 permalink: guides/index.html
 ---
 

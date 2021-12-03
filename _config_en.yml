@@ -40,7 +40,7 @@ defaults:
       sidebar: guide
       multilang: true
       toc: false
-      layout: "guides"
+      layout: "guides-page"
       chapter_production_disclaimer: true
       chapter_initial_prepare_cluster: true
       chapter_initial_prepare_repo: true

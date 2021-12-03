@@ -1,6 +1,8 @@
 # DON'T FORGET TO MAKE CHANGES ALSO IN docs/documentation/.helm/_rewrites.tpl if necessary.
 {{- define "rewrites" }}
 
+rewrite ^/((css|js|images)/.*)$ /assets/$1 permanent;
+
 rewrite ^(/v[\d]+\.[\d]+([^\/]+)?)+/documentation/(.*)$ /documentation$1/$3 permanent;
 
 # 202103
