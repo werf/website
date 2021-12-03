@@ -34,7 +34,7 @@ jobs:
           chmod -R 777 assets/images/plantuml_cache
 
       - name: Build
-        run: bundle exec jekyll build --config _config.yml,_config_dev.yml,_config_${{ matrix.lang }}.yml --baseurl /guides --destination _site/guides
+        run: bundle exec jekyll build --config _config.yml,_config_dev.yml,_config_${{ matrix.lang }}.yml --destination _site/
 
       - name: Check links
         run: |

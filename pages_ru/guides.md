@@ -5,8 +5,8 @@ layout: plain
 breadcrumbs: none
 ---
 
-<link rel="stylesheet" type="text/css" href="{{ assets["overview.css"].digest_path | relative_url }}" />
-<link rel="stylesheet" type="text/css" href="{{ assets["guides.css"].digest_path | relative_url }}" />
+{% asset overview.css %}
+{% asset guides.css %}
 
 <h1 class="docs__title">Руководства</h1>
 <p>Самоучитель по werf ориентирован на разработчиков, которые хотят научиться работать с Kubernetes и доставлять в него код своих приложений. Также эти материалы будут полезны DevOps-инженерам, которые хотят эффективнее решать задачи по CI/CD в K8s и познакомиться с werf на практике.</p>
@@ -15,5 +15,4 @@ breadcrumbs: none
 
 <p>Выберите наиболее близкий вам фреймворк:</p>
 
-<link rel="stylesheet" type="text/css" href="/assets/css/guides.css" />
 {% include common/guides-landing-tiles.html %}

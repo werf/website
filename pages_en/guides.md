@@ -5,8 +5,8 @@ layout: plain
 breadcrumbs: none
 ---
 
-<link rel="stylesheet" type="text/css" href="{{ assets["overview.css"].digest_path | relative_url }}" />
-<link rel="stylesheet" type="text/css" href="{{ assets["guides.css"].digest_path | relative_url }}" />
+{% asset overview.css %}
+{% asset guides.css %}
 
 <h1 class="docs__title">Guides</h1>
 <p>Our guides are aimed at developers seeking to learn how to work with Kubernetes and deliver their apps to K8s. DevOps engineers who want to solve their CI/CD-related tasks more efficiently and become confident werf users will also benefit.</p>
@@ -15,5 +15,4 @@ breadcrumbs: none
 
 <p>Please, choose the framework that fits you best:</p>
 
-<link rel="stylesheet" type="text/css" href="/assets/css/guides.css" />
 {% include common/guides-landing-tiles.html %}

@@ -4,7 +4,7 @@
 </div>
 
 <div id="tab__system_restarted__minikube_windows" class="tabs__content tabs__system_restarted__content" markdown="1">
-Let's start the minikube cluster we have already configured in the ["Preparing the environment"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) chapter:
+Let's start the minikube cluster we have already configured in the ["Preparing the environment"](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) chapter:
 ```powershell
 minikube start
 ```
@@ -43,7 +43,7 @@ Make sure that the command output contains the following line:
 Restarting existing docker container for "minikube"
 ```
 
-Its absence means that a new minikube cluster was created instead of using the old one. In this case, repeat [all the steps]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) required to install the environment using minikube.
+Its absence means that a new minikube cluster was created instead of using the old one. In this case, repeat [all the steps](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) required to install the environment using minikube.
 
 Now run the command in the background PowerShell terminal (do not close its window):
 ```powershell
@@ -52,7 +52,7 @@ minikube tunnel --cleanup=true
 </div>
 
 <div id="tab__system_restarted__minikube_macos_linux" class="tabs__content tabs__system_restarted__content active" markdown="1">
-Let's start the minikube cluster we have already configured in the ["Preparing the environment"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) chapter:
+Let's start the minikube cluster we have already configured in the ["Preparing the environment"](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) chapter:
 ```shell
 minikube start --namespace werf-guide-app
 ```
@@ -91,5 +91,5 @@ Make sure that the command output contains the following line:
 Restarting existing docker container for "minikube"
 ```
 
-Its absence means that a new minikube cluster was created instead of using the old one. In this case, repeat [all the steps]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) required to install the environment from scratch using minikube.
+Its absence means that a new minikube cluster was created instead of using the old one. In this case, repeat [all the steps](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}) required to install the environment from scratch using minikube.
 </div>

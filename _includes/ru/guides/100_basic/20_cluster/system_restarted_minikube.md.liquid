@@ -4,7 +4,7 @@
 </div>
 
 <div id="tab__system_restarted__minikube_windows" class="tabs__content tabs__system_restarted__content" markdown="1">
-Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
+Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
 ```powershell
 minikube start
 ```
@@ -43,7 +43,7 @@ kubectl config set-context minikube --namespace=werf-guide-app
 Restarting existing docker container for "minikube"
 ```
 
-Если её нет, значит был создан новый кластер minikube вместо использования старого. В таком случае повторите установку рабочего окружения с minikube [с самого начала]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}).
+Если её нет, значит был создан новый кластер minikube вместо использования старого. В таком случае повторите установку рабочего окружения с minikube [с самого начала](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}).
 
 Теперь запустите команду в фоновом PowerShell-терминале и не закрывайте его:
 ```powershell
@@ -52,7 +52,7 @@ minikube tunnel --cleanup=true
 </div>
 
 <div id="tab__system_restarted__minikube_macos_linux" class="tabs__content tabs__system_restarted__content active" markdown="1">
-Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
+Запустим кластер minikube, уже настроенный в начале главы ["Подготовка окружения"](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}):
 ```shell
 minikube start --namespace werf-guide-app
 ```
@@ -91,5 +91,5 @@ kubectl config set-context minikube --namespace=werf-guide-app
 Restarting existing docker container for "minikube"
 ```
 
-Если её нет, значит был создан новый кластер minikube вместо использования старого. В таком случае повторите установку рабочего окружения с minikube [с самого начала]({{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}).
+Если её нет, значит был создан новый кластер minikube вместо использования старого. В таком случае повторите установку рабочего окружения с minikube [с самого начала](/guides/{{ page.framework_id | append: "/100_basic/20_cluster.html" | relative_url }}).
 </div>
