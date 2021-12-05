@@ -1,148 +1,21 @@
 {
   "history": [
     {
-      "ts": "1618333976",
-      "date": "2021-04-13T17:12:56Z",
-      "group": "1.1",
-      "name": "alpha",
-      "version": "v1.1.23+fix41"
-    },
-    {
-      "ts": "1618334186",
-      "date": "2021-04-13T17:16:26Z",
-      "group": "1.1",
-      "name": "beta",
-      "version": "v1.1.23+fix41"
-    },
-    {
-      "ts": "1618334186",
-      "date": "2021-04-13T17:16:26Z",
-      "group": "1.1",
-      "name": "ea",
-      "version": "v1.1.23+fix41"
-    },
-    {
-      "ts": "1618405387",
-      "date": "2021-04-14T13:03:07Z",
-      "group": "1.1",
-      "name": "stable",
-      "version": "v1.1.23+fix41"
-    },
-    {
-      "ts": "1618408365",
-      "date": "2021-04-14T13:52:45Z",
-      "group": "1.1",
-      "name": "rock-solid",
-      "version": "v1.1.23+fix41"
-    },
-    {
-      "ts": "1636470602",
-      "date": "2021-11-09T15:10:02Z",
-      "group": "1.2",
-      "name": "ea",
-      "version": "1.2.39"
-    },
-    {
-      "ts": "1637077243",
-      "date": "2021-11-16T15:40:43Z",
-      "group": "1.2",
-      "name": "ea",
-      "version": "1.2.39"
-    },
-    {
-      "ts": "1637153488",
-      "date": "2021-11-17T12:51:28Z",
-      "group": "1.2",
-      "name": "beta",
-      "version": "1.2.39"
-    },
-    {
-      "ts": "1637848998",
-      "date": "2021-11-25T14:03:18Z",
-      "group": "1.2",
-      "name": "alpha",
-      "version": "1.2.41"
-    }
-  ],
-  "latest": [
-    {
-      "name": "alpha",
-      "versions": [
-        "1.1.23+fix41",
-        "1.2.41"
-      ]
-    },
-    {
-      "name": "beta",
-      "versions": [
-        "1.1.23+fix41",
-        "1.2.39"
-      ]
-    },
-    {
-      "name": "ea",
-      "versions": [
-        "1.1.23+fix41",
-        "1.2.39"
-      ]
-    },
-    {
-      "name": "rock-solid",
-      "versions": [
-        "1.1.23+fix41"
-      ]
-    },
-    {
-      "name": "stable",
-      "versions": [
-        "1.1.23+fix41"
-      ]
-    }
-  ],
-  "latest4menu": [
-    {
-      "ts": "1637848998",
-      "date": "2021-11-25T14:03:18Z",
-      "group": "1.1",
-      "channels": [
-        {
-          "name": "alpha",
-          "version": "1.1.23+fix41"
-        },
-        {
-          "name": "beta",
-          "version": "1.1.23+fix41"
-        },
-        {
-          "name": "ea",
-          "version": "1.1.23+fix41"
-        },
-        {
-          "name": "stable",
-          "version": "1.1.23+fix41"
-        },
-        {
-          "name": "rock-solid",
-          "version": "1.1.23+fix41"
-        }
-      ]
-    },
-    {
-      "ts": "1637848998",
-      "date": "2021-11-25T14:03:18Z",
+      "ts": "1614448827",
+      "date": "2021-02-27T18:00:27Z",
       "group": "1.2",
       "channels": [
         {
           "name": "alpha",
-          "version": "1.2.41"
+          "version": "v1.2.8+fix2"
         },
         {
           "name": "beta",
-          "version": "1.2.39"
+          "version": "v1.2.8+fix2"
         },
         {
           "name": "ea",
-          "version": "1.2.39"
+          "version": "v1.2.8+fix2"
         }
       ]
     }

@@ -2,7 +2,7 @@
 layout: none
 permalink: /feed.xml
 ---
-{%- assign events = site.data.releases_history.history | sort: "ts" | reverse -%}
+{%- assign events = site.data.common.releases_history.history | sort: "ts" | reverse -%}
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
      xmlns:atom="http://www.w3.org/2005/Atom"
@@ -18,7 +18,7 @@ permalink: /feed.xml
     {%- assign feed_items = site.feed_items | default: 50 %}
     {%- for event in events limit:feed_items %}
     {%- assign version = event.version | normalize_version %}
-    {%- assign event_info = site.data.releases.releases | where: "tag_name", version | first %}
+    {%- assign event_info = site.data.common.releases.releases | where: "tag_name", version | first %}
       {%- if event_info %}
       <item>
         <title>Канал обновлений {{ event.group }}/{{ event.name }} на {{ event.version }}</title>

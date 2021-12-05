@@ -6,7 +6,7 @@ sitemap_include: false
 ---
 {%- assign group = "##GROUP##" %}
 {%- assign channel = "##CHANNEL##" %}
-{%- assign group_events = site.data.releases_history.history | where: "group", group | where: "name", channel | sort: "ts" | reverse -%}
+{%- assign group_events = site.data.common.releases_history.history | where: "group", group | where: "name", channel | sort: "ts" | reverse -%}
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
      xmlns:atom="http://www.w3.org/2005/Atom"
@@ -21,7 +21,7 @@ sitemap_include: false
 		<atom:link href="{{ site.url }}/feed-##GROUP##-##CHANNEL##.xml" rel="self" type="application/rss+xml" />
 		{%- assign feed_items = site.feed_items | default: 50 %}
 		{%- for event in group_events limit:feed_items %}
-      {%- assign event_info = site.data.releases.releases | where: "tag_name", event.version | first %}
+      {%- assign event_info = site.data.common.releases.releases | where: "tag_name", event.version | first %}
 			<item>
 				<title>{{ event.version }} on release channel {{ event.group }}/{{ event.name }}</title>
 				<description></description>
