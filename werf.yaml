@@ -21,8 +21,8 @@ shell:
     - bundle install
 ---
 
-image: common_artifacts
-fromImage: jekyll_base
+image : common_artifacts
+from: ubuntu
 ansible:
   install:
   - file:
@@ -67,7 +67,12 @@ ansible:
 ---
 {{- range $lang := list "en" "ru" }}
 image: doc_{{ $lang }}
-fromImage: common_artifacts
+fromImage: jekyll_base
+import:
+  - image: common_artifacts
+    add: /artifacts
+    to: /artifacts
+    before: setup
 git:
   - add: /
     to: /app
@@ -97,7 +102,8 @@ shell:
     - cd /app
     - set -u
     - mkdir -m 0777 -p /app/_site
-    - cp -rf /artifacts /app/_data/common/
+    - cp -fv /artifacts/*.json /app/_data/_common/
+    - cp -fv /artifacts/pages_{{ $lang }}/* /app/pages_{{ $lang }}/
     - export JEKYLL_ENV="{{ $.Env }}"
     {{- if eq $.Env "development" }}
     - bundle exec jekyll build -tV --config _config.yml,_config_dev.yml,_config_{{ $lang }}.yml --destination _site/
@@ -107,7 +113,7 @@ shell:
 ---
 {{ end -}}
 
-artifact: web-backend-artifact
+image: web-backend-artifact
 from: golang:1.16
 fromCacheVersion: 20210318
 ansible:
@@ -136,7 +142,7 @@ ansible:
         state: present
         update_cache: yes
 import:
-  - artifact: web-backend-artifact
+  - image: web-backend-artifact
     add: /go/src/app/server
     to: /app/server
     before: setup

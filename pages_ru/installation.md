@@ -21,10 +21,10 @@ arch:
 {%- asset installation.js %}
 {%- asset releases.css %}
 
-{%- assign releases = site.data.releases.releases %}
-{%- assign groups = site.data.releases_history.history | map: "group" | uniq | reverse %}
-{%- assign channels_sorted = site.data.channels_info.channels | sort: "stability" %}
-{%- assign channels_sorted_reverse = site.data.channels_info.channels | sort: "stability" | reverse  %}
+{%- assign releases = site.data.common.releases.releases %}
+{%- assign groups = site.data.common.releases_history.history | map: "group" | uniq | reverse %}
+{%- assign channels_sorted = site.data.common.channels_info.channels | sort: "stability" %}
+{%- assign channels_sorted_reverse = site.data.common.channels_info.channels | sort: "stability" | reverse  %}
 
 <div class="page__container page_installation">
 
@@ -146,7 +146,7 @@ arch:
           {% for arch in page.arch %}
             <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
   {% capture version_key %}{{ channel }}-{{ version }}{% endcapture %}
-  {% assign download_version = site.data.channels_versions.versions[version_key] | replace_first: "v", "" %}
+  {% assign download_version = site.data.common.channels_versions.versions[version_key] | replace_first: "v", "" %}
 <div markdown="1">
 {% include installation/binary_linux.md version=download_version arch=arch %}
 </div>
@@ -166,7 +166,7 @@ arch:
           {% for arch in page.arch %}
             <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
   {% capture version_key %}{{ channel }}-{{ version }}{% endcapture %}
-  {% assign download_version = site.data.channels_versions.versions[version_key] | replace_first: "v", "" %}
+  {% assign download_version = site.data.common.channels_versions.versions[version_key] | replace_first: "v", "" %}
 <div markdown="1">
 {% include installation/binary_macos.md version=download_version arch=arch %}
 </div>
@@ -186,7 +186,7 @@ arch:
           {% for arch in page.arch %}
             <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
   {% capture version_key %}{{ channel }}-{{ version }}{% endcapture %}
-  {% assign download_version = site.data.channels_versions.versions[version_key] | replace_first: "v", "" %}
+  {% assign download_version = site.data.common.channels_versions.versions[version_key] | replace_first: "v", "" %}
 <div markdown="1">
 {% include installation/binary_windows.md version=download_version arch=arch %}
 </div>
@@ -304,7 +304,7 @@ arch:
         {%- assign not_activated = true %}
         {%- assign active_channels = 0 %}
         {%- for channel in channels_sorted_reverse %}
-          {%- assign channel_activity = site.data.releases_history.history | reverse | where: "group", group | where: "name", channel.name | size %}
+          {%- assign channel_activity = site.data.common.releases_history.history | reverse | where: "group", group | where: "name", channel.name | size %}
           {%- if channel_activity < 1 %}
             {%- continue %} 
           {%- endif %}
@@ -322,7 +322,7 @@ arch:
       {%- assign not_activated = true %}
       {%- assign active_channels = 0 %}
       {%- for channel in channels_sorted_reverse %}
-      {%- assign channel_activity = site.data.releases_history.history | reverse | where: "group", group | where: "name", channel.name | size %}
+      {%- assign channel_activity = site.data.common.releases_history.history | reverse | where: "group", group | where: "name", channel.name | size %}
       {%- if channel_activity < 1 %}
         {% continue %} 
       {% endif %}
@@ -335,13 +335,13 @@ arch:
           <p class="installation-releases__info-text">{{ channel.description[page.lang] }}</p>
         </div>
 
-        {%- assign group_history = site.data.releases_history.history | reverse | where: "group", group %}
+        {%- assign group_history = site.data.common.releases_history.history | reverse | where: "group", group %}
         {%- assign channel_history = group_history | where: "name", channel.name %}
     
         {%- if channel_history.size > 0 %}
           {%- for channel_action in channel_history %}
             {%- assign version = channel_action.version | normalize_version %}
-            {%- assign release = site.data.releases.releases | where: "tag_name", version | first %}            
+            {%- assign release = site.data.common.releases.releases | where: "tag_name", version | first %}            
             {% if release %}            
               <div class="installation-releases__header">
                   <a href="{{ release.html_url }}" class="installation-releases__title">{{ release.tag_name }}</a>
