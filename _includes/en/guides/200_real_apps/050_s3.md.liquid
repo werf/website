@@ -1,0 +1,126 @@
+## Storing files
+
+Containers running in Kubernetes are often created and deleted automatically, e.g., because of Deployment updates. This means that application files cannot be stored on the container file system since those files will be:
+* available to a single container/application replica rather than all of them;
+* deleted when the container is killed.
+
+Thus, it makes sense to store in the containers only the data you can afford to lose.
+
+> _By the way, you can set the container file system to read-only. This will improve security and prevent the application from storing data locally._
+
+But what if you need to keep some data? You can use standalone databases for that. For example, NoSQL databases such as object storages are often used for storing regular files. Object stores that provide an Amazon S3-compatible API are especially popular.
+
+Below, we will show you how to store files in S3-compatible storage instead of a local file system. This way, your application can remain stateless and avoid some issues when working in Kubernetes.
+
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/001_preparing.md.liquid %}
+
+## Adding `/upload` and `/download` endpoints to the application
+
+Let's add two new endpoints, `/upload` (to upload a file to the S3-compatible object storage) and `/download` (to download a file from the S3-compatible object storage), to see how uploading and downloading works.
+
+Let's add a new controller {% include guides/200_real_apps/050_s3/{{ page.framework_id }}/005_add_model.md.liquid %}:
+
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
+
+Now it is time to add new paths to the routes:
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
+
+{% comment %} Adding new migrations if they are needed {% endcomment %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/020_new_migrations.md.liquid %}
+
+New endpoints, `/upload` and `/download`, have been added. Next, we need to configure them to work with the storage.
+
+## Deploying and configuring MinIO
+
+For illustrative purposes, we will use the [MinIO](https://min.io/) S3-compatible object storage. However, you can use any other S3-compatible storage (such as Amazon S3) instead.
+
+> _If the different type of S3 storage is used, you do not need to create MinIO’s StatefulSet and Job as described below. However, all further steps remain unchanged._
+
+Let's add a StatefulSet for MinIO:
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/025_stateful_minio.md.liquid %}
+
+The next step is to create a Job for setting up MinIO:
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/030_job_minio.md.liquid %}
+
+Add the configuration for connecting to MinIO:
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/035_minio_configuration.md.liquid %}
+
+{% comment %} Minio activation, if needed {% endcomment %}
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/040_minio_activation.md.liquid %}
+
+MinIO is now ready to be deployed while our application is configured to store files with it.
+
+## Testing the storage
+
+First, let’s deploy our application:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+You should see the following output:
+{% include guides/200_real_apps/050_s3/{{ page.framework_id }}/045_expected_result.md.liquid %}
+
+Now let's access the `/download` endpoint to get the file from S3:
+```shell
+curl http://werf-guide-app/download
+```
+
+Since we haven’t uploaded any files yet, we’ll get this:
+```
+You haven't uploaded anything yet.
+```
+
+Now let’s create a new file and upload it to the S3 storage:
+<div class="tabs">
+<a href="javascript:void(0)" class="tabs__btn tabs__s3__btn active" onclick="openTab(event, 'tabs__s3__btn', 'tabs__s3__content', 'tab__s3__linux_macos')">Linux/macOS</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__s3__btn" onclick="openTab(event, 'tabs__s3__btn', 'tabs__s3__content', 'tab__s3__windows')">Windows</a>
+</div>
+<div id="tab__s3__linux_macos" class="tabs__content tabs__s3__content active" markdown="1">
+```shell
+echo "This is file content." > file.txt
+curl -F "file=@file.txt" http://werf-guide-app/upload
+```
+</div>
+<div id="tab__s3__windows" class="tabs__content tabs__s3__content" markdown="1">
+```shell
+"This is file content." | Out-File -Encoding ascii -FilePath file.txt
+curl.exe -F "file=@file.txt" http://werf-guide-app/upload
+```
+</div>
+
+The expected output indicates that the file has been successfully added to the storage:
+```
+File uploaded.
+```
+
+Let's try to pull the file from the storage again:
+```shell
+curl http://werf-guide-app/download
+```
+
+You should see the file content:
+```
+This is file content.
+```
+
+Let’s make sure that the file gets saved directly to the storage and pulled from it. To do this, run the container having the `mc` tool to interact with MinIO:
+```shell
+kubectl run mc --image=minio/mc --rm -it --command -- bash
+```
+
+Now, execute the following commands in the container’s shell:
+```shell
+# Connect to MinIO
+mc alias set minio http://minio:9000 minioadmin minioadmin
+# Get the content of file stored in S3
+mc cat "minio/werf-guide-app/$(mc ls minio/werf-guide-app | awk 'NR==1 {print $5}')"
+```
+
+The expected outcome:
+```
+This is file content.
+```
+
+In this chapter, we learned how to store files in the S3-compatible object storage instead of the container file system. With this approach, the application Pods can be created and deleted without issues: files are stored safely, and any application replica can quickly access them. At the same time, the file system on Kubernetes nodes will not be filled with unnecessary files.
+
+Keep in mind that you can only store data you can afford to lose in a container. All other data must be stored in the appropriate database/storage. This approach is endorsed by many, e.g. you can find it in the [best practices](https://cloud.google.com/architecture/best-practices-for-operating-containers#ensure_that_your_containers_are_stateless_and_immutable) by Google Cloud engineers.

@@ -1,0 +1,45 @@
+## A new {{ page.framework_name }} application
+
+In this chapter, we will use a new basic {{ page.framework_name }} application with the same feature set as the application from the previous section.
+
+We got it like this - generated the directory structure for our {{ page.framework_name }} application by the command:
+
+{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/001_generate_app.md.liquid %}
+
+> **Please Note!** The commands in the current section are for illustrative purposes only. They show how a basic application was generated. Only the commands in the "Deploying a new application" section are intended to be executed.
+
+This application doesn't have any functionality that is not needed at this stage. The only thing left is the configuration for the production environment.
+
+Then, a new `/ping` route has been added to the API:
+{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/005_add_ping.md.liquid %}
+
+The `ping` method of the standard controller will handle this route (and return the `pong` string):
+{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/010_return_pong.md.liquid %}
+
+As for the building and CI/CD, the most significant changes affected the image build process:
+{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/015_building_image.md.liquid %}
+
+… while CI/CD changes were minimal. For example, here is the Deployment of the new application:
+{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/020_new_deployment.md.liquid %}
+
+Our current application is stateless and does not need a database to run. We will show you how to turn it into a stateful application and deploy a dedicated database in the following chapters.
+
+## Deploying a new application
+
+Let's check if the new application is running fine by deploying it to the Kubernetes cluster:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+You should see the following output:
+{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/025_expected_result.md.liquid %}
+
+Let's check whether our application works:
+```shell
+curl http://werf-guide-app/ping
+```
+
+You should see the following response:
+```shell
+pong
+```

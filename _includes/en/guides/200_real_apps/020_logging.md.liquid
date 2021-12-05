@@ -1,0 +1,95 @@
+## Redirecting logs to stdout
+
+All applications deployed to a Kubernetes cluster must write logs to [stdout/stderr](https://en.wikipedia.org/wiki/Standard_streams). Sending logs to standard streams makes them accessible by Kubernetes and log collection systems. Such an approach keeps logs from being deleted when containers are recreated and prevents consuming all available storage on Kubernetes nodes if the output is sent to log files in containers.
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/005_default_channel.md.liquid %}
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/015_direction_logs.md.liquid %}
+
+## Formatting logs
+
+By default, {% include guides/200_real_apps/020_logging/{{ page.framework_id }}/017_additional_entity.md.liquid %} {{ page.framework_name }}-based application generate plain text logs:
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/020_log_format.md.liquid %}
+
+{% comment %} Text output about the format and complexity of parsing {% endcomment %}
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/025_log_parsing.md.liquid %}
+Regular log collection and analysis systems will probably struggle with parsing all this gibberish.
+
+You can solve this problem by shipping logs in a structured JSON-like format. Most log collection systems can both, easily parse JSON and correctly process logs/messages in other (unexpected, unstructured) formats when they sneak in between JSON-formatted logs.
+
+{% comment %} Activation of JSON log output {% endcomment %}
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/030_installing_json.md.liquid %}
+
+> _Log tagging support is beyond the scope of this guide; however, you can implement it if necessary._
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/033_default_json.md.liquid %}
+
+> **Please Note!** The commands in the current section are for illustrative purposes only. They show how a basic application was generated. Only the commands in the "Checking whether the application is running" section are intended to be executed.
+
+## Managing the logging level
+
+By default, the application logging level for the production environment is set to `{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/035_fr_loglevel.md.liquid %}`. However, sometimes you may wish to change that.
+
+For example, switching the logging level from `info` to `debug` can provide additional debugging information and help in troubleshooting problems in production. However, if the application has many replicas, switching them all to the `debug` level may not be the best idea. It may affect security and significantly increase the load on log collection, storage, and analysis components.
+
+You can use an environment variable to set the logging level, thus solving the above problem. Using this approach, you can run a single Deployment replica with the `debug` logging level next to the existing replicas with the `info` logging level enabled. Moreover, you can disable centralized log collection for this new Deployment (if any). Together, all these measures prevent overloading log collection systems while keeping debug logs containing potentially sensitive information from being streamed to them.
+
+Here is how you can set the logging level using the `{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/036_fr_def_log_var.md.liquid %}` environment variable:
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/037_logs_via_variable.md.liquid %}
+
+If the environment variable is omitted, the `{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/035_fr_loglevel.md.liquid %}` level is used by default.
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/040_filtering_logs.md.liquid %}
+
+## Displaying logs in werf-based deploys
+
+By default, when deploying, werf prints logs of all application containers until they become `Ready`. 
+You can filter these logs using custom werf annotations. In this case, werf will only print lines that match the specified patterns.
+Additionally, you can enable log output for specific containers.
+
+For example, here is how you can disable log output for the `container_name` container during the deployment:
+```yaml
+annotations:
+  werf.io/skip-logs-for-containers: container_name
+```
+
+The example below shows how you can enable printing lines that match a pre-defined regular expression:
+```yaml
+annotations:
+  werf.io/log-regex: ".*ERROR.*"
+```
+
+A list of all available annotations can be found [here]({{ site.url }}/documentation/v1.2/reference/deploy_annotations.html).
+
+> _Note that these annotations only influence the way logs are shown during the werf-based deployment process. They do not affect the application being deployed or its configuration in any way. You can still use stdout/stderr streams of the container to view raw logs._
+
+## Checking whether the application is running
+
+Let's deploy our application:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+You should see the following output:
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/045_expected_result.md.liquid %}
+
+
+Make several requests in order to generate some logging data:
+```shell
+curl http://werf-guide-app/ping       # returns "pong" + 200 OK status code
+curl http://werf-guide-app/not_found  # no response; returns 404 Not Found
+```
+
+While our requests are being made, we won't see any codes returned by the server. However, we can find them in the logs — let's take a look at them:
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/050_checking_logs.md.liquid %}
+
+You should see the following output:
+
+{% include guides/200_real_apps/020_logging/{{ page.framework_id }}/055_second_expected_result.md.liquid %}
+
+Note that application logs are now rendered in JSON format, and most log processing systems can easily parse them. At the same time, Rails and Puma logs are streamed in plain text just like before. The main advantage of this approach is that log processing systems will no longer try to parse application logs and Rails/Puma logs as if they have the same format. JSON logs will be stored separately, letting you perform searching/filtering based on the selected fields.

@@ -34,13 +34,11 @@ GEM
     ethon (0.15.0)
       ffi (>= 1.15.0)
     eventmachine (1.2.7)
-    eventmachine (1.2.7-x64-mingw32)
     execjs (2.8.1)
     extras (0.3.0)
       forwardable-extended (~> 2.5)
     fastimage (2.2.5)
     ffi (1.15.4)
-    ffi (1.15.4-x64-mingw32)
     forwardable-extended (2.6.0)
     html-proofer (3.19.2)
       addressable (~> 2.3)
@@ -93,12 +91,8 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     mercenary (0.4.0)
-    mini_portile2 (2.6.1)
     minitest (5.14.4)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
-      racc (~> 1.4)
-    nokogiri (1.12.5-x64-mingw32)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     nokogumbo (2.0.5)
       nokogiri (~> 1.8, >= 1.8.4)
@@ -117,8 +111,6 @@ GEM
     safe_yaml (1.0.5)
     sassc (2.4.0)
       ffi (~> 1.9)
-    sassc (2.4.0-x64-mingw32)
-      ffi (~> 1.9)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -129,13 +121,11 @@ GEM
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (1.8.0)
-    wdm (0.1.1)
     yell (2.2.2)
     zeitwerk (2.5.1)
 
 PLATFORMS
-  ruby
-  x64-mingw32
+  x86_64-linux
 
 DEPENDENCIES
   html-proofer
@@ -145,9 +135,8 @@ DEPENDENCIES
   jekyll_remote_plantuml_plugin
   kramdown (>= 2.3.0)
   kramdown-parser-gfm
-  nokogiri (>= 1.10.8)
+  nokogiri (>= 1.12.5)
   sprockets (~> 4.0)
-  wdm (>= 0.1.0)
 
 BUNDLED WITH
    2.2.15

@@ -1,56 +1,98 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang }}">
+<html lang="{% if page.lang == "ru" %}ru{% else %}en{% endif %}">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=1260">
-  <meta name="description" content="{% if page contains 'summary' %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
-  {%- capture tags_and_keywords -%}
-  {%- if page contains 'tags' and page contains 'keywords' -%}
-  {{ page.tags }}, {{ page.keywords }}
-  {%- elsif page contains 'tags' -%}
-  {{ page.tags }}
-  {%- elsif page contains 'keywords' -%}
-  {{ page.keywords }}
-  {%- endif -%}
-  {%- endcapture -%}
-  <meta name="keywords" content="{{ tags_and_keywords }}">
-  {%- if page.multilang %}
-  <link rel="alternate" hreflang="ru" href="{{ site.site_urls['ru'] }}{{ page.url | relative_url }}" data-proofer-ignore/>
-  <link rel="alternate" hreflang="en" href="{{ site.site_urls['en'] }}{{ page.url | relative_url }}" data-proofer-ignore/>
+  {%- include common/head.html %}
+  <script>
+    $(document).ready(function() {
+      // Initialize navgoco with default options
+      $("#mysidebar").navgoco({
+        caretHtml: '',
+        accordion: true,
+        openClass: 'active', // open
+        save: false, // leave false or nav highlighting doesn't work right
+        cookie: {
+          name: 'navgoco',
+          expires: false,
+          path: '/'
+        },
+        slide: {
+          duration: 400,
+          easing: 'swing'
+        }
+      });
+
+      $("#collapseAll").click(function(e) {
+        e.preventDefault();
+        $("#mysidebar").navgoco('toggle', false);
+      });
+
+      $("#expandAll").click(function(e) {
+        e.preventDefault();
+        $("#mysidebar").navgoco('toggle', true);
+      });
+
+    });
+
+  </script>
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+  {%- if page.datatable == true %}
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
+  <script>
+    $(document).ready(function(){
+
+      $('table.datatable').DataTable({
+          paging: false,
+          stateSave: true
+        });
+    });
+  </script>
   {%- endif %}
-  <title>{{ page.title }} {% if page.framework_name %}| {{ page.framework_name }} {% endif %}| {{ site.site_title }}</title>
 
-  <!--#include virtual="/includes/head-common.html" -->
-
-  {% asset clipboard.min.js %}
-  {% asset customscripts.js %}
-  {% asset docs.css %}
-  {% asset guides.css %}
 </head>
 <body>
   <div class="page">
-    <!--#include virtual="/includes/topnav.html" -->
     <div class="page__content">
-    {{ content }}
+      {%- include common/topnav.html %}
+      <!-- Page Content -->
+      {{ content }}
     </div>
-    <!--#include virtual="/includes/footer.html" -->
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.4/scrollMonitor.js"></script>
-  <!-- Yandex.Metrika counter -->
-  <script type="text/javascript" >
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    ym(67759933, "init", {
-      clickmap:true,
-      trackLinks:true,
-      accurateTrackBounce:true,
-      webvisor:true
-    });
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/67759933" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
+{%- include common/footer.html %}
+  </div>
+  {%- if site.url == 'https://werf.io' or site.url == 'https://ru.werf.io' %}
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+      (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+          try {
+            w.yaCounter49679848 = new Ya.Metrika2({
+              id:49679848,
+              clickmap:true,
+              trackLinks:true,
+              accurateTrackBounce:true
+            });
+          } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+          s = d.createElement("script"),
+          f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+        if (w.opera === "[object Opera]") {
+          d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+      })(document, window, "yandex_metrika_callbacks2");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/49679848" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+  {%- endif %}
 </body>
 </html>

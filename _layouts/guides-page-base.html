@@ -1,0 +1,31 @@
+---
+layout: default-guides
+---
+
+<div class="page__container">
+    {% include layouts/guides/breadcrumbs.html %}
+
+    <div class="layout-sidebar">
+        <div class="layout-sidebar__sidebar">
+            {% include layouts/guides/sidebar.html.liquid %}
+            {% include layouts/guides/ask_and_star_buttons.html %}
+        </div>
+        <div class="layout-sidebar__content">
+            <div class="docs">
+                {%- if page.name != '404.md' %}
+                <div class="btn-group editme">
+                    <a href="{{ site.editlink }}/{{ page.path }}" class="btn btn_o" id="editme_link" target="_blank">
+                        <span class="btn__icon btn__icon_github"></span>
+                        Source
+                    </a>
+                </div>
+                {%- endif %}
+                <h1 class="docs__title">{{ page.title }}</h1>
+                <div class="post-content">
+                    {{ content }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="action-toast"></div>

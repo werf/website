@@ -1,0 +1,244 @@
+## Using the infrastructure
+
+> In this chapter, we will learn some commands for interacting with the cluster, and in the [next](../100_basic/38_kubernetes_basics.html) chapter, we will look at them in more detail.
+
+Let's make sure that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+The expected result:
+```shell
+...
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Jul 22 15:32:10 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+Running time 30.27 seconds
+```
+
+### Viewing the status
+
+There are several commands to view the status of a running application in Kubernetes.
+
+Here is how you can get a list of running Deployments and Pods:
+```shell
+kubectl get deployment
+```
+
+{% offtopic title="View the output" %}
+```shell
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+werf-guide-app   1/1     1            1           5m41s
+```
+{% endofftopic %}
+
+```shell
+kubectl get pod
+```
+
+{% offtopic title="View the output" %}
+```shell
+NAME                              READY   STATUS    RESTARTS   AGE
+werf-guide-app-57f854484f-8ktqp   1/1     Running   0          7m24s
+```
+{% endofftopic %}
+
+Display the summary of the `werf-guide-app` Deployment:
+```shell
+kubectl describe deployment werf-guide-app
+```
+
+{% offtopic title="View the output" %}
+```shell
+Name:                   werf-guide-app
+Namespace:              werf-guide-app
+CreationTimestamp:      Mon, 12 Jul 2021 10:30:14 +0300
+Labels:                 app.kubernetes.io/managed-by=Helm
+Annotations:            deployment.kubernetes.io/revision: 1
+                        meta.helm.sh/release-name: werf-guide-app
+                        meta.helm.sh/release-namespace: werf-guide-app
+                        project.werf.io/env: 
+                        project.werf.io/name: werf-guide-app
+                        werf.io/version: v1.2.11+fix10
+Selector:               app=werf-guide-app
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=werf-guide-app
+  Containers:
+   app:
+    Image:      <dockerhubuser>/werf-guide-app:e5c6ebcd2718ccfe74d01069a0d758e03d5a2554155ccdc01be0daff-1625753768312
+    Port:       8000/TCP
+    Host Port:  0/TCP
+    Command:
+      /app/start.sh
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   werf-guide-app-57f854484f (1/1 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  8m14s  deployment-controller  Scaled up replica set werf-guide-app-57f854484f to 1
+```
+{% endofftopic %}
+
+Deployment runs the Pods, while logs are stored in the Pods. You can browse logs of one of the running Pods with the following command:
+```shell
+kubectl logs app-<podId>
+```
+
+{% offtopic title="View the output" %}
+```shell
+GET /ping HTTP/1.1
+Host: werf-guide-app.test
+X-Request-ID: 3cdfedee7ff8f4fb27566446d587ccbd
+X-Real-IP: 192.168.49.1
+X-Forwarded-For: 192.168.49.1
+X-Forwarded-Host: werf-guide-app.test
+X-Forwarded-Port: 80
+X-Forwarded-Proto: http
+X-Scheme: http
+User-Agent: curl/7.68.0
+Accept: */*
+```
+{% endofftopic %}
+
+### Scaling
+
+The web server is running as part of the `werf-guide-app` Deployment. Let's see how many replicas are running:
+
+```shell
+kubectl get pod
+```
+
+{% offtopic title="View the output" %}
+```shell
+NAME                              READY   STATUS    RESTARTS   AGE
+werf-guide-app-57f854484f-8ktqp   1/1     Running   0          7m24s
+```
+{% endofftopic %}
+
+Let's change it to 4 replicas:
+```shell
+kubectl edit deployment werf-guide-app
+```
+
+Text editor will be launched where you need to set `spec.replicas=4`; then close the editor.
+Let's see how many replicas are running once again:
+```shell
+kubectl get pod
+```
+
+{% offtopic title="View the output" %}
+```shell
+NAME                              READY   STATUS    RESTARTS   AGE
+werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
+werf-guide-app-57f854484f-8ktqp   1/1     Running   0          6h59m
+werf-guide-app-57f854484f-kr9sl   1/1     Running   0          119m
+werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
+```
+{% endofftopic %}
+
+As you can see, we have scaled the cluster manually. Now, run `werf converge` once again:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+... and check the number of running replicas:
+```shell
+kubectl get pod
+```
+
+{% offtopic title="View the output" %}
+```shell
+NAME                              READY   STATUS    RESTARTS   AGE
+werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
+```
+{% endofftopic %}
+
+The number of replicas corresponds to that specified in the Git repository. As you can see, werf brought the cluster state to the state described in the current Git commit. This principle is called [**giterminism**](https://en.werf.io/documentation/v1.2/advanced/giterminism.html).
+
+So how do you comply with the principles of **giterminism** and do it all right? This time, let's set `spec.replicas=4` by describing the application state in Git:
+
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
+
+For this, we will use the `.helm/templates/deployment.yaml` file:
+
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+
+Run the deployment process:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+And check how many replicas are running now:
+
+```shell
+kubectl get pod
+```
+
+{% offtopic title="View the output" %}
+```shell
+NAME                              READY   STATUS    RESTARTS   AGE
+werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
+werf-guide-app-57f854484f-8ktqp   1/1     Running   0          6h59m
+werf-guide-app-57f854484f-kr9sl   1/1     Running   0          119m
+werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
+```
+{% endofftopic %}
+
+Let's clean up the working directory so that it contains only one replica:
+
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
+
+Check the contents of the `.helm/templates/deployment.yaml` file:
+
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_initial %}
+
+Run the deployment process:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+## Making changes to the application
+
+Our application is a basic echo server. When requested using curl:
+```shell
+curl "http://werf-guide-app/ping"
+```
+
+… it responds with the `pong` word.
+
+Let's make changes to the application code:
+
+{% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_modify_app from_scratch=false %}
+
+In the application code, the server response will change to `hello world`:
+
+{% include snippetcut_example path="start.sh" syntax="bash" examples=page.examples_modify_app %}
+
+Run the deployment process:
+```shell
+werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
+```
+
+Check the result:
+```shell
+curl "http://werf-guide-app/ping"
+```
+
+The server will respond with `hello world`.
+Congratulations, we did it!
