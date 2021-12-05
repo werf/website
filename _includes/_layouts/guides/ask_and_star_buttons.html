@@ -1,5 +1,5 @@
 <div class="sidebar__btns">
-  {%- for btn in site.data.ask_and_star_buttons %}
+  {%- for btn in site.data.guides.ask_and_star_buttons %}
   <a href="{{ btn.url }}" target="_blank" class="sidebar__btn" title="{{ btn.title }}">
     <span class="sidebar__btn-icon {{ btn.icon_class }}"></span>
     {{ btn.text }}

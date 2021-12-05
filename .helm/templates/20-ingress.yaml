@@ -36,11 +36,6 @@ spec:
         backend:
           serviceName: backend
           servicePort: http
-      - backend:
-          serviceName: backend
-          servicePort: http
-        path: /guides.html
-        pathType: Exact
   - host: ru.{{ $host }}
     http:
       paths:
@@ -48,11 +43,6 @@ spec:
         backend:
           serviceName: backend
           servicePort: http
-      - backend:
-          serviceName: backend
-          servicePort: http
-        path: /guides.html
-        pathType: Exact
 ---
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
