@@ -91,6 +91,8 @@ git:
       - _config_dev.yml
       - _config_{{ $lang }}.yml
       - "*.xml"
+      - "*.sh"
+      - "*.asc"
       - "*.png"
       - "*.svg"
       - favicon.ico
