@@ -271,12 +271,12 @@ propose_joining_docker_group() {
   declare override_join_docker_group="$1"
 
   [[ $override_join_docker_group == "no" ]] && return 0
+  is_user_in_group "$USER" docker && return 0
+  is_root && return 0
 
-  ensure_cmds_available usermod id
-  if ! is_user_in_group "$USER" docker; then
-    [[ $override_join_docker_group == "auto" ]] && prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
-    run_as_root "usermod -aG docker '$USER'" || abort "Can't add user \"$USER\" to group \"docker\"."
-  fi
+  ensure_cmds_available usermod
+  [[ $override_join_docker_group == "auto" ]] && prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
+  run_as_root "usermod -aG docker '$USER'" || abort "Can't add user \"$USER\" to group \"docker\"."
 }
 
 setup_trdl_bin_path() {
@@ -479,7 +479,7 @@ ensure_cmds_available() {
 run_as_root() {
   declare cmd="$1"
 
-  if [[ $(id -u) -eq 0 ]]; then
+  if is_root; then
     eval $cmd || return 1
   else
     [[ $NON_INTERACTIVE == "yes" ]] && log::warn "Non-interactive mode enabled, but current user doesn't have enough privilege, so the next command will be called with sudo (this might hang): sudo $cmd"
@@ -488,6 +488,11 @@ run_as_root() {
   fi
 
   return 0
+}
+
+is_root() {
+  test "$(id -u)" -eq 0
+  return
 }
 
 is_command_exists() {
