@@ -1,15 +1,13 @@
-## Подготовка
+## Preliminary steps
 
-Добавим библиотеки для работы с файлами:
+Let's add the following libraries:
 
 ```shell
 npm i @aws-sdk/client-s3 express-fileupload readable-web-to-node-stream
 ```
 
-- `@aws-sdk/client-s3` — для работы с хранилищем, совместимым с AWS S3
-- `express-fileupload` — для простого получения файла в запросе express
-- `readable-web-to-node-stream` — для конвертирования потока *web stream* в *node stream*, что
-пригодится для отправки файлов клиенту
+- `@aws-sdk/client-s3` — for working with an AWS S3-compatible storage;
+- `express-fileupload` — for getting a file in the express request;
+- `readable-web-to-node-stream` — for converting *web stream* to *node stream* (this one comes in handy for sending files to the client).
 
-Нам подойдет библиоткека `@aws-sdk/client-s3`, так как интерфейс minio совместим с AWS S3. Заодно
-так будет проще мигрировать на сам AWS S3, если предстоит такая необходимость.
+We will use the `@aws-sdk/client-s3` since the minio interface is compatible with AWS S3. In addition, it makes it easier to migrate to AWS S3 if necessary.

@@ -1,15 +1,5 @@
-Приложение на Nodejs может обслуживать статические файлы, в частности в express можно сделать
-контроллер с помощью `express.static`. Однако, как советуют авторы express, более эффективным
-решением для статики будет сервер наподобие NGINX. Рекомендуется это потому, что производительность
-и эффективность reverse proxy для раздачи статических файлов на порядки выше, чем у Nodejs.
+A Node.js application can serve static files, e.g., in the express framework, you can make a controller using `express.static`. However, the authors of express recommend using a server like NGINX to serve static files. This is because the reverse proxy distributes static files much more efficiently than Node.js.
 
-На практике обходиться без reverse proxy перед приложением допускается только во время разработки.
-Кроме более эффективной отдачи статических файлов reverse proxy хорошо дополняет сервер приложения,
-давая много дополнительных возможностей, которые обычно не реализуют на уровне последнего, а также
-предоставляя быструю и гибкую маршрутизацию запросов.
+In practice, you can do without the reverse proxy running in front of an application only during development. In addition to efficiently serving static files, the reverse proxy nicely complements the application server by providing many additional features non-implemented at the application server level as well as fast and flexible request routing.
 
-Есть несколько способов, как закрыть сервер приложения за reverse proxy в Kubernetes. Мы будем
-использовать распространенный и простой способ, который, к тому же, хорошо масштабируется. В нем
-перед каждым контейнером с Nodejs поднимается NGINX-контейнер (в том же Pod), через который в
-приложение проксируются все запросы, кроме запросов на статические файлы. Статические файлы отдаёт
-сам NGINX-контейнер, доставая их из своей файловой системы.
+There are several ways to deploy the application server behind the reverse proxy in Kubernetes. We will use a popular and straightforward method that also scales well. As part of it, the NGINX container is deployed to each Pod with the Node.js container. This auxiliary container serves as a proxy for all requests except for static file requests. The NGINX container is responsible for the distribution of static files.

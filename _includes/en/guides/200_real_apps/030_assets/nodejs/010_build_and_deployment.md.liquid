@@ -1,11 +1,9 @@
 
-### Организация файлов
+### Organizing files
 
-Для сборки статики возьмем webpack. Сейчас в приложении есть одна главная страница, доступная на
-корневом маршруте `/`. Эта страница появилась со старта проекта. Ее содержимое лежит в файле
-`/public/index.html`. В этом разделе мы добавим еще одну страницу, которая будет доступна по адресу
-`/image`. Также мы реорганизуем структуру каталога `/public`, чтобы явно разделить его на две части:
-страницы (`pages`) и подключаемые к страницам файлы (`assets`).
+We will use webpack to bundle static files. Currently, our application has one index page accessible at `/`. This page has existed since the start of the project.
+Its contents are in the `/public/index.html` file. We will now add another page available at `/image`. 
+We will also re-structure the `/public` directory and divide it into two parts: the pages (`pages`) and the files needed for the pages (`assets`).
 
 ```shell
 $ tree public
@@ -25,12 +23,9 @@ public/
 ```
 
 
-HTML-файлы будут служить нам шаблонами страниц. Страницы не будет кэшироваться, потому что они
-всегда остаются доступными на постоянном маршруте (`/`, `/image`), и нам нужно их время от времени
-менять и оперативно доносить изменения допользователей. Однако подключаемые файлы будут собираться
-так, что их имена будут менятьcя в зависимости от их содержимого. Так можно будет достичь двух
-целей: надолго кэшировать эти файлы в браузере и заодно свободно менять их. После сборки статики, в
-каталоге `dist` будет такой результат. Ниже покажем, как его получить.
+HTML files will act as page templates. We will not cache pages because they are always available at fixed paths (`/`, `/image`), and we need to change them occasionally and quickly bring those changes to users. 
+However, asset files will be assembled so that their names will change depending on their contents. This way, you can cache files in a browser for a long time and at the same time easily modify them. 
+Once bundling is complete, you will see the following result in the `dist` directory (we will show you how to achieve it below):
 
 ```shell
 $ tree dist/
@@ -47,9 +42,9 @@ $ tree dist/
     └── 2c6aa8e8ef0b96213f30.svg
 ```
 
-### Сборка статики
+### Building static files
 
-Чтобы собирать статику, добавим следующие модули
+Let's install the following modules to build and bundle static files:
 
 ```shell
 $ npm install --save-dev \
@@ -58,21 +53,18 @@ $ npm install --save-dev \
   css-loader mini-css-extract-plugin css-minimizer-webpack-plugin
 ```
 
-- `webpack`, `webpack-cli` — собирать статику
-- `webpack-dev-middleware` — отдавать статику приложением во время разработки
-- `html-webpack-plugin` — генерировать HTML-страницы с динамическим подключением ассетов
-- `css-loader` — задействовать CSS в сборке
-- `mini-css-extract-plugin` — выделить CSS в отдельные файлы, чтобы кэшировать отдельно от JS
-- `css-minimizer-webpack-plugin` — минифицировать CSS (работает с параметром `mode: "production"`)
+- `webpack`, `webpack-cli` — for building static resources;
+- `webpack-dev-middleware` — for serving the files emitted from webpack during development;
+- `html-webpack-plugin` — for generating HTML pages with dynamic assets attaching;
+- `css-loader` — for using CSS;
+- `mini-css-extract-plugin` — for extracting CSS into separate files and caching them independently of JS;
+- `css-minimizer-webpack-plugin` — for optimizing and minifying CSS (it works together with the `mode: "production"` parameter).
 
-Добавим команду для сборки в `package.json`: `"build": "webpack"` и обработчик запросов к статике,
-если приложение запущено не в режиме `production`:
+Let's add a build command to `package.json`: `"build": "webpack"` and a request handler for static files if the application is not running in `production` mode:
 
 {% include snippetcut_example path="app.js" syntax="javascript" snippet="webpack-dev" examples=page.examples %}
 
-Убедимся, что локально сборка и сервер работают. Для этого соберем статику, запустим сервер и
-откроем в браузере страницу с изображением
-[http://localhost:3000/image](http://localhost:3000/image):
+Let's make sure that the server runs as expected and static files are being built. For this, assemble static files, run the server, and open the image page in the browser at [http://localhost:3000/image](http://localhost:3000/image):
 
 ```shell
 $ npm run build && npm start
@@ -80,26 +72,25 @@ $ npm run build && npm start
 
 {% include snippetcut_example path="webpack.config.js" syntax="javascript" examples=page.examples %}
 
-### Деплой статики и приложения
+### Deploying static files and the application
 
-Теперь, когда у нас есть статика для NGINX и страницы для сервера приложений, нужно разделить
-статику по контейнерам: HTML — в контейнере с приложением, остальное — с NGINX.
+Now that we have static files for the NGINX proxy and pages for the application server, we need to distribute static files between containers. The HTML files should end up in the app container, all other files — in the NGINX container.
 
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-Во время сборки в образ с NGINX будет добавлен его конфигурационный файл:
+The NIGINX config will be added to the NGINX image during the build:
 
 {% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
 
-Обновим конфигурацию `werf.yaml`, чтобы werf собрал и сохранил два образа (backend и frontend) вместо одного:
+Now, let's update `werf.yaml` so that werf can build two images (backend, frontend) instead of one:
 
 {% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
 
-Добавим новый NGINX-контейнер в Deployment приложения:
+Add a new NGINX container to the application Deployment:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
-Теперь Service и Ingress должны обращаться к NGINX на 80-й порт, а не 3000-й. Так NGINX будет раздавать статику и проксировать запросы к приложению:
+Service and Ingress should now connect to NGINX's port 80 instead of 3000. This way, NGINX can serve static files and act as a proxy for application requests:
 
 {% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
 
