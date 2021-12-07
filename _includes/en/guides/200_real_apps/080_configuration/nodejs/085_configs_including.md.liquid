@@ -1,24 +1,23 @@
-После передачи переменных окружения в контейнер остаётся только подставить их в конфигурационных
-файлах приложения.
+Once the environment variables are passed to the container, you need to insert them into the application config.
 
-Чтобы единообразно управлять конфигурацией приложения, установим модуль `config`:
+Let’s install the `config` module to manage the app configuration in a consistent fashion:
 
 ```shell
 npm i config
 ```
 
 
-Этот модуль позволит переопределять конфигурацию в зависимости от типа окружения, а также
-использовать переменные окружения. Это конфигурационный файл со значениями по умолчанию:
+This module makes it possible to redefine the configuration depending on the type of environment and use environment variables. 
+This is a configuration file with default values:
 
 {% include snippetcut_example path="config/default.json" syntax="json" examples=page.examples %}
 
-Здесь задается переопределение конфигурации приложения через переменные окружения:
+In the snippet below, application parameters are redefined using environment variables:
 
 {% include snippetcut_example path="config/custom-environment-variables.json" syntax="json" examples=page.examples %}
 
-К сожалению, sequelize нельзя использовать с модулем `config`, так как в конфиг первого определяются
-все окружения, а у `config` окружения делятся по файлам. Чтобы обойти это ограничение, можно
-переписать конфигурацию sequelize на JavaScript и подставить переменные окружения с помощью `node`:
+Unfortunately, you cannot use sequelize with the `config` module because the former's config has all the environments defined, 
+while the latter has all the environments split between files. To get around this constraint, you can rewrite the sequelize 
+configuration in JavaScript and substitute environment variables with `node`:
 
 {% include snippetcut_example path="config/database.js" syntax="javascript" examples=page.examples %}
