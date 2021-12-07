@@ -14,10 +14,10 @@ const app = express();
 // [<snippet logger-usage>]
 app.use(
   pinoHttp({
-    // [<ru>] Зададим уровень логгирования, который мы используем в других компонентах с помощью res.log.
+    // [<ru>] Зададим уровень логирования, который мы используем в других компонентах с помощью res.log.
     // [<en>] Control log level that is to be used elsewhere via res.log.
     logger: pino({ level: process.env.LOG_LEVEL || 'info' }),
-    // [<ru>] Для сервера зададим фиксированный уровень логгирования.
+    // [<ru>] Для сервера зададим фиксированный уровень логирования.
     // [<en>] Fixed log level for all server logs.
     useLevel: 'info',
   })

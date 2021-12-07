@@ -1,9 +1,9 @@
 The following changes have been made to our application:
 
-1. Installing dependencies for working with the MySQL database
-1. Configuring access to the database
-1. Adding a model and a migration for the database schema
-1. Adding routes that use the new model
+1. Dependencies for working with the MySQL database are installed.
+1. Access to the database is configured.
+1. Database model and schema migration are added.
+1. Routes that use the new model are added.
 
 We used the following command to install the new dependencies:
 
@@ -11,10 +11,10 @@ We used the following command to install the new dependencies:
 npm i mysql2 sequelize sequelize-cli express-async-handler
 ```
 
-- `mysql2` — MySQL driver
-- `sequelize` — an ORM for the database
-- `sequelize-cli` — a command-line tool for generating models and migrations
-- `express-async-handler` — a wrapper over the query handlers to write async/await code
+- `mysql2` — a MySQL driver;
+- `sequelize` — an ORM for the database;
+- `sequelize-cli` — a command-line tool for generating models and migrations;
+- `express-async-handler` — a wrapper over the query handlers to write async/await code.
 
 Also, a sequelize configuration file was created. It defines the structure of sequelize files and the database connection configuration.
 All the DB-related directories are located in the `db` directory while the configuration is included in `config/database.json`:

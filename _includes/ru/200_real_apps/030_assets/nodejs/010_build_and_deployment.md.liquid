@@ -51,7 +51,7 @@ $ tree dist/
 
 ### Сборка статики
 
-Чтобы собирать статику, добавим следующие модули
+Чтобы собирать статику, добавим следующие модули:
 
 ```shell
 $ npm install --save-dev \
@@ -60,12 +60,12 @@ $ npm install --save-dev \
   css-loader mini-css-extract-plugin css-minimizer-webpack-plugin
 ```
 
-- `webpack`, `webpack-cli` — собирать статику
-- `webpack-dev-middleware` — отдавать статику приложением во время разработки
-- `html-webpack-plugin` — генерировать HTML-страницы с динамическим подключением ассетов
-- `css-loader` — задействовать CSS в сборке
-- `mini-css-extract-plugin` — выделить CSS в отдельные файлы, чтобы кэшировать отдельно от JS
-- `css-minimizer-webpack-plugin` — минифицировать CSS (работает с параметром `mode: "production"`)
+- `webpack`, `webpack-cli` — собирать статику;
+- `webpack-dev-middleware` — отдавать статику приложением во время разработки;
+- `html-webpack-plugin` — генерировать HTML-страницы с динамическим подключением ассетов;
+- `css-loader` — задействовать CSS в сборке;
+- `mini-css-extract-plugin` — выделить CSS в отдельные файлы, чтобы кэшировать отдельно от JS;
+- `css-minimizer-webpack-plugin` — минифицировать CSS (работает с параметром `mode: "production"`).
 
 Добавим команду для сборки в `package.json`: `"build": "webpack"` и обработчик запросов к статике,
 если приложение запущено не в режиме `production`:
@@ -73,8 +73,7 @@ $ npm install --save-dev \
 {% include snippetcut_example path="app.js" syntax="javascript" snippet="webpack-dev" examples=page.examples %}
 
 Убедимся, что локально сборка и сервер работают. Для этого соберем статику, запустим сервер и
-откроем в браузере страницу с изображением
-[http://localhost:3000/image](http://localhost:3000/image):
+откроем в браузере страницу с изображением [http://localhost:3000/image](http://localhost:3000/image):
 
 ```shell
 $ npm run build && npm start
