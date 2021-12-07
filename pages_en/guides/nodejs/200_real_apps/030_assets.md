@@ -1,6 +1,5 @@
 ---
 title: Serving assets
-layout: guides-wip
 permalink: guides/nodejs/200_real_apps/030_assets.html
 examples_initial: examples/nodejs/020_logging
 examples: examples/nodejs/030_assets
