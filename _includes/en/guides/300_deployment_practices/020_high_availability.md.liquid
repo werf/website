@@ -16,7 +16,7 @@ The default update strategy for Deployment entails a reduction of the number of 
 
 There’s a little trick to the default update strategy (`RollingUpdate`): the application will temporarily have not only a few replicas, but two different versions (the old one and the new one) running concurrently as well. Therefore, if running different replicas and different versions of the application side by side is unfeasible for some reason, then you can use `strategy.type: Recreate`. Under the `Recreate` strategy, all the existing Pods are killed before the new Pods are created. This results in a short-lived downtime.
 
-*Other deployment strategies (blue-green, canary, etc.) can often provide a much better alternative to the RollingUpdate strategy. However, we are not taking them into account in this article since their implementation depends on the software used to deploy the application. That goes beyond the scope of this article*. 
+*Other deployment strategies (blue-green, canary, etc.) can often provide a much better alternative to the RollingUpdate strategy. However, we are not taking them into account in this article since their implementation depends on the software used to deploy the application. That goes beyond the scope of this article*.
 
 >Here is a [great article](https://www.weave.works/blog/kubernetes-deployment-strategies) on the topic that we recommend and is well worth the read.
 
@@ -81,4 +81,4 @@ This parameter ensures that at least 80% of replicas are available in the cluste
 
 But there is a catch: there have to be enough nodes in the cluster that satisfy the `podAntiAffinity` criteria. Otherwise, you may encounter a situation in which a replica gets evicted, but the scheduler cannot re-deploy it due to a lack of suitable nodes. As a result, draining a node will take forever to complete, and will get you two application replicas instead of three. Granted, you can invoke `kubectl describe` for a *Pending* Pod to see what’s going on and eliminate the problem. But still, it is better to prevent this kind of situation from happening.
 
-To summarize, **lways configure the PDB for critical components of your system**.
+To summarize, **always configure the PDB for critical components of your system**.
