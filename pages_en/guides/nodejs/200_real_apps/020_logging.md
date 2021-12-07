@@ -1,6 +1,5 @@
 ---
 title: Logging
-layout: guides-wip
 permalink: guides/nodejs/200_real_apps/020_logging.html
 examples_initial: examples/nodejs/010_basic_app
 examples: examples/nodejs/020_logging
