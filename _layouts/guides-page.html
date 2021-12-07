@@ -1,0 +1,28 @@
+---
+layout: guides-page-base
+---
+
+{{- page.description | markdownify }}
+
+{%- if page.chapter_production_disclaimer %}
+    {%- capture production_disclaimer %}
+        {%- include guides/chapter_production_disclaimer.md.liquid %}
+    {%- endcapture %}
+    {{- production_disclaimer | markdownify }}
+{%- endif %}
+
+{%- if page.chapter_initial_prepare_cluster %}
+    {%- capture prepare_cluster %}
+        {%- include guides/chapter_initial_prepare_cluster.md.liquid %}
+    {%- endcapture %}
+    {{- prepare_cluster | markdownify }}
+{%- endif %}
+
+{%- if page.chapter_initial_prepare_repo %}
+    {%- capture prepare_repo %}
+        {%- include guides/chapter_initial_prepare_repo.md.liquid examples_to=page.examples examples_from=page.examples_initial no_changes=page.chapter_initial_prepare_repo_no_changes %}
+    {%- endcapture %}
+    {{- prepare_repo | markdownify }}
+{%- endif %}
+
+{{ content }}

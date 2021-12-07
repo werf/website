@@ -1,0 +1,113 @@
+In this section, we will show you how to manage the application lifecycle.
+
+## Stopping processes in containers
+
+The signal specified in `STOPSIGNAL` (usually, the `TERM` signal) is sent to the process to stop it. However, some applications cannot handle it properly and cannot manage to shut down gracefully. The same is true for applications running in Kubernetes.
+
+For example, in order to shut down nginx properly, you will need a `preStop` hook like this:
+
+```yaml
+lifecycle:
+  preStop:
+    exec:
+      command:
+      - /bin/sh
+      - -ec
+      - |
+        sleep 3
+        nginx -s quit
+```
+
+A brief explanation for this listing:
+
+1. `sleep 3` prevents race conditions that may be caused by an endpoint being deleted.
+1. `nginx -s quit` shuts down nginx properly. This line isn’t required for more up-to-date images since the `STOPSIGNAL: SIGQUIT` parameter is set there by default.
+
+>You can learn more about graceful shutdowns for nginx bundled with PHP-FPM in [our other article](https://blog.flant.com/graceful-shutdown-in-kubernetes-is-not-always-trivial/).
+
+The way `STOPSIGNAL` is handled depends on the application itself. In practice, for most applications, you have to Google the way `STOPSIGNAL` is handled. If the signal is not handled appropriately the `preStop` hook can help you solve the problem. Another option is to replace `STOPSIGNAL` with a signal that the application can handle properly (and permit it to shut down gracefully).
+
+`terminationGracePeriodSeconds` is another crucial parameter important in shutting down the application. It specifies the time period for which the application is to shut down gracefully. If the application does not terminate within this time frame (30 seconds by default), it will receive a `KILL` signal. Thus, you will need to increase the terminationGracePeriodSeconds parameter if you think that running the `preStop` hook and/or shutting down the application at the `STOPSIGNAL` may take more than 30 seconds. For example, you may need to increase it if some requests from your web service clients take a long time to complete (e.g. requests that involve downloading large files).
+
+It is worth noting that the `preStop` hook has a locking mechanism, i.e. `STOPSIGNAL` may be sent only after the `preStop` hook has finished running. At the same time, the `terminationGracePeriodSeconds` countdown *continues during the preStop hook execution*. All the hook-induced processes, as well as the processes running in the container, will be `KILL`ed after `terminationGracePeriodSeconds` is over.
+
+Also, some applications have specific settings that set the deadline at which point the application must terminate (for example, the `--timeout` option in Sidekiq). Therefore, in each case, you have to make sure that if the application has this setting, it has a slightly lower value than that of `terminationGracePeriodSeconds`.
+
+## Liveness probe
+
+In practice, the liveness probe is not as widely used as you may have thought. Its purpose is to restart a container if, for example, the application is frozen. However, in real life, such app deadlocks are an exception rather than the rule. If the application demonstrates partial functionality for some reason (e.g., it cannot restore connection to a database after it has been broken), you have to fix that in the application, rather than “inventing” livenessProbe-based workarounds.
+
+> **The general recommendation for all probes** is to increase the `timeoutSeconds` parameter. Its default value of one second is too low. This is especially true for `readinessProbe` and `livenessProbe`. Suppose a `timeoutSeconds` value is too low. In that case, almost all Pods may stop receiving traffic (readiness) when the application response time increases (which usually happens for all Pods at the same time due to service load balancing), or it may lead to cascading restarts of containers (liveness).
+
+While you can use livenessProbe to check for these kinds of states, we recommend either **not using livenessProbe by default** or only performing some **basic liveness-testing, such as testing for the TCP connection (remember to set a high timeout value)**. This way, the application will be restarted in response to an apparent deadlock without risking falling into the trap of a loop of restarts (i.e. restarting it won’t help).
+
+Risks related to a poorly configured livenessProbe are serious. In the most common cases, livenessProbe fails due to increased load on the application (it simply cannot make it within the time specified by the timeout parameter) or due to the state of external dependencies that are currently down being checked (directly or indirectly). In the latter case, all the containers will be restarted. In the best case scenario, this would result in nothing, but in the worst case, this would render the application  completely unavailable, probably long-term. Long-term total unavailability of an application (if it has a large number of replicas) may result if most Pods’ containers are restarted within a short time period. Some containers are likely to become READY faster than others, and the entire load will be distributed over this limited number of running containers. That will end up causing livenessProbe timeouts, which will trigger even more restarts.
+
+Also, ensure that livenessProbe does not stop responding if your application has a limit on the number of established connections and that limit has been reached. Usually, you have to dedicate a separate application thread/process to livenessProbe to avoid such problems. For example, if your application has 11 threads (one thread per client), you can limit the number of clients to 10, ensuring that there is an idle thread available for livenessProbe.
+
+And, of course, do not add any external dependency checks to your livenessProbe.
+
+>See [this article](https://srcco.de/posts/kubernetes-liveness-probes-are-dangerous.html) for more information on liveness probe issues and how to prevent them.
+
+## Readiness probe
+
+The design of readinessProbe has turned out not to be very successful. readinessProbe combines two different functions:
+
+* it finds out if an application is available during the container start;
+* it checks if an application remains available after the container has been successfully started.
+
+In practice, the first function is required in the vast majority of cases, while the second is only needed as often as the livenessProbe. The poorly configured readinessProbe can cause issues similar to those of livenessProbe. In the worst case, they can also end up causing long-term unavailability for the application.
+
+Still, readinessProbe comes with another crucial feature: it helps determine when a newly created container can handle the traffic so as not to forward load to an application that isn’t ready yet. This readinessProbe feature, au contraire, is necessary at all times.
+
+In other words, one feature of readinessProbe is in high demand, while the other is not necessary at all. This dilemma was solved with the introduction of startupProbe. It first appeared in Kubernetes 1.16 becoming beta in v1.18 and stable in v1.20. Thus, you’re best off **using readinessProbe to check if an application is ready in Kubernetes versions below 1.18, but startupProbe – in Kubernetes versions 1.18 and up**. Then again, you can use readinessProbe in Kubernetes 1.18+ if you have any need to stop traffic to individual Pods after the application has been started.
+
+## Startup probe
+
+startupProbe checks if an application in the container is ready. Then it marks the current Pod as ready to receive traffic or goes on updating/restarting the Deployment. Unlike readinessProbe, startupProbe stops working after the container has been started. We do not advise using startupProbe for checking external dependencies: its failure would trigger a container restart, which may eventually cause the Pod to go `CrashLoopBackOff`. In this state, the delay between attempts to restart a failed container can be as high as five minutes. It may lead to unnecessary downtime since, despite the application being ready to be restarted, the container continues to wait until the end of the `CrashLoopBackOff` period before trying to restart.
+
+You should use startupProbe if your application receives traffic and your Kubernetes version is 1.18 or higher.
+
+Also, note that increasing `failureThreshold` instead of setting `initialDelaySeconds` is the preferred method for configuring the probe. This will allow the container to become available as quickly as possible.
+
+## Checking external dependencies
+
+As you know, readinessProbe is often used for checking external dependencies (e.g. databases). While this approach has the right to exist, you’d be well advised to separate your means of checking for external dependencies and your means of checking whether the application in the Pod is running at full capacity (and cutting off the sending of traffic to it is a good idea as well).
+
+You can use `initContainers` to check external dependencies before running the main containers' startupProbe/readinessProbe. It’s pretty clear that in that case, you will no longer need to check external dependencies using readinessProbe. `initContainers` do not require changes to the application code. You do not need to embed additional tools to use them for checking external dependencies in the application containers. Usually, they are reasonably easy to implement:
+
+```yaml
+initContainers:
+- name: wait-postgres
+  image: postgres:12.1-alpine
+  command:
+  - sh
+  - -ec
+  - |
+    until (pg_isready -h example.org -p 5432 -U postgres); do
+      sleep 1
+    done
+  resources:
+    requests:
+      cpu: 50m
+      memory: 50Mi
+    limits:
+      cpu: 50m
+      memory: 50Mi
+- name: wait-redis
+  image: redis:6.0.10-alpine3.13
+  command:
+  - sh
+  - -ec
+  - |
+    until (redis-cli -u redis://redis:6379/0 ping); do
+      sleep 1
+    done
+  resources:
+    requests:
+      cpu: 50m
+      memory: 50Mi
+    limits:
+      cpu: 50m
+      memory: 50Mi
+```

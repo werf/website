@@ -3,6 +3,8 @@ company_url: https://flant.ru
 url: https://ru.werf.io
 site_lang: ru
 issuelink: "https://github.com/werf/werf-guides/issues/new"
+site_description: Инструмент консистентной доставки. Используем Git как единый источник истины. Собираем, деплоим в Kubernetes, синхронизируем изменения.
+
 data_dir: _data/ru
 includes_dir: _includes/ru
 
@@ -11,9 +13,13 @@ exclude:
   - Gemfile.lock
   - examples
   - pages_en
+  - werf.yaml
+  - ".werf"
+  - backend
 
 include:
   - pages_ru
+  - ssi
 
 defaults:
   - scope:
@@ -22,69 +28,73 @@ defaults:
     values:
       layout: "page"
       lang: ru
-      multilang: false
+      multilang: true
       sitemap_include: true
+      editme_button: true
+      search: true
+      topnav: topnav
   - scope:
-      path: "pages_ru"
+      path: "pages_ru/guides"
       type: "pages"
     values:
       sidebar: guide
       multilang: true
+      layout: "guides-page"
       toc: false
       chapter_production_disclaimer: true
       chapter_initial_prepare_cluster: true
       chapter_initial_prepare_repo: true
   - scope:
-      path: "pages_ru/*/*.md"
+      path: "pages_ru/guides/*/*.md"
       type: "pages"
     values:
       chapter_production_disclaimer: false
       chapter_initial_prepare_cluster: false
       chapter_initial_prepare_repo: false
   - scope:
-      path: "pages_ru/*/100_basic"
+      path: "pages_ru/guides/*/100_basic"
       type: "pages"
     values:
       chapter_production_disclaimer: false
       multilang: true
   - scope:
-      path: "pages_ru/nodejs"
+      path: "pages_ru/guides/nodejs"
       type: "pages"
     values:
       framework_id: nodejs
       framework_name: "Node.js"
   - scope:
-      path: "pages_ru/java_springboot"
+      path: "pages_ru/guides/java_springboot"
       type: "pages"
     values:
       framework_id: java_springboot
       framework_name: "Spring Boot"
   - scope:
-      path: "pages_ru/django"
+      path: "pages_ru/guides/django"
       type: "pages"
     values:
       framework_id: django
       framework_name: Django
   - scope:
-      path: "pages_ru/golang"
+      path: "pages_ru/guides/golang"
       type: "pages"
     values:
       framework_id: golang
       framework_name: Go
   - scope:
-      path: "pages_ru/rails"
+      path: "pages_ru/guides/rails"
       type: "pages"
     values:
       framework_id: rails
       framework_name: Rails
   - scope:
-      path: "pages_ru/laravel"
+      path: "pages_ru/guides/laravel"
       type: "pages"
     values:
       framework_id: laravel
       framework_name: Laravel
   - scope:
-      path: "pages_ru/framework_id"
+      path: "pages_ru/guides/framework_id"
       type: "pages"
     values:
       framework_id: framework_id
