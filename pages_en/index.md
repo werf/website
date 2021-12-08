@@ -34,7 +34,7 @@ sidebar: none
                 <div class="intro__subtitle">What is it?</div>
                 <h1 class="intro__title">Consistent<br/>delivery tool</h1>
                 <ul class="intro__features">
-                    <li>The CLI tool glueing Git, Docker, Helm & Kubernetes<br/>
+                    <li>The CLI tool gluing Git, Docker, Helm & Kubernetes<br/>
                     with any CI system to implement CI/CD and Giterminism.</li>
                 </ul>
                 <div class="intro__btns page__btn-group">
