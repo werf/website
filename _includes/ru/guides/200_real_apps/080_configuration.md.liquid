@@ -75,7 +75,7 @@ ConfigMap предназначен для хранения неконфиден�
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/060_secret_values.md.liquid %}
 
 Чтобы увидеть расшифрованными секреты, хранящиеся в `.helm/secret-values.yaml`, можно выполнить следующую команду:
-```bash
+```shell
 werf helm secret values decrypt .helm/secret-values.yaml
 ```
 
