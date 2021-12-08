@@ -72,7 +72,9 @@ Login Succeeded
 
 ### Создание Secret
 
-Создадим namespace для нашего приложения:
+Чтобы в процессе работы у нас была возможность использовать образы из *приватного* container registry, нам необходимо создать Secret с учетными данными пользователя. Здесь есть одна особенность — secret должен располагаться в том же namespace, что и приложение. 
+
+Поэтому создадим namespace для нашего приложения:
 ```shell
 kubectl create namespace werf-guide-app
 ```
@@ -104,6 +106,7 @@ kubectl delete secret registrysecret
 ```
 {% endofftopic %}
 
+Во время работы werf будет подставлять созданный secret в поле `imagePullSecrets` конфигурации Pod'ов (подробнее можно почитать [здесь](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets)).
 
 > Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
 > registry. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
