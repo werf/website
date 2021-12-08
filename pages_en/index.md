@@ -38,8 +38,8 @@ sidebar: none
                     with any CI system to implement CI/CD and Giterminism.</li>
                 </ul>
                 <div class="intro__btns page__btn-group">
-                    <a href="{{ "introduction.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
-                        Introduction
+                    <a href="{{ "how_it_works.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
+                        How it works
                     </a>
                     <a href="{{ "documentation/quickstart.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
                         Quickstart
@@ -318,8 +318,8 @@ sidebar: none
             </div>
         </div>
         <div class="documentation__btns">
-            <a href="{{ "introduction.html" | true_relative_url }}" class="page__btn page__btn_b documentation__btn">
-                Introduction
+            <a href="{{ "how_it_works.html" | true_relative_url }}" class="page__btn page__btn_b documentation__btn">
+                How it works
             </a>
             <a href="{{ "documentation/quickstart.html" | true_relative_url }}" class="page__btn page__btn_o documentation__btn">
                 Quickstart

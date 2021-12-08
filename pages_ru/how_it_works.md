@@ -1,7 +1,6 @@
 ---
-title: Введение
-description: Как werf работает?
-permalink: introduction.html
+title: Как это работает
+permalink: how_it_works.html
 layout: plain
 banner: guides
 breadcrumbs: none

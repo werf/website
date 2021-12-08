@@ -38,8 +38,8 @@ sidebar: none
                     с любой CI-системой для реализации CI/CD и подхода гитерминизм.</li>
                 </ul>
                 <div class="intro__btns page__btn-group">
-                    <a href="{{ "introduction.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
-                        Введение
+                    <a href="{{ "how_it_works.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
+                        Как это работает
                     </a>
                     <a href="{{ "documentation/quickstart.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
                         Быстрый старт
@@ -330,8 +330,8 @@ sidebar: none
             </div>
         </div>
         <div class="documentation__btns">
-            <a href="{{ "introduction.html" | true_relative_url }}" class="page__btn page__btn_b documentation__btn">
-                Введение
+            <a href="{{ "how_it_works.html" | true_relative_url }}" class="page__btn page__btn_b documentation__btn">
+                Как это работает
             </a>
             <a href="{{ "documentation/quickstart.html" | true_relative_url }}" class="page__btn page__btn_o documentation__btn">
                 Быстрый старт
