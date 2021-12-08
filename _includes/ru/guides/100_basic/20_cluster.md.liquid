@@ -70,7 +70,8 @@ Password: <ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>
 Login Succeeded
 ```
 
-### Создание namespace
+### Создание Secret
+
 Создадим namespace для нашего приложения:
 ```shell
 kubectl create namespace werf-guide-app
@@ -81,7 +82,6 @@ kubectl create namespace werf-guide-app
 namespace/werf-guide-app created
 ```
 
-### Создание Secret
 Создадим Secret в кластере, который обеспечит доступ к нашему новому приватному репозиторию уже нашему приложению:
 ```shell
 kubectl create secret docker-registry registrysecret \
