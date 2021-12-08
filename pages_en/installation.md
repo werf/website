@@ -79,9 +79,9 @@ arch:
       <div class="installation-selector__title">Installation method</div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"
-          data-install-tab-group="method" data-install-tab="trdl">manually</a>
-        <a href="javascript:void(0)" class="tabs__btn"
           data-install-tab-group="method" data-install-tab="installer">installer</a>
+        <a href="javascript:void(0)" class="tabs__btn"
+          data-install-tab-group="method" data-install-tab="manually">manually</a>
       </div>
     </div><!-- /selector -->
   </div><!-- /selector-row -->
@@ -89,7 +89,7 @@ arch:
   <div class="installation-instruction">
       <div class="docs">
 <h2 id="install-werf">Installation</h2>
-<div class="installation-instruction__tab-content" data-install-content-group="method" data-install-content="trdl">
+<div class="installation-instruction__tab-content" data-install-content-group="method" data-install-content="manually">
 <div class="installation-instruction__tab-content" data-install-content-group="os" data-install-content="linux">
   {% for version in page.versions %}
     <div class="installation-instruction__tab-content" data-install-content-group="version" data-install-content="{{ version }}">
@@ -172,28 +172,6 @@ arch:
       {% endfor %}
     </div>
   {% endfor %}
-
-        </div>
-        <div class="installation-instruction__tab-content" data-install-content-group="os" data-install-content="windows">
-  {% for version in page.versions %}
-    <div class="installation-instruction__tab-content" data-install-content-group="version" data-install-content="{{ version }}">
-      {% for channel in page.channels %}
-        <div class="installation-instruction__tab-content" data-install-content-group="channel" data-install-content="{{ channel }}">
-          {% for arch in page.arch %}
-            <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
-<div markdown="1">
-{% include installation/installer_windows.md version=version channel=channel %}
-</div>
-            </div>
-          {% endfor %}
-        </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
-
-        </div>
-      </div><!-- /method -->
-    </div>
   </div>
 
   <div class="installation-channels">
