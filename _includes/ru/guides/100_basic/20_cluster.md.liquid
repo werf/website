@@ -82,7 +82,7 @@ kubectl create namespace werf-guide-app
 namespace/werf-guide-app created
 ```
 
-Создадим Secret в кластере, который обеспечит доступ к нашему новому приватному репозиторию уже нашему приложению:
+Создадим Secret в кластере, который обеспечит доступ к приватному container registry:
 ```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
