@@ -8,20 +8,7 @@ breadcrumbs: none
 
 {% asset introduction.css %}
 {% asset introduction.js %}
-<div markdown="1">
-## What is werf?
 
-werf is a CLI tool for implementing a full deployment cycle for your application using Git as a single source of truth. werf can:
-
- - Build docker images.
- - Deploy the application into the Kubernetes cluster.
- - Make sure the application is up and running well after the deploy is complete.
- - Re-build docker images when application code changes.
- - Re-deploy the application into the Kubernetes cluster when necessary.
- - Clean up irrelevant and unused images.
-
-## How it works?
-</div>
 <div id="introduction-presentation" class="introduction-presentation">
     <div id="introduction-presentation-controls" class="introduction-presentation__controls">
         <a href="javascript:void(0)" class="introduction-presentation__controls-nav">
@@ -232,21 +219,6 @@ At this step, werf calculates the target image names. Image names may change or 
     </div>
 </div>
 <div markdown="1">
-## What is converge?
-
-**Converge** is the process of building docker images (and re-building them in response to changes), deploying an application into the Kubernetes cluster (and re-deploying it when necessary), and making sure that the application is up and running.
-
-The `werf converge` command starts the converging process. The command can be invoked by a user, by a CI/CD system, or by an operator in response to changes in the state of an application in Git. The behavior of the `werf converge` command is fully deterministic and transparent from the standpoint of the Git repository (read more about giterminism [here]({{ "documentation/advanced/giterminism.html" | true_relative_url }})). After the converge command is complete, your application will be up and running in the state defined in the target Git commit. Typically, to roll back your application to the previous version, you only need to run the converge on the corresponding earlier commit (werf will use correct images for this commit).
-
-Run the following command in the root of your project to converge:
-
-```shell
-werf converge --docker-repo myregistry.domain.org/example-app [--kube-config ~/.kube/config]
-```
-
-Generally, the converge command has only one mandatory argument: the address of the docker repository. werf will use this docker repository to store built images and use them in Kubernetes (thus, this docker repository must be accessible from within the Kubernetes cluster). Kube-config is another optional argument that defines the Kubernetes cluster to connect to. Also, there is an optional `--env` parameter (and the `WERF_ENV` environment variable) allowing you to deploy an application into various [environments]({{ "documentation/advanced/ci_cd/ci_cd_workflow_basics.html#environment" | true_relative_url }}).
-
-_NOTE: If your application does not use custom docker images (e.g., it uses only publicly available ones), you do not have to pass `--docker-repo` parameter to the command and may just omit it._
 
 ## What's next?
 
