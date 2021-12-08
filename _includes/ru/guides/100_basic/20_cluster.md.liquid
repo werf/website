@@ -97,8 +97,11 @@ kubectl create secret docker-registry registrysecret \
 secret/registrysecret created
 ```
 
-{% offtopic title="Если нужно пересоздать Secret" %}
+{% offtopic title="Если ошиблись при создании Secret" %}
+То его нужно пересоздать, предварительно удалив уже созданный вариант командой:
+```shell
 kubectl delete secret registrysecret
+```
 {% endofftopic %}
 
 
