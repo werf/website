@@ -75,7 +75,7 @@ $(document).ready(function () {
     installSelect(key, value)
   }
   if (!params.get("method")) {
-    if (params.get("method") === "windows") {
+    if (params.get("os") === "windows") {
       installSelect("method", windows_default_method)
     } else {
       installSelect("method", unix_default_method)
