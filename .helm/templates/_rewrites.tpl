@@ -57,7 +57,9 @@ rewrite ^/documentation/guides/advanced_build/(first_application|multi_images|mo
 
 rewrite ^(/v1.1(\-(alpha|beta|ea|stable)+)?)+/documentation/guides/unsupported_ci_cd_integration\.html$ /documentation/v1.1/guides/generic_ci_cd_integration.html permanent;
 
+rewrite ^/introduction\.html$  /how_it_works.html permanent;
 rewrite ^/publications_ru\.html$  https://ru.werf.io/publications.html permanent;
+
 rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/documentation\.html$  /documentation/ permanent;
 rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/how_to/?$  /installation.html permanent;
 rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/documentation/guides/installation\.html$  /installation.html permanent;
