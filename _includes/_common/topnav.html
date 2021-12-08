@@ -12,7 +12,7 @@
                 {%- assign topnav = site.data[page.topnav] %}
                 {%- assign topnav_dropdowns = site.data[page.topnav].topnav_dropdowns %}
 
-                    {%- for folder in topnav.topnav[page.lang] -%}
+                    {%- for folder in topnav -%}
                         {% comment %}
                         Notice:
                             Liquid engine is very poor in working with boolean logic.
