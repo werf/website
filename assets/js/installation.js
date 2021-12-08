@@ -11,9 +11,11 @@ $(document).ready(function () {
     version: '1.2',
     channel: 'stable',
     os: default_os,
-    method: 'trdl',
     arch: 'amd64'
   }
+
+  const windows_default_method = "manually";
+  const unix_default_method = "installer";
 
   function doInstallSelect(group, param) {
     $(`[data-install-tab-group="${group}"]`).removeClass('active');
@@ -37,13 +39,8 @@ $(document).ready(function () {
     if (group == "version") {
       if (param == "1.2") {
         $(`[data-install-tab="rock-solid"]`).hide();
-        doInstallSelect("channel", "stable")
       } else {
         $(`[data-install-tab="rock-solid"]`).show();
-        $(`[data-install-tab="stable"]`).show();
-        $(`[data-install-tab="ea"]`).show();
-        $(`[data-install-tab="beta"]`).show();
-        doInstallSelect("channel", "stable")
       }
     }
 
@@ -51,9 +48,15 @@ $(document).ready(function () {
       if (param == "windows") {
         $(`[data-install-tab="arm64"]`).hide();
         doInstallSelect("arch", "amd64")
+
+        $(`[data-install-tab="installer"]`).hide();
+        doInstallSelect("method", windows_default_method)
       } else {
         $(`[data-install-tab="arm64"]`).show();
         $(`[data-install-tab="amd64"]`).show();
+
+        $(`[data-install-tab="installer"]`).show();
+        doInstallSelect("method", unix_default_method)
       }
     }
 
@@ -70,6 +73,13 @@ $(document).ready(function () {
 
   for (let [key, value] of params) {
     installSelect(key, value)
+  }
+  if (!params.get("method")) {
+    if (params.get("method") === "windows") {
+      installSelect("method", windows_default_method)
+    } else {
+      installSelect("method", unix_default_method)
+    }
   }
 
   $('[data-install-tab]').on('click', function () {
