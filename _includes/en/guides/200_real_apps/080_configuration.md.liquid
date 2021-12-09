@@ -79,7 +79,7 @@ Instead, we will store them encrypted in the `.helm/secret-values.yaml` file alo
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/060_secret_values.md.liquid %}
 
 Use the command below to decrypt the secrets stored in `.helm/secret-values.yaml`:
-```bash
+```shell
 werf helm secret values decrypt .helm/secret-values.yaml
 ```
 

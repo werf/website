@@ -70,8 +70,11 @@ Password: <ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>
 Login Succeeded
 ```
 
-### Создание namespace
-Создадим namespace для нашего приложения:
+### Создание Secret
+
+Чтобы в процессе работы у нас была возможность использовать образы из *приватного* container registry, нам необходимо создать Secret с учетными данными пользователя. Здесь есть одна особенность — Secret должен располагаться в том же namespace, что и приложение. 
+
+Поэтому необходимо заранее создать namespace для нашего приложения:
 ```shell
 kubectl create namespace werf-guide-app
 ```
@@ -81,8 +84,7 @@ kubectl create namespace werf-guide-app
 namespace/werf-guide-app created
 ```
 
-### Создание Secret
-Создадим Secret в кластере, который обеспечит доступ к нашему новому приватному репозиторию уже нашему приложению:
+Далее создадим Secret с именем `registrysecret` в нашем namespace:
 ```shell
 kubectl create secret docker-registry registrysecret \
   --docker-server='https://index.docker.io/v1/' \
@@ -90,21 +92,30 @@ kubectl create secret docker-registry registrysecret \
   --docker-password='<ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>'
 ```
 
+>Для создания Secret мы используем стандартный способ из [официальной документации Kubernetes](https://kubernetes.io/docs/concepts/configuration/secret/#docker-config-secrets). 
+
 В ответ отобразится следующее:
 ```shell
 secret/registrysecret created
 ```
 
-{% offtopic title="Если нужно пересоздать Secret" %}
+{% offtopic title="Если ошиблись при создании Secret" %}
+То его нужно пересоздать, предварительно удалив уже созданный вариант командой:
+```shell
 kubectl delete secret registrysecret
+```
 {% endofftopic %}
 
+В следующих главах мы будем использовать Secret `registrysecret` в поле `imagePullSecrets` при конфигурации Pod'ов (подробнее можно почитать [здесь](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets)).
 
 > Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
 > registry. К примеру, для GitHub Container Registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
 > без опции и использовать значение по умолчанию.
 
 Теперь окружение для работы готово.
+
+>Также обратите внимание, что при удалении namespace или изменении правил доступов необходимо выполнить процедуру заново.
+
 
 ## Рабочее окружение работало, но перестало
 

@@ -1,5 +1,5 @@
 ---
-title: Быстрый старт разработчика
+title: Первые шаги
 permalink: guides/framework_id/100_basic.html
 ---
 
