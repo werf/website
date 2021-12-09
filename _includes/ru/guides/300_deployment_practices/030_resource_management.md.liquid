@@ -28,8 +28,8 @@
 Конфигурация для Redis, которая поможет с этим:
 
 ```shell
-maxmemory 500mb   # если данные начнут занимать 500 Мб...
-maxmemory-policy allkeys-lru   # ...Redis удалит редко используемые ключи
+maxmemory 500mb   # Если данные начнут занимать 500 Мб...
+maxmemory-policy allkeys-lru   # ...Redis удалит редко используемые ключи.
 ```
 
 А для Sidekiq это может быть [Sidekiq worker killer](https://github.com/klaxit/sidekiq-worker-killer):
@@ -38,7 +38,7 @@ maxmemory-policy allkeys-lru   # ...Redis удалит редко использ
 require 'sidekiq/worker_killer'
 Sidekiq.configure_server do |config|
   config.server_middleware do |chain|
-    # Корректно завершить Sidekiq при достижении им потребления в 500 Мб
+    # Корректно завершить Sidekiq при достижении им потребления в 500 Мб.
     chain.add Sidekiq::WorkerKiller, max_rss: 500
   end
 end

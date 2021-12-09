@@ -27,8 +27,8 @@ module.exports = {
   },
 
   plugins: [
-    // [<ru>] Подключаем плагин для выделения CSS в отдельные файлы
-    // [<en>] App plugin to extract CSS files
+    // [<ru>] Подключаем плагин для выделения CSS в отдельные файлы.
+    // [<en>] App plugin to extract CSS files.
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
     }),
@@ -69,7 +69,7 @@ module.exports = {
       },
     ],
   },
-  // [<ru>] С помощью оптимизаций мы выделили скрипт с райнтаймом, чтобы уменьшить общий размер статики,
+  // [<ru>] С помощью оптимизаций мы выделили скрипт с рантаймом, чтобы уменьшить общий размер статики,
   // [<ru>] который нужно будет загрузить для разных страниц. Также добавили минимизацию CSS для production.
   // [<en>] Using optimizations, we extracted runtime JS to separate file to decrese the size of scripts
   // [<en>] that needs to be loaded in clents browser. Also, we added the minimization of CSS for production.
