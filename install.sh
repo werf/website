@@ -7,7 +7,7 @@ main() {
 
   declare -r DEFAULT_TRDL_INITIAL_VERSION="0.3.1"
   declare -r DEFAULT_TRDL_TUF_REPO="https://tuf.trdl.dev"
-  declare -r DEFAULT_TRDL_GPG_PUBKEY_URL="https://trdl.dev/trdl.asc"
+  declare -r DEFAULT_TRDL_GPG_PUBKEY_URL="https://trdl.dev/trdl-client.asc"
   declare -r DEFAULT_WERF_TUF_REPO_URL="https://tuf.werf.io"
   declare -r DEFAULT_WERF_TUF_REPO_ROOT_VERSION="1"
   declare -r DEFAULT_WERF_TUF_REPO_ROOT_SHA="b7ff6bcbe598e072a86d595a3621924c8612c7e6dc6a82e919abe89707d7e3f468e616b5635630680dd1e98fc362ae5051728406700e6274c5ed1ad92bea52a2"
