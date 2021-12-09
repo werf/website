@@ -50,13 +50,11 @@ $(document).ready(function () {
         doInstallSelect("arch", "amd64")
 
         $(`[data-install-tab="installer"]`).hide();
-        doInstallSelect("method", windows_default_method)
+        doInstallSelect("method", windows_default_method);
       } else {
         $(`[data-install-tab="arm64"]`).show();
         $(`[data-install-tab="amd64"]`).show();
-
         $(`[data-install-tab="installer"]`).show();
-        doInstallSelect("method", unix_default_method)
       }
     }
 

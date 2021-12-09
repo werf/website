@@ -172,6 +172,9 @@ arch:
       {% endfor %}
     </div>
   {% endfor %}
+        </div>
+      </div><!-- /method -->
+    </div>
   </div>
 
   <div class="installation-channels">
