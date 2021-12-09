@@ -80,8 +80,8 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Выполним пару запросов для генерации логов:
 ```shell
-curl http://werf-guide-app.test/ping       # вернёт "pong" и код возврата 200
-curl http://werf-guide-app.test/not_found  # ничего не вернёт, только код возврата 404
+curl http://werf-guide-app.test/ping       # Вернёт "pong" и код возврата 200.
+curl http://werf-guide-app.test/not_found  # Ничего не вернёт, только код возврата 404.
 ```
 
 В результате выполнения запросов возвращаемые сервером коды возврата отображаться не будут, но их можно посмотреть в логах. Проверим их:
