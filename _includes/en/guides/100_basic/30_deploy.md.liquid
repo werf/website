@@ -6,7 +6,7 @@ The Deployment resource creates a set of resources for launching the application
 
 Here, we have created a werf template for generating a Deployment resource. This template is essentially a Helm template with some [additional functionality]({{ site.url }}/documentation/v1.2/advanced/helm/overview.html) provided by werf. For example, {% raw %}`image: {{ .Values.werf.image.app }}`{% endraw %} instructs werf to insert the generated image tag (and name) automatically to the `image` field because the image tag becomes known only during the build.
 
-werf only rebuilds images if the files specified in `werf.yaml` are changed or if `werf.yaml` itself is changed. The image tag will also change during a rebuild resulting in the Deployment update. If no changes were made to the files mentioned above, the werf would not rebuild the image. The Deployment and the resources it creates will not be redeployed because the latest version of the application is already running in the cluster.
+werf only rebuilds images when the added files are changed (those used in the Dockerfile `COPY/ADD` instructions) or if `werf.yaml` itself is changed. The image tag will also change during a rebuild resulting in the Deployment update. If no changes were made to the files mentioned above, the werf would not rebuild the image. The Deployment and the resources it creates will not be redeployed because the latest version of the application is already running in the cluster.
 
 ## Service
 

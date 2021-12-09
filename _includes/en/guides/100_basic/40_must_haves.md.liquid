@@ -10,7 +10,7 @@ The reproducibility is essential for implementing the [Infrastructure as Code](h
 
 ## The standard mode
 
-werf follows the  **giterminism** principle to ensure reproducibility. That is, the current Git state (HEAD commit) _determines_ the state of the application. By default, werf does not allow uncommitted and untracked files in the build context/configuration of the images being built. It also excludes functionality that potentially has external dependencies.
+werf follows the  **giterminism** principle to ensure reproducibility. That is, the current Git state (HEAD commit) _determines_ the state of the application. By default, werf does not allow uncommitted and untracked files in the build context/configuration of the images being built. It also excludes the features that potentially have external dependencies.
 
 We strongly recommend following this approach. However, if necessary, you can loosen giterminism restrictions explicitly and enable the features that require careful use. You can do this using the [werf-giterminism.yaml]({{ site.url }}/documentation/v1.2/reference/werf_giterminism_yaml.html) file.
 
