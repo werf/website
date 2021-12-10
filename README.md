@@ -17,7 +17,8 @@ including:
 * Ruby (Ruby on Rails),
 * PHP (Laravel).
 
-All guides' articles are currently available in two languages, English & Russian.
+All guides' articles are currently available in two languages, [English](https://werf.io/guides/)
+and [Russian](https://ru.werf.io/guides/).
 
 # werf guides repo
 
@@ -35,4 +36,5 @@ If you're interested in running werf guides website locally, please refer
 to [DEVELOPMENT.md](DEVELOPMENT.md).
 
 Feel free to reach us in [this Telegram chat](https://t.me/werf_io) if you have
-any questions.
+any questions. _(There is a Russian-speaking [Telegram chat](https://t.me/werf_ru)
+as well.)_
