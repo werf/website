@@ -24,6 +24,11 @@ rewrite ^/documentation/configuration/stapel_artifact\.html$                /doc
 rewrite ^/documentation/configuration/deploy_into_kubernetes\.html$         /documentation/v1.2/reference/werf_yaml.html#deploy  permanent;
 rewrite ^/documentation/configuration/cleanup\.html$                        /documentation/v1.2/reference/werf_yaml.html#cleanup  permanent;
 
+rewrite ^/documentation/v1\.2/advanced/ci_cd/run_in_container/run_in_docker_container\.html$                      /documentation/v1.2/advanced/ci_cd/run_in_container/use_docker_container.html permanent;
+rewrite ^/documentation/v1\.2/advanced/ci_cd/run_in_container/run_in_kubernetes\.html$                            /documentation/v1.2/advanced/ci_cd/run_in_container/use_kubernetes.html permanent;
+rewrite ^/documentation/v1\.2/advanced/ci_cd/run_in_container/use_github_actions_with_docker_executor\.html$      /documentation/v1.2/advanced/ci_cd/run_in_container/use_docker_container.html permanent;
+rewrite ^/documentation/v1\.2/advanced/ci_cd/run_in_container/use_github_actions_with_kubernetes_executor\.html$  /documentation/v1.2/advanced/ci_cd/run_in_container/use_kubernetes.html permanent;
+
 rewrite ^/documentation/reference/build_process\.html$                                        /documentation/v1.2/internals/build_process.html permanent;
 rewrite ^/documentation/reference/stages_and_images\.html$                                    /documentation/v1.2/internals/stages_and_storage.html permanent;
 rewrite ^/documentation/reference/deploy_process/deploy_into_kubernetes\.html$                /documentation/v1.2/advanced/helm/overview.html permanent;
