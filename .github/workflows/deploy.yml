@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     types: [ labeled, synchronize ]
 
@@ -16,7 +16,7 @@ env:
 jobs:
   converge:
     name: Deploy
-    if: github.ref == 'refs/heads/master' || contains(github.event.pull_request.labels.*.name, 'test guides')
+    if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'test guides')
     runs-on: self-hosted
     steps:
 
@@ -26,7 +26,7 @@ jobs:
         fetch-depth: 0
 
     - name: Generate artifacts
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       run: |
           cd .werf/artifacts
           bash generate_artifacts.sh
@@ -44,7 +44,7 @@ jobs:
 
     - name: Deploy to production
       uses: werf/actions/converge@v1.2
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/main'
       with:
         env: production
       env:
@@ -60,7 +60,7 @@ jobs:
     steps:
       - uses: technote-space/workflow-conclusion-action@v2
       - name: (Notifications) Deploy to production has failed
-        if: github.ref == 'refs/heads/master' && env.WORKFLOW_CONCLUSION == 'failure'
+        if: github.ref == 'refs/heads/main' && env.WORKFLOW_CONCLUSION == 'failure'
         run: |
           curl -X POST \
                -H 'Content-type: application/json' \

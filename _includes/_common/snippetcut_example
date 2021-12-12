@@ -1,5 +1,5 @@
 {% comment %} Get base url {% endcomment %}
-{% assign base_url = "https://github.com/werf/werf-guides/blob/master" %}
+{% assign base_url = "https://github.com/werf/website/blob/main" %}
 {% assign base_url_parts = base_url | split: "/" %}
 {% if base_url_parts.last == "/" %}
   {% assign base_url_parts = base_url_parts | pop %}
