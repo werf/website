@@ -2,7 +2,7 @@ company_name: Flant
 company_url: https://flant.ru
 url: https://werf.io
 site_lang: en
-issuelink: "https://github.com/werf/werf-guides/issues/new"
+issuelink: "https://github.com/werf/website/issues/new"
 site_description: Consistent delivery tool. Git as a single source of truth. Build, deploy to Kubernetes, stay in sync.
 
 data_dir: _data/en

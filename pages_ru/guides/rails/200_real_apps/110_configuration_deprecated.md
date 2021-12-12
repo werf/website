@@ -28,7 +28,7 @@ layout: guides-wip
 
 ```
 git clone https://github.com/werf/werf-guides
-cp -r werf-guides/examples/rails/019_fixup_consistency rails-app
+cp -r website/examples/rails/019_fixup_consistency rails-app
 cd rails-app
 git init
 git add .

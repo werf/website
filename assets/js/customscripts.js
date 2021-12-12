@@ -479,7 +479,7 @@ function getDocVersionFromURL() {
     if  ( result.length > 2 && result[2] ) {
       return result[1].replace('-plus-','+');
     } else {
-      return "master";
+      return "main";
     }
   }
   return null;

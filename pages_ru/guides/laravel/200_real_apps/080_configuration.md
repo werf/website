@@ -3,7 +3,7 @@ title: Конфигурация и секреты
 permalink: guides/laravel/200_real_apps/080_config.html
 examples_initial: examples/laravel/050_s3
 examples: examples/laravel/080_configuration
-base_url: https://github.com/werf/werf-guides/blob/master/
+base_url: https://github.com/werf/website/blob/main/
 description: |
   В этой главе мы покажем, как правильно использовать и хранить секретную и несекретную конфигурацию приложения.
 

@@ -16,7 +16,7 @@ layout: guides-wip
 
 ```shell
 git clone https://github.com/werf/werf-guides
-cp -r werf-guides/examples/rails/019_fixup_consistency rails-app
+cp -r website/examples/rails/019_fixup_consistency rails-app
 cd rails-app
 git init
 git add .
@@ -38,16 +38,16 @@ echo "$(minikube ip) debug-mails.example.com" | sudo tee -a /etc/hosts
 Чтобы добавить job в наше приложение нам необходимо скопировать файлы с кодом в наш репозиторий:
 
 ```shell
-cp ../werf-guides/examples/rails/800_cron/app/controllers/api/labels_controller.rb app/controllers/api/labels_controller.rb
-cp ../werf-guides/examples/rails/800_cron/app/mailers/notifications_mailer.rb app/mailers/notifications_mailer.rb
-cp ../werf-guides/examples/rails/800_cron/app/views/notifications_mailer/labels_count_report_email.html.erb app/views/notifications_mailer/labels_count_report_email.html.erb
-cp ../werf-guides/examples/rails/800_cron/config/application.rb config/application.rb
-cp ../werf-guides/examples/rails/800_cron/config/routes.rb config/routes.rb
-cp ../werf-guides/examples/rails/800_cron/.helm/templates/cleanup-labels.yaml .helm/templates/cleanup-labels.yaml
-cp ../werf-guides/examples/rails/800_cron/.helm/templates/debug-mails.yaml .helm/templates/debug-mails.yaml
-cp ../werf-guides/examples/rails/800_cron/.helm/templates/ingress.yaml .helm/templates/ingress.yaml
-cp ../werf-guides/examples/rails/800_cron/.helm/templates/send-report.yaml .helm/templates/send-report.yaml
-cp ../werf-guides/examples/rails/800_cron/lib/tasks/crons.rake lib/tasks/crons.rake
+cp ../website/examples/rails/800_cron/app/controllers/api/labels_controller.rb app/controllers/api/labels_controller.rb
+cp ../website/examples/rails/800_cron/app/mailers/notifications_mailer.rb app/mailers/notifications_mailer.rb
+cp ../website/examples/rails/800_cron/app/views/notifications_mailer/labels_count_report_email.html.erb app/views/notifications_mailer/labels_count_report_email.html.erb
+cp ../website/examples/rails/800_cron/config/application.rb config/application.rb
+cp ../website/examples/rails/800_cron/config/routes.rb config/routes.rb
+cp ../website/examples/rails/800_cron/.helm/templates/cleanup-labels.yaml .helm/templates/cleanup-labels.yaml
+cp ../website/examples/rails/800_cron/.helm/templates/debug-mails.yaml .helm/templates/debug-mails.yaml
+cp ../website/examples/rails/800_cron/.helm/templates/ingress.yaml .helm/templates/ingress.yaml
+cp ../website/examples/rails/800_cron/.helm/templates/send-report.yaml .helm/templates/send-report.yaml
+cp ../website/examples/rails/800_cron/lib/tasks/crons.rake lib/tasks/crons.rake
 ```
 
 ### Задание по очистке устаревших записей в таблице labels
@@ -63,9 +63,9 @@ CronJob будет создавать Job по описанному jobTemplate.
 
 Необходимые для реализации job helm-файл и rake-файлы:
 
-[Rake-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/lib/tasks/crons.rake), содержащий инструкции для cron
+[Rake-файл](https://github.com/werf/website/tree/main/examples/rails/800_cron/lib/tasks/crons.rake), содержащий инструкции для cron
 
-[Helm-файл](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/cleanup-labels.yaml), необходимый для деплоя этого job в наше приложение.
+[Helm-файл](https://github.com/werf/website/tree/main/examples/rails/800_cron/.helm/templates/cleanup-labels.yaml), необходимый для деплоя этого job в наше приложение.
 
 ### Задание по периодической отсылке отчётов по почте
 
@@ -84,12 +84,12 @@ Job отправляет e-mail с текущим количеством labels 
 Каждая из job будет создавать pod который будет выполнять в отдельном контейнере запрос на http-сервер `/api/send-report`, в ответ на который сервер выполнит отправку -mail на почту администратору.
   
 Необходимые для реализации job helm-файлы и исходный код:
-[labels_controller.rb](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/app/controllers/api/labels_controller.rb);
-[notifications_mailer.rb](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/app/mailers/notifications_mailer.rb);
-[labels_count_report_email.html.erb](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/app/views/notifications_mailer/labels_count_report_email.html.erb);
-[debug-mails.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/debug-mails.yaml);
-[ingress.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/ingress.yaml);
-[send-report.yaml](https://github.com/werf/werf-guides/tree/master/examples/rails/800_cron/.helm/templates/send-report.yaml).
+[labels_controller.rb](https://github.com/werf/website/tree/main/examples/rails/800_cron/app/controllers/api/labels_controller.rb);
+[notifications_mailer.rb](https://github.com/werf/website/tree/main/examples/rails/800_cron/app/mailers/notifications_mailer.rb);
+[labels_count_report_email.html.erb](https://github.com/werf/website/tree/main/examples/rails/800_cron/app/views/notifications_mailer/labels_count_report_email.html.erb);
+[debug-mails.yaml](https://github.com/werf/website/tree/main/examples/rails/800_cron/.helm/templates/debug-mails.yaml);
+[ingress.yaml](https://github.com/werf/website/tree/main/examples/rails/800_cron/.helm/templates/ingress.yaml);
+[send-report.yaml](https://github.com/werf/website/tree/main/examples/rails/800_cron/.helm/templates/send-report.yaml).
 
 ### Деплой и проверка работоспособности job
 
