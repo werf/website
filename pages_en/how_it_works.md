@@ -49,7 +49,7 @@ breadcrumbs: none
                 <a href="javascript:void(0)"
                     data-presentation-selector-option="3"
                     data-presentation-selector-stage="Define desired state">
-                    3. Describe helm chart templates to deploy your app
+                    3. Describe Helm chart templates to deploy your app
                 </a>
             </div>
             <div class="introduction-presentation__controls-selector-step">
@@ -222,7 +222,7 @@ At this step, werf calculates the target image names. Image names may change or 
 
 ## What's next?
 
-Deploy your first demo application with this [quickstart]({{ "documentation/quickstart.html" | true_relative_url }}) or check the [guides]({{ "documentation/guides.html" | true_relative_url }}) – they cover the configuration of a wide variety of applications based on different programming languages and frameworks. We recommend finding a manual suitable for your application and follow instructions.
+Deploy your first demo application with this [quickstart]({{ "documentation/quickstart.html" | true_relative_url }}) or check the [guides]({{ "guides.html" | true_relative_url }}) – they cover the configuration of a wide variety of applications based on different programming languages and frameworks. We recommend finding a manual suitable for your application and follow instructions.
 
 Refer to [this article]({{ "documentation/advanced/ci_cd/ci_cd_workflow_basics.html" | true_relative_url }}) if you feel like you are ready to dig deeper into the general overview of CI/CD workflows that can be implemented with werf.
 </div>
