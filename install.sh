@@ -104,7 +104,7 @@ main() {
   declare os
   os="$(get_os)" || abort "Failure getting OS."
 
-  [[ $shell == "auto" ]] && get_shell "shell"
+  set_shell || abort "Failure getting user shell."
 
   # declare linux_distro
   # if [[ $os == "linux" ]]; then
@@ -219,22 +219,19 @@ get_os() {
   printf '%s' "$os"
 }
 
-get_shell() {
-  declare result_var_name="$1"
+set_shell() {
+  shell="$(printf '%s' "$SHELL" | rev | cut -d'/' -f1 | rev)" || abort "Can't determine login shell."
 
-  declare result
-  result="$(printf '%s' "$SHELL" | rev | cut -d'/' -f1 | rev)" || abort "Can't determine login shell."
-
-  declare default_shell="$result"
+  declare default_shell="$shell"
   declare answer
   while :; do
-    case "$result" in
+    case "$shell" in
       bash | zsh)
-        printf '[INPUT REQUIRED] Current login shell is "%s". Press ENTER to setup werf for this shell or choose another one.\n[b]ash/[z]sh/[a]bort? Default: %s.\n' "$result" "$default_shell"
+        printf '[INPUT REQUIRED] Current login shell is "%s". Press ENTER to setup werf for this shell or choose another one.\n[b]ash/[z]sh/[a]bort? Default: %s.\n' "$shell" "$default_shell"
         ;;
       *)
         default_shell="bash"
-        printf '[INPUT REQUIRED] Current login shell is "%s". This shell is unsupported. Choose another shell or abort installation.\n[b]ash/[z]sh/[a]bort? Default: %s.\n' "$result" "$default_shell"
+        printf '[INPUT REQUIRED] Current login shell is "%s". This shell is unsupported. Choose another shell or abort installation.\n[b]ash/[z]sh/[a]bort? Default: %s.\n' "$shell" "$default_shell"
         ;;
     esac
 
@@ -246,11 +243,11 @@ get_shell() {
 
     case "${answer:-$default_shell}" in
       [bB] | [bB][aA][sS][hH])
-        result="bash"
+        shell="bash"
         break
         ;;
       [zZ] | [zZ][sS][hH])
-        result="zsh"
+        shell="zsh"
         break
         ;;
       [aA] | [aA][bB][oO][rR][tT])
@@ -263,8 +260,6 @@ get_shell() {
         ;;
     esac
   done
-
-  eval "$result_var_name"="$result"
 }
 
 propose_joining_docker_group() {
