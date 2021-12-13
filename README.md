@@ -1,7 +1,22 @@
 # werf website
 
-This repository contains files required to build main part of the werf.io website including [werf guides](https://werf.io/guides/) — are in-depth free online tutorials to learn
-how you can use [werf CI/CD tool](https://werf.io/) to deploy your apps to Kubernetes.
+This repository contains files required to build the [werf CI/CD tool website](https://werf.io/)
+and run it locally.
+
+It includes all of website pages with the only exception for the official
+[werf documentation](https://werf.io/documentation/) which can be found
+in the [main werf](https://github.com/werf/werf/tree/main/docs) repo since it's
+versioned and provided together with werf releases themselves (e.g. we have
+the documentation for werf v1.2.51, v1.1.23, and so on).
+
+The website is based on [Jekyll](https://jekyllrb.com/). We have also implemented our
+own [jekyll_include_plugin](https://github.com/flant/jekyll_include_plugin).
+
+## werf guides
+
+This repo is also as a source for the content displayed in our [werf guides](https://werf.io/guides/)
+which are in-depth free online tutorials to learn how you can use werf to deploy
+your apps to Kubernetes.
 
 werf guides will work even for those who have no experience with Kubernetes. Combining
 the theory and practice of development (Dev) and operation (Ops), they will guide you
@@ -20,20 +35,12 @@ including:
 All guides' articles are currently available in two languages, [English](https://werf.io/guides/)
 and [Russian](https://ru.werf.io/guides/).
 
-# werf website repo
-
-This repo serves as a source for all the content generated in werf.io excluding the documentation (all under the /documentation path). The source for the werf documentation (https://werf.io/documentation/) is [here...](https://github.com/werf/werf/tree/main/docs)  
-
-The website is based on [Jekyll](https://jekyllrb.com/). We have also
-implemented our own [jekyll_include_plugin](https://github.com/flant/jekyll_include_plugin).
-
 # Contributions
 
-Any feedback is much appreciated!
+Any fixes, improvements, and feedback are much appreciated!
 
-You are also welcome to propose your ideas for them using issues and PRs in this repo.
-If you're interested in running werf website locally, please refer
-to [DEVELOPMENT.md](DEVELOPMENT.md).
+Please propose your ideas using issues and PRs in this repo. If you're interested
+in running werf website locally, please refer to [DEVELOPMENT.md](DEVELOPMENT.md).
 
 Feel free to reach us in [this Telegram chat](https://t.me/werf_io) if you have
 any questions. _(There is a Russian-speaking [Telegram chat](https://t.me/werf_ru)
