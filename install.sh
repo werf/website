@@ -1,101 +1,68 @@
 #!/usr/bin/env bash
+# This script contains functions with different licenses. Some functions specifically annotated  with the author/license information.
+# Functions that are not annotated with author/license information are release under Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0.txt
 set -uo pipefail
 
 main() {
-  declare -r REQUIRED_BASH_VERSION="3.2.57"
-  declare -r REQUIRED_GIT_VERSION="2.18.0"
-
-  declare -r DEFAULT_TRDL_INITIAL_VERSION="0.3.1"
-  declare -r DEFAULT_TRDL_TUF_REPO="https://tuf.trdl.dev"
-  declare -r DEFAULT_TRDL_GPG_PUBKEY_URL="https://trdl.dev/trdl-client.asc"
-  declare -r DEFAULT_WERF_TUF_REPO_URL="https://tuf.werf.io"
-  declare -r DEFAULT_WERF_TUF_REPO_ROOT_VERSION="1"
-  declare -r DEFAULT_WERF_TUF_REPO_ROOT_SHA="b7ff6bcbe598e072a86d595a3621924c8612c7e6dc6a82e919abe89707d7e3f468e616b5635630680dd1e98fc362ae5051728406700e6274c5ed1ad92bea52a2"
-  declare -r DEFAULT_WERF_AUTOACTIVATE_VERSION="1.2"
-  declare -r DEFAULT_WERF_AUTOACTIVATE_CHANNEL="ea"
-
-  declare -r NON_INTERACTIVE_VALID_REGEX='^(yes|no)$'
-  declare -r CI_VALID_REGEX='^(yes|no)$'
-  declare -r TRDL_SKIP_SIGNATURE_VERIFICATION_VALID_REGEX='^(yes|no)$'
-  declare -r SHELL_VALID_REGEX='^(bash|zsh|auto)?$'
-  declare -r WERF_JOIN_DOCKER_GROUP_VALID_REGEX='^(yes|no|auto)$'
-  declare -r TRDL_ENABLE_SETUP_BIN_PATH_VALID_REGEX='^(yes|no|auto)$'
-  declare -r WERF_ENABLE_AUTOACTIVATION_VALID_REGEX='^(yes|no|auto)$'
-  declare -r TRDL_INITIAL_VERSION_VALID_REGEX='^[0-9]+.[0-9]+.[0-9]+$'
-  declare -r TRDL_TUF_REPO_VALID_REGEX='^https?://.+'
-  declare -r TRDL_GPG_PUBKEY_URL_VALID_REGEX='^https?://.+'
-  declare -r WERF_TUF_REPO_URL_VALID_REGEX='^https?://.+'
-  declare -r WERF_TUF_REPO_ROOT_VERSION_VALID_REGEX='^[0-9]+$'
-  declare -r WERF_TUF_REPO_ROOT_SHA_VALID_REGEX='^[a-fA-F0-9]+$'
-  declare -r WERF_AUTOACTIVATE_VERSION_VALID_REGEX='^[.0-9]+$'
-  declare -r WERF_AUTOACTIVATE_CHANNEL_VALID_REGEX='.+'
+  REQUIRED_BASH_VERSION="3.2.57"
+  REQUIRED_GIT_VERSION="2.18.0"
 
   validate_bash_version "$REQUIRED_BASH_VERSION"
 
-  declare NON_INTERACTIVE="${WI_NON_INTERACTIVE:-"no"}"
-  declare ci="${WI_CI:-"no"}"
-  declare trdl_skip_signature_verification="${WI_TRDL_SKIP_SIGNATURE_VERIFICATION:-"no"}"
-  declare shell="${WI_SHELL:-"auto"}"
-  declare werf_join_docker_group="${WI_WERF_JOIN_DOCKER_GROUP:-"auto"}"
-  declare trdl_enable_setup_bin_path="${WI_TRDL_ENABLE_SETUP_BIN_PATH:-"auto"}"
-  declare werf_enable_autoactivation="${WI_WERF_ENABLE_AUTOACTIVATION:-"auto"}"
-  declare trdl_initial_version="${WI_TRDL_INITIAL_VERSION:-$DEFAULT_TRDL_INITIAL_VERSION}"
-  declare trdl_tuf_repo="${WI_TRDL_TUF_REPO:-$DEFAULT_TRDL_TUF_REPO}"
-  declare trdl_gpg_pubkey_url="${WI_TRDL_GPG_PUBKEY_URL:-$DEFAULT_TRDL_GPG_PUBKEY_URL}"
-  declare werf_tuf_repo_url="${WI_WERF_TUF_REPO_URL:-$DEFAULT_WERF_TUF_REPO_URL}"
-  declare werf_tuf_repo_root_version="${WI_WERF_TUF_REPO_ROOT_VERSION:-$DEFAULT_WERF_TUF_REPO_ROOT_VERSION}"
-  declare werf_tuf_repo_root_sha="${WI_WERF_TUF_REPO_ROOT_SHA:-$DEFAULT_WERF_TUF_REPO_ROOT_SHA}"
-  declare werf_autoactivate_version="${WI_WERF_AUTOACTIVATE_VERSION:-$DEFAULT_WERF_AUTOACTIVATE_VERSION}"
-  declare werf_autoactivate_channel="${WI_WERF_AUTOACTIVATE_CHANNEL:-$DEFAULT_WERF_AUTOACTIVATE_CHANNEL}"
+  OPT_DEFAULT_CI="no"
+  OPT_DEFAULT_INTERACTIVE="auto"
+  OPT_DEFAULT_JOIN_DOCKER_GROUP="auto"
+  OPT_DEFAULT_SETUP_BIN_PATH="auto"
+  OPT_DEFAULT_AUTOACTIVATE_WERF="auto"
+  OPT_DEFAULT_VERIFY_TRDL_SIGNATURE="yes"
+  OPT_DEFAULT_SHELL="auto"
+  OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION="1.2"
+  OPT_DEFAULT_WERF_AUTOACTIVATE_CHANNEL="stable"
+  OPT_DEFAULT_INITIAL_TRDL_VERSION="0.3.1"
+  OPT_DEFAULT_TRDL_TUF_REPO="https://tuf.trdl.dev"
+  OPT_DEFAULT_TRDL_PGP_PUBKEY_URL="https://trdl.dev/trdl-client.asc"
+  OPT_DEFAULT_WERF_TUF_REPO="https://tuf.werf.io"
+  OPT_DEFAULT_WERF_TUF_ROOT_VERSION="1"
+  OPT_DEFAULT_WERF_TUF_ROOT_SHA="b7ff6bcbe598e072a86d595a3621924c8612c7e6dc6a82e919abe89707d7e3f468e616b5635630680dd1e98fc362ae5051728406700e6274c5ed1ad92bea52a2"
 
-  declare OPTIND opt
-  while getopts ":qxgi:t:p:w:r:y:v:c:a:d:b:s:h" opt; do
-    case "$opt" in
-      q) NON_INTERACTIVE="yes" ;;
-      x) ci="yes" ;;
-      g) trdl_skip_signature_verification="yes" ;;
-      s) shell="$OPTARG" ;;
-      d) werf_join_docker_group="$OPTARG" ;;
-      b) trdl_enable_setup_bin_path="$OPTARG" ;;
-      a) werf_enable_autoactivation="$OPTARG" ;;
-      i) trdl_initial_version="$OPTARG" ;;
-      t) trdl_tuf_repo="$OPTARG" ;;
-      p) trdl_gpg_pubkey_url="$OPTARG" ;;
-      w) werf_tuf_repo_url="$OPTARG" ;;
-      r) werf_tuf_repo_root_version="$OPTARG" ;;
-      y) werf_tuf_repo_root_sha="$OPTARG" ;;
-      v) werf_autoactivate_version="$OPTARG" ;;
-      c) werf_autoactivate_channel="$OPTARG" ;;
-      h) usage && exit 0 ;;
-      *) printf 'Unknown option: -%s\n\n' "$OPTARG" && usage && exit 1 ;;
-    esac
-  done
+  OPT_REGEX_SHELL='^(bash|zsh|auto)?$'
+  OPT_REGEX_WERF_AUTOACTIVATE_VERSION='^[.0-9]+$'
+  OPT_REGEX_WERF_AUTOACTIVATE_CHANNEL='.+'
+  OPT_REGEX_INITIAL_TRDL_VERSION='^[0-9]+.[0-9]+.[0-9]+$'
+  OPT_REGEX_TRDL_TUF_REPO='^https?://.+'
+  OPT_REGEX_TRDL_PGP_PUBKEY_URL='^https?://.+'
+  OPT_REGEX_WERF_TUF_REPO='^https?://.+'
+  OPT_REGEX_WERF_TUF_ROOT_VERSION='^[0-9]+$'
+  OPT_REGEX_WERF_TUF_ROOT_SHA='^[a-fA-F0-9]+$'
 
-  if [[ $ci == "yes" ]]; then
-    NON_INTERACTIVE="yes"
-    werf_join_docker_group="no"
-    trdl_enable_setup_bin_path="no"
-    werf_enable_autoactivation="no"
+  eval "$(getoptions getoptions_config) abort 'Failure parsing options.'"
+
+  OPT_CI="${OPT_CI:-$OPT_DEFAULT_CI}"
+  if [ "$OPT_CI" == "yes" ]; then
+    OPT_INTERACTIVE="${OPT_INTERACTIVE:-"no"}"
+    OPT_JOIN_DOCKER_GROUP="${OPT_JOIN_DOCKER_GROUP:-"no"}"
+    OPT_SETUP_BIN_PATH="${OPT_SETUP_BIN_PATH:-"no"}"
+    OPT_AUTOACTIVATE_WERF="${OPT_AUTOACTIVATE_WERF:-"no"}"
+  else
+    OPT_INTERACTIVE="${OPT_INTERACTIVE:-$OPT_DEFAULT_INTERACTIVE}"
+    OPT_JOIN_DOCKER_GROUP="${OPT_JOIN_DOCKER_GROUP:-$OPT_DEFAULT_JOIN_DOCKER_GROUP}"
+    OPT_SETUP_BIN_PATH="${OPT_SETUP_BIN_PATH:-$OPT_DEFAULT_SETUP_BIN_PATH}"
+    OPT_AUTOACTIVATE_WERF="${OPT_AUTOACTIVATE_WERF:-$OPT_DEFAULT_AUTOACTIVATE_WERF}"
   fi
 
-  validate_option_by_regex "$NON_INTERACTIVE" "non-interactive mode" "$NON_INTERACTIVE_VALID_REGEX"
-  validate_option_by_regex "$ci" "CI mode" "$CI_VALID_REGEX"
-  validate_option_by_regex "$trdl_skip_signature_verification" "trdl skip signature verification" "$TRDL_SKIP_SIGNATURE_VERIFICATION_VALID_REGEX"
-  validate_option_by_regex "$shell" "shell" "$SHELL_VALID_REGEX"
-  validate_option_by_regex "$werf_join_docker_group" "join Docker group" "$WERF_JOIN_DOCKER_GROUP_VALID_REGEX"
-  validate_option_by_regex "$trdl_enable_setup_bin_path" "setup trdl bin path" "$TRDL_ENABLE_SETUP_BIN_PATH_VALID_REGEX"
-  validate_option_by_regex "$werf_enable_autoactivation" "enable werf autoactivation" "$WERF_ENABLE_AUTOACTIVATION_VALID_REGEX"
-  validate_option_by_regex "$trdl_initial_version" "initial trdl version" "$TRDL_INITIAL_VERSION_VALID_REGEX"
-  validate_option_by_regex "$trdl_tuf_repo" "trdl tuf repo" "$TRDL_TUF_REPO_VALID_REGEX"
-  validate_option_by_regex "$trdl_gpg_pubkey_url" "trdl GPG public key url" "$TRDL_GPG_PUBKEY_URL_VALID_REGEX"
-  validate_option_by_regex "$werf_tuf_repo_url" "werf TUF-repo URL" "$WERF_TUF_REPO_URL_VALID_REGEX"
-  validate_option_by_regex "$werf_tuf_repo_root_version" "werf TUF-repo root version" "$WERF_TUF_REPO_ROOT_VERSION_VALID_REGEX"
-  validate_option_by_regex "$werf_tuf_repo_root_sha" "werf TUF-repo root SHA" "$WERF_TUF_REPO_ROOT_SHA_VALID_REGEX"
-  validate_option_by_regex "$werf_autoactivate_version" "werf autoactivation version" "$WERF_AUTOACTIVATE_VERSION_VALID_REGEX"
-  validate_option_by_regex "$werf_autoactivate_channel" "werf autoactivation channel" "$WERF_AUTOACTIVATE_CHANNEL_VALID_REGEX"
+  OPT_VERIFY_TRDL_SIGNATURE="${OPT_VERIFY_TRDL_SIGNATURE:-$OPT_DEFAULT_VERIFY_TRDL_SIGNATURE}"
+  OPT_SHELL="${OPT_SHELL:-$OPT_DEFAULT_SHELL}"
+  OPT_WERF_AUTOACTIVATE_VERSION="${OPT_WERF_AUTOACTIVATE_VERSION:-$OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION}"
+  OPT_WERF_AUTOACTIVATE_CHANNEL="${OPT_WERF_AUTOACTIVATE_CHANNEL:-$OPT_DEFAULT_WERF_AUTOACTIVATE_CHANNEL}"
+  OPT_INITIAL_TRDL_VERSION="${OPT_INITIAL_TRDL_VERSION:-$OPT_DEFAULT_INITIAL_TRDL_VERSION}"
+  OPT_TRDL_TUF_REPO="${OPT_TRDL_TUF_REPO:-$OPT_DEFAULT_TRDL_TUF_REPO}"
+  OPT_TRDL_PGP_PUBKEY_URL="${OPT_TRDL_PGP_PUBKEY_URL:-$OPT_DEFAULT_TRDL_PGP_PUBKEY_URL}"
+  OPT_WERF_TUF_REPO="${OPT_WERF_TUF_REPO:-$OPT_DEFAULT_WERF_TUF_REPO}"
+  OPT_WERF_TUF_ROOT_VERSION="${OPT_WERF_TUF_ROOT_VERSION:-$OPT_DEFAULT_WERF_TUF_ROOT_VERSION}"
+  OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
 
   ensure_cmds_available uname docker git grep tee install
-  [[ $trdl_skip_signature_verification == "no" ]] && ensure_cmds_available gpg
+  [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
   validate_git_version "$REQUIRED_GIT_VERSION"
 
   declare arch
@@ -104,7 +71,12 @@ main() {
   declare os
   os="$(get_os)" || abort "Failure getting OS."
 
-  set_shell || abort "Failure getting user shell."
+  declare shell
+  if [[ "$OPT_SHELL" == "auto" ]]; then
+    set_shell || abort "Failure getting user shell."
+  else
+    shell="$OPT_SHELL"
+  fi
 
   # declare linux_distro
   # if [[ $os == "linux" ]]; then
@@ -116,61 +88,59 @@ main() {
   #   darwin_version="$(sw_vers -productVersion)" || abort "Failure getting macOS version."
   # fi
 
-  [[ $os == "linux" ]] && propose_joining_docker_group "$werf_join_docker_group"
-  setup_trdl_bin_path "$shell" "$trdl_enable_setup_bin_path"
-  install_trdl "$os" "$arch" "$trdl_tuf_repo" "$trdl_gpg_pubkey_url" "$trdl_initial_version" "$trdl_skip_signature_verification"
-  add_trdl_werf_repo "$werf_tuf_repo_url" "$werf_tuf_repo_root_version" "$werf_tuf_repo_root_sha"
-  enable_automatic_werf_activation "$shell" "$werf_enable_autoactivation" "$werf_autoactivate_version" "$werf_autoactivate_channel"
-  finalize "$werf_autoactivate_version" "$werf_autoactivate_channel"
+  [[ $os == "linux" ]] && propose_joining_docker_group "$OPT_JOIN_DOCKER_GROUP"
+  setup_trdl_bin_path "$shell" "$OPT_SETUP_BIN_PATH"
+  install_trdl "$os" "$arch" "$OPT_TRDL_TUF_REPO" "$OPT_TRDL_PGP_PUBKEY_URL" "$OPT_INITIAL_TRDL_VERSION" "$OPT_VERIFY_TRDL_SIGNATURE"
+  add_trdl_werf_repo "$OPT_WERF_TUF_REPO" "$OPT_WERF_TUF_ROOT_VERSION" "$OPT_WERF_TUF_ROOT_SHA"
+  enable_automatic_werf_activation "$shell" "$OPT_AUTOACTIVATE_WERF" "$OPT_WERF_AUTOACTIVATE_VERSION" "$OPT_WERF_AUTOACTIVATE_CHANNEL"
+  finalize "$OPT_WERF_AUTOACTIVATE_VERSION" "$OPT_WERF_AUTOACTIVATE_CHANNEL"
 }
 
-usage() {
-  printf 'Usage: %s [options]
+getoptions_config() {
+  setup   REST on:"yes" no:"no" init:"" help:usage -- "Usage: $(basename "$0") [options]" ''
+  msg -- "Options (use + instead of - for short options to disable them):"
 
-Options:
-  -x          CI mode. Configures a few other options in a way recommended for CI (i.e. enables non-interactive mode). Full list of configured options can be found in the installer script itself. Default: %s. Environment variable: $WI_CI.
-  -q          Run non-interactively, choosing recommended answers for all prompts. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_NON_INTERACTIVE.
-  -g          Skip signature verification of trdl binary. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_TRDL_SKIP_SIGNATURE_VERIFICATION.
-  -s shell    Shell, for which werf/trdl should be set up. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_SHELL.
-  -d value    Add user to the docker group? Default: %s. Allowed values regex: /%s/ Environment variable: $WI_WERF_JOIN_DOCKER_GROUP.
-  -b value    Add "$HOME/bin" to $PATH for trdl? Default: %s. Allowed values regex: /%s/ Environment variable: $WI_TRDL_ENABLE_SETUP_BIN_PATH.
-  -a value    Enable werf autoactivation? Default: %s. Allowed values regex: /%s/ Environment variable: $WI_WERF_ENABLE_AUTOACTIVATION.
-  -i version  Initially installed version of trdl (self-updates automatically). Default: %s. Allowed values regex: /%s/ Environment variable: $WI_TRDL_INITIAL_VERSION.
-  -t url      trdl TUF-repository URL. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_TRDL_TUF_REPO.
-  -p url      trdl GPG public key URL. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_TRDL_GPG_PUBKEY_URL.
-  -w url      werf TUF-repository URL. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_WERF_TUF_REPO_URL.
-  -r version  werf TUF-repository root version. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_WERF_TUF_REPO_ROOT_VERSION.
-  -y hash     werf TUF-repository root SHA-hash. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_WERF_TUF_REPO_ROOT_SHA.
-  -v version  Autoactivated (if enabled) werf version. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_WERF_AUTOACTIVATE_VERSION.
-  -c channel  Autoactivated (if enabled) werf channel. Default: %s. Allowed values regex: /%s/ Environment variable: $WI_WERF_AUTOACTIVATE_CHANNEL.
-  -h          Show help.
+  flag OPT_CI --{no-}ci -- \
+    "CI mode. Configures a few other options in a way recommended for CI (i.e. enables non-interactive mode). Full list of configured options can be found in the installer script itself. Default: $OPT_DEFAULT_CI"
 
-Example:
-  %s -qs bash\n' "$(basename "$0")" \
-    "no" \
-    "no" "$NON_INTERACTIVE_VALID_REGEX" \
-    "no" "$TRDL_SKIP_SIGNATURE_VERIFICATION_VALID_REGEX" \
-    "auto" "$SHELL_VALID_REGEX" \
-    "auto" "$WERF_JOIN_DOCKER_GROUP_VALID_REGEX" \
-    "auto" "$TRDL_ENABLE_SETUP_BIN_PATH_VALID_REGEX" \
-    "auto" "$WERF_ENABLE_AUTOACTIVATION_VALID_REGEX" \
-    "$DEFAULT_TRDL_INITIAL_VERSION" "$TRDL_INITIAL_VERSION_VALID_REGEX" \
-    "$DEFAULT_TRDL_TUF_REPO" "$TRDL_TUF_REPO_VALID_REGEX" \
-    "$DEFAULT_TRDL_GPG_PUBKEY_URL" "$TRDL_GPG_PUBKEY_URL_VALID_REGEX" \
-    "$DEFAULT_WERF_TUF_REPO_URL" "$WERF_TUF_REPO_URL_VALID_REGEX" \
-    "$DEFAULT_WERF_TUF_REPO_ROOT_VERSION" "$WERF_TUF_REPO_ROOT_VERSION_VALID_REGEX" \
-    "$DEFAULT_WERF_TUF_REPO_ROOT_SHA" "$WERF_TUF_REPO_ROOT_SHA_VALID_REGEX" \
-    "$DEFAULT_WERF_AUTOACTIVATE_VERSION" "$WERF_AUTOACTIVATE_VERSION_VALID_REGEX" \
-    "$DEFAULT_WERF_AUTOACTIVATE_CHANNEL" "$WERF_AUTOACTIVATE_CHANNEL_VALID_REGEX" \
-    "$(basename "$0")"
+  flag OPT_INTERACTIVE -i --{no-}interactive -- \
+    "If run non-interactively, then choose recommended answers for all prompts. Default: $OPT_DEFAULT_INTERACTIVE"
+  flag OPT_VERIFY_TRDL_SIGNATURE --{no-}verify-trdl-signature -- \
+    "Verify PGP signature of trdl binary. Default: $OPT_DEFAULT_VERIFY_TRDL_SIGNATURE"
+  flag OPT_JOIN_DOCKER_GROUP --{no-}join-docker-group -- \
+    "Add user to the docker group? Default: $OPT_DEFAULT_JOIN_DOCKER_GROUP"
+  flag OPT_SETUP_BIN_PATH -p --{no-}setup-bin-path -- \
+    "Add \"$HOME/bin\" to \$PATH for trdl? Default: $OPT_DEFAULT_SETUP_BIN_PATH"
+  flag OPT_AUTOACTIVATE_WERF -a --{no-}autoactivate-werf -- \
+    "Enable werf autoactivation? Default: $OPT_DEFAULT_AUTOACTIVATE_WERF"
+  
+  param OPT_SHELL -s --shell validate:"validate_option_by_regex '$OPT_REGEX_SHELL'" -- \
+    "Shell, for which werf/trdl should be set up. Default: $OPT_DEFAULT_SHELL. Allowed values regex: $OPT_REGEX_SHELL"
+  param OPT_WERF_AUTOACTIVATE_VERSION -v --version validate:"validate_option_by_regex '$OPT_REGEX_WERF_AUTOACTIVATE_VERSION'" -- \
+    "Autoactivated (if enabled) werf version. Default: $OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION. Allowed values regex: $OPT_REGEX_WERF_AUTOACTIVATE_VERSION"
+  param OPT_WERF_AUTOACTIVATE_CHANNEL -c --channel validate:"validate_option_by_regex '$OPT_REGEX_WERF_AUTOACTIVATE_CHANNEL'" -- \
+    "Autoactivated (if enabled) werf channel. Default: $OPT_DEFAULT_WERF_AUTOACTIVATE_CHANNEL. Allowed values regex: $OPT_REGEX_WERF_AUTOACTIVATE_CHANNEL"
+  param OPT_INITIAL_TRDL_VERSION --initial-trdl-version validate:"validate_option_by_regex '$OPT_REGEX_INITIAL_TRDL_VERSION'" -- \
+    "Initially installed version of trdl (self-updates automatically). Default: $OPT_DEFAULT_INITIAL_TRDL_VERSION. Allowed values regex: $OPT_REGEX_INITIAL_TRDL_VERSION"
+  param OPT_TRDL_TUF_REPO --trdl-tuf-repo validate:"validate_option_by_regex '$OPT_REGEX_TRDL_TUF_REPO'" -- \
+    "trdl TUF-repository URL. Default: $OPT_DEFAULT_TRDL_TUF_REPO. Allowed values regex: $OPT_REGEX_TRDL_TUF_REPO"
+  param OPT_TRDL_PGP_PUBKEY_URL --trdl-pgp-pubkey-url validate:"validate_option_by_regex '$OPT_REGEX_TRDL_PGP_PUBKEY_URL'" -- \
+    "trdl GPG public key URL. Default: $OPT_DEFAULT_TRDL_PGP_PUBKEY_URL. Allowed values regex: $OPT_REGEX_TRDL_PGP_PUBKEY_URL"
+  param OPT_WERF_TUF_REPO --werf-tuf-repo validate:"validate_option_by_regex '$OPT_REGEX_WERF_TUF_REPO'" -- \
+    "werf TUF-repository URL. Default: $OPT_DEFAULT_WERF_TUF_REPO. Allowed values regex: $OPT_REGEX_WERF_TUF_REPO"
+  param OPT_WERF_TUF_ROOT_VERSION --werf-tuf-root-version validate:"validate_option_by_regex '$OPT_REGEX_WERF_TUF_ROOT_VERSION'" -- \
+    "werf TUF-repository root version. Default: $OPT_DEFAULT_WERF_TUF_ROOT_VERSION. Allowed values regex: $OPT_REGEX_WERF_TUF_ROOT_VERSION"
+  param OPT_WERF_TUF_ROOT_SHA --werf-tuf-root-sha validate:"validate_option_by_regex '$OPT_REGEX_WERF_TUF_ROOT_SHA'" -- \
+    "werf TUF-repository root SHA-hash. Default: $OPT_DEFAULT_WERF_TUF_ROOT_SHA. Allowed values regex: $OPT_REGEX_WERF_TUF_ROOT_SHA"
+
+  disp    :usage  -h --help
 }
 
 validate_option_by_regex() {
-  declare value="$1"
-  declare human_option_name="$2"
-  declare valid_regex="$3"
+  declare value="$OPTARG"
+  declare valid_regex="$1"
 
-  [[ $value =~ $valid_regex ]] || abort "Invalid $human_option_name passed: $value\nMust match regex: $valid_regex"
+  [[ $value =~ $valid_regex ]] || return 1
 }
 
 validate_bash_version() {
@@ -235,7 +205,7 @@ set_shell() {
         ;;
     esac
 
-    if [[ $NON_INTERACTIVE == "yes" ]]; then
+    if [[ $OPT_INTERACTIVE == "no" ]]; then
       answer=""
     else
       read -r answer
@@ -477,7 +447,7 @@ run_as_root() {
   if is_root; then
     eval $cmd || return 1
   else
-    [[ $NON_INTERACTIVE == "yes" ]] && log::warn "Non-interactive mode enabled, but current user doesn't have enough privilege, so the next command will be called with sudo (this might hang): sudo $cmd"
+    [[ $OPT_INTERACTIVE == "no" ]] && log::warn "Non-interactive mode enabled, but current user doesn't have enough privilege, so the next command will be called with sudo (this might hang): sudo $cmd"
     ensure_cmds_available sudo
     eval sudo $cmd || return 1
   fi
@@ -520,7 +490,7 @@ prompt_yes_no_skip() {
   while :; do
     printf '[INPUT REQUIRED] %s\n[y]es/[a]bort/[s]kip? Default: %s.\n' "$prompt_msg" "$def_arg"
 
-    if [[ $NON_INTERACTIVE == "yes" ]]; then
+    if [[ $OPT_INTERACTIVE == "no" ]]; then
       answer=""
     else
       read -r answer
@@ -632,6 +602,308 @@ abort() {
   printf '[FATAL] %b\n' "$msg" >&2
   printf '[FATAL] Aborting.\n' >&2
   exit 1
+}
+
+# Author of this function: ko1nksm (Koichi Nakashima)
+# License of this function: CC0-1.0 License https://github.com/ko1nksm/getoptions/blob/v3.3.0/LICENSE
+getoptions() {
+        _error='' _on=1 _no='' _export='' _plus='' _mode='' _alt='' _rest='' _def=''
+        _flags='' _nflags='' _opts='' _help='' _abbr='' _cmds='' _init=@empty IFS=' '
+        [ $# -lt 2 ] && set -- "${1:?No parser definition}" -
+        [ "$2" = - ] && _def=getoptions_parse
+
+        i='                                     '
+        while eval "_${#i}() { echo \"$i\$@\"; }"; [ "$i" ]; do i=${i#?}; done
+
+        quote() {
+                q="$2'" r=''
+                while [ "$q" ]; do r="$r${q%%\'*}'\''" && q=${q#*\'}; done
+                q="'${r%????}'" && q=${q#\'\'} && q=${q%\'\'}
+                eval "$1=\${q:-\"''\"}"
+        }
+        code() {
+                [ "${1#:}" = "$1" ] && c=3 || c=4
+                eval "[ ! \${$c:+x} ] || $2 \"\$$c\""
+        }
+        sw() { sw="$sw${sw:+|}$1"; }
+        kv() { eval "${2-}${1%%:*}=\${1#*:}"; }
+        loop() { [ $# -gt 1 ] && [ "$2" != -- ]; }
+
+        invoke() { eval '"_$@"'; }
+        prehook() { invoke "$@"; }
+        for i in setup flag param option disp msg; do
+                eval "$i() { prehook $i \"\$@\"; }"
+        done
+
+        args() {
+                on=$_on no=$_no export=$_export init=$_init _hasarg=$1 && shift
+                while loop "$@" && shift; do
+                        case $1 in
+                                -?) [ "$_hasarg" ] && _opts="$_opts${1#-}" || _flags="$_flags${1#-}" ;;
+                                +?) _plus=1 _nflags="$_nflags${1#+}" ;;
+                                [!-+]*) kv "$1"
+                        esac
+                done
+        }
+        defvar() {
+                case $init in
+                        @none) : ;;
+                        @export) code "$1" _0 "export $1" ;;
+                        @empty) code "$1" _0 "${export:+export }$1=''" ;;
+                        @unset) code "$1" _0 "unset $1 ||:" "unset OPTARG ||:; ${1#:}" ;;
+                        *)
+                                case $init in @*) eval "init=\"=\${${init#@}}\""; esac
+                                case $init in [!=]*) _0 "$init"; return 0; esac
+                                quote init "${init#=}"
+                                code "$1" _0 "${export:+export }$1=$init" "OPTARG=$init; ${1#:}"
+                esac
+        }
+        _setup() {
+                [ "${1#-}" ] && _rest=$1
+                while loop "$@" && shift; do kv "$1" _; done
+        }
+        _flag() { args '' "$@"; defvar "$@"; }
+        _param() { args 1 "$@"; defvar "$@"; }
+        _option() { args 1 "$@"; defvar "$@"; }
+        _disp() { args '' "$@"; }
+        _msg() { args '' _ "$@"; }
+
+        cmd() { _mode=@ _cmds="$_cmds${_cmds:+|}'$1'"; }
+        "$@"
+        cmd() { :; }
+        _0 "${_rest:?}=''"
+
+        _0 "${_def:-$2}() {"
+        _1 'OPTIND=$(($#+1))'
+        _1 'while OPTARG= && [ $# -gt 0 ]; do'
+        [ "$_abbr" ] && getoptions_abbr "$@"
+
+        args() {
+                sw='' validate='' pattern='' counter='' on=$_on no=$_no export=$_export
+                while loop "$@" && shift; do
+                        case $1 in
+                                --\{no-\}*) i=${1#--?no-?}; sw "'--$i'|'--no-$i'" ;;
+                                --with\{out\}-*) i=${1#--*-}; sw "'--with-$i'|'--without-$i'" ;;
+                                [-+]? | --*) sw "'$1'" ;;
+                                *) kv "$1"
+                        esac
+                done
+                quote on "$on"
+                quote no "$no"
+        }
+        setup() { :; }
+        _flag() {
+                args "$@"
+                [ "$counter" ] && on=1 no=-1 v="\$((\${$1:-0}+\$OPTARG))" || v=''
+                _3 "$sw)"
+                _4 '[ "${OPTARG:-}" ] && OPTARG=${OPTARG#*\=} && set "noarg" "$1" && break'
+                _4 "eval '[ \${OPTARG+x} ] &&:' && OPTARG=$on || OPTARG=$no"
+                valid "$1" "${v:-\$OPTARG}"
+                _4 ';;'
+        }
+        _param() {
+                args "$@"
+                _3 "$sw)"
+                _4 '[ $# -le 1 ] && set "required" "$1" && break'
+                _4 'OPTARG=$2'
+                valid "$1" '$OPTARG'
+                _4 'shift ;;'
+        }
+        _option() {
+                args "$@"
+                _3 "$sw)"
+                _4 'set -- "$1" "$@"'
+                _4 '[ ${OPTARG+x} ] && {'
+                _5 'case $1 in --no-*|--without-*) set "noarg" "${1%%\=*}"; break; esac'
+                _5 '[ "${OPTARG:-}" ] && { shift; OPTARG=$2; } ||' "OPTARG=$on"
+                _4 "} || OPTARG=$no"
+                valid "$1" '$OPTARG'
+                _4 'shift ;;'
+        }
+        valid() {
+                set -- "$validate" "$pattern" "$1" "$2"
+                [ "$1" ] && _4 "$1 || { set -- ${1%% *}:\$? \"\$1\" $1; break; }"
+                [ "$2" ] && {
+                        _4 "case \$OPTARG in $2) ;;"
+                        _5 '*) set "pattern:'"$2"'" "$1"; break'
+                        _4 "esac"
+                }
+                code "$3" _4 "${export:+export }$3=\"$4\"" "${3#:}"
+        }
+        _disp() {
+                args "$@"
+                _3 "$sw)"
+                code "$1" _4 "echo \"\${$1}\"" "${1#:}"
+                _4 'exit 0 ;;'
+        }
+        _msg() { :; }
+
+        [ "$_alt" ] && _2 'case $1 in -[!-]?*) set -- "-$@"; esac'
+        _2 'case $1 in'
+        _wa() { _4 "eval 'set -- $1' \${1+'\"\$@\"'}"; }
+        _op() {
+                _3 "$1) OPTARG=\$1; shift"
+                _wa '"${OPTARG%"${OPTARG#??}"}" '"$2"'"${OPTARG#??}"'
+                _4 "$3"
+        }
+        _3 '--?*=*) OPTARG=$1; shift'
+        _wa '"${OPTARG%%\=*}" "${OPTARG#*\=}"'
+        _4 ';;'
+        _3 '--no-*|--without-*) unset OPTARG ;;'
+        [ "$_alt" ] || {
+                [ "$_opts" ] && _op "-[$_opts]?*" '' ';;'
+                [ ! "$_flags" ] || _op "-[$_flags]?*" - 'OPTARG= ;;'
+        }
+        [ "$_plus" ] && {
+                [ "$_nflags" ] && _op "+[$_nflags]?*" + 'unset OPTARG ;;'
+                _3 '+*) unset OPTARG ;;'
+        }
+        _2 'esac'
+        _2 'case $1 in'
+        "$@"
+        rest() {
+                _4 'while [ $# -gt 0 ]; do'
+                _5 "$_rest=\"\${$_rest}" '\"\${$(($OPTIND-$#))}\""'
+                _5 'shift'
+                _4 'done'
+                _4 'break ;;'
+        }
+        _3 '--)'
+        [ "$_mode" = @ ] || _4 'shift'
+        rest
+        _3 "[-${_plus:++}]?*)" 'set "unknown" "$1"; break ;;'
+        _3 '*)'
+        case $_mode in
+                @)
+                        _4 "case \$1 in ${_cmds:-*}) ;;"
+                        _5 '*) set "notcmd" "$1"; break'
+                        _4 'esac'
+                        rest ;;
+                +) rest ;;
+                *) _4 "$_rest=\"\${$_rest}" '\"\${$(($OPTIND-$#))}\""'
+        esac
+        _2 'esac'
+        _2 'shift'
+        _1 'done'
+        _1 '[ $# -eq 0 ] && { OPTIND=1; unset OPTARG; return 0; }'
+        _1 'case $1 in'
+        _2 'unknown) set "Unrecognized option: $2" "$@" ;;'
+        _2 'noarg) set "Does not allow an argument: $2" "$@" ;;'
+        _2 'required) set "Requires an argument: $2" "$@" ;;'
+        _2 'pattern:*) set "Does not match the pattern (${1#*:}): $2" "$@" ;;'
+        _2 'notcmd) set "Not a command: $2" "$@" ;;'
+        _2 '*) set "Validation error ($1): $2" "$@"'
+        _1 'esac'
+        [ "$_error" ] && _1 "$_error" '"$@" >&2 || exit $?'
+        _1 'echo "$1" >&2'
+        _1 'exit 1'
+        _0 '}'
+
+        [ "$_help" ] && eval "shift 2; getoptions_help $1 $_help" ${3+'"$@"'}
+        [ "$_def" ] && _0 "eval $_def \${1+'\"\$@\"'}; eval set -- \"\${$_rest}\""
+        _0 '# Do not execute' # exit 1
+}
+
+# Author of this function: ko1nksm (Koichi Nakashima)
+# License of this function: CC0-1.0 License https://github.com/ko1nksm/getoptions/blob/v3.3.0/LICENSE
+getoptions_abbr() {
+        abbr() {
+                _3 "case '$1' in"
+                _4 '"$1") OPTARG=; break ;;'
+                _4 '$1*) OPTARG="$OPTARG '"$1"'"'
+                _3 'esac'
+        }
+        args() {
+                abbr=1
+                shift
+                for i; do
+                        case $i in
+                                --) break ;;
+                                [!-+]*) eval "${i%%:*}=\${i#*:}"
+                        esac
+                done
+                [ "$abbr" ] || return 0
+
+                for i; do
+                        case $i in
+                                --) break ;;
+                                --\{no-\}*) abbr "--${i#--\{no-\}}"; abbr "--no-${i#--\{no-\}}" ;;
+                                --*) abbr "$i"
+                        esac
+                done
+        }
+        setup() { :; }
+        for i in flag param option disp; do
+                eval "_$i()" '{ args "$@"; }'
+        done
+        msg() { :; }
+        _2 'set -- "${1%%\=*}" "${1#*\=}" "$@"'
+        [ "$_alt" ] && _2 'case $1 in -[!-]?*) set -- "-$@"; esac'
+        _2 'while [ ${#1} -gt 2 ]; do'
+        _3 'case $1 in (*[!a-zA-Z0-9_-]*) break; esac'
+        "$@"
+        _3 'break'
+        _2 'done'
+        _2 'case ${OPTARG# } in'
+        _3 '*\ *)'
+        _4 'eval "set -- $OPTARG $1 $OPTARG"'
+        _4 'OPTIND=$((($#+1)/2)) OPTARG=$1; shift'
+        _4 'while [ $# -gt "$OPTIND" ]; do OPTARG="$OPTARG, $1"; shift; done'
+        _4 'set "Ambiguous option: $1 (could be $OPTARG)" ambiguous "$@"'
+        [ "$_error" ] && _4 "$_error" '"$@" >&2 || exit $?'
+        _4 'echo "$1" >&2'
+        _4 'exit 1 ;;'
+        _3 '?*)'
+        _4 '[ "$2" = "$3" ] || OPTARG="$OPTARG=$2"'
+        _4 "shift 3; eval 'set -- \"\${OPTARG# }\"' \${1+'\"\$@\"'}; OPTARG= ;;"
+        _3 '*) shift 2'
+        _2 'esac'
+}
+
+# Author of this function: ko1nksm (Koichi Nakashima)
+# License of this function: CC0-1.0 License https://github.com/ko1nksm/getoptions/blob/v3.3.0/LICENSE
+getoptions_help() {
+        _width='30,12' _plus='' _leading='  '
+
+        pad() { p=$2; while [ ${#p} -lt "$3" ]; do p="$p "; done; eval "$1=\$p"; }
+        kv() { eval "${2-}${1%%:*}=\${1#*:}"; }
+        sw() { pad sw "$sw${sw:+, }" "$1"; sw="$sw$2"; }
+
+        args() {
+                _type=$1 var=${2%% *} sw='' label='' hidden='' && shift 2
+                while [ $# -gt 0 ] && i=$1 && shift && [ "$i" != -- ]; do
+                        case $i in
+                                --*) sw $((${_plus:+4}+4)) "$i" ;;
+                                -?) sw 0 "$i" ;;
+                                +?) [ ! "$_plus" ] || sw 4 "$i" ;;
+                                *) [ "$_type" = setup ] && kv "$i" _; kv "$i"
+                        esac
+                done
+                [ "$hidden" ] && return 0 || len=${_width%,*}
+
+                [ "$label" ] || case $_type in
+                        setup | msg) label='' len=0 ;;
+                        flag | disp) label="$sw " ;;
+                        param) label="$sw $var " ;;
+                        option) label="${sw}[=$var] "
+                esac
+                [ "$_type" = cmd ] && label=${label:-$var } len=${_width#*,}
+                pad label "${label:+$_leading}$label" "$len"
+                [ ${#label} -le "$len" ] && [ $# -gt 0 ] && label="$label$1" && shift
+                echo "$label"
+                pad label '' "$len"
+                for i; do echo "$label$i"; done
+        }
+
+        for i in setup flag param option disp 'msg -' cmd; do
+                eval "${i% *}() { args $i \"\$@\"; }"
+        done
+
+        echo "$2() {"
+        echo "cat<<'GETOPTIONSHERE'"
+        "$@"
+        echo "GETOPTIONSHERE"
+        echo "}"
 }
 
 main "$@"
