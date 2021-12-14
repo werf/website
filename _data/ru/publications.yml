@@ -16,6 +16,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "werf v1.2 — стабильный релиз Open Source-утилиты для доставки приложений в Kubernetes"
+    habr_url: "https://habr.com/ru/company/flant/blog/592715/"
+    img: "/assets/images/publications/ru_141221.png"
+    created: 2021-12-14
+    comment: |
+      <p>werf — это CLI-утилита с <a target="_blank" rel="noopener nofollow" href="https://github.com/werf/werf">открытым кодом для сборки приложений и их деплоя в Kubernetes. С версией v1.2 она получила множество изменений и улучшений, которые мы так тщательно тестировали и дорабатывали, что релиз долгое время — с января 2021-го — находился в статусе Early-Access. Наконец, мы рады объявить о его переводе в категорию Stable!</p>
   - title: "werf vs Docker. Чем лучше собирать образы"
     habr_url: "https://habr.com/ru/company/flant/blog/565598/"
     img: "/assets/images/publications/ru_020721.png"
