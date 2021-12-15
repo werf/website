@@ -16,6 +16,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "werf v1.2 is now stable! Here’s what it is all about"
+    blog_url: "https://blog.flant.com/werf-v1-2-stable-release-and-features/"
+    img: "/assets/images/publications/en_141221.png"
+    created: 2021-12-14
+    comment: |
+      <p>werf is a CLI Open Source tool for building applications and deploying them to Kubernetes clusters. Version 1.2 features many new changes and improvements. We have been thoroughly testing and refining them as part of the Early-Access version over the last eleven months (since January 2021). Finally, we are pleased to announce that it has been promoted to Stable!</p>
   - title: "werf vs. Docker: What is the difference when it comes to building images?"
     blog_url: "https://blog.flant.com/werf-vs-docker-comparison/"
     img: "/assets/images/publications/en_030921.png"
