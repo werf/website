@@ -21,7 +21,7 @@ articles:
     img: "/assets/images/publications/en_141221.png"
     created: 2021-12-14
     comment: |
-      <p>werf is a CLI <a target="_blank" rel="noopener nofollow" href="https://github.com/werf/werf">Open Source</a> tool for building applications and deploying them to Kubernetes clusters. Version 1.2 features many new changes and improvements. We have been thoroughly testing and refining them as part of the Early-Access version over the last eleven months (since January 2021). Finally, we are pleased to announce that it has been promoted to Stable!</p>
+      <p>werf is a CLI Open Source tool for building applications and deploying them to Kubernetes clusters. Version 1.2 features many new changes and improvements. We have been thoroughly testing and refining them as part of the Early-Access version over the last eleven months (since January 2021). Finally, we are pleased to announce that it has been promoted to Stable!</p>
   - title: "werf vs. Docker: What is the difference when it comes to building images?"
     blog_url: "https://blog.flant.com/werf-vs-docker-comparison/"
     img: "/assets/images/publications/en_030921.png"
