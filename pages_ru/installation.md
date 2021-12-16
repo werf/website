@@ -97,7 +97,12 @@ arch:
         <div class="installation-instruction__tab-content" data-install-content-group="channel" data-install-content="{{ channel }}">
           {% for arch in page.arch %}
             <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
-<div markdown="1">{% include installation/trdl_linux.md version=version channel=channel arch=arch %}</div>
+<div markdown="1">
+{% include installation/trdl_linux.md version=version channel=channel arch=arch %}
+{%- if version != 1.1 %}
+{% include installation/setup_buildah.md version=version %}
+{%- endif %}
+</div>
             </div>
           {% endfor %}
         </div>
@@ -147,6 +152,9 @@ arch:
             <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
 <div markdown="1">
 {% include installation/installer_linux_macos.md version=version channel=channel %}
+{%- if version != 1.1 %}
+{% include installation/setup_buildah.md version=version %}
+{%- endif %}
 </div>
             </div>
           {% endfor %}
