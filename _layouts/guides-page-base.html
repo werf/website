@@ -23,6 +23,28 @@ layout: default-guides
                 {%- endif %}
                 <h1 class="docs__title">{{ page.title }}</h1>
                 <div class="post-content">
+                  {% if page.layout == "guides-wip" %}
+                    <div class="in-development open-content__border">
+                      <div class="in-development__content">
+                        {%- if page.lang == 'en' %}
+                        <div class="in-development__content--title">
+                          This guide<br />is work in progress
+                        </div>
+                        <div class="in-development__content--subtitle">
+                          Warning: it is raw and has some white spots
+                        </div>
+                        {% else %}
+                        <div class="in-development__content--title">
+                          Данный гайд<br/>находится в разработке
+                        </div>
+                        <div class="in-development__content--subtitle">
+                          Внимание: это грубый черновик <br /> и тут есть белые пятна
+                        </div>
+                        {%- endif %}
+                      </div>
+                      <div class="in-development__image"></div>
+                    </div>
+                  {% endif %}
                   {%- unless page.toc == false %}
                     {%- include common/toc.html %}
                   {%- endunless %}

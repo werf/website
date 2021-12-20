@@ -177,19 +177,26 @@
     color: #0066FF;
 }
 
-li.sidebar__submenu-item.wip {
+li.sidebar__submenu-item.wip a {
   position: relative;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 85%;
 }
 
-li.sidebar__submenu-item.wip::before {
-  content: '';
-  display: block;
-  width: 16px;
-  height: 16px;
+li.sidebar__submenu-item.wip a::before {
+  content: 'WIP';
   position: absolute;
-  top: 10px;
-  left: -20px;
-  background: url(/assets/images/icons/maintanance-mini.svg) center center no-repeat;
+  font-size: 12px;
+  color: #fff;
+  background: #0066FF;
+  padding: 1px 4px;
+  margin-left: 10px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 700;
+  left: 100%;
 }
 
 .sidebar__submenu-item.active > a {
