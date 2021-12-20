@@ -2,19 +2,15 @@
 
 Далее мы будем использовать новое простое приложение на {{ page.framework_name }}, функционально идентичное приложению из предыдущего раздела.
 
-Получили мы его следующим образом — сначала был сгенерирован скелет нового {{ page.framework_name }}-приложения командой:
+Получили мы его следующим образом — сначала был сгенерирован скелет нового {{ page.framework_name }}-приложения{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/002_wirh_command.md.liquid %}
 
 {% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/001_generate_app.md.liquid %}
 
-> **ОБРАТИТЕ ВНИМАНИЕ!** Эту команду и нижеследующие не нужно выполнять, здесь мы просто рассказываем, как получили приложение, которое используется в примере. К выполнению предназначена глава "Деплой нового приложения".
+{% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/003_notification.md.liquid %}
 
 В нём была оставлена конфигурация только для production-окружения и убрано всё, что не требуется на данном этапе.
 
-После этого был добавлен новый путь `/ping` для нашего API:
-
 {% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/005_add_ping.md.liquid %}
-
-Этот путь будет обрабатываться методом `ping` стандартного контроллера, возвращающим текст `pong`:
 
 {% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/010_return_pong.md.liquid %}
 
