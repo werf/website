@@ -22,7 +22,10 @@ layout: default-guides
                 {%- endif %}
                 <h1 class="docs__title">{{ page.title }}</h1>
                 <div class="post-content">
-                    {{ content }}
+                  {%- unless page.toc == false %}
+                    {%- include common/toc.html %}
+                  {%- endunless %}
+                  {{ content }}
                 </div>
             </div>
         </div>
