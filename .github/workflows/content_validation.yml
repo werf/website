@@ -30,7 +30,7 @@ jobs:
         run: |
           chmod 777 Gemfile.lock
           bundle install
-          mkdir -pm 777 .jekyll-cache _site
+          mkdir -pm 777 .jekyll-cache .jekyll-cache-en .jekyll-cache-ru _site
           chmod -R 777 assets/images/plantuml_cache
 
       - name: Build

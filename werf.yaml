@@ -104,8 +104,8 @@ shell:
     - cd /app
     - set -u
     - mkdir -m 0777 -p /app/_site
-    - cp -fv /artifacts/*.json /app/_data/_common/
-    - cp -fv /artifacts/pages_{{ $lang }}/* /app/pages_{{ $lang }}/
+    - cp -f /artifacts/*.json /app/_data/_common/
+    - cp -f /artifacts/pages_{{ $lang }}/* /app/pages_{{ $lang }}/
     - export JEKYLL_ENV="{{ $.Env }}"
     {{- if eq $.Env "development" }}
     - bundle exec jekyll build -tV --config _config.yml,_config_dev.yml,_config_{{ $lang }}.yml --destination _site/

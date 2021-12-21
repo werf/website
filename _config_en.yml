@@ -7,6 +7,7 @@ site_description: Consistent delivery tool. Git as a single source of truth. Bui
 
 data_dir: _data/en
 includes_dir: _includes/en
+cache_dir: ".jekyll-cache-en"
 
 exclude:
   - Gemfile
@@ -16,6 +17,8 @@ exclude:
   - werf.yaml
   - ".werf"
   - backend
+  - ".jekyll-cache-ru"
+  - ".jekyll-cache-en"
 
 include:
   - pages_en
