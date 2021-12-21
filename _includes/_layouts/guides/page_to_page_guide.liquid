@@ -1,0 +1,82 @@
+{% assign sections = site.data.sidebars[page.sidebar].entries %}
+{% assign path = page.url | split: "/" | slice: 3, 2 | join: "/" %}
+{% assign path_cut = page.url | split: "/" | slice: 3 %}
+{% assign path_folder = page.url | split: "/" | slice: 1, 3 | join: "/" %}
+{% assign section = sections.f %}
+{% assign subsection = section.sf %}
+{% assign folder_pages = "" | split: "," %}
+{% assign index_per = 0 %}
+
+
+{%- for section in sections.f %}
+  {%- capture folder_page_permalink %}guides/{{ page.framework_id }}/{{ section.url }}{% endcapture -%}
+  {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
+  {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
+
+  {% if folder_page != nil %}
+    {% assign folder_pages = folder_pages | push: folder_page %}
+  {% endif %}
+  
+  {%- if section.url == path %}
+    {%- assign index = forloop.index0 -%}
+  {%- endif %}
+
+  {% assign section_cut = section.url | split: "." | slice: 0 %}
+
+  {%- if section_cut == path_cut %}
+    {%- assign index_cut = forloop.index0 -%}
+  {%- endif %}
+
+  {%- for subsection in section.sf %}
+    {%- if subsection.url == path %}
+      {%- assign index_sub = forloop.index0 -%}
+    {%- endif %}
+  {%- endfor -%}
+  
+{%- endfor -%}
+
+{% for folder_page_count in folder_pages %}
+  {% if folder_page_count.permalink == path_folder %}
+    {% assign index_per = forloop.index0 -%}
+  {% endif %}
+{% endfor %}
+
+{%- for section in sections.f -%}
+  {% if section.sf and section.url == path %}
+    {%- assign index_prev = index_per | minus: 1 -%}
+    {%- assign index_next = index | plus: 1 -%}
+    {%- assign folder_pages_url = folder_pages[index_prev].permalink | split: "/" | slice: 2 | join: "" -%}
+    
+    {% if section.url == path %}
+      {% assign prev_section = sections.f | find: "url", folder_pages_url %}
+      {%- assign prev_url = prev_section.sf.last.url -%}
+    {% endif %}
+    {%- assign next_url = sections.f[index].sf[0].url -%}
+
+  {% elsif section.sf[index_sub].url == path %}
+    {%- for subsection in section.sf -%}
+      {% if index_next >= section.sf.size %}
+        {%- assign index_next = index_cut | plus: 1 -%}
+        {%- assign next_url = folder_pages[index_next].permalink | split: "/" | slice: 2 -%}
+      {% elsif index_sub <= 0 %}
+        {%- assign index_prev = index_cut -%}
+        {%- assign index_next = index_sub | plus: 1 -%}
+        {%- assign prev_url = sections.f[index_prev].url -%}
+        {%- assign next_url = section.sf[index_next].url | split: "/" | slice: 1 -%}
+      {% else %}
+        {%- assign index_prev = index_sub | minus: 1 -%}
+        {%- assign index_next = index_sub | plus: 1 -%}
+        {%- assign prev_url = section.sf[index_prev].url | split: "/" | slice: 1 -%}
+        {%- assign next_url = section.sf[index_next].url | split: "/" | slice: 1 -%}
+      {% endif %}
+    {%- endfor -%}
+  {% endif %}
+
+{%- endfor -%}
+
+{%- assign subsection_size = sections.f[index_cut].sf.size | minus: 1 -%}
+{%- assign section_first = sections.f[index] | minus: 1 -%}
+{%- assign guides_tech = page.url | split: "/" | slice: 2 -%}
+
+{%- capture main_path_next %}/guides/{{guides_tech[0]}}/{{next_url}}{% endcapture -%}
+{%- capture main_path_prev %}/guides/{{guides_tech[0]}}/{{prev_url}}{% endcapture -%}

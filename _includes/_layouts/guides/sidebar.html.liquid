@@ -2,15 +2,17 @@
 <ul id="mysidebar" class="sidebar sidebar_static">
   {%- for folder in sidebar.f %}
   {% if folder.sf %}
-  <li class="sidebar__item sidebar__item_parent {%- if page.url contains folder.url %} active{%- endif %}">
-    {%- capture folder_page_permalink %}guides/{{ page.framework_id }}/{{ folder.url }}{% endcapture -%}
-    {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
-    {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
 
+  {%- capture folder_page_permalink %}guides/{{ page.framework_id }}/{{ folder.url }}{% endcapture -%}
+  {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
+  {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
+
+  <li class="sidebar__item sidebar__item_parent {%- if page.url contains folder.url %} active{%- endif %}{%- if folder_page == nil %} sidebar__item-ready-soon{%- endif %}">
+    
     {% if folder_page and folder_page.layout != "guides-development" %}
       <a href="{{ folder_relative_url }}" data-subhref="{{ folder.url }}">{{ folder.title }}</a>
     {% else %}
-      {{ folder.title }}
+      <span>{{ folder.title }}</span>
     {% endif %}
 
     <ul class="sidebar__submenu">

@@ -42,6 +42,36 @@ li.sidebar__disabled-item, li.sidebar__submenu-disabled-item {
     padding: 10px 0;
 }
 
+#mysidebar {
+  & .sidebar__item-ready-soon {
+    & span {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: fit-content;
+      max-width: 100%;
+
+      &::before {
+        content: 'SOON!';
+        font-size: 12px;
+        color: #fff;
+        background: #bbb;
+        padding: 1px 4px;
+        border-radius: 4px;
+        margin-left: 10px;
+        display: inline-block;
+        font-weight: 700;
+        position: absolute;
+        top: 2px;
+        left: 100%;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}
+
+
 .sidebar__item.secondary > a {
     color: #939fb1;
     font-size: 14px;
@@ -112,6 +142,15 @@ li.sidebar__disabled-item, li.sidebar__submenu-disabled-item {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    &.sidebar-button--environment {
+      border: 2px solid rgba(255,0,0,.1);
+      color: #ff8080;
+
+      &:hover {
+        border: 2px solid rgba(255,0,0,.5);
+      }
+    }
 }
 
 .sidebar__btn:hover {
@@ -134,6 +173,10 @@ li.sidebar__disabled-item, li.sidebar__submenu-disabled-item {
 
 .sidebar__btn-icon_telegram {
     background-image: asset_url("icons/telegram.svg");
+}
+
+.sidebar__btn-icon_environment {
+    background-image: asset_url("icons/maintanance-mini.svg");
 }
 
 .docs .filesused {
@@ -271,16 +314,6 @@ li.sidebar__disabled-item, li.sidebar__submenu-disabled-item {
     box-shadow: 0 5px 40px 0 rgba(0,18,44,0.1);
 }
 
-.open-content_container .open-content_content {
-    display: none;
-}
-.open-content_container.active .open-content_content {
-    display: block;
-}
-.open-content_container.active .open-content_button {
-    display: none;
-}
-
 .open-content_container .open-content_button {
     display: flex;
     cursor: pointer;
@@ -304,10 +337,11 @@ li.sidebar__disabled-item, li.sidebar__submenu-disabled-item {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    display: none;
 }
 
 .open-content__border {
-    padding: 25px 10px !important;
+    padding: 25px 32px !important;
 }
 
 div.plantuml {

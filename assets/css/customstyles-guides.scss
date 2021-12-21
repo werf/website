@@ -229,23 +229,35 @@
 
 .in-development {
   display: flex;
-  align-items: center;
-  border: 2px solid #eef2ff;
   padding: 10px;
-  margin: 5px 0 25px 0;
+  margin: 25px 0 25px 0;
+  background: #ECF4FF;
+  border-radius: 10px;
 }
 
 .in-development__image {
-  background-image: asset_url("in_development.png");
-  width: 120px;
-  margin: 10px 20px;
+  background-image: asset_url("crane.svg");
   background-repeat: no-repeat;
-  height: 100px;
-  background-size: 100px 100px;
+  width: 30%;
+  height: 275px;
+  margin-top: -55px;
 }
 
 .in-development__content {
-  font-size: 20px;
+  width: 70%;
+
+  &--title {
+    font-size: 40px;
+    line-height: 54px;
+    font-weight: 700;
+    padding-bottom: 10px;
+  }
+
+  &--subtitle {
+    font-size: 24px;
+    line-height: 33px;
+    font-weight: 600;
+  }
 }
 
 .in-development__content span {
@@ -338,4 +350,63 @@
 .guides__tile__button:not(.landing__button_disabled):focus,
 .guides__tile__button:not(.landing__button_disabled):active {
     background: #00122c;
+}
+
+.docs {
+  & .guides-post__nav--link:hover {
+    text-decoration: none;
+  }
+} 
+
+.guides-post {
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+
+    &--link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 0 15px;
+      height: 28px;
+      border-radius: 10px;
+      border: solid 2px #f3f8ff;
+      background-color: #ffffff;
+      font-size: 14px;
+
+      &:hover {
+        border-color: rgba(0,102,255,0.5);
+        text-decoration: none;
+      }
+    }
+
+    &-arrow {
+      margin-right: 10px;
+
+      & .arrow-guides{
+        background-image: url(images/arrow-guides.svg);
+        display: inline-block;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 20px;
+        height: 10px;
+      }
+    }
+
+    &--next .guides-post__nav-arrow {
+      order: 2;
+      transform: rotateY(180deg);
+      margin-right: 0;
+      margin-left: 10px;
+    }
+
+    &-arrow svg {
+      width: 20px;
+      height: auto;
+    }
+  }
 }

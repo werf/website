@@ -3,19 +3,6 @@ layout: guides-page-base
 ---
 
 <div class="post-content open-content_container">
-  <div class="in-development open-content__border">
-    <div class="in-development__image"></div>
-    <div class="in-development__content">
-      {%- if page.lang == 'en' %}
-      New chapters of the guide will be available soon!<br/>The page is under construction.<br/><br/>
-      <div class="open-content_button">Show me the available chapters</div>
-      {% else %}
-      Прямо сейчас мы пишем новые главы самоучителя!<br/>Эта страница находится в разработке.<br/><br/>
-      <div class="open-content_button">Показать, что уже готово</div>
-      {%- endif %}
-    </div>
-  </div>
-
   <div class="open-content_content">
     {{- page.description | markdownify }}
 
