@@ -433,7 +433,7 @@ $(document).ready(function () {
           var rss_item = rss_items[i];
           var rss_item_description = rss_item.querySelector('description');
           if (rss_item_description) {
-            if (rss_item_description.innerHTML.indexOf('#changelog')) {
+            if (rss_item_description.innerHTML.indexOf('#changelog') != -1) {
               rss_result = rss_item;
             }
           }
