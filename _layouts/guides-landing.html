@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{% if page.summary %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
+  <meta name="title" content="{{ page.title }}">
+  <meta name="description" content="">
   <meta name="keywords" content="{{page.tags}}{% if page.tags %}, {% endif %} {{page.keywords}}">
   {%- if page.multilang %}
   <link rel="alternate" hreflang="ru" href="{{ site.site_urls['ru'] }}{{ page.url | relative_url }}" data-proofer-ignore/>
@@ -19,6 +20,21 @@
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#ffc40d">
   <meta name="theme-color" content="#ffffff">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{% if page.change_canonical %}{{ page.url | absolute_url }}{% else %}{{ site.url }}{{ page.url }}{% endif %}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{% if page.change_canonical %}{{ page.url | absolute_url }}{% else %}{{ site.url }}{{ page.url }}{% endif %}">
+  <meta property="twitter:title" content="{{ page.title }}">
+  <meta property="twitter:description" content="">
+
+  <meta property="og:image" content="{{ site.url }}/assets/images/share.png">
+  <meta property="twitter:image" content="{{ site.url }}/assets/images/share.png">
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap&subset=cyrillic,cyrillic-ext" rel="stylesheet">
 
