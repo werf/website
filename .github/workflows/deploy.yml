@@ -16,7 +16,7 @@ env:
 jobs:
   converge:
     name: Deploy
-    if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'test guides')
+    if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'test website')
     runs-on: self-hosted
     steps:
 
@@ -33,7 +33,7 @@ jobs:
 
     - name: Deploy to test
       uses: werf/actions/converge@v1.2
-      if: contains(github.event.pull_request.labels.*.name, 'test guides')
+      if: contains(github.event.pull_request.labels.*.name, 'test website')
       with:
         env: test
       env:
@@ -64,5 +64,5 @@ jobs:
         run: |
           curl -X POST \
                -H 'Content-type: application/json' \
-               --data "{\"text\":\"[werf guides] Deploy to production has failed (job <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|$GITHUB_RUN_ID>)\"}" \
+               --data "{\"text\":\"[werf website] Deploy to production has failed (job <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|$GITHUB_RUN_ID>)\"}" \
                ${{ secrets.SLACK_WEBHOOK }}

@@ -7,6 +7,7 @@ site_description: Инструмент консистентной доставк
 
 data_dir: _data/ru
 includes_dir: _includes/ru
+cache_dir: ".jekyll-cache-ru"
 
 exclude:
   - Gemfile
@@ -16,6 +17,8 @@ exclude:
   - werf.yaml
   - ".werf"
   - backend
+  - ".jekyll-cache-ru"
+  - ".jekyll-cache-en"
 
 include:
   - pages_ru

@@ -7,9 +7,34 @@ ___
 
 ### Run the site locally
 
+#### Variant 1 (faster)
+
 - Install [werf](http://werf.io/installation.html). 
 - Run:
   ```shell
-  werf compose up jekyll_base
+  werf compose up jekyll_base --dev
   ```
 - Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site). 
+
+#### Variant 2 (slower)
+
+- Install [werf](http://werf.io/installation.html). 
+- Run (add `--follow --docker-compose-command-options="-d"` if necessary):
+  ```shell
+  werf compose up --docker-compose-options="-f docker-compose-slow.yml" --dev
+  ```
+- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site). 
+
+#### Variant 3 (the fastest but only one language)
+
+- Install ruby and bundler
+- To run English version:
+  ```shell
+  jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml -d /tmp/_site
+  ```
+- To run Russian version:
+  ```shell
+  jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml -d /tmp/_site
+  ```
+- Site content (with guides but without documentation section) is available on http://localhost:4000
+ 
