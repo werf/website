@@ -1,7 +1,7 @@
 window.onload=function(){
   var btn = document.getElementById("show-image-btn")
   btn.addEventListener("click", _ => {
-      fetch("/assets/images/werf-logo.svg")
+      fetch("/images/werf-logo.svg")
         .then((data) => data.text())
         .then((html) => {
           const svgContainer = document.getElementById("container")
