@@ -5,6 +5,8 @@ rewrite ^/((css|js|images)/.*)$ /assets/$1 permanent;
 
 rewrite ^(/v[\d]+\.[\d]+([^\/]+)?)+/documentation/(.*)$ /documentation$1/$3 permanent;
 
+rewrite ^/applications_guide_(ru|en)(/.*)?$ /guides.html permanent;
+
 # 202103
 rewrite ^/documentation/[^/]*/?advanced/supported_registry_implementations\.html /documentation/v1.2/advanced/supported_container_registries.html permanent;
 
