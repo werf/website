@@ -1,0 +1,22 @@
+<div class="guides__tile">
+  <a href="/guides/{{ framework.name }}/100_basic.html" class="guides__tile--link">
+    <div class="guides__item--name">
+      <span>{{ framework.title }}</span>
+      <div class="guides__item--icon">
+        <svg>
+          <use xlink:href="/assets/images/arrow-guides-tiles.svg#arrow-guides"></use>
+        </svg>
+      </div>
+    </div>
+    {% asset 'landing/{{ framework.name }}.svg' width="129" height="79" class="guides__tile-logo guides__tile-logo--{{ framework.name }}" %}
+    <div class="guides__title-progress">
+      {% for folder_page_count in folder_pages %}
+        {% if folder_page_count == nil %}
+          <span></span>
+        {% else %}
+          <span class="ready"></span>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </a>
+</div>

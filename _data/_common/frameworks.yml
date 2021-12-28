@@ -1,0 +1,13 @@
+frameworks:
+  - name: nodejs
+    title: Node.js
+  - name: java_springboot
+    title: Spring Boot
+  - name: django
+    title: Django
+  - name: golang
+    title: Go
+  - name: rails
+    title: Rails
+  - name: laravel
+    title: Laravel
