@@ -12,6 +12,12 @@ env:
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
   WERF_SET_ACTIVE_RELEASE: "global.active_release=1.2"
+  WERF_TRUE_GIT_DEBUG_ARCHIVE: "1"
+  WERF_TRUE_GIT_DEBUG_PATCH_PARSER: "1"
+  WERF_TRUE_GIT_MERGE_DEBUG: "1"
+  WERF_TRUE_GIT_DEBUG_PATCH: "1"
+  WERF_TRUE_GIT_DEBUG_WORKTREE_SWITCH: "1"
+  WERF_DEBUG_TRUE_GIT: "1"
 
 jobs:
   converge:
