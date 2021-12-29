@@ -1,45 +1,23 @@
+{% if page.sidebar %}
+  {% assign sections = site.data.sidebars[page.sidebar].entries %}
+{% else %}
+  {% assign sections = site.data.sidebars.guide.entries %}
+{% endif %}
+{% assign frameworks_array = site.data.common.frameworks %}
+{% assign frameworks = frameworks_array.frameworks %}
+
 <!-- TODO: use data to generate landing tiles -->
 <div class="guides__tiles">
-    <div class="guides__tile">
-        {% asset landing/nodejs.png width="129" height="79" class="guides__tile-logo" %}
-        <a href="{{ '/guides/nodejs/100_basic.html' | relative_url }}" class="guides__tile__button guides__tile__button_small">
-            <span>Node.js</span>
-            {% asset arrow.svg class="flip-horizontal" height="12" %}
-        </a>
-    </div>
-    <div class="guides__tile">
-        {% asset landing/springboot.png width="149" height="78" class="guides__tile-logo" %}
-        <a href="{{ '/guides/java_springboot/100_basic.html' | relative_url }}" class="guides__tile__button guides__tile__button_small">
-            <span>Spring Boot</span>
-            {% asset arrow.svg class="flip-horizontal" height="12" %}
-        </a>
-    </div>
-    <div class="guides__tile">
-        {% asset landing/django.png width="156" height="54" class="guides__tile-logo" %}
-        <a href="{{ '/guides/django/100_basic.html' | relative_url }}" class="guides__tile__button guides__tile__button_small">
-            <span>Django</span>
-            {% asset arrow.svg class="flip-horizontal" height="12" %}
-        </a>
-    </div>
-    <div class="guides__tile">
-        {% asset landing/go.svg width="134" height="50" class="guides__tile-logo" %}
-        <a href="{{ '/guides/golang/100_basic.html' | relative_url }}" class="guides__tile__button guides__tile__button_small">
-            <span>Go</span>
-            {% asset arrow.svg class="flip-horizontal" height="12" %}
-        </a>
-    </div>
-    <div class="guides__tile">
-        {% asset landing/rails.svg width="156" height="54" class="guides__tile-logo" %}
-        <a href="{{ '/guides/rails/100_basic.html' | relative_url }}" class="guides__tile__button guides__tile__button_small">
-            <span>Rails</span>
-            {% asset arrow.svg class="flip-horizontal" height="12" %}
-        </a>
-    </div>
-    <div class="guides__tile">
-        {% asset landing/laravel.svg width="175" height="51" class="guides__tile-logo" %}
-        <a href="{{ '/guides/laravel/100_basic.html' | relative_url }}" class="guides__tile__button guides__tile__button_small">
-            <span>Laravel</span>
-            {% asset arrow.svg class="flip-horizontal" height="12" %}
-        </a>
-    </div>
+  {% for framework in frameworks %}
+    {% assign folder_pages = "" | split: "," %}
+
+    {%- for section in sections.f %}
+      {%- capture folder_page_permalink %}guides/{{ framework.name }}/{{ section.url }}{% endcapture -%}
+      {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
+      {% assign folder_pages = folder_pages | push: folder_page %}
+    {%- endfor -%}
+
+    {% include common/guides-landing-tile.html %}
+    
+  {% endfor %}
 </div>
