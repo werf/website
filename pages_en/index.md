@@ -305,6 +305,75 @@ sidebar: none
     </div>
 </div>
 
+{%- assign publications = site.data.publications.articles | sort: 'created' | reverse %}
+{%- assign publications_by_year = publications | group_by_exp: "publication", "publication.created | date: '%Y'" %}
+
+<div class="publications">
+  <div class="page__container">
+    <div class="publications__content">
+      <div class="publications__title">Latest articles about werf</div>
+      <div class="publications__subtitle">Learn more about tool's features and hands-on<br />experience from new publications</div>
+      <div class="publications__cards">
+        <ul class="publications__cards--list">
+        {%- for year in publications_by_year limit: 1 %}
+          {%- for publication in year.items limit: 4 %}
+            <li class="publications__cards--item">
+              {%- if publication.url %}
+                <a href="{{ publication.url }}" class="publications__cards--link" target="_blank">
+                  <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
+                  <div class="publications__cards--title">{{ publication.title }}</div>
+                  <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
+                </a>
+              {%- endif %}
+              {%- if publication.medium_url %}
+                <a href="{{ publication.medium_url }}" class="publications__cards--link" target="_blank">
+                  <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
+                  <div class="publications__cards--title">{{ publication.title }}</div>
+                  <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
+                </a>
+              {%- endif %}
+              {%- if publication.blog_url %}
+                <a href="{{ publication.blog_url }}" class="publications__cards--link" target="_blank">
+                  <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
+                  <div class="publications__cards--title">{{ publication.title }}</div>
+                  <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
+                </a>
+              {%- endif %}
+              {%- if publication.habr_url %}
+                <a href="{{ publication.habr_url }}" class="publications__cards--link" target="_blank">
+                  <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
+                  <div class="publications__cards--title">{{ publication.title }}</div>
+                  <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
+                </a>
+              {%- endif %}
+              {%- for custom in publication.custom_urls %}
+                <a href="{{ custom.url }}" class="publications__cards--link" target="_blank">
+                  <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
+                  <div class="publications__cards--title">{{ publication.title }}</div>
+                  <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
+                </a>
+              {%- endfor -%}
+              {%- if publication.youtube_url %}
+                <a href="{{ publication.youtube_url }}" class="publications__cards--link" target="_blank">
+                  <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
+                  <div class="publications__cards--title">{{ publication.title }}</div>
+                  <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
+                </a>
+              {%- endif %}
+            </li>
+          {%- endfor %}
+        {%- endfor %}
+        </ul>
+      </div>
+      <div class="community__btns">
+          <a href="https://blog.flant.com/tag/werf/" target="_blank" class="page__btn page__btn_o publications__btn">
+              <span>Read more at <b>Flant Blog</b></span>
+          </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="page__container">
     <div class="documentation">
         <div class="documentation__image">
