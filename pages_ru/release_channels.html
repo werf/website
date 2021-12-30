@@ -1,0 +1,83 @@
+---
+title: Каналы обновлений
+permalink: release_channels.html
+layout: default
+sidebar: none
+description: Все изменения в werf проходят через цепочку каналов обновлений
+---
+{%- asset release-channels.css %}
+
+<div class="page__container page_installation">
+  <div class="installation-channels">
+    <h2 class="installation-channels__title" id="все-изменения-в-werf-проходят-через-цепочку-каналов-обновлений">
+      Все изменения в werf<br>
+      проходят через цепочку каналов обновлений
+    </h2>
+    <ul class="installation-channels__channels">
+      <li class="installation-channels__channel">
+        <div class="installation-channels__channel-title">
+          Alpha
+        </div>
+        <div class="installation-channels__channel-description">
+          быстро доставляет новые возможности<br>
+          однако может быть нестабильным
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_beta">
+        <div class="installation-channels__channel-title">
+          Beta
+        </div>
+        <div class="installation-channels__channel-description">
+          для более широкого тестирования<br>
+          новых возможностей с целью<br>
+          обнаружить проблемы
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_ea">
+        <div class="installation-channels__channel-title">
+          Early-Access
+        </div>
+        <div class="installation-channels__channel-description">
+          достаточно безопасен для использования<br>
+          в некритичных окружениях и для<br>
+          локальной разработки,<br>
+          позволяет раньше получать новые возможности
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_stable">
+        <div class="installation-channels__channel-title">
+          Stable
+        </div>
+        <div class="installation-channels__channel-description">
+          безопасен и рекомендуется для широкого<br>
+          использования в любых окружениях,<br>
+          как вариант по умолчанию.
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_rocksolid">
+        <div class="installation-channels__channel-title">
+          Rock-Solid
+        </div>
+        <div class="installation-channels__channel-description">
+          наиболее стабильный канал,<br>
+          рекомендован для критичных окружений<br>
+          со строгими требованиями SLA.
+        </div>
+      </li>
+    </ul>
+    <div class="installation-channels__info">
+      <div class="installation-channels__info-versions">
+        <p>При использовании каналов обновлений не требуется указывать конкретную версию, т.к. конкретную версию активирует trdl, выступая в роли менеджера версий. Это позволяет автоматически и непрерывно получать как исправления проблем, так и новые возможности, оперативно откатывать проблемные изменения. В целом такая схема даёт баланс между достаточно высоким уровнем стабильности софта и быстрой разработкой новых возможностей.</p>
+        <p>Связи между каналом обновлений и конкретной версией werf описываются в специальном файле <a href="https://raw.githubusercontent.com/werf/werf/multiwerf/trdl_channels.yaml">trdl_channels.yaml</a>.</p>
+      </div>
+      <div class="installation-channels__info-guarantees">
+        <div class="installation-channels__info-guarantee">
+          <strong>Мы гарантируем</strong>, что релиз из канала <i>Early-Access</i> попадёт в канал <i>Stable</i> не раньше, чем через 1 неделю после внутреннего тестирования.
+        </div>
+        <div class="installation-channels__info-guarantee">
+          <strong>Мы гарантируем</strong>, что релиз из канала <i>Stable</i> должен попасть в канал <i>Rock-Solid</i> не раньше, чем через 2 недели активного тестирования.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
