@@ -11,8 +11,8 @@
   url: '#'
   folderitems:
     - title: Release channels
-      url: /release_channels.html
+      url: /development/release_channels.html
     - title: Backward compatibility
-      url: /backward_compatibility.html
+      url: /development/backward_compatibility.html
     - title: Changelog
-      url: /changelog.html
+      url: /development/changelog.html

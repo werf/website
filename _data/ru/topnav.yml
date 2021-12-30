@@ -11,8 +11,8 @@
   url: '#'
   folderitems:
     - title: Каналы обновлений
-      url: /release_channels.html
+      url: /development/release_channels.html
     - title: Обратная совместимость
-      url: /backward_compatibility.html
-    - title: Истории изменений
-      url: /changelog.html
+      url: /development/backward_compatibility.html
+    - title: История изменений
+      url: /development/changelog.html
