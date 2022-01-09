@@ -20,13 +20,16 @@
                             That's why below lines of li class are such ugly.
                         {% endcomment %}
                         <li class="header__menu-item submenu-parent
-                            {%- if folder.folderitems %} header__menu-item_parent{% endif %}
-                            {%- if folder.url.size>1 and page.url == folder.url %} header__menu-item_active{% endif %}
+                            {%- if folder.folderitems %} header__menu-item_parent
+                              {%- for folderitem in folder.folderitems -%}
+                                {%- if folderitem.url == page.url %} header__menu-item_active{% endif -%}
+                              {% endfor -%}
+                            {% endif %}
+                            {%- if folder.url.size>=1 and page.url == folder.url %} header__menu-item_active{% endif %}
                             {%- if folder.url.size>1 and page.url != folder.url and page.url contains folder.url
                             and page.url != '/installation.html' %} header__menu-item_active{% endif %}">
                             {%- comment -%}
                             {%- if folder.url.size<2 and page.url.size<2 %} header__menu-item_active{% endif %}">
-                            
                             {%- endcomment -%}
                             {%- if folder.title == 'Документация' or folder.title == 'Documentation' %}
                                 {%- if page.name == '404.md' %}
