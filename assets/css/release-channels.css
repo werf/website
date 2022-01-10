@@ -21,6 +21,8 @@
 }
 
 .installation-channels__channel {
+  max-width: 225px;
+  flex-grow: 1;
 }
 
 .installation-channels__channel-title {
@@ -31,6 +33,9 @@
   color: #0066FF;
   margin-bottom: 5px;
   position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
 }
 
 .installation-channels__channel-title::after {
@@ -40,29 +45,35 @@
   background-position: center center;
   background-repeat: no-repeat;
   position: absolute;
-  right: calc(100% + 10px);
+  right: -2px;
   top: 0px;
 }
 
-.installation-channels__channel_beta .installation-channels__channel-title::after {
-  width: 85px;
-  background-image: url('../assets/images/installation/arrow-beta.svg');
+.installation-channels__channel .installation-channels__channel-title::after {
+  width: 10px;
+  background-image: url('../assets/images/installation/arrow-tip.svg');
 }
 
-.installation-channels__channel_ea .installation-channels__channel-title::after {
-  width: 110px;
-  background-image: url('../assets/images/installation/arrow-ea.svg');
+.installation-channels__channel .installation-channels__channel-title::before {
+  content: '';
+  display: inline-flex;
+  max-width: 100%;
+  background: #0066FF;
+  height: 2px;
+  flex-grow: 2;
+  order: 5;
+  margin-left: 15px;
 }
 
-.installation-channels__channel_stable .installation-channels__channel-title::after {
-  width: 33px;
-  background-image: url('../assets/images/installation/arrow-stable.svg');
+.installation-channels__channel_ea {
+  flex-grow: 2;
+  max-width: 275px;
 }
 
-.installation-channels__channel_rocksolid .installation-channels__channel-title::after {
-  width: 75px;
-  background-image: url('../assets/images/installation/arrow-rocksolid.svg');
-}
+.installation-channels__channel_rocksolid .installation-channels__channel-title::after,
+.installation-channels__channel_rocksolid .installation-channels__channel-title::before {
+  display: none;
+} 
 
 .installation-channels__channel-description {
   font-style: normal;
@@ -70,6 +81,7 @@
   font-size: 14px;
   line-height: 19px;
   color: rgba(0, 18, 44, 0.75);
+  margin-right: 15px;
 }
 
 .installation-channels__info {
