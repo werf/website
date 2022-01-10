@@ -39,7 +39,9 @@ arch:
       </div>
     </div><!-- /selector -->
     <div class="installation-selector">
-      <div class="installation-selector__title">Stability channel</div>
+      <div id="installation__release-channels" class="installation-selector__title">Stability channel
+        <span title="All changes in werf go through all release channels. <a href='/development/release_channels.html' class='installation__release-channels--link'>Learn more</a>"></span>
+      </div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"
           data-install-tab-group="channel" data-install-tab="rock-solid">Rock-Solid</a>

@@ -39,7 +39,9 @@ arch:
       </div>
     </div><!-- /selector -->
     <div class="installation-selector">
-      <div class="installation-selector__title">Канал обновлений</div>
+      <div id="installation__release-channels" class="installation-selector__title">Канал обновлений
+        <span title="Все изменения в werf проходят через цепочку каналов обновлений. <a href='/development/release_channels.html' class='installation__release-channels--link'>Узнать подробнее</a>"></span>
+      </div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"
           data-install-tab-group="channel" data-install-tab="rock-solid">Rock-Solid</a>
