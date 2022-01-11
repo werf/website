@@ -47,11 +47,11 @@
                                 <ul class="submenu">
                                     {% for folderitem in folder.folderitems %}
                                         {%- if folderitem.external_url %}
-                                            <li class="submenu-item"><a href="{{ folderitem.external_url }}" target="_blank" class="submenu-item-link">{{folderitem.title}}</a></li>
+                                            <li class="submenu-item"><a href="{{ folderitem.external_url }}" target="_blank" class="submenu-item-link" {%- if folderitem.url == page.url %} style="color: #0066FF;"{% endif -%}>{{folderitem.title}}</a></li>
                                         {%- else if jekyll.environment == "production" %}
-                                            <li class="submenu-item"><a href="{{ folderitem.url }}" class="submenu-item-link">{{folderitem.title}}</a></li>
+                                            <li class="submenu-item"><a href="{{ folderitem.url }}" class="submenu-item-link" {%- if folderitem.url == page.url %} style="color: #0066FF;"{% endif -%}>{{folderitem.title}}</a></li>
                                         {%- else %}
-                                            <li class="submenu-item"><a href="{{ folderitem.url | true_relative_url }}" class="submenu-item-link">{{folderitem.title}}</a></li>
+                                            <li class="submenu-item"><a href="{{ folderitem.url | true_relative_url }}" class="submenu-item-link" {%- if folderitem.url == page.url %} style="color: #0066FF;"{% endif -%}>{{folderitem.title}}</a></li>
                                         {%- endif %}
                                     {%- endfor %}
                                 </ul>
