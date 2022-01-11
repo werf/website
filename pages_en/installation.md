@@ -30,7 +30,9 @@ arch:
 
   <div class="installation-selector-row">
     <div class="installation-selector">
-      <div class="installation-selector__title">Version</div>
+      <div id="installation__version" class="installation-selector__title">Version
+        <span title="werf follows a versioning strategy called Semantic Versioning. <a href='/development/backward_compatibility.htm' class='installation__release-channels--link'>Read more</a>"></span>
+      </div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"
           data-install-tab-group="version" data-install-tab="1.2">1.2</a>
