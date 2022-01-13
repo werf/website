@@ -1,6 +1,6 @@
 ---
 title: Обратная совместимость
-permalink: development/backward_compatibility.html
+permalink: about/backward_compatibility.html
 layout: default
 sidebar: none
 description: Гарантии обратной совместимости

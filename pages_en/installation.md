@@ -31,7 +31,7 @@ arch:
   <div class="installation-selector-row">
     <div class="installation-selector">
       <div id="installation__version" class="installation-selector__title">Version
-        <span title="werf follows a versioning strategy called Semantic Versioning. <a href='/development/backward_compatibility.html' class='installation__release-channels--link'>Learn more</a>"></span>
+        <span title="werf follows a versioning strategy called Semantic Versioning. <a href='/about/backward_compatibility.html' class='installation__release-channels--link'>Learn more</a>"></span>
       </div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"
@@ -42,7 +42,7 @@ arch:
     </div><!-- /selector -->
     <div class="installation-selector">
       <div id="installation__release-channels" class="installation-selector__title">Stability channel
-        <span title="All changes in werf go through all release channels. <a href='/development/release_channels.html' class='installation__release-channels--link'>Learn more</a>"></span>
+        <span title="All changes in werf go through all release channels. <a href='/about/release_channels.html' class='installation__release-channels--link'>Learn more</a>"></span>
       </div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"

@@ -31,7 +31,7 @@ arch:
   <div class="installation-selector-row">
     <div class="installation-selector">
       <div id="installation__version" class="installation-selector__title">Версия
-        <span title="werf использует семантическое версионирование. <a href='/development/backward_compatibility.html' class='installation__release-channels--link'>Узнать подробнее</a>"></span>
+        <span title="werf использует семантическое версионирование. <a href='/about/backward_compatibility.html' class='installation__release-channels--link'>Узнать подробнее</a>"></span>
       </div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"
@@ -42,7 +42,7 @@ arch:
     </div><!-- /selector -->
     <div class="installation-selector">
       <div id="installation__release-channels" class="installation-selector__title">Канал обновлений
-        <span title="Все изменения в werf проходят через цепочку каналов обновлений. <a href='/development/release_channels.html' class='installation__release-channels--link'>Узнать подробнее</a>"></span>
+        <span title="Все изменения в werf проходят через цепочку каналов обновлений. <a href='/about/release_channels.html' class='installation__release-channels--link'>Узнать подробнее</a>"></span>
       </div>
       <div class="tabs tabs_simple_condensed">
         <a href="javascript:void(0)" class="tabs__btn"

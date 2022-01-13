@@ -1,6 +1,6 @@
 ---
 title: Backward compatibility
-permalink: development/backward_compatibility.html
+permalink: about/backward_compatibility.html
 layout: default
 sidebar: none
 description: Backward compatibility promise
