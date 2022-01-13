@@ -259,7 +259,7 @@ $(document).ready(function() {
       .to('#scheme_git', {opacity: '1'}, 0)
     ).addTo(magic);
 
-    // Git -> Werf, show
+    // Git -> werf, show
     new ScrollMagic.Scene({triggerElement: '#presentation', triggerHook: 0, duration: 200, offset: 1000}).setTween(
       new TimelineMax()
       .to('#scheme_git', {opacity: '1'}, 0)
@@ -267,7 +267,7 @@ $(document).ready(function() {
       .to('#scheme_werf', {opacity: '1'}, 0)
     ).addTo(magic);
 
-    // Werf -> Docker Registry, show
+    // werf -> Docker Registry, show
     new ScrollMagic.Scene({triggerElement: '#presentation', triggerHook: 0, duration: 200, offset: 1400}).setTween(
       new TimelineMax()
       .to('#scheme_git', {opacity: '0.2'}, 0)
@@ -277,7 +277,7 @@ $(document).ready(function() {
       .to('#scheme_smart_2', {opacity: '1'}, 0)
     ).addTo(magic);
 
-    // Werf -> Docker Registry, sync
+    // werf -> Docker Registry, sync
     new ScrollMagic.Scene({triggerElement: '#presentation', triggerHook: 0, duration: 500, offset: 1800}).setTween(
       TweenMax
       .fromTo('#scheme_smart_icon_update_arrows_2', 1,
@@ -285,14 +285,14 @@ $(document).ready(function() {
       .duration(2)
     ).addTo(magic);
 
-    // Werf -> Docker Registry, show info
+    // werf -> Docker Registry, show info
     new ScrollMagic.Scene({triggerElement: '#presentation', triggerHook: 0, duration: 200, offset: 2200}).setTween(
       new TimelineMax()
       .to('#scheme_smart_icon_update_2', {opacity: '0'})
       .to('#scheme_smart_icon_check_2', {opacity: '1'})
     ).addTo(magic);
 
-    // Werf -> Kubernetes, show
+    // werf -> Kubernetes, show
     new ScrollMagic.Scene({triggerElement: '#presentation', triggerHook: 0, duration: 200, offset: 2600}).setTween(
       new TimelineMax()
       .to('#scheme_docker_registry', {opacity: '0.2'}, 0)
@@ -302,7 +302,7 @@ $(document).ready(function() {
       .to('#scheme_k8s', {opacity: '1'}, 0)
     ).addTo(magic);
 
-    // Werf -> Kubernetes, sync
+    // werf -> Kubernetes, sync
     new ScrollMagic.Scene({triggerElement: '#presentation', triggerHook: 0, duration: 500, offset: 3000}).setTween(
       TweenMax
       .fromTo('#scheme_smart_icon_update_arrows', 1,
@@ -310,7 +310,7 @@ $(document).ready(function() {
       .duration(2)
     ).addTo(magic);
 
-    // Werf -> Docker Registry, show info
+    // werf -> Docker Registry, show info
     new ScrollMagic.Scene({triggerElement: '#presentation', triggerHook: 0, duration: 200, offset: 3400}).setTween(
       new TimelineMax()
       .to('#scheme_smart_icon_update', {opacity: '0'})

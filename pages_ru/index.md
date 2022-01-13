@@ -146,7 +146,7 @@ sidebar: none
                 Это как GitOps,<br/><a href="https://www.youtube.com/watch?v=FPMuVdW2hYs"><b>но лучше!</b></a>
             </h1>
             <div class="welcome__subtitle">
-                Werf вводит понятие <b>гитерминизм</b>: используя Git как единый источник истины позволяет добиться детерминированного и идемпотентного процесса доставки по всему пайплайну.
+                werf вводит понятие <b>гитерминизм</b>: используя Git как единый источник истины позволяет добиться детерминированного и идемпотентного процесса доставки по всему пайплайну.
             </div>
         </div>
     </div>
@@ -195,7 +195,7 @@ sidebar: none
                 <div class="features__list-item-icon features__list-item-icon_lifecycle"></div>
                 <div class="features__list-item-title">Консольная утилита</div>
                 <div class="features__list-item-text">
-                    werf — это не SAAS, а самодостаточная CLI-утилита с открытым кодом, запускаемая на стороне клиента. Werf можно использовать как для <b>локальной разработки</b>, так и для <b>встраивания в любую CI/CD-систему</b> (GitLab CI/CD, GitHub Actions, Jenkins, CircleCI и т.д.), оперируя основными командами как составляющими пайплайна:
+                    werf — это не SAAS, а самодостаточная CLI-утилита с открытым кодом, запускаемая на стороне клиента. werf можно использовать как для <b>локальной разработки</b>, так и для <b>встраивания в любую CI/CD-систему</b> (GitLab CI/CD, GitHub Actions, Jenkins, CircleCI и т.д.), оперируя основными командами как составляющими пайплайна:
                     <ul>
                         <li><code>werf converge</code>;</li>
                         <li><code>werf dismiss</code>;</li>
