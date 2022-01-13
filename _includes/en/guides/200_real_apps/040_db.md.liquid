@@ -76,7 +76,7 @@ You should see the following output:
 
 Now let's try to access the `/say` endpoint that retrieves the data from the database:
 ```shell
-curl http://werf-guide-app/say
+curl http://werf-guide-app.test/say
 ```
 
 Since the database is still empty, it should return the following message:
@@ -86,7 +86,7 @@ I have nothing to say.
 
 Let's save some data to the database using `/remember`:
 ```shell
-curl "http://werf-guide-app/remember?answer=Love+you&name=sweetie"
+curl "http://werf-guide-app.test/remember?answer=Love+you&name=sweetie"
 ```
 
 The database must respond with the following:
@@ -96,7 +96,7 @@ Got it.
 
 Let's try to retrieve the data from the database using the `/say` endpoint once again:
 ```shell
-curl http://werf-guide-app/say
+curl http://werf-guide-app.test/say
 ```
 
 If successful, you will see the following output:

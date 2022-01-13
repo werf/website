@@ -191,10 +191,10 @@ kubectl get ingress werf-guide-app
 You will see something like this:
 ```shell
 NAME                    CLASS    HOSTS                               ADDRESS   PORTS   AGE
-werf-guide-app          <none>   werf-guide-app                                80      3m21s
+werf-guide-app          <none>   werf-guide-app.test                                80      3m21s
 ```
 
-Without getting too technical, these two resources will redirect HTTP packets with the `Host: werf-guide-app` header from [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/) to the port 8000 of the `werf-guide-app` Service. They will then be redirected to the port 8000 of one of the Pods belonging to our Deployment. Note that the Service configured by default distributes requests between the Deployment's Pods evenly.
+Without getting too technical, these two resources will redirect HTTP packets with the `Host: werf-guide-app.test` header from [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/how-it-works/) to the port 8000 of the `werf-guide-app` Service. They will then be redirected to the port 8000 of one of the Pods belonging to our Deployment. Note that the Service configured by default distributes requests between the Deployment's Pods evenly.
 
 The general interaction between different resources within a cluster looks as follows:
 
@@ -214,7 +214,7 @@ Pod <--> Application
 
 Let's connect to our application via Ingress:
 ```shell
-curl http://werf-guide-app/ping
+curl http://werf-guide-app.test/ping
 ```
 
 You will see the following response:
