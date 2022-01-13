@@ -77,9 +77,9 @@ ingress-nginx-controller-59b45fb494-fscgf   1/1     Running     0          8m12s
 kubectl expose service -n ingress-nginx ingress-nginx-controller --name ingress-nginx-controller-lb --type LoadBalancer --port 80 --target-port http
 ```
 
-Важно проверить, что в нашей системе не занят 80-й порт. Следующая команда должна выдать пустой результат:
+Важно проверить, что в нашей системе не занят 80-й порт. Следующая команда, выполненная от Администратора, должна выдать пустой результат:
 ```powershell
-netstat -anb | grep :80
+netstat -anb | Select-String :80
 ```
 
 В случае если порт занят, то в ответ отобразится примерно следующее:
