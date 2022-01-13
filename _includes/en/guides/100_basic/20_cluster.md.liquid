@@ -32,7 +32,7 @@ Choose the way you will install Kubernetes in your operating system:
 Execute the following command to check if the cluster is up and running:
 
 ```shell
-curl http://werf-guide-app/ping
+curl http://werf-guide-app.test/ping
 ```
 
 If it works, the NGINX Ingress Controller will return a 404 error:
@@ -47,7 +47,7 @@ If it works, the NGINX Ingress Controller will return a 404 error:
 </html>
 ```
 
-> Note that if your application is running already and has an Ingress configured to use the `werf-guide-app` domain, you will get a response from your application instead of a 404 error.
+> Note that if your application is running already and has an Ingress configured to use the `werf-guide-app.test` domain, you will get a response from your application instead of a 404 error.
 
 ## Configuring the Container Registry
 

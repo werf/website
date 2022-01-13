@@ -62,7 +62,7 @@ You should see the following output:
 
 Now let's access the `/download` endpoint to get the file from S3:
 ```shell
-curl http://werf-guide-app/download
+curl http://werf-guide-app.test/download
 ```
 
 Since we haven’t uploaded any files yet, we’ll get this:
@@ -78,13 +78,13 @@ Now let’s create a new file and upload it to the S3 storage:
 <div id="tab__s3__linux_macos" class="tabs__content tabs__s3__content active" markdown="1">
 ```shell
 echo "This is file content." > file.txt
-curl -F "file=@file.txt" http://werf-guide-app/upload
+curl -F "file=@file.txt" http://werf-guide-app.test/upload
 ```
 </div>
 <div id="tab__s3__windows" class="tabs__content tabs__s3__content" markdown="1">
 ```shell
 "This is file content." | Out-File -Encoding ascii -FilePath file.txt
-curl.exe -F "file=@file.txt" http://werf-guide-app/upload
+curl.exe -F "file=@file.txt" http://werf-guide-app.test/upload
 ```
 </div>
 
@@ -95,7 +95,7 @@ File uploaded.
 
 Let's try to pull the file from the storage again:
 ```shell
-curl http://werf-guide-app/download
+curl http://werf-guide-app.test/download
 ```
 
 You should see the file content:

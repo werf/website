@@ -80,8 +80,8 @@ You should see the following output:
 
 Make several requests in order to generate some logging data:
 ```shell
-curl http://werf-guide-app/ping       # returns "pong" + 200 OK status code
-curl http://werf-guide-app/not_found  # no response; returns 404 Not Found
+curl http://werf-guide-app.test/ping       # returns "pong" + 200 OK status code
+curl http://werf-guide-app.test/not_found  # no response; returns 404 Not Found
 ```
 
 While our requests are being made, we won't see any codes returned by the server. However, we can find them in the logs — let's take a look at them:

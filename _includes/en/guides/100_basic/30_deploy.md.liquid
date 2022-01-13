@@ -18,7 +18,7 @@ The Service resource allows other applications in the cluster to connect to your
 
 ## Ingress
 
-The Ingress resource manages *external* access to the cluster (unlike a Service in Kuberneters that defines a policy for accessing applications *inside* the cluster). The Ingress configuration defines what Service to use for external traffic sent to the `werf-guide-app` domain. The `.helm/templates/ingress.yaml` file is used to configure the Ingress resource:
+The Ingress resource manages *external* access to the cluster (unlike a Service in Kuberneters that defines a policy for accessing applications *inside* the cluster). The Ingress configuration defines what Service to use for external traffic sent to the `werf-guide-app.test` domain. The `.helm/templates/ingress.yaml` file is used to configure the Ingress resource:
 
 {% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
 
@@ -62,7 +62,7 @@ Running time 62.66 seconds
 
 Now, if you make a request to the application:
 ```shell
-curl http://werf-guide-app/ping
+curl http://werf-guide-app.test/ping
 ```
 
 ... you will get the following response:

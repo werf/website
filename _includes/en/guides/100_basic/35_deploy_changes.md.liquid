@@ -217,7 +217,7 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 
 Our application is a basic echo server. When requested using curl:
 ```shell
-curl "http://werf-guide-app/ping"
+curl "http://werf-guide-app.test/ping"
 ```
 
 … it responds with the `pong` word.
@@ -237,7 +237,7 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 
 Check the result:
 ```shell
-curl "http://werf-guide-app/ping"
+curl "http://werf-guide-app.test/ping"
 ```
 
 The server will respond with `hello world`.
