@@ -146,7 +146,7 @@ sidebar: none
                 but <a href="https://www.youtube.com/watch?v=FPMuVdW2hYs"><b>even better!</b></a>
             </h1>
             <div class="welcome__subtitle">
-                Werf introduces <b>Giterminism</b>: use git as a single source of truth, and make the entire delivery pipeline deterministic and idempotent.
+                werf introduces <b>Giterminism</b>: use git as a single source of truth, and make the entire delivery pipeline deterministic and idempotent.
             </div>
         </div>
     </div>

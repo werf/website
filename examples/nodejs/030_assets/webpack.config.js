@@ -38,14 +38,14 @@ module.exports = {
     // [<en>] Generate home page from its template and include only index entry to it including
     // [<en>] JS and CSS. Thus we avoid including JS and CSS from image page.
     new HtmlWebpackPlugin({
-      title: 'Werf Guide App',
+      title: 'werf guide app',
       template: 'public/pages/index.html',
       chunks: ['index'],
     }),
     // [<ru>] То же самое для страницы c изображением, но еще явно указываем конечное имя HTML-файла.
     // [<en>] The same for the image page, except explicit destination name for the HTML file.
     new HtmlWebpackPlugin({
-      title: 'Werf Logo',
+      title: 'werf logo',
       filename: 'image.html',
       template: 'public/pages/image.html',
       chunks: ['image'],
