@@ -77,9 +77,9 @@ Let's make the NGINX Ingress Controller accessible on port 80 after starting the
 kubectl expose service -n ingress-nginx ingress-nginx-controller --name ingress-nginx-controller-lb --type LoadBalancer --port 80 --target-port http
 ```
 
-Now, let's check that port 80 is available in the system. The following command should return an empty result:
+Now, let's check that port 80 is available in the system. The following command executed as Administrator should return an empty result:
 ```powershell
-netstat -anb | grep :80
+netstat -anb | Select-String :80
 ```
 
 If the port is busy, you will see something like this:
