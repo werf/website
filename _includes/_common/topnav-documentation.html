@@ -24,7 +24,6 @@
                             {%- if folder.url.size>1 and page.url == folder.url %} header__menu-item_active{% endif %}
                             {%- if folder.url.size>1 and page.url != folder.url and page.url contains folder.url
                             and page.url != '/installation.html' %} header__menu-item_active{% endif %}
-                            {%- if folder.url.size<2 and page.url.size<2 %} header__menu-item_active{% endif %}
                             {%- if folder.title == 'Документация' or folder.title == 'Documentation'  %} header__menu-item_active{% endif %}">
                             {%- if folder.title == 'Документация' or folder.title == 'Documentation'  %}
                                 {%- if page.name == '404.md' %}
@@ -43,6 +42,8 @@
                                     {% for folderitem in folder.folderitems %}
                                         {%- if folderitem.external_url %}
                                             <li class="submenu-item"><a href="{{ folderitem.external_url }}" target="_blank" class="submenu-item-link">{{folderitem.title}}</a></li>
+                                        {%- else if jekyll.environment == "production" %}
+                                            <li class="submenu-item"><a href="{{ folderitem.url }}" class="submenu-item-link">{{folderitem.title}}</a></li>
                                         {%- else %}
                                             <li class="submenu-item"><a href="{{ folderitem.url | true_relative_url }}" class="submenu-item-link">{{folderitem.title}}</a></li>
                                         {%- endif %}

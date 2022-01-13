@@ -7,3 +7,12 @@
 - title: Guides
   url: /guides.html
   hot: true
+- title: About
+  url: '#'
+  folderitems:
+    - title: Release channels
+      url: /about/release_channels.html
+    - title: Backward compatibility
+      url: /about/backward_compatibility.html
+    - title: Changelog
+      url: /about/changelog.html

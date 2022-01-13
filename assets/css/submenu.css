@@ -21,13 +21,13 @@
     line-height: 1.16;
 }
 
-.submenu-item-link {
+.submenu-item .submenu-item-link {
     display: flex;
     flex-direction: row;
     align-items: center;
     font-size: 14px;
     white-space: nowrap;
-    color: #00122C !important;
+    color: #00122C;
     text-decoration: none;
     letter-spacing: -0.26px;
     margin: 15px 0;

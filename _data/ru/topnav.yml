@@ -7,3 +7,12 @@
 - title: Руководства
   url: /guides.html
   hot: true
+- title: О проекте
+  url: '#'
+  folderitems:
+    - title: Каналы обновлений
+      url: /about/release_channels.html
+    - title: Обратная совместимость
+      url: /about/backward_compatibility.html
+    - title: История изменений
+      url: /about/changelog.html

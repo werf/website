@@ -1,0 +1,82 @@
+---
+title: Release channels
+permalink: about/release_channels.html
+layout: default
+sidebar: none
+description: All changes in werf go through all release channels
+---
+{%- asset release-channels.css %}
+
+<div class="page__container page_installation">
+  <div class="installation-channels">
+    <h2 class="installation-channels__title" id="all-changes-in-werf-go-through-all-release-channels">
+      All changes in werf<br>
+      go through all release channels
+    </h2>
+    <ul class="installation-channels__channels">
+      <li class="installation-channels__channel">
+        <div class="installation-channels__channel-title">
+          Alpha
+        </div>
+        <div class="installation-channels__channel-description">
+          can bring new features<br>
+          but can be unstable
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_beta">
+        <div class="installation-channels__channel-title">
+          Beta
+        </div>
+        <div class="installation-channels__channel-description">
+          for more broad testing<br>
+          of new features to catch<br>
+          regressions
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_ea">
+        <div class="installation-channels__channel-title">
+          Early-Access
+        </div>
+        <div class="installation-channels__channel-description">
+          is mostly safe and can be used<br>
+          in non-critical environments<br>
+          or for local development
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_stable">
+        <div class="installation-channels__channel-title">
+          Stable
+        </div>
+        <div class="installation-channels__channel-description">
+          is mostly safe and we<br>
+          encourage you to use<br>
+          this version everywhere
+        </div>
+      </li>
+      <li class="installation-channels__channel installation-channels__channel_rocksolid">
+        <div class="installation-channels__channel-title">
+          Rock-Solid
+        </div>
+        <div class="installation-channels__channel-description">
+          the most stable channel<br>
+          and recommended for usage<br>
+          in critical environments with tight SLA
+        </div>
+      </li>
+    </ul>
+    <div class="installation-channels__info">
+      <div class="installation-channels__info-versions">
+        <p>When using release channels, you do not specify a&nbsp;version, because the version is&nbsp;managed automatically within the&nbsp;channel Stability channels and&nbsp;frequent releases allow receiving continuous feedback on&nbsp;new changes, quickly rolling problem changes back, ensuring the&nbsp;high stability of&nbsp;the&nbsp;software, and&nbsp;preserving an&nbsp;acceptable development speed at&nbsp;the&nbsp;same time.</p>
+        <p>The relations between channels&nbsp;and werf releases are&nbsp;described in&nbsp;<a href="https://raw.githubusercontent.com/werf/werf/multiwerf/trdl_channels.yaml">trdl_channels.yaml</a>.</p>
+      </div>
+      <div class="installation-channels__info-guarantees">
+        <div class="installation-channels__info-guarantee">
+          <strong>We guarantee</strong> that <i>Early-Access</i> release should become <i>Stable</i> not earlier than 1 week after internal tests.
+        </div>
+        <div class="installation-channels__info-guarantee">
+          <strong>We guarantee</strong> that <i>Stable</i> release should become <i>Rock-Solid</i> release not earlier than after 2 weeks of&nbsp;extensive testing.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -271,7 +271,7 @@ sidebar: none
                     werf is a mature,<br>
                     reliable tool you can trust
                 </div>
-                <a href="{{ "installation.html#all-changes-in-werf-go-through-all-release-channels" | true_relative_url }}" class="page__btn page__btn_b page__btn_small page__btn_inline">
+                <a href="{{ "about/release_channels.html" | true_relative_url }}" class="page__btn page__btn_b page__btn_small page__btn_inline">
                     Read about release channels
                 </a>
             </div>
