@@ -283,7 +283,7 @@ sidebar: none
                     werf — это зрелый, надежный<br>
                     инструмент, которому можно доверять
                 </div>
-                <a href="{{ "development/release_channels.html" | true_relative_url }}" class="page__btn page__btn_b page__btn_small page__btn_inline">
+                <a href="{{ "about/release_channels.html" | true_relative_url }}" class="page__btn page__btn_b page__btn_small page__btn_inline">
                     Подробнее о каналах обновлений
                 </a>
             </div>
