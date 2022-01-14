@@ -183,7 +183,7 @@ sidebar: none
                 <div class="features__list-item-icon features__list-item-icon_lifecycle"></div>
                 <div class="features__list-item-title">It’s a CLI tool</div>
                 <div class="features__list-item-text">
-                    werf is not a SAAS, it is an Open Source, self-contained client-side CLI&nbsp;tool. Use this single tool for <b>local development</b> or <b>embed it into any CI/CD system</b> (like GitLab CI/CD, GitHub Actions, Jenkins, CircleCI, etc.) using its main commands as building blocks:
+                    werf is not a SaaS, it is an Open Source, self-contained client-side CLI&nbsp;tool. Use this single tool for <b>local development</b> or <b>embed it into any CI/CD system</b> (like GitLab CI/CD, GitHub Actions, Jenkins, CircleCI, etc.) using its main commands as building blocks:
                     <ul>
                         <li><code>werf converge</code>;</li>
                         <li><code>werf dismiss</code>;</li>

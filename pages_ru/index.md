@@ -195,7 +195,7 @@ sidebar: none
                 <div class="features__list-item-icon features__list-item-icon_lifecycle"></div>
                 <div class="features__list-item-title">Консольная утилита</div>
                 <div class="features__list-item-text">
-                    werf — это не SAAS, а самодостаточная CLI-утилита с открытым кодом, запускаемая на стороне клиента. werf можно использовать как для <b>локальной разработки</b>, так и для <b>встраивания в любую CI/CD-систему</b> (GitLab CI/CD, GitHub Actions, Jenkins, CircleCI и т.д.), оперируя основными командами как составляющими пайплайна:
+                    werf — это не SaaS, а самодостаточная CLI-утилита с открытым кодом, запускаемая на стороне клиента. werf можно использовать как для <b>локальной разработки</b>, так и для <b>встраивания в любую CI/CD-систему</b> (GitLab CI/CD, GitHub Actions, Jenkins, CircleCI и т.д.), оперируя основными командами как составляющими пайплайна:
                     <ul>
                         <li><code>werf converge</code>;</li>
                         <li><code>werf dismiss</code>;</li>
