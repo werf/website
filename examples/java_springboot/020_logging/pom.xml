@@ -12,12 +12,13 @@
 	<groupId>com.flant</groupId>
 	<artifactId>werf-guides-java-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>010_basic_app</name>
+	<name>020_logging</name>
 	<description>werf Guides Spring Boot app</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
+		<!-- [<snippet exclusion>] -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -28,6 +29,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- [<endsnippet exclusion>] -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -35,6 +37,7 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- [<snippet adding>] -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
@@ -64,6 +67,7 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>2.10.3</version>
 		</dependency>
+		<!-- [<endsnippet adding>] -->
 	</dependencies>
 
 	<build>

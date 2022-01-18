@@ -19,6 +19,8 @@ spec:
         image: {{ .Values.werf.image.app }}
         ports:
         - containerPort: 8080
+        # [<snippet env>]
         env:
         - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
-          value: INFO
+          value: DEBUG
+        # [<endsnippet env>]
