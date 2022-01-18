@@ -1,0 +1,29 @@
+```
+┌ ⛵ image app
+│ Use cache image for app/dockerfile
+│      name: konstantinnezhbert/werf-guide-app:899de306512df27111bab8676adc0bade21f5dbcf02613c42611d5f4-1639997041437
+│        id: 202e8932de50
+│   created: 2021-12-20 13:44:00 +0300 MSK
+│      size: 208.8 MiB
+└ ⛵ image app (1.27 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                  REPLICAS            AVAILABLE             UP-TO-DATE                           
+│ │ werf-guide-app                                                                                              2->1/1              1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                                                                                                     
+│ │ ├── guide-app-6d5db67c9f-k6lhd               1/1            1                   Running -> Terminating      
+│ │ └── guide-app-7656c9f878-kkmlt               1/1            0                   ContainerCreating ->        
+│ │                                                                                 Running                     
+│ └ Status progress
+└ Waiting for release resources to become ready (18.42 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Mon Dec 20 13:52:00 2021
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+Running time 21.96 seconds
+```
