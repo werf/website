@@ -1,5 +1,5 @@
 FROM eclipse-temurin:11-alpine AS builder
-ADD . /src
+COPY . /src
 WORKDIR /src
 RUN ./mvnw clean package
 
