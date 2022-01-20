@@ -16,7 +16,7 @@ env:
 jobs:
   converge:
     name: Deploy
-    if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'test website')
+    if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'test website') || contains(github.event.pull_request.labels.*.name, 'stage website')
     runs-on: self-hosted
     steps:
 
@@ -40,6 +40,17 @@ jobs:
         WERF_KUBE_CONTEXT: dev
         WERF_NAMESPACE: "werfio-test"
         WERF_RELEASE: "werfio-site-test"
+        WERF_LOG_VERBOSE: "on"
+
+    - name: Deploy to stage
+      uses: werf/actions/converge@v1.2
+      if: contains(github.event.pull_request.labels.*.name, 'stage website')
+      with:
+        env: stage
+      env:
+        WERF_KUBE_CONTEXT: dev
+        WERF_NAMESPACE: "werfio-stage"
+        WERF_RELEASE: "werfio-site-stage"
         WERF_LOG_VERBOSE: "on"
 
     - name: Deploy to production
