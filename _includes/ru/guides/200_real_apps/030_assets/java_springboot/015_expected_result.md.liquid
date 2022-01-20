@@ -1,3 +1,43 @@
+```shell
+...
+┌ Concurrent builds plan (no more than 5 images at the same time)
+│ Set #0:
+│ - ⛵ image backend
+│ - ⛵ image frontend
+└ Concurrent builds plan (no more than 5 images at the same time)
+
+┌ ⛵ image backend
+│ Use cache image for backend/dockerfile
+│      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:0b759f60b7405e96d44b7139ada9b57a6cf92bab10de79d753b7e6bc-1642676484362
+│        id: d9f9545fbd21
+│   created: 2022-01-20 14:01:21 +0300 MSK
+│      size: 204.0 MiB
+└ ⛵ image backend (4.79 seconds)
+
+┌ ⛵ image frontend
+│ Use cache image for frontend/dockerfile
+│      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:2e2e91751acd1cf77cfdbf57f9af1f21782b6cbc725f8e7c9cd31b3f-1642676498242
+│        id: 5e3f3f616bae
+│   created: 2022-01-20 14:01:37 +0300 MSK
+│      size: 9.6 MiB
+└ ⛵ image frontend (4.81 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                                                REPLICAS                     AVAILABLE                      UP-TO-DATE                                          
+│ │ werf-guide-app                                                                                                                                            1/1                          1                              1                                              ↵
+│ │      
+│ └ Status progress
+└ Waiting for release resources to become ready (0.03 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Jan 20 14:06:30 2022
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 50
+TEST SUITE: None
+Running time 9.47 seconds
 ```
-TODO (_includes/ru/200_real_apps/030_assets/framework_id/015_expected_result.md.liquid): ожидаемый результат.
-```
+
+> Мы не стали приводить здесь полный вывод сборки, т.к Maven в процессе скачивания всех зависимостоей генерирует очень много текста.

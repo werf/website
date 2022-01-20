@@ -1,3 +1,48 @@
+Сейчас наше приложение представляет собой простой API, без настроенных средств управления статичными файлами и frontend-кодом.
+
+Чтобы сделать из этого API простое веб-приложение, мы произвели следующие изменения. Для начала подключили к проекту движок шаблонов Thymeleaf, добавив в `pom.xml` нужную зависимость.
+
+{% include snippetcut_example path="pom.xml" syntax="xml" snippet="thymeleaf" examples=page.examples %}
+
+Затем создали структуру каталогов, в которых будем хранить статические файлы:
+
+```shell
+$ tree ./src/main/resources/
+./src/main/resources/
+├── application.properties
+├── log4j2-spring.xml
+├── static
+│   ├── images
+│   │   └── werf-logo.svg
+│   ├── javascripts
+│   │   └── image.js
+│   └── stylesheets
+│       └── site.css
+└── templates
+    ├── image.html
+    └── index.html
 ```
-TODO (_includes/ru/200_real_apps/030_assets/framework_id/003_image_page.md.liquid): добавление приложению нового endpoint `/image`
-```
+
+В каталог `static` в соответствующих подкаталогах были положены статические файлы, которые мы будем раздавать. В каталог `templates` мы положили шаблоны страниц для Thymeleaf.
+
+Теперь нужно настроить приложение на раздачу файлов из каталога `static`. Для этого был создан конфигурационный класс `MvcConfig`:
+
+{% include snippetcut_example path="src/main/java/com/flant/werfguidesapp/config/MvcConfig.java" syntax="java" examples=page.examples %}
+
+В нем мы указали, что содержимое каталога `static` может быть доступно извне в свободном доступе по endpoint'у `/static`.
+
+Теперь добавим новые контроллеры, которые будут обрабатывать запросы по endpoint'ам `/` и `/image`:
+
+{% include snippetcut_example path="src/main/java/com/flant/werfguidesapp/controllers/ImageController.java" syntax="java" examples=page.examples %}
+
+Контроллеры обращаются к файлам шаблонов Thymeleaf, расположение которых мы указывали выше. Создадим их:
+
+{% include snippetcut_example path="src/main/resources/templates/index.html" syntax="html" examples=page.examples %}
+
+{% include snippetcut_example path="src/main/resources/templates/image.html" syntax="html" examples=page.examples %}
+
+При нажатии на кнопку *Get image* должен выполняться Ajax-запрос, с помощью которого мы получим и отобразим [SVG-картинку](https://github.com/werf/website/blob/main/examples/java_springboot/030_assets/src/main/resources/static/images/werf-logo.svg):
+
+{% include snippetcut_example path="src/main/resources/static/javascripts/image.js" syntax="js" examples=page.examples %}
+
+Также на странице будет использоваться CSS-файл [static/stylesheets/site.css](https://github.com/werf/website/blob/main/examples/java_springboot/030_assets/src/main/resources/static/stylesheets/site.css).
