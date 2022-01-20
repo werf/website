@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<JsonLayout complete="false" compact="true"
+				eventEol="true"></JsonLayout>
+			<PatternLayout
+				pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<!-- LOG everything at INFO level -->
+		<Root level="info">
+			<AppenderRef ref="Console" />
+		</Root>
+		<Logger name="main.logger" level="trace"></Logger>
+	</Loggers>
+</Configuration>
