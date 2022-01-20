@@ -35,6 +35,7 @@ spec:
           until is_mysql_available 10; do
             sleep 1
           done
+          # [<ru>] Запускаем приложение
           java -jar ./app.jar
 
         ports:

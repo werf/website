@@ -1,9 +1,10 @@
-FROM adoptopenjdk/openjdk11:jdk-11.0.11_9-alpine AS builder
-ADD . /src
+FROM eclipse-temurin:11-alpine AS builder
+COPY . /src
 WORKDIR /src
 RUN ./mvnw clean package -DskipTests
 
-FROM adoptopenjdk/openjdk11:jdk-11.0.11_9-alpine as backend
+FROM eclipse-temurin:11-alpine as backend
+# [<ru>] Устанавливаем mysql-client.
 RUN apk add -U mysql-client
 WORKDIR /app
 COPY --from=builder /src/target/*.jar ./app.jar
