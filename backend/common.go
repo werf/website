@@ -439,6 +439,8 @@ func getDocPageURLRelative(r *http.Request, useURI ...bool) (result string) {
 	res := re.FindStringSubmatch(URLtoParse)
 	if res != nil {
 		result = res[1]
+	} else {
+		result = "/"
 	}
 	return
 }
