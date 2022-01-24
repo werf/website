@@ -7,13 +7,18 @@ spec:
   selector:
     matchLabels:
       app: werf-guide-app
+  # [<snippet nginx_conf_checksum>]
+  # [<snippet configmap_app_envs_checksum>]
   template:
     metadata:
       labels:
         app: werf-guide-app
       annotations:
         checksum/configmap-nginx: '{{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}'
+        # [<endsnippet nginx_conf_checksum>]
         checksum/configmap-app-envs: '{{ include (print $.Template.BasePath "/configmap-app-envs.yaml") . | sha256sum }}'
+        # [<endsnippet configmap_app_envs_checksum>]
+        checksum/secret-app-envs: '{{ include (print $.Template.BasePath "/secret-app-envs.yaml") . | sha256sum }}'
     spec:
       imagePullSecrets:
         - name: registrysecret
@@ -45,6 +50,8 @@ spec:
               # Создадим bucket для нашего приложения.
               mc mb --ignore-existing minio/werf-guide-app
 
+      # [<snippet backend_conf>]
+      # [<snippet backend_secret>]
       containers:
         - name: backend
           image: {{ .Values.werf.image.backend }}
@@ -86,10 +93,13 @@ spec:
           envFrom:
             - configMapRef:
                 name: app-envs
+          # [<endsnippet backend_conf>]
             - secretRef:
                 name: app-envs
+          # [<endsnippet backend_secret>]
             - secretRef:
                 name: minio-envs
+        # [<snippet nginx_conf>]
         - name: frontend
           image: {{ .Values.werf.image.frontend }}
           ports:
@@ -102,3 +112,4 @@ spec:
         - name: nginx-conf
           configMap:
             name: nginx-conf
+        # [<endsnippet nginx_conf>]
