@@ -1,0 +1,16 @@
+# [<snippet app>]
+app:
+  envs:
+    LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: "INFO"
+    MINIO_ROOT_USER: "minioadmin"
+# [<endsnippet app>]
+
+minio:
+  storageSize: "100Mi"
+
+# [<snippet mysql>]
+mysql:
+  envs:
+    MYSQL_DATABASE: "werf-guide-app"
+  storageSize: "100Mi"
+# [<endsnippet mysql>]
