@@ -22,7 +22,6 @@
 
 {% include guides/200_real_apps/050_s3/{{ page.framework_id }}/010_add_new_controllerl.md.liquid %}
 
-Добавим новые пути в маршруты:
 {% include guides/200_real_apps/050_s3/{{ page.framework_id }}/015_add_new_routes.md.liquid %}
 
 {% comment %} Adding new migrations if they are needed {% endcomment %}
@@ -34,15 +33,16 @@
 
 Для демонстрации, в качестве S3-совместимого объектного хранилища мы будем использовать [MinIO](https://min.io/), но вместо него может использоваться и любое другое S3-хранилище (например, Amazon S3).
 
-> _Обратите внимание, что если вы используете иное S3-хранилище, то создание нижеописанных StatefulSet и Job для MinIO не потребуется, но остальные инструкции останутся актуальными._
+>_Обратите внимание, что если вы используете иное S3-хранилище, то создание нижеописанных StatefulSet и Job для MinIO не потребуется, но остальные инструкции останутся актуальными._
 
 Добавим StatefulSet с MinIO:
+
 {% include guides/200_real_apps/050_s3/{{ page.framework_id }}/025_stateful_minio.md.liquid %}
 
-Создадим Job для настройки MinIO:
 {% include guides/200_real_apps/050_s3/{{ page.framework_id }}/030_job_minio.md.liquid %}
 
 Добавим в приложение конфигурацию для подключения к MinIO:
+
 {% include guides/200_real_apps/050_s3/{{ page.framework_id }}/035_minio_configuration.md.liquid %}
 
 {% comment %} Minio activation, if needed {% endcomment %}

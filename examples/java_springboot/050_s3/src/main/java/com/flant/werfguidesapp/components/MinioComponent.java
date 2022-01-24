@@ -1,18 +1,17 @@
 package com.flant.werfguidesapp.components;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
 import io.minio.GetObjectArgs;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Component
 public class MinioComponent {
@@ -48,7 +47,18 @@ public class MinioComponent {
     public String getObject(String objectName) throws IOException, InvalidKeyException,
             InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException,
             ServerException, InternalException, XmlParserException, ErrorResponseException {
-        InputStream stream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(objectName).build());
-        return new String(stream.readAllBytes());
+        try (InputStream stream = minioClient
+                .getObject(GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(objectName)
+                        .build());) {
+            return new String(stream.readAllBytes());
+        } catch (ErrorResponseException | InsufficientDataException |
+                InternalException | InvalidKeyException | InvalidResponseException |
+                IOException | NoSuchAlgorithmException | ServerException |
+                XmlParserException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return "You haven't uploaded anything yet.";
     }
 }

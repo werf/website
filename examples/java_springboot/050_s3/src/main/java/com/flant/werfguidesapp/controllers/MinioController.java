@@ -1,14 +1,15 @@
 package com.flant.werfguidesapp.controllers;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-
+import com.flant.werfguidesapp.components.MinioComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.flant.werfguidesapp.components.MinioComponent;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 @RestController
 public class MinioController {

@@ -80,12 +80,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
-
+		<!-- [<snippet minio>] -->
 		<dependency>
 			<groupId>io.minio</groupId>
 			<artifactId>minio</artifactId>
 			<version>8.2.1</version>
 		</dependency>
+		<!-- [<endsnippet minio>] -->
 	</dependencies>
 
 	<build>
