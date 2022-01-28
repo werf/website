@@ -4,9 +4,9 @@
 1. Добавление файла [package.json]({{ page.base_url | append: page.examples | append: "/package.json" }}).
 1. Создание конфигурационного файла laravel-mix [webpack.mix.js]({{ page.base_url | append: page.examples | append: "/webpack.mix.js" }}).
 1. Создание набора директорий для размещения исходных статических файлов:
-* [resources/css]({{ page.base_url | append: page.examples | append: "/resources/css" }})
-* [resources/js]({{ page.base_url | append: page.examples | append: "/resources/js" }})
-* [resources/images]({{ page.base_url | append: page.examples | append: "/resources/images" }})
+* [resources/css]({{ page.base_url | append: page.examples | append: "/resources/css" }});
+* [resources/js]({{ page.base_url | append: page.examples | append: "/resources/js" }});
+* [resources/images]({{ page.base_url | append: page.examples | append: "/resources/images" }}).
 
 Теперь добавим шаблон HTML-страницы, которая будет доступна по адресу `/image` и отображать кнопку _Get image_:
 {% include snippetcut_example path="resources/views/image.blade.php" syntax="php" examples=page.examples %}
