@@ -27,13 +27,13 @@ $ tree ./src/main/resources/
 
 Теперь нужно настроить приложение на раздачу файлов из каталога `static`. Для этого был создан конфигурационный класс `MvcConfig`:
 
-{% include snippetcut_example path="src/main/java/com/flant/werfguidesapp/config/MvcConfig.java" syntax="java" examples=page.examples %}
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/config/MvcConfig.java" syntax="java" examples=page.examples %}
 
-В нем мы указали, что содержимое каталога `static` может быть доступно извне в свободном доступе по endpoint'у `/static`.
+В нем мы указали, что содержимое каталога `static` может быть свободно доступно извне по endpoint'у `/static`.
 
 Теперь добавим новые контроллеры, которые будут обрабатывать запросы по endpoint'ам `/` и `/image`:
 
-{% include snippetcut_example path="src/main/java/com/flant/werfguidesapp/controllers/ImageController.java" syntax="java" examples=page.examples %}
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/controllers/ImageController.java" syntax="java" examples=page.examples %}
 
 Контроллеры обращаются к файлам шаблонов Thymeleaf, расположение которых мы указывали выше. Создадим их:
 

@@ -1,4 +1,4 @@
-package com.flant.werfguidesapp.controllers;
+package io.werf.werfguidesapp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
