@@ -1,4 +1,4 @@
-package com.flant.werfguidesapp.config;
+package io.werf.werfguidesapp.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

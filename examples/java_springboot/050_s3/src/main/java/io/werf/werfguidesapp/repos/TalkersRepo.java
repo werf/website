@@ -1,8 +1,8 @@
-package com.flant.werfguidesapp.repos;
+package io.werf.werfguidesapp.repos;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.flant.werfguidesapp.domain.Talker;
+import io.werf.werfguidesapp.domain.Talker;
 
 public interface TalkersRepo extends CrudRepository<Talker, Integer> {
 

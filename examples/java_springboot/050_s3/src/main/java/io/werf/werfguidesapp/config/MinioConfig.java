@@ -1,4 +1,4 @@
-package com.flant.werfguidesapp.config;
+package io.werf.werfguidesapp.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
