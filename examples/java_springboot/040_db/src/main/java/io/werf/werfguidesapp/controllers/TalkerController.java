@@ -1,7 +1,7 @@
-package com.flant.werfguidesapp.controllers;
+package io.werf.werfguidesapp.controllers;
 
-import com.flant.werfguidesapp.domain.Talker;
-import com.flant.werfguidesapp.repos.TalkersRepo;
+import io.werf.werfguidesapp.domain.Talker;
+import io.werf.werfguidesapp.repos.TalkersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

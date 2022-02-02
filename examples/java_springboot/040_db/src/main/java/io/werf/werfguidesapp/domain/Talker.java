@@ -1,4 +1,4 @@
-package com.flant.werfguidesapp.domain;
+package io.werf.werfguidesapp.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

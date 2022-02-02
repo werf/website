@@ -1,4 +1,4 @@
-package com.flant.werfguidesapp.controllers;
+package io.werf.werfguidesapp.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
