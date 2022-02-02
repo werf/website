@@ -1,4 +1,4 @@
-package com.flant.werfguidesapp.components;
+package io.werf.werfguidesapp.components;
 
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;

@@ -1,6 +1,6 @@
-package com.flant.werfguidesapp.controllers;
+package io.werf.werfguidesapp.controllers;
 
-import com.flant.werfguidesapp.components.MinioComponent;
+import io.werf.werfguidesapp.components.MinioComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
