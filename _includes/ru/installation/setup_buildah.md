@@ -3,6 +3,11 @@
 
 Если вы хотите запускать werf в контейнерах/Kubernetes, то следуйте этим инструкциям для [Docker](https://werf.io/documentation/v{{ include.version }}/advanced/ci_cd/run_in_container/use_docker_container.html) или [Kubernetes](https://werf.io/documentation/v{{ include.version }}/advanced/ci_cd/run_in_container/use_kubernetes.html). Если же вы хотите запускать werf в Buildah-режиме вне контейнеров или хотите собрать образы с запакованным в них werf в Buildah-режиме с нуля, то:
 * Если ваше ядро Linux версии 5.13+ (в некоторых дистрибутивах 5.11+), то убедитесь, что модуль ядра `overlay` загружен с `lsmod | grep overlay`. Если ядро более старое или у вас не получается активировать модуль ядра `overlay`, то установите `fuse-overlayfs`, который обычно доступен в репозиториях вашего дистрибутива.
+* Команда `sysctl kernel.unprivileged_userns_clone` должна вернуть `1`. В ином случае выполните:
+  ```shell
+  echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf
+  sudo sysctl -p
+  ```
 * Команда `sysctl user.max_user_namespaces` должна вернуть по меньшей мере `15000`. В ином случае выполните:
   ```shell
   echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf
