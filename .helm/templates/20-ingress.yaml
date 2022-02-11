@@ -3,7 +3,7 @@
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
 
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: main
@@ -33,16 +33,22 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: backend
-          servicePort: http
+          service:
+            name: backend
+            port:
+              name: http
   - host: ru.{{ $host }}
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: backend
-          servicePort: http
+          service:
+            name: backend
+            port:
+              name: http
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
