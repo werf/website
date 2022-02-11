@@ -311,7 +311,7 @@ sidebar: none
 <div class="publications">
   <div class="page__container">
     <div class="publications__content">
-      <div class="publications__title">Latest articles about werf</div>
+      <div class="publications__title">Latest publications about werf</div>
       <div class="publications__subtitle">Learn more about tool's features and hands-on<br />experience from new publications</div>
       <div class="publications__cards">
         <ul class="publications__cards--list">
@@ -366,8 +366,8 @@ sidebar: none
         </ul>
       </div>
       <div class="community__btns">
-          <a href="https://blog.flant.com/tag/werf/" target="_blank" class="page__btn page__btn_o publications__btn">
-              <span>Read more at <b>Flant Blog</b></span>
+          <a href="/publications.html" class="page__btn page__btn_o publications__btn">
+              <span>Read more</span>
           </a>
       </div>
     </div>

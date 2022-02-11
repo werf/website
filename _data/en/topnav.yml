@@ -10,6 +10,8 @@
 - title: About
   url: '#'
   folderitems:
+    - title: Publications
+      url: /publications.html
     - title: Release channels
       url: /about/release_channels.html
     - title: Backward compatibility

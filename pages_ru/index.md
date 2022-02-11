@@ -378,8 +378,8 @@ sidebar: none
         </ul>
       </div>
       <div class="community__btns">
-          <a href="https://habr.com/ru/search/?q=%5Bwerf%5D&target_type=posts&order=date" target="_blank" class="page__btn page__btn_o publications__btn">
-              <span>Наш блог на <b>Хабр</b></span>
+          <a href="/publications.html" class="page__btn page__btn_o publications__btn">
+              <span>Ещё публикации</span>
           </a>
       </div>
     </div>

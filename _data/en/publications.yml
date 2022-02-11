@@ -2,7 +2,7 @@ i18n:
   default_btn_title: "Read more"
   habr_btn_title: "Read on Habr"
   medium_btn_title: "Read on Medium"
-  blog_btn_title: "Read on Flant's blog"
+  blog_btn_title: "Read on Flant Blog"
   custom_url_btn_title_prefix: "Read on "
   youtube_btn_title: "Watch on YouTube"
 
