@@ -1,3 +1,11 @@
+.publications-page__title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 45px;
+  line-height: 60px;
+  margin: 45px 0 0 0;
+}
+
 .publications__lng {
   margin-top: 35px;
 }

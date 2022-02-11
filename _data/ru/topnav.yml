@@ -10,6 +10,8 @@
 - title: О проекте
   url: '#'
   folderitems:
+    - title: Публикации
+      url: /publications.html
     - title: Каналы обновлений
       url: /about/release_channels.html
     - title: Обратная совместимость
