@@ -1,0 +1,13 @@
+Добавим новую сущность для работы с БД:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/domain/Talker.java" syntax="java" examples=page.examples %}
+
+И CRUD репозиторий для работы с ней:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/repos/TalkersRepo.java" syntax="java" examples=page.examples %}
+
+Добавлять миграции БД не нужно, т.к. ранее мы установили в настройках `application.properties` свойство `spring.jpa.hibernate.ddl-auto=update`, при котором Hibernate будет автоматически генерировать структуру БД в процессе работы в соответствии с созданными сущностями.
+
+Добавим новый контроллер:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/controllers/TalkerController.java" syntax="java" examples=page.examples %}

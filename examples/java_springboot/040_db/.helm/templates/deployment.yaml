@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: werf-guide-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: werf-guide-app
+  template:
+    metadata:
+      labels:
+        app: werf-guide-app
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      containers:
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
+        command: 
+        - sh
+        - -euc
+        - |
+          is_mysql_available() {
+            tries=$1
+            i=0
+            while [ $i -lt $tries ]; do
+              mysqladmin -h mysql -P 3306 -u root -p=password ping || return 1
+              i=$((i+1))
+              sleep 1
+            done
+          }
+          # [<en>] Waiting for `mysqladmin ping` to run 10 times in a row.
+          # [<ru>] Дождёмся, когда `mysqladmin ping` отработает 10 раз подряд.
+          until is_mysql_available 10; do
+            sleep 1
+          done
+          # [<ru>] Запускаем приложение
+          java -jar ./app.jar
+
+        ports:
+        - containerPort: 8080
+        env:
+        - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
+          value: INFO
+        - name: DB_HOST
+          value: mysql
+        - name: DB_NAME
+          value: werf-guide-app
+        - name: DB_USER
+          value: root
+        - name: DB_PASSWD
+          value: password
+      - name: frontend
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+        - containerPort: 80
