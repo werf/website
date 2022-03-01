@@ -1,3 +1,25 @@
-```
-TODO (_includes/ru/200_real_apps/020_logging/framework_id/045_expected_result.md.liquid): ожидаемый результат.
+```shell
+┌ ⛵ image app
+│ Use cache image for app/dockerfile
+│      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:3645079de60ff0f034765087f309ffd2189da4fff66fe284feb3a064-1642509706054
+│        id: 085a4e8f0fa9
+│   created: 2022-01-18 15:41:45 +0300 MSK
+│      size: 209.5 MiB
+└ ⛵ image app (2.81 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                  REPLICAS            AVAILABLE             UP-TO-DATE                           
+│ │ werf-guide-app                                                                                              1/1                 1                     1                                    
+│ └ Status progress
+└ Waiting for release resources to become ready (0.03 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Tue Jan 18 15:47:53 2022
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 46
+TEST SUITE: None
+Running time 6.12 seconds
 ```
