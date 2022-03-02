@@ -11,15 +11,7 @@ The following changes were made to our application:
 
 Let's add two new endpoints to our application. The `/remember` endpoint will store the data to the database while the `/say` endpoint will retrieve the data from it.
 
-Below are our listings for a new controller and model:
-
-{% include guides/200_real_apps/040_db/{{ page.framework_id }}/010_new_controllers.md.liquid %}
-
-Let's add new paths to the route list:
-
-{% include guides/200_real_apps/040_db/{{ page.framework_id }}/013_list_of_routes.md.liquid %}
-
-{% include guides/200_real_apps/040_db/{{ page.framework_id }}/015_two_simple_migrations.md.liquid %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/007_new_endpoints.md.liquid %}
 
 New endpoints, `/remember` and `/say`, are ready.
 
@@ -37,18 +29,9 @@ Great, the database and the application are ready to be deployed.
 
 ## Initializing and migrating the database
 
-There are several ways to initialize and migrate a database when deploying applications to Kubernetes. We will use one straightforward yet efficient method. It involves database migration (and initialization, if needed) by a dedicated Job simultaneously with deploying the application and the database.
+There are several ways to initialize and migrate a database when deploying applications to Kubernetes. We will use one straightforward yet efficient method. {% include guides/200_real_apps/040_db/{{ page.framework_id }}/023_about_method.md.liquid %}
 
-We require the following conditions to be met to deploy resources in the desired order:
-1. Before starting, the job to initialize/migrate the database must make sure the database is available and ready.
-1. Before starting, applications must wait until the database is available _and_ ready _and_ all migrations are complete.
-
-This way, all K8s resources are created at the same time but being run in the following order:
-1. The database starts.
-1. The initialization/migration Job runs.
-1. The applications start.
-
-Let's now add a Job to perform database migrations/initializations:
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/024_about_method_2.md.liquid %}
 
 {% include guides/200_real_apps/040_db/{{ page.framework_id }}/025_migration_job.md.liquid %}
 
