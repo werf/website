@@ -1,2 +1,16 @@
-**{{- "TODO (_includes/ru/200_real_apps/030_assets/framework_id/010_build_and_deployment.md.liquid): реорганизация сборки приложения." -}}**
+Теперь нам требуется собрать не только образ со Spring Boot, но и образ с NGINX, где должны находиться статические файлы приложения, которые NGINX сможет сразу отдать клиенту:
 
+{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+
+Во время сборки в образ с NGINX будет добавлен его конфигурационный файл:
+{% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
+
+Обновим конфигурацию `werf.yaml`, чтобы werf собрал и сохранил два образа (backend, frontend) вместо одного:
+{% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
+
+Добавим новый NGINX-контейнер в Deployment приложения:
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+
+Теперь Service и Ingress должны обращаться на 80-й порт, а не 8080-й, чтобы все запросы шли через NGINX, а не напрямую на наше приложение:
+{% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
+{% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
