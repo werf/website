@@ -1,16 +1,16 @@
-Модуль Hibernate, встроенный в наше приложение, во время запуска последнего выполняет одно доступных из действий, заданных в параметре `spring.jpa.hibernate.ddl-auto` файла настроек `application.properties`. Основными можно выделить четыре варианта работы модуля:
+The Hibernate module built into our application performs one of the actions specified in the `spring.jpa.hibernate.ddl-auto` parameter of the `application.properties` file during the application startup. There are four main methods of the module's operation:
 
-* `validate`: валидация БД на соответствие заданным сущностям. Для валидации лучше использовать сторонний валидатор, например, [Flyway](https://flywaydb.org/), подключаемый как зависимость Maven. Такой режим работы полезен, когда приложение уже закончено, и нам нужно только проверить, что БД соответствует нужной нам структуре, либо подготовить чистую БД к работе с приложением;
-* `update`: динамическое обновление структуры БД во время работы. Используется во время разработки, т.к. автоматически подстраивает БД под изменения сущностей;
-* `create`: каждый раз перед запуском приложения удаляет все из БД и пересоздает таблицы заново;
-* `create-drop`: аналогичен предыдущему, но удаляет все из БД после завершения сеанса работы.
+* `validate`: validate the database against the specified entities. Validation is better performed using a third-party validator such as [Flyway](https://flywaydb.org/) (you can plug it in as a Maven dependency). This method is best for situations when the application is complete, and you only need to check that the database fits the structure you want or prepare a clean database to use with the application;
+* `update`: update the database structure dynamically during operation. This method is used during development because it automatically adapts the database to entity changes;
+* `create`: deletes data from the database and recreates tables before each application run;
+* `create-drop`: this method is similar to the previous one, except that it deletes everything from the database after the session ends.
 
-Любой из этих методов подразумевает, что нам необходимо перед стартом приложения убедиться, что MySQL запущена и доступна приложению. Поэтому для начала изменим Dockerfile приложения, установив в контейнер с ним `mysql-client`:
+Either method implies that you need to make sure that MySQL is running and available for the application before starting it. So let's edit the application's Dockerfile by adding commands to install `mysql-client` in the app container.
 
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-Затем внесем изменения в deployment, добавив проверку на доступность БД перед запуском приложения:
+Add a database availability check to the deployment (it will be run before the application start):
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
-Также здесь мы передали в переменные окружения необходимые для подключения к БД параметры.
+In the above listing, we also passed the database connection parameters to the environment variables.

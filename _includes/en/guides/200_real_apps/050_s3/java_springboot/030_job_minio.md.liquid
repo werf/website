@@ -1,3 +1,3 @@
-Добавим в Deployment init container для настройки MinIO. Он будет выполняться до старта основного приложения и ожидать готовности MinIO (чтобы избежать падения приложения во время старта из-за невозможности достучаться до MinIO):
+Add an init container for configuring MinIO to the Deployment. It will start before the main application starts and will wait for MinIO to be ready (thus preventing the application from crashing during startup due to MinIO unavailability):
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}

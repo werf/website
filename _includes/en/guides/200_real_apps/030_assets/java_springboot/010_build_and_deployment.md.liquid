@@ -1,16 +1,16 @@
-Теперь нам требуется собрать не только образ со Spring Boot, но и образ с NGINX, где должны находиться статические файлы приложения, которые NGINX сможет сразу отдать клиенту:
+Now we need to build an NGINX image in addition to the Spring Boot one. This NGINX image must have all the static files to serve to the client:
 
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-Во время сборки в образ с NGINX будет добавлен его конфигурационный файл:
+The NIGINX config will be added to the NGINX image during the build:
 {% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
 
-Обновим конфигурацию `werf.yaml`, чтобы werf собрал и сохранил два образа (backend, frontend) вместо одного:
+Let's update `werf.yaml` so that werf will build two images (backend, frontend) instead of one:
 {% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
 
-Добавим новый NGINX-контейнер в Deployment приложения:
+Add a new NGINX container to the application Deployment:
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
-Теперь Service и Ingress должны обращаться на 80-й порт, а не 8080-й, чтобы все запросы шли через NGINX, а не напрямую на наше приложение:
+Service and Ingress should now connect to port 80 instead of 8080 so that all requests are routed through the NGINX proxy instead of sending them directly to our application:
 {% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
 {% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}

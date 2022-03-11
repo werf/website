@@ -1,13 +1,13 @@
-Основные изменения, сделанные в нашем приложении:
+The following changes have been made to our application:
 
-1. Установлены зависимости для работы с MySQL.
-1. Добавлена конфигурация доступа к БД.
-1. Добавлена модель БД.
-1. Добавлены маршруты, использующие новую модель.
+1. Installing dependencies for working with the MySQL database.
+1. Configuring access to the database.
+1. Adding the database model.
+1. Adding routes that use the new model.
 
-Новые зависимости были добавлены в файл конфигурации `pom.xml`:
+New dependencies have been added to the `pom.xml` configuration file:
 
 {% include snippetcut_example path="pom.xml" syntax="xml" snippet="mysql" examples=page.examples %}
 
-* `spring-boot-starter-data-jpa` — стартовый модуль для работы с Hibernate;
-* `mysql-connector-java` — драйвер для работы с БД MySQL.
+* `spring-boot-starter-data-jpa` — a starter module for using Spring Data JPA with Hibernate;
+* `mysql-connector-java` — a MySQL connector for Java.

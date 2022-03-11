@@ -1,11 +1,11 @@
 {% include snippetcut_example path="src/main/resources/application.properties" syntax="properties" snippet="minio" examples=page.examples %}
 
-> Мы не стали скрывать параметры подключения за переменными окружения, т.к. в следующей главе рассмотрим более интересный и правильный способ сделать это
+> We will leave the connection parameters as they are for now (instead of putting them into environment variables) — in the next chapter, we will discuss a more elegant and proper way of doing this
 
-Создадим конфигурационный класс, куда передадим настройки из `application.properties` и активируем MinIO:
+Create a configuration class, pass the `application.properties` to it and activate MinIO:
 
 {% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/config/MinioConfig.java" syntax="java" examples=page.examples %}
 
-Теперь создадим компонент, который будет отвечать за работу с файлами в MinIO, добавив в него два основных метода `putObject` и `getObject`:
+Now, create a component for handling files in MinIO by adding the two main methods, `putObject` and `getObject`, to it:
 
 {% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/components/MinioComponent.java" syntax="java" examples=page.examples %}
