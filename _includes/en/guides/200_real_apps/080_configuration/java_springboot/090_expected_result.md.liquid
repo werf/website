@@ -1,0 +1,102 @@
+```shell
+┌ Concurrent builds plan (no more than 5 images at the same time)
+│ Set #0:
+│ - ⛵ image frontend
+│ - ⛵ image backend
+└ Concurrent builds plan (no more than 5 images at the same time)
+
+┌ ⛵ image frontend
+│ Use cache image for frontend/dockerfile
+│      name: <DOCKER HUB USERNAME>/werf-guide-app:4d7fe10a14b3d39d37a747bf016e9e8557c5a6d7061cea9d57f2ffd0-1640809566489
+│        id: 4325c3e47f17
+│   created: 2021-12-29 23:26:06 +0300 MSK
+│      size: 9.6 MiB
+└ ⛵ image frontend (1.98 seconds)
+
+┌ ⛵ image backend
+│ Use cache image for backend/dockerfile
+│      name: <DOCKER HUB USERNAME>/werf-guide-app:08454d39888855040def10d02d3687964e8484eca19b9208a10ab2de-1643016826637
+│        id: 6eae976ee732
+│   created: 2022-01-24 12:33:46 +0300 MSK
+│      size: 243.9 MiB
+└ ⛵ image backend (3.26 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ deploy/werf-guide-app po/werf-guide-app-778cf48fb7-z8jqf container/setup-minio logs
+│ │ curl: (7) Failed to connect to minio port 9000: Connection refused
+│ │ curl: (7) Failed to connect to minio port 9000: Connection refused
+│ └ deploy/werf-guide-app po/werf-guide-app-778cf48fb7-z8jqf container/setup-minio logs
+│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                  REPLICAS            AVAILABLE             UP-TO-DATE                           
+│ │ werf-guide-app                                                                                              2/1                 1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                      ---                                                                            
+│ │ ├── guide-app-6c7cbc8b8b-pw7qf               2/2            2                   Running                     Waiting for: replicas 2->1                                                     
+│ │ └── guide-app-778cf48fb7-z8jqf               0/2            0                   Init:0/1                    
+│ │ STATEFULSET                                                                                                 REPLICAS            READY                 UP-TO-DATE                           
+│ │ minio                                                                                                       1/1                 0                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                      ---                                                                            
+│ │ └── 0                                        0/1            0                   ContainerCreating           Waiting for: ready 0->1                                                        
+│ │ mysql                                                                                                       1/1                 1                     1                                    
+│ └ Status progress
+│ 
+│ ┌ deploy/werf-guide-app po/werf-guide-app-778cf48fb7-z8jqf container/setup-minio logs
+│ │ curl: (7) Failed to connect to minio port 9000: Connection refused
+│ │ curl: (7) Failed to connect to minio port 9000: Connection refused
+│ │ curl: (7) Failed to connect to minio port 9000: Connection refused
+│ └ deploy/werf-guide-app po/werf-guide-app-778cf48fb7-z8jqf container/setup-minio logs
+│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                  REPLICAS            AVAILABLE             UP-TO-DATE                           
+│ │ werf-guide-app                                                                                              2/1                 1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                      ---                                                                            
+│ │ ├── guide-app-6c7cbc8b8b-pw7qf               2/2            2                   Running                     Waiting for: replicas 2->1                                                     
+│ │ └── guide-app-778cf48fb7-z8jqf               0/2            0                   Init:0/1                    
+│ │ STATEFULSET                                                                                                 REPLICAS            READY                 UP-TO-DATE                           
+│ │ minio                                                                                                       1/1                 1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                                                                                                     
+│ │ └── 0                                        1/1            0                   Running                     
+│ │ mysql                                                                                                       1/1                 1                     1                                    
+│ └ Status progress
+│ 
+│ ┌ deploy/werf-guide-app po/werf-guide-app-778cf48fb7-z8jqf container/setup-minio logs
+│ │ Added `minio` successfully.
+│ │ Bucket created successfully `minio/werf-guide-app`.
+│ └ deploy/werf-guide-app po/werf-guide-app-778cf48fb7-z8jqf container/setup-minio logs
+│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                  REPLICAS            AVAILABLE             UP-TO-DATE                           
+│ │ werf-guide-app                                                                                              2/1                 1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                      ---                                                                            
+│ │ ├── guide-app-6c7cbc8b8b-pw7qf               2/2            2                   Running                     Waiting for: replicas 2->1                                                     
+│ │ └── guide-app-778cf48fb7-z8jqf               0/2            0                   PodInitializing             
+│ │ STATEFULSET                                                                                                 REPLICAS            READY                 UP-TO-DATE                           
+│ │ minio                                                                                                       1/1                 1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                                                                                                     
+│ │ └── 0                                        1/1            0                   Running                     
+│ │ mysql                                                                                                       1/1                 1                     1                                    
+│ └ Status progress
+│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                  REPLICAS            AVAILABLE             UP-TO-DATE                           
+│ │ werf-guide-app                                                                                              2->1/1              1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                                                                                                     
+│ │ ├── guide-app-6c7cbc8b8b-pw7qf               2/2            2                   Running -> Terminating      
+│ │ └── guide-app-778cf48fb7-z8jqf               2/2            0                   PodInitializing -> Running  
+│ │ STATEFULSET                                                                                                 REPLICAS            READY                 UP-TO-DATE                           
+│ │ minio                                                                                                       1/1                 1                     1                                    
+│ │ │   POD                                      READY          RESTARTS            STATUS                                                                                                     
+│ │ └── 0                                        1/1            0                   Running                     
+│ │ mysql                                                                                                       1/1                 1                     1                                    
+│ └ Status progress
+└ Waiting for release resources to become ready (41.20 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Mon Jan 24 12:36:55 2022
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 52
+TEST SUITE: None
+Running time 47.57 seconds
+```

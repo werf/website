@@ -1,0 +1,13 @@
+Let's add a new entity to work with the database:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/domain/Talker.java" syntax="java" examples=page.examples %}
+
+Add a CRUD repository to use the database:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/repos/TalkersRepo.java" syntax="java" examples=page.examples %}
+
+You don't have to add database migrations thanks to the `spring.jpa.hibernate.ddl-auto=update` property we set in the `application.properties`. As a result, Hibernate will automatically generate the database structure during work based on the created entities.
+
+Add a new controller:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/controllers/TalkerController.java" syntax="java" examples=page.examples %}

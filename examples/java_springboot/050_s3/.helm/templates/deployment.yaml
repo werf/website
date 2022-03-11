@@ -31,15 +31,18 @@ spec:
             done
           }
 
-          # Дожидаемся доступности MinIO.
+          # [<en>] Waiting for MinIO to become available.
+          # [<ru>] Дожидаемся доступности MinIO.
           until is_minio_available 10; do
             sleep 1
           done
 
-          # Настроим доступ к нашем инстансу MinIO.
+          # [<en>] Configuring access to our MinIO instance.
+          # [<ru>] Настроим доступ к нашем инстансу MinIO.
           mc alias set minio http://minio:9000 minioadmin minioadmin
 
-          # Создадим bucket для нашего приложения.
+          # [<en>] Creating a bucket for our application.
+          # [<ru>] Создадим bucket для нашего приложения.
           mc mb --ignore-existing minio/werf-guide-app
 
       containers:

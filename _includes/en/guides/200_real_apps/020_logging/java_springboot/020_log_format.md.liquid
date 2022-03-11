@@ -1,0 +1,17 @@
+```shell
+2022-01-18 14:26:03.260  INFO 71634 --- [           main] com.flant.werfguidesapp.Application      : No active profile set, falling back to default profiles: default
+2022-01-18 14:26:04.637  INFO 71634 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-01-18 14:26:04.650  INFO 71634 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-01-18 14:26:04.651  INFO 71634 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.55]
+2022-01-18 14:26:04.725  INFO 71634 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-01-18 14:26:04.725  INFO 71634 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1329 ms
+2022-01-18 14:26:05.230  INFO 71634 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-01-18 14:26:05.259  INFO 71634 --- [           main] com.flant.werfguidesapp.Application      : Started Application in 2.927 seconds (JVM running for 6.405)
+
+java.net.SocketTimeoutException:Receive timed out
+    at j.n.PlainDatagramSocketImpl.receive0(Native Method)[na:1.8.0_151]
+    at j.n.AbstractPlainDatagramSocketImpl.receive(AbstractPlainDatagramSocketImpl.java:143)[^]
+    at j.n.DatagramSocket.receive(DatagramSocket.java:812)[^]
+    at o.s.n.SntpClient.requestTime(SntpClient.java:213)[classes/]
+ ...
+```

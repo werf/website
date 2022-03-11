@@ -1,0 +1,55 @@
+```shell
+┌ ⛵ image backend
+│ Use cache image for backend/dockerfile
+│      name: <DOCKER HUB USERNAME>/werf-guide-app:3c1d990b76b29e3e53d4913607207f8d3060e23a94442c7c3c25c01d-1642762275246
+│        id: 2cb054a9d1e1
+│   created: 2022-01-21 13:51:14 +0300 MSK
+│      size: 232.7 MiB
+└ ⛵ image backend (4.06 seconds)
+
+┌ ⛵ image frontend
+│ Use cache image for frontend/dockerfile
+│      name: <DOCKER HUB USERNAME>/werf-guide-app:4d7fe10a14b3d39d37a747bf016e9e8557c5a6d7061cea9d57f2ffd0-1640809566489
+│        id: 4325c3e47f17
+│   created: 2021-12-29 23:26:06 +0300 MSK
+│      size: 9.6 MiB
+└ ⛵ image frontend (2.82 seconds)
+
+┌ Waiting for release resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                                                REPLICAS                     AVAILABLE                      UP-TO-DATE                                          
+│ │ werf-guide-app                                                                                                                                            2/1                          1                              1                                              ↵
+│ │      
+│ │ │   POD                                                         READY                 RESTARTS                      STATUS                                ---                                                                                                             
+│ │ ├── guide-app-6c7cbc8b8b-pw7qf                                  0/2                   0                             ContainerCreating                     Waiting for: replicas 2->1                                                                                      
+│ │ └── guide-app-7d5d5f74c6-lflsv                                  2/2                   2                             Running                               
+│ │ STATEFULSET                                                                                                                                               REPLICAS                     READY                          UP-TO-DATE                                          
+│ │ mysql                                                                                                                                                     1/1                          1                              1                                              ↵
+│ │      
+│ │ │   POD                                                         READY                 RESTARTS                      STATUS                                                                                                                                                
+│ │ └── 0                                                           1/1                   0                             Running                               
+│ └ Status progress
+│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                                                REPLICAS                     AVAILABLE                      UP-TO-DATE                                          
+│ │ werf-guide-app                                                                                                                                            2->1/1                       1                              1                                                   
+│ │ │   POD                                                         READY                 RESTARTS                      STATUS                                                                                                                                                
+│ │ ├── guide-app-6c7cbc8b8b-pw7qf                                  2/2                   0                             ContainerCreating -> Running          
+│ │ └── guide-app-7d5d5f74c6-lflsv                                  2/2                   2                             Running -> Terminating                
+│ │ STATEFULSET                                                                                                                                               REPLICAS                     READY                          UP-TO-DATE                                          
+│ │ mysql                                                                                                                                                     1/1                          1                              1                                              ↵
+│ │      
+│ │ │   POD                                                         READY                 RESTARTS                      STATUS                                                                                                                                                
+│ │ └── 0                                                           1/1                   0                             Running                               
+│ └ Status progress
+└ Waiting for release resources to become ready (33.78 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Fri Jan 21 13:55:56 2022
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 51
+TEST SUITE: None
+Running time 41.07 seconds
+```

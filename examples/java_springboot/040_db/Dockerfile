@@ -4,6 +4,7 @@ WORKDIR /src
 RUN ./mvnw clean package -DskipTests
 
 FROM eclipse-temurin:11-alpine as backend
+# [<en>] Installing the mysql-client.
 # [<ru>] Устанавливаем mysql-client.
 RUN apk add -U mysql-client
 WORKDIR /app

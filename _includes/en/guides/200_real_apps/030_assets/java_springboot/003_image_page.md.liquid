@@ -1,0 +1,49 @@
+Currently, our application provides a basic API with no means to manage static files and frontend code.
+
+To turn this API into a simple web application, you need to modify it as follows: 
+First, add the Thymeleaf template engine to the project by inserting the corresponding dependency into `pom.xml`.
+
+{% include snippetcut_example path="pom.xml" syntax="xml" snippet="thymeleaf" examples=page.examples %}
+
+Create a directory structure to store static files:
+
+```shell
+$ tree ./src/main/resources/
+./src/main/resources/
+├── application.properties
+├── log4j2-spring.xml
+├── static
+│   ├── images
+│   │   └── werf-logo.svg
+│   ├── javascripts
+│   │   └── image.js
+│   └── stylesheets
+│       └── site.css
+└── templates
+    ├── image.html
+    └── index.html
+```
+
+Copy static files to the corresponding subdirectories in the `static` directory. Copy Thymeleaf page templates to the `templates` directory.
+
+Configure the application to serve files from the `static` directory. To do this, create a `MvcConfig` configuration class:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/config/MvcConfig.java" syntax="java" examples=page.examples %}
+
+In it, specify that the `static` directory contents are freely accessible from outside at the `/static` endpoint.
+
+Add new controllers to handle requests to the `/` and `/image` endpoints:
+
+{% include snippetcut_example path="src/main/java/io/werf/werfguidesapp/controllers/ImageController.java" syntax="java" examples=page.examples %}
+
+The controllers access the Thymeleaf template files (you have already set their location above). Create them:
+
+{% include snippetcut_example path="src/main/resources/templates/index.html" syntax="html" examples=page.examples %}
+
+{% include snippetcut_example path="src/main/resources/templates/image.html" syntax="html" examples=page.examples %}
+
+Clicking the *Get image* button must result in an Ajax request that pulls and displays the [SVG image](https://github.com/werf/website/blob/main/examples/java_springboot/030_assets/src/main/resources/static/images/werf-logo.svg):
+
+{% include snippetcut_example path="src/main/resources/static/javascripts/image.js" syntax="js" examples=page.examples %}
+
+Note that our page also uses the [static/stylesheets/site.css](https://github.com/werf/website/blob/main/examples/java_springboot/030_assets/src/main/resources/static/stylesheets/site.css) file.
