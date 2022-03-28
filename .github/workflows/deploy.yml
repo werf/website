@@ -64,16 +64,18 @@ jobs:
         WERF_RELEASE: "werfio-site-production"
         WERF_LOG_VERBOSE: "on"
 
-  notify:
-    runs-on: self-hosted
-    needs: converge
+  notification:
+    name: Notification
     if: always()
+    needs: release
+    runs-on: ubuntu-latest
     steps:
+
       - uses: technote-space/workflow-conclusion-action@v2
-      - name: (Notifications) Deploy to production has failed
-        if: github.ref == 'refs/heads/main' && env.WORKFLOW_CONCLUSION == 'failure'
-        run: |
-          curl -X POST \
-               -H 'Content-type: application/json' \
-               --data "{\"text\":\"[werf website] Deploy to production has failed (job <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|$GITHUB_RUN_ID>)\"}" \
-               ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Notify
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ env.WORKFLOW_CONCLUSION }}
+          MSG_MINIMAL: "ref,actions url"
