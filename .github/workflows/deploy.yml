@@ -67,7 +67,7 @@ jobs:
   notification:
     name: Notification
     if: always()
-    needs: release
+    needs: converge
     runs-on: ubuntu-latest
     steps:
 
