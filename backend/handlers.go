@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -184,13 +185,25 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 	fsh := http.FileServer(fs)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		upath := r.URL.Path
+
 		if !strings.HasPrefix(upath, "/") {
 			upath = "/" + upath
 			r.URL.Path = upath
 		}
+
 		upath = path.Clean(upath)
-		if _, err := os.Stat(fmt.Sprintf("%v%s", fs, upath)); err != nil {
+		fileInfo, err := os.Stat(fmt.Sprintf("%v%s", fs, upath))
+
+		if err != nil {
 			if os.IsNotExist(err) {
+				notFoundHandler(w, r)
+				return
+			}
+		}
+
+		if fileInfo.IsDir() {
+			indexFile := filepath.Join(upath, "index.html")
+			if _, err := os.Stat(fmt.Sprintf("%v%s", fs, indexFile)); err != nil {
 				notFoundHandler(w, r)
 				return
 			}
