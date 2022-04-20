@@ -4,7 +4,7 @@ project: werf-site
 
 image: jekyll_base
 fromCacheVersion: "1"
-from: jekyll/builder:4
+from: jekyll/builder:4.2.0
 git:
   - add: /
     to: /app
