@@ -12,7 +12,7 @@ env:
 
 jobs:
   check_links:
-    container: jekyll/builder:4
+    container: jekyll/builder:4.2.0
     name: Check broken links
     runs-on: ubuntu-latest
     strategy:
