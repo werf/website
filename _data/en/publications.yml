@@ -16,6 +16,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Building and Deploying a Simple App to Kubernetes Using “werf”"
+    medium_url: "https://betterprogramming.pub/building-and-deploying-a-simple-app-to-kubernetes-using-werf-51bee0b3718d"
+    img: "/assets/images/publications/en_210422.jpeg"
+    created: 2022-04-21
+    comment: |
+      <p>This article looks at building a Docker image of a minimalistic application and deploying it to a Kubernetes cluster using the Open Source tool called werf.</p>
   - title: "Running werf in GitLab CI/CD without a Docker server"
     blog_url: "https://blog.flant.com/werf-in-gitlab-ci-cd-without-docker/"
     img: "/assets/images/publications/en_050522.jpeg"
