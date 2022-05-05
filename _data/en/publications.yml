@@ -16,6 +16,24 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Building and Deploying a Simple App to Kubernetes Using “werf”"
+    medium_url: "https://betterprogramming.pub/building-and-deploying-a-simple-app-to-kubernetes-using-werf-51bee0b3718d"
+    img: "/assets/images/publications/en_210422.jpeg"
+    created: 2022-04-21
+    comment: |
+      <p>This article looks at building a Docker image of a minimalistic application and deploying it to a Kubernetes cluster using the Open Source tool called werf.</p>
+  - title: "Running werf in GitLab CI/CD without a Docker server"
+    blog_url: "https://blog.flant.com/werf-in-gitlab-ci-cd-without-docker/"
+    img: "/assets/images/publications/en_050522.jpeg"
+    created: 2022-05-05
+    comment: |
+      <p>werf is an Open Source tool for building applications and deploying them to Kubernetes. This article discusses the new experimental werf operating mode that does not require a Docker server to be run. You will learn how to ensure this mode works properly on your machine, build an image, and use the Kubernetes executor to automate builds in GitLab CI/CD.</p>
+  - title: "Local development in Kubernetes with werf 1.2 and minikube"
+    blog_url: "https://blog.flant.com/local-development-in-kubernetes-with-werf/"
+    img: "/assets/images/publications/en_080422.png"
+    created: 2022-04-08
+    comment: |
+      <p>This article discusses preparing and deploying a Kubernetes-based infrastructure for local development using a basic application as an example. Local development means you can change your app’s source code and instantly see how it works in K8s running on your computer.</p>
   - title: "werf v1.2 is now stable! Here’s what it is all about"
     blog_url: "https://blog.flant.com/werf-v1-2-stable-release-and-features/"
     img: "/assets/images/publications/en_141221.png"

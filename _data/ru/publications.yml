@@ -16,6 +16,32 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Запуск werf в GitLab CI/CD без Docker-сервера"
+    habr_url: "https://habr.com/ru/company/flant/blog/649551/"
+    img: "/assets/images/publications/ru_070222.png"
+    created: 2022-02-07
+    comment: |
+      <p>В этой статье рассмотрен новый экспериментальный режим работы werf — Open Source-утилиты для сборки приложений и их деплоя в Kubernetes, — в котором не требуется наличие Docker-сервера. Мы покажем, как убедиться, что этот режим будет работать на вашей машине, соберем первый образ и научимся использовать Kubernetes executor для автоматизации сборки в GitLab CI/CD.</p>
+  - title: "Локальная разработка в Kubernetes с помощью werf 1.2 и minikube"
+    habr_url: "https://habr.com/ru/company/flant/blog/597277/"
+    img: "/assets/images/publications/ru_140122.png"
+    created: 2022-01-14
+    comment: |
+      <p>В этой статье на примере простого приложения будут описаны подготовка и развертывание инфраструктуры для локальной разработки с Kubernetes и последующий запуск проекта в этом окружении.</p>
+  - title: "Первые шаги с werf: собираем и деплоим простое приложение в Kubernetes"
+    habr_url: "https://habr.com/ru/company/flant/blog/597001/"
+    img: "/assets/images/publications/ru_241221.png"
+    created: 2021-12-24
+    comment: |
+      <p>В этой статье мы рассмотрим, как с помощью Open Source-утилиты werf собрать Docker-образ простейшего приложения и развернуть его в кластере Kubernetes, а также с легкостью накатывать изменения в его коде и инфраструктуре.</p>
+  - title: "Представляем онлайн-самоучитель по Kubernetes и деплою с werf для разработчиков"
+    habr_url: "https://habr.com/ru/company/flant/blog/596981/"
+    img: "/assets/images/publications/ru_221221.png"
+    created: 2021-12-22
+    comment: |
+      <p>Рады представить новую версию онлайн-самоучителя по werf, нашей CI/CD-утилите с открытым кодом!
+
+      Общая идея самоучителя — познакомить разработчиков с Kubernetes, показав на простых приложениях (готовы примеры для Ruby on Rails, Node.js и Laravel), как можно развертывать приложения в K8s с помощью werf. Это отличная возможность быстро освоить практические основы K8s без погружения в его объемную теоретическую базу. Если вы еще не решили, как провести новогодние каникулы с пользой, — вот вам идея.</p>
   - title: "werf v1.2 — стабильный релиз Open Source-утилиты для доставки приложений в Kubernetes"
     habr_url: "https://habr.com/ru/company/flant/blog/592715/"
     img: "/assets/images/publications/ru_141221.png"
