@@ -16,6 +16,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Review or dynamic environments in Kubernetes. Theory and practice"
+    blog_url: "https://blog.flant.com/review-environments-in-kubernetes-gitlab-ci/"
+    img: "/assets/images/publications/en_290921.png"
+    created: 2021-09-29
+    comment: |
+      <p>This article discusses the so-called review environments running in Kubernetes clusters. Why are these environments necessary and what are typical use cases for them? How to make a review environment pipeline in GitLab CI/CD? What potential problems can arise, and how to avoid them?</p>
   - title: "Building and Deploying a Simple App to Kubernetes Using “werf”"
     medium_url: "https://betterprogramming.pub/building-and-deploying-a-simple-app-to-kubernetes-using-werf-51bee0b3718d"
     img: "/assets/images/publications/en_210422.jpeg"
