@@ -16,6 +16,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Новые возможности werf: CI/CD на основе werf и Argo CD"
+    habr_url: "https://habr.com/ru/company/flant/blog/666100/"
+    img: "/assets/images/publications/ru_180522.png"
+    created: 2022-05-18
+    comment: |
+      <p>В этой статье мы рассмотрим новый экспериментальный режим совместной работы Open Source-утилиты werf и инструмента для непрерывной доставки Argo CD, объединяющий в себе возможности и удобства обоих проектов в рамках одного CI/CD-процесса. Сейчас идет активная разработка этих возможностей werf, но в первом приближении функционал уже доступен и готов к использованию.</p>
   - title: "Запуск werf в GitLab CI/CD без Docker-сервера"
     habr_url: "https://habr.com/ru/company/flant/blog/649551/"
     img: "/assets/images/publications/ru_070222.png"
