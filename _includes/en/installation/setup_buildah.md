@@ -15,7 +15,7 @@ If you want to run werf in containers/Kubernetes, then follow these [Docker](htt
   ```
 * If files `/etc/subuid` and `/etc/subgid` do not exist, then, in most distros, you should install a package that creates them. Current user should have at least `65536` subordinate UIDs/GUIDs reserved — this will look like a line `current_username:1000000:65536` in `/etc/subuid` and `/etc/subgid`. If there is no such a line you should add it yourself. After changing these files reboot might be necessary. More info: `man subuid`, `man subgid`.
 * Path `~/.local/share/containers` should exist and the current user should have write/read permissions for it.
-* To use `werf` outside of containers, install `crun`, which is usually available in distro package repos.
+* To use `werf` outside of containers, install one of `crun`/`runc`/`kata`/`runsc`, which are usually available in distro package repos.
 * Install package which provides `newuidmap` and `newgidmap` binaries.
 
 Now activate the Buildah backend and try to build your project:
