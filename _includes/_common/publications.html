@@ -61,6 +61,11 @@
                                 {{ i18n.youtube_btn_title }}
                             </a>
                             {%- endif %}
+                            {%- if publication.tproger_url %}
+                            <a href="{{ publication.tproger_url }}" class="publications__btn" target="_blank">
+                                {{ i18n.tproger_btn_title }}
+                            </a>
+                            {%- endif %}
                         </div>
                     </div>
                 </div>
