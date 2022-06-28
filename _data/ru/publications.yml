@@ -5,7 +5,7 @@ i18n:
   blog_btn_title: "Прочитать в блоге Флант"
   custom_url_btn_title_prefix: "Прочитать на "
   youtube_btn_title: "Посмотреть на YouTube"
-  tproger_btn_title: "Читать на Tproger"
+  tproger_btn_title: "Прочитать на Tproger"
 
 articles:
   #- title: TITLE
