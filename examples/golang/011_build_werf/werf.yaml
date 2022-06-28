@@ -1,5 +1,0 @@
-project: werf-guided-golang
-configVersion: 1
----
-image: basicapp
-dockerfile: Dockerfile
