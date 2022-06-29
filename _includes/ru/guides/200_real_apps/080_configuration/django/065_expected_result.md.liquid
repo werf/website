@@ -1,3 +1,15 @@
-```
-TODO (_includes/ru/200_real_apps/080_configuration/django/065_expected_result.md.liquid): ожидаемый результат.
+```properties
+app:
+  secretEnvs:
+    MYSQL_USERNAME: django
+    MYSQL_PASSWORD: django
+minio:
+  secretEnvs:
+    MINIO_ACCESS_KEY: minio
+    MINIO_SECRET_KEY: password
+mysql:
+  secretEnvs:
+    MYSQL_USER: django
+    MYSQL_PASSWORD: django
+    MYSQL_ROOT_PASSWORD: django
 ```

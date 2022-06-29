@@ -1,3 +1,58 @@
 ```
-TODO (_includes/ru/200_real_apps/050_s3/django/035_expected_result.md.liquid): ожидаемый результат выполнения команды.
+┌ Concurrent builds plan (no more than 5 images at the same time)
+│ Set #0:
+│ - ⛵ image backend
+│ - ⛵ image frontend
+└ Concurrent builds plan (no more than 5 images at the same time)
+
+┌ ⛵ image backend
+│ Use cache image for backend/dockerfile
+│      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:384636338cad8c70b70c4e530032aa930f32b91b8d476aa5cf8219a7-1661359407179
+│        id: d9865e6aa43c
+│   created: 2022-08-24 19:43:25 +0300 MSK
+│      size: 143.3 MiB
+└ ⛵ image backend (3.09 seconds)
+
+┌ ⛵ image frontend
+│ Use cache image for frontend/dockerfile
+│      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:776dd1b11f95e6a08e138ce50ac0c4ece93051b8522db3a905e71e0a-1661341020624
+│        id: ef98a01890ab
+│   created: 2022-08-24 14:36:58 +0300 MSK
+│      size: 9.7 MiB
+└ ⛵ image frontend (3.17 seconds)
+
+┌ Waiting for resources to become ready
+│ ┌ job/setup-and-migrate-db-rev14 po/setup-and-migrate-db-rev14-k5hhf container/setup-and-migrate-db logs
+│ │ Operations to perform:
+│ │   Apply all migrations: admin, auth, contenttypes, sessions, talkers
+│ │ Running migrations:
+│ │   No migrations to apply.
+│ └ job/setup-and-migrate-db-rev14 po/setup-and-migrate-db-rev14-k5hhf container/setup-and-migrate-db logs
+│
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                              REPLICAS        AVAILABLE         UP-TO-DATE
+│ │ werf-guide-app                                                                          1/1             1                 1
+│ │ STATEFULSET                                                                             REPLICAS        READY             UP-TO-DATE
+│ │ minio                                                                                   1/1             1                 1
+│ │ mysql                                                                                   1/1             1                 1
+│ │ JOB                                                                                     ACTIVE          DURATION          SUCCEEDED/FAILED
+│ │ setup-and-migrate-db-rev14                                                              0               3s                1/0
+│ │ │   POD                              READY       RESTARTS        STATUS
+│ │ └── and-migrate-db-rev14-k5hhf       0/1         0               Completed
+│ └ Status progress
+└ Waiting for resources to become ready (2.08 seconds)
+
+┌ Waiting for resources elimination: jobs/setup-and-migrate-db-rev13
+└ Waiting for resources elimination: jobs/setup-and-migrate-db-rev13 (0.21 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Wed Aug 24 20:47:55 2022
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 14
+TEST SUITE: None
+Running time 14.16 seconds
 ```

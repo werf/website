@@ -1,0 +1,17 @@
+# [<snippet app>]
+app:
+  envs:
+    MYSQL_HOST: mysql
+    MINIO_ENDPOINT: "http://minio:9000"
+    BUCKET_NAME: "storage"
+# [<endsnippet app>]
+
+# [<snippet mysql>]
+mysql:
+  storageSize: "100Mi"
+  envs:
+    MYSQL_DATABASE: "django"
+# [<endsnippet mysql>]
+
+minio:
+  storageSize: "100Mi"

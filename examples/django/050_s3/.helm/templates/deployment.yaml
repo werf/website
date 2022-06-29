@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: werf-guide-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: werf-guide-app
+  template:
+    metadata:
+      labels:
+        app: werf-guide-app
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      containers:
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
+        command:
+          - uwsgi
+          - --ini
+          - uwsgi.ini
+        ports:
+          - containerPort: 8000
+# [<snippet minio-configuration-import>]
+        env:
+          - name: MINIO_ENDPOINT
+            value: "http://minio:9000"
+          - name: MINIO_ACCESS_KEY
+            value: "minio"
+          - name: MINIO_SECRET_KEY
+            value: "password"
+          - name: BUCKET_NAME
+            value: "storage"
+          - name: MYSQL_DATABASE
+            value: "django"
+          - name: MYSQL_HOST
+            value: "mysql"
+          - name: MYSQL_USER
+            value: "django"
+          - name: MYSQL_PASSWORD
+            value: "django"
+# [<endsnippet minio-configuration-import>]
+      - name: frontend
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+        - containerPort: 80

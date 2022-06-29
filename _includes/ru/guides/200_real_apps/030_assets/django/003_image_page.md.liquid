@@ -1,3 +1,5 @@
-```
-TODO (_includes/ru/200_real_apps/030_assets/django/003_image_page.md.liquid): добавление приложению нового endpoint `/image`
-```
+{% include snippetcut_example path="app/app/urls.py" syntax="python" snippet="image-route-import" examples=page.examples %}
+
+Этот путь будет обрабатываться методом `image` стандартного контроллера, возвращающим текст шаблона:
+
+{% include snippetcut_example path="app/image/views.py" syntax="python" examples=page.examples %}

@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: "mysql"
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        ports:
+          - containerPort: 3306
+        env:
+          - name: MYSQL_DATABASE
+            value: django
+          - name: MYSQL_USER
+            value: django
+          - name: MYSQL_PASSWORD
+            value: django
+          - name: MYSQL_ROOT_PASSWORD
+            value: django
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  selector:
+    app: mysql
+  ports:
+  - name: mysql
+    port: 3306

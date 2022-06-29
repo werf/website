@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: werf-guide-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: werf-guide-app
+  # [<snippet nginx_conf_checksum>]
+  # [<snippet configmap_app_envs_checksum>]
+  template:
+    metadata:
+      labels:
+        app: werf-guide-app
+      annotations:
+        checksum/configmap-nginx: '{{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}'
+        # [<endsnippet nginx_conf_checksum>]
+        checksum/configmap-app-envs: '{{ include (print $.Template.BasePath "/configmap-app-envs.yaml") . | sha256sum }}'
+        # [<endsnippet configmap_app_envs_checksum>]
+        checksum/secret-app-envs: '{{ include (print $.Template.BasePath "/secret-app-envs.yaml") . | sha256sum }}'
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      initContainers:
+      - name: waiting-mysql
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z mysql 3306; do sleep 1; done' ]
+      containers:
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
+        command:
+          - uwsgi
+          - --ini
+          - uwsgi.ini
+        ports:
+          - containerPort: 8000
+# [<snippet backend_conf>]
+        envFrom:
+          - configMapRef:
+              name: app-envs
+# [<endsnippet backend_conf>]
+# [<snippet backend_secret>]
+          - secretRef:
+              name: app-envs
+          - secretRef:
+              name: minio-envs
+          - configMapRef:
+              name: db-envs
+          - secretRef:
+              name: db-envs
+# [<endsnippet backend_secret>]
+      - name: frontend
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+        - containerPort: 80
+# [<snippet nginx_conf>]
+        volumeMounts:
+          - mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+            name: nginx-conf
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+# [<endsnippet nginx_conf>]
