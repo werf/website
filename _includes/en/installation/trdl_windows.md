@@ -1,5 +1,48 @@
 Make sure you have [Git](https://git-scm.com/download/win) 2.18.0 or newer, gpg and [Docker](https://docs.docker.com/get-docker) installed. Following instructions should be executed in PowerShell.
 
+{% offtopic title="Grant your user the permission to create symbolic links" %}
+> You can do the same via the GUI if you don't want to execute this PowerShell script.
+
+Run as the administrator:
+```powershell
+$ntprincipal = new-object System.Security.Principal.NTAccount "$env:UserName"
+$sidstr = $ntprincipal.Translate([System.Security.Principal.SecurityIdentifier]).Value.ToString()
+$tmp = [System.IO.Path]::GetTempFileName()
+secedit.exe /export /cfg "$($tmp)"
+$currentSetting = ""
+foreach($s in (Get-Content -Path $tmp)) {
+    if ($s -like "SECreateSymbolicLinkPrivilege*") {
+        $x = $s.split("=",[System.StringSplitOptions]::RemoveEmptyEntries)
+        $currentSetting = $x[1].Trim()
+    }
+}
+if ($currentSetting -notlike "*$($sidstr)*") {
+    if ([string]::IsNullOrEmpty($currentSetting)) {
+        $currentSetting = "*$($sidstr)"
+    } else {
+        $currentSetting = "*$($sidstr),$($currentSetting)"
+    }
+    $tmp2 = [System.IO.Path]::GetTempFileName()
+    @"
+[Unicode]
+Unicode=yes
+[Version]
+signature="`$CHICAGO`$"
+Revision=1
+[Privilege Rights]
+SECreateSymbolicLinkPrivilege = $($currentSetting)
+"@ | Set-Content -Path $tmp2 -Encoding Unicode -Force
+    cd (Split-Path $tmp2)
+    secedit.exe /configure /db "secedit.sdb" /cfg "$($tmp2)" /areas USER_RIGHTS
+}
+```
+
+Now log out from the Windows OS, then log back in and run the following command:
+```powershell
+gpupdate /force
+```
+{% endofftopic %}
+
 [Install trdl](https://github.com/werf/trdl/releases/) to `<disk>:\Users\<your username>\bin\trdl`, which will manage `werf` installation and updates. Add `<disk>:\Users\<your username>\bin\` to your $PATH environment variable.
 
 Add `werf` repo to `trdl`:
