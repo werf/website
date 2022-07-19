@@ -372,6 +372,13 @@ sidebar: none
                   <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                 </a>
               {%- endif %}
+              {%- if publication.tproger_url %}
+                <a href="{{ publication.tproger_url }}" class="publications__cards--link" target="_blank">
+                  <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
+                  <div class="publications__cards--title">{{ publication.title }}</div>
+                  <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
+                </a>
+              {%- endif %}
             </li>
           {%- endfor %}
         {%- endfor %}
