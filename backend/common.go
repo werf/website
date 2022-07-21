@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/tls"
-	"encoding/json"
 	"errors"
 	"fmt"
 	log "github.com/sirupsen/logrus"
@@ -617,20 +616,6 @@ func getRootFilesPath(r *http.Request) (result string) {
 
 func updateReleasesStatus() error {
 	err := updateReleasesStatusTRDL()
-	return err
-}
-
-func updateReleasesStatusMultiwerf() error {
-	data, err := ioutil.ReadFile("multiwerf/multiwerf.json")
-	if err != nil {
-		log.Errorf("Can't open multiwerf.json (%e)", err)
-		return err
-	}
-	err = json.Unmarshal(data, &ReleasesStatus)
-	if err != nil {
-		log.Errorf("Can't unmarshall multiwerf.json (%e)", err)
-		return err
-	}
 	return err
 }
 
