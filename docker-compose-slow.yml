@@ -8,7 +8,6 @@ services:
       WERF_LOG_VERBOSE: "on"
       LOG_LEVEL: "trace"
     volumes:
-      - ".helm/multiwerf-dev.json:/app/multiwerf/multiwerf.json:ro"
       - ".helm/trdl_channels-dev.yaml:/app/trdl/trdl_channels.yaml:ro"
 
   tuf:
