@@ -236,12 +236,12 @@ propose_joining_docker_group() {
   declare override_join_docker_group="$1"
 
   [[ $override_join_docker_group == "no" ]] && return 0
-  is_user_in_group "$USER" docker && return 0
+  is_user_in_group "$(get_user)" docker && return 0
   is_root && return 0
 
   ensure_cmds_available usermod
   [[ $override_join_docker_group == "auto" ]] && prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
-  run_as_root "usermod -aG docker '$USER'" || abort "Can't add user \"$USER\" to group \"docker\"."
+  run_as_root "usermod -aG docker '$(get_user)'" || abort "Can't add user \"$(get_user)\" to group \"docker\"."
 }
 
 setup_trdl_bin_path() {
@@ -453,6 +453,10 @@ run_as_root() {
   fi
 
   return 0
+}
+
+get_user() {
+  id -un
 }
 
 is_root() {
