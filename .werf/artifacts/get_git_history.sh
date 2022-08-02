@@ -16,7 +16,7 @@ _PWD=$PWD
 
 WORKDIR=$(mktemp -d -p /tmp/)
 REPO=${1:-https://github.com/werf/werf.git}
-BRANCH=${2:-multiwerf}
+BRANCH=${2:-main}
 
 if [[ -x /usr/local/bin/yq ]]; then
   YQ=/usr/local/bin/yq
