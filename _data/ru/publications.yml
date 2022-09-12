@@ -223,14 +223,6 @@ articles:
     comment: |
       <p>Этот материал продолжает цикл о сборке Docker-образов для приложений на различных языках программирования с помощью утилиты <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp">werf (dapp)</a>. Поговорим о приложениях на JavaScript. Для начала это будет frontend-приложение, а в следующей части планируется рассказать о сборке backend'а и запуске всего в Kubernetes.</p>
       <p>В качестве иллюстрации будут использованы приложения <a target="_blank" rel="noopener nofollow" href="https://github.com/Snipa22/nodejs-pool">nodejs-pool</a> и <a target="_blank" rel="noopener nofollow" href="https://github.com/mesh0000/poolui">poolui</a>. Да-да, подготовим к запуску в Kubernetes свой майнинг-пул с блокчейном и выплатами!</p>
-  - title: "Мониторинг и Kubernetes (Дмитрий Столяров, Флант, RootConf 2018)"
-    habr_url: "https://habr.com/company/flant/blog/412901/"
-    youtube_url: "https://www.youtube.com/watch?v=zj6SlzzBRaA"
-    img: "/images/publications/ru_280518.jpg"
-    created: 2018-05-28
-    comment: |
-      <p>Доклад Дмитрия Столярова, технического директора компании «Флант», на конференции RootConf 2018 в рамках фестиваля РИТ++ (28 мая 2018). Рассказывается об опыте настройки мониторинга с Prometheus, который был получен в результате эксплуатации десятков проектов на Kubernetes в production.</p>
-
   - title: "Возможности werf (dapp), которые делают жизнь проще"
     habr_url: "https://habr.com/company/flant/blog/354866/"
     created: 2018-05-07
