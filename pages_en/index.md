@@ -138,20 +138,6 @@ sidebar: none
     </div>
 </div>
 
-<div class="welcome">
-    <div class="page__container">
-        <div class="welcome__content">
-            <h1 class="welcome__title">
-                It’s like GitOps,<br/>
-                but <a href="https://www.youtube.com/watch?v=FPMuVdW2hYs"><b>even better!</b></a>
-            </h1>
-            <div class="welcome__subtitle">
-                werf introduces <b>Giterminism</b>: use git as a single source of truth, and make the entire delivery pipeline deterministic and idempotent.
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="features">
     <div class="page__container">
         <ul class="features__list">

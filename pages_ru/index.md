@@ -139,19 +139,6 @@ sidebar: none
     </div>
 </div>
 
-<div class="welcome">
-    <div class="page__container">
-        <div class="welcome__content">
-            <h1 class="welcome__title">
-                Это как GitOps,<br/><a href="https://www.youtube.com/watch?v=FPMuVdW2hYs"><b>но лучше!</b></a>
-            </h1>
-            <div class="welcome__subtitle">
-                werf вводит понятие <b>гитерминизм</b>: используя Git как единый источник истины позволяет добиться детерминированного и идемпотентного процесса доставки по всему пайплайну.
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="features">
     <div class="page__container">
         <ul class="features__list">
