@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*4rar#ha^5k2-o3m!z(v%slk*a-3_d0aogb92&f=$2a6eh$(y6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -132,8 +132,16 @@ if environ.get('LOG_LEVEL') is not None:
 
 LOGGING = {
     'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
     'root': {
+        'handlers': ['console'],
         'level': LOG_LEVEL,
+        'propagate': True,
     },
 }
 # [<endsnippet django-log-level>]

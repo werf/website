@@ -2,9 +2,9 @@ import boto3
 from os import environ
 
 endpoint_url = 'http://127.0.0.1:9900'
-access_key = 'minio'
-secret_key = 'password'
-bucket_name = 'storage'
+access_key = 'minioadmin'
+secret_key = 'minioadmin'
+bucket_name = 'werf-guide-app'
 filename = 'filename'
 
 if environ.get('MINIO_ACCESS_KEY') is not None:
@@ -40,5 +40,8 @@ def upload_to_s3(content):
 
 
 def download_from_s3():
-    response = s3_client.get_object(Bucket=bucket_name, Key=filename)
+    try:
+        response = s3_client.get_object(Bucket=bucket_name, Key=filename)
+    except:
+        return "You haven't uploaded anything yet.\n"
     return response['Body'].read()

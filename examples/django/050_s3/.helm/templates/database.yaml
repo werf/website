@@ -27,6 +27,14 @@ spec:
             value: django
           - name: MYSQL_ROOT_PASSWORD
             value: django
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: "100Mi"
 ---
 apiVersion: v1
 kind: Service

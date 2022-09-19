@@ -9,8 +9,9 @@ RUN apk add python3-dev gcc libc-dev linux-headers musl-dev mariadb-connector-c-
 
 # [<en>] Install the Django web framework.
 # [<ru>] Устанавливаем Django веб-фреймворк.
+# [<snippet install-boto3-import>]
 RUN python -m pip install Django uwsgi mysqlclient boto3
-
+# [<endsnippet install-boto3-import>]
 # [<en>] Copy application files into the image.
 # [<ru>] Копируем в образ файлы приложения.
 COPY app .

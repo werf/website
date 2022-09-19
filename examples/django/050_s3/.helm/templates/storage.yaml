@@ -26,9 +26,9 @@ spec:
           mountPath: /data
         env:
         - name: MINIO_ACCESS_KEY
-          value: "minio"
+          value: "minioadmin"
         - name: MINIO_SECRET_KEY
-          value: "password"
+          value: "minioadmin"
   volumeClaimTemplates:
   - metadata:
       name: minio-data

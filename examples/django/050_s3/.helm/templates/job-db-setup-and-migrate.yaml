@@ -26,11 +26,11 @@ spec:
           - name: MINIO_ENDPOINT
             value: "http://minio:9000"
           - name: MINIO_ACCESS_KEY
-            value: "minio"
+            value: "minioadmin"
           - name: MINIO_SECRET_KEY
-            value: "password"
+            value: "minioadmin"
           - name: BUCKET_NAME
-            value: "storage"
+            value: "werf-guide-app"
           - name: MYSQL_DATABASE
             value: "django"
           - name: MYSQL_HOST

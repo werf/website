@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*4rar#ha^5k2-o3m!z(v%slk*a-3_d0aogb92&f=$2a6eh$(y6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,6 +125,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGGING = {
+    'version': 1,
     'core.handlers': {
         'level': 'DEBUG',
         'handlers': ['console']

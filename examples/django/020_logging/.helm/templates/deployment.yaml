@@ -23,3 +23,6 @@ spec:
           - uwsgi.ini
         ports:
           - containerPort: 8000
+        env:
+          - name: LOG_LEVEL
+            value: DEBUG

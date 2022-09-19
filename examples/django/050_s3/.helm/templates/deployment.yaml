@@ -14,6 +14,13 @@ spec:
     spec:
       imagePullSecrets:
       - name: registrysecret
+      initContainers:
+      - name: waiting-mysql
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z mysql 3306; do sleep 1; done' ]
+      - name: waiting-minio
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z minio 9000; do sleep 1; done' ]
       containers:
       - name: backend
         image: {{ .Values.werf.image.backend }}
@@ -28,11 +35,11 @@ spec:
           - name: MINIO_ENDPOINT
             value: "http://minio:9000"
           - name: MINIO_ACCESS_KEY
-            value: "minio"
+            value: "minioadmin"
           - name: MINIO_SECRET_KEY
-            value: "password"
+            value: "minioadmin"
           - name: BUCKET_NAME
-            value: "storage"
+            value: "werf-guide-app"
           - name: MYSQL_DATABASE
             value: "django"
           - name: MYSQL_HOST
