@@ -17,12 +17,6 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
-  - title: "werf: deploy apps to Kubernetes"
-    cloud_yuga_url: "https://cloudyuga.guru/hands_on_lab/werf-deploy"
-    img: "/assets/images/publications/en_200622.png"
-    created: 2022-06-20
-    comment: |
-      <p>Learn how to easily deploy applications to Kubernetes using werf, a powerful open source tool.</p>
   - title: "Deploying Kubernetes resources in a specific order using Helm or werf"
     medium_url: "https://blog.werf.io/deploying-kubernetes-resources-in-a-specific-order-using-helm-or-werf-f8eb8c1a08"
     img: "/assets/images/publications/en_210922.png"
@@ -35,6 +29,12 @@ articles:
     created: 2021-09-29
     comment: |
       <p>This article discusses the so-called review environments running in Kubernetes clusters. Why are these environments necessary and what are typical use cases for them? How to make a review environment pipeline in GitLab CI/CD? What potential problems can arise, and how to avoid them?</p>
+  - title: "Hands-on lab on deploying to Kubernetes with werf"
+    cloud_yuga_url: "https://cloudyuga.guru/hands_on_lab/werf-deploy"
+    img: "/assets/images/publications/en_200622.png"
+    created: 2022-06-20
+    comment: |
+      <p>Use this interactive lab launched directly in your web browser to learn how you can easily deploy applications to Kubernetes with werf.</p>
   - title: "Building and Deploying a Simple App to Kubernetes Using “werf”"
     medium_url: "https://betterprogramming.pub/building-and-deploying-a-simple-app-to-kubernetes-using-werf-51bee0b3718d"
     img: "/assets/images/publications/en_210422.jpeg"
@@ -81,7 +81,7 @@ articles:
       <ul><li>create a Jenkins Shared Library to store all CI scripts in one place and edit them via a single commit;</li>
       <li>integrate Jenkins with Bitbucket to trigger CI processes by committing to specific branches or by creating a tag.</li></ul>
   - title: "What GitOps actually is and what it is not"
-    blog_url: "https://blog.flant.com/what-gitops-actually-is-and-what-it-is-not/"
+    medium_url: "https://medium.com/flant-com/gitops-2a67a5b82884/"
     youtube_url: "https://www.youtube.com/watch?v=FPMuVdW2hYs"
     img: "/assets/images/publications/en_211020.png"
     created: 2020-10-21
@@ -172,7 +172,7 @@ articles:
     comment: |
       <p>Are you struggling with implementing CI/CD for many microservices in a efficient and elegant way? Here’s our current approach in solving this task using GitLab CI (thanks to its include keyword in <i>.gitlab-ci.yml</i>) and werf.</p>
   - title: "How to kill a dragon: Rewriting your app to Golang"
-    blog_url: "https://blog.flant.com/how-to-kill-a-dragon-rewriting-your-app-to-golang/"
+    medium_url: "https://medium.com/flant-com/rewriting-your-app-to-golang-2839e8920ace"
     img: "/assets/images/publications/en_251019.png"
     created: 2019-10-25
     comment: |
