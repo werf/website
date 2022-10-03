@@ -66,6 +66,11 @@
                                 {{ i18n.tproger_btn_title }}
                             </a>
                             {%- endif %}
+                            {%- if publication.cloud_yuga_url %}
+                            <a href="{{ publication.cloud_yuga_url }}" class="publications__btn" target="_blank">
+                                {{ i18n.cloud_yuga_btn_title }}
+                            </a>
+                            {%- endif %}
                         </div>
                     </div>
                 </div>

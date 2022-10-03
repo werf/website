@@ -5,6 +5,7 @@ i18n:
   blog_btn_title: "Read on Flant Blog"
   custom_url_btn_title_prefix: "Read on "
   youtube_btn_title: "Watch on YouTube"
+  cloud_yuga_btn_title: "Run lab on CloudYuga"
 
 articles:
   #- title: TITLE
@@ -16,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "werf: deploy apps to Kubernetes"
+    cloud_yuga_url: "https://cloudyuga.guru/hands_on_lab/werf-deploy"
+    img: "/assets/images/publications/en_200622.png"
+    created: 2022-06-20
+    comment: |
+      <p>Learn how to easily deploy applications to Kubernetes using werf, a powerful open source tool.</p>
   - title: "Deploying Kubernetes resources in a specific order using Helm or werf"
     medium_url: "https://blog.werf.io/deploying-kubernetes-resources-in-a-specific-order-using-helm-or-werf-f8eb8c1a08"
     img: "/assets/images/publications/en_210922.png"
