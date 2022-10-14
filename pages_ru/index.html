@@ -20,34 +20,82 @@ sidebar: none
     </div>
 </div>
 
-<div class="intro-scheme" id="intro-scheme">
-    <div class="page__container intro-scheme__container">
-        {% include common/intro.md %}
-    </div>
+<!--<div class="intro-scheme" id="intro-scheme">-->
+<!--    <div class="page__container intro-scheme__container">-->
+<!--        {% include common/intro.md %}-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="intro">-->
+<!--    <div class="intro__bg" id="intro-bg"></div>-->
+<!--    <div class="page__container intro__container">-->
+<!--        <div class="intro__row">-->
+<!--            <div class="intro__row-item" id="intro-title">-->
+<!--                <div class="intro__subtitle">Что это?</div>-->
+<!--                <h1 class="intro__title">Инструмент<br/>консистентной<br/>доставки</h1>-->
+<!--                <ul class="intro__features">-->
+<!--                    <li>CLI-утилита, «склеивающая» Git, Docker, Helm и Kubernetes<br>-->
+<!--                    с любой CI-системой для реализации CI/CD и подхода гитерминизм.</li>-->
+<!--                </ul>-->
+<!--                <div class="intro__btns page__btn-group">-->
+<!--                    <a href="{{ "how_it_works.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">-->
+<!--                        Как это работает-->
+<!--                    </a>-->
+<!--                    <a href="{{ "documentation/quickstart.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">-->
+<!--                        Быстрый старт-->
+<!--                    </a>-->
+<!--                    <a href="{{ "documentation/index.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">-->
+<!--                        Документация-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="main-page-title">
+    <h1>What you Git is what you get!</h1>
 </div>
 
 <div class="intro">
     <div class="intro__bg" id="intro-bg"></div>
-    <div class="page__container intro__container">
+    <div class="page__container">
         <div class="intro__row">
             <div class="intro__row-item" id="intro-title">
-                <div class="intro__subtitle">Что это?</div>
-                <h1 class="intro__title">Инструмент<br/>консистентной<br/>доставки</h1>
+<!--                <div class="intro__subtitle">Что это?</div>-->
+                <h1 class="intro__title">Open Source CLI-утилита для&nbsp;доставки приложений в&nbsp;Kubernetes при&nbsp;организации CI/CD-пайплайнов и&nbsp;разработке прямо в&nbsp;K8s-кластере</h1>
+                <div class="intro__content-wrap" data-tab-group>
+                    <div class="intro__content--text">
+                        <ul class="content__list">
+                            <li class="content__list--item active" data-tabs-item="1">
+                                <div class="content__list--item-title">Реализует полный жизненный цикл доставки приложения</div>
+                                <div class="content__list--item-text" data-tabs-text>Собирайте, тестируйте и выкатывайте приложения в Kubernetes, а также очищайте сопутствующие артефакты.</div>
+                                <div class="content__list--item-progress"></div>
+                            </li>
+                            <li class="content__list--item" data-tabs-item="2">
+                                <div class="content__list--item-title">Объединяет и расширяет привычные технологии</div>
+                                <div class="content__list--item-text" data-tabs-text>
+                                    <p>Склеивает и расширяет привычные технологии: Git, Docker/Buildah, Helm, CI-систему, K8s и container registry.</p>
+                                    <p>werf связывает привычные инструменты, превращая их в понятую, целостную, интегрированную CI/CD-платформу.</p>
+                                </div>
+                                <div class="content__list--item-progress"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="intro__content--pic">
+                        <div class="intro__content--pic-wrap active" data-tabs-pic="1">
+                            {% asset intro-scheme-1.svg %}
+                        </div>
+                        <div class="intro__content--pic-wrap" data-tabs-pic="2">
+                            {% asset intro-scheme-2.svg %}
+                        </div>
+
+                    </div>
+                </div>
                 <ul class="intro__features">
                     <li>CLI-утилита, «склеивающая» Git, Docker, Helm и Kubernetes<br>
-                    с любой CI-системой для реализации CI/CD и подхода гитерминизм.</li>
+                        с любой CI-системой для реализации CI/CD и подхода гитерминизм.</li>
                 </ul>
-                <div class="intro__btns page__btn-group">
-                    <a href="{{ "how_it_works.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
-                        Как это работает
-                    </a>
-                    <a href="{{ "documentation/quickstart.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
-                        Быстрый старт
-                    </a>
-                    <a href="{{ "documentation/index.html" | true_relative_url }}" target="_blank" class="page__btn page__btn_b page__btn_small">
-                        Документация
-                    </a>
-                </div>
             </div>
         </div>
     </div>
