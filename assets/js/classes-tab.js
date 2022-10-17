@@ -7,6 +7,7 @@ window.addEventListener('load', () => {
             this.tabs = [];
             this.init = this.initTabs();
             this.currentTab = 1; //null
+            this.startActive()
         }
 
         initTabs() {
@@ -19,10 +20,15 @@ window.addEventListener('load', () => {
                 const tabContentHeight = tabContent.offsetHeight;
                 const tabDataValue = item.getAttribute('data-tabs-item');
                 const tabPicture = this.wrapper.querySelector(`[data-tabs-pic="${tabDataValue}"]`);
-                const progressBarContainer = item.querySelector('.content__list--item-progress');
+                const progressBarContainer = item.querySelector('[data-tabs-progress]');
 
                 this.tabs.push(new Tabs(groupTabs, id, item, tabContent, tabContentHeight, tabPicture, progressBarContainer));
             })
+        }
+
+        startActive() {
+            const activeTab = this.tabs.find(tab => tab.id === this.currentTab)
+            activeTab.setActive()
         }
 
         removeActive() {
@@ -30,7 +36,7 @@ window.addEventListener('load', () => {
             activeTab.setInactive();
         }
 
-        setActiveNextTab() {
+        switchActiveTab() {
             if (this.currentTab >= this.tabs.length) {
                 const activeTab = this.tabs.find(tab => tab.id === 1)
                 activeTab.setActive()
@@ -48,7 +54,6 @@ window.addEventListener('load', () => {
             this.tab = tab;
             this.tabContent = tabContent;
             this.tabContentHeight = tabContentHeight;
-            // this.closeTab = this.closeTab();
             this.tabPicture = tabPicture;
             this.progressBarContainer = progressBarContainer;
             this.progress = null
@@ -64,14 +69,14 @@ window.addEventListener('load', () => {
         }
 
         setActive() {
-            // if (!this.tab.classList.contains('active')) {
+            if (!this.tab.classList.contains('active')) {
                 this.groupTab.removeActive();
                 this.tab.classList.add('active');
                 this.tabContent.style.height = this.tabContentHeight + 'px';
                 this.tabPicture.classList.add('active');
                 this.groupTab.currentTab = this.id;
                 this.setProgressBar(this.progressBarContainer);
-            // }
+            }
         }
 
         setInactive() {
@@ -79,10 +84,15 @@ window.addEventListener('load', () => {
             this.tabContent.style.height = '0';
             this.tabPicture.classList.remove('active');
             clearInterval(this.progress);
-            // kostyl
-            if (this.progressBarContainer.querySelector('span')) {
-                this.progressBarContainer.querySelector('span').remove();
-            }
+            this.progressBarContainer.innerHTML = '';
+        }
+
+        pauseProgress() {
+            clearInterval(this.progress);
+        }
+
+        playProgress() {
+            console.log(123);
         }
 
         setProgressBar(rootElement) {
@@ -97,7 +107,7 @@ window.addEventListener('load', () => {
                 if (width >= 100) {
                     clearInterval(this.progress)
                     progressBarNode.remove();
-                    v.groupTab.setActiveNextTab();
+                    v.groupTab.switchActiveTab();
                 } else {
                     width = width + 0.25;
                     progressBarNode.style.width = width + '%';
@@ -114,11 +124,28 @@ window.addEventListener('load', () => {
 
     test[0].tabs.forEach(item => {
         item.tab.addEventListener('click', () => {
-            item.setInactive();
             item.setActive();
-            console.log(test);
+            // console.log(test);
         })
     })
 
-    console.log(test);
+    test[0].tabs.forEach(item => {
+        item.tab.addEventListener('mouseover', () => {
+            item.pauseProgress();
+        })
+    })
+
+    test[0].tabs.forEach(item => {
+        item.tab.addEventListener('mouseout', () => {
+            item.playProgress();
+        })
+    })
+
+    test[1].tabs.forEach(item => {
+        item.tab.addEventListener('click', () => {
+            item.setActive();
+        })
+    })
+
+    // console.log(test);
 });
