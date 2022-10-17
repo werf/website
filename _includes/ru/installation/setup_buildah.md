@@ -1,17 +1,14 @@
 {% offtopic title="Активация экспериментального Buildah-backend'а в werf" %}
-> Пока Buildah-режим можно активировать только если в `werf.yaml` производится сборка только Dockerfile'ов, но не Stapel-образов.
-
-Если вы хотите запускать werf в контейнерах/Kubernetes, то следуйте этим инструкциям для [Docker](https://werf.io/documentation/v{{ include.version }}/advanced/ci_cd/run_in_container/use_docker_container.html) или [Kubernetes](https://werf.io/documentation/v{{ include.version }}/advanced/ci_cd/run_in_container/use_kubernetes.html). Если же вы хотите запускать werf в Buildah-режиме вне контейнеров или хотите собрать образы с запакованным в них werf в Buildah-режиме с нуля, то:
+Если вы хотите запускать werf в контейнерах/Kubernetes, то следуйте этим инструкциям для [Docker](https://ru.werf.io/documentation/v{{ include.version }}/advanced/ci_cd/run_in_container/use_docker_container.html) или [Kubernetes](https://ru.werf.io/documentation/v{{ include.version }}/advanced/ci_cd/run_in_container/use_kubernetes.html). Если же вы хотите запускать werf в Buildah-режиме вне контейнеров или хотите собрать образы с запакованным в них werf в Buildah-режиме с нуля, то:
 * Если ваше ядро Linux версии 5.13+ (в некоторых дистрибутивах 5.11+), то убедитесь, что модуль ядра `overlay` загружен с `lsmod | grep overlay`. Если ядро более старое или у вас не получается активировать модуль ядра `overlay`, то установите `fuse-overlayfs`, который обычно доступен в репозиториях вашего дистрибутива.
-* Команда `sysctl kernel.unprivileged_userns_clone` должна вернуть `1`. В ином случае выполните:
-  ```shell
-  echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf
-  sudo sysctl -p
-  ```
 * Команда `sysctl user.max_user_namespaces` должна вернуть по меньшей мере `15000`. В ином случае выполните:
   ```shell
   echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf
   sudo sysctl -p
+  ```
+* В ядре должна быть включена опция CONFIG_USER_NS. Зачастую это можно проверить так:
+  ```shell
+  grep CONFIG_USER_NS /boot/config-<текущая версия ядра>
   ```
 * Если файлы `/etc/subuid` и `/etc/subgid` не существуют, то, в большинстве дистрибутивов, вам потребуется установить пакет, который их создаст. Текущий пользователь должен иметь по крайней мере `65536` выделенных для него subordinate UIDs/GIDs — это может выглядеть как строка вида `current_username:1000000:65536` в `/etc/subuid` и `/etc/subgid`. Если в этих файлах нет подобной строки, вам потребуется добавить её самостоятельно. Изменение этих файлов может потребовать перезагрузки. Подробнее: `man subuid`, `man subgid`.
 * Путь `~/.local/share/containers` должен быть создан и у текущего пользователя должны иметься права на чтение и запись в него.
