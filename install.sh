@@ -155,7 +155,7 @@ validate_git_version() {
   declare required_git_version="$1"
 
   declare current_git_version
-  current_git_version="$(git --version | awk '{print $3}')" || abort "Unable to parse git version."
+  current_git_version="$(git --version | awk '{print $3}' | awk -F. '{printf(\"%s.%s.%s\", $1, $2, $3)}')" || abort "Unable to parse git version."
   compare_versions "$current_git_version" "$required_git_version"
   [[ $? -gt 1 ]] && abort "Git version must be at least \"$required_git_version\"."
 }
