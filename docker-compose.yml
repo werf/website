@@ -29,7 +29,7 @@ services:
     volumes:
       - ".werf/nginx-dev.conf:/etc/nginx/nginx.conf:ro"
     ports:
-      - "82:80"
+      - "80:80"
     depends_on:
       - ru
       - en
