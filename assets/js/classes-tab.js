@@ -6,8 +6,10 @@ window.addEventListener('load', () => {
             this.wrapper = wrapper;
             this.tabs = [];
             this.init = this.initTabs();
+            this.highest = null;
             this.currentTab = 1; //null
             this.startActive()
+            this.calcHeightAllTabs()
         }
 
         initTabs() {
@@ -44,6 +46,30 @@ window.addEventListener('load', () => {
                 const activeTab = this.tabs.find(tab => tab.id === this.currentTab + 1)
                 activeTab.setActive()
             }
+        }
+
+        findHighestTab() {
+            this.highest = this.tabs[0].tabContentHeight;
+
+            this.tabs.forEach(tab => {
+                if (this.highest < tab.tabContentHeight) {
+                    this.highest = tab.tabContentHeight;
+                }
+            })
+        }
+
+        calcHeightAllTabs() {
+            this.findHighestTab();
+            const contentListHeight = this.wrapper.querySelector('.intro__content--text');
+            console.log(contentListHeight.offsetHeight, 'content height');
+            // console.log($(this.wrapper).outerHeight(), 'outer height!!!!');
+            // console.log(this.tabs[this.currentTab - 1].tabContentHeight, 'current height');
+            // console.log(this.highest, 'highest');
+
+            const widgetHeight = this.wrapper.offsetHeight - this.tabs[this.currentTab - 1].tabContentHeight + this.highest;
+            const conHeight = contentListHeight.offsetHeight + this.highest ;
+            // console.log(widgetHeight, 'must be 488');
+            console.log(conHeight, 'must be 488');
         }
     }
 
