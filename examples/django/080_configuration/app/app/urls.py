@@ -3,6 +3,7 @@ from ping import views as ping_view
 from image import views as image_view
 from talkers import views as talkers_view
 from storage import views as storage_view
+from django.http import HttpResponseNotFound
 
 urlpatterns = [
     path('ping', ping_view.ping, name='ping'),
@@ -14,3 +15,6 @@ urlpatterns = [
     path('download', storage_view.download, name='download'),
 # [<endsnippet storage-route-import>]
 ]
+
+def handler404(request, *args, **argv):
+    return HttpResponseNotFound()
