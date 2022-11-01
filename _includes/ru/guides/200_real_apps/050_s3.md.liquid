@@ -105,7 +105,7 @@ This is file content.
 
 Также убедимся, что файл сохранился и достаётся именно из хранилища. Для этого сначала запустим контейнер с утилитой `mc` для взаимодействия с MinIO:
 ```shell
-kubectl run mc --image=minio/mc --rm -it --command -- bash
+kubectl -n werf-guide-app run mc --image=minio/mc --rm -it --command -- bash
 ```
 
 Теперь, оказавшись внутри контейнера, выполним команды:
@@ -113,7 +113,7 @@ kubectl run mc --image=minio/mc --rm -it --command -- bash
 # Настроим подключение к MinIO.
 mc alias set minio http://minio:9000 minioadmin minioadmin
 # Получим содержимое сохранённого файла из S3.
-mc cat "minio/werf-guide-app/$(mc ls minio/werf-guide-app | awk 'NR==1 {print $5}')"
+mc cat "minio/werf-guide-app/$(mc ls minio/werf-guide-app | awk 'NR==1 {print $6}')"
 ```
 
 Ожидаемый результат:

@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  # [<en>] The release revision in the Job name will cause the Job to be recreated every time.
+  # [<en>] This way, we can get around the fact that the Job is immutable.
+  # [<ru>] Версия Helm-релиза в имени Job заставит Job каждый раз пересоздаваться.
+  # [<ru>] Так мы сможем обойти то, что Job неизменяема.
+  name: "setup-and-migrate-db-rev{{ .Release.Revision }}"
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+      - name: waiting-mysql
+        image: alpine:3.6
+        command: [ '/bin/sh', '-c', 'while ! nc -z mysql 3306; do sleep 1; done' ]
+      containers:
+      - name: setup-and-migrate-db
+        image: {{ .Values.werf.image.backend }}
+        command:
+        - python3
+        - manage.py
+        - migrate
+        envFrom:
+          - configMapRef:
+              name: app-envs
+          - secretRef:
+              name: app-envs
+          - secretRef:
+              name: minio-envs
+          - configMapRef:
+              name: db-envs
+          - secretRef:
+              name: db-envs
