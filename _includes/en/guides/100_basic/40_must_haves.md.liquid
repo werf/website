@@ -14,7 +14,7 @@ werf follows the  **giterminism** principle to ensure reproducibility. That is, 
 
 We strongly recommend following this approach. However, if necessary, you can loosen giterminism restrictions explicitly and enable the features that require careful use. You can do this using the [werf-giterminism.yaml]({{ site.url }}/documentation/v1.2/reference/werf_giterminism_yaml.html) file.
 
-During development or debugging, editing the project files might be annoying due to the need to create intermediate commits. We recommend using the [developer mode](#the-dev-mode).
+During development or debugging, editing the project files might be annoying due to the need to create intermediate commits. We recommend using the [developer (dev) mode](#the-dev-mode).
 
 _The detailed documentation on determinism is available [here]({{ site.url }}/documentation/v1.2/advanced/giterminism.html)._
 
@@ -49,16 +49,19 @@ Summary table of werf operating modes:
 
 The classic approach to building images using native Docker tools involves `docker build` and `docker tag` commands. After the build is complete, you have to push the newly created image to the registry (using the `docker push` command).
 
-In werf, the entire process can be carried out with just one command — `werf build`. Read [this article](https://blog.flant.com/werf-vs-docker-comparison/) to learn more about the differences between werf and Docker.
+In werf, the entire process can be carried out with just one command — `werf build`. 
+Read [this article](https://blog.flant.com/werf-vs-docker-comparison/) to learn more about the differences between werf and Docker.
 
 In addition, werf supports the following features out of the box (they are enabled by default):
 
 * [**parallel builds**]({{ site.url }}/documentation/v1.2/internals/build_process.html#parallel-build), when multiple independent images get assembled simultaneously;
-* **distributed builds**. In this mode, werf builds each layer using different builders. The synchronization and locking mechanisms enable the reuse of common layers and preserve the reproducibility of all builds.
+* **distributed immutable cache**  In this mode, thanks to the synchronization and locking mechanisms, an arbitrary number of builders can use the shared cache in the container registry without breaking the reproducibility of previously assembled layers and images. This approach is based on the ideas of [MVCC](https://ru.wikipedia.org/wiki/MVCC) and [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
+
+Please, refer to the [werf documentation]({{ site.url }}/documentation/v1.2/internals/stages_and_storage.html) to learn more about how data is stored in the registry. This document provides information on how the build process is structured, how the dependencies between the build stages are accounted for, and how the resulting images get their names.
 
 ### Tagging images
 
-In the manual deployment process (i.e., without werf), you have to define strict rules for tagging images and follow them (TBH, that's no [easy task](https://www.youtube.com/watch?v=oh4N2wBJCc8)). On the other hand, werf uses the following construct in [charts](#releases-and-helm): {% raw %}`image: {{ .Values.werf.image.app }}`{% endraw %}:
+In the manual deployment process (i.e., without werf), you have to define strict rules for tagging images and follow them (TBH, that's no [easy task](https://www.youtube.com/watch?v=oh4N2wBJCc8)). On the other hand, in werf, tagging is automatic, and the user need not worry about the tags of the built images throughout the delivery steps. For example, when templating the [chart](#releases-and-helm), the tags of the built images can be retrieved using the following construct: {% raw %}`{{ .Values.werf.image.<IMAGE_NAME> }}`{% endraw %}:
 
 {% raw %}
 ```yaml
@@ -68,17 +71,9 @@ In the manual deployment process (i.e., without werf), you have to define strict
 ```
 {% endraw %}
 
-Thus, werf **frees you of worries about tagging rules**: if there are changes in the code, it will rebuild the appropriate image, add service tags to it, push it to the registry, and insert the applicable image name into the templates. For this, werf stores metadata in the registry and tracks the file contents in the Git repository. 
+The tag is generated based on the configuration and the image assembly context (see this [article](https://blog.werf.io/content-based-tagging-in-werf-eb96d22ac509) for more information on content-based tagging).
 
-{% offtopic title="How does it work?" %}
-werf implements the so-called [content-based tagging](https://blog.flant.com/content-based-tagging-in-the-werf-builder/) (in other words, tags depend on the content): it automatically builds and deploys images in response to changes in Git contents. What matters is images do not change with every commit (there are no unnecessary re-deployments) if the content in Git has not changed.
-
-Usually, you have to define the principles for naming images in the registry. In our case, you do not have to worry about that: werf can automatically tag images for you.
-
-In short, werf calculates the checksum of files added to images and generates tags for the image based on it. It uses an [MVCC-based](https://en.wikipedia.org/wiki/MVCC) approach and [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control) to make sure that there are no conflicts between various builds running simultaneously (including running on different servers).
-
-For more information about how data is stored in the registry, refer to the [werf documentation]({{ site.url }}/documentation/v1.2/internals/stages_and_storage.html). It thoroughly describes the build process, how werf manages build stage dependencies, and how the naming is performed.
-{% endofftopic %}
+Thus, werf **frees you of worries about tagging rules**: the tagging is done in an optimal way. The reproducibility of artifacts from earlier builds is preserved and unnecessary re-deployment of Kubernetes resources is eliminated.
 
 ## Releases and Helm
 
