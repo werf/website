@@ -55,7 +55,7 @@ Read [this article](https://blog.flant.com/werf-vs-docker-comparison/) to learn 
 In addition, werf supports the following features out of the box (they are enabled by default):
 
 * [**parallel builds**]({{ site.url }}/documentation/v1.2/internals/build_process.html#parallel-build), when multiple independent images get assembled simultaneously;
-* **distributed immutable cache**  In this mode, thanks to the synchronization and locking mechanisms, an arbitrary number of builders can use the shared cache in the container registry without breaking the reproducibility of previously assembled layers and images. This approach is based on the ideas of [MVCC](https://ru.wikipedia.org/wiki/MVCC) and [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
+* **distributed immutable cache**.  In this mode, thanks to the synchronization and locking mechanisms, an arbitrary number of builders can use the shared cache in the container registry without breaking the reproducibility of previously assembled layers and images. This approach is based on the ideas of [MVCC](https://ru.wikipedia.org/wiki/MVCC) and [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
 Please, refer to the [werf documentation]({{ site.url }}/documentation/v1.2/internals/stages_and_storage.html) to learn more about how data is stored in the registry. This document provides information on how the build process is structured, how the dependencies between the build stages are accounted for, and how the resulting images get their names.
 
@@ -73,7 +73,7 @@ In the manual deployment process (i.e., without werf), you have to define strict
 
 The tag is generated based on the configuration and the image assembly context (see this [article](https://blog.werf.io/content-based-tagging-in-werf-eb96d22ac509) for more information on content-based tagging).
 
-Thus, werf **frees you of worries about tagging rules**: the tagging is done in an optimal way. The reproducibility of artifacts from earlier builds is preserved and unnecessary re-deployment of Kubernetes resources is eliminated.
+This way, werf **frees you of worries about tagging rules**: the tagging is done in an optimal way. The reproducibility of artifacts from earlier builds is preserved and unnecessary re-deployment of Kubernetes resources is eliminated.
 
 ## Releases and Helm
 
