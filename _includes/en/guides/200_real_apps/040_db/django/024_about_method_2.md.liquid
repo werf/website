@@ -1,10 +1,11 @@
-Чтобы выдержать очередность развертывания ресурсов, мы:
-1. Требуем от Job, которая выполнит инициализацию/миграции БД, дождаться доступности базы данных перед началом работы.
-1. Требуем от приложений перед тем, как запуститься, дождаться доступности базы данных _и_ подготовки базы данных _и_ выполнения миграций.
+We require the following conditions to be met to deploy resources in the desired order:
 
-Таким образом, при деплое все K8s-ресурсы будут созданы одновременно, но начнут работу в следующем порядке:
-1. Запустится БД.
-1. Затем выполнится Job с инициализацией/миграциями БД.
-1. Затем запустятся приложения.
+1. Before starting, the job to initialize/migrate the database must make sure the database is available and ready.
+1. Applications must wait until the database is available and ready and all migrations are complete before starting.
 
-Реализуем это, добавив Job для выполнения миграций/инициализации базы данных:
+This way, all K8s resources are created at the same time but being run in the following order:
+1. The database starts.
+1. The initialization/migration Job runs.
+1. The applications start.
+
+Let’s now add a Job to perform database migrations/initializations:
