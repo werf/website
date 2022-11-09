@@ -1,0 +1,11 @@
+We require the following conditions to be met to deploy resources in the desired order:
+
+1. Before starting, the job to initialize/migrate the database must make sure the database is available and ready.
+1. Applications must wait until the database is available and ready and all migrations are complete before starting.
+
+This way, all K8s resources are created at the same time but being run in the following order:
+1. The database starts.
+1. The initialization/migration Job runs.
+1. The applications start.
+
+Let’s now add a Job to perform database migrations/initializations:

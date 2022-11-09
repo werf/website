@@ -1,0 +1,16 @@
+Now we need to build an application image and an NGINX image. The latter should contain static application files that NGINX can send to the client, bypassing the application:
+
+{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+
+During the build, the NGINX configuration file will be added to the NGINX image:
+{% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
+
+Let's update the `werf.yaml` configuration so that werf will build and save two images (backend, frontend) instead of one:
+{% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
+
+Add a new NGINX container to the application Deployment:
+{% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
+
+From now on, Service and Ingress should connect to port 80 instead of 8000 so that all requests are routed through NGINX and not directly to our application:
+{% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
+{% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
