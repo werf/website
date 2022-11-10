@@ -96,7 +96,7 @@ You have to make similar changes to the rest of the `.helm/templates` files (we 
 
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/085_configs_including.md.liquid %}
 
-You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)], except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#secret-files).
+You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)), except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#secret-files).
 
 Note: learn more about working with secrets in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html).
 
