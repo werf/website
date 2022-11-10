@@ -17,7 +17,7 @@ Run the following commands in PowerShell:
 {%- if include.from_scratch %}
 # Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet).
 if (-not (Test-Path ~/werf-guide/guides)) {
-  git clone https://github.com/werf/werf-guides $env:HOMEPATH/werf-guide/guides
+  git clone https://github.com/werf/website $env:HOMEPATH/werf-guide/guides
 }
 
 # Copy the (unchanged) application files to ~/werf-guide/app.
@@ -62,7 +62,7 @@ Run the following commands in Bash:
 ```shell
 {%- if include.from_scratch %}
 # Clone the example repository to ~/werf-guide/guides (if you have not cloned it yet).
-test -e ~/werf-guide/guides || git clone https://github.com/werf/werf-guides ~/werf-guide/guides
+test -e ~/werf-guide/guides || git clone https://github.com/werf/website ~/werf-guide/guides
 
 # Copy the (unchanged) application files to ~/werf-guide/app.
 rm -rf ~/werf-guide/app
