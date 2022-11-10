@@ -73,7 +73,7 @@ To start working with secrets, you first need to generate a symmetric encryption
 
 >_Caution! You MUST NOT store the key in the repository when working with real-life applications. We recommend keeping it in a safe place and passing via the `WERF_SECRET_KEY` environment variable. You can read more about using encryption keys in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#encryption-key)._
 
-The application configuration contains data that should not be stored in unencrypted form in the repository (e.g., the database login and password). Thus, we won't store the login and password in plain text in the configuration file (as we currently do):
+The application configuration contains data that should not be stored in unencrypted form in the repository (e.g., the database login and password). Thus, we won't store the login and password in plain text
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/055_loginpas_storage.md.liquid %}
 Instead, we will store them encrypted in the `.helm/secret-values.yaml` file along with other confidential parameters:
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/060_secret_values.md.liquid %}
@@ -96,7 +96,7 @@ You have to make similar changes to the rest of the `.helm/templates` files (we 
 
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/085_configs_including.md.liquid %}
 
-You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)], except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#secret-files).
+You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)), except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html#secret-files).
 
 Note: learn more about working with secrets in the [werf documentation]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/secrets.html).
 
