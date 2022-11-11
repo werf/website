@@ -73,13 +73,13 @@ function showActionToast(text) {
 $(document).ready(function(){
   new ClipboardJS('[data-snippetcut-btn-name]', {
     text: function(trigger) {
-      showActionToast('Имя скопировано')
+      showActionToast('Filename copied')
       return $(trigger).closest('[data-snippetcut]').find('[data-snippetcut-name]').text();
     }
   });
   new ClipboardJS('[data-snippetcut-btn-text]', {
     text: function(trigger) {
-      showActionToast('Текст скопирован')
+      showActionToast('Text copied')
       return $(trigger).closest('[data-snippetcut]').find('[data-snippetcut-text]').text();
     }
   });
