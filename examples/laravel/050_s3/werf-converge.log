@@ -10,7 +10,7 @@
 │ ├ Info
 │ │      name: .../werf-guide-app:ec74eb832fd53166cee3165029dc1972ccfaca61f6c8c4c16764ff74-1634030394327
 │ │        id: 827b4e8a1dbc
-│ │   created: 2021-10-12 12:19:54 +0300 MSK
+│ │   created: 2022-10-12 12:19:54 +0000 UTC
 │ │      size: 58.9 MiB
 │ └ Building stage backend/dockerfile (31.12 seconds)
 └ ⛵ image backend (37.41 seconds)
@@ -26,7 +26,7 @@
 │ ├ Info
 │ │      name: .../werf-guide-app:28b54c42d4db8dcdfe88212b67869b896dffb94a47590c5aa9916ef7-1634030450234
 │ │        id: b9edbffedeaa
-│ │   created: 2021-10-12 12:20:50 +0300 MSK
+│ │   created: 2022-10-12 12:20:50 +0000 UTC
 │ │      size: 9.4 MiB
 │ └ Building stage frontend/dockerfile (81.60 seconds)
 └ ⛵ image frontend (87.70 seconds)
@@ -61,7 +61,7 @@
 └ Waiting for helm hook job/setup-minio termination (13.96 seconds)
 
 NAME: werf-guide-app
-LAST DEPLOYED: Tue Oct 12 12:21:07 2021
+LAST DEPLOYED: Tue Oct 12 12:21:07 2022
 NAMESPACE: werf-guide-app
 STATUS: deployed
 REVISION: 18

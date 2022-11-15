@@ -10,7 +10,7 @@
 │ ├ Info
 │ │      name: .../werf-guide-app:f2b022ecef61a8b08f36147c3fd832a1b179bd9144f8f94be1c9920b-1633617910563
 │ │        id: d3ad86893808
-│ │   created: 2021-10-07 17:45:10 +0300 MSK
+│ │   created: 2022-10-07 17:45:10 +0000 UTC
 │ │      size: 48.8 MiB
 │ └ Building stage backend/dockerfile (17.00 seconds)
 └ ⛵ image backend (21.54 seconds)
@@ -26,7 +26,7 @@
 │ ├ Info
 │ │      name: .../werf-guide-app:d1508f77a2abe02adefbe3f5653cc9b1978297d9fbcfc2716800b80d-1633617910174
 │ │        id: bf8f27681b68
-│ │   created: 2021-10-07 17:45:10 +0300 MSK
+│ │   created: 2022-10-07 17:45:10 +0000 UTC
 │ │      size: 9.4 MiB
 │ └ Building stage frontend/dockerfile (12.85 seconds)
 └ ⛵ image frontend (17.58 seconds)
@@ -44,7 +44,7 @@
 
 Release "werf-guide-app" has been upgraded. Happy Helming!
 NAME: werf-guide-app
-LAST DEPLOYED: Thu Oct  7 17:45:29 2021
+LAST DEPLOYED: Thu Oct  7 17:45:29 2022
 NAMESPACE: werf-guide-app
 STATUS: deployed
 REVISION: 11
