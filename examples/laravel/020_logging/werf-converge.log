@@ -8,7 +8,7 @@
 │ │ backend/dockerfile  Successfully built d3ad86893808
 │ │ backend/dockerfile  Successfully tagged 894dff63-2ffb-4311-807b-6ff1f38415bb:latest
 │ ├ Info
-│ │      name: .../werf-guide-app:f2b022ecef61a8b08f36147c3fd832a1b179bd9144f8f94be1c9920b-1633617910563
+│ │      name: <DOCKER HUB USERNAME>/werf-guide-app:f2b022ecef61a8b08f36147c3fd832a1b179bd9144f8f94be1c9920b-1633617910563
 │ │        id: d3ad86893808
 │ │   created: 2022-10-07 17:45:10 +0000 UTC
 │ │      size: 48.8 MiB
@@ -24,7 +24,7 @@
 │ │ frontend/dockerfile  Successfully built bf8f27681b68
 │ │ frontend/dockerfile  Successfully tagged d9147ff4-9a3e-46df-9f5a-45e13b666f21:latest
 │ ├ Info
-│ │      name: .../werf-guide-app:d1508f77a2abe02adefbe3f5653cc9b1978297d9fbcfc2716800b80d-1633617910174
+│ │      name: <DOCKER HUB USERNAME>/werf-guide-app:d1508f77a2abe02adefbe3f5653cc9b1978297d9fbcfc2716800b80d-1633617910174
 │ │        id: bf8f27681b68
 │ │   created: 2022-10-07 17:45:10 +0000 UTC
 │ │      size: 9.4 MiB
