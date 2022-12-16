@@ -33,13 +33,7 @@ There are several ways to initialize and migrate a database when deploying appli
 
 {% include guides/200_real_apps/040_db/{{ page.framework_id }}/025_migration_job.md.liquid %}
 
-{% offtopic title="Why wait for ten consecutive successful DB availability checks?" %}
-Running `mysqladmin ping`, say, once may result in an incorrect conclusion that the database is ready. This is because the check has been completed before MySQL's StatefulSet restart during deployment. In such cases, the database may be unavailable during initialization/migrations.
-
-In addition, in database images, the main database process may restart several times during the first run (while the container does not restart). In this case, the single database check may show that the database is ready; next, the initialization/migration job starts only to find that the main database process is restarting. To avoid this, we run `mysqladmin ping` several times in a row.
-
-You can change the number of successful checks in a row; 10 is used as an example.
-{% endofftopic %}
+{% include guides/200_real_apps/040_db/{{ page.framework_id }}/026_mysql_test_spoiler.md.liquid %}
 
 {% include guides/200_real_apps/040_db/{{ page.framework_id }}/027_init_container.md.liquid %}
 
