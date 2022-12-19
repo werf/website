@@ -5,13 +5,27 @@
 {%- assign entry_relative_url = entry_page_permalink | relative_url -%}
 {% assign entry_page = site.pages | find: "permalink", entry_page_permalink %}
 
-{% if entry_page and entry_page.layout != "guides-development" %}
-{% capture li_class %}{{ base_li_class }}{% if page.url contains entry.url %} active{% endif %}{% endcapture %}
-<li class="{{ li_class }}{% if entry_page.layout == "guides-wip" %} wip{% endif %}">
-<a href="{{ entry_relative_url }}" data-subhref="{{ entry.url }}">{{ entry.title }}</a>
-</li>
+{% if entry_page.layout != "guides-development" and entry_page or entry.f %}
+    {%- capture li_class -%}
+        {{ base_li_class }}
+        {%- if page.url contains entry.url %} active{% endif %}
+        {%- if entry_page.layout == "guides-wip" %} wip{% endif %}
+    {%- endcapture -%}
+    
+    <li class="{{ li_class }}">
+        {%- if entry.f %}
+            <a href="#">{{ entry.title }}</a>
+            <ul class="sidebar__submenu">
+                {%- for f_entry in entry.f %}
+                    {% include layouts/guides/sidebar_li.html.liquid entry=f_entry base_li_class="sidebar__submenu-item" %}
+                {%- endfor %}
+            </ul>
+        {%- else %}
+            <a href="{{ entry_relative_url }}" data-subhref="{{ entry.url }}">{{ entry.title }}</a>
+        {%- endif %}
+    </li>
 {% else %}
-<li class="{{ base_li_class }} {{ include.li_disabled_class }}">
-{{ entry.title }}
-</li>
+    <li class="{{ base_li_class }} {{ include.li_disabled_class }}">
+        {{ entry.title }}
+    </li>
 {% endif %}
