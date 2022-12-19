@@ -7,9 +7,12 @@
 /300_deployment_practices:
   title: Best practices for deploying
   url: /300_deployment_practices.html
-/400_dev_experience:
-  title: Improve developer experience
-  url: /400_dev_experience.html
-/400_infra:
-  title: Building infrastructure
-  url: /400_infra.html
+/400_ci_cd_workflow:
+  title: Setting up a CI/CD workflow
+  url: /400_ci_cd_workflow.html
+/400_ci_cd_workflow/030_gitlab_ci_cd:
+  title: GitLab CI/CD
+  url: /400_ci_cd_workflow/030_gitlab_ci_cd/010_workflows.html
+/400_ci_cd_workflow/050_argocd:
+  title: ArgoCD
+  url: /400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html

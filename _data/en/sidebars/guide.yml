@@ -40,3 +40,28 @@ entries:
           url: "300_deployment_practices/020_high_availability.html"
         - title: Resource management
           url: "300_deployment_practices/030_resource_management.html"
+    - title: Setting up a CI/CD workflow
+      url: "400_ci_cd_workflow.html"
+      sf:
+        - title: Workflow basics
+          url: "400_ci_cd_workflow/010_workflow_basics.html"
+        - title: Workflows
+          url: "400_ci_cd_workflow/020_workflows.html"
+        - title: GitLab CI/CD
+          f:
+            - title: Workflows
+              url: "400_ci_cd_workflow/030_gitlab_ci_cd/010_workflows.html"
+            - title: Docker executor
+              url: "400_ci_cd_workflow/030_gitlab_ci_cd/020_docker_executor.html"
+            - title: Kubernetes executor
+              url: "400_ci_cd_workflow/030_gitlab_ci_cd/030_kubernetes_executor.html"
+        - title: GitHub Actions
+          url: "400_ci_cd_workflow/040_github_actions.html"
+        - title: ArgoCD
+          f:
+            - title: CI/CD flow overview
+              url: "400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html"
+            - title: Prepare Kubernetes cluster
+              url: "400_ci_cd_workflow/050_argocd/020_prepare_kubernetes_cluster.html"
+            - title: Configure CI/CD
+              url: "400_ci_cd_workflow/050_argocd/030_configure_ci_cd.html"
