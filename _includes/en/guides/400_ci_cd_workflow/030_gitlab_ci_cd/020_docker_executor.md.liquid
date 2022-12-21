@@ -1,6 +1,4 @@
-> NOTICE: werf supports building images _with the Docker server_ or _with Buildah_. This page contains information applicable only to the mode _with Buildah_. Buildah supports building either Dockerfile images or stapel images.
-
-## 1. Configure GitLab runner for Kubernetes
+## GitLab runner configuration (config.toml)
 
 Make sure you meet all system requirements and select one of the available operating modes (depending on the capabilities of your GitLab runner) and navigate to it.
 
@@ -47,11 +45,7 @@ Basic runner configuration:
     ...
 ```
 
-## 2. Configure access to the Kubernetes cluster
-
-Assign the `WERF_KUBECONFIG_BASE64` environment variable in the GitLab project a base64-encoded value from `~/.kube/config`. werf will automatically use this configuration to connect to the Kubernetes cluster.
-
-## 3. Configure gitlab-ci.yml of the project
+## Project configuration (gitlab-ci.yml)
 
 Below is a basic build and deploy job for a project:
 
