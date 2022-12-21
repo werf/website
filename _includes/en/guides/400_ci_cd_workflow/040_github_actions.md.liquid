@@ -4,7 +4,7 @@ The workflow in the repository (a set of GitHub workflow configurations) will be
 
 * `converge` — the job to build, publish, and deploy an application for one of the cluster tiers;
 * `dismiss` — the job to delete an application (it is used for review environments only);
-* `cleanup` — the job to clean up the stages storage and the container registry.
+* `cleanup` — the job to clean up the container registry.
 
 Jobs are based on comprehensive GitHub Actions, [werf/actions](https://github.com/werf/actions), that include all the necessary steps for setting up a specific environment and running required werf commands. Below, we will discuss examples of their use (detailed information is available in the related repository).
 
