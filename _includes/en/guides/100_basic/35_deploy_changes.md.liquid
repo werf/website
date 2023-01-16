@@ -61,7 +61,7 @@ Labels:                 app.kubernetes.io/managed-by=Helm
 Annotations:            deployment.kubernetes.io/revision: 1
                         meta.helm.sh/release-name: werf-guide-app
                         meta.helm.sh/release-namespace: werf-guide-app
-                        project.werf.io/env: 
+                        project.werf.io/env:
                         project.werf.io/name: werf-guide-app
                         werf.io/version: v1.2.11+fix10
 Selector:               app=werf-guide-app
@@ -97,7 +97,7 @@ Events:
 
 Deployment runs the Pods, while logs are stored in the Pods. You can browse logs of one of the running Pods with the following command:
 ```shell
-kubectl logs app-<podId>
+kubectl logs werf-guide-app-<podId>
 ```
 
 {% offtopic title="View the output" %}
