@@ -14,3 +14,29 @@ function openTab(evt, linksClass, contentClass, contentId) {
   document.getElementById(contentId).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+$(document).ready(() => {
+  const $buttons = $('[data-tabs-button]');
+  let fileName = '';
+
+  let player = AsciinemaPlayer.create(`/assets/videos/build.cast`, document.getElementById('demo'), {
+    fit: "both",
+    autoplay: true,
+    loop: true
+  });
+
+  $buttons.each((idx, button) => {
+    $(button).click(() => {
+      $buttons.each((i, button) => $(button).removeClass('active'))
+      $(button).addClass('active');
+      fileName = $(button).attr('data-tabs-button');
+      player.dispose();
+
+      player = AsciinemaPlayer.create(`/assets/videos/${fileName}.cast`, document.getElementById('demo'), {
+        fit: "both",
+        autoplay: true,
+        loop: true
+      });
+    })
+  })
+})
