@@ -1,8 +1,8 @@
 ## Templates, manifests, and resources
 
-werf uses YAML manifests that describe Kubernetes resources. These manifests are generated based on Helm templates stored in `.helm/templates` and `.helm/charts`.
+werf uses YAML manifests that describe Kubernetes resources. These manifests are generated based on the Helm templates stored in `.helm/templates` and `.helm/charts`.
 
-_Helm template_ that describes a Pod (one of the Kubernetes resources) can be stored in `.helm/templates/pod.yaml` and have the following contents:
+The _Helm template_ that describes a Pod (one of the Kubernetes resources) is stored in `.helm/templates/pod.yaml` and have the following contents:
 {% raw %}
 ```yaml
 apiVersion: v1
@@ -17,7 +17,7 @@ spec:
 ```
 {% endraw %}
 
-Before deployment, werf transforms this Helm template to the following _manifest_:
+Before deployment, werf transforms this Helm template into the following _manifest_:
 ```yaml
 apiVersion: v1
 kind: Pod
