@@ -1,8 +1,10 @@
 ## Работаем с инфраструктурой
 
-> Сейчас попробуем некоторые команды по взаимодействию с кластером, а в [следующей](../100_basic/38_kubernetes_basics.html) главе рассмотрим их более подробно.
+> Сейчас попробуем некоторые команды по взаимодействию с Kubernetes-кластером, а [в следующей главе](../100_basic/38_kubernetes_basics.html) — рассмотрим их более подробно.
 
-Убедимся, что приложение развернуто (либо развернём его, если оно ещё не развернуто) выполнив команду:
+> Убедитесь, что у вас выставлен Namespace `werf-guide-app` по умолчанию. Это может быть актуально, если, например, вы перезагружали компьютер перед тем, как продолжить выполнение Руководства с этого раздела. Инструкции по запуску локального кластера minikube и выставлению Namespace по умолчанию находятся вверху страницу в разделе «Перезагружали компьютер после подготовки окружения?»
+
+Убедимся, что приложение развернуто (либо развернём его, если оно ещё не развернуто), выполнив команду:
 ```shell
 werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
@@ -61,7 +63,7 @@ Labels:                 app.kubernetes.io/managed-by=Helm
 Annotations:            deployment.kubernetes.io/revision: 1
                         meta.helm.sh/release-name: werf-guide-app
                         meta.helm.sh/release-namespace: werf-guide-app
-                        project.werf.io/env: 
+                        project.werf.io/env:
                         project.werf.io/name: werf-guide-app
                         werf.io/version: v1.2.11+fix10
 Selector:               app=werf-guide-app
@@ -97,7 +99,7 @@ Events:
 
 Deployment запускает Pod'ы. Логи пишутся в Pod'ах. Получить логи одного из запущенных Pod'ов можно командой:
 ```shell
-kubectl logs app-<podId>
+kubectl logs werf-guide-app-<podId>
 ```
 
 {% offtopic title="Посмотреть ответ" %}
@@ -118,7 +120,7 @@ Accept: */*
 
 ### Масштабирование
 
-Веб-сервер запущен в Deployment'е `werf-guide-app`. Помотрим, сколько реплик запущено:
+Веб-сервер запущен в Deployment'е `werf-guide-app`. Помотрим, сколько реплик этого Kubernetes-ресурса запущено:
 
 ```shell
 kubectl get pod
@@ -131,12 +133,12 @@ werf-guide-app-57f854484f-8ktqp   1/1     Running   0          7m24s
 ```
 {% endofftopic %}
 
-Поменяем вручную на 4 реплики:
+Поменяем вручную на 4 реплики. Для этого выполняем:
 ```shell
 kubectl edit deployment werf-guide-app
 ```
 
-В открывшемся редакторе выставляем `spec.replicas=4`, закрываем редактор.
+… и в открывшемся редакторе выставляем `spec.replicas=4`, закрываем редактор.
 Снова посмотрим, сколько реплик запущено:
 ```shell
 kubectl get pod
@@ -169,13 +171,13 @@ werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
 ```
 {% endofftopic %}
 
-Количество реплик снова соответствует таковому в Git-репозитории. Дело в том, что werf привела состояние кластера к состоянию, описанному в текущем Git-коммите. Этот принцип называется [**гитерминизмом**]({{ site.url }}/documentation/v1.2/advanced/giterminism.html) (giterminism).
+Количество реплик изменилось: их число снова соответствует таковому в Git-репозитории. Это произошло, потому что werf привела состояние кластера к состоянию, описанному в текущем Git-коммите. Этот принцип называется [**гитерминизмом**]({{ site.url }}/documentation/v1.2/advanced/giterminism.html) (giterminism).
 
-Как же соблюсти **гитерминизм** и сделать всё правильно? Выставим тот же `spec.replicas=4`, но уже через состояние приложения, описанное в Git:
+Как же соблюсти **гитерминизм** и сделать всё правильно? Снова выставим тот же `spec.replicas=4`, но теперь — через состояние приложения, описанное в Git:
 
 {% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
 
-Через файл `.helm/templates/deployment.yaml`:
+Нужное нам значение `spec.replicas` теперь указано в файле `.helm/templates/deployment.yaml`:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
@@ -184,7 +186,7 @@ werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
 werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 ```
 
-Проверим сколько реплик запущено теперь:
+Проверим, сколько реплик запущено теперь:
 
 ```shell
 kubectl get pod
@@ -200,11 +202,11 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 ```
 {% endofftopic %}
 
-Вернём состояние рабочей директории к предыдущему, с одной репликой:
+Их снова 4, как и требовалось! Можно вернуть состояние рабочей директории к предыдущему, т.е. с одной репликой:
 
 {% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
 
-Проверим содержимое `.helm/templates/deployment.yaml`:
+Проверим значение `spec.replicas` в содержимом файла `.helm/templates/deployment.yaml`:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_initial %}
 

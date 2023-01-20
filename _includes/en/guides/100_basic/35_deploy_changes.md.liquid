@@ -1,8 +1,10 @@
 ## Using the infrastructure
 
-> In this chapter, we will learn some commands for interacting with the cluster, and in the [next](../100_basic/38_kubernetes_basics.html) chapter, we will look at them in more detail.
+> In this chapter, we will learn some commands for interacting with the Kubernetes cluster, and [in the next chapter](../100_basic/38_kubernetes_basics.html), we will look at them in more detail.
 
-Let's make sure that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
+> Make sure that the `werf-guide-app` Namespace is set by default. You may need to set it if, for example, you rebooted your computer before proceeding with the current section of the Guide. Instructions on how to start a local minikube cluster and set the default Namespace can be found at the top of the page under "Have you rebooted your computer after setting up the environment?"
+
+Let's check that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
 ```shell
 werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
@@ -61,7 +63,7 @@ Labels:                 app.kubernetes.io/managed-by=Helm
 Annotations:            deployment.kubernetes.io/revision: 1
                         meta.helm.sh/release-name: werf-guide-app
                         meta.helm.sh/release-namespace: werf-guide-app
-                        project.werf.io/env: 
+                        project.werf.io/env:
                         project.werf.io/name: werf-guide-app
                         werf.io/version: v1.2.11+fix10
 Selector:               app=werf-guide-app
@@ -97,7 +99,7 @@ Events:
 
 Deployment runs the Pods, while logs are stored in the Pods. You can browse logs of one of the running Pods with the following command:
 ```shell
-kubectl logs app-<podId>
+kubectl logs werf-guide-app-<podId>
 ```
 
 {% offtopic title="View the output" %}
@@ -118,7 +120,7 @@ Accept: */*
 
 ### Scaling
 
-The web server is running as part of the `werf-guide-app` Deployment. Let's see how many replicas are running:
+The web server is running as part of the `werf-guide-app` Deployment. Let's see how many replicas of this Kubernetes resource are running:
 
 ```shell
 kubectl get pod
@@ -131,7 +133,7 @@ werf-guide-app-57f854484f-8ktqp   1/1     Running   0          7m24s
 ```
 {% endofftopic %}
 
-Let's change it to 4 replicas:
+Let's change it to 4 replicas. To do so, run the following command:
 ```shell
 kubectl edit deployment werf-guide-app
 ```
@@ -152,7 +154,7 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 ```
 {% endofftopic %}
 
-As you can see, we have scaled the cluster manually. Now, run `werf converge` once again:
+As you can see, we have performed the scaling manually. Now, run `werf converge` once again:
 ```shell
 werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
@@ -169,13 +171,13 @@ werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
 ```
 {% endofftopic %}
 
-The number of replicas corresponds to that specified in the Git repository. As you can see, werf brought the cluster state to the state described in the current Git commit. This principle is called [**giterminism**](https://en.werf.io/documentation/v1.2/advanced/giterminism.html).
+The number of replicas changed: now, it corresponds to that specified in the Git repository. It happened because werf brought the cluster state to the state described in the current Git commit. This principle is called [**giterminism**](https://en.werf.io/documentation/v1.2/advanced/giterminism.html).
 
-So how do you comply with the principles of **giterminism** and do it all right? This time, let's set `spec.replicas=4` by describing the application state in Git:
+So how do you comply with the principles of **giterminism** and do it all right? Let's set `spec.replicas=4`, but this time we'll do it by describing the application state in Git:
 
 {% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples from_scratch=false %}
 
-For this, we will use the `.helm/templates/deployment.yaml` file:
+The `spec.replicas` setting we need is now specified in the `.helm/templates/deployment.yaml` file:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
@@ -200,11 +202,11 @@ werf-guide-app-57f854484f-r99j4   1/1     Running   0          118m
 ```
 {% endofftopic %}
 
-Let's clean up the working directory so that it contains only one replica:
+Perfect: we have 4 of them again! Now we can bring our working directory to the previous state, i.e. where we have the only replica:
 
 {% include guides/chapter_prepare_repo_commands.md.liquid examples_to=page.examples_initial from_scratch=false %}
 
-Check the contents of the `.helm/templates/deployment.yaml` file:
+Check the `spec.replicas` value in the contents of the `.helm/templates/deployment.yaml` file:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples_initial %}
 

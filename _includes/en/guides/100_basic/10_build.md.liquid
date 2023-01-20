@@ -24,7 +24,11 @@ The `werf.yaml` file can describe the assembly of multiple images at once. There
 
 ## Building using werf
 
-> Note that before starting the build/deploy process, you must add all the files to the commit. Below, we will discuss why this is necessary and how to avoid creating unnecessary commits during local development.
+Note that before starting the werf-based build/deploy process, you have to **add all the files to the commit**.
+
+> Below, we will discuss why this is necessary and how to avoid creating unnecessary commits during local development.
+
+We already did this in the "Creating a new application repository" section above. Normally, however, you have to run the `git add` and `git commit` commands.
 
 Start the build using the [`werf build`]({{ site.url }}/documentation/v1.2/reference/cli/werf_build.html) command:
 
