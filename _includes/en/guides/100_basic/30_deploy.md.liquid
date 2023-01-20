@@ -1,3 +1,5 @@
+> **Please note! ** At this point, we have copied all the necessary files and committed the changes to the repository. The sections below are for information purposes only (up to the "Deploying in Kubernetes" section). You do not need to create or edit any files **!
+
 ## Deployment
 
 The Deployment resource creates a set of resources for launching the application. Here is the example of the Deployment resource:
@@ -18,7 +20,7 @@ The Service resource allows other applications in the cluster to connect to your
 
 ## Ingress
 
-The Ingress resource manages *external* access to the cluster (unlike a Service in Kuberneters that defines a policy for accessing applications *inside* the cluster). The Ingress configuration defines what Service to use for external traffic sent to the `werf-guide-app.test` domain. The `.helm/templates/ingress.yaml` file is used to configure the Ingress resource:
+The Ingress resource manages *external* access to the cluster (unlike a Service in Kuberneters that defines a policy for accessing applications *inside* the cluster). The Ingress configuration defines what Service to use for external traffic sent to the `werf-guide-app.test` domain.
 
 {% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
 
@@ -69,3 +71,4 @@ curl http://werf-guide-app.test/ping
 ```shell
 pong
 ```
+> Depending on your computer configuration and other factors, it may take some time (up to a minute) for the response to arrive.
