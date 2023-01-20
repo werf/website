@@ -2,7 +2,9 @@
 
 > In this chapter, we will learn some commands for interacting with the Kubernetes cluster, and [in the next chapter](../100_basic/38_kubernetes_basics.html), we will look at them in more detail.
 
-Let's make sure that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
+> Make sure that the `werf-guide-app` Namespace is set by default. You may need to set it if, for example, you rebooted your computer before proceeding with the current section of the Guide. Instructions on how to start a local minikube cluster and set the default Namespace can be found at the top of the page under "Have you rebooted your computer after setting up the environment?"
+
+Let's check that the application is deployed (or let's deploy it if it's not yet deployed) by running the following command:
 ```shell
 werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```
@@ -131,7 +133,7 @@ werf-guide-app-57f854484f-8ktqp   1/1     Running   0          7m24s
 ```
 {% endofftopic %}
 
-Let's change it to 4 replicas. To do so, we run this command:
+Let's change it to 4 replicas. To do so, run the following command:
 ```shell
 kubectl edit deployment werf-guide-app
 ```
