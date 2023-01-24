@@ -2,7 +2,14 @@
 layout: guides-page-base
 ---
 
-{{- page.description | markdownify }}
+{%- if page.include_description %}
+    {%- capture description_markdown %}
+        {%- include {{ page.include_description }} %}
+    {%- endcapture %}
+    {{- description_markdown | markdownify}}
+{%- else %}
+    {{- page.description | markdownify }}
+{%- endif %}
 
 {%- if page.chapter_production_disclaimer %}
     {%- capture production_disclaimer %}
