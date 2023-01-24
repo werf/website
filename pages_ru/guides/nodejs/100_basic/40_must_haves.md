@@ -1,5 +1,5 @@
 ---
-title: Необходимо знать
+
 permalink: guides/nodejs/100_basic/40_must_haves.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false

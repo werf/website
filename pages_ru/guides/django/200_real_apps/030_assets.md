@@ -1,5 +1,5 @@
 ---
-title: Раздача ассетов
+
 permalink: guides/django/200_real_apps/030_assets.html
 examples_initial: examples/django/020_logging
 examples: examples/django/030_assets

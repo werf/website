@@ -1,5 +1,5 @@
 ---
-title: Раздача ассетов
+
 permalink: guides/framework_id/200_real_apps/030_assets.html
 examples_initial: examples/framework_id/020_logging
 examples: examples/framework_id/030_assets

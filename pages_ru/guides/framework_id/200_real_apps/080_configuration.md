@@ -1,5 +1,5 @@
 ---
-title: Конфигурация и секреты
+
 permalink: guides/framework_id/200_real_apps/080_config.html
 examples_initial: examples/framework_id/050_s3
 examples: examples/framework_id/080_configuration

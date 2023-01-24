@@ -1,5 +1,5 @@
 ---
-title: Лучшие практики деплоя
+
 permalink: guides/java_springboot/300_deployment_practices.html
 ---
 
