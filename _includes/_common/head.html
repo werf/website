@@ -26,7 +26,12 @@
 
 {%- assign generated_title = title_parts | reverse | join: " / " %}
 <title>{{ generated_title }} | {{ site.site_title }}</title>
-{% if page.description %}
+{% if page.include_description %}
+    {%- capture description_markdown %}
+        {%- include {{page.include_description}} %}
+    {%- endcapture %}
+    {%- assign description = description_markdown | strip_html | strip_newlines | truncate: 160 %}
+{% else if page.description %}
     {%- assign description = page.description | strip_html | strip_newlines | truncate: 160 %}
 {% else %}
     {%- assign description = site.site_description | strip_html | strip_newlines | truncate: 160 %}
