@@ -1,5 +1,5 @@
 ---
-title: Внесение изменений
+
 permalink: guides/java_springboot/100_basic/35_deploy_changes.html
 examples_initial: examples/basic/002_deploy
 examples: examples/basic/003_scale

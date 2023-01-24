@@ -1,5 +1,5 @@
 ---
-title: Конфигурация и секреты
+
 permalink: guides/java_springboot/200_real_apps/080_config.html
 examples_initial: examples/java_springboot/050_s3
 examples: examples/java_springboot/080_configuration

@@ -1,5 +1,5 @@
 ---
-title: Базовое приложение
+
 permalink: guides/django/200_real_apps/010_basic_app.html
 examples_initial: examples/basic/004_modify_app
 examples: examples/django/010_basic_app

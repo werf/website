@@ -1,5 +1,5 @@
 ---
-title: Первые шаги
+
 permalink: guides/nodejs/100_basic.html
 ---
 

@@ -9,9 +9,9 @@ vars:
   languages: "ru en"
 
 tasks:
-  default:
-    cmds:
-      - task: xxx
+  # default:
+  #   cmds:
+  #     - task: xxx
 
   # TODO: specify target framework
   gen:pages:

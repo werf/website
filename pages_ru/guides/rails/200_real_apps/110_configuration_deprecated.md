@@ -1,5 +1,5 @@
 ---
-title: Управление конфигурацией приложения
+
 permalink: guides/rails/200_real_apps/110_configuration.html
 layout: guides-wip
 ---

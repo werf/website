@@ -1,5 +1,5 @@
 ---
-title: Сборка образа
+
 permalink: guides/golang/100_basic/10_build.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false

@@ -1,5 +1,5 @@
 ---
-title: Реалистичные приложения
+
 permalink: guides/nodejs/200_real_apps.html
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Конфигурация и секреты
+
 permalink: guides/rails/200_real_apps/080_config.html
 examples_initial: examples/rails/050_s3
 examples: examples/rails/080_configuration

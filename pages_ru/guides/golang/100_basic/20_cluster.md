@@ -1,5 +1,5 @@
 ---
-title: Подготовка окружения
+
 permalink: guides/golang/100_basic/20_cluster.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
