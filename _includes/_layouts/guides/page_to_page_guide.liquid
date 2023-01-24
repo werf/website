@@ -7,6 +7,8 @@
 {% assign folder_pages = "" | split: "," %}
 {% assign index_per = 0 %}
 
+{% assign sidebar_entry = page.url | sidebar_entry_by_url: sections %}
+{% assign page_title = sidebar_entry.title %}
 
 {%- for section in sections.f %}
   {%- capture folder_page_permalink %}guides/{{ page.framework_id }}/{{ section.url }}{% endcapture -%}

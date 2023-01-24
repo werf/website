@@ -1,0 +1,34 @@
+version: "3"
+
+silent: true
+
+env: {}
+
+vars:
+  frameworks: "django goland java_springboot laravel nodejs rails"
+  languages: "ru en"
+
+tasks:
+  default:
+    cmds:
+      - task: xxx
+
+  # TODO: specify target framework
+  gen:pages:
+    desc: "Generate pages for all existing frameworks using framework_id folder as the source data"
+    cmds:
+      - |
+        for framework in {{.frameworks}}
+        do
+          for lang in {{.languages}}
+          do
+            target_dir=pages_$lang/guides/$framework
+            template_dir=pages_$lang/guides/framework_id
+
+            echo "# Regenerate $framework pages"
+            rm -rf $target_dir
+            cp -a $template_dir $target_dir
+            find $target_dir -type f -exec sed -i -e 's|framework_id|$framework|g' {} \;
+            echo
+          done
+        done
