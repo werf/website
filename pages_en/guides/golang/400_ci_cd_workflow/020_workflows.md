@@ -1,5 +1,4 @@
 ---
-title: Workflows
 permalink: guides/golang/400_ci_cd_workflow/020_workflows.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false

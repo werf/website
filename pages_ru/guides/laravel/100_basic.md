@@ -1,5 +1,4 @@
 ---
-
 permalink: guides/laravel/100_basic.html
 ---
 

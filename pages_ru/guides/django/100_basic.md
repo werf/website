@@ -1,5 +1,4 @@
 ---
-
 permalink: guides/django/100_basic.html
 ---
 

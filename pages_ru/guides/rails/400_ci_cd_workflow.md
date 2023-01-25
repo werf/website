@@ -1,5 +1,4 @@
 ---
-
 permalink: guides/rails/400_ci_cd_workflow.html
 ---
 
