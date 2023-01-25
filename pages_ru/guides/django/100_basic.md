@@ -1,4 +1,5 @@
 ---
+title: Первые шаги
 permalink: guides/django/100_basic.html
 ---
 

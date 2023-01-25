@@ -9,5 +9,3 @@ _site
 backend/multiwerf/
 backend/vendor/
 backend/root/
-.bundle
-vendor/

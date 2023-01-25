@@ -1,8 +1,10 @@
 ---
+title: Подготовка окружения
 permalink: guides/nodejs/100_basic/20_cluster.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
-include_description: guides/100_basic/20_cluster_description.md.liquid
+description: |
+  В этой главе мы подготовим кластер Kubernetes, Container Registry и локальное окружение для развертывания приложений.
 ---
 
 {% include guides/100_basic/20_cluster.md.liquid %}

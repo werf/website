@@ -1,4 +1,5 @@
 ---
+title: Обзор процесса CI/CD
 permalink: guides/django/400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false

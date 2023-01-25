@@ -1,4 +1,5 @@
 ---
+title: Best practices for deploying
 permalink: guides/java_springboot/300_deployment_practices.html
 ---
 
