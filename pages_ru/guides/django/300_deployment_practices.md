@@ -1,4 +1,5 @@
 ---
+title: Лучшие практики деплоя
 permalink: guides/django/300_deployment_practices.html
 ---
 

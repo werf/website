@@ -1,4 +1,5 @@
 ---
+title: Построение процесса CI/CD
 permalink: guides/nodejs/400_ci_cd_workflow.html
 ---
 

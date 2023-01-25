@@ -1,4 +1,5 @@
 ---
+title: First steps
 permalink: guides/rails/100_basic.html
 ---
 

@@ -1,4 +1,5 @@
 ---
+title: First steps
 permalink: guides/laravel/100_basic.html
 ---
 
