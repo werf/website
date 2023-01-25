@@ -1,33 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang }}">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=1260">
-  <meta name="description" content="{% if page contains 'summary' %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
-  {%- capture tags_and_keywords -%}
-  {%- if page contains 'tags' and page contains 'keywords' -%}
-  {{ page.tags }}, {{ page.keywords }}
-  {%- elsif page contains 'tags' -%}
-  {{ page.tags }}
-  {%- elsif page contains 'keywords' -%}
-  {{ page.keywords }}
-  {%- endif -%}
-  {%- endcapture -%}
-  <meta name="keywords" content="{{ tags_and_keywords }}">
-  {%- if page.multilang %}
-  <link rel="alternate" hreflang="ru" href="{{ site.site_urls['ru'] }}{{ page.url | relative_url }}" data-proofer-ignore/>
-  <link rel="alternate" hreflang="en" href="{{ site.site_urls['en'] }}{{ page.url | relative_url }}" data-proofer-ignore/>
-  {%- endif %}
-  <title>{{ page.title }} {% if page.framework_name %}| {{ page.framework_name }} {% endif %}| {{ site.site_title }}</title>
+{% include common/head.html.liquid %}
 
-  {% include common/head-common.html %}
-
-  {% asset clipboard.min.js %}
-  {% asset customscripts-guides.js %}
-  {% asset environment.js %}
-  {% asset docs-guides.css %}
-  {% asset customstyles-guides.css %}
+{% asset clipboard.min.js %}
+{% asset customscripts-guides.js %}
+{% asset environment.js %}
+{% asset docs-guides.css %}
+{% asset customstyles-guides.css %}
 </head>
 <body>
   <div class="page">
