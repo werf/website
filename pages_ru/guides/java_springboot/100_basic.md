@@ -1,5 +1,4 @@
 ---
-
 permalink: guides/java_springboot/100_basic.html
 ---
 

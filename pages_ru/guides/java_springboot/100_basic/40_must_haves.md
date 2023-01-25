@@ -1,15 +1,8 @@
 ---
-
 permalink: guides/java_springboot/100_basic/40_must_haves.html
 chapter_initial_prepare_cluster: false
 chapter_initial_prepare_repo: false
-description: |
-  В данной главе приведена основная информация для комфортной и уверенной работы с werf:
-
-  - **Принципы работы с исходным кодом и гитерминизм**, что обеспечивают надежность и гарантию воспроизводимости, а также унифицируют все процессы.
-  - Как в werf **тегируются образы** и надо ли беспокоиться о тегах, чтобы организовать сборку и деплой _(нет, не надо)_.
-  - Как выглядит **релиз** и как производится его **отладка**.
-  - Как освободить **место в хранилище образов**, которое рано или поздно начнет заканчиваться.
+include_description: guides/100_basic/40_must_haves_description.md.liquid
 ---
 
 {% include guides/100_basic/40_must_haves.md.liquid %}

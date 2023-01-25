@@ -1,5 +1,4 @@
 ---
-
 permalink: guides/golang/100_basic.html
 ---
 
