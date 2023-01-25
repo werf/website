@@ -5,8 +5,9 @@ silent: true
 env: {}
 
 vars:
-  frameworks: "django goland java_springboot laravel nodejs rails"
+  frameworks: "django golang java_springboot laravel nodejs rails"
   languages: "ru en"
+  framework_template_dir: "_pages/guides/framework_id"
 
 tasks:
   # default:
@@ -23,12 +24,22 @@ tasks:
           for lang in {{.languages}}
           do
             target_dir=pages_$lang/guides/$framework
-            template_dir=pages_$lang/guides/framework_id
 
-            echo "# Regenerate $framework pages"
+            echo "# Regenerate $framework pages ($lang)"
             rm -rf $target_dir
-            cp -a $template_dir $target_dir
-            find $target_dir -type f -exec sed -i -e 's|framework_id|$framework|g' {} \;
+            cp -a {{.framework_template_dir}} $target_dir
+            find $target_dir -type f -exec sed -i -e "s|framework_id|$framework|g" {} \;
+
+            if [ "x$framework" = "xgolang" ]
+            then
+              echo 1>&2 "WARNING: Removing $target_dir/200_real_apps because no content available for $framework at the moment"
+              rm -rf $target_dir/200_real_apps*
+            fi
+
             echo
           done
         done
+
+      - |
+        # FIXME: this page not available for other frameworks and languages yet
+        git checkout pages_ru/guides/rails/200_real_apps/60_cron.md
