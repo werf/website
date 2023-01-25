@@ -1,5 +1,4 @@
 ---
-title: Лучшие практики деплоя
 permalink: guides/golang/300_deployment_practices.html
 ---
 

@@ -1,5 +1,4 @@
 ---
-title: Первые шаги
 permalink: guides/rails/100_basic.html
 ---
 

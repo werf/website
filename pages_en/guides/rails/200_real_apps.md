@@ -1,5 +1,4 @@
 ---
-title: Real-world apps
 permalink: guides/rails/200_real_apps.html
 ---
 

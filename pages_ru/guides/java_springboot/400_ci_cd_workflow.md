@@ -1,5 +1,4 @@
 ---
-title: Построение процесса CI/CD
 permalink: guides/java_springboot/400_ci_cd_workflow.html
 ---
 

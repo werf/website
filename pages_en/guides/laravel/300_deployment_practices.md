@@ -1,5 +1,4 @@
 ---
-title: Best practices for deploying
 permalink: guides/laravel/300_deployment_practices.html
 ---
 

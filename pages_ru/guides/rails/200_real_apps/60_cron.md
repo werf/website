@@ -1,5 +1,5 @@
 ---
-title: Периодическое выполнение заданий
+
 permalink: guides/rails/200_real_apps/60_cron.html
 layout: guides-wip
 ---

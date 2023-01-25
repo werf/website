@@ -1,5 +1,4 @@
 ---
-title: Реалистичные приложения
 permalink: guides/laravel/200_real_apps.html
 ---
 

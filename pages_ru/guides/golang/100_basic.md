@@ -1,5 +1,4 @@
 ---
-title: Первые шаги
 permalink: guides/golang/100_basic.html
 ---
 
