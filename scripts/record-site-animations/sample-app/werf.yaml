@@ -1,0 +1,7 @@
+configVersion: 1
+project: sample-app
+gitWorktree:
+  allowFetchOriginBranchesAndTags: false
+---
+image: app
+dockerfile: ./Dockerfile

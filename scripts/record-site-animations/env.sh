@@ -1,0 +1,8 @@
+#!/bin/bash
+
+. $(trdl use werf 1.2 alpha)
+export WERF_BUILDAH_MODE=native-chroot
+export WERF_INSECURE_REGISTRY=1
+export WERF_FORCE_STAGED_DOCKERFILE=1
+export WERF_SKIP_TLS_VERIFY_REGISTRY=1
+export WERF_DISABLE_AUTO_HOST_CLEANUP=1
