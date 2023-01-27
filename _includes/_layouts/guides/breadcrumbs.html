@@ -14,7 +14,7 @@
 
    {%- for i in (3..max_ind) %}
    {%- if forloop.last %}
-   <li>{{ page.title }}</li>
+   <li>{{ page_title }}</li>
    {% else %}
    {%- capture current_breadcrumb_url %}{{ next_prepender }}/{{ page_url_parts[i] }}{% endcapture -%}
    {%- capture next_prepender %}{{ next_prepender }}/{{ page_url_parts[i] }}{% endcapture -%}
