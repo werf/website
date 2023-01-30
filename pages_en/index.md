@@ -1,5 +1,5 @@
 ---
-title: Giterministic CLI tool
+title: Efficient and consistent CI/CD with Kubernetes
 permalink: /
 layout: default
 sidebar: none
@@ -177,29 +177,6 @@ sidebar: none
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="page__container documentation-block">
-    <div class="documentation">
-        <div class="documentation__image">
-        </div>
-        <div class="documentation__info">
-            <div class="documentation__info-title">
-                Detailed documentation
-            </div>
-            <div class="documentation__info-text">
-                werf documentation comprises over 100 articles covering typical use cases (getting started, deploying to Kubernetes, CI/CD integration, and more), CLI, commands, and providing a thorough description of functions & architecture.
-            </div>
-        </div>
-        <div class="documentation__btns">
-            <a href="{{ "documentation/quickstart.html" | true_relative_url }}" class="page__btn page__btn_o documentation__btn">
-                Quickstart
-            </a>
-            <a href="/guides.html" class="page__btn page__btn_o documentation__btn">
-                Guides
-            </a>
         </div>
     </div>
 </div>

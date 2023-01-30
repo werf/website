@@ -1,5 +1,5 @@
 ---
-title: Гитерминированная CLI утилита
+title: Эффективный и консистентный CI/CD с Kubernetes
 permalink: /
 layout: default
 sidebar: none
@@ -177,29 +177,6 @@ sidebar: none
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="page__container documentation-block">
-    <div class="documentation">
-        <div class="documentation__image">
-        </div>
-        <div class="documentation__info">
-            <div class="documentation__info-title">
-                Исчерпывающая документация
-            </div>
-            <div class="documentation__info-text">
-                <a href="{{ "documentation/index.html" | true_relative_url }}">Документация</a> содержит более 100 статей, включающих описание частых случаев (первые шаги, деплой в Kubernetes, интеграция с CI/CD-системами и другое), полное описание функций, архитектуры и CLI-команд.
-            </div>
-        </div>
-        <div class="documentation__btns">
-            <a href="{{ "documentation/quickstart.html" | true_relative_url }}" class="page__btn page__btn_o documentation__btn">
-            Быстрый старт
-            </a>
-            <a href="/guides.html" class="page__btn page__btn_o documentation__btn">
-                Руководства
-            </a>
         </div>
     </div>
 </div>
