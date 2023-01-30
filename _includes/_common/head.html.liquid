@@ -34,10 +34,20 @@
 {%- endfor %}
 
 {%- if page.head_title %}
-    {%- assign title_parts = title_parts | push: page.head_title -%}
+    {%- assign page_title = page.head_title -%}
+{%- elsif page.title %}
+    {%- assign page_title = title_parts | push: page.title -%}
 {%- else %}
-    {%- assign title_parts = title_parts | push: page.title -%}
+    {% assign sections = site.data.sidebars[page.sidebar].entries %}
+    {% assign sidebar_entry = page.url | sidebar_entry_by_url: sections %}
+    {%- assign page_title = sidebar_entry.title -%}
 {%- endif %}
+
+{%- unless page_title %}
+    {%- assign title_err = "Check page " | append: page.url | append: ": title is not defined" %}
+    {{ title_err | raise_error }}
+{% endunless -%}
+{%- assign title_parts = title_parts | push: page_title -%}
 
 {%- assign generated_title = title_parts | reverse | join: " | " | append: " | " | append: site.site_title %}
 {% comment %}title generation{% endcomment -%}
