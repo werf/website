@@ -1,7 +1,7 @@
 ---
-
 permalink: guides/rails/200_real_apps/60_cron.html
 layout: guides-wip
+published: false
 ---
 
 В этой главе мы покажем как запускать периодические фоновые задания (job) на примере rails rake tasks, а также расскажем что такое CronJob, чем он отличается от Job и для чего ещё можно использовать CronJob, а также ответим на часто возникающие вопросы связанные с CronJob.
