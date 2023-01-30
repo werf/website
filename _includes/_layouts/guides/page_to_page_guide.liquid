@@ -10,6 +10,11 @@
 {% assign sidebar_entry = page.url | sidebar_entry_by_url: sections %}
 {% assign page_title = sidebar_entry.title %}
 
+{%- unless page_title %}
+    {%- assign title_err = "Check page " | append: page.url | append: ": title is not defined" %}
+    {{ title_err | raise_error }}
+{% endunless -%}
+
 {%- for section in sections.f %}
   {%- capture folder_page_permalink %}guides/{{ page.framework_id }}/{{ section.url }}{% endcapture -%}
   {%- assign folder_relative_url = folder_page_permalink | relative_url -%}
