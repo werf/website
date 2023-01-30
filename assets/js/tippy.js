@@ -20,4 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
     interactive: true,
     delay: [0, 200],
   });
+
+  tippy('span.tooltip-text', {
+    content(reference) {
+      const title = reference.getAttribute('title');
+      reference.removeAttribute('title');
+      return title;
+    },
+    allowHTML: true,
+    interactive: true,
+    delay: [0, 200],
+  });
 })

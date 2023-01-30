@@ -22,27 +22,34 @@ sidebar: none
 
 <div class="intro-banner">
     <div class="page__container">
+        <div class="intro-banner__background-shapes">
+            <img class="left" src="/assets/images/backgrounds/intro-banner-left.svg" alt="">
+            <img class="right" src="/assets/images/backgrounds/intro-banner-right.svg" alt="">
+        </div>
         <div class="intro-banner__wrap">
             <div class="intro-banner__title">Лучшие практики CI/CD из коробки</div>
-            <div class="intro-banner__github">
-                <span class="page__icon page__icon_github intro-banner__github-icon"></span>
-                <a href="https://github.com/werf/werf" class="intro-banner__github-counter">
-                    <span class="intro-banner__github-counter-num"><span class="gh_counter">3414</span></span>
-                </a>
-            </div>
             <div class="intro-banner__tags">
                 <ul class="tags__list">
-                    <li class="tags__item">#разработка</li>
-                    <li class="tags__item">#тестирование</li>
                     <li class="tags__item">#сборка</li>
-                </ul>
-                <ul class="tags__list">
-                    <li class="tags__item">#дистрибуция</li>
+                    <li class="tags__item">#тестирование</li>
                     <li class="tags__item">#развертывание</li>
-                </ul>
-                <ul class="tags__list">
+                    <li class="tags__item">#дистрибуция</li>
                     <li class="tags__item">#очистка</li>
                 </ul>
+            </div>
+            <div class="intro-banner__links">
+                <div class="intro-banner__links-github">
+                    <span class="page__icon page__icon_github intro-banner__github-icon"></span>
+                    <a href="https://github.com/werf/werf" class="intro-banner__github-counter">
+                        <span class="intro-banner__github-counter-num"><span class="gh_counter">3414</span></span>
+                    </a>
+                </div>
+                <div class="intro-banner__link-cncf">
+                    <a href="https://www.cncf.io/projects/werf/" target="_blank">
+                        <img src="/assets/images/cncf-logo-small.svg" alt="">
+                    </a>
+                    <div class="link-cncf__text">werf — проект категории sandbox <br>в Cloud Native Computing Foundation</div>
+                </div>
             </div>
         </div>
     </div>
@@ -68,33 +75,32 @@ sidebar: none
                         <img src="{% asset icons/gear.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Простота <br>использования</div>
-                    <div class="card__item-text">Предоставьте Dockerfile и Helm-чарт, остальное werf возьмет на себя</div>
+                    <div class="card__item-text">Предоставьте Dockerfile и Helm-чарт — остальное werf возьмет на себя</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
                         <img src="{% asset icons/puzzles.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Интеграция стандартных технологий</div>
-                    <div class="card__item-text">Git, Buildah (tooltip: Dockerfile-сборщик от RedHat), Helm, Kubernetes и ваша CI-система</div>
+                    <div class="card__item-text">Используйте привычные Git, <span class="tooltip-text" title="Dockerfile-сборщик от Red Hat">Buildah</span>, Helm, Kubernetes и любимую CI-систему</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
                         <img src="{% asset icons/certificate.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Улучшение стандартных технологий</div>
-                    <div class="card__item-text">Продвинутое кеширование, тегирование на основе содержимого, продвинутое отслеживание ресурсов в Helm и другое</div>
+                    <div class="card__item-text">Получите продвинутое кэширование, тегирование на основе содержимого, отслеживание ресурсов в Helm и многое другое</div>
                 </li>
             </ul>
         </div>
     </div>
 </div>
 
-<div class="three-files-you-need">
+<div class="demo-block">
     <div class="page__container">
-        <div class="three-files-you-need__wrap">
-            <div class="three-files-you-need__title">Демонстрация работы werf</div>
-            <div class="three-files-you-need__tabs-wrap">
-                <div class="three-files-you-need__code">
+        <div class="demo-block__wrap">
+            <div class="demo-block__tabs-wrap">
+                <div class="demo-block__code">
                     <ul class="code-list">
                         <li class="code-item">
                             <div class="code-item-title">werf.yaml</div>
@@ -115,7 +121,7 @@ sidebar: none
                                 <span>COPY . .</span>
                                 <span>RUN npm ci</span>
                                 <br>
-                                <span>CMD [“node”, “server.js”]</span>
+                                <span>CMD ["node", "server.js"]</span>
                             </div>
                         </li>
                         <li class="code-item">
@@ -150,7 +156,7 @@ sidebar: none
                         </li>
                     </ul>
                 </div>
-                <div class="three-files-you-need__tabs">
+                <div class="demo-block__tabs">
                     <div class="tabs__nav">
                         <ul class="tabs__nav-list">
                             <li class="tabs__nav-item"><button class="button active" data-tabs-button="build">build</button></li>
@@ -188,40 +194,12 @@ sidebar: none
             </div>
         </div>
         <div class="documentation__btns">
-            <a href="{{ "how_it_works.html" | true_relative_url }}" class="page__btn page__btn_b documentation__btn">
-            Как это работает
-            </a>
             <a href="{{ "documentation/quickstart.html" | true_relative_url }}" class="page__btn page__btn_o documentation__btn">
             Быстрый старт
             </a>
             <a href="/guides.html" class="page__btn page__btn_o documentation__btn">
                 Руководства
             </a>
-        </div>
-    </div>
-</div>
-
-<div class="stats">
-    <div class="page__container">
-        <div class="stats__content">
-            <div class="stats__title">Активная разработка</div>
-            <ul class="stats__list">
-                <li class="stats__list-item">
-                    <div class="stats__list-item-num">4</div>
-                    <div class="stats__list-item-title">релиза в неделю</div>
-                    <div class="stats__list-item-subtitle">в среднем за прошлый год</div>
-                </li>
-                <li class="stats__list-item">
-                    <div class="stats__list-item-num">2000+</div>
-                    <div class="stats__list-item-title">инсталляций</div>
-                    <div class="stats__list-item-subtitle">в больших и маленьких проектах</div>
-                </li>
-                <li class="stats__list-item">
-                    <div class="stats__list-item-num gh_counter">2100</div>
-                    <div class="stats__list-item-title">звезд на GitHub</div>
-                    <div class="stats__list-item-subtitle">поддержите проект ;)</div>
-                </li>
-            </ul>
         </div>
     </div>
 </div>
