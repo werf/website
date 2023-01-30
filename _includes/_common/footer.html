@@ -1,42 +1,47 @@
 <div class="footer">
-    <div class="footer__wrap">
-        <div class="footer__block-cncf">
-            <a href="https://www.cncf.io/" target="_blank">
-                <img src="/assets/images/cncf-logo.svg" alt="cncf logo">
-            </a>
-            {%- if page.lang == "ru" %}
-                <div class="footer__block-cncf-text">werf — проект категории sandbox в Cloud Native Computing Foundation</div>
-            {%- else %}
-                <div class="footer__block-cncf-text">werf is a Cloud Native Computing Foundation sandbox project</div>
-            {%- endif %}
+    <div class="page__container">
+        <div class="footer__wrap">
+            <div class="footer__block-cncf">
+                <a href="https://www.cncf.io/projects/werf/" target="_blank">
+                    <img src="/assets/images/cncf-logo.svg" alt="cncf logo">
+                </a>
+                {%- if page.lang == "ru" %}
+                    <div class="footer__block-cncf-text">werf — проект категории sandbox в Cloud Native Computing Foundation</div>
+                {%- else %}
+                    <div class="footer__block-cncf-text">werf is a Cloud Native Computing Foundation sandbox project</div>
+                {%- endif %}
+            </div>
+            <div class="footer__block-flant">
+                {%- if page.lang == "ru" %}
+                    <a href="https://flant.ru/" target="_blank">
+                        <img src="/assets/images/flant-logo.svg" alt="flant logo">
+                    </a>
+                    <div class="footer__block-flant-text">Проект werf был изначально создан в компании «Флант»</div>
+                {%- else %}
+                    <a href="https://flant.com/" target="_blank">
+                        <img src="/assets/images/flant-logo-en.svg" alt="flant logo">
+                    </a>
+                    <div class="footer__block-flant-text">werf was originally created by Flant</div>
+                {%- endif %}
+            </div>
         </div>
-        <div class="footer__block-flant">
-            <a href="https://flant.com/" target="_blank">
-                <img src="/assets/images/flant-logo.svg" alt="flant logo">
-            </a>
-            {%- if page.lang == "ru" %}
-                <div class="footer__block-flant-text">Проект werf был изначально создан в компании «Флант»</div>
-            {%- else %}
-                <div class="footer__block-flant-text">werf was originally created by Flant</div>
-            {%- endif %}
-        </div>
-    </div>
-    {%- if page.lang == "ru" %}
-        <div class="footer__text">
-            У The Linux Foundation® (TLF) есть зарегистрированные товарные знаки и организация использует их. Список товарных знаков TLF см. в
-            <a href="https://www.linuxfoundation.org/legal/trademark-usage" target="_blank">Trademark Usage</a>.
-        </div>
-    {%- else %}
-        <div class="footer__text">
-            The Linux Foundation® (TLF) has registered trademarks and uses trademarks. For a list of TLF trademarks, see
-            <a href="https://www.linuxfoundation.org/legal/trademark-usage" target="_blank">Trademark Usage</a>.
-        </div>
-    {%- endif %}
-    <div class="footer__gen" id="siteGenerationTime" hidden>
         {%- if page.lang == "ru" %}
-        Дата генерации сайта: {{ site.time | date: "%e.%m.%Y, %H:%M %z"  }}
+            <div class="footer__text">
+                У The Linux Foundation® (TLF) есть зарегистрированные товарные знаки и организация использует их. Список товарных знаков TLF см. в
+                <a href="https://www.linuxfoundation.org/legal/trademark-usage" target="_blank">Trademark Usage</a>.
+            </div>
         {%- else %}
-        Site last generated: {{ site.time | date: "%b %-d, %Y at %H:%M %z"  }}
+            <div class="footer__text">
+                The Linux Foundation® (TLF) has registered trademarks and uses trademarks. For a list of TLF trademarks, see
+                <a href="https://www.linuxfoundation.org/legal/trademark-usage" target="_blank">Trademark Usage</a>.
+            </div>
         {%- endif %}
+        <div class="footer__gen" id="siteGenerationTime" hidden>
+            {%- if page.lang == "ru" %}
+            Дата генерации сайта: {{ site.time | date: "%e.%m.%Y, %H:%M %z"  }}
+            {%- else %}
+            Site last generated: {{ site.time | date: "%b %-d, %Y at %H:%M %z"  }}
+            {%- endif %}
+        </div>
     </div>
 </div>

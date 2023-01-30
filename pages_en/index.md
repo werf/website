@@ -22,27 +22,32 @@ sidebar: none
 
 <div class="intro-banner">
     <div class="page__container">
+        <div class="intro-banner__background-shapes">
+            <img class="left" src="/assets/images/backgrounds/intro-banner-left.svg" alt="">
+            <img class="right" src="/assets/images/backgrounds/intro-banner-right.svg" alt="">
+        </div>
         <div class="intro-banner__wrap">
             <div class="intro-banner__title">CI/CD best practices out of the box</div>
-            <div class="intro-banner__github">
-                <span class="page__icon page__icon_github intro-banner__github-icon"></span>
-                <a href="https://github.com/werf/werf" class="intro-banner__github-counter">
-                    <span class="intro-banner__github-counter-num"><span class="gh_counter">3414</span></span>
-                </a>
-            </div>
             <div class="intro-banner__tags">
                 <ul class="tags__list">
-                    <li class="tags__item">#development</li>
-                    <li class="tags__item">#testing</li>
                     <li class="tags__item">#building</li>
-                </ul>
-                <ul class="tags__list">
-                    <li class="tags__item">#distributing</li>
+                    <li class="tags__item">#testing</li>
                     <li class="tags__item">#deployment</li>
-                </ul>
-                <ul class="tags__list">
+                    <li class="tags__item">#distributing</li>
                     <li class="tags__item">#cleanup</li>
                 </ul>
+            </div>
+            <div class="intro-banner__links">
+                <div class="intro-banner__links-github">
+                    <span class="page__icon page__icon_github intro-banner__github-icon"></span>
+                    <a href="https://github.com/werf/werf" class="intro-banner__github-counter">
+                        <span class="intro-banner__github-counter-num"><span class="gh_counter">3414</span></span>
+                    </a>
+                </div>
+                <div class="intro-banner__link-cncf">
+                    <img src="/assets/images/cncf-logo-small.svg" alt="">
+                    <div class="link-cncf__text">werf is a Cloud Native Computing Foundation<br> sandbox project</div>
+                </div>
             </div>
         </div>
     </div>
@@ -51,7 +56,7 @@ sidebar: none
 <div class="building-utility">
     <div class="page__container">
         <div class="building-utility__wrap">
-            <div class="building-utility__title">One tool to implement full software delivery process within Kubernetes</div>
+            <div class="building-utility__title">One tool to implement full software delivery<br> process within Kubernetes</div>
             <div class="building-utility__pic">
                 <img src="{% asset landing/building-utility-scheme.svg @path %}" alt="">
             </div>
@@ -75,7 +80,7 @@ sidebar: none
                         <img src="{% asset icons/puzzles.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Glues common technologies</div>
-                    <div class="card__item-text">Rely on Git, Buildah (Dockerfile builder from Red Hat), Helm, Kubernetes, and your CI system of choice</div>
+                    <div class="card__item-text">Rely on Git, <span class="tooltip-text" title="Dockerfile builder from Red Hat">Buildah</span>, Helm, Kubernetes, and your CI system of choice</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
@@ -89,12 +94,11 @@ sidebar: none
     </div>
 </div>
 
-<div class="three-files-you-need">
+<div class="demo-block">
     <div class="page__container">
-        <div class="three-files-you-need__wrap">
-            <div class="three-files-you-need__title">See werf in action</div>
-            <div class="three-files-you-need__tabs-wrap">
-                <div class="three-files-you-need__code">
+        <div class="demo-block__wrap">
+            <div class="demo-block__tabs-wrap">
+                <div class="demo-block__code">
                     <ul class="code-list">
                         <li class="code-item">
                             <div class="code-item-title">werf.yaml</div>
@@ -115,7 +119,7 @@ sidebar: none
                                 <span>COPY . .</span>
                                 <span>RUN npm ci</span>
                                 <br>
-                                <span>CMD [“node”, “server.js”]</span>
+                                <span>CMD ["node", "server.js"]</span>
                             </div>
                         </li>
                         <li class="code-item">
@@ -150,7 +154,7 @@ sidebar: none
                         </li>
                     </ul>
                 </div>
-                <div class="three-files-you-need__tabs">
+                <div class="demo-block__tabs">
                     <div class="tabs__nav">
                         <ul class="tabs__nav-list">
                             <li class="tabs__nav-item"><button class="button active" data-tabs-button="build">build</button></li>
@@ -188,40 +192,12 @@ sidebar: none
             </div>
         </div>
         <div class="documentation__btns">
-            <a href="{{ "how_it_works.html" | true_relative_url }}" class="page__btn page__btn_b documentation__btn">
-                How it works
-            </a>
             <a href="{{ "documentation/quickstart.html" | true_relative_url }}" class="page__btn page__btn_o documentation__btn">
                 Quickstart
             </a>
             <a href="/guides.html" class="page__btn page__btn_o documentation__btn">
                 Guides
             </a>
-        </div>
-    </div>
-</div>
-
-<div class="stats">
-    <div class="page__container">
-        <div class="stats__content">
-            <div class="stats__title">Active development & adoption</div>
-            <ul class="stats__list">
-                <li class="stats__list-item">
-                    <div class="stats__list-item-num">4</div>
-                    <div class="stats__list-item-title">releases per week</div>
-                    <div class="stats__list-item-subtitle">on average during the last year</div>
-                </li>
-                <li class="stats__list-item">
-                    <div class="stats__list-item-num">2000+</div>
-                    <div class="stats__list-item-title">installations</div>
-                    <div class="stats__list-item-subtitle">for large and small projects</div>
-                </li>
-                <li class="stats__list-item">
-                    <div class="stats__list-item-num gh_counter">2100</div>
-                    <div class="stats__list-item-title">stars on GitHub</div>
-                    <div class="stats__list-item-subtitle">let’s make it more ;)</div>
-                </li>
-            </ul>
         </div>
     </div>
 </div>
