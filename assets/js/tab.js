@@ -22,7 +22,6 @@ $(document).ready(() => {
   let player = AsciinemaPlayer.create(`/assets/videos/build.cast`, document.getElementById('demo'), {
     fit: "both",
     autoplay: true,
-    // loop: true
   });
 
   $buttons.each((idx, button) => {
@@ -35,7 +34,6 @@ $(document).ready(() => {
       player = AsciinemaPlayer.create(`/assets/videos/${fileName}.cast`, document.getElementById('demo'), {
         fit: "both",
         autoplay: true,
-        // loop: true
       });
     })
   })
