@@ -5,21 +5,6 @@ layout: default
 sidebar: none
 ---
 
-<!--<div class="news-and-updates">-->
-<!--    <div class="news-and-updates__block">-->
-<!--        <div class="news-and-updates__title">-->
-<!--            Новости разработки-->
-<!--        </div>-->
-<!--        <div class="news-and-updates__item" id="nau-news"></div>-->
-<!--    </div>-->
-<!--    <div class="news-and-updates__block">-->
-<!--        <div class="news-and-updates__title">-->
-<!--            Последние релизы-->
-<!--        </div>-->
-<!--        <div class="news-and-updates__row" id="nau-releases"></div>-->
-<!--    </div>-->
-<!--</div>-->
-
 <div class="intro-banner">
     <div class="page__container">
         <div class="intro-banner__background-shapes">
