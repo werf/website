@@ -36,7 +36,7 @@
 {%- if page.head_title %}
     {%- assign page_title = page.head_title -%}
 {%- elsif page.title %}
-    {%- assign page_title = title_parts | push: page.title -%}
+    {%- assign page_title = page.title -%}
 {%- else %}
     {% assign sections = site.data.sidebars[page.sidebar].entries %}
     {% assign sidebar_entry = page.url | sidebar_entry_by_url: sections %}

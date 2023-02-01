@@ -1,5 +1,5 @@
 ---
-
+title: "Самоучитель по Kubernetes и werf: научись K8s и деплоить в него"
 layout: guides-landing
 permalink: guides/index.html
 ---
