@@ -387,6 +387,10 @@ body,
   border-radius: 10px;
 }
 
+.card__item-icon {
+  min-height: 42px;
+}
+
 .card__item-title {
   font-weight: 600;
   font-size: 20px;
