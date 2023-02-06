@@ -388,6 +388,7 @@ body,
 }
 
 .card__item-icon {
+  display: flex;
   min-height: 42px;
 }
 
