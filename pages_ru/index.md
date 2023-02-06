@@ -71,7 +71,7 @@ sidebar: none
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
-                        <img src="{% asset icons/certificate.svg @path %}" alt="">
+                        <img src="{% asset icons/box-icon.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Улучшение стандартных технологий</div>
                     <div class="card__item-text">Получите продвинутое кэширование, тегирование на основе содержимого, отслеживание ресурсов в Helm и многое другое</div>
