@@ -73,7 +73,7 @@ sidebar: none
                     <div class="card__item-icon">
                         <img src="{% asset icons/box-icon.svg @path %}" alt="">
                     </div>
-                    <div class="card__item-title">Улучшение стандартных технологий</div>
+                    <div class="card__item-title">Эффективная работа<br>«из коробки»</div>
                     <div class="card__item-text">Получите продвинутое кэширование, тегирование на основе содержимого, отслеживание ресурсов в Helm и многое другое</div>
                 </li>
             </ul>

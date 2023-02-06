@@ -59,21 +59,21 @@ sidebar: none
                     <div class="card__item-icon">
                         <img src="{% asset icons/gear.svg @path %}" alt="">
                     </div>
-                    <div class="card__item-title">Easy to use</div>
+                    <div class="card__item-title">Ease of use</div>
                     <div class="card__item-text">Create your Dockerfile and Helm chart, and let werf handle all the rest</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
                         <img src="{% asset icons/puzzles.svg @path %}" alt="">
                     </div>
-                    <div class="card__item-title">Glues common technologies</div>
+                    <div class="card__item-title">Gluing common technologies</div>
                     <div class="card__item-text">Rely on Git, <span class="tooltip-text" title="Dockerfile builder from Red Hat">Buildah</span>, Helm, Kubernetes, and your CI system of choice</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
                         <img src="{% asset icons/box-icon.svg @path %}" alt="">
                     </div>
-                    <div class="card__item-title">Improves these technologies</div>
+                    <div class="card__item-title">Out-of-the-box efficiency</div>
                     <div class="card__item-text">Benefit from advanced caching, content-based tagging, enhanced resource tracking in Helm, and more</div>
                 </li>
             </ul>
