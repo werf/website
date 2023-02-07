@@ -100,7 +100,7 @@ sidebar: none
                         <li class="code-item">
                             <div class="code-item-title">Dockerfile</div>
                             <div class="code-item-text">
-                                <span>FROM mode</span>
+                                <span>FROM node</span>
                                 <br>
                                 <span>WORKDIR /app</span>
                                 <span>COPY . .</span>
@@ -114,7 +114,6 @@ sidebar: none
                             <div class="code-item-text">
                                 <span>apiVersion: apps/v1</span>
                                 <span>kind: Deployment</span>
-                                <span>WORKDIR /app</span>
                                 <span>metadata:
                                     <span>name: hello</span>
                                 </span>
