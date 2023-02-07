@@ -151,6 +151,10 @@ body,
   background-image: url('/assets/images/icons/github.svg');
 }
 
+.page__icon_github-white {
+  background-image: url('/assets/images/icons/github-icon-white.svg');
+}
+
 .page__icon_search {
   background-image: url('/assets/images/icons/search.svg');
 }
@@ -270,9 +274,7 @@ body,
 
 .intro-banner__github-icon {
   display: block;
-  width: 32px;
-  height: 32px;
-  filter: brightness(10);
+  min-width: 42px;
 }
 
 .intro-banner__github-counter {
