@@ -22,7 +22,7 @@ shell:
 ---
 
 image : common_artifacts
-from: ubuntu
+from: ubuntu:20.04
 ansible:
   install:
   - file:
