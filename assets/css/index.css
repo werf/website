@@ -424,14 +424,18 @@ body,
   gap: 64px;
 }
 
+.demo-block__code {
+  margin-top: 65px;
+}
+
 .code-list {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  justify-content: space-between;
   width: 336px;
+  height: 100%;
   list-style: none;
   margin: 0;
-  margin-top: 65px;
   padding: 0;
 }
 
