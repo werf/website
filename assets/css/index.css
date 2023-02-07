@@ -30,8 +30,8 @@ body,
 
 .page__content {
   min-height: 100%;
-  padding-bottom: 138px;
-  margin-bottom: -138px;
+  padding-bottom: 280px;
+  margin-bottom: -280px;
   box-sizing: border-box;
 }
 
