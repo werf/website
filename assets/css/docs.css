@@ -122,21 +122,6 @@
 
 }
 
-.sidebar__item_parent > a:after {
-    content: '';
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: url('../assets/images/icons/dropdown.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    margin-left: 5px;
-}
-
-.sidebar__item_parent.active > a:after {
-    transform: rotate(-180deg);
-}
-
 .sidebar__item_hot:after {
     content: 'NEW!';
     font-size: 12px;
@@ -157,6 +142,10 @@
     list-style-type: none;
     padding: 5px 0 0 10px;
     margin: 0;
+}
+
+.sidebar__item_parent > .sidebar__submenu {
+    display: block;
 }
 
 .sidebar__submenu .sidebar__submenu {
