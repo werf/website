@@ -77,9 +77,6 @@ permalink: guides/index.html
                 {% include common/guides-landing-tiles.html %}
             </div>
             <div class="landing__section">
-                <div class="landing__credits">
-                    Made with <span class="icon">love</span> by <a href="https://flant.com/" target="_blank">Flant</a>
-                </div>
             </div>
         </div>
     </div>
