@@ -42,26 +42,6 @@ li.sidebar__disabled-item, li.sidebar__submenu-disabled-item {
     padding: 10px 0;
 }
 
-.layout-sidebar__sidebar {
-    width: 260px;
-    margin-right: 40px;
-    display: block;
-}
-
-.sidebar__wrapper-inner {
-    position: fixed;
-    width: 260px;
-    top: 100px;
-    bottom: 25px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.sidebar__container {
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
 #mysidebar {
   & .sidebar__item-ready-soon {
     & span {
