@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "werf — наша Open Source-утилита для CI/CD — стала проектом CNCF"
+    habr_url: "https://habr.com/ru/company/flant/news/t/715180/"
+    img: "/assets/images/publications/ru_070223.png"
+    created: 2023-02-07
+    comment: |
+      <p>Рады официально сообщить, что werf пополнила ряды sandbox-проектов международной некоммерческой организации CNCF (Cloud Native Computing Foundation). Отныне проект будет развиваться усилиями глобального Open Source-сообщества, которое занимается Kubernetes, Helm и другими cloud native-решениями.</p>
   - title: "Запуск одноразовых задач и отладка образов прямо в Kubernetes-кластере с помощью werf"
     habr_url: "https://habr.com/ru/company/flant/blog/671960/"
     img: "/assets/images/publications/ru_010722.png"
