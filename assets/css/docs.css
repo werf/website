@@ -84,10 +84,25 @@
 .layout-sidebar__sidebar {
     width: 260px;
     margin-right: 40px;
+    display: block;
 }
 
 .layout-sidebar__content {
     width: 860px;
+}
+
+.sidebar__wrapper-inner {
+    position: fixed;
+    width: 260px;
+    top: 100px;
+    bottom: 25px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar__container {
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .sidebar {
