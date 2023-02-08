@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "werf CI/CD tool becomes a CNCF project!"
+    medium_url: "https://blog.werf.io/werf-joins-cncf-4767462dd8a6"
+    img: "/assets/images/publications/en_070223.png"
+    created: 2023-02-07
+    comment: |
+      <p>werf is officially a Sandbox project in the CNCF (Cloud Native Computing Foundation) now. Here is a brief intro to the project, this change, and our nearest plans.</p>
   - title: "Deploying Kubernetes resources in a specific order using Helm or werf"
     medium_url: "https://blog.werf.io/deploying-kubernetes-resources-in-a-specific-order-using-helm-or-werf-f8eb8c1a08"
     img: "/assets/images/publications/en_210922.png"
