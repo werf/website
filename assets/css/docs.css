@@ -121,7 +121,8 @@
 }
 
 .sidebar__item > a {
-    color: #000;
+    /*color: #000;*/
+    color: inherit;
     text-decoration: none;
 }
 
@@ -135,6 +136,10 @@
 
 .sidebar__item_parent > a {
 
+}
+
+li.sidebar__item.sidebar__item_parent.active:has(li.sidebar__submenu-item.active) {
+    color: #0066FF;
 }
 
 /*.sidebar__item_parent > a:after {*/
