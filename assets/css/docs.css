@@ -138,6 +138,7 @@
 
 }
 
+li.sidebar__item.active:not(.sidebar__item_parent.active),
 li.sidebar__item.sidebar__item_parent.active:has(li.sidebar__submenu-item.active) {
     color: #0066FF;
 }
