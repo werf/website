@@ -15,10 +15,10 @@ sidebar: none
             <div class="intro-banner__title">CI/CD best practices out of the box</div>
             <div class="intro-banner__tags">
                 <ul class="tags__list">
-                    <li class="tags__item">#building</li>
-                    <li class="tags__item">#testing</li>
-                    <li class="tags__item">#deployment</li>
-                    <li class="tags__item">#distributing</li>
+                    <li class="tags__item">#build</li>
+                    <li class="tags__item">#test</li>
+                    <li class="tags__item">#deploy</li>
+                    <li class="tags__item">#distibute</li>
                     <li class="tags__item">#cleanup</li>
                 </ul>
             </div>
