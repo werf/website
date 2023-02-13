@@ -166,7 +166,6 @@ sidebar: none
 </div>
 
 {%- assign publications = site.data.publications.articles | sort: 'created' | reverse %}
-{%- assign publications_by_year = publications | group_by_exp: "publication", "publication.created | date: '%Y'" %}
 
 <div class="publications">
   <div class="page__container">
@@ -175,8 +174,7 @@ sidebar: none
       <div class="publications__subtitle">Learn more about tool's features and hands-on<br />experience from new publications</div>
       <div class="publications__cards">
         <ul class="publications__cards--list">
-        {%- for year in publications_by_year limit: 1 %}
-          {%- for publication in year.items limit: 4 %}
+          {%- for publication in publications limit: 4 %}
             <li class="publications__cards--item">
               {%- if publication.url %}
                 <a href="{{ publication.url }}" class="publications__cards--link" target="_blank">
@@ -229,7 +227,6 @@ sidebar: none
               {%- endif %}
             </li>
           {%- endfor %}
-        {%- endfor %}
         </ul>
       </div>
       <div class="community__btns">
