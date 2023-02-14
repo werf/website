@@ -1,4 +1,4 @@
-Убедитесь, что Git версии 2.18.0 или новее, gpg и [Docker](https://docs.docker.com/get-docker) установлены. Чтобы обычный пользователь мог запустить `werf`, пользователь должен иметь [доступ к Docker-сервису](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
+Убедитесь, что Git версии 2.18.0 или новее и gpg установлены.
 
 [Установите trdl](https://github.com/werf/trdl/releases/) в `~/bin/trdl`. `trdl` будет отвечать за установку и обновление `werf`. Добавьте `~/bin` в ваш $PATH.
 

@@ -11,7 +11,9 @@ $(document).ready(function () {
     version: '1.2',
     channel: 'stable',
     os: default_os,
-    arch: 'amd64'
+    arch: 'amd64',
+    backend: 'docker',
+    setting: 'shell'
   }
 
   const windows_default_method = "manually";
