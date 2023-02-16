@@ -143,6 +143,10 @@ li.sidebar__item.sidebar__item_parent.active:has(li.sidebar__submenu-item.active
     color: #0066FF;
 }
 
+li.sidebar__item.active[data-parent] > a {
+    pointer-events: none;
+}
+
 /*.sidebar__item_parent > a:after {*/
 /*    content: '';*/
 /*    display: inline-block;*/
