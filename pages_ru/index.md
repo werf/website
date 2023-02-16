@@ -5,7 +5,7 @@ layout: default
 sidebar: none
 ---
 
-<div class="intro-banner">
+<div class="intro-banner" id="intro-banner">
     <div class="page__container">
         <div class="intro-banner__background-shapes">
             <img class="left" src="/assets/images/backgrounds/intro-banner-left.svg" alt="">
@@ -40,7 +40,7 @@ sidebar: none
     </div>
 </div>
 
-<div class="building-utility">
+<div class="building-utility" id="building-utility">
     <div class="page__container">
         <div class="building-utility__wrap">
             <div class="building-utility__title">Утилита для построения полного цикла<br> доставки CI/CD c Kubernetes</div>
@@ -51,7 +51,7 @@ sidebar: none
     </div>
 </div>
 
-<div class="features-card">
+<div class="features-card" id="werf-features">
     <div class="page__container">
         <div class="features-card__wrap">
             <ul class="features-card__list">
@@ -81,9 +81,10 @@ sidebar: none
     </div>
 </div>
 
-<div class="demo-block">
+<div class="demo-block" id="how-it-works">
     <div class="page__container">
         <div class="demo-block__wrap">
+            <div class="demo-block__title">Демонстрация</div>
             <div class="demo-block__tabs-wrap">
                 <div class="demo-block__code">
                     <ul class="code-list">
@@ -167,7 +168,7 @@ sidebar: none
 
 {%- assign publications = site.data.publications.articles | sort: 'created' | reverse %}
 
-<div class="publications">
+<div class="publications" id="publications">
     <div class="page__container">
         <div class="publications__content">
             <div class="publications__title">Последние публикации про werf</div>
@@ -238,7 +239,7 @@ sidebar: none
     </div>
 </div>
 
-<div class="community">
+<div class="community" id="community">
     <div class="page__container">
         <div class="community__content">
             <div class="community__title">Растущее дружелюбное сообщество</div>
