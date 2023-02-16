@@ -1,4 +1,6 @@
 {{- define "rewrites" }}
+# 20230216
+rewrite ^/how_it_works.html                                                                     /#how-it-works permanent;
 
 # new structure 202302
 rewrite ^/documentation(/v.+)?/quickstart\.html                                                   /documentation/v1.2/index.html permanent;
