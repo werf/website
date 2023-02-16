@@ -92,7 +92,7 @@
 }
 
 .sidebar__wrapper-inner {
-    position: fixed;
+    /*position: fixed;*/
     width: 260px;
     top: 100px;
     bottom: 25px;

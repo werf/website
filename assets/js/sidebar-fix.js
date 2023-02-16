@@ -1,4 +1,4 @@
-window.onload = function() {
+$(document).ready(() => {
     const headerHeight = $('.header').height();
     const bannerHeight = $('.guides-banner').outerHeight();
     const breadcrumbs = $('.breadcrumbs-container');
@@ -18,6 +18,7 @@ window.onload = function() {
 
     if ($(window).scrollTop() > breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapperInner.css({
+            position: 'fixed',
             top: `${headerHeight + breadcrumbsMarginTop + bannerHeight}px`
         });
     } else {
@@ -34,15 +35,18 @@ window.onload = function() {
 
         setFooterOffset(scrolled, bottomFixPoint, sidebarWrapperInner, screenHeight, footerHeight, docHeight)
     });
-};
+});
+
 
 function setTopOffset(scrolled, offsetTop, sidebarWrapper, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight, bannerHeight) {
     if (scrolled > offsetTop && scrolled < breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapper.css({
+            position: 'fixed',
             top: `${headerHeight + fullBreadcrumbsHeight + bannerHeight - scrolled}px`
         });
     } else if (scrolled > breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapper.css({
+            position: 'fixed',
             top: `${headerHeight + breadcrumbsMarginTop}px`
         });
     } else if (scrolled < offsetTop && scrolled < breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
