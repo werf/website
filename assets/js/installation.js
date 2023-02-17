@@ -41,6 +41,7 @@ $(document).ready(function () {
     if (group == "version") {
       if (param == "1.2") {
         $(`[data-install-tab="rock-solid"]`).hide();
+        doInstallSelect("channel", "stable")
       } else {
         $(`[data-install-tab="rock-solid"]`).show();
       }
