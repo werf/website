@@ -1,4 +1,4 @@
-$(document).ready(() => {
+window.onload = function() {
     const headerHeight = $('.header').height();
     const bannerHeight = $('.guides-banner').outerHeight();
     const breadcrumbs = $('.breadcrumbs-container');
@@ -19,7 +19,7 @@ $(document).ready(() => {
     if ($(window).scrollTop() > breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapperInner.css({
             position: 'fixed',
-            top: `${headerHeight + breadcrumbsMarginTop + bannerHeight}px`
+            top: `${headerHeight + breadcrumbsMarginTop}px`
         });
     } else {
         setTopOffset($(window).scrollTop(), sidebarOffsetTop, sidebarWrapperInner, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight, bannerHeight);
@@ -35,7 +35,7 @@ $(document).ready(() => {
 
         setFooterOffset(scrolled, bottomFixPoint, sidebarWrapperInner, screenHeight, footerHeight, docHeight)
     });
-});
+};
 
 
 function setTopOffset(scrolled, offsetTop, sidebarWrapper, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight, bannerHeight) {
@@ -59,6 +59,7 @@ function setTopOffset(scrolled, offsetTop, sidebarWrapper, headerHeight, breadcr
 function setFooterOffset(scrolled, bottomFixPoint, sidebarWrapper, screenHeight, footerHeight, docHeight) {
     if (scrolled > bottomFixPoint) {
         sidebarWrapper.css({
+            position: 'fixed',
             bottom: `${scrolled + screenHeight + footerHeight + 25 - docHeight}px`
         })
     } else if (scrolled < bottomFixPoint) {
