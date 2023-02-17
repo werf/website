@@ -121,9 +121,12 @@
 }
 
 .sidebar__item > a {
-    /*color: #000;*/
-    color: inherit;
+    color: #000;
     text-decoration: none;
+}
+
+.sidebar__item[data-parent] > a {
+    color: inherit;
 }
 
 .sidebar__item > a:hover {
