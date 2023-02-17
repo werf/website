@@ -69,7 +69,7 @@ backend:
       <div class="installation-selector__title">Окружение запуска</div>
         <div class="tabs tabs_simple_condensed">
           <a href="javascript:void(0)" class="tabs__btn"
-          data-install-tab-group="setting" data-install-tab="shell">Shell</a>
+          data-install-tab-group="setting" data-install-tab="shell">Host</a>
           <a href="javascript:void(0)" class="tabs__btn"
           data-install-tab-group="setting" data-install-tab="docker-setting">Docker</a>
           <a href="javascript:void(0)" class="tabs__btn"
