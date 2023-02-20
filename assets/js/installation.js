@@ -51,8 +51,6 @@ $(document).ready(function () {
         $(`[data-install-tab="installer"]`).hide();
         doInstallSelect("method", windows_default_method);
       } else {
-        $(`[data-install-tab="arm64"]`).show();
-        $(`[data-install-tab="amd64"]`).show();
         $(`[data-install-tab="installer"]`).show();
       }
     }
