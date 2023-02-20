@@ -120,12 +120,8 @@ backends:
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
                         {% if environment == "host" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
-{% if environment == "host" %}
-{% if backend == "docker" %}
+{% if environment == "host" and backend == "docker" %}
 {% include installation/host_docker_linux_trdl.md.liquid version=version channel=channel %}
-{% elsif backend == "buildah" %}
-{% include installation/host_buildah_linux_trdl.md.liquid version=version channel=channel %}
-{% endif %}
 {% elsif environment == "docker" and backend == "buildah" %}
 {% include installation/docker_buildah.md.liquid version=version channel=channel %}
 {% elsif environment == "kubernetes" and backend == "buildah" %}
