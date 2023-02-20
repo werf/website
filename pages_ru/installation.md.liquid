@@ -118,6 +118,7 @@ backends:
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
                   {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
+                        {% if environment == "host" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
 {% if environment == "host" %}
 {% if backend == "docker" %}
@@ -149,6 +150,7 @@ backends:
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
                   {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
+                        {% if environment == "host" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
 {% include installation/host_docker_macos_trdl.md.liquid version=version channel=channel %}
@@ -176,6 +178,7 @@ backends:
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
                   {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
+                        {% if environment == "host" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
 {% include installation/host_docker_windows_trdl.md.liquid version=version channel=channel %}
@@ -205,6 +208,7 @@ backends:
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
                   {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
+                        {% if environment == "host" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
 {% if environment == "host" %}
 {% if backend == "docker" %}
@@ -238,6 +242,7 @@ backends:
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
                   {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
+                        {% if environment == "host" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
 {% include installation/host_docker_linux_macos_installer.md.liquid version=version channel=channel %}
