@@ -17,7 +17,7 @@ environments:
   - host
   - docker
   - kubernetes
-backend:
+backends:
   - docker
   - buildah
 ---
@@ -116,7 +116,7 @@ backend:
             <div class="installation-instruction__tab-content" data-install-content-group="channel" data-install-content="{{ channel }}">
               {% for environment in page.environments %}
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
-                  {% for backend in page.backend %}
+                  {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
 <div markdown="1">
 {% if environment == "host" %}
@@ -149,7 +149,7 @@ backend:
             <div class="installation-instruction__tab-content" data-install-content-group="channel" data-install-content="{{ channel }}">
               {% for environment in page.environments %}
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
-                  {% for backend in page.backend %}
+                  {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
@@ -180,7 +180,7 @@ backend:
             <div class="installation-instruction__tab-content" data-install-content-group="channel" data-install-content="{{ channel }}">
               {% for environment in page.environments %}
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
-                  {% for backend in page.backend %}
+                  {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
@@ -213,7 +213,7 @@ backend:
               <div class="installation-instruction__tab-content" data-install-content-group="channel" data-install-content="{{ channel }}">
                 {% for environment in page.environments %}
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
-                  {% for backend in page.backend %}
+                  {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
 <div markdown="1">
 {% if environment == "host" %}
@@ -246,7 +246,7 @@ backend:
               <div class="installation-instruction__tab-content" data-install-content-group="channel" data-install-content="{{ channel }}">
                 {% for environment in page.environments %}
                 <div class="installation-instruction__tab-content" data-install-content-group="environment" data-install-content="{{ environment }}">
-                  {% for backend in page.backend %}
+                  {% for backend in page.backends  %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
