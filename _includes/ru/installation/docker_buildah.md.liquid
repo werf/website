@@ -8,6 +8,8 @@
 docker run \
     --security-opt seccomp=unconfined \
     --security-opt apparmor=unconfined \
+    --volume ${PWD}:/app \
+    --workdir /app \
     registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }} werf help
 ```
 
