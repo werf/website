@@ -1,4 +1,4 @@
-{% include "installation/_ready_to_use_images.md" %}
+{% include installation/_ready_to_use_images.md.liquid %}
 
 ## Пример использования
 
@@ -11,6 +11,6 @@ docker run \
     registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }} werf help
 ```
 
-{% include "installation/_buildah_settings.md" %}
+{% include installation/_buildah_settings.md.liquid %}
 
-{% include "installation/_buildah_troubleshooting.md" %}
+{% include installation/_buildah_troubleshooting.md.liquid %}

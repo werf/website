@@ -18,4 +18,4 @@
 
 Если ядро более старое или у вас не получается активировать модуль ядра `overlay`, то установите `fuse-overlayfs`, который обычно доступен в репозиториях вашего дистрибутива. В крайнем случае может быть использован драйвер хранилища `vfs` с помощью установки переменной окружения `WERF_BUILDAH_STORAGE_DRIVER=vfs`.
 
-{% include "installation/__buildah_troubleshooting.md" %}
+{% include installation/__buildah_troubleshooting.md.liquid %}

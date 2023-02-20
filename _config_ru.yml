@@ -24,6 +24,7 @@ exclude:
 include:
   - pages_ru
   - ssi
+  - _*.md.liquid
 
 defaults:
   - scope:
