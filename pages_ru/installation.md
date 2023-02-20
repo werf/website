@@ -120,7 +120,6 @@ backend:
 
   <div class="installation-instruction">
     <div class="docs">
-      <h2 id="установка-werf">Установка</h2>
       <div class="installation-instruction__tab-content" data-install-content-group="method" data-install-content="manually">
         <div class="installation-instruction__tab-content" data-install-content-group="os" data-install-content="linux">
           {% for version in page.versions %}
