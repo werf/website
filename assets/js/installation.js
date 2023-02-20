@@ -11,7 +11,6 @@ $(document).ready(function () {
     version: '1.2',
     channel: 'stable',
     os: default_os,
-    arch: 'amd64',
     backend: 'docker',
     setting: 'shell'
   }
@@ -49,9 +48,6 @@ $(document).ready(function () {
 
     if (group == "os") {
       if (param == "windows") {
-        $(`[data-install-tab="arm64"]`).hide();
-        doInstallSelect("arch", "amd64")
-
         $(`[data-install-tab="installer"]`).hide();
         doInstallSelect("method", windows_default_method);
       } else {
