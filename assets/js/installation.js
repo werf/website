@@ -61,6 +61,15 @@ $(document).ready(function () {
       }
     }
 
+    if (group == "backend") {
+      if (param == "buildah") {
+        $(`[data-install-tab="macos"]`).hide();
+        doInstallSelect("os", "linux")
+      } else {
+        $(`[data-install-tab="macos"]`).show();
+      }
+    }
+
     doInstallSelect(group, param)
   }
 
