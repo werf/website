@@ -12,7 +12,7 @@ $(document).ready(function () {
     channel: 'stable',
     os: default_os,
     backend: 'docker',
-    setting: 'shell'
+    environment: 'host'
   }
 
   const windows_default_method = "manually";
