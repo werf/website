@@ -89,6 +89,7 @@
 
 .layout-sidebar__content {
     width: 860px;
+    min-height: calc(100vh - 90px - 150px - 70px);
 }
 
 .sidebar__wrapper-inner {
