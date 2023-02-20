@@ -108,7 +108,7 @@ backend:
 
   <div class="installation-instruction">
     <div class="docs">
-      <div class="installation-instruction__tab-content" data-install-content-group="method" data-install-content="manually">
+       <div class="installation-instruction__tab-content" data-install-content-group="method" data-install-content="manually">
         <div class="installation-instruction__tab-content" data-install-content-group="os" data-install-content="linux">
           {% for version in page.versions %}
           <div class="installation-instruction__tab-content" data-install-content-group="version" data-install-content="{{ version }}">
@@ -118,9 +118,9 @@ backend:
                 <div class="installation-instruction__tab-content" data-install-content-group="setting" data-install-content="{{ setting }}">
                   {% for backend in page.backend %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
+                        <h2>Установка</h2>
 <div markdown="1">
 {% if setting == "shell" %}
-<h2>Установка</h2>
 {% if backend == "docker" %}
 {% include installation/host_docker_linux_trdl.md.liquid version=version channel=channel %}
 {% elsif backend == "buildah" %}
@@ -154,7 +154,7 @@ backend:
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
-<h2>Установка</h2>
+
 {% include installation/host_docker_macos_trdl.md.liquid version=version channel=channel %}
 {% endif %}
 
@@ -184,8 +184,7 @@ backend:
                 <div class="installation-instruction__tab-content" data-install-content-group="setting" data-install-content="{{ setting }}">
                   {% for backend in page.backend %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
-{% if setting == "shell" %}<h2>Установка</h2>{% endif %}
-
+                        {% if setting == "shell" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
 {% include installation/host_docker_windows_trdl.md.liquid version=version channel=channel %}
@@ -219,8 +218,7 @@ backend:
                 <div class="installation-instruction__tab-content" data-install-content-group="setting" data-install-content="{{ setting }}">
                   {% for backend in page.backend %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
-{% if setting == "shell" %}<h2>Установка</h2>{% endif %}
-
+                        {% if setting == "shell" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
 {% if setting == "shell" %}
 {% if backend == "docker" %}
@@ -254,9 +252,8 @@ backend:
                 <div class="installation-instruction__tab-content" data-install-content-group="setting" data-install-content="{{ setting }}">
                   {% for backend in page.backend %}
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
+                        {% if setting == "shell" %}<h2>Установка</h2>{% endif %}
 <div markdown="1">
-{% if setting == "shell" %}<h2>Установка</h2>{% endif %}
-
 {% if setting == "shell" and backend == "docker" %}
 {% include installation/host_docker_linux_macos_installer.md.liquid version=version channel=channel %}
 {% endif %}
