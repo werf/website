@@ -1,5 +1,3 @@
-Убедитесь, что [Docker](https://docs.docker.com/get-docker), git 2.18.0+ и gpg установлены.
-
 Скачайте установщик werf:
 
 ```shell

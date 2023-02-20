@@ -1,0 +1,1 @@
+Убедитесь, что [Git](https://git-scm.com/download/win) версии 2.18.0 или новее, gpg и [Docker](https://docs.docker.com/get-docker) установлены. 

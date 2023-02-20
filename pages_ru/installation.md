@@ -135,27 +135,19 @@ backend:
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
-{% include installation/trdl_linux.md version=version channel=channel arch=arch %}
+{% include installation/host_docker_linux_macos_trdl.md version=version channel=channel arch=arch %}
 {% endif %}
 
 {% if setting == "shell" and backend == "buildah" %}
-{% if version != 1.1 %}
-{% include installation/setup_buildah.md version=version %}
-{% endif %}
-{% include installation/trdl_linux_buildah.md version=version channel=channel arch=arch %}
-{% include installation/buildah.md %}
-{% endif %}
-
-{% if setting == "docker-setting" and backend == "docker" %}
-{% include installation/docker_docker.md %}
+{% include installation/host_buildah_linux_trdl.md version=version channel=channel arch=arch %}
 {% endif %}
 
 {% if setting == "docker-setting" and backend == "buildah" %}
-{% include installation/docker_buildah.md %}
+{% include installation/docker_buildah.md version=version channel=channel %}
 {% endif %}
 
 {% if setting == "kubernetes" and backend == "buildah" %}
-{% include installation/kubernetes_buildah.md %}
+{% include installation/kubernetes_buildah.md version=version channel=channel %}
 {% endif %}
 </div>
                   </div>
@@ -182,11 +174,7 @@ backend:
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
-{% include installation/trdl_macos.md version=version channel=channel arch=arch %}
-{% endif %}
-
-{% if setting == "docker-setting" and backend == "docker" %}
-{% include installation/docker_docker.md %}
+{% include installation/host_docker_linux_macos_trdl.md version=version channel=channel arch=arch %}
 {% endif %}
 
 {% if setting == "docker-setting" and backend == "buildah" %}
@@ -221,16 +209,7 @@ backend:
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
-{% include installation/trdl_windows.md version=version channel=channel arch=arch %}
-{% endif %}
-
-{% if setting == "shell" and backend == "buildah" %}
-{% include installation/trdl_windows_buildah.md version=version channel=channel arch=arch %}
-{% include installation/buildah.md %}
-{% endif %}
-
-{% if setting == "docker-setting" and backend == "docker" %}
-{% include installation/docker_docker.md %}
+{% include installation/host_docker_windows_trdl.md version=version channel=channel arch=arch %}
 {% endif %}
 
 {% if setting == "docker-setting" and backend == "buildah" %}
@@ -267,22 +246,11 @@ backend:
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
-{% include installation/installer_linux_macos.md version=version channel=channel %}
-{% if version != 1.1 %}
-{% include installation/setup_buildah.md version=version %}
-{% endif %}
+{% include installation/host_docker_linux_macos_installer.md version=version channel=channel %}
 {% endif %}
 
 {% if setting == "shell" and backend == "buildah" %}
-{% if version != 1.1 %}
-{% include installation/setup_buildah.md version=version %}
-{% endif %}
-{% include installation/trdl_linux_buildah.md version=version channel=channel arch=arch %}
-{% include installation/buildah.md version=version channel=channel arch=arch %}
-{% endif %}
-
-{% if setting == "docker-setting" and backend == "docker" %}
-{% include installation/docker_docker.md %}
+{% include installation/host_buildah_linux_installer.md version=version channel=channel arch=arch %}
 {% endif %}
 
 {% if setting == "docker-setting" and backend == "buildah" %}
@@ -317,11 +285,7 @@ backend:
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
-{% include installation/installer_linux_macos.md version=version channel=channel %}
-{% endif %}
-
-{% if setting == "docker-setting" and backend == "docker" %}
-{% include installation/docker_docker.md %}
+{% include installation/host_docker_macos_trdl.md version=version channel=channel %}
 {% endif %}
 
 {% if setting == "docker-setting" and backend == "buildah" %}

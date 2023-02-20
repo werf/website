@@ -1,8 +1,4 @@
-## Buildah
-
-Для сборки без Docker-сервера werf использует Buildah в rootless-режиме. Buildah встроен в бинарник werf.
-
-Buildah включается установкой переменной окружения `WERF_BUILDAH_MODE` в один из вариантов: `auto`, `native-chroot`, `native-rootless`. Большинству пользователей для включения режима Buildah достаточно установить `WERF_BUILDAH_MODE=auto`.
+## Настройка Buildah
 
 ### Уровень изоляции сборки
 

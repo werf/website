@@ -1,4 +1,4 @@
-Убедитесь, что Git версии 2.18.0 или новее, gpg и [Docker](https://docs.docker.com/get-docker) установлены.
+{% include "installation/_host_docker_requirements.md" %}
 
 [Установите trdl](https://github.com/werf/trdl/releases/) в `~/bin/trdl`. `trdl` будет отвечать за установку и обновление `werf`. Добавьте `~/bin` в ваш $PATH.
 
