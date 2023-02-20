@@ -125,10 +125,8 @@ backends:
 {% elsif backend == "buildah" %}
 {% include installation/host_buildah_linux_trdl.md.liquid version=version channel=channel %}
 {% endif %}
-
 {% elsif environment == "docker" and backend == "buildah" %}
 {% include installation/docker_buildah.md.liquid version=version channel=channel %}
-
 {% elsif environment == "kubernetes" and backend == "buildah" %}
 {% include installation/kubernetes_buildah.md.liquid version=version channel=channel %}
 {% endif %}
@@ -154,13 +152,9 @@ backends:
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
 {% include installation/host_docker_macos_trdl.md.liquid version=version channel=channel %}
-{% endif %}
-
-{% if environment == "docker" and backend == "buildah" %}
+{% elsif environment == "docker" and backend == "buildah" %}
 {% include installation/docker_buildah.md.liquid %}
-{% endif %}
-
-{% if environment == "kubernetes" and backend == "buildah" %}
+{% elsif environment == "kubernetes" and backend == "buildah" %}
 {% include installation/kubernetes_buildah.md.liquid %}
 {% endif %}
 </div>
@@ -185,13 +179,9 @@ backends:
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
 {% include installation/host_docker_windows_trdl.md.liquid version=version channel=channel %}
-{% endif %}
-
-{% if environment == "docker" and backend == "buildah" %}
+{% elsif environment == "docker" and backend == "buildah" %}
 {% include installation/docker_buildah.md.liquid %}
-{% endif %}
-
-{% if environment == "kubernetes" and backend == "buildah" %}
+{% elsif environment == "kubernetes" and backend == "buildah" %}
 {% include installation/kubernetes_buildah.md.liquid %}
 {% endif %}
 </div>
@@ -251,13 +241,9 @@ backends:
 <div markdown="1">
 {% if environment == "host" and backend == "docker" %}
 {% include installation/host_docker_linux_macos_installer.md.liquid version=version channel=channel %}
-{% endif %}
-
-{% if environment == "docker" and backend == "buildah" %}
+{% elsif environment == "docker" and backend == "buildah" %}
 {% include installation/docker_buildah.md.liquid %}
-{% endif %}
-
-{% if environment == "kubernetes" and backend == "buildah" %}
+{% elsif environment == "kubernetes" and backend == "buildah" %}
 {% include installation/kubernetes_buildah.md.liquid %}
 {% endif %}
 </div>
