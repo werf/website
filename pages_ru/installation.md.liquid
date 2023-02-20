@@ -206,9 +206,10 @@ backend:
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
                       {% for arch in page.arch %}
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
+{% if setting == "shell" %}<h2>Установка</h2>{% endif %}
+
 <div markdown="1">
 {% if setting == "shell" and backend == "docker" %}
-<h2>Установка</h2>
 {% include installation/host_docker_windows_trdl.md.liquid version=version channel=channel arch=arch %}
 {% endif %}
 
@@ -244,9 +245,10 @@ backend:
                     <div class="installation-instruction__tab-content" data-install-content-group="backend" data-install-content="{{ backend }}">
                       {% for arch in page.arch %}
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
+{% if setting == "shell" %}<h2>Установка</h2>{% endif %}
+
 <div markdown="1">
 {% if setting == "shell" %}
-<h2>Установка</h2>
 {% if backend == "docker" %}
 {% include installation/host_docker_linux_macos_installer.md.liquid version=version channel=channel %}
 {% elsif backend == "buildah" %}
@@ -283,6 +285,8 @@ backend:
                       {% for arch in page.arch %}
                         <div class="installation-instruction__tab-content" data-install-content-group="arch" data-install-content="{{ arch }}">
 <div markdown="1">
+{% if setting == "shell" %}<h2>Установка</h2>{% endif %}
+
 {% if setting == "shell" and backend == "docker" %}
 {% include installation/host_docker_linux_macos_installer.md.liquid version=version channel=channel %}
 {% endif %}
