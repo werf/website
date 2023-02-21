@@ -61,7 +61,7 @@ main() {
   OPT_WERF_TUF_ROOT_VERSION="${OPT_WERF_TUF_ROOT_VERSION:-$OPT_DEFAULT_WERF_TUF_ROOT_VERSION}"
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
 
-  ensure_cmds_available uname docker git grep tee install
+  ensure_cmds_available uname git grep tee install
   [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
   validate_git_version "$REQUIRED_GIT_VERSION"
 
