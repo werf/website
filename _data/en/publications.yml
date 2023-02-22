@@ -17,6 +17,14 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Canary releases in Kubernetes based on Ingress-NGINX Controller"
+    url: "https://blog.werf.io/canary-releases-in-kubernetes-based-on-ingress-nginx-controller-96193efe34f9"
+    img: "/assets/images/publications/en_220223.png"
+    created: 2023-02-22
+    comment: |
+      <p>Canary releases are quite a popular and well-covered phenomenon (see, for example, links to other articles on our blog below). But I would still like to briefly overview what they are used for.
+      <br><br>
+      Canary deployment is a good way to test new features on a subset of users. A specific subset of users is selected based on a particular attribute. At the same time, testing activities cannot affect the user experience on the main application version. The load between the two app versions should be allocated in a predictable fashion.</p>
   - title: "A brief introduction to werf, CI/CD tool and CNCF project now"
     url: "https://blog.palark.com/introduction-to-werf/"
     img: "/assets/images/publications/en_090223.png"
