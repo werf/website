@@ -18,7 +18,7 @@ sidebar: none
                     <li class="tags__item">#build</li>
                     <li class="tags__item">#test</li>
                     <li class="tags__item">#deploy</li>
-                    <li class="tags__item">#distibute</li>
+                    <li class="tags__item">#distribute</li>
                     <li class="tags__item">#cleanup</li>
                 </ul>
             </div>
