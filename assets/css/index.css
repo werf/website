@@ -289,6 +289,9 @@ body,
   font-weight: 600;
   color: #fff;
   text-decoration: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .intro-banner__github-counter::after {
@@ -340,6 +343,9 @@ body,
   background: #fff;
   border-radius: 30px;
   margin-bottom: 23px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .tags__list:last-child .tags__item {
