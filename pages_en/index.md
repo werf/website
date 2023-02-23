@@ -66,8 +66,8 @@ sidebar: none
                     <div class="card__item-icon">
                         <img src="{% asset icons/box-icon.svg @path %}" alt="">
                     </div>
-                    <div class="card__item-title">Feature-rich</div>
-                    <div class="card__item-text">Benefit from advanced caching, content-based tagging, enhanced resource tracking in Helm, and more</div>
+                    <div class="card__item-title">Advanced features</div>
+                    <div class="card__item-text">Benefit from automatic caching and content-based tagging, enhanced resource tracking in Helm, and more</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">

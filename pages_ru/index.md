@@ -64,17 +64,17 @@ sidebar: none
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
+                        <img src="{% asset icons/box-icon.svg @path %}" alt="">
+                    </div>
+                    <div class="card__item-title">Продвинутые<br>возможности</div>
+                    <div class="card__item-text">Воспользуйтесь автоматическим кэшированием и тегированием на основе содержимого, отслеживанием ресурсов в Helm и многим другим</div>
+                </li>
+                <li class="features-card__item">
+                    <div class="card__item-icon">
                         <img src="{% asset icons/puzzles.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Интеграция стандартных технологий</div>
                     <div class="card__item-text">Используйте привычные Git, <span class="tooltip-text" title="Dockerfile-сборщик от Red Hat">Buildah</span>, Helm, Kubernetes и любимую CI-систему</div>
-                </li>
-                <li class="features-card__item">
-                    <div class="card__item-icon">
-                        <img src="{% asset icons/box-icon.svg @path %}" alt="">
-                    </div>
-                    <div class="card__item-title">Эффективная работа<br>«из коробки»</div>
-                    <div class="card__item-text">Получите продвинутое кэширование, тегирование на основе содержимого, отслеживание ресурсов в Helm и многое другое</div>
                 </li>
             </ul>
         </div>
