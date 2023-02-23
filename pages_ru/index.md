@@ -12,7 +12,7 @@ sidebar: none
             <img class="right" src="/assets/images/backgrounds/intro-banner-right.svg" alt="">
         </div>
         <div class="intro-banner__wrap">
-            <div class="intro-banner__title">Лучшие практики CI/CD из коробки</div>
+            <div class="intro-banner__title">Недостающая часть вашей CI/CD-системы</div>
             <div class="intro-banner__tags">
                 <ul class="tags__list">
                     <li class="tags__item">#сборка</li>

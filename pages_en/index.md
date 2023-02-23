@@ -12,7 +12,7 @@ sidebar: none
             <img class="right" src="/assets/images/backgrounds/intro-banner-right.svg" alt="">
         </div>
         <div class="intro-banner__wrap">
-            <div class="intro-banner__title">CI/CD best practices out of the box</div>
+            <div class="intro-banner__title">Missing part of your CI/CD system</div>
             <div class="intro-banner__tags">
                 <ul class="tags__list">
                     <li class="tags__item">#build</li>
@@ -64,17 +64,17 @@ sidebar: none
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
+                        <img src="{% asset icons/box-icon.svg @path %}" alt="">
+                    </div>
+                    <div class="card__item-title">Feature-rich</div>
+                    <div class="card__item-text">Benefit from advanced caching, content-based tagging, enhanced resource tracking in Helm, and more</div>
+                </li>
+                <li class="features-card__item">
+                    <div class="card__item-icon">
                         <img src="{% asset icons/puzzles.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Gluing common technologies</div>
                     <div class="card__item-text">Rely on Git, <span class="tooltip-text" title="Dockerfile builder from Red Hat">Buildah</span>, Helm, Kubernetes, and your CI system of choice</div>
-                </li>
-                <li class="features-card__item">
-                    <div class="card__item-icon">
-                        <img src="{% asset icons/box-icon.svg @path %}" alt="">
-                    </div>
-                    <div class="card__item-title">Out-of-the-box efficiency</div>
-                    <div class="card__item-text">Benefit from advanced caching, content-based tagging, enhanced resource tracking in Helm, and more</div>
                 </li>
             </ul>
         </div>
