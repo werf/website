@@ -20,7 +20,7 @@ _The detailed documentation on determinism is available [here]({{ site.url }}/do
 
 ### The dev mode
 
-With the dev mode, you can loosen giterminism restrictions and work with non-committed changes. The mode is enabled by the `--dev` option or `WERF_DEV` environment variable. 
+With the dev mode, you can loosen giterminism restrictions and work with non-committed changes. The mode is enabled by the `--dev` option or `WERF_DEV` environment variable.
 
 In the developer mode, werf uses all tracked and untracked changes while taking into account the `.gitignore` rules as well as user-defined exceptions set by the `--dev-ignore=<glob>` option or the `WERF_DEV_IGNORE_<ANY>` environment variable.
 
@@ -49,8 +49,8 @@ Summary table of werf operating modes:
 
 The classic approach to building images using native Docker tools involves `docker build` and `docker tag` commands. After the build is complete, you have to push the newly created image to the registry (using the `docker push` command).
 
-In werf, the entire process can be carried out with just one command — `werf build`. 
-Read [this article](https://blog.flant.com/werf-vs-docker-comparison/) to learn more about the differences between werf and Docker.
+In werf, the entire process can be carried out with just one command — `werf build`.
+Read [this article](https://blog.werf.io/werf-vs-docker-what-is-the-difference-when-it-comes-to-building-images-fe886bc011a4) to learn more about the differences between werf and Docker.
 
 In addition, werf supports the following features out of the box (they are enabled by default):
 
@@ -87,7 +87,7 @@ When working with releases, werf follows giterminism principles. For Helm releas
 
 werf manages releases on its own, but if you want to do it the hard way, you can use the `werf helm <...>` commands.
 
-You can read more about werf and Helm in [this article](https://blog.flant.com/werf-vs-helm-comparison/).
+You can read more about werf and Helm in [this article](https://blog.werf.io/werf-vs-helm-should-you-even-compare-them-7f68cbb37279).
 
 ### How do I list the installed components?
 

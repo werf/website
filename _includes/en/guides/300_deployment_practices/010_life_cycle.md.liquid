@@ -23,7 +23,7 @@ A brief explanation for this listing:
 1. `sleep 3` prevents race conditions that may be caused by an endpoint being deleted.
 1. `nginx -s quit` shuts down nginx properly. This line isn’t required for more up-to-date images since the `STOPSIGNAL: SIGQUIT` parameter is set there by default.
 
->You can learn more about graceful shutdowns for nginx bundled with PHP-FPM in [our other article](https://blog.flant.com/graceful-shutdown-in-kubernetes-is-not-always-trivial/).
+>You can learn more about graceful shutdowns for nginx bundled with PHP-FPM in [our other article](https://blog.palark.com/graceful-shutdown-in-kubernetes-is-not-always-trivial/).
 
 The way `STOPSIGNAL` is handled depends on the application itself. In practice, for most applications, you have to Google the way `STOPSIGNAL` is handled. If the signal is not handled appropriately the `preStop` hook can help you solve the problem. Another option is to replace `STOPSIGNAL` with a signal that the application can handle properly (and permit it to shut down gracefully).
 

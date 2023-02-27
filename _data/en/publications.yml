@@ -44,7 +44,7 @@ articles:
     comment: |
       <p>Custom readiness probes in initContainers wih Helm vs. resource weights in werf.</p>
   - title: "Review or dynamic environments in Kubernetes. Theory and practice"
-    blog_url: "https://blog.flant.com/review-environments-in-kubernetes-gitlab-ci/"
+    blog_url: "https://blog.palark.com/review-environments-in-kubernetes-gitlab-ci/"
     img: "/assets/images/publications/en_290921.png"
     created: 2021-09-29
     comment: |
@@ -84,7 +84,7 @@ articles:
     img: "/assets/images/publications/en_030921.png"
     created: 2021-09-03
     comment: |
-      <p>This article is the next installment in the “werf vs. …” series. In the <a target="_blank" rel="noopener nofollow" href="https://blog.flant.com/werf-vs-helm-comparison/">previous article</a>, we discussed the ways that werf differs from Helm. This article compares werf with an even more basic tool: Docker.</p>
+      <p>This article is the next installment in the “werf vs. …” series. In the <a target="_blank" rel="noopener nofollow" href="https://blog.werf.io/werf-vs-helm-should-you-even-compare-them-7f68cbb37279">previous article</a>, we discussed the ways that werf differs from Helm. This article compares werf with an even more basic tool: Docker.</p>
   - title: "werf vs. Helm: Should you even compare them?"
     medium_url: "https://blog.werf.io/werf-vs-helm-should-you-even-compare-them-7f68cbb37279"
     img: "/assets/images/publications/en_260821.png"
@@ -154,25 +154,25 @@ articles:
     img: "/assets/images/publications/en_170420.png"
     created: 2020-04-17
     comment: |
-      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. The<a href="https://blog.flant.com/werf-1-1-release-notes-and-future-plans/" target="_blank" rel="noopener nofollow"> v1.1</a> release introduced a new feature in the image builder: the <em>content-based tagging</em>. Until now, the typical tagging strategy in werf involved tagging Docker images by a Git tag, Git branch, or Git commit. However, all these strategies have drawbacks that are fully resolved by implementing the new tagging strategy. In this article, we discuss its advantages.</p>
+      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. The<a href="https://blog.werf.io/werf-1-1-release-notes-and-future-plans-df49f6b229c1" target="_blank" rel="noopener nofollow"> v1.1</a> release introduced a new feature in the image builder: the <em>content-based tagging</em>. Until now, the typical tagging strategy in werf involved tagging Docker images by a Git tag, Git branch, or Git commit. However, all these strategies have drawbacks that are fully resolved by implementing the new tagging strategy. In this article, we discuss its advantages.</p>
   - title: "werf 1.1: Release notes and future plans"
     medium_url: "https://blog.werf.io/werf-1-1-release-notes-and-future-plans-df49f6b229c1"
     img: "/assets/images/publications/en_270320.png"
     created: 2020-03-27
     comment: |
-      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. As promised, the <a href="https://blog.flant.com/announcing-werf-1-0-stable-the-state-future-of-our-gitops-tool/" target="_blank" rel="noopener nofollow">release of werf 1.0</a> marked the beginning of the era of new features and revising established approaches. Now, we are excited to announce the latest version (v1.1) of our tool which is a massive step in the development of <em>its builder</em> and laying the groundwork for the future. Currently, version 1.1 is available in the <a href="https://github.com/werf/werf#backward-compatibility-promise" target="_blank" rel="noopener nofollow">1.1 <em>ea</em> channel</a>.</p>
+      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. As promised, the <a href="https://blog.werf.io/announcing-werf-1-0-stable-813b664a06ae" target="_blank" rel="noopener nofollow">release of werf 1.0</a> marked the beginning of the era of new features and revising established approaches. Now, we are excited to announce the latest version (v1.1) of our tool which is a massive step in the development of <em>its builder</em> and laying the groundwork for the future. Currently, version 1.1 is available in the <a href="https://github.com/werf/werf#backward-compatibility-promise" target="_blank" rel="noopener nofollow">1.1 <em>ea</em> channel</a>.</p>
   - title: "Building & deploying a versioned documentation site with werf"
     medium_url: "https://blog.werf.io/dynamic-building-deploying-with-werf-5c65bb5c29cb"
     img: "/assets/images/publications/en_210220.png"
     created: 2020-02-21
     comment: |
-      <p>You may already know our GitOps tool called <a href="https://github.com/werf/werf" target="_blank" rel="noopener nofollow">werf</a> — we have discussed it in <a href="https://blog.flant.com/tag/werf/" target="_blank" rel="noopener nofollow">several of our articles</a>. Today, we would like to share our experience in building &amp; deploying the site with our tool’s documentation, werf.io. Despite it is a regular static site, the building process is noteworthy as we use a <em class="iq">dynamic</em> number of artifacts.</p>
+      <p>You may already know our GitOps tool called <a href="https://github.com/werf/werf" target="_blank" rel="noopener nofollow">werf</a> — we have discussed it in <a href="https://blog.palark.com/tag/werf/" target="_blank" rel="noopener nofollow">several of our articles</a>. Today, we would like to share our experience in building &amp; deploying the site with our tool’s documentation, werf.io. Despite it is a regular static site, the building process is noteworthy as we use a <em class="iq">dynamic</em> number of artifacts.</p>
   - title: "Executing commands while deploying your app’s new release in Kubernetes"
     medium_url: "https://blog.werf.io/custom-commands-deploying-in-kubernetes-df4ea4487f18"
     img: "/assets/images/publications/en_240120.png"
     created: 2020-01-24
     comment: |
-      <p>In <a href="https://flant.com/" target="_blank" rel="noopener nofollow">Flant</a>, we are often confronted with the challenge of adapting applications for running them in Kubernetes. When dealing with this challenge, we usually encounter many repetitive problems. We have already discussed one of them in the “<a target="_blank" rel="noopener nofollow" href="https://blog.flant.com/migrating-your-app-to-kubernetes-what-to-do-with-files/">Migrating your app to Kubernetes: what to do with files?</a>”. In this article, we’ll focus on another problem which relates to CI/CD processes for this time.</p>
+      <p>In <a href="https://flant.com/" target="_blank" rel="noopener nofollow">Flant</a>, we are often confronted with the challenge of adapting applications for running them in Kubernetes. When dealing with this challenge, we usually encounter many repetitive problems. We have already discussed one of them in the “<a target="_blank" rel="noopener nofollow" href="https://blog.palark.com/migrating-your-app-to-kubernetes-what-to-do-with-files/">Migrating your app to Kubernetes: what to do with files?</a>”. In this article, we’ll focus on another problem which relates to CI/CD processes for this time.</p>
   - title: "Announcing werf 1.0 stable: The state & future of our GitOps tool"
     medium_url: "https://blog.werf.io/announcing-werf-1-0-stable-813b664a06ae"
     img: "/assets/images/publications/en_140120.png"
