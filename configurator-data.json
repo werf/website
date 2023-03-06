@@ -1,0 +1,92 @@
+{
+  "usage_ci.version_1.2.channel_stable.backend_docker": {
+    "repo": "werf/werf/tree/main/ci",
+    "settings": "partial_path - usage_ci.version_1.2.channel_stable.backend_docker"
+  },
+  "usage_ci.version_1.2.channel_stable.backend_buildah": {
+    "page": "configurator-1.html",
+    "repo": "werf/website/tree/main/_data/ru/sidebars",
+    "settings": "partial_path - usage_ci.version_1.2.channel_stable.backend_buildah"
+  },
+  "usage_ci.version_1.2.channel_early-access.backend_docker": {
+    "page": "configurator-2.html",
+    "repo": "werf/website/tree/main/_data/_common",
+    "settings": "partial_path - usage_ci.version_1.2.channel_early-access.backend_docker"
+  },
+  "usage_ci.version_1.2.channel_early-access.backend_buildah": {
+    "repo": "werf/website/tree/main/_data/ru/guides",
+    "settings": "partial_path - usage_ci.version_1.2.channel_early-access.backend_buildah"
+  },
+  "usage_ci.version_1.2.channel_beta.backend_buildah": {
+    "repo": "werf/website/tree/main/_data/en/guides",
+    "settings": "partial_path - usage_ci.version_1.2.channel_beta.backend_buildah"
+  },
+  "usage_ci.version_1.2.channel_alpha.backend_docker": {
+    "repo": "werf/website/tree/main/_data/en/sidebars",
+    "settings": "partial_path - usage_ci.version_1.2.channel_alpha.backend_docker"
+  },
+  "usage_local-dev.version_1.2.channel_stable.backend_docker": {
+    "repo": "werf/website/tree/main/pages_ru/guides/django",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_stable.backend_docker"
+  },
+  "usage_local-dev.version_1.2.channel_stable.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_ru/guides/golang",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_stable.backend_buildah"
+  },
+  "usage_local-dev.version_1.2.channel_early-access.backend_docker": {
+    "repo": "werf/website/tree/main/pages_ru/guides/java_springboot",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_early-access.backend_docker"
+  },
+  "usage_local-dev.version_1.2.channel_early-access.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_ru/guides/laravel",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_early-access.backend_buildah"
+  },
+  "usage_local-dev.version_1.2.channel_beta.backend_docker": {
+    "repo": "werf/website/tree/main/pages_ru/guides/nodejs",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_beta.backend_docker"
+  },
+  "usage_local-dev.version_1.2.channel_beta.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_ru/guides/rails",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_beta.backend_buildah"
+  },
+  "usage_local-dev.version_1.2.channel_alpha.backend_docker": {
+    "repo": "werf/website/tree/main/pages_en/guides/django",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_alpha.backend_docker"
+  },
+  "usage_local-dev.version_1.2.channel_alpha.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_en/guides/golang",
+    "settings": "partial_path - usage_local-dev.version_1.2.channel_alpha.backend_buildah"
+  },
+  "usage_local-dev.version_1.1.channel_stable.backend_docker": {
+    "repo": "werf/website/tree/main/pages_en/guides/java_springboot",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_stable.backend_docker"
+  },
+  "usage_local-dev.version_1.1.channel_stable.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_en/guides/laravel",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_stable.backend_buildah"
+  },
+  "usage_local-dev.version_1.1.channel_early-access.backend_docker": {
+    "repo": "werf/website/tree/main/pages_en/guides/nodejs",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_early-access.backend_docker"
+  },
+  "usage_local-dev.version_1.1.channel_early-access.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_en/guides/rails",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_early-access.backend_buildah"
+  },
+  "usage_local-dev.version_1.1.channel_beta.backend_docker": {
+    "repo": "werf/website/tree/main/pages_ru/guides/nodejs",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_beta.backend_docker"
+  },
+  "usage_local-dev.version_1.1.channel_beta.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_ru/guides/rails",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_beta.backend_buildah"
+  },
+  "usage_local-dev.version_1.1.channel_alpha.backend_docker": {
+    "repo": "werf/website/tree/main/pages_en/guides/django",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_alpha.backend_docker"
+  },
+  "usage_local-dev.version_1.1.channel_alpha.backend_buildah": {
+    "repo": "werf/website/tree/main/pages_en/guides/golang",
+    "settings": "partial_path - usage_local-dev.version_1.1.channel_alpha.backend_buildah"
+  }
+}

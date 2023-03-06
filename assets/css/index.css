@@ -1,5 +1,7 @@
 :root {
   --main-color: #0066FF;
+  --tabs-color: #D4D4D4;
+  --active-tabs-color: #272821;
   --font-size-h2: 36px;
   --font-size-h3: 36px;
   --font-weight-h3: 400;

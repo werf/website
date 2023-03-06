@@ -1,0 +1,125 @@
+.configurator__buttons-title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    color: inherit;
+}
+
+.configurator__buttons {
+    margin-bottom: 90px;
+}
+
+.button__wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 15px;
+    margin-bottom: 20px;
+    /* color: rgba(0, 18, 44, 0.25); */
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.button__wrap.disabled {
+    color:rgba(0, 0, 0, .25);
+}
+
+.button__wrap.disabled .btn.btn_o {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.button__wrap--inline {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+}
+
+.buttons-group {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 28px;
+    padding: 0 15px;
+    border-radius: 10px;
+    text-decoration: none !important;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    box-sizing: border-box;
+}
+
+.btn_o {
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 102, 255, 0.1);
+    color: var(--main-color);
+}
+
+.btn.disabled:not(.active) {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.btn_o:not(.active):hover {
+    border: 2px solid rgba(0, 102, 255, 0.5);
+}
+
+.btn.active {
+    background: var(--main-color);
+    color: #fff;
+}
+
+.configurator__views-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--active-tabs-color);
+}
+
+.configurator__views-buttons .btn.btn_o {
+    height: auto;
+    color: var(--active-tabs-color);
+    border: 2px solid var(--tabs-color);
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 8px 30px;
+}
+
+.configurator__views-buttons .btn.btn_o.active {
+    box-sizing: border-box;
+    background: var(--active-tabs-color);
+    border: none;
+    color: #fff;
+    pointer-events: none;
+}
+
+.configurator__views-buttons .btn_o:not(.active):hover {
+    border: 2px solid var(--active-tabs-color);
+    border-bottom: 0;
+}
+
+.view__item {
+    opacity: 0;
+    height: 0;
+    position: relative;
+    z-index: -1;
+}
+
+.view__item.active {
+    opacity: 1;
+    min-height: 500px;
+    height: fit-content;
+    z-index: 1;
+}
