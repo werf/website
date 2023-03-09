@@ -55,7 +55,7 @@ tasks:
       - task: gen:demo:_cleanup
 
   gen:demo:_setup:
-    desc: "Setup (reset if already setup) Kubernetes cluster with the self-hosted Container Registry"
+    desc: "Setup (reset if already setup) Kubernetes cluster with the self-hosted container registry"
     cmds:
       - scripts/record-site-animations/reset.sh
 

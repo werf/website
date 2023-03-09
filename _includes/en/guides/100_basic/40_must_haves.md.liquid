@@ -8,7 +8,7 @@ The ability to reproduce a specific application state at any moment makes the de
 The reproducibility is essential for implementing the [Infrastructure as Code](https://en.wikipedia.org/wiki/Infrastructure_as_code) approach and immutable infrastructure.
 {% endofftopic %}
 
-## The standard mode
+### The standard mode
 
 werf follows the  **giterminism** principle to ensure reproducibility. That is, the current Git state (HEAD commit) _determines_ the state of the application. By default, werf does not allow uncommitted and untracked files in the build context/configuration of the images being built. It also excludes the features that potentially have external dependencies.
 

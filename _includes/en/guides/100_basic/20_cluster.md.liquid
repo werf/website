@@ -49,9 +49,9 @@ If it works, the NGINX Ingress Controller will return a 404 error:
 
 > Note that if your application is running already and has an Ingress configured to use the `werf-guide-app.test` domain, you will get a response from your application instead of a 404 error.
 
-## Configuring the Container Registry
+## Configuring the container registry
 
-In this guide, we will use the Docker Hub Container Registry. However, you can use any other Registry that supports TLS and authentication ([GitHub Container Registry](https://github.com/features/packages), [GitLab Container Registry](https://docs.gitlab.com/ee/user/packages/container_registry/), etc.).
+In this guide, we will use the Docker Hub container registry. However, you can use any other Registry that supports TLS and authentication ([GitHub container registry](https://github.com/features/packages), [GitLab container registry](https://docs.gitlab.com/ee/user/packages/container_registry/), etc.).
 
 ### Authorizing in Docker Hub
 Create a [Docker Hub](https://hub.docker.com/signup) ID  and create a [private repository](https://hub.docker.com/repository/create) named `werf-guide-app`. We will store the built images in it.
@@ -109,7 +109,7 @@ kubectl delete secret registrysecret
 In the following chapters, we will use Secret `registrysecret` in the `imagePullSecrets` field when configuring Pods (learn more [here](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets)).
 
 > Note the `--docker-server` parameter. It must correspond to the address of the registry being used.
-> For example, for GitHub Container Registry, this parameter must be set to `ghcr.io`, while for Docker Hub, 
+> For example, for GitHub container registry, this parameter must be set to `ghcr.io`, while for Docker Hub, 
 > you can omit it and use the default value.
 
 Now the environment is ready for work.
