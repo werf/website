@@ -1,10 +1,12 @@
+{{ $_ := set . "CacheVersion" "20230315" }}
+
 configVersion: 1
 project: werf-site
 ---
 
 image: jekyll_base
-fromCacheVersion: "1"
 from: jekyll/builder:4.2.0
+fromCacheVersion: {{ .CacheVersion }}
 git:
   - add: /
     to: /app
@@ -21,8 +23,9 @@ shell:
     - bundle install
 ---
 
-image : common_artifacts
+image: common_artifacts
 from: ubuntu:20.04
+fromCacheVersion: {{ .CacheVersion }}
 ansible:
   install:
   - file:
@@ -68,6 +71,7 @@ ansible:
 {{- range $lang := list "en" "ru" }}
 image: doc_{{ $lang }}
 fromImage: jekyll_base
+fromCacheVersion: {{ .CacheVersion }}
 import:
   - image: common_artifacts
     add: /artifacts
@@ -117,7 +121,7 @@ shell:
 
 image: web-backend-artifact
 from: golang:1.16
-fromCacheVersion: 20210318
+fromCacheVersion: {{ .CacheVersion }}
 ansible:
   install:
     - name: Build apis
@@ -134,9 +138,10 @@ git:
       install: '**/*'
 ---
 image: web-backend
+from: ubuntu:20.04
+fromCacheVersion: {{ .CacheVersion }}
 docker:
   WORKDIR: /app
-from: ubuntu:20.04
 ansible:
   install:
     - apt:
@@ -157,6 +162,7 @@ import:
 ---
 image: tuf-router
 from: fabiocicerchia/nginx-lua:1.21-alpine@sha256:525aa8fd0ac9bf5c7e82cd83b3f8ebf620bedb0d0b1e52955745fd53917eb24c
+fromCacheVersion: {{ .CacheVersion }}
 ansible:
   install:
   - copy:
