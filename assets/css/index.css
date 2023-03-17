@@ -1112,11 +1112,13 @@ body,
   width: 100%;
 }
 
-.footer__block-cncf,
+.footer__block-cncf a,
 .footer__block-flant {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration: none;
+  color: inherit;
 }
 
 .footer__block-cncf img {
