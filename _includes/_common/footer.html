@@ -4,12 +4,12 @@
             <div class="footer__block-cncf">
                 <a href="https://www.cncf.io/projects/werf/" target="_blank">
                     <img src="/assets/images/cncf-logo.svg" alt="cncf logo">
+                    {%- if page.lang == "ru" %}
+                        <div class="footer__block-cncf-text">werf — проект категории sandbox в&nbsp;Cloud Native Computing Foundation</div>
+                    {%- else %}
+                        <div class="footer__block-cncf-text">werf is a Cloud Native Computing Foundation sandbox project</div>
+                    {%- endif %}
                 </a>
-                {%- if page.lang == "ru" %}
-                    <div class="footer__block-cncf-text">werf — проект категории sandbox в&nbsp;Cloud Native Computing Foundation</div>
-                {%- else %}
-                    <div class="footer__block-cncf-text">werf is a Cloud Native Computing Foundation sandbox project</div>
-                {%- endif %}
             </div>
             <div class="footer__block-flant">
                 {%- if page.lang == "ru" %}
