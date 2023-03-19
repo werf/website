@@ -317,12 +317,17 @@ body,
 }
 
 .intro-banner__link-cncf {
-  display: flex;
-  gap: 20px;
   color: #fff;
   font-size: 14px;
   font-weight: 400;
   line-height: 19px;
+}
+
+.intro-banner__link-cncf a {
+  display: flex;
+  gap: 20px;
+  color: inherit;
+  text-decoration: none;
 }
 
 .tags__list {
