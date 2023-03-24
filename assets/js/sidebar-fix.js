@@ -1,5 +1,6 @@
 window.onload = function() {
     const headerHeight = $('.header').height();
+    const bannerHeight = $('.guides-banner').outerHeight();
     const breadcrumbs = $('.breadcrumbs-container');
     const breadcrumbsHeight = breadcrumbs.height();
     const fullBreadcrumbsHeight = breadcrumbs.outerHeight(true);
@@ -8,20 +9,20 @@ window.onload = function() {
     const sidebar = $('.sidebar__container');
     let sidebarOffsetTop = 0
     if (sidebar.length > 0) {
-        sidebarOffsetTop = sidebar.offset().top - breadcrumbsHeight + breadcrumbsMarginTop;
+        sidebarOffsetTop = sidebar.offset().top - bannerHeight - breadcrumbsHeight + breadcrumbsMarginTop;
     }
     const footerHeight = $('.footer').outerHeight(true);
     const docHeight = $(document).height();
     const screenHeight = $(window).outerHeight();
     let bottomFixPoint = docHeight - (footerHeight + screenHeight);
 
-    if ($(window).scrollTop() > breadcrumbsHeight + breadcrumbsMarginTop) {
+    if ($(window).scrollTop() > breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapperInner.css({
             position: 'fixed',
             top: `${headerHeight + breadcrumbsMarginTop}px`
         });
     } else {
-        setTopOffset($(window).scrollTop(), sidebarOffsetTop, sidebarWrapperInner, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight);
+        setTopOffset($(window).scrollTop(), sidebarOffsetTop, sidebarWrapperInner, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight, bannerHeight);
     }
 
     setFooterOffset($(window).scrollTop(), bottomFixPoint, sidebarWrapperInner, screenHeight, footerHeight, docHeight);
@@ -30,27 +31,27 @@ window.onload = function() {
         const scrolled = $(this).scrollTop();
         bottomFixPoint = $(document).height() - (footerHeight + screenHeight);
 
-        setTopOffset(scrolled, sidebarOffsetTop, sidebarWrapperInner, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight);
+        setTopOffset(scrolled, sidebarOffsetTop, sidebarWrapperInner, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight, bannerHeight);
 
         setFooterOffset(scrolled, bottomFixPoint, sidebarWrapperInner, screenHeight, footerHeight, docHeight)
     });
 };
 
 
-function setTopOffset(scrolled, offsetTop, sidebarWrapper, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight) {
-    if (scrolled > offsetTop && scrolled < breadcrumbsHeight + breadcrumbsMarginTop) {
+function setTopOffset(scrolled, offsetTop, sidebarWrapper, headerHeight, breadcrumbsHeight, breadcrumbsMarginTop, fullBreadcrumbsHeight, bannerHeight) {
+    if (scrolled > offsetTop && scrolled < breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapper.css({
             position: 'fixed',
-            top: `${headerHeight + fullBreadcrumbsHeight - scrolled}px`
+            top: `${headerHeight + fullBreadcrumbsHeight + bannerHeight - scrolled}px`
         });
-    } else if (scrolled > breadcrumbsHeight + breadcrumbsMarginTop) {
+    } else if (scrolled > breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapper.css({
             position: 'fixed',
             top: `${headerHeight + breadcrumbsMarginTop}px`
         });
-    } else if (scrolled < offsetTop && scrolled < breadcrumbsHeight + breadcrumbsMarginTop) {
+    } else if (scrolled < offsetTop && scrolled < breadcrumbsHeight + breadcrumbsMarginTop + bannerHeight) {
         sidebarWrapper.css({
-            top: `${headerHeight + fullBreadcrumbsHeight - scrolled}px`,
+            top: `${headerHeight + fullBreadcrumbsHeight + bannerHeight - scrolled}px`,
         });
     }
 }
