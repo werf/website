@@ -2,7 +2,7 @@
   url: /installation.html
 - title: Документация
   url: /documentation/v1.2/
-- title: Руководства
+- title: Руководства CI/CD
   url: /guides.html
   hot: true
 - title: О проекте
