@@ -2,7 +2,7 @@
   url: /installation.html
 - title: Documentation
   url: /documentation/v1.2/
-- title: CI/CD guides
+- title: CI/CD guide
   url: /guides.html
   hot: true
 - title: About
