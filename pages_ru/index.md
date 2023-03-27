@@ -171,7 +171,7 @@ sidebar: none
 <div class="publications" id="publications">
     <div class="page__container">
         <div class="publications__content">
-            <div class="publications__title">Последние публикации про werf</div>
+            <div class="publications__title">Последние публикации</div>
             <div class="publications__subtitle">Узнайте больше о фичах и практике<br />использования утилиты из новых статей</div>
             <div class="publications__cards">
                 <ul class="publications__cards--list">
