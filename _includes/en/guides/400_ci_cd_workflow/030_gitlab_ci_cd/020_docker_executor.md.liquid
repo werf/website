@@ -10,10 +10,10 @@ Basic runner configuration:
 [[runners]]
   name = "docker-runner-for-werf"
   executor = "docker"
-  ...
+  # ...
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    ...
+    # ...
 ```
 
 ### Linux kernel without rootless OverlayFS and privileged container
@@ -24,10 +24,10 @@ Basic runner configuration:
 [[runners]]
   name = "docker-runner-for-werf"
   executor = "docker"
-  ...
+  # ...
   [runners.docker]
     privileged = true
-    ...
+    # ...
 ```
 
 ### Linux kernel without rootless OverlayFS and non-privileged container
@@ -38,11 +38,11 @@ Basic runner configuration:
 [[runners]]
   name = "docker-runner-for-werf"
   executor = "docker"
-  ...
+  # ...
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
     devices = ["/dev/fuse"]
-    ...
+    # ...
 ```
 
 ## Project configuration (gitlab-ci.yml)

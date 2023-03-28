@@ -1,7 +1,7 @@
 # [<en>] Here, a multi-stage build is used to assemble the image.
 # [<ru>] Используем многоступенчатую сборку образа (multi-stage build).
 # [<en>] The image to deploy to the cluster.
-# [<ru>] Образ, который будет выкатываться в кластер.
+# [<ru>] Образ, который будет разворачиваться в кластере.
 FROM python:3-alpine as backend
 WORKDIR /app
 

@@ -47,7 +47,7 @@ spec:
   - name: main
     image: alpine
     command: ["tail", "-f", "/dev/null"]
-    ...
+    # ...
 status:
   phase: Running
   podIP: 172.17.0.7
@@ -119,11 +119,11 @@ kubectl -n ingress-nginx get deployment ingress-nginx-controller --output yaml
 
 You will see something like this:
 ```yaml
-...
+# ...
 kind: Deployment
 metadata:
   name: ingress-nginx-controller
-...
+# ...
 ```
 
 The Deployment type is the most commonly used one, so let's look at it in more detail. You can learn more about the other controller types in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/).

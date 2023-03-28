@@ -10,10 +10,10 @@
 [[runners]]
   name = "docker-runner-for-werf"
   executor = "docker"
-  ...
+  # ...
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    ...
+    # ...
 ```
 
 ### Ядро Linux без поддержки OverlayFS в режиме rootless и использование привилегированного контейнера
@@ -24,10 +24,10 @@
 [[runners]]
   name = "docker-runner-for-werf"
   executor = "docker"
-  ...
+  # ...
   [runners.docker]
     privileged = true
-    ...
+    # ...
 ```
 
 ### Ядро Linux без поддержки OverlayFS в режиме rootless и использование непривилегированного контейнера
@@ -38,11 +38,11 @@
 [[runners]]
   name = "docker-runner-for-werf"
   executor = "docker"
-  ...
+  # ...
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
     devices = ["/dev/fuse"]
-    ...
+    # ...
 ```
 
 ## Конфигурация проекта (gitlab-ci.yml)
