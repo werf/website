@@ -82,7 +82,7 @@ Job отправляет e-mail с текущим количеством labels 
 Внутри приложения за реализацию отправки отчетов отвечает метод контроллера labels `send_report`. Отправка происходит из самого http-сервера и реализована через специальный дебаг-smtp-сервер (mailhog), который деплоится вместе с нашим приложением по адресу `debug-mails.example.com` и позволяет просматривать перехваченные письма.
 Регулярный запуск job реализован через CronJob с именем `send-report` который будет создавать job по описанному jobTemplate и периодически запускаться каждую минуту.
 Каждая из job будет создавать pod который будет выполнять в отдельном контейнере запрос на http-сервер `/api/send-report`, в ответ на который сервер выполнит отправку -mail на почту администратору.
-  
+
 Необходимые для реализации job helm-файлы и исходный код:
 [labels_controller.rb](https://github.com/werf/website/tree/main/examples/rails/800_cron/app/controllers/api/labels_controller.rb);
 [notifications_mailer.rb](https://github.com/werf/website/tree/main/examples/rails/800_cron/app/mailers/notifications_mailer.rb);
@@ -100,7 +100,7 @@ git add .
 git commit -m "Add cronjobs"
 ```
 
-Запустим выкат:
+Запустим развёртывание:
 
 ```shell
 werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guided-rails
@@ -124,7 +124,7 @@ curl -XPOST "http://example.com/api/labels?label=ggg"
 ```
 
 Проверим список вновь созданных labels:
-    
+
 ```shell
 curl "http://example.com/api/labels"
 ```

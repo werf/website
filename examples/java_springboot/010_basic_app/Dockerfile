@@ -12,7 +12,7 @@ WORKDIR /src
 RUN ./mvnw clean package
 
 # [<en>] The image to deploy to the cluster.
-# [<ru>] Образ, который будет выкатываться в кластер
+# [<ru>] Образ, который будет разворачиваться в кластере
 FROM eclipse-temurin:11-alpine
 WORKDIR /app
 # [<en>] Copy the project executable from the build image.
