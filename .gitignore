@@ -11,3 +11,5 @@ backend/vendor/
 backend/root/
 .bundle
 vendor/
+install_page_generator/generated/
+install_page_generator/js_conf.json

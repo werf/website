@@ -1,0 +1,49 @@
+options:
+- name: "Version"
+  row: 1
+  values:
+    - name: "1.2"
+    - name: "1.1"
+- name: "Channel"
+  row: 1
+  values:
+    - name: "Stable"
+    - name: "Early-Access"
+    - name: "Beta"
+    - name: "Alpha"
+- name: "Setup"
+  row: 2
+  values:
+    - name: "Shell"
+    - name: "Docker"
+    - name: "Kubernetes"
+combinations:
+- tabs:
+  - name: "..."
+    templateName: "..."
+  - name: "..."
+    templateName: "..."
+    params:
+      - type: "type"
+  options:
+  - name: "Version"
+    value: "1.1"
+  - name: "Channel"
+    value: "Stable"
+  - name: "Setup"
+    value: "Shell"
+- tabs:
+  - name: "..."
+    templateName: "..."
+  - name: "..."
+    templateName: "..."
+    params:
+      - type: "type"
+  options:
+  - name: "Version"
+    value: "1.1"
+  - name: "Channel"
+    value: "Early-Access"
+  - name: "Setup"
+    value: "Shell"
+
