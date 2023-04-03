@@ -11,3 +11,4 @@ backend/vendor/
 backend/root/
 .bundle
 vendor/
+install_page_generator/generated/
