@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gopkg.in/yaml.v2"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"os"
@@ -14,10 +15,12 @@ var c config
 // Configuration file structure
 type config struct {
 	Options []struct {
-		Name   string `yaml:"name"`
-		Row    int    `yaml:"row"`
-		Values []struct {
-			Name string `yaml:"name"`
+		Name    string `yaml:"name"`
+		GroupID string `yaml:"groupId"`
+		Help    string `yaml:"help"`
+		Values  []struct {
+			Name    string `yaml:"name"`
+			TabName string `yaml:"tabName"`
 		} `yaml:"values"`
 	} `yaml:"options"`
 	Combinations []struct {
@@ -38,6 +41,21 @@ type config struct {
 type jsonElem struct {
 	Option string
 	Values []jsonElem
+}
+
+type pageData struct {
+	Groups []group
+}
+
+type group struct {
+	Name        string
+	GroupName   string
+	Help        string
+	Description string
+	Buttons     []struct {
+		Name    string
+		TabName string
+	}
 }
 
 // Main function
@@ -97,8 +115,53 @@ func (c *config) getConf() *config {
 
 func genSelectorTemplate() {
 
-	err := os.Mkdir("generated", 0777)
-	if err != nil {
-		panic(err)
+	var pD pageData
+
+	if _, err := os.Stat("generated"); os.IsNotExist(err) {
+		err := os.Mkdir("generated", 0777)
+		if err != nil {
+			panic(err)
+		}
 	}
+
+	if _, err := os.Stat("templates/configurator_buttons.html"); !os.IsNotExist(err) {
+		t, err := template.ParseFiles("templates/configurator_buttons.html")
+		if err != nil {
+			log.Print(err)
+			return
+		}
+
+		pD.Groups = getGroups()
+
+		if _, err := os.Stat("generated/configurator.html"); os.IsNotExist(err) {
+			f, err := os.Create("generated/configurator.html")
+			if err != nil {
+				log.Println("Create file: ", err)
+				return
+			}
+			err = t.Execute(f, pD)
+			if err != nil {
+				log.Print("Execute: ", err)
+				return
+			}
+		}
+	}
+}
+
+func getGroups() []group {
+	var groups []group
+	for i := range c.Options {
+		var g group
+		g.Name = c.Options[i].Name
+		g.GroupName = c.Options[i].GroupID
+		g.Help = c.Options[i].Help
+		for y := range c.Options[i].Values {
+			g.Buttons = append(g.Buttons, struct {
+				Name    string
+				TabName string
+			}{Name: c.Options[i].Values[y].Name, TabName: c.Options[i].Values[y].TabName})
+		}
+		groups = append(groups, g)
+	}
+	return groups
 }
