@@ -25,12 +25,10 @@ type config struct {
 	} `yaml:"options"`
 	Combinations []struct {
 		Tabs []struct {
-			Name         string `yaml:"name"`
-			LinkName     string `yaml:"linkName"`
-			TemplateName string `yaml:"templateName"`
-			Params       []struct {
-				Type string `yaml:"type"`
-			} `yaml:"params,omitempty"`
+			Name         string              `yaml:"name"`
+			LinkName     string              `yaml:"linkName"`
+			TemplateName string              `yaml:"templateName"`
+			Params       []map[string]string `yaml:"params,omitempty"`
 		} `yaml:"tabs"`
 		Options []struct {
 			Name  string `yaml:"name"`
@@ -62,7 +60,7 @@ type group struct {
 type tab struct {
 	Name      string
 	Permalink string
-	data      []string
+	data      []map[string]string
 }
 
 // Main function
@@ -191,6 +189,8 @@ func genPartialsForTabs() {
 			}
 			link = link + c.Combinations[i].Tabs[y].LinkName + ".html"
 			t.Permalink = link
+
+			t.data = c.Combinations[i].Tabs[y].Params
 
 			if _, err := os.Stat("templates/tabs/" + c.Combinations[i].Tabs[y].TemplateName + ".html"); !os.IsNotExist(err) {
 				tpl, err := template.ParseFiles("templates/tabs/" + c.Combinations[i].Tabs[y].TemplateName + ".html")
