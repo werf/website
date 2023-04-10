@@ -31,10 +31,12 @@ options:
       tabName: "kubernetes"
 combinations:
 - tabs:
-  - name: "..."
-    templateName: "..."
-  - name: "..."
-    templateName: "..."
+  - name: "Setup 1"
+    linkName: "setup_1"
+    templateName: "default"
+  - name: "View 1"
+    linkName: "view_1"
+    templateName: "default"
     params:
       - type: "type"
   options:
@@ -45,10 +47,12 @@ combinations:
   - name: "Setup"
     value: "Shell"
 - tabs:
-  - name: "..."
-    templateName: "..."
-  - name: "..."
-    templateName: "..."
+  - name: "Setup 2"
+    linkName: "setup_2"
+    templateName: "default"
+  - name: "View 2"
+    linkName: "view_2"
+    templateName: "default"
     params:
       - type: "type"
   options:

@@ -26,6 +26,7 @@ type config struct {
 	Combinations []struct {
 		Tabs []struct {
 			Name         string `yaml:"name"`
+			LinkName     string `yaml:"linkName"`
 			TemplateName string `yaml:"templateName"`
 			Params       []struct {
 				Type string `yaml:"type"`
@@ -58,6 +59,12 @@ type group struct {
 	}
 }
 
+type tab struct {
+	Name      string
+	Permalink string
+	data      []string
+}
+
 // Main function
 func main() {
 	c.getConf()
@@ -73,13 +80,21 @@ func main() {
 		return
 	}
 
-	err = ioutil.WriteFile("js_conf.json", file, 0777)
+	if _, err = os.Stat("generated"); os.IsNotExist(err) {
+		err = os.Mkdir("generated", 0777)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	err = ioutil.WriteFile("generated/js_conf.json", file, 0777)
 
 	if err != nil {
 		panic(err)
 	}
 
 	genSelectorTemplate()
+	genPartialsForTabs()
 }
 
 // Recursive tree traversal function
@@ -116,13 +131,6 @@ func (c *config) getConf() *config {
 func genSelectorTemplate() {
 
 	var pD pageData
-
-	if _, err := os.Stat("generated"); os.IsNotExist(err) {
-		err := os.Mkdir("generated", 0777)
-		if err != nil {
-			panic(err)
-		}
-	}
 
 	if _, err := os.Stat("templates/configurator_buttons.html"); !os.IsNotExist(err) {
 		t, err := template.ParseFiles("templates/configurator_buttons.html")
@@ -164,4 +172,46 @@ func getGroups() []group {
 		groups = append(groups, g)
 	}
 	return groups
+}
+
+func genPartialsForTabs() {
+	for i := range c.Combinations {
+
+		for y := range c.Combinations[i].Tabs {
+			link := "/"
+			t := tab{}
+			t.Name = c.Combinations[i].Tabs[y].Name
+
+			for o := range c.Combinations[i].Options {
+				for opt := range c.Options {
+					if c.Options[opt].Name == c.Combinations[i].Options[o].Name {
+						link = link + c.Options[opt].GroupID + "_"
+					}
+				}
+			}
+			link = link + c.Combinations[i].Tabs[y].LinkName + ".html"
+			t.Permalink = link
+
+			if _, err := os.Stat("templates/tabs/" + c.Combinations[i].Tabs[y].TemplateName + ".html"); !os.IsNotExist(err) {
+				tpl, err := template.ParseFiles("templates/tabs/" + c.Combinations[i].Tabs[y].TemplateName + ".html")
+				if err != nil {
+					log.Print(err)
+					return
+				}
+
+				if _, err := os.Stat("generated/" + t.Permalink); os.IsNotExist(err) {
+					f, err := os.Create("generated/" + t.Permalink)
+					if err != nil {
+						log.Println("Create file: ", err)
+						return
+					}
+					err = tpl.Execute(f, t)
+					if err != nil {
+						log.Print("Execute: ", err)
+						return
+					}
+				}
+			}
+		}
+	}
 }
