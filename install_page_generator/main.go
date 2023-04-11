@@ -10,6 +10,7 @@ import (
 	"os"
 )
 
+// Main configuration file
 var c config
 
 // Configuration file structure
@@ -37,15 +38,18 @@ type config struct {
 	} `yaml:"combinations"`
 }
 
+// Options Tree element
 type jsonElem struct {
 	Option string
 	Values []map[string]interface{}
 }
 
+// Data passed to the template with buttons
 type pageData struct {
 	Groups []group
 }
 
+// Groups of options
 type group struct {
 	Name        string
 	GroupName   string
@@ -57,6 +61,7 @@ type group struct {
 	}
 }
 
+// Data transmitted to the tabs
 type tab struct {
 	Name      string
 	Permalink string
@@ -67,6 +72,13 @@ type tab struct {
 func main() {
 	c.getConf()
 
+	genOptionsTree()
+	genSelectorTemplate()
+	genPartialsForTabs()
+}
+
+// Option tree generation function
+func genOptionsTree() {
 	var elems jsonElem
 
 	elems.Option = c.Options[0].GroupID
@@ -90,9 +102,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	genSelectorTemplate()
-	genPartialsForTabs()
 }
 
 // Recursive tree traversal function
@@ -113,6 +122,7 @@ func getElems(index int) []map[string]interface{} {
 	return elems
 }
 
+// Recursive function for obtaining values
 func getValues(index int) []jsonElem {
 	var values []jsonElem
 	var elem jsonElem
@@ -142,6 +152,7 @@ func (c *config) getConf() *config {
 	return c
 }
 
+// The function of generating a template with buttons
 func genSelectorTemplate() {
 
 	var pD pageData
@@ -170,6 +181,7 @@ func genSelectorTemplate() {
 	}
 }
 
+// Function for getting groups
 func getGroups() []group {
 	var groups []group
 	for i := range c.Options {
@@ -188,6 +200,7 @@ func getGroups() []group {
 	return groups
 }
 
+// The function of generating partials of tabs
 func genPartialsForTabs() {
 	for i := range c.Combinations {
 
