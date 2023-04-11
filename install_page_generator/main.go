@@ -199,7 +199,11 @@ func genPartialsForTabs() {
 			for o := range c.Combinations[i].Options {
 				for opt := range c.Options {
 					if c.Options[opt].Name == c.Combinations[i].Options[o].Name {
-						link = link + c.Options[opt].GroupID + "_"
+						for v := range c.Options[opt].Values {
+							if c.Options[opt].Values[v].Name == c.Combinations[i].Options[o].Value {
+								link = link + c.Options[opt].Values[v].TabName + "_"
+							}
+						}
 					}
 				}
 			}
