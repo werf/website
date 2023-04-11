@@ -39,7 +39,7 @@ type config struct {
 
 type jsonElem struct {
 	Option string
-	Values []jsonElem
+	Values []map[string]interface{}
 }
 
 type pageData struct {
@@ -69,7 +69,7 @@ func main() {
 
 	var elems jsonElem
 
-	elems.Option = c.Options[0].Name
+	elems.Option = c.Options[0].GroupID
 	elems.Values = getElems(0)
 
 	file, err := json.Marshal(elems)
@@ -96,19 +96,35 @@ func main() {
 }
 
 // Recursive tree traversal function
-func getElems(index int) []jsonElem {
-	var elems []jsonElem
+func getElems(index int) []map[string]interface{} {
+	var elems []map[string]interface{}
 
-	for i := range c.Options[index].Values {
-		var elem jsonElem
-		elem.Option = c.Options[index].Values[i].Name
-		if index < len(c.Options[index].Values)-1 {
-			elem.Values = getElems(index + 1)
+	if index < len(c.Options)-1 {
+		for i := range c.Options[index].Values {
+			var elem map[string]interface{}
+			elem = make(map[string]interface{})
+			if index < len(c.Options[index].Values)-1 {
+				elem[c.Options[index].Values[i].TabName] = getValues(index)
+			}
+			elems = append(elems, elem)
 		}
-		elems = append(elems, elem)
 	}
 
 	return elems
+}
+
+func getValues(index int) []jsonElem {
+	var values []jsonElem
+	var elem jsonElem
+
+	for i := index; i <= len(c.Options[index].Values); i++ {
+		elem.Option = c.Options[index+1].GroupID
+		if index < len(c.Options[index].Values) {
+			elem.Values = getElems(index + 1)
+		}
+		values = append(values, elem)
+	}
+	return values
 }
 
 // Configuration file upload function
