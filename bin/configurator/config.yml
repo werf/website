@@ -243,10 +243,10 @@ combinations:
       - name: "project-type"
         value: "simple"
 
-  # gitlab-ci-cd best-practice
+  # gitlab-ci-cd singlerepo
   - tabs:
       - name: "setup"
-        partial: "ci/gitlab-ci-cd/best-practice/host-runner/linux/buildah.md.liquid"
+        partial: "ci/gitlab-ci-cd/singlerepo/host-runner/linux/buildah.md.liquid"
     options:
       - name: "usage"
         value: "ci"
@@ -265,10 +265,10 @@ combinations:
       - name: "werf-image-distro"
         value: ".*"
       - name: "project-type"
-        value: "best-practice"
+        value: "singlerepo"
   - tabs:
       - name: "setup"
-        partial: "ci/gitlab-ci-cd/best-practice/host-runner/linux/docker.md.liquid"
+        partial: "ci/gitlab-ci-cd/singlerepo/host-runner/linux/docker.md.liquid"
     options:
       - name: "usage"
         value: "ci"
@@ -285,10 +285,10 @@ combinations:
       - name: "build-backend"
         value: "docker"
       - name: "project-type"
-        value: "best-practice"
+        value: "singlerepo"
   - tabs:
       - name: "setup"
-        partial: "ci/gitlab-ci-cd/best-practice/docker-runner/linux/buildah.md.liquid"
+        partial: "ci/gitlab-ci-cd/singlerepo/docker-runner/linux/buildah.md.liquid"
     options:
       - name: "usage"
         value: "ci"
@@ -307,10 +307,10 @@ combinations:
       - name: "werf-image-distro"
         value: ".*"
       - name: "project-type"
-        value: "best-practice"
+        value: "singlerepo"
   - tabs:
       - name: "setup"
-        partial: "ci/gitlab-ci-cd/best-practice/kubernetes-runner/linux/buildah.md.liquid"
+        partial: "ci/gitlab-ci-cd/singlerepo/kubernetes-runner/linux/buildah.md.liquid"
     options:
       - name: "usage"
         value: "ci"
@@ -329,7 +329,7 @@ combinations:
       - name: "werf-image-distro"
         value: ".*"
       - name: "project-type"
-        value: "best-practice"
+        value: "singlerepo"
 
   # other ci cd system simple
   - tabs:
