@@ -3,11 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 // Main configuration file
@@ -91,13 +92,13 @@ func genOptionsTree() {
 	}
 
 	if _, err = os.Stat("generated"); os.IsNotExist(err) {
-		err = os.Mkdir("generated", 0777)
+		err = os.Mkdir("generated", 0o777)
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	err = ioutil.WriteFile("generated/js_conf.json", file, 0777)
+	err = ioutil.WriteFile("generated/js_conf.json", file, 0o777)
 
 	if err != nil {
 		panic(err)
@@ -139,7 +140,6 @@ func getValues(index int) []jsonElem {
 
 // Configuration file upload function
 func (c *config) getConf() *config {
-
 	yamlFile, err := ioutil.ReadFile("config.yml")
 	if err != nil {
 		log.Printf("yamlFile.Get err #%v ", err)
@@ -154,7 +154,6 @@ func (c *config) getConf() *config {
 
 // The function of generating a template with buttons
 func genSelectorTemplate() {
-
 	var pD pageData
 
 	if _, err := os.Stat("templates/configurator_buttons.html"); !os.IsNotExist(err) {
@@ -203,7 +202,6 @@ func getGroups() []group {
 // The function of generating partials of tabs
 func genPartialsForTabs() {
 	for i := range c.Combinations {
-
 		for y := range c.Combinations[i].Tabs {
 			link := "/"
 			t := tab{}
