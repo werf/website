@@ -101,6 +101,8 @@ git:
       - "*.svg"
       - favicon.ico
       - robots.txt
+      - configurator-data.json
+      - configurator-options-list.json
     stageDependencies:
       setup: ["**/*"]
 shell:
