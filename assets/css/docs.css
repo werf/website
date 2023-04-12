@@ -92,6 +92,14 @@
     min-height: 85vh;
 }
 
+@media screen and (max-width: 1200px) {
+    .layout-sidebar__content {
+        background: #fff;
+        z-index: 1;
+        padding-left: 30px;
+    }
+}
+
 .sidebar__wrapper-inner {
     /*position: fixed;*/
     width: 260px;
