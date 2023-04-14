@@ -1,3 +1,5 @@
+# i18n strings are located in static/_data/_common/configurator.yaml
+# Change names there when changing names in this file.
 options:
   - name: "usage"
     group: "1"

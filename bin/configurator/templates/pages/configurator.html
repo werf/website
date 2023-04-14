@@ -12,17 +12,23 @@ sidebar: none
                 {{- range $group := .Groups }}
                 <div class="button__wrap--inline">
                     {{- range $opt := $group }}
+                    {% assign group = site.data.common.configurator.groups | find: "name", "{{$opt.Name}}" %}
+                    {% assign group_title = group.title[page.lang] %}
                     <div class="button__wrap button--{{ $opt.Name }}">
-                        <div class="configurator__buttons-title">
-                            {{- $opt.Name }}
-<!--                            <span title="Some text in version tooltip. <a href='#'>Узнать подробнее</a>"></span>-->
+                        <div class="configurator__buttons-title">{{`{{ group_title }}`}}
+                            {% if group.tooltip %}
+                            {%   assign group_tooltip = group.tooltip[page.lang] %}
+                            <span class="tooltip-text" title="{{`{{ group_tooltip }}`}}"></span>
+                            {% endif %}
                         </div>
                         <div class="buttons-group">
                             {{- range $value := .Values }}
+                            {% assign btn = group.buttons | find: "name", "{{ $value }}" %}
+                            {% assign btn_title = btn.title[page.lang] %}
                             <a href="#" class="btn btn_o
                             {{- range $defaultCombinationOption := $.DefaultCombinationOptions -}}
                             {{ if and (eq $defaultCombinationOption.Name $opt.Name) (eq $defaultCombinationOption.Value $value) }} active{{ end }}
-                            {{- end -}}" data-key="{{- $opt.Name -}}" data-value="{{- $value -}}">{{- $value -}}</a>
+                            {{- end -}}" data-key="{{- $opt.Name -}}" data-value="{{- $value -}}">{{`{{btn_title}}`}}</a>
                             {{- end }}
                         </div>
                     </div>

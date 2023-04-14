@@ -1,7 +1,16 @@
-<div class="configurator__views">
+<script>
+    $( document ).ready(function() {
+        $('.details__summary').on('click tap', function() {
+            $(this).closest('.details').toggleClass('active');
+        });
+    });
+</script>
+<div class="configurator__views docs">
     <div class="configurator__views-buttons">
         {{- range $tab := .Tabs }}
-        <a href="#" id="{{ $tab.Name }}" class="btn btn_o active" data-view-button="{{ $tab.Name }}">{{ $tab.Name }}</a>
+        {% assign tab_info = site.data.common.configurator.tabs | find: "name", "{{ $tab.Name }}" %}
+        {% assign tab_title = tab_info.title[page.lang] | default: "{{ $tab.Name }}" %}
+        <a href="#" id="{{ $tab.Name }}" class="btn btn_o active" data-view-button="{{ $tab.Name }}">{{`{{tab_title}}`}}</a>
         {{ end }}
     </div>
     <div id="view__wrap">

@@ -29,7 +29,7 @@ const (
 
 var (
 	languages = []string{
-		//"en", TODO: uncomment when en configurator page will be ready
+		"en",
 		"ru",
 	}
 	configuratorPageOptions = []struct {
@@ -37,7 +37,7 @@ var (
 		Permalink string
 		Language  string
 	}{
-		//{pageTitleEnConfigurator, pagePermalinkConfigurator, "en"}, TODO: uncomment when en configurator page will be ready
+		{pageTitleEnConfigurator, pagePermalinkConfigurator, "en"},
 		{pageTitleRuConfigurator, pagePermalinkConfigurator, "ru"},
 	}
 )

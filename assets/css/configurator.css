@@ -123,3 +123,15 @@
     height: fit-content;
     z-index: 1;
 }
+
+.configurator span.tooltip-text {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url('images/icons/question_mark.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    opacity: .2;
+    margin-left: 7px;
+}

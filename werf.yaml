@@ -79,6 +79,7 @@ git:
 shell:
   install:
     - cd /configurator
+    - echo Regenerate configurator pages...
     - go run *.go
 ---
 {{- range $lang := list "en" "ru" }}
