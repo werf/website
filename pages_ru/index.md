@@ -16,15 +16,6 @@ sidebar: none
             <div class="building-utility__pic">
                 <img src="{% asset landing/building-utility-scheme.svg @path %}" alt="">
             </div>
-<!--            <div class="intro-banner__tags">-->
-<!--                <ul class="tags__list">-->
-<!--                    <li class="tags__item">#сборка</li>-->
-<!--                    <li class="tags__item">#тестирование</li>-->
-<!--                    <li class="tags__item">#развертывание</li>-->
-<!--                    <li class="tags__item">#дистрибуция</li>-->
-<!--                    <li class="tags__item">#очистка</li>-->
-<!--                </ul>-->
-<!--            </div>-->
             <div class="intro-banner__links">
                 <div class="intro-banner__links-github">
                     <span class="page__icon page__icon_github-white intro-banner__github-icon"></span>
@@ -43,18 +34,24 @@ sidebar: none
     </div>
 </div>
 
-<!--<div class="building-utility" id="building-utility">-->
-<!--    <div class="page__container">-->
-<!--        <div class="building-utility__wrap">-->
-<!--            <div class="building-utility__title">Утилита для построения полного цикла<br> доставки CI/CD c Kubernetes</div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
 <div class="features-card" id="werf-features">
     <div class="page__container">
         <div class="features-card__wrap">
             <ul class="features-card__list">
+                <li class="features-card__item">
+                    <div class="card__item-icon">
+                        <img src="{% asset icons/box-icon.svg @path %}" alt="">
+                    </div>
+                    <div class="card__item-title">Один <br>инструмент</div>
+                    <div class="card__item-text">Используйте одно решение для сборки образов, запуска тестов, дистрибуции релизных артефактов и развёртывания приложения в Kubernetes</div>
+                </li>
+                <li class="features-card__item">
+                    <div class="card__item-icon">
+                        <img src="{% asset icons/gear.svg @path %}" alt="">
+                    </div>
+                    <div class="card__item-title">Продвинутые <br>возможности</div>
+                    <div class="card__item-text">Получайте выгоду от автоматического кэширования, тегирования на основе содержимого, отслеживания ресурсов в Helm и много другого</div>
+                </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
                         <img src="{% asset icons/finger.svg @path %}" alt="">
@@ -64,24 +61,10 @@ sidebar: none
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
-                        <img src="{% asset icons/box-icon.svg @path %}" alt="">
-                    </div>
-                    <div class="card__item-title">Эффективность <br>«из коробки»</div>
-                    <div class="card__item-text">Воспользуйтесь автоматическим кэшированием и тегированием на основе содержимого, отслеживанием ресурсов в Helm и многим другим</div>
-                </li>
-                <li class="features-card__item">
-                    <div class="card__item-icon">
-                        <img src="{% asset icons/gear.svg @path %}" alt="">
-                    </div>
-                    <div class="card__item-title">Продвинутые <br>возможности</div>
-                    <div class="card__item-text">Готовый к использованию подход, основанный на лучших практиках и стимулирующий их, что позволяет сфокусироваться на прикладных задачах</div>
-                </li>
-                <li class="features-card__item">
-                    <div class="card__item-icon">
                         <img src="{% asset icons/triangel.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Интеграция <br>стандартных технологий</div>
-                    <div class="card__item-text">Общая конфигурация и инструмент для всех участников (разработчиков, инженеров эксплуатации) и всех окружений доставки</div>
+                    <div class="card__item-text">Положитесь на привычные Git, Buildah, Helm, Kubernetes и любимую CI-систему</div>
                 </li>
             </ul>
         </div>
@@ -100,21 +83,21 @@ sidebar: none
                 <ul class="what-problems__list">
                     <li class="features-card__item">
                         <div class="card__item-title">Детерминированность CI/CD</div>
-                        <div class="card__item-text">Стимулирование IaC и Git как SSOT (What you Git is what you get!)</div>
+                        <div class="card__item-text">What you Git is what you get – werf предлагает подход гитерминизм, который cтимулирует IaC и Git как единый источник истины</div>
                     </li>
                     <li class="features-card__item">
                         <div class="card__item-title">Воспроизводимость сборок</div>
-                        <div class="card__item-text">Досборка недостающих слоёв и синхронизация сборщиков</div>
+                        <div class="card__item-text">Cинхронизация с container registry – однажды собранный образ неизменяем, а работа с container registry скоординирована между сборщиками</div>
                     </li>
                     <li class="features-card__item">
                         <div class="card__item-title">Предсказуемость выката</div>
                         <div class="card__item-text">
-                            <p>Успешный выкат – это готовое к использованию приложение за счёт продвинутого трекинга разворачиваемых ресурсов.</p>
+                            <p>Успешный выкат – это готовое к использованию приложение</p>
                             <p>Перевыкат только изменившихся компонентов – теги образов независимы (решение вопроса тегирования образов в монорепозиториях)</p>
                         </div>
                     </li>
                     <li class="features-card__item">
-                        <div class="card__item-title">Быстрый troubleshooting - обратная связь + метаданные у артефактов</div>
+                        <div class="card__item-title">Быстрый «troubleshooting»</div>
                         <div class="card__item-text">
                             <p>Мгновенная и богатая обратная связь</p>
                             <p>Связывание релизных артефактов с Git и CI/CD</p>
@@ -126,7 +109,6 @@ sidebar: none
                 <img src="/assets/images/werf-schema.svg" alt="">
             </div>
         </div>
-
         <div class="what-problems__subtitle">
             <span class="subtitle-problem-number">2</span>
             <div class="subtitle-problem-text">Эффективность CI/CD (efficiency)</div>
@@ -138,14 +120,17 @@ sidebar: none
             <div class="what-problems__grid">
                 <ul class="what-problems__list">
                     <li class="features-card__item">
-                        <div class="card__item-title">Ускорение сборок</div>
-                        <div class="card__item-text">Инкрементальность + оркестрация</div>
+                        <div class="card__item-title">Инкрементальность сборок</div>
+                        <div class="card__item-text">
+                            <p>Пересборка только изменившихся образов</p>
+                            <p>Переиспользование раннее собранных слоёв из container registry</p>
+                        </div>
                     </li>
                     <li class="features-card__item">
-                        <div class="card__item-title">Ускорение выката</div>
+                        <div class="card__item-title">Ускорение доставки</div>
                         <div class="card__item-text">
-                            <p>Fail-fast</p>
-                            <p>Перевыкат только изменившихся компонентов – теги образов независимы</p>
+                            <p>Перевыкат только изменившихся компонентов</p>
+                            <p>Моментальное завершение проблемного выката</p>
                         </div>
                     </li>
                 </ul>
