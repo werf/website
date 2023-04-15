@@ -54,7 +54,7 @@ sidebar: none
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
-                        <img src="{% asset icons/gear.svg @path %}" alt="">
+                        <img src="{% asset icons/weightlifter-icon.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Продвинутые <br>возможности</div>
                     <div class="card__item-text">Получайте выгоду от автоматического кэширования, тегирования на основе содержимого, отслеживания ресурсов в Helm и другого</div>
