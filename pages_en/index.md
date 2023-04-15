@@ -54,7 +54,7 @@ sidebar: none
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
-                        <img src="{% asset icons/gear.svg @path %}" alt="">
+                        <img src="{% asset icons/weightlifter-icon.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Advanced features</div>
                     <div class="card__item-text">Take advantage of automatic caching, content-based tagging, resource tracking in Helm, and more</div>
