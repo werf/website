@@ -20,7 +20,7 @@ sidebar: none
                 <div class="intro-banner__links-github">
                     <span class="page__icon page__icon_github-white intro-banner__github-icon"></span>
                     <a href="https://github.com/werf/werf" class="intro-banner__github-counter">
-                        <span class="intro-banner__github-counter-num"><span class="gh_counter">3504</span></span>
+                        <span class="intro-banner__github-counter-num"><span class="gh_counter">3600</span></span>
                     </a>
                 </div>
                 <div class="intro-banner__link-cncf">
@@ -40,6 +40,13 @@ sidebar: none
             <ul class="features-card__list">
                 <li class="features-card__item">
                     <div class="card__item-icon">
+                        <img src="{% asset icons/finger.svg @path %}" alt="">
+                    </div>
+                    <div class="card__item-title">Простота <br>использования</div>
+                    <div class="card__item-text">Предоставьте Dockerfile и<br>Helm-чарт — остальное werf возьмет на себя</div>
+                </li>
+                <li class="features-card__item">
+                    <div class="card__item-icon">
                         <img src="{% asset icons/box-icon.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Один <br>инструмент</div>
@@ -50,14 +57,7 @@ sidebar: none
                         <img src="{% asset icons/gear.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Продвинутые <br>возможности</div>
-                    <div class="card__item-text">Получайте выгоду от автоматического кэширования, тегирования на основе содержимого, отслеживания ресурсов в Helm и много другого</div>
-                </li>
-                <li class="features-card__item">
-                    <div class="card__item-icon">
-                        <img src="{% asset icons/finger.svg @path %}" alt="">
-                    </div>
-                    <div class="card__item-title">Простота <br>использования</div>
-                    <div class="card__item-text">Предоставьте Dockerfile и Helm-чарт — остальное werf возьмет на себя</div>
+                    <div class="card__item-text">Получайте выгоду от автоматического кэширования, тегирования на основе содержимого, отслеживания ресурсов в Helm и другого</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
@@ -73,7 +73,7 @@ sidebar: none
 
 <div class="what-problems-solve">
     <div class="page__container">
-        <div class="what-problems__title title-h3">Какие проблемы решает werf</div>
+        <div class="what-problems__title title-h3">Что приносит werf в ваш CI/CD</div>
         <div class="what-problems__subtitle">
             <span class="subtitle-problem-number">1</span>
             <div class="subtitle-problem-text">Предсказуемость и надежность процесса доставки</div>
@@ -83,24 +83,24 @@ sidebar: none
                 <ul class="what-problems__list">
                     <li class="features-card__item">
                         <div class="card__item-title">Детерминированность CI/CD</div>
-                        <div class="card__item-text">What you Git is what you get – werf предлагает подход гитерминизм, который cтимулирует IaC и Git как единый источник истины</div>
+                        <div class="card__item-text">What you Git is what you get. werf предлагает подход гитерминизм, который cтимулирует IaC и Git как единый источник истины</div>
                     </li>
                     <li class="features-card__item">
                         <div class="card__item-title">Воспроизводимость сборок</div>
-                        <div class="card__item-text">Cинхронизация с container registry – однажды собранный образ неизменяем, а работа с container registry скоординирована между сборщиками</div>
+                        <div class="card__item-text">Cинхронизация с container registry. Однажды собранный образ неизменяем, а работа с container registry скоординирована между сборщиками</div>
                     </li>
                     <li class="features-card__item">
                         <div class="card__item-title">Предсказуемость выката</div>
                         <div class="card__item-text">
                             <p>Успешный выкат – это готовое к использованию приложение</p>
-                            <p>Перевыкат только изменившихся компонентов – теги образов независимы (решение вопроса тегирования образов в монорепозиториях)</p>
+                            <p>Перевыкат только изменившихся компонентов. Теги образов приложения независимы (решение вопроса тегирования образов в монорепозиториях)</p>
                         </div>
                     </li>
                     <li class="features-card__item">
-                        <div class="card__item-title">Быстрый «troubleshooting»</div>
+                        <div class="card__item-title">Диагностика проблем</div>
                         <div class="card__item-text">
-                            <p>Мгновенная и богатая обратная связь</p>
                             <p>Связывание релизных артефактов с Git и CI/CD</p>
+                            <p>Мгновенная и богатая обратная связь при развёртывании в Kubernetes</p>
                         </div>
                     </li>
                 </ul>
@@ -111,7 +111,7 @@ sidebar: none
         </div>
         <div class="what-problems__subtitle">
             <span class="subtitle-problem-number">2</span>
-            <div class="subtitle-problem-text">Эффективность CI/CD (efficiency)</div>
+            <div class="subtitle-problem-text">Эффективность</div>
         </div>
         <div class="what-problems__wrap">
             <div class="what-problems__pic">
@@ -127,7 +127,7 @@ sidebar: none
                         </div>
                     </li>
                     <li class="features-card__item">
-                        <div class="card__item-title">Ускорение доставки</div>
+                        <div class="card__item-title">Время развёртывания</div>
                         <div class="card__item-text">
                             <p>Перевыкат только изменившихся компонентов</p>
                             <p>Моментальное завершение проблемного выката</p>
