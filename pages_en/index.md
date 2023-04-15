@@ -13,20 +13,14 @@ sidebar: none
         </div>
         <div class="intro-banner__wrap">
             <div class="intro-banner__title">Missing part of your CI/CD system</div>
-            <div class="intro-banner__tags">
-                <ul class="tags__list">
-                    <li class="tags__item">#build</li>
-                    <li class="tags__item">#test</li>
-                    <li class="tags__item">#deploy</li>
-                    <li class="tags__item">#distribute</li>
-                    <li class="tags__item">#cleanup</li>
-                </ul>
+            <div class="building-utility__pic">
+                <img src="{% asset landing/building-utility-scheme.svg @path %}" alt="">
             </div>
             <div class="intro-banner__links">
                 <div class="intro-banner__links-github">
                     <span class="page__icon page__icon_github-white intro-banner__github-icon"></span>
                     <a href="https://github.com/werf/werf" class="intro-banner__github-counter">
-                        <span class="intro-banner__github-counter-num"><span class="gh_counter">3504</span></span>
+                        <span class="intro-banner__github-counter-num"><span class="gh_counter">3600</span></span>
                     </a>
                 </div>
                 <div class="intro-banner__link-cncf">
@@ -40,43 +34,107 @@ sidebar: none
     </div>
 </div>
 
-<div class="building-utility" id="building-utility">
-    <div class="page__container">
-        <div class="building-utility__wrap">
-            <div class="building-utility__title">One tool to implement full software delivery<br> process within Kubernetes</div>
-            <div class="building-utility__pic">
-                <img src="{% asset landing/building-utility-scheme.svg @path %}" alt="">
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="features-card" id="werf-features">
     <div class="page__container">
         <div class="features-card__wrap">
             <ul class="features-card__list">
                 <li class="features-card__item">
                     <div class="card__item-icon">
-                        <img src="{% asset icons/gear.svg @path %}" alt="">
+                        <img src="{% asset icons/finger.svg @path %}" alt="">
                     </div>
                     <div class="card__item-title">Ease of use</div>
-                    <div class="card__item-text">Create your Dockerfile and Helm chart, and let werf handle all the rest</div>
+                    <div class="card__item-text">Create your Dockerfile and Helm chart, and let werf handle all the rest</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
                         <img src="{% asset icons/box-icon.svg @path %}" alt="">
                     </div>
-                    <div class="card__item-title">Advanced features</div>
-                    <div class="card__item-text">Benefit from automatic caching and content-based tagging, enhanced resource tracking in Helm, and more</div>
+                    <div class="card__item-title">A single, all-in-one tool</div>
+                    <div class="card__item-text">Build images, run tests, distribute release artifacts, and deploy the application to Kubernetes using a unified, all-in-one tool</div>
                 </li>
                 <li class="features-card__item">
                     <div class="card__item-icon">
-                        <img src="{% asset icons/puzzles.svg @path %}" alt="">
+                        <img src="{% asset icons/gear.svg @path %}" alt="">
                     </div>
-                    <div class="card__item-title">Gluing common technologies</div>
-                    <div class="card__item-text">Rely on Git, <span class="tooltip-text" title="Dockerfile builder from Red Hat">Buildah</span>, Helm, Kubernetes, and your CI system of choice</div>
+                    <div class="card__item-title">Advanced features</div>
+                    <div class="card__item-text">Take advantage of automatic caching, content-based tagging, resource tracking in Helm, and more</div>
+                </li>
+                <li class="features-card__item">
+                    <div class="card__item-icon">
+                        <img src="{% asset icons/triangel.svg @path %}" alt="">
+                    </div>
+                    <div class="card__item-title">Gluing technologies</div>
+                    <div class="card__item-text">Rely on Git, <span class="tooltip-text" title="Dockerfile builder from Red Hat">Buildah</span>, Helm, Kubernetes, and your<br>CI system of choice</div>
                 </li>
             </ul>
+        </div>
+    </div>
+</div>
+
+<div class="what-problems-solve">
+    <div class="page__container">
+        <div class="what-problems__title title-h3">What werf brings to your CI/CD</div>
+        <div class="what-problems__subtitle">
+            <span class="subtitle-problem-number">1</span>
+            <div class="subtitle-problem-text">Predictable and reliable delivery process</div>
+        </div>
+        <div class="what-problems__wrap">
+            <div class="what-problems__grid">
+                <ul class="what-problems__list">
+                    <li class="features-card__item">
+                        <div class="card__item-title">Deterministic CI/CD</div>
+                        <div class="card__item-text">What you Git is what you get. werf introduces Giterminism that encourages an IaC approach and the use of Git as a single source of truth</div>
+                    </li>
+                    <li class="features-card__item">
+                        <div class="card__item-title">Reproducible builds</div>
+                        <div class="card__item-text">Synchronization with the container registry. Once built, the image is immutable, while builders use the container registry in a coordinated fashion</div>
+                    </li>
+                    <li class="features-card__item">
+                        <div class="card__item-title">Predictable deployment</div>
+                        <div class="card__item-text">
+                            <p>A successful deployment means that an application is up and running</p>
+                            <p>Redeploying only the components that have been modified. Application image tags are independent (this solves the issue of image tagging in monorepos)</p>
+                        </div>
+                    </li>
+                    <li class="features-card__item">
+                        <div class="card__item-title">Easier troubleshooting</div>
+                        <div class="card__item-text">
+                            <p>Linking release artifacts to Git and CI/CD</p>
+                            <p>Instant and detailed feedback when deploying to Kubernetes</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="what-problems__pic">
+                <img src="/assets/images/werf-schema.svg" alt="">
+            </div>
+        </div>
+        <div class="what-problems__subtitle">
+            <span class="subtitle-problem-number">2</span>
+            <div class="subtitle-problem-text">Efficiency</div>
+        </div>
+        <div class="what-problems__wrap">
+            <div class="what-problems__pic">
+                <img src="/assets/images/werf-time.svg" alt="">
+            </div>
+            <div class="what-problems__grid">
+                <ul class="what-problems__list">
+                    <li class="features-card__item">
+                        <div class="card__item-title">Incremental builds</div>
+                        <div class="card__item-text">
+                            <p>Rebuilding only the components that have been modified</p>
+                            <p>Reusing the existing layers found in the container registry</p>
+                        </div>
+                    </li>
+                    <li class="features-card__item">
+                        <div class="card__item-title">Deployment time</div>
+                        <div class="card__item-text">
+                            <p>Redeploying only the components that have been modified</p>
+                            <p>Instant termination of a troubled deployment process</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -84,7 +142,7 @@ sidebar: none
 <div class="demo-block" id="how-it-works">
     <div class="page__container">
         <div class="demo-block__wrap">
-            <div class="demo-block__title">How it works</div>
+            <div class="demo-block__title title-h3">How it works</div>
             <div class="demo-block__tabs-wrap">
                 <div class="demo-block__code">
                     <ul class="code-list">
