@@ -433,6 +433,14 @@ body,
   line-height: var(--line-height-card-text);
 }
 
+.card__item-text > p:first-child {
+  margin-top: 0;
+}
+
+.card__item-text > p:last-child {
+  margin-bottom: 0;
+}
+
 .subtitle-problem-number {
   font-weight: 600;
   padding: 0 9px;
