@@ -59,7 +59,7 @@ spec:
 
 ## Настройка Kubernetes
 
-Если в конфигурации Kubernetes Runner вы включили кеширование `.werf`, то создайте в кластере соответствующий PersistentVolumeClaim, например:
+Если в конфигурации Kubernetes Runner'а вы включили кеширование `.werf`, то создайте в кластере соответствующий PersistentVolumeClaim, например:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -105,7 +105,7 @@ EOF
 
 > Для большей безопасности можете создать более ограниченную ClusterRole/Role и использовать её вместо кластерной роли `cluster-admin` выше.
 
-Если Kubernetes-ноды для Kubernetes Runner имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для Kubernetes Runner следующей командой:
+Если Kubernetes-узлы для Kubernetes Runner'а имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для Kubernetes Runner следующей командой:
 
 ```shell
 $ kubectl create -f - <<EOF

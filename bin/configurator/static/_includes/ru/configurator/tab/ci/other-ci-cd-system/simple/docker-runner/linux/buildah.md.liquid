@@ -3,9 +3,9 @@
 - CI-система;
 
 - Linux-хост для запуска CI-задач, имеющий:
-  
+
   * Docker Runner вашей CI-системы;
-  
+
   * [Docker Engine](https://docs.docker.com/engine/install/).
 
 ## Настройка Runner'а
@@ -18,11 +18,11 @@ docker volume create werf
 
 Настройте Runner вашей CI-системы так, чтобы создаваемые контейнеры имели следующие параметры:
 
-* `--security-opt seccomp:unconfined`
+* `--security-opt seccomp:unconfined`;
 
-* `--security-opt apparmor:unconfined`
+* `--security-opt apparmor:unconfined`;
 
-* `--volume werf:/home/build/.werf`
+* `--volume werf:/home/build/.werf`.
 
 Если хост для запуска CI-задач имеет версию ядра Linux 5.12 или ниже, то установите на хост `fuse` и настройте Runner так, чтобы создаваемые контейнеры имели дополнительный параметр `--device /dev/fuse`.
 

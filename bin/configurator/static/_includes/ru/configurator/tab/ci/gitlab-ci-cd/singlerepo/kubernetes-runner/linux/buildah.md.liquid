@@ -54,7 +54,7 @@
       mount_path = "/builds"
 ```
 
-Если будете развертывать приложения с werf в тот же кластер, в котором запускается GitLab Runner, то добавьте ещё один параметр:
+Если будете разворачивать приложения с werf в тот же кластер, в котором запускается GitLab Runner, то добавьте ещё один параметр:
 
 ```toml
 [[runners]]
@@ -67,7 +67,7 @@
 
 ## Настройка Kubernetes
 
-Если в конфигурации GitLab Runner вы включили кеширование `.werf` и `/builds`, то создайте в кластере соответствующие PersistentVolumeClaims, например:
+Если в конфигурации GitLab Runner'а вы включили кеширование `.werf` и `/builds`, то создайте в кластере соответствующие PersistentVolumeClaims, например:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -98,7 +98,7 @@ spec:
 EOF
 ```
 
-Если будете развертывать приложения в тот же кластер, в котором запускается GitLab Runner, то в кластере для запуска GitLab Runner настройте RBAC следующей командой:
+Если будете разворачивать приложения в тот же кластер, в котором запускается GitLab Runner, то в кластере для запуска GitLab Runner'а настройте RBAC следующей командой:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -126,7 +126,7 @@ EOF
 
 > Для большей безопасности можете создать более ограниченную ClusterRole/Role и использовать её вместо кластерной роли `cluster-admin` выше.
 
-Если Kubernetes-ноды для GitLab Runner имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для GitLab Runner следующей командой:
+Если Kubernetes-узлы для GitLab Runner'а имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для GitLab Runner следующей командой:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -181,30 +181,30 @@ EOF
 - Включите [возможность автоматически отменять лишние pipelines](https://docs.gitlab.com/ee/ci/pipelines/settings.html#auto-cancel-redundant-pipelines).
 
 - [Создайте и сохраните access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) для очистки ненужных образов из container registry со следующей конфигурацией:
-  
-  - **Token name:** `werf-images-cleanup`
-  
-  - **Role:** `developer`
-  
-  - **Scopes:** `api`
+
+  - **Token name:** `werf-images-cleanup`;
+
+  - **Role:** `developer`;
+
+  - **Scopes:** `api`.
 
 - [В переменных проекта](https://docs.gitlab.com/ee/ci/variables/#for-a-project) добавьте следующие переменные:
-  
+
   - Версия werf:
-    
-    - **Key:** `WERF_VERSION`
-    
-    - **Value:** `{{ include.version }} {{ include.channel }}`
-  
+
+    - **Key:** `WERF_VERSION`;
+
+    - **Value:** `{{ include.version }} {{ include.channel }}`.
+
   - Access token для очистки ненужных образов:
-    
-    - **Key:** `WERF_IMAGES_CLEANUP_PASSWORD`
-    
-    - **Value:** `<сохранённый "werf-images-cleanup" access token>`
-    
-    - **Protect variable:** `yes`
-    
-    - **Mask variable:** `yes`
+
+    - **Key:** `WERF_IMAGES_CLEANUP_PASSWORD`;
+
+    - **Value:** `<сохранённый "werf-images-cleanup" access token>`;
+
+    - **Protect variable:** `yes`;
+
+    - **Mask variable:** `yes`.
 
 - [Добавьте плановое задание](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) на каждую ночь для очистки ненужных образов в container registry, указав ветку `main`/`master` в качестве **Target branch**.
 
