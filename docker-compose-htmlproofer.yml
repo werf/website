@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  en:
+    image: $WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME
+    working_dir: "/srv/jekyll-data"
+    environment:
+      JEKYLL_ENV: "dev"
+    command: bash -c "
+      chmod -R o+w /srv/jekyll-data/ &&
+      jekyll build --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml --destination /tmp/_site &&
+      bundle exec htmlproofer \
+            --allow-hash-href \
+            --empty-alt-ignore \
+            --check_html \
+            --file_ignore "/____________/" \
+            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/website\/edit/,/habr.com/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/documentation/,/guides.html/" \
+            --url-swap "github.com/werf/website/blob/main:github.com/werf/website/blob/$GITHUB_SHA,github.com/werf/website/tree/main:github.com/werf/website/tree/$GITHUB_SHA" \
+            --http-status-ignore "0,429,403" \
+            /tmp/_site"
+    volumes:
+      - "./:/srv/jekyll-data/"
+  ru:
+    image: $WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME
+    working_dir: "/srv/jekyll-data"
+    environment:
+      JEKYLL_ENV: "dev"
+    command: bash -c "
+      chmod -R o+w /srv/jekyll-data/ &&
+      jekyll build --config _config.yml,_config_dev.yml,_config_ru.yml --destination /tmp/_site &&
+      bundle exec htmlproofer \
+            --allow-hash-href \
+            --empty-alt-ignore \
+            --check_html \
+            --file_ignore "/____________/" \
+            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/website\/edit/,/habr.com/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/documentation/,/guides.html/" \
+            --url-swap "github.com/werf/website/blob/main:github.com/werf/website/blob/$GITHUB_SHA,github.com/werf/website/tree/main:github.com/werf/website/tree/$GITHUB_SHA" \
+            --http-status-ignore "0,429,403" \
+            /tmp/_site"
+    volumes:
+      - "./:/srv/jekyll-data/"
+    depends_on:
+      - en

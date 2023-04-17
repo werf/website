@@ -37,4 +37,7 @@ ___
   jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml -d /tmp/_site
   ```
 - Site content (with guides but without documentation section) is available on http://localhost:4000
- 
+
+### Checking HTML links
+
+To run link validation, run `werf compose up --docker-compose-options="-f docker-compose-htmlproofer.yml"`.
