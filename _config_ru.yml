@@ -10,16 +10,17 @@ includes_dir: _includes/ru
 cache_dir: ".jekyll-cache-ru"
 
 exclude:
-  - Gemfile
-  - Gemfile.lock
-  - examples
-  - pages_en
-  - werf.yaml
-  - ".werf"
-  - backend
   - ".jekyll-cache-ru"
   - ".jekyll-cache-en"
+  - ".werf"
+  - backend
+  - bin
+  - examples
+  - pages_en
   - scripts
+  - Gemfile
+  - Gemfile.lock
+  - werf.yaml
 
 include:
   - pages_ru
