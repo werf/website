@@ -106,7 +106,7 @@ sidebar: none
                 </ul>
             </div>
             <div class="what-problems__pic">
-                <img src="/assets/images/werf-schema.svg" alt="">
+                <img src="/assets/images/werf-schema_ru.svg" alt="">
             </div>
         </div>
         <div class="what-problems__subtitle">
