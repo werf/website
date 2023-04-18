@@ -1,248 +1,194 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"html/template"
-	"io/ioutil"
-	"log"
 	"os"
-
-	"gopkg.in/yaml.v2"
 )
 
-// Main configuration file
-var c config
+const (
+	configFile = "config.yml"
 
-// Configuration file structure
-type config struct {
-	Options []struct {
-		Name    string `yaml:"name"`
-		GroupID string `yaml:"groupId"`
-		Help    string `yaml:"help"`
-		Values  []struct {
-			Name    string `yaml:"name"`
-			TabName string `yaml:"tabName"`
-		} `yaml:"values"`
-	} `yaml:"options"`
-	Combinations []struct {
-		Tabs []struct {
-			Name         string              `yaml:"name"`
-			LinkName     string              `yaml:"linkName"`
-			TemplateName string              `yaml:"templateName"`
-			Params       []map[string]string `yaml:"params,omitempty"`
-		} `yaml:"tabs"`
-		Options []struct {
-			Name  string `yaml:"name"`
-			Value string `yaml:"value"`
-		} `yaml:"options"`
-	} `yaml:"combinations"`
-}
+	generatedDirectory                  = "generated"
+	generatedIncludePathFormatTabs      = "generated/_includes/%s/configurator/tabs/%s.md"
+	generatedPagePathFormatConfigurator = "generated/pages_%s/configurator.md"
+	generatedPagePathFormatTabs         = "generated/pages_%s/configurator/tabs/%s.md"
+	generatedPathCombinationTreeConfig  = "generated/configurator-options-list.json"
+	generatedPathCombinationTabsConfig  = "generated/configurator-data.json"
 
-// Options Tree element
-type jsonElem struct {
-	Option string
-	Values []map[string]interface{}
-}
+	pagePermalinkConfigurator = "/configurator.html"
+	includePathFormatTabs     = "/configurator/tabs/%s.md"
+	pagePermalinkFormatTabs   = "/configurator/tabs/%s.html"
 
-// Data passed to the template with buttons
-type pageData struct {
-	Groups []group
-}
+	templatePathPagesConfigurator = "templates/pages/configurator.html"
+	templatePathPagesTabs         = "templates/pages/tabs.html"
+	templatePathIncludesTabs      = "templates/includes/tabs.html"
 
-// Groups of options
-type group struct {
-	Name        string
-	GroupName   string
-	Help        string
-	Description string
-	Buttons     []struct {
-		Name    string
-		TabName string
+	pageTitleEnConfigurator = "Configurator"
+	pageTitleRuConfigurator = "Конфигуратор"
+)
+
+var (
+	languages = []string{
+		//"en", TODO: uncomment when en configurator page will be ready
+		"ru",
 	}
+	configuratorPageOptions = []struct {
+		Title     string
+		Permalink string
+		Language  string
+	}{
+		//{pageTitleEnConfigurator, pagePermalinkConfigurator, "en"}, TODO: uncomment when en configurator page will be ready
+		{pageTitleRuConfigurator, pagePermalinkConfigurator, "ru"},
+	}
+)
+
+type tabsIncludeData configCombination
+
+type tabsPageData struct {
+	Permalink   string
+	IncludePath string
 }
 
-// Data transmitted to the tabs
-type tab struct {
-	Name      string
-	Permalink string
-	data      []map[string]string
-}
-
-// Main function
 func main() {
-	c.getConf()
-
-	genOptionsTree()
-	genSelectorTemplate()
-	genPartialsForTabs()
-}
-
-// Option tree generation function
-func genOptionsTree() {
-	var elems jsonElem
-
-	elems.Option = c.Options[0].GroupID
-	elems.Values = getElems(0)
-
-	file, err := json.Marshal(elems)
+	conf, err := readConfig()
 	if err != nil {
-		fmt.Printf("Error: %s", err)
-		return
+		panic(fmt.Sprintf("Error while reading config: %s", err))
 	}
 
-	if _, err = os.Stat("generated"); os.IsNotExist(err) {
-		err = os.Mkdir("generated", 0o777)
-		if err != nil {
-			panic(err)
-		}
+	if err := cleanup(); err != nil {
+		panic(fmt.Sprintf("Error while cleaning up: %s", err))
 	}
 
-	err = ioutil.WriteFile("generated/js_conf.json", file, 0o777)
+	if err := generateCombinationTreeConfig(conf); err != nil {
+		panic(fmt.Sprintf("Error while generating combination tree config: %s", err))
+	}
 
+	if err := generateCombinationTabsConfig(conf); err != nil {
+		panic(fmt.Sprintf("Error while generating combination tabs config: %s", err))
+	}
+
+	if err := generateTabsIncludesAndPages(conf); err != nil {
+		panic(fmt.Sprintf("Error while generating tabs includes and pages: %s", err))
+	}
+
+	if err := generateConfiguratorPage(conf); err != nil {
+		panic(fmt.Sprintf("Error while generating configurator page: %s", err))
+	}
+}
+
+func cleanup() error {
+	if err := os.RemoveAll(generatedDirectory); err != nil {
+		return fmt.Errorf("unable to remove directory %s: %w", generatedDirectory, err)
+	}
+
+	return nil
+}
+
+func generateCombinationTreeConfig(conf config) error {
+	rootOption, err := conf.getCombinationTree()
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("unable to generate combination tree: %s", err)
 	}
+
+	if err := createJsonFile(generatedPathCombinationTreeConfig, rootOption); err != nil {
+		return fmt.Errorf("unable to create file %q: %s", generatedPathCombinationTreeConfig, err)
+	}
+
+	return nil
 }
 
-// Recursive tree traversal function
-func getElems(index int) []map[string]interface{} {
-	var elems []map[string]interface{}
+func generateTabsIncludesAndPages(conf config) error {
+	for _, lang := range languages {
+		for _, combination := range conf.Combinations {
+			for _, combinationOptions := range conf.getCombinationOptionsList(combination) {
+				// generate tabs includes
+				{
+					var pageData tabsIncludeData
+					pageData.Options = combinationOptions
+					for _, cCombTab := range combination.Tabs {
+						pageData.Tabs = append(pageData.Tabs, cCombTab)
+					}
 
-	if index < len(c.Options)-1 {
-		for i := range c.Options[index].Values {
-			var elem map[string]interface{}
-			elem = make(map[string]interface{})
-			if index < len(c.Options[index].Values)-1 {
-				elem[c.Options[index].Values[i].TabName] = getValues(index)
-			}
-			elems = append(elems, elem)
-		}
-	}
-
-	return elems
-}
-
-// Recursive function for obtaining values
-func getValues(index int) []jsonElem {
-	var values []jsonElem
-	var elem jsonElem
-
-	for i := index; i <= len(c.Options[index].Values); i++ {
-		elem.Option = c.Options[index+1].GroupID
-		if index < len(c.Options[index].Values) {
-			elem.Values = getElems(index + 1)
-		}
-		values = append(values, elem)
-	}
-	return values
-}
-
-// Configuration file upload function
-func (c *config) getConf() *config {
-	yamlFile, err := ioutil.ReadFile("config.yml")
-	if err != nil {
-		log.Printf("yamlFile.Get err #%v ", err)
-	}
-	err = yaml.Unmarshal(yamlFile, c)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
-
-	return c
-}
-
-// The function of generating a template with buttons
-func genSelectorTemplate() {
-	var pD pageData
-
-	if _, err := os.Stat("templates/configurator_buttons.html"); !os.IsNotExist(err) {
-		t, err := template.ParseFiles("templates/configurator_buttons.html")
-		if err != nil {
-			log.Print(err)
-			return
-		}
-
-		pD.Groups = getGroups()
-
-		if _, err := os.Stat("generated/configurator.html"); os.IsNotExist(err) {
-			f, err := os.Create("generated/configurator.html")
-			if err != nil {
-				log.Println("Create file: ", err)
-				return
-			}
-			err = t.Execute(f, pD)
-			if err != nil {
-				log.Print("Execute: ", err)
-				return
-			}
-		}
-	}
-}
-
-// Function for getting groups
-func getGroups() []group {
-	var groups []group
-	for i := range c.Options {
-		var g group
-		g.Name = c.Options[i].Name
-		g.GroupName = c.Options[i].GroupID
-		g.Help = c.Options[i].Help
-		for y := range c.Options[i].Values {
-			g.Buttons = append(g.Buttons, struct {
-				Name    string
-				TabName string
-			}{Name: c.Options[i].Values[y].Name, TabName: c.Options[i].Values[y].TabName})
-		}
-		groups = append(groups, g)
-	}
-	return groups
-}
-
-// The function of generating partials of tabs
-func genPartialsForTabs() {
-	for i := range c.Combinations {
-		for y := range c.Combinations[i].Tabs {
-			link := "/"
-			t := tab{}
-			t.Name = c.Combinations[i].Tabs[y].Name
-
-			for o := range c.Combinations[i].Options {
-				for opt := range c.Options {
-					if c.Options[opt].Name == c.Combinations[i].Options[o].Name {
-						for v := range c.Options[opt].Values {
-							if c.Options[opt].Values[v].Name == c.Combinations[i].Options[o].Value {
-								link = link + c.Options[opt].Values[v].TabName + "_"
-							}
-						}
+					tabsIncludePath := getTabsGeneratedIncludePath(lang, combinationOptions.ToSlug())
+					if err := createFileByTemplate(templatePathIncludesTabs, tabsIncludePath, pageData); err != nil {
+						return fmt.Errorf("unable to create file %q: %s", tabsIncludePath, err)
 					}
 				}
-			}
-			link = link + c.Combinations[i].Tabs[y].LinkName + ".html"
-			t.Permalink = link
 
-			t.data = c.Combinations[i].Tabs[y].Params
-
-			if _, err := os.Stat("templates/tabs/" + c.Combinations[i].Tabs[y].TemplateName + ".html"); !os.IsNotExist(err) {
-				tpl, err := template.ParseFiles("templates/tabs/" + c.Combinations[i].Tabs[y].TemplateName + ".html")
-				if err != nil {
-					log.Print(err)
-					return
-				}
-
-				if _, err := os.Stat("generated/" + t.Permalink); os.IsNotExist(err) {
-					f, err := os.Create("generated/" + t.Permalink)
-					if err != nil {
-						log.Println("Create file: ", err)
-						return
-					}
-					err = tpl.Execute(f, t)
-					if err != nil {
-						log.Print("Execute: ", err)
-						return
+				// generate tabs pages
+				{
+					tabsPagePath := getTabsGeneratedPagePath(lang, combinationOptions.ToSlug())
+					tabsIncludePath := getTabsIncludePath(combinationOptions.ToSlug())
+					permalink := getTabsPagePermalink(combinationOptions.ToSlug())
+					if err := createFileByTemplate(templatePathPagesTabs, tabsPagePath, tabsPageData{
+						Permalink:   permalink,
+						IncludePath: tabsIncludePath,
+					}); err != nil {
+						return fmt.Errorf("unable to create file %q: %s", tabsPagePath, err)
 					}
 				}
 			}
 		}
 	}
+
+	return nil
+}
+
+func getTabsGeneratedPagePath(lang string, slug configCombinationSlug) string {
+	return fmt.Sprintf(generatedPagePathFormatTabs, lang, slug)
+}
+
+func getTabsGeneratedIncludePath(lang string, slug configCombinationSlug) string {
+	return fmt.Sprintf(generatedIncludePathFormatTabs, lang, slug)
+}
+
+func getTabsIncludePath(slug configCombinationSlug) string {
+	return fmt.Sprintf(includePathFormatTabs, slug)
+}
+
+func getTabsPagePermalink(slug configCombinationSlug) string {
+	return fmt.Sprintf(pagePermalinkFormatTabs, slug)
+}
+
+type configurationPageData struct {
+	Title                     string
+	Permalink                 string
+	Groups                    []optionGroup
+	DefaultCombinationOptions configCombinationOptions
+	DefaultIncludePath        string
+}
+
+func generateConfiguratorPage(conf config) error {
+	for _, pageOptions := range configuratorPageOptions {
+		var pageData configurationPageData
+		pageData.Title = pageOptions.Title
+		pageData.Permalink = pageOptions.Permalink
+		pageData.Groups = conf.getOptionGroupList()
+		pageData.DefaultCombinationOptions = conf.getAllCombinationOptionsList()[0]
+		pageData.DefaultIncludePath = getTabsIncludePath(pageData.DefaultCombinationOptions.ToSlug())
+
+		pageFilePath := getConfiguratorGeneratedPagePath(pageOptions.Language)
+		if err := createFileByTemplate(templatePathPagesConfigurator, pageFilePath, pageData); err != nil {
+			return fmt.Errorf("unable to generate file %q: %s", pageFilePath, err)
+		}
+	}
+
+	return nil
+}
+
+func getConfiguratorGeneratedPagePath(lang string) string {
+	return fmt.Sprintf(generatedPagePathFormatConfigurator, lang)
+}
+
+func generateCombinationTabsConfig(conf config) error {
+	combinationPermalinkMap := make(map[configCombinationSlug]string)
+	for _, combinationOptions := range conf.getAllCombinationOptionsList() {
+		combinationPermalinkMap[combinationOptions.ToSlug()] = getTabsPagePermalink(combinationOptions.ToSlug())
+	}
+
+	if err := createJsonFile(generatedPathCombinationTabsConfig, combinationPermalinkMap); err != nil {
+		return fmt.Errorf("unable to create file %q: %s", generatedPathCombinationTabsConfig, err)
+	}
+
+	return nil
 }

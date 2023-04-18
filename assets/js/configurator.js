@@ -16,10 +16,10 @@ $(document).ready(() => {
         })
 
         getData(`configurator-data.json`).then(res => {
-            if (res[initPathToData].page) {
+            if (res[initPathToData]) {
                 $.ajax({
                     type: "GET",
-                    url: `${res[initPathToData].page}`,
+                    url: `${res[initPathToData]}`,
                     success: function (response) {
                         $('#configurator-content').html(response);
                     }
@@ -72,6 +72,11 @@ $(document).ready(() => {
     }
 
     function disabledOptions(options) {
+        // FIXME: refactor this function
+        if (options === null) {
+            return
+        }
+            
         const buttons = $('.button__wrap').find(`[data-key="${options['option']}"]`);
 
         if (typeof options['values'] === 'object' && Object.keys(options['values']).length) {
@@ -128,10 +133,10 @@ $(document).ready(() => {
                 window.history.replaceState(null, null, `${url.pathname}?${setParams()}`);
 
                 getData(`configurator-data.json`).then(res => {
-                    if (res[pathToData].page) {
+                    if (res[pathToData]) {
                         $.ajax({
                             type: "GET",
-                            url: `${res[pathToData].page}`,
+                            url: `${res[pathToData]}`,
                             success: function (response) {
                                 $('#configurator-content').html(response);
                             }
@@ -159,7 +164,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         getData(`configurator-data.json`).then(res => {
-            setRepoPath(res[pathToData].repo);
+            setRepoPath(res[pathToData]);
         })
     })
 

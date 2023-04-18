@@ -68,6 +68,19 @@ ansible:
       warn: false
       chdir: /artifacts
 ---
+image: configuration_artifacts
+from: golang:1.16
+fromCacheVersion: {{ $.CacheVersion }}
+git:
+  - add: /bin/configurator
+    to: /configurator
+    stageDependencies:
+      install: '**/*'
+shell:
+  install:
+    - cd /configurator
+    - go run *.go
+---
 {{- range $lang := list "en" "ru" }}
 image: doc_{{ $lang }}
 fromImage: jekyll_base
@@ -77,6 +90,13 @@ import:
     add: /artifacts
     to: /artifacts
     before: setup
+  - image: configuration_artifacts
+    add: /configurator
+    includePaths:
+      - static
+      - generated
+    to: /tmp
+    after: install
 git:
   - add: /
     to: /app
@@ -101,11 +121,11 @@ git:
       - "*.svg"
       - favicon.ico
       - robots.txt
-      - configurator-data.json
-      - configurator-options-list.json
     stageDependencies:
-      setup: ["**/*"]
+      beforeSetup: ["**/*"]
 shell:
+  beforeSetup:
+    - cp -R /tmp/static/* /tmp/generated/* /app
   setup:
     - cd /app
     - set -u

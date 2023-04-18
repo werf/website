@@ -1,0 +1,39 @@
+---
+title: {{ .Title }}
+permalink: {{ .Permalink }}
+layout: default
+sidebar: none
+---
+
+<div>
+    <div class="page__container">
+        <div class="configurator">
+            <div class="configurator__buttons">
+                {{- range $group := .Groups }}
+                <div class="button__wrap--inline">
+                    {{- range $opt := $group }}
+                    <div class="button__wrap button--{{ $opt.Name }}">
+                        <div class="configurator__buttons-title">
+                            {{- $opt.Name }}
+<!--                            <span title="Some text in version tooltip. <a href='#'>Узнать подробнее</a>"></span>-->
+                        </div>
+                        <div class="buttons-group">
+                            {{- range $value := .Values }}
+                            <a href="#" class="btn btn_o
+                            {{- range $defaultCombinationOption := $.DefaultCombinationOptions -}}
+                            {{ if and (eq $defaultCombinationOption.Name $opt.Name) (eq $defaultCombinationOption.Value $value) }} active{{ end }}
+                            {{- end -}}" data-key="{{- $opt.Name -}}" data-value="{{- $value -}}">{{- $value -}}</a>
+                            {{- end }}
+                        </div>
+                    </div>
+                    {{- end }}
+                </div>
+                {{- end }}
+            </div>
+            
+<div id="configurator-content" markdown="1">
+{% include {{ .DefaultIncludePath }} %}
+</div>
+        </div>
+    </div>
+</div>
