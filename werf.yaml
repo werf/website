@@ -127,6 +127,8 @@ git:
 shell:
   beforeSetup:
     - cp -R /tmp/static/* /tmp/generated/* /app
+    # FIXME: remove this hack when the translation will be done    
+    - ln -s ../../ru/configurator/tab /app/_includes/en/configurator/tab
   setup:
     - cd /app
     - set -u
