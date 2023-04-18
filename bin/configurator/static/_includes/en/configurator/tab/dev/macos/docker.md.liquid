@@ -1,0 +1,19 @@
+## Requirements
+
+- Bash;
+
+- Git version 2.18.0 or above;
+
+- GPG;
+
+- [Docker Engine](https://docs.docker.com/engine/install/).
+
+## Installing werf
+
+Run the command below to install werf:
+
+```shell
+curl -sSL https://werf.io/install.sh | bash -s -- --version {{ include.version }} --channel {{ include.channel }}
+```
+
+... and then start a new shell session.

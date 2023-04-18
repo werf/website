@@ -1,0 +1,102 @@
+## Requirements
+
+- GitLab;
+
+- Linux host to run the GitLab Runner with:
+
+  - Bash;
+
+  - Git version 2.18.0 or above;
+
+  - GPG;
+
+  - [Docker Engine](https://docs.docker.com/engine/install/).
+
+## Installinf the GitLab Runner
+
+Follow [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html) to install the GitLab Runner on its host.
+
+## Installing werf
+
+To install werf, run the following command on the GitLab Runner host:
+
+```
+curl -sSL https://werf.io/install.sh | bash -s -- --ci
+```
+
+## Registering the GitLab Runner
+
+Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register the GitLab Runner in GitLab; set Shell as the executor. Once the registration is complete, you may want to perform [additional GitLab Runner configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
+
+## Configuring the GitLab project
+
+* Enable [Require a successful pipeline for merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html#require-a-successful-pipeline-for-merge).
+
+* Enable the option to [auto-cancel redundant pipelines](https://docs.gitlab.com/ee/ci/pipelines/settings.html#auto-cancel-redundant-pipelines).
+
+* [Create ans save the access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) to clean up the unneeded images in the container registry with the following parameters:
+
+  * **Token name:** `werf-images-cleanup`;
+
+  * **Role:** `developer`;
+
+  * **Scopes:** `api`.
+
+* Add the following variables to the [project variables](https://docs.gitlab.com/ee/ci/variables/#for-a-project):
+
+  * werf version:
+
+    * **Key:** `WERF_VERSION`;
+
+    * **Value:** ``{{ include.version }} {{ include.channel }}`.
+
+  * Access token to clean up the no longer needed images:
+
+    * **Key:** `WERF_IMAGES_CLEANUP_PASSWORD`;
+
+    * **Value:** `<"werf-images-cleanup" access token you saved earlier>`;
+
+    * **Protect variable:** `yes`;
+
+    * **Mask variable:** `yes`.
+
+* [Add a scheduled nightly task](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) to clean up the no longer needed images in the container registry; set `main`/`master` as the **Target branch**.
+
+## Configuring the container registry
+
+[Enbale garbage collection](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) for your container registry.
+
+## Configuring CI/CD of the project
+
+Example of using werf with GitLab CI:
+
+```yaml
+# .gitlab-ci.yml:
+stages:
+- prod
+- cleanup
+
+default:
+  before_script:
+  - source "$(~/bin/trdl use werf {{ include.version }} {{ include.channel }})"
+  - source "$(werf ci-env gitlab --as-file)"
+  tags: ["<tag of the registered GitLab Runner>"]
+
+prod:
+  stage: prod
+  script:
+  - werf converge
+  environment:
+    name: prod
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"
+    when: manual
+
+images:cleanup:
+  stage: cleanup
+  script:
+    - werf cr login -u nobody -p "${WERF_IMAGES_CLEANUP_PASSWORD:?}" "${WERF_REPO:?}"
+    - werf cleanup
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule"
+```
