@@ -1,0 +1,66 @@
+## Requirements
+
+- CI system;
+
+- Linux host to run the CI jobs, featuring:
+
+  * Docker Runner of your CI system of choice;
+
+  * [Docker Engine](https://docs.docker.com/engine/install/).
+
+## Configuring the Runner
+
+Create the `werf` volume on the host where CI jobs are run:
+
+```shell
+docker volume create werf
+```
+
+Configure your CI system's Runner so that the containers you create have the following parameters:
+
+* `--security-opt seccomp:unconfined`;
+
+* `--security-opt apparmor:unconfined`;
+
+* `--volume werf:/home/build/.werf`.
+
+If the host to run CI jobs has Linux kernel version 5.12 or lower, install `fuse` on the host and configure Runner so that the containers you create have the optional parameter `--device /dev/fuse`.
+
+## Configuring the container registry
+
+[Enable garbage collection]({{ "/documentation/v" | append: include.version | append: "/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
+
+## Configuring CI/CD of the project
+
+This is what configuration for running werf on your CI system might look like:
+
+```yaml
+# .pseudo-ci-config.yml:
+image: "registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }}-{{ include.werfImageDistro }}"
+image_pull_policy: always
+
+environment_variables:
+  WERF_REPO: registry.example.org/myrepo
+  WERF_ENV: "${CI_ENVIRONMENT}"
+  WERF_ENABLE_PROCESS_EXTERMINATOR: "1"
+
+before_every_job:
+- werf cr login -u "${REGISTRY_USER:?}" -p "${REGISTRY_PASSWORD:?}" "${WERF_REPO:?}"
+
+jobs:
+  prod:
+    commands:
+    - werf converge
+    environment: prod
+    on: master
+    how: manually
+
+  images:cleanup:
+    commands:
+    - werf cleanup
+    on: master
+    how: daily
+```
+
+Extras:
+  * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/documentation/v{{ include.version }}/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
