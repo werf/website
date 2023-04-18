@@ -163,7 +163,7 @@ EOF
 
 ```yaml
 # .pseudo-ci-config.yml:
-image: "registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }}-{{ include.image-distro }}"
+image: "registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }}-{{ include.werfImageDistro }}"
 image_pull_policy: always
 
 environment_variables:

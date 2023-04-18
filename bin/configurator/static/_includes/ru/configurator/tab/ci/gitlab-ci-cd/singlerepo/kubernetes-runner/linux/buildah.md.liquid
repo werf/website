@@ -176,6 +176,10 @@ EOF
 
 ## Настройка проекта GitLab
 
+- Включите [требование удачно выполненного pipeline для merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html#require-a-successful-pipeline-for-merge).
+
+- Включите [возможность автоматически отменять лишние pipelines](https://docs.gitlab.com/ee/ci/pipelines/settings.html#auto-cancel-redundant-pipelines).
+
 - [Создайте и сохраните access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) для очистки ненужных образов из container registry со следующей конфигурацией:
   
   - **Token name:** `werf-images-cleanup`
@@ -185,6 +189,12 @@ EOF
   - **Scopes:** `api`
 
 - [В переменных проекта](https://docs.gitlab.com/ee/ci/variables/#for-a-project) добавьте следующие переменные:
+  
+  - Версия werf:
+    
+    - **Key:** `WERF_VERSION`
+    
+    - **Value:** `{{ include.version }} {{ include.channel }}`
   
   - Access token для очистки ненужных образов:
     
@@ -214,7 +224,7 @@ stages:
 
 default:
   image:
-    name: "registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }}-{{ include.image-distro }}"
+    name: "registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }}-{{ include.werfImageDistro }}"
     pull_policy: always
   before_script:
   - source "$(werf ci-env gitlab --as-file)"
@@ -239,3 +249,14 @@ images:cleanup:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule"
 ```
 
+{% comment %}
+TODO:
+* change kube context in jobs in CI
+* ```
+  image:
+      name: "registry.werf.io/werf/werf:1.2-stable"
+      pull_policy: always
+  before_script:
+  - source "$(werf ci-env gitlab --as-file)"
+  ```
+{% endcomment %}
