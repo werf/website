@@ -11,3 +11,4 @@ backend/vendor/
 backend/root/
 .bundle
 vendor/
+bin/configurator/generated/

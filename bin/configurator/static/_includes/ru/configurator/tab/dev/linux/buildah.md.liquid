@@ -1,0 +1,61 @@
+## Требования
+
+* Bash;
+
+* Git версии 2.18.0 или выше;
+
+* GPG.
+
+## Установка Buildah
+
+Для установки Buildah выполните следующие инструкции:
+
+- Установите пакет Buildah, следуя [официальным инструкциям](https://github.com/containers/buildah/blob/main/install.md), но не производите его дальнейшую настройку. Если для вашего дистрибутива нет готовых пакетов Buildah, используйте следующие инструкции:
+
+  {% offtopic title="Ручная установка Buildah" %}
+
+  - Установите пакеты, предоставляющие программы `newuidmap` и `newgidmap`.
+
+  - Убедитесь, что программы `newuidmap` и `newgidmap` имеют корректные права:
+
+    ```yaml
+    sudo setcap cap_setuid+ep /usr/bin/newuidmap
+    sudo setcap cap_setgid+ep /usr/bin/newgidmap
+    sudo chmod u-s,g-s /usr/bin/newuidmap /usr/bin/newgidmap
+    ```
+
+  - Установите пакет, предоставляющий файлы `/etc/subuid` и `/etc/subgid`.
+
+  - Убедитесь, что в файлах `/etc/subuid` и `/etc/subgid` имеется строка вида `user:1000000:65536`, где:
+
+    - `user` — имя текущего пользователя;
+
+    - `1000000` — первый subUID/subGID в выделяемом диапазоне;
+
+    - `65536` — размер диапазона subUIDs/subGIDs (минимум `65536`).
+
+    Избегайте коллизий с другими диапазонами, если они имеются. Изменение файлов может потребовать перезагрузки. Подробнее в `man subuid` и `man subgid`.
+
+  {% endofftopic %}
+
+- (Для Linux 5.12 и ниже) Установите пакет, предоставляющий программу `fuse-overlayfs`.
+
+- Убедитесь, что путь `/home/<текущий пользователь>/.local/share/containers` создан, и текущий пользователь имеет доступ на чтение и запись.
+
+- Команда `sysctl -ne kernel.unprivileged_userns_clone` НЕ должна вернуть `0`, а иначе выполните `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+
+- Команда `sysctl -n user.max_user_namespaces` должна вернуть `15000` или больше, а иначе выполните `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+
+## Установка werf
+
+Для установки werf выполните:
+
+```shell
+curl -sSL https://werf.io/install.sh | bash -s -- --version {{ include.version }} --channel {{ include.channel }}
+```
+
+... после чего откройте новую shell-сессию.
+
+## Запуск werf
+
+Перед запуском werf должна быть выставлена переменная окружения`WERF_BUILDAH_MODE=auto`, иначе Buildah-бекенд активирован не будет.

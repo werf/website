@@ -13,6 +13,7 @@ Allow: /documentation/v1.2
 Disallow: /documentation/v
 Disallow: /documentation/v1.2.
 Disallow: /documentation/v1.1.
+Disallow: /configurator/tabs
 Sitemap: {{ site.url }}/sitemap.xml
 Host: {{ site.url }}
 

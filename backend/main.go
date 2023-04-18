@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gorilla/mux"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"os/signal"
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 )
 
 func newRouter() *mux.Router {
@@ -21,7 +22,7 @@ func newRouter() *mux.Router {
 
 	var ruHostMatch mux.MatcherFunc = func(r *http.Request, rm *mux.RouteMatch) bool {
 		result := false
-		result, _ = regexp.MatchString("^ru\\..*(.+\\.flant\\.com|werf\\.io)$", r.Host)
+		result, _ = regexp.MatchString(`^ru\.(localhost|.*(.+\.flant\.com|werf\.io))$`, r.Host)
 		return result
 	}
 

@@ -68,6 +68,20 @@ ansible:
       warn: false
       chdir: /artifacts
 ---
+image: configuration_artifacts
+from: golang:1.16
+fromCacheVersion: {{ $.CacheVersion }}
+git:
+  - add: /bin/configurator
+    to: /configurator
+    stageDependencies:
+      install: '**/*'
+shell:
+  install:
+    - cd /configurator
+    - echo Regenerate configurator pages...
+    - go run *.go
+---
 {{- range $lang := list "en" "ru" }}
 image: doc_{{ $lang }}
 fromImage: jekyll_base
@@ -77,6 +91,13 @@ import:
     add: /artifacts
     to: /artifacts
     before: setup
+  - image: configuration_artifacts
+    add: /configurator
+    includePaths:
+      - static
+      - generated
+    to: /tmp
+    after: install
 git:
   - add: /
     to: /app
@@ -102,8 +123,12 @@ git:
       - favicon.ico
       - robots.txt
     stageDependencies:
-      setup: ["**/*"]
+      beforeSetup: ["**/*"]
 shell:
+  beforeSetup:
+    - cp -R /tmp/static/* /tmp/generated/* /app
+    # FIXME: remove this hack when the translation will be done    
+    - ln -s ../../ru/configurator/tab /app/_includes/en/configurator/tab
   setup:
     - cd /app
     - set -u

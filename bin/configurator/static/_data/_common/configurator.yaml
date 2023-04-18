@@ -1,0 +1,207 @@
+# i18n strings for bin/configurator/config.yml
+# Change names there when changing names in this file.
+
+groups:
+- name: "usage"
+  title:
+    en: Usage
+    ru: Сценарий запуска
+  tooltip:
+    en: |
+      werf running mode: using CI system or for the local development
+    ru: |
+      Режим запуска werf: в составе CI системы или для локальной разработки
+  buttons:
+    - name: "ci"
+      title:
+        en: CI
+        ru: CI
+    - name: "localDev"
+      title:
+        en: Local dev
+        ru: Локальная разработка
+
+- name: "version"
+  title:
+    en: Version
+    ru: Версия
+  buttons:
+    - name: "1.2"
+      title:
+        en: "1.2"
+        ru: "1.2"
+
+- name: "channel"
+  title:
+    en: Stability channel
+    ru: Канал обновлений
+  tooltip:
+    en: |
+      All changes in werf go through all release channels. <a href='/about/release_channels.html' class='installation__release-channels--link'>Learn more</a>
+    ru: |
+      Все изменения в werf проходят через цепочку каналов обновлений. <a href='/about/release_channels.html' class='installation__release-channels--link'>Узнать подробнее</a>
+  buttons:
+    - name: "rockSolid"
+      title:
+        en: "Rock-Solid"
+        ru: "Rock-Solid"
+    - name: "stable"
+      title:
+        en: "Stable"
+        ru: "Stable"
+    - name: "earlyAccess"
+      title:
+        en: "Early-Access"
+        ru: "Early-Access"
+    - name: "beta"
+      title:
+        en: "Beta"
+        ru: "Beta"
+    - name: "alpha"
+      title:
+        en: "Alpha"
+        ru: "Alpha"
+
+- name: "buildBackend"
+  title:
+    en: "Build backend"
+    ru: "Сборщик"
+  tooltip:
+    en: |
+      Build backend: Docker or Buildah.
+    ru: |
+      Вариант сборщика: Docker или Buildah.
+  buttons:
+    - name: "docker"
+      title:
+        en: "Docker"
+        ru: "Docker"
+    - name: "buildah"
+      title:
+        en: "Buildah"
+        ru: "Buildah"
+
+- name: "ci"
+  title:
+    en: "CI"
+    ru: "CI"
+  tooltip:
+    en: |
+      CI system: Github Actions, Gitlab, or other system.
+    ru: |
+      Система CI: Github Actions, Gitlab или другая система
+  buttons:
+    - name: "githubActions"
+      title:
+        en: "Github Actions"
+        ru: "Github Actions"
+    - name: "gitlabCiCd"
+      title:
+        en: "Gitlab CI"
+        ru: "Gitlab CI"
+    - name: "otherCiCdSystem"
+      title:
+        en: "Other CI/CD"
+        ru: "Other CI/CD"
+
+- name: "runnerType"
+  title:
+    en: "Runner type"
+    ru: "Тип раннера"
+  tooltip:
+    en: |
+      CI runner type: Host, Docker or Kubernetes.
+    ru: |
+      Тип CI раннера: Host, Docker или Kubernetes.
+  buttons:
+    - name: "hostRunner"
+      title:
+        en: "Host"
+        ru: "Host"
+    - name: "dockerRunner"
+      title:
+        en: "Docker"
+        ru: "Docker"
+    - name: "kubernetesRunner"
+      title:
+        en: "Kubernetes"
+        ru: "Kubernetes"
+
+- name: "os"
+  title:
+    en: "OS"
+    ru: "OS"
+  tooltip:
+    en: |
+      Operating system
+    ru: |
+      Операционная система
+  buttons:
+    - name: "linux"
+      title:
+        en: "Linux"
+        ru: "Linux"
+    - name: "macos"
+      title:
+        en: "MacOS"
+        ru: "MacOS"
+    - name: "windows"
+      title:
+        en: "Windows"
+        ru: "Windows"
+
+- name: "werfImageDistro"
+  title:
+    en: "Werf image base"
+    ru: "Вариант образа werf"
+  tooltip:
+    en: |
+      Base image for werf image: Alpine, Ubuntu, or Centos. Choose Alpine if there are no special requirements.
+    ru: |
+      Вариант базового образа werf: Alpine, Ubuntu или Centos. Если нет специальных требований, то лучше выбрать Alpine.
+  buttons:
+    - name: "alpine"
+      title:
+        en: "Alpine"
+        ru: "Alpine"
+    - name: "ubuntu"
+      title:
+        en: "Ubuntu"
+        ru: "Ubuntu"
+    - name: "fedora"
+      title:
+        en: "Fedora"
+        ru: "Fedora"
+
+- name: "projectType"
+  title:
+    en: "Project type"
+    ru: "Тип проекта"
+  tooltip:
+    en: |
+      Project Git layout: Simple, Single repo, Mono repo, or Multi repo
+    ru: |
+      Стиль проекта в Git'e: Простой, Один репозиторий, Монорепо, Мультирепо
+  buttons:
+    - name: "simple"
+      title:
+        en: "Simple"
+        ru: "Простой"
+    - name: "singlerepo"
+      title:
+        en: "Single repo"
+        ru: "Один репозиторий"
+    - name: "monorepo"
+      title:
+        en: "Mono-repo"
+        ru: "Монорепо"
+    - name: "multirepo"
+      title:
+        en: "Multi-repo"
+        ru: "Мультирепо"
+
+tabs:
+  - name: "setup"
+    title:
+      en: "Setup"
+      ru: "Установка"

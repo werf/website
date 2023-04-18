@@ -13,6 +13,23 @@ tasks:
   # default:
   #   cmds:
   #     - task: xxx
+  
+  format:
+    desc: 'Run all code formatters. Important vars: "paths".'
+    run: once
+    cmds:
+      - task: format:gci
+      - task: format:gofumpt
+
+  format:gci:
+    desc: 'Format code with gci. Important vars: "paths".'
+    cmds:
+      - gci write -s Standard -s Default {{.CLI_ARGS}} {{.paths | default "bin/"}}
+
+  format:gofumpt:
+    desc: 'Format code with gofumpt. Important vars: "paths".'
+    cmds:
+      - gofumpt -extra -w {{.CLI_ARGS}} {{.paths | default "bin/"}}
 
   # TODO: specify target framework
   gen:pages:
