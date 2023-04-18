@@ -32,8 +32,8 @@ module Jekyll
 
       def render(context)
         content = super
-
-        rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(Jekyll.configuration()).convert(content)
+        site_config = context.registers[:site].config
+        rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(site_config).convert(content)
 
         %Q(
 <div class="filesused">

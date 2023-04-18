@@ -23,7 +23,7 @@ module Jekyll
         @markup = Liquid::Template
           .parse(@raw_markup)
           .render(context)
-          .gsub(%r!\\\{\\\{|\\\{\\%!, '\{\{' => "{{", '\{\%' => "{%")
+          .gsub(/\\[{]\\[{%]/, '\{\{' => "{{", '\{\%' => "{%")
           .strip
 
         override_config(@@DEFAULTS)
@@ -38,7 +38,8 @@ module Jekyll
         end
 
         content = super
-        rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(Jekyll.configuration()).convert(content)
+        site_config = context.registers[:site].config
+        rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(site_config).convert(content)
 
         %Q(
 <div class="snippetcut#{@config[:limited] ? ' snippetcut_limited' : ''}" data-snippetcut>
