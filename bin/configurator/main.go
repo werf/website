@@ -29,7 +29,7 @@ const (
 
 var (
 	languages = []string{
-		"en",
+		//"en",
 		"ru",
 	}
 	configuratorPageOptions = []struct {
@@ -37,7 +37,7 @@ var (
 		Permalink string
 		Language  string
 	}{
-		{pageTitleEnConfigurator, pagePermalinkConfigurator, "en"},
+		//{pageTitleEnConfigurator, pagePermalinkConfigurator, "en"},
 		{pageTitleRuConfigurator, pagePermalinkConfigurator, "ru"},
 	}
 )
