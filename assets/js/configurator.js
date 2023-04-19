@@ -74,9 +74,13 @@ $(document).ready(() => {
     function disabledOptions(options) {
         // FIXME: refactor this function
         if (options === null) {
-            return
+            return;
         }
-            
+
+        if ($('.button__wrap').length === 0) {
+            return;
+        }
+
         const buttons = $('.button__wrap').find(`[data-key="${options['option']}"]`);
 
         if (typeof options['values'] === 'object' && Object.keys(options['values']).length) {
