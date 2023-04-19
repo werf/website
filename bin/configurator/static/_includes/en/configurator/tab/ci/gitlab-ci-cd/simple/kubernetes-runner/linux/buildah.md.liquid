@@ -214,7 +214,7 @@ stages:
 
 default:
   image:
-    name: "registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }}-{{ include.werfImageDistro }}"
+    name: "registry.werf.io/werf/werf:1.2-stable-{{ include.werfImageDistro }}"
     pull_policy: always
   before_script:
   - source "$(werf ci-env gitlab --as-file)"
