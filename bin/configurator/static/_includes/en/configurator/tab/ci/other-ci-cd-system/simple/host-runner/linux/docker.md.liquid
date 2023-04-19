@@ -24,7 +24,7 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 
 ## Configuring the container registry
 
-[Enable garbage collection]({{ "/documentation/v" | append: include.version | append: "/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
+[Enable garbage collection]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
 
 ## Configuring CI/CD of the project
 
@@ -38,7 +38,7 @@ environment_variables:
   WERF_ENABLE_PROCESS_EXTERMINATOR: "1"
 
 before_every_job:
-- source "$(~/bin/trdl use werf {{ include.version }} {{ include.channel }})"
+- source "$(~/bin/trdl use werf 1.2 stable)"
 - werf cr login -u "${REGISTRY_USER:?}" -p "${REGISTRY_PASSWORD:?}" "${WERF_REPO:?}"
 
 jobs:
@@ -57,4 +57,4 @@ jobs:
 ```
 
 Extras steps:
-  * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/documentation/v{{ include.version }}/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
+  * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).

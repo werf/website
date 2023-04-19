@@ -57,7 +57,7 @@ You may also want to perform [additional configuration](https://docs.gitlab.com/
 
     - **Key:** `WERF_VERSION`;
 
-    - **Value:** `{{ include.version }} {{ include.channel }}`;
+    - **Value:** `1.2 stable`;
 
   - Access token to clean up the no longer needed images:
 
@@ -73,7 +73,7 @@ You may also want to perform [additional configuration](https://docs.gitlab.com/
 
 ## Configuring the container registry
 
-[Enable garbage collection]({{ "/documentation/v{{ include.version }}/usage/cleanup/cr_cleanup.html#automating-the-container-registry-cleanup" | relative_url }}) for your container registry.
+[Enable garbage collection]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#automating-the-container-registry-cleanup" | relative_url }}) for your container registry.
 
 ## Configuring the CI/CD of the project
 
@@ -87,7 +87,7 @@ stages:
 
 default:
   image:
-    name: "registry.werf.io/werf/werf:{{ include.version }}-{{ include.channel }}-{{ include.werfImageDistro }}"
+    name: "registry.werf.io/werf/werf:1.2-stable-{{ include.werfImageDistro }}"
     pull_policy: always
   before_script:
   - source "$(werf ci-env gitlab --as-file)"

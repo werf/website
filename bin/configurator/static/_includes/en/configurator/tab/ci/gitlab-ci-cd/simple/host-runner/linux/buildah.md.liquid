@@ -109,7 +109,7 @@ variables:
 
 default:
   before_script:
-  - source "$(~/bin/trdl use werf {{ include.version }} {{ include.channel }})"
+  - source "$(~/bin/trdl use werf 1.2 stable)"
   - source "$(werf ci-env gitlab --as-file)"
   tags: ["<tag of the registered GitLab Runner>"]
 
