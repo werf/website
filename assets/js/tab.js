@@ -16,26 +16,26 @@ function openTab(evt, linksClass, contentClass, contentId) {
 }
 
 // TODO: refactor this code
-// $(document).ready(() => {
-//   const $buttons = $('[data-tabs-button]');
-//   let fileName = '';
-//
-//   let player = AsciinemaPlayer.create(`/assets/videos/build.cast`, document.getElementById('demo'), {
-//     fit: "both",
-//     autoplay: true,
-//   });
-//
-//   $buttons.each((idx, button) => {
-//     $(button).click(() => {
-//       $buttons.each((i, button) => $(button).removeClass('active'))
-//       $(button).addClass('active');
-//       fileName = $(button).attr('data-tabs-button');
-//       player.dispose();
-//
-//       player = AsciinemaPlayer.create(`/assets/videos/${fileName}.cast`, document.getElementById('demo'), {
-//         fit: "both",
-//         autoplay: true,
-//       });
-//     })
-//   })
-// })
+$(document).ready(() => {
+  const $buttons = $('[data-tabs-button]');
+  let fileName = '';
+
+  let player = AsciinemaPlayer.create(`/assets/videos/build.cast`, document.getElementById('demo'), {
+    fit: "both",
+    autoplay: true,
+  });
+
+  $buttons.each((idx, button) => {
+    $(button).click(() => {
+      $buttons.each((i, button) => $(button).removeClass('active'))
+      $(button).addClass('active');
+      fileName = $(button).attr('data-tabs-button');
+      player.dispose();
+
+      player = AsciinemaPlayer.create(`/assets/videos/${fileName}.cast`, document.getElementById('demo'), {
+        fit: "both",
+        autoplay: true,
+      });
+    })
+  })
+})
