@@ -82,7 +82,7 @@ sidebar: none
             <div class="what-problems__grid">
                 <ul class="what-problems__list">
                     <li class="features-card__item">
-                        <div class="card__item-title">Детерминированность CI/CD</div>
+                        <div class="card__item-title">Детерминированный CI/CD</div>
                         <div class="card__item-text">What you Git is what you get. werf предлагает подход гитерминизм, который cтимулирует IaC и Git как единый источник истины</div>
                     </li>
                     <li class="features-card__item">
