@@ -1,0 +1,31 @@
+## Requirements
+
+- CI system;
+
+- Linux host to run the CI jobs, featuring:
+
+  * Docker Runner of your CI system of choice;
+
+  * [Docker Engine](https://docs.docker.com/engine/install/).
+
+## Configuring the Runner
+
+Create the `werf` volume on the host where CI jobs are run:
+
+```shell
+docker volume create werf
+```
+
+Configure your CI system's Runner so that the containers you create have the following parameters:
+
+* `--security-opt seccomp:unconfined`;
+
+* `--security-opt apparmor:unconfined`;
+
+* `--volume werf:/home/build/.werf`.
+
+If the host to run CI jobs has Linux kernel version 5.12 or lower, install `fuse` on the host and configure Runner so that the containers you create have the optional parameter `--device /dev/fuse`.
+
+## Configuring the container registry
+
+[Enable garbage collection]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
