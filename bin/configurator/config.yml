@@ -6,44 +6,43 @@ options:
     values:
       - "ci"
       - "localDev"
+  - name: "ci"
+    group: "1"
+    values:
+      - "githubActions"
+      - "gitlabCiCd"
+      - "otherCiCdSystem"
+  - name: "runnerType"
+    group: "1"
+    values:
+      - "hostRunner"
+      - "dockerRunner"
+      - "kubernetesRunner"
 
+  - name: "os"
+    group: "2"
+    values:
+      - "linux"
+      - "macos"
+      - "windows"
   - name: "buildBackend"
     group: "2"
     values:
       - "docker"
       - "buildah"
 
-  - name: "ci"
-    group: "3"
-    values:
-      - "githubActions"
-      - "gitlabCiCd"
-      - "otherCiCdSystem"
-  - name: "runnerType"
-    group: "3"
-    values:
-      - "hostRunner"
-      - "dockerRunner"
-      - "kubernetesRunner"
-  - name: "os"
-    group: "3"
-    values:
-      - "linux"
-      - "macos"
-      - "windows"
-
   - name: "projectType"
-    group: "4"
+    group: "3"
     values:
       - "simplified"
       - "bestPractice"
   - name: "sharedCICD"
-    group: "4"
+    group: "3"
     values:
       - "yes"
       - "no"
   - name: "repoType"
-    group: "4"
+    group: "3"
     values:
       - "application"
       - "monorepo"
