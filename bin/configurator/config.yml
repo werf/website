@@ -4,13 +4,13 @@ options:
   - name: "usage"
     group: "1"
     values:
-      - "ci"
       - "localDev"
+      - "ci"
   - name: "ci"
     group: "1"
     values:
-      - "githubActions"
       - "gitlabCiCd"
+      - "githubActions"
       - "otherCiCdSystem"
   - name: "runnerType"
     group: "1"
