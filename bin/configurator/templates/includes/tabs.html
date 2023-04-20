@@ -17,6 +17,13 @@
 
             setActive(e.target, e.currentTarget);
         });
+
+        function setActive(target, currentTarget) {
+            if ($(target).hasClass('btn')) {
+                $(currentTarget).find('a.btn').removeClass('active');
+                $(target).addClass('active');
+            }
+        }
     });
 </script>
 <div class="configurator__views docs">
