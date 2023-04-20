@@ -154,6 +154,7 @@ $(document).ready(() => {
     $('.configurator__views-buttons').click((e) => {
         e.preventDefault();
 
+        $(e.target).parent().find('[data-view-button]').removeClass('active');
         $('#view__wrap').find('[data-view-content]').removeClass('active');
         if ($(e.target).hasClass('btn')) {
             const btnAttr = $(e.target).attr('data-view-button');
