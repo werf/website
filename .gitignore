@@ -12,3 +12,6 @@ backend/root/
 .bundle
 vendor/
 bin/configurator/generated/
+/_includes/*/configurator
+/pages_*/configurator*
+/_data/*/configurator*

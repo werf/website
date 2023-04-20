@@ -112,3 +112,29 @@ tasks:
       # NOTE: also we need werf itself
       - sudo apt install pv asciinema
       - wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+  clean:
+    desc: "Delete temporary directories after build/serve"
+    cmds:
+      - |
+        for d in $(ls -1d ./_site* ./.jekyll-cache* ./.jekyll-metadata 2>/dev/null) ; do
+          echo "Remove dir $d ..."
+          rm -rf $d
+        done
+        echo "Remove configurator generated content"
+        for d in $(ls -1d ./_includes/*/configurator ./pages_*/configurator* ./_data/*/configurator* 2>/dev/null) ; do
+          echo "   Remove dir $d ..."
+          rm -rf $d
+        done
+
+  local:gen:configurator:
+    desc: "Regenerate configurator pages and copy to site directories"
+    cmds:
+      - |
+        (
+          echo Regenerate configurator pages...
+          cd bin/configurator
+          go run *.go
+        )
+        cp -R bin/configurator/static/* .
+        cp -R bin/configurator/generated/* .
