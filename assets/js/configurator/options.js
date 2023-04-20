@@ -2,9 +2,10 @@ $(document).ready(() => {
     let initialData = {};
     let optionsList;
     let pathToData;
-    const configBtn = $('#config-ci-runners');
-    const viewWrap = $('#partial-ci-runners');
+    const DATA_FILE = 'configurator-data.json';
+    const OPTIONS_LIST_FILE = 'configurator-options-list.json';
 
+    // Load options state from the query string.
     if (window.location.search) {
         let urlParams = window.location.search.slice(1);
         const params = urlParams.split('&');
@@ -15,7 +16,7 @@ $(document).ready(() => {
             initialData[paramCortege[0]] = paramCortege[1];
         })
 
-        getData(`configurator-data.json`).then(res => {
+        getData(DATA_FILE).then(res => {
             if (res[initPathToData]) {
                 $.ajax({
                     type: "GET",
@@ -28,9 +29,9 @@ $(document).ready(() => {
         })
     }
 
-    disableAllButtons();
+    disableAllOptions();
 
-    getData('configurator-options-list.json').then(res => {
+    getData(OPTIONS_LIST_FILE).then(res => {
         optionsList = res;
         disabledOptions(optionsList);
         removeActive();
@@ -61,7 +62,7 @@ $(document).ready(() => {
         return data;
     }
 
-    function disableAllButtons() {
+    function disableAllOptions() {
         $('.button__wrap').each((_, item) => {
             $(item).addClass('disabled');
         })
@@ -129,14 +130,14 @@ $(document).ready(() => {
             if ($(e.target).hasClass('btn')) {
                 setActive(e.target, e.currentTarget);
 
-                disableAllButtons();
+                disableAllOptions();
                 disabledOptions(optionsList);
                 removeActive();
                 pathToData = getUrl(getDataFromHTML(), e.target);
                 const url = new URL(window.location);
                 window.history.replaceState(null, null, `${url.pathname}?${setParams()}`);
 
-                getData(`configurator-data.json`).then(res => {
+                getData(DATA_FILE).then(res => {
                     if (res[pathToData]) {
                         $.ajax({
                             type: "GET",
@@ -151,24 +152,14 @@ $(document).ready(() => {
         })
     })
 
-    $('.configurator__views-buttons').click((e) => {
-        e.preventDefault();
-
-        $(e.target).parent().find('[data-view-button]').removeClass('active');
-        $('#view__wrap').find('[data-view-content]').removeClass('active');
-        if ($(e.target).hasClass('btn')) {
-            const btnAttr = $(e.target).attr('data-view-button');
-            $(e.target).addClass('active');
-            $(`[data-view-content = ${btnAttr}]`).addClass('active');
-        }
-
-        setActive(e.target, e.currentTarget);
-    });
+    // TODO check if below handlers are deprecated (setRepoPath is no defined, ids are unknown).
+    const configBtn = $('#config-ci-runners');
+    const viewWrap = $('#partial-ci-runners');
 
     $('#project-config').click((e) => {
         e.preventDefault();
 
-        getData(`configurator-data.json`).then(res => {
+        getData(DATA_FILE).then(res => {
             setRepoPath(res[pathToData]);
         })
     })
@@ -186,17 +177,24 @@ $(document).ready(() => {
         }
         str = str.slice(0, -1);
 
-        getData(`configurator-data.json`).then(res => {
+        getData(DATA_FILE).then(res => {
             viewWrap.text(res[str].settings);
         })
     })
-
-    async function getData(url) {
-        const result = await fetch(url)
-        const data = await result.json()
-        return data
-    }
 })
+
+// URL fetcher with memoization.
+const getData = (() => {
+    let data_cache = {}
+    return async (url) => {
+        if (url in data_cache) {
+            return data_cache[url];
+        }
+        const result = await fetch(url)
+        data_cache[url] = await result.json()
+        return data_cache[url]
+    }
+})();
 
 function getUrl(obj, target) {
     let str = '';
