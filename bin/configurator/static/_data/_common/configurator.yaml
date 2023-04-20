@@ -18,7 +18,7 @@ groups:
         ru: CI
     - name: "localDev"
       title:
-        en: Local dev
+        en: Local development
         ru: Локальная разработка
 
 - name: "version"
@@ -87,18 +87,18 @@ groups:
     ru: "CI"
   tooltip:
     en: |
-      CI system: Github Actions, Gitlab, or other system.
+      CI system: GitHub Actions, GitLab CI/CD, or other CI/CD system.
     ru: |
-      Система CI: Github Actions, Gitlab или другая система
+      Система CI: GitHub Actions, GitLab CI/CD или другая CI/CD-система.
   buttons:
     - name: "githubActions"
       title:
-        en: "Github Actions"
-        ru: "Github Actions"
+        en: "GitHub Actions"
+        ru: "GitHub Actions"
     - name: "gitlabCiCd"
       title:
-        en: "Gitlab CI"
-        ru: "Gitlab CI"
+        en: "GitLab CI/CD"
+        ru: "GitLab CI/CD"
     - name: "otherCiCdSystem"
       title:
         en: "Other CI/CD"
@@ -130,7 +130,7 @@ groups:
 - name: "os"
   title:
     en: "OS"
-    ru: "OS"
+    ru: "ОС"
   tooltip:
     en: |
       Operating system
@@ -158,12 +158,12 @@ groups:
     en: |
       Project type: Simplified or best practice.
     ru: |
-      Тип проекта: Упрощенный или в соответствие с лучшими практиками.
+      Тип проекта: Упрощённый или в соответствие с лучшими практиками.
   buttons:
     - name: "simplified"
       title:
         en: "Simplified"
-        ru: "Упрощенный"
+        ru: "Упрощённый"
     - name: "bestPractice"
       title:
         en: "Best practice"
