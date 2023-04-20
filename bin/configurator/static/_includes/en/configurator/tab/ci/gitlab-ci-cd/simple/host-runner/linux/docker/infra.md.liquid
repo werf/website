@@ -1,0 +1,33 @@
+## Requirements
+
+- GitLab;
+
+- Linux host to install the GitLab Runner, featuring:
+
+  - Bash;
+
+  - Git version 2.18.0 or above;
+
+  - GPG;
+
+  - [Docker Engine](https://docs.docker.com/engine/install/).
+
+## Installing the GitLab Runner
+
+Follow [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html) to install the GitLab Runner on its dedicated host.
+
+## Installing werf
+
+Follow these steps on the GitLab Runner host to install werf:
+
+```
+curl -sSL https://werf.io/install.sh | bash -s -- --ci
+```
+
+## Registering the GitLab Runner
+
+Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register the GitLab Runner in GitLab; set Shell as the executor. Once the registration is complete, you may want to perform [additional GitLab Runner configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
+
+## Confoguring the container registry
+
+[Enable garbage collectino](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) for your container registry.

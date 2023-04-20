@@ -1,0 +1,35 @@
+## Requirements
+
+* Kubernetes cluster.
+
+* Public repository in container registry.
+
+* Git version 2.18.0 or above.
+
+## Build and deploy with werf
+
+Contents of the demo project:
+
+<iframe src="https://codesandbox.io/embed/github/werf/examples/tree/main/local-dev?autoresize=1&hidenavigation=1&fontsize=14&theme=dark&view=editor" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+
+Initialize the demo project on the local machine:
+
+```shell
+git clone https://github.com/werf/examples
+cp -rf examples/local-dev example
+cd example
+git init
+```
+
+Activate Buildah builder:
+
+```shell
+export WERF_BUILDAH_MODE=auto
+```
+
+Build and deploy with werf:
+
+```shell
+werf converge --dev --repo <path to repository in container registry>
+```
+
