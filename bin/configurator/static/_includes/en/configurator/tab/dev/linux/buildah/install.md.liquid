@@ -10,7 +10,7 @@
 
 Perform the following steps to install Buildah:
 
-- Install the Buildah package following the [official instructions](https://github.com/containers/buildah/blob/main/install.md) but refrain from configuring it. If there are no pre-made Buildah packages for your distribution, refer to the following guidelines:
+* Install the Buildah package following the [official instructions](https://github.com/containers/buildah/blob/main/install.md) but refrain from configuring it. If there are no pre-made Buildah packages for your distribution, refer to the following guidelines:
 
   {% offtopic title="Installing Buildah manually" %}
 
@@ -38,13 +38,13 @@ Perform the following steps to install Buildah:
 
   {% endofftopic %}
 
-- (For Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
+* (For Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
 
-- Make sure that the `/home/<current user>/.local/share/containers` path has been created and the current user has read and write access to it.
+* Make sure that the `/home/<current user>/.local/share/containers` path has been created and the current user has read and write access to it.
 
-- The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+* The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-- The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000` {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+* The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000` | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 ## Installing werf
 

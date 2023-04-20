@@ -16,7 +16,7 @@
 
 To install Buildah, do the following on the host for running CI jobs:
 
-- Install the Buildah package following the [official instructions](https://github.com/containers/buildah/blob/main/install.md) but refrain from configuring it. If there are no pre-made Buildah packages for your distribution, refer to the following guidelines:
+* Install the Buildah package following the [official instructions](https://github.com/containers/buildah/blob/main/install.md) but refrain from configuring it. If there are no pre-made Buildah packages for your distribution, refer to the following guidelines:
 
   {% offtopic title="Installing Buildah  manually" %}
 
@@ -44,13 +44,13 @@ To install Buildah, do the following on the host for running CI jobs:
 
   {% endofftopic %}
 
-- (For Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
+* (For Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
 
-- Make sure the `/home/<user to run CI jobs>/.local/share/containers` path is created and the user to run CI jobs has read and write access.
+* Make sure the `/home/<user to run CI jobs>/.local/share/containers` path is created and the user to run CI jobs has read and write access.
 
-- The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+* The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-- The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000` {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+* The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000` | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 ## Installing werf
 

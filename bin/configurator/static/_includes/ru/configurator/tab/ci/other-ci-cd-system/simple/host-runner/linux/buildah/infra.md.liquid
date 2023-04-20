@@ -16,7 +16,7 @@
 
 Для установки Buildah выполните следующие инструкции на хосте для запуска CI-задач:
 
-- Установите пакет Buildah, следуя [официальным инструкциям](https://github.com/containers/buildah/blob/main/install.md), но не производите его дальнейшую настройку. Если для вашего дистрибутива нет готовых пакетов Buildah, используйте следующие инструкции:
+* Установите пакет Buildah, следуя [официальным инструкциям](https://github.com/containers/buildah/blob/main/install.md), но не производите его дальнейшую настройку. Если для вашего дистрибутива нет готовых пакетов Buildah, используйте следующие инструкции:
 
   {% offtopic title="Ручная установка Buildah" %}
 
@@ -44,13 +44,13 @@
 
   {% endofftopic %}
 
-- (Для Linux 5.12 и ниже) Установите пакет, предоставляющий программу `fuse-overlayfs`.
+* (Для Linux 5.12 и ниже) Установите пакет, предоставляющий программу `fuse-overlayfs`.
 
-- Убедитесь, что путь `/home/<пользователь для запуска CI-задач>/.local/share/containers` создан, и пользователь, из под которого запускаются CI-задачи, имеет доступ на чтение и запись.
+* Убедитесь, что путь `/home/<пользователь для запуска CI-задач>/.local/share/containers` создан, и пользователь, из под которого запускаются CI-задачи, имеет доступ на чтение и запись.
 
-- Команда `sysctl -ne kernel.unprivileged_userns_clone` НЕ должна вернуть `0`, а иначе выполните `echo 'kernel.unprivileged_userns_clone = 1' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+* Команда `sysctl -ne kernel.unprivileged_userns_clone` НЕ должна вернуть `0`, а иначе выполните `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-- Команда `sysctl -n user.max_user_namespaces` должна вернуть `15000` или больше, а иначе выполните `echo 'user.max_user_namespaces = 15000' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+* Команда `sysctl -n user.max_user_namespaces` должна вернуть `15000` или больше, а иначе выполните `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 ## Установка werf
 

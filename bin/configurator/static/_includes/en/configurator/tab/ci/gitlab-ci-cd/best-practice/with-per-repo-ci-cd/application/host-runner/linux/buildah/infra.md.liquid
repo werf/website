@@ -50,9 +50,9 @@ Follow these steps on the GitLab Runner host to install Buildah:
 
 * Make sure that the `/home/gitlab-runner/.local/share/containers` path is created and the `gitlab-runner` user has read and write access.
 
-* The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run {% raw %}`echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`{% endraw %}.
+* The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-* The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+* The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 ## Installing werf
 
