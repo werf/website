@@ -20,7 +20,7 @@ On the GitLab Runner host, open its `config.toml` configuration file and add the
 
 ```toml
 [[runners]]
-  name = <name of the Runner you registered>
+  name = "<name of the Runner you registered>"
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
     volumes = ["/home/build/.werf"]
@@ -30,7 +30,7 @@ If the GitLab Runner host runs Linux kernel version 5.12 or lower, install `fuse
 
 ```toml
 [[runners]]
-  name = <name of the Runner you registered>
+  name = "<name of the Runner you registered>"
   [runners.docker]
     devices = ["/dev/fuse"]
 ```
