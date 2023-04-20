@@ -48,9 +48,9 @@ To install Buildah, do the following on the host for running CI jobs:
 
 - Make sure the `/home/<user to run CI jobs>/.local/share/containers` path is created and the user to run CI jobs has read and write access.
 
-- The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+- The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-- The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000` | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+- The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000` {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 ## Installing werf
 

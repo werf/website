@@ -14,7 +14,7 @@ Modify the configuration of the registered GitLab Runner by adding the following
 
 ```toml
 [[runners]]
-  name = <name of the registered Runner>
+  name = "<name of the registered Runner>"
   [runners.kubernetes]
     namespace = "gitlab-ci"
     [runners.kubernetes.pod_annotations]
@@ -30,7 +30,7 @@ Add the following parameters to enable `.werf` and `/builds` caching (recommende
 
 ```toml
 [[runners]]
-  name = <name of the registered Runner>
+  name = "<name of the registered Runner>"
   [runners.kubernetes]
     [[runners.kubernetes.volumes.pvc]]
       name = "gitlab-ci-kubernetes-executor-werf-cache"
@@ -44,7 +44,7 @@ Add the following parameters to enable `.werf` and `/builds` caching (recommende
 
 ```toml
 [[runners]]
-  name = <name of the registered Runner>
+  name = "<name of the registered Runner>"
   [runners.kubernetes]
     [[runners.kubernetes.volumes.empty_dir]]
       name = "gitlab-ci-kubernetes-executor-werf-cache"
@@ -58,7 +58,7 @@ Add one more parameter if you are going to deploy applications using werf to the
 
 ```toml
 [[runners]]
-  name = <name of the registered Runner>
+  name = "<name of the registered Runner>"
   [runners.kubernetes]
     service_account = "gitlab-ci-kubernetes-executor"
 ```
