@@ -150,55 +150,62 @@ groups:
         en: "Windows"
         ru: "Windows"
 
-- name: "werfImageDistro"
-  title:
-    en: "Werf image base"
-    ru: "Вариант образа werf"
-  tooltip:
-    en: |
-      Base image for werf image: Alpine, Ubuntu, or Centos. Choose Alpine if there are no special requirements.
-    ru: |
-      Вариант базового образа werf: Alpine, Ubuntu или Centos. Если нет специальных требований, то лучше выбрать Alpine.
-  buttons:
-    - name: "alpine"
-      title:
-        en: "Alpine"
-        ru: "Alpine"
-    - name: "ubuntu"
-      title:
-        en: "Ubuntu"
-        ru: "Ubuntu"
-    - name: "fedora"
-      title:
-        en: "Fedora"
-        ru: "Fedora"
-
 - name: "projectType"
   title:
     en: "Project type"
     ru: "Тип проекта"
   tooltip:
     en: |
-      Project Git layout: Simple, Single repo, Mono repo, or Multi repo
+      Project type: Simplified or best practice.
     ru: |
-      Стиль проекта в Git'e: Простой, Один репозиторий, Монорепо, Мультирепо
+      Тип проекта: Упрощенный или в соответствие с лучшими практиками.
   buttons:
-    - name: "simple"
+    - name: "simplified"
       title:
-        en: "Simple"
-        ru: "Простой"
-    - name: "singlerepo"
+        en: "Simplified"
+        ru: "Упрощенный"
+    - name: "best-practice"
       title:
-        en: "Single repo"
-        ru: "Один репозиторий"
+        en: "Best practice"
+        ru: "Лучшие практики"
+
+- name: "sharedCICD"
+  title:
+    en: "Shared CI/CD"
+    ru: "Общий CI/CD"
+  tooltip:
+    en: |
+      Whether you want shared or per-repo independent CI/CD.
+    ru: |
+      Хотите ли вы общий CI/CD или независимый для каждого репозитория.
+  buttons:
+    - name: "yes"
+      title:
+        en: "Yes"
+        ru: "Да"
+    - name: "no"
+      title:
+        en: "No"
+        ru: "Нет"
+
+- name: "repoType"
+  title:
+    en: "Repository type"
+    ru: "Тип репозитория"
+  tooltip:
+    en: |
+      Repository type: one (or a few interdependent) applications or a monorepository.
+    ru: |
+      Тип репозитория: одно (или несколько взаимосвязанных) приложений или монорепозиторий.
+  buttons:
+    - name: "application"
+      title:
+        en: "Application"
+        ru: "Приложение"
     - name: "monorepo"
       title:
-        en: "Mono-repo"
+        en: "Monorepo"
         ru: "Монорепо"
-    - name: "multirepo"
-      title:
-        en: "Multi-repo"
-        ru: "Мультирепо"
 
 tabs:
   - name: "setup"
