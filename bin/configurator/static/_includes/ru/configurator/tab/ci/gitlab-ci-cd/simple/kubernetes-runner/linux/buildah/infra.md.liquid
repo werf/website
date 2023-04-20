@@ -14,7 +14,7 @@
 
 ```toml
 [[runners]]
-  name = <имя зарегистрированного Runner'а>
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     namespace = "gitlab-ci"
     [runners.kubernetes.pod_annotations]
@@ -30,7 +30,7 @@
 
 ```toml
 [[runners]]
-  name = <имя зарегистрированного Runner'а>
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     [[runners.kubernetes.volumes.pvc]]
       name = "gitlab-ci-kubernetes-executor-werf-cache"
@@ -44,7 +44,7 @@
 
 ```toml
 [[runners]]
-  name = <имя зарегистрированного Runner'а>
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     [[runners.kubernetes.volumes.empty_dir]]
       name = "gitlab-ci-kubernetes-executor-werf-cache"
@@ -58,7 +58,7 @@
 
 ```toml
 [[runners]]
-  name = <имя зарегистрированного Runner'а>
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     service_account = "gitlab-ci-kubernetes-executor"
 ```

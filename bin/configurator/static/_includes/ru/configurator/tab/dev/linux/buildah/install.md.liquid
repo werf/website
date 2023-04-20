@@ -42,9 +42,9 @@
 
 - Убедитесь, что путь `/home/<текущий пользователь>/.local/share/containers` создан, и текущий пользователь имеет доступ на чтение и запись.
 
-- Команда `sysctl -ne kernel.unprivileged_userns_clone` НЕ должна вернуть `0`, а иначе выполните `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+- Команда `sysctl -ne kernel.unprivileged_userns_clone` НЕ должна вернуть `0`, а иначе выполните `echo 'kernel.unprivileged_userns_clone = 1' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-- Команда `sysctl -n user.max_user_namespaces` должна вернуть `15000` или больше, а иначе выполните `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+- Команда `sysctl -n user.max_user_namespaces` должна вернуть `15000` или больше, а иначе выполните `echo 'user.max_user_namespaces = 15000' {% raw %}|{% endraw %} sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 ## Установка werf
 
