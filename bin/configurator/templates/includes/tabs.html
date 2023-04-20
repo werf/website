@@ -7,10 +7,10 @@
 </script>
 <div class="configurator__views docs">
     <div class="configurator__views-buttons">
-        {{- range $tab := .Tabs }}
+        {{- range $i, $tab := .Tabs }}
         {% assign tab_info = site.data.common.configurator.tabs | find: "name", "{{ $tab.Name }}" %}
         {% assign tab_title = tab_info.title[page.lang] | default: "{{ $tab.Name }}" %}
-        <a href="#" id="{{ $tab.Name }}" class="btn btn_o active" data-view-button="{{ $tab.Name }}">{{`{{tab_title}}`}}</a>
+        <a href="#" id="{{ $tab.Name }}" class="btn btn_o{{ if eq $i 0}} active{{ end }}" data-view-button="{{ $tab.Name }}">{{`{{tab_title}}`}}</a>
         {{ end }}
     </div>
     <div id="view__wrap">
