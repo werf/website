@@ -164,7 +164,7 @@ groups:
       title:
         en: "Simplified"
         ru: "Упрощенный"
-    - name: "best-practice"
+    - name: "bestPractice"
       title:
         en: "Best practice"
         ru: "Лучшие практики"
@@ -208,7 +208,19 @@ groups:
         ru: "Монорепо"
 
 tabs:
-  - name: "setup"
+  - name: "infra"
     title:
-      en: "Setup"
+      en: "Prepare the infrastructure"
+      ru: "Подготовка инфраструктуры"
+  - name: "project"
+    title:
+      en: "Project configuration"
+      ru: "Настройка проекта"
+  - name: "install"
+    title:
+      en: "Install"
       ru: "Установка"
+  - name: "run"
+    title:
+      en: "Run"
+      ru: "Запуск"
