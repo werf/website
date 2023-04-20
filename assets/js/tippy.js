@@ -21,6 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
     delay: [0, 200],
   });
 
+  tippy('span.tooltip-text', {
+    content(reference) {
+      const title = reference.getAttribute('title');
+      reference.removeAttribute('title');
+      return title;
+    },
+    allowHTML: true,
+    interactive: true,
+    delay: [0, 200],
+  });
+
   tippy('[data-tooltip-content]', {
     content(reference) {
       const title = reference.getAttribute('data-tooltip-content');
