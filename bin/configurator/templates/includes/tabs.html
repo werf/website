@@ -3,6 +3,20 @@
         $('.details__summary').on('click tap', function() {
             $(this).closest('.details').toggleClass('active');
         });
+
+        $('.configurator__views-buttons').click((e) => {
+            e.preventDefault();
+
+            $(e.target).parent().find('[data-view-button]').removeClass('active');
+            $('#view__wrap').find('[data-view-content]').removeClass('active');
+            if ($(e.target).hasClass('btn')) {
+                const btnAttr = $(e.target).attr('data-view-button');
+                $(e.target).addClass('active');
+                $(`[data-view-content = ${btnAttr}]`).addClass('active');
+            }
+
+            setActive(e.target, e.currentTarget);
+        });
     });
 </script>
 <div class="configurator__views docs">
