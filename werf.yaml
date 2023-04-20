@@ -122,6 +122,7 @@ git:
       - "*.svg"
       - favicon.ico
       - robots.txt
+      - site.webmanifest
     stageDependencies:
       beforeSetup: ["**/*"]
 shell:
