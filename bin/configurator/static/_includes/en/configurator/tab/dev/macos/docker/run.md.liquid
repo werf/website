@@ -19,11 +19,34 @@ git clone https://github.com/werf/examples
 cp -rf examples/local-dev example
 cd example
 git init
+git add .
+git commit -m-
+```
+
+Specify werf secret key to decrypt secrets in `.helm/secret-values.yaml`:
+
+```shell
+export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6
 ```
 
 Build and deploy with werf:
 
 ```shell
-werf converge --dev --repo "<path to repository in container registry>"
+werf converge --dev --repo "<path to repository in container registry>" --env production
 ```
 
+Make sure that the deployed application actually works:
+
+```shell
+werf kubectl run tmp --image=alpine -n demo-app-production -it --rm -- sh
+> apk add curl
+> curl 'http://frontend/ping'
+> curl 'http://frontend/remember?answer=Hello&name=You'
+> curl 'http://frontend/say'
+```
+
+Uninstall the deployed application:
+
+```shell
+werf dismiss --env production
+```
