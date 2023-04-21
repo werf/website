@@ -111,6 +111,7 @@
 }
 
 .view__item {
+    display: none;
     opacity: 0;
     height: 0;
     position: relative;
@@ -118,6 +119,7 @@
 }
 
 .view__item.active {
+    display: inherit;
     opacity: 1;
     min-height: 500px;
     height: fit-content;
