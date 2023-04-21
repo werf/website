@@ -36,7 +36,7 @@
 
 This is how the repository that uses werf for build and deploy might look:
 
-<iframe src="https://codesandbox.io/embed/github/werf/examples/tree/main/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/host-runner/linux/buildah?module=/.gitlab-ci.yml&codemirror=1&autoresize=1&fontsize=13&runonclick=1&theme=dark&view=editor&hidenavigation=1" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+{% include /common/configurator/codesandbox.html github_path='github/werf/examples/tree/main/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/host-runner/linux/buildah' module='/.gitlab-ci.yml' %}
 
 Extras:
   * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
