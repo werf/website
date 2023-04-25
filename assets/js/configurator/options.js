@@ -9,10 +9,10 @@ $(document).ready(() => {
     if (window.location.search) {
         let urlParams = window.location.search.slice(1);
         const params = urlParams.split('&');
-        const initPathToData = params.join('_');
+        const initPathToData = params.join('_').replaceAll('=', '-');
 
         params.forEach((parameter) => {
-            const paramCortege = parameter.split('-');
+            const paramCortege = parameter.split('=');
             initialData[paramCortege[0]] = paramCortege[1];
         })
 
@@ -118,7 +118,7 @@ $(document).ready(() => {
         let params = '';
 
         for (const key in getDataFromHTML()) {
-            params += `${key}-${getDataFromHTML()[key]}&`
+            params += `${key}=${getDataFromHTML()[key]}&`
         }
         return params.slice(0, -1);
     }
