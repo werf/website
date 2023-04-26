@@ -1,9 +1,14 @@
 .configurator__buttons-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
-    line-height: 19px;
+    line-height: inherit;
     color: inherit;
+    width: 160px;
 }
 
 .configurator__buttons {
@@ -12,16 +17,13 @@
 
 .button__wrap {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 15px;
-    margin-bottom: 20px;
-    /* color: rgba(0, 18, 44, 0.25); */
+    gap: 45px;
     color: rgba(0, 0, 0, 0.75);
 }
 
 .button__wrap.disabled {
     color:rgba(0, 0, 0, .25);
+    display: none;
 }
 
 .button__wrap.disabled .btn.btn_o {
@@ -31,8 +33,13 @@
 
 .button__wrap--inline {
     display: flex;
-    align-items: center;
-    gap: 45px;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.button__wrap--inline:last-child {
+    margin-bottom: 0;
 }
 
 .buttons-group {
@@ -135,7 +142,6 @@
     background-repeat: no-repeat;
     background-size: 100%;
     opacity: .2;
-    margin-left: 7px;
 }
 
 /* Super trick:

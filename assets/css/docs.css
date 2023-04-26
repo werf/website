@@ -459,7 +459,8 @@ li.sidebar__submenu-item.wip a::before {
 }
 
 .docs ul li > p:first-child, .docs ol li > p:first-child {
-    margin-top: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .docs ul li > p:last-child, .docs ol li > p:last-child {
