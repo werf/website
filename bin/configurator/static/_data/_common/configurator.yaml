@@ -4,22 +4,22 @@
 groups:
 - name: "usage"
   title:
-    en: Usage
-    ru: Сценарий запуска
+    en: Usage scenario
+    ru: Сценарий использования
   tooltip:
     en: |
-      werf running mode: using CI system or for the local development
+      Use werf for CI/CD inside of a CI system or locally for development.
     ru: |
-      Режим запуска werf: в составе CI системы или для локальной разработки
+      Использовать werf для построения CI/CD в рамках CI-системы или локально для разработки.
   buttons:
     - name: "ci"
       title:
-        en: CI
-        ru: CI
+        en: For CI/CD
+        ru: Для CI/CD
     - name: "localDev"
       title:
-        en: Local development
-        ru: Локальная разработка
+        en: For local development
+        ru: Для локальной разработки
 
 - name: "version"
   title:
@@ -64,13 +64,13 @@ groups:
 
 - name: "buildBackend"
   title:
-    en: "Build backend"
-    ru: "Сборщик"
+    en: "Image builder"
+    ru: "Сборщик образов"
   tooltip:
     en: |
-      Build backend: Docker or Buildah.
+      Image builder backend variant.
     ru: |
-      Вариант сборщика: Docker или Buildah.
+      Вариант подсистемы сборщика образов.
   buttons:
     - name: "docker"
       title:
@@ -83,13 +83,8 @@ groups:
 
 - name: "ci"
   title:
-    en: "CI"
-    ru: "CI"
-  tooltip:
-    en: |
-      CI system: GitHub Actions, GitLab CI/CD, or other CI/CD system.
-    ru: |
-      Система CI: GitHub Actions, GitLab CI/CD или другая CI/CD-система.
+    en: "CI system"
+    ru: "CI-система"
   buttons:
     - name: "githubActions"
       title:
@@ -106,13 +101,8 @@ groups:
 
 - name: "runnerType"
   title:
-    en: "Runner type"
-    ru: "Тип раннера"
-  tooltip:
-    en: |
-      CI runner type: Host, Docker or Kubernetes.
-    ru: |
-      Тип CI раннера: Host, Docker или Kubernetes.
+    en: "CI runner type"
+    ru: "Тип CI-раннера"
   buttons:
     - name: "hostRunner"
       title:
@@ -129,13 +119,8 @@ groups:
 
 - name: "os"
   title:
-    en: "OS"
-    ru: "ОС"
-  tooltip:
-    en: |
-      Operating system
-    ru: |
-      Операционная система
+    en: "Operating System"
+    ru: "Операционная система"
   buttons:
     - name: "linux"
       title:
@@ -152,22 +137,17 @@ groups:
 
 - name: "projectType"
   title:
-    en: "Project type"
-    ru: "Тип проекта"
-  tooltip:
-    en: |
-      Project type: Simplified or best practice.
-    ru: |
-      Тип проекта: Упрощённый или в соответствие с лучшими практиками.
+    en: "CI/CD best practices"
+    ru: "Лучшие практики CI/CD"
   buttons:
     - name: "simplified"
       title:
-        en: "Simplified"
-        ru: "Упрощённый"
+        en: "No"
+        ru: "Нет"
     - name: "bestPractice"
       title:
-        en: "Best practice"
-        ru: "Лучшие практики"
+        en: "Yes"
+        ru: "Да"
 
 - name: "sharedCICD"
   title:
@@ -175,9 +155,9 @@ groups:
     ru: "Общий CI/CD"
   tooltip:
     en: |
-      Whether you want shared or per-repo independent CI/CD.
+      Extract common CI/CD parts to the shared CI/CD repo or keep separate, independent CI/CD for each application.
     ru: |
-      Хотите ли вы общий CI/CD или независимый для каждого репозитория.
+      Выносить ли переиспользуемые части CI/CD в отдельный репозиторий или иметь отдельный, независимый CI/CD для каждого приложения.
   buttons:
     - name: "yes"
       title:
@@ -194,14 +174,14 @@ groups:
     ru: "Тип репозитория"
   tooltip:
     en: |
-      Repository type: one (or a few interdependent) applications or a monorepository.
+      Repository type: either a repository with one/few interdependent applications, or with many applications (monorepo). You might have different repositories with different types, then switch the type to the appropriate one while setting up the particular repository.
     ru: |
-      Тип репозитория: одно (или несколько взаимосвязанных) приложений или монорепозиторий.
+      Тип репозитория: либо репозиторий с одним/несколькими взаимосвязанными приложениями, либо со множеством приложений (монорепо). Вы можете иметь несколько репозиториев разных типов, в таком случае меняйте тип на соответствующий, когда настраиваете CI/CD для конкретного репозитория.
   buttons:
     - name: "application"
       title:
-        en: "Application"
-        ru: "Приложение"
+        en: "One/few applications"
+        ru: "Одно/несколько приложений"
     - name: "monorepo"
       title:
         en: "Monorepo"
@@ -214,7 +194,7 @@ tabs:
       ru: "Подготовка инфраструктуры"
   - name: "project"
     title:
-      en: "Project configuration"
+      en: "Configure the project"
       ru: "Настройка проекта"
   - name: "install"
     title:
