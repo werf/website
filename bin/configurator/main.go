@@ -15,7 +15,7 @@ const (
 	generatedPathCombinationTreeConfig  = "generated/configurator-options-list.json"
 	generatedPathCombinationTabsConfig  = "generated/configurator-data.json"
 
-	pagePermalinkConfigurator = "/configurator.html"
+	pagePermalinkConfigurator = "/includes/configurator.html"
 	includePathFormatTabs     = "/configurator/tabs/%s.md"
 	pagePermalinkFormatTabs   = "/configurator/tabs/%s.html"
 
