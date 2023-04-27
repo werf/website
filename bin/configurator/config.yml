@@ -116,6 +116,10 @@ combinations:
         value: "buildah"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
 
   # gitlab ci cd simple
   - tabs:
@@ -136,6 +140,10 @@ combinations:
         value: "buildah"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/gitlab-ci-cd/simple/host-runner/linux/docker/infra.md.liquid"
@@ -154,6 +162,10 @@ combinations:
         value: "docker"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/gitlab-ci-cd/simple/docker-runner/linux/buildah/infra.md.liquid"
@@ -172,6 +184,10 @@ combinations:
         value: "buildah"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/gitlab-ci-cd/simple/kubernetes-runner/linux/buildah/infra.md.liquid"
@@ -190,6 +206,10 @@ combinations:
         value: "buildah"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
 
   # gitlabCiCd best-practice application
   - tabs:
@@ -390,6 +410,10 @@ combinations:
         value: "buildah"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/other-ci-cd-system/simple/host-runner/linux/docker/infra.md.liquid"
@@ -408,6 +432,10 @@ combinations:
         value: "docker"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/other-ci-cd-system/simple/docker-runner/linux/buildah/infra.md.liquid"
@@ -426,6 +454,10 @@ combinations:
         value: "buildah"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/other-ci-cd-system/simple/kubernetes-runner/linux/buildah/infra.md.liquid"
@@ -444,3 +476,7 @@ combinations:
         value: "buildah"
       - name: "projectType"
         value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
