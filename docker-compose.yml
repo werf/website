@@ -3,26 +3,24 @@ version: "3.9"
 services:
   en:
     image: $WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME
-    working_dir: "/srv/jekyll-data"
+    working_dir: "/app"
     environment:
       JEKYLL_ENV: "dev"
     command: bash -c "
-      chmod -R o+w /srv/jekyll-data/ &&
-      jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml --destination /tmp/_site -P 80"
+      chmod -R o+w /app/ &&
+      jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml --destination /tmp/_site -P 80 --profile --watch --trace"
     volumes:
-      - "./:/srv/jekyll-data/"
+      - "./:/app/:cached"
   ru:
     image: $WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME
-    working_dir: "/srv/jekyll-data"
+    working_dir: "/app"
     environment:
       JEKYLL_ENV: "dev"
     command: bash -c "
-      chmod -R o+w /srv/jekyll-data/ &&
-      jekyll serve -t --config _config.yml,_config_dev.yml,_config_ru.yml --destination /tmp/_site -P 80"
+      chmod -R o+w /app/ &&
+      jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml --destination /tmp/_site -P 80 --profile --watch --trace"
     volumes:
-      - "./:/srv/jekyll-data/"
-    depends_on:
-      - en
+      - "./:/app/:cached"
 
   front:
     image: nginx:latest

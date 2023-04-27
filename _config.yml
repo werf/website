@@ -25,6 +25,7 @@ plugins:
   - jekyll-assets
   - jekyll_remote_plantuml_plugin
   - jekyll_include_plugin
+  - jekyll-include-cache
 
 plantuml:
   format: svg
