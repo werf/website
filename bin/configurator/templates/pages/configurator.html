@@ -15,11 +15,12 @@ sidebar: none
                     {% assign group = site.data.common.configurator.groups | find: "name", "{{$opt.Name}}" %}
                     {% assign group_title = group.title[page.lang] %}
                     <div class="button__wrap button--{{ $opt.Name }}">
-                        <div class="configurator__buttons-title">{{`{{ group_title }}`}}
+                        <div class="configurator__buttons-title">
                             {% if group.tooltip %}
                             {%   assign group_tooltip = group.tooltip[page.lang] %}
                             <span class="tooltip-text" title="{{`{{ group_tooltip }}`}}"></span>
                             {% endif %}
+                            <span>{{`{{ group_title }}`}}</span>
                         </div>
                         <div class="buttons-group">
                             {{- range $value := .Values }}

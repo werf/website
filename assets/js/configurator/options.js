@@ -25,6 +25,8 @@ $(document).ready(() => {
                         $('#configurator-content').html(response);
                     }
                 })
+            } else {
+                window.location.href = '/configurator.html';
             }
         })
     }
@@ -146,6 +148,8 @@ $(document).ready(() => {
                                 $('#configurator-content').html(response);
                             }
                         })
+                    } else {
+                        window.location.href = '/configurator.html';
                     }
                 })
             }
@@ -171,8 +175,6 @@ $(document).ready(() => {
         const obj = getDataFromHTML();
 
         for (const key in obj) {
-            // const value = obj[key].split(' ').join('-');
-
             str += `${key}-${obj[key]}_`
         }
         str = str.slice(0, -1);
@@ -202,8 +204,6 @@ function getUrl(obj, target) {
     obj[key] = $(target).attr('data-value');
 
     for (const key in obj) {
-        // const value = obj[key].split(' ').join('-');
-
         str += `${key}-${obj[key]}_`
     }
     str = str.slice(0, -1);
