@@ -26,7 +26,7 @@ $(document).ready(() => {
                     }
                 })
             } else {
-                window.location.href = '/404.html';
+                window.location.href = '/configurator.html';
             }
         })
     }
@@ -149,7 +149,7 @@ $(document).ready(() => {
                             }
                         })
                     } else {
-                        window.location.href = '/404.html';
+                        window.location.href = '/configurator.html';
                     }
                 })
             }
