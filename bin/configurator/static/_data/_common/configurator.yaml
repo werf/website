@@ -159,14 +159,14 @@ groups:
     ru: |
       Выносить ли переиспользуемые части CI/CD в отдельный репозиторий или иметь отдельный, независимый CI/CD для каждого приложения.
   buttons:
-    - name: "yes"
-      title:
-        en: "Yes"
-        ru: "Да"
     - name: "no"
       title:
         en: "No"
         ru: "Нет"
+    - name: "yes"
+      title:
+        en: "Yes"
+        ru: "Да"
 
 - name: "repoType"
   title:
