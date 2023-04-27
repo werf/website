@@ -2,8 +2,8 @@ $(document).ready(() => {
     let initialData = {};
     let optionsList;
     let pathToData;
-    const DATA_FILE = 'configurator-data.json';
-    const OPTIONS_LIST_FILE = 'configurator-options-list.json';
+    const DATA_FILE = '/configurator-data.json';
+    const OPTIONS_LIST_FILE = '/configurator-options-list.json';
 
     // Load options state from the query string.
     if (window.location.search) {
