@@ -39,8 +39,8 @@ options:
   - name: "sharedCICD"
     group: "3"
     values:
-      - "yes"
       - "no"
+      - "yes"
   - name: "repoType"
     group: "3"
     values:
