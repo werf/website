@@ -56,7 +56,6 @@ rewrite ^/documentation(/v.+)?/advanced/ci_cd/run_in_container/use_docker_contai
 rewrite ^/documentation(/v.+)?/advanced/ci_cd/run_in_container/use_kubernetes\.html                              /guides/nodejs/400_ci_cd_workflow/030_gitlab_ci_cd/030_kubernetes_executor.html permanent;
 rewrite ^/documentation(/v.+)?/advanced/ci_cd/run_in_container/use_gitlab_ci_cd_with_docker_executor\.html       /guides/nodejs/400_ci_cd_workflow/030_gitlab_ci_cd/020_docker_executor.html permanent;
 rewrite ^/documentation(/v.+)?/advanced/ci_cd/run_in_container/use_gitlab_ci_cd_with_kubernetes_executor\.html   /guides/nodejs/400_ci_cd_workflow/030_gitlab_ci_cd/030_kubernetes_executor.html permanent;
-rewrite ^/documentation(/v.+)?/advanced/ci_cd/run_in_container/how_it_works\.html	                              /documentation/usage/build/run_in_containers.html permanent;
 rewrite ^/documentation(/v.+)?/advanced/ci_cd/werf_with_argocd/ci_cd_flow_overview\.html                         /guides/nodejs/400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html permanent;
 rewrite ^/documentation(/v.+)?/advanced/ci_cd/werf_with_argocd/prepare_kubernetes_cluster\.html                  /guides/nodejs/400_ci_cd_workflow/050_argocd/020_prepare_kubernetes_cluster.html permanent;
 rewrite ^/documentation(/v.+)?/advanced/ci_cd/werf_with_argocd/configure_ci_cd\.html                             /guides/nodejs/400_ci_cd_workflow/050_argocd/030_configure_ci_cd.html permanent;
