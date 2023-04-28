@@ -1,4 +1,7 @@
 {{- define "rewrites" }}
+# 20230428
+rewrite ^/installation.html /documentation/v1.2/index.html permanent;
+
 # 20230216
 rewrite ^/how_it_works.html                                                                     /#how-it-works permanent;
 
@@ -114,7 +117,7 @@ rewrite ^/documentation/cli/management/([^/]+)/([^/]+)\.html$                   
 rewrite ^/documentation/cli/management/([^/]+)/([^/]+)/([^/]+)\.html$                /documentation/v1.2/reference/cli/werf_$1_$2_$3.html permanent;
 rewrite ^/documentation/cli/management/([^/]+)/([^/]+)/([^/]+)/([^/]+)\.html$        /documentation/v1.2/reference/cli/werf_$1_$2_$3_$4.html permanent;
 rewrite ^/documentation/development/stapel\.html$                                    /documentation/v1.2/internals/development/stapel_image.html permanent;
-rewrite ^/documentation/guides/installation\.html$                                   /installation.html permanent;
+rewrite ^/documentation/guides/installation\.html$                                   /documentation/v1.2/index.html permanent;
 rewrite ^(/v1\.[^01]+(\-[a-z]+)?)+/documentation/guides/(getting_started|deploy_into_kubernetes)+\.html$       /documentation/v1.2//quickstart.html permanent;
 rewrite ^/documentation/guides/(getting_started|deploy_into_kubernetes)+\.html$      /documentation/v1.2/quickstart.html permanent;
 rewrite ^/documentation/guides/generic_ci_cd_integration\.html$                      /documentation/v1.2/advanced/ci_cd/generic_ci_cd_integration.html permanent;
@@ -128,8 +131,8 @@ rewrite ^/introduction\.html$  /how_it_works.html permanent;
 rewrite ^/publications_ru\.html$  https://ru.werf.io/publications.html permanent;
 
 rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/documentation\.html$  /documentation/ permanent;
-rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/how_to/?$  /installation.html permanent;
-rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/documentation/guides/installation\.html$  /installation.html permanent;
+rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/how_to/?$  /documentation/v1.2/index.html permanent;
+rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/documentation/guides/installation\.html$  /documentation/v1.2/index.html permanent;
 rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/how_to/mounts\.html$  /documentation/v1.1/guides/advanced_build/mounts.html permanent;
 rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/how_to/multi_images\.html$  /documentation/v1.1/guides/advanced_build/multi_images.html permanent;
 rewrite ^(/v[\d]+\.[\d]+(\-[a-z]+)?)?/how_to/artifacts\.html$  /documentation/v1.1/guides/advanced_build/artifacts.html permanent;
