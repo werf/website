@@ -8,11 +8,12 @@
     font-size: 14px;
     line-height: inherit;
     color: inherit;
-    width: 200px;
+    width: 150px;
 }
 
 .configurator__buttons {
-    margin-bottom: 40px;
+    margin-top: 40px;
+    margin-bottom: 55px;
 }
 
 .button__wrap {
