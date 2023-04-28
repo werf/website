@@ -25,8 +25,6 @@ $(document).ready(() => {
                         $('#configurator-content').html(response);
                     }
                 })
-            } else {
-                window.location.href = '/configurator.html';
             }
         })
     }
@@ -148,8 +146,6 @@ $(document).ready(() => {
                                 $('#configurator-content').html(response);
                             }
                         })
-                    } else {
-                        window.location.href = '/configurator.html';
                     }
                 })
             }
