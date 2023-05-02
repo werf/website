@@ -9,7 +9,7 @@ ___
 
 #### Variant 1 (faster)
 
-- Install [werf](http://werf.io/installation.html). 
+- Install [werf](http://werf.io/documentation/index.html). 
 - Run:
   ```shell
   werf compose up jekyll_base --dev
@@ -27,7 +27,7 @@ ___
 
 #### Variant 2 (slower)
 
-- Install [werf](http://werf.io/installation.html). 
+- Install [werf](http://werf.io/documentation/index.html). 
 - Run (add `--follow --docker-compose-command-options="-d"` if necessary):
   ```shell
   werf compose up --docker-compose-options="-f docker-compose-slow.yml" --dev
