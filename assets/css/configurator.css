@@ -12,6 +12,9 @@
 }
 
 .configurator__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     margin-top: 40px;
     margin-bottom: 55px;
 }
@@ -32,46 +35,10 @@
     pointer-events: none;
 }
 
-.button__wrap--inline {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.button__wrap--inline:last-child {
-    margin-bottom: 0;
-}
-
 .buttons-group {
     display: flex;
     align-items: center;
     column-gap: 10px;
-}
-
-.btn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    height: 28px;
-    padding: 0 15px;
-    border-radius: 10px;
-    text-decoration: none !important;
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: 600;
-    font-style: normal;
-    font-stretch: normal;
-    letter-spacing: normal;
-    box-sizing: border-box;
-}
-
-.btn_o {
-    box-sizing: border-box;
-    border: 2px solid rgba(0, 102, 255, 0.1);
-    color: var(--main-color);
 }
 
 .btn.disabled:not(.active) {

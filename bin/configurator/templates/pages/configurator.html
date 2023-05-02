@@ -10,7 +10,6 @@ sidebar: none
 <div class="configurator">
     <div class="configurator__buttons">
         {{- range $group := .Groups }}
-        <div class="button__wrap--inline">
             {{- range $opt := $group }}
             {% assign group = site.data.common.configurator.groups | find: "name", "{{$opt.Name}}" %}
             {% assign group_title = group.title[page.lang] %}
@@ -34,7 +33,6 @@ sidebar: none
                 </div>
             </div>
             {{- end }}
-        </div>
         {{- end }}
     </div>
 
