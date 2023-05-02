@@ -14,7 +14,11 @@ ___
   ```shell
   werf compose up jekyll_base --dev
   ```
-- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site). 
+- Or run with specific architecture (e.g. ARM-based Macbooks):
+  ```shell
+  werf compose up jekyll_base --dev --platform='linux/amd64'
+  ```
+- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site).
 
 #### Variant 2 (slower)
 
@@ -23,7 +27,7 @@ ___
   ```shell
   werf compose up --docker-compose-options="-f docker-compose-slow.yml" --dev
   ```
-- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site). 
+- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site).
 
 #### Variant 3 (the fastest but only one language)
 
