@@ -1199,7 +1199,7 @@ body,
 }
 
 .footer__block-cncf a,
-.footer__block-flant {
+.footer__block-flant a {
   display: flex;
   flex-direction: column;
   align-items: center;
