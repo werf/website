@@ -69,3 +69,51 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 ## Конфигурация container registry
 
 [Включите сборщик мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) вашего container registry.
+
+## Подготовка системы к мультиплатформенной сборке
+
+> Данный шаг является опциональным и требуется только для сборки мультиплатформенных образов.
+
+Регистрируем в системе эмуляторы с помощью образа qemu-user-static:
+
+{% offtopic title="С помощью docker-контейнера" %}
+```shell
+docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes ; tail -f /dev/null"
+```
+{% endofftopic %}
+
+{% offtopic title="С помощью DaemonSet в Kubernetes" %}
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: qemu-user-static
+  labels:
+    app: qemu-user-static
+spec:
+  selector:
+    matchLabels:
+      name: qemu-user-static
+  template:
+    metadata:
+      labels:
+        name: qemu-user-static
+    spec:
+      initContainers:
+        - name: qemu-user-static
+          image: multiarch/qemu-user-static
+          args: ["--reset", "-p", "yes"]
+          securityContext:
+            privileged: true
+      containers:
+        - name: pause
+          image: gcr.io/google_containers/pause
+          resources:
+            limits:
+              cpu: 50m
+              memory: 50Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+```
+{% endofftopic %}
