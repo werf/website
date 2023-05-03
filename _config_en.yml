@@ -22,8 +22,10 @@ exclude:
   - examples
   - pages_ru
   - scripts
+  - _site_en_includes
+  - _site_ru_includes
   - .gitignore
-  - docker-compose*.yml
+  - "docker-compose*.yml"
   - Gemfile
   - Gemfile.lock
   - Makefile

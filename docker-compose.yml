@@ -8,9 +8,16 @@ services:
       JEKYLL_ENV: "dev"
     command: bash -c "
       chmod -R o+w /app/ &&
+      chmod -R o+w /tmp/_site/ &&
       jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml --destination /tmp/_site -P 80 --profile --watch --trace"
     volumes:
       - "./:/app/:cached"
+      - "./_site_en_includes:/tmp/_site/includes"
+    networks:
+      default:
+        aliases:
+          - website-en
+
   ru:
     image: $WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME
     working_dir: "/app"
@@ -18,9 +25,15 @@ services:
       JEKYLL_ENV: "dev"
     command: bash -c "
       chmod -R o+w /app/ &&
+      chmod -R o+w /tmp/_site/ &&
       jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml --destination /tmp/_site -P 80 --profile --watch --trace"
     volumes:
       - "./:/app/:cached"
+      - "./_site_ru_includes:/tmp/_site/includes"
+    networks:
+      default:
+        aliases:
+          - website-ru
 
   front:
     image: nginx:latest
@@ -31,3 +44,24 @@ services:
     depends_on:
       - ru
       - en
+
+  backend:
+    image: $WERF_BACKEND_DOCKER_IMAGE_NAME
+    environment:
+      ACTIVE_RELEASE: "1.2"
+      LOG_LEVEL: info
+      URL_VALIDATION: "false"
+    command: "/app/server"
+    volumes:
+      - ".helm/trdl_channels-dev.yaml:/app/trdl/trdl_channels.yaml:ro"
+      - "./_site_en_includes:/app/root/en/includes"
+      - "./_site_ru_includes:/app/root/ru/includes"
+    depends_on:
+      - ru
+      - en
+      - front
+
+networks:
+  default:
+    name: werfio-dev
+    external: true

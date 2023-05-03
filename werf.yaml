@@ -143,7 +143,7 @@ shell:
 ---
 {{ end -}}
 
-image: web-backend-artifact
+image: backend-artifact
 from: golang:1.16
 fromCacheVersion: {{ $.CacheVersion }}
 ansible:
@@ -161,7 +161,7 @@ git:
     stageDependencies:
       install: '**/*'
 ---
-image: web-backend
+image: backend
 from: ubuntu:20.04
 fromCacheVersion: {{ $.CacheVersion }}
 docker:
@@ -173,10 +173,18 @@ ansible:
         state: present
         update_cache: yes
 import:
-  - image: web-backend-artifact
+  - image: backend-artifact
     add: /go/src/app/server
     to: /app/server
     before: setup
+
+---
+image: web-backend
+fromImage: backend
+fromCacheVersion: {{ $.CacheVersion }}
+docker:
+  WORKDIR: /app
+import:
 {{- range $lang := list "en" "ru" }}
   - image: doc_{{ $lang }}
     add: /app/_site

@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"runtime/debug"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type responseWriter struct {
@@ -43,7 +44,7 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 		defer func() {
 			if err := recover(); err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				log.Errorf("err %v, %v", err, debug.Stack())
+				log.Errorf("recover panic: %v, %v", err, string(debug.Stack()))
 			}
 		}()
 
