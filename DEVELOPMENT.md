@@ -5,45 +5,36 @@ ___
 
 ## Development
 
-### Run the site locally
+- Install [werf](http://werf.io/documentation/index.html).
+- Install [task](https://taskfile.dev/installation/).
 
-#### Variant 1 (faster)
+### Local development setup
 
-- Install [werf](http://werf.io/documentation/index.html). 
+Run `jekyll serve` with --watch option to test changes in "real time":
+
 - Run:
   ```shell
-  werf compose up jekyll_base --dev
-  ```
-- Or run with specific architecture (e.g. ARM-based Macbooks):
-  ```shell
-  werf compose up jekyll_base --dev --platform='linux/amd64'
+  task compose:up
   ```
 - Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site).
-- Configurator part can be added with:
+
+Add configurator content:
+- Run:
   ```shell
   task local:gen:configurator
   ```
   Run `task clean` to cleanup working directory.
 
-#### Variant 2 (slower)
+Optionally serve documentation content:
 
-- Install [werf](http://werf.io/documentation/index.html). 
-- Run (add `--follow --docker-compose-command-options="-d"` if necessary):
+- Run in werf/werf repository:
   ```shell
-  werf compose up --docker-compose-options="-f docker-compose-slow.yml" --dev
+  cd ../werf/werf
+  task compose:up
   ```
-- Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site).
 
-#### Variant 3 (the fastest but only one language)
+### Cleanup
 
-- Install ruby and bundler
-- To run English version:
-  ```shell
-  jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml -d /tmp/_site
-  ```
-- To run Russian version:
-  ```shell
-  jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml -d /tmp/_site
-  ```
-- Site content (with guides but without documentation section) is available on http://localhost:4000
- 
+- `task compose:down` - stop all containers.
+- `task clean` - delete all generated content.
+- `docker network delete werfio-dev` - delete shared docker network (requires task compose:down in werf/werf repository).

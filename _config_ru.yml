@@ -10,6 +10,7 @@ includes_dir: _includes/ru
 cache_dir: ".jekyll-cache-ru"
 
 exclude:
+  # Directories
   - .github
   - .helm
   - .idea
@@ -22,13 +23,18 @@ exclude:
   - examples
   - pages_en
   - scripts
+  - _site_en_includes
+  - _site_ru_includes
+  # Files
   - .gitignore
-  - docker-compose*.yml
+  - docker-compose.yml
+  - "docker-compose*.yml"
   - Gemfile
   - Gemfile.lock
   - Makefile
   - Taskfile.yaml
-  - werf*.yaml
+  - "werf.yaml"
+  - "werf-*.yaml"
 
 include:
   - pages_ru

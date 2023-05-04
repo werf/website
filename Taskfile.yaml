@@ -138,3 +138,35 @@ tasks:
         )
         cp -R bin/configurator/static/* .
         cp -R bin/configurator/generated/* .
+
+  docker:network:create:
+    desc: 'Create shared docker network werfio-dev to use with werf/website'
+    vars:
+      NETWORK_NAME: werfio-dev
+    cmds:
+      - docker network create -d=bridge {{.NETWORK_NAME}}
+    status:
+      - docker network inspect {{.NETWORK_NAME}}
+
+  compose:up:
+    desc: 'Run jekyll in werf compose for local development. Use lang=en or lang=ru to run only specified lang. Run task compose:up in werf/werf repository to access documentation.'
+    deps:
+      - docker:network:create
+    cmds:
+      - |
+        services="{{ .lang }}"
+        services=${services:-"en ru"}
+
+        # Run compose up in docs directory.
+        which werf >/dev/null || source $(trdl use werf 1.2 beta)
+        werf compose up jekyll_base backend --dev --docker-compose-command-options="$services front backend" --platform=linux/amd64 || true
+
+  compose:down:
+    desc: 'Stop and clean after werf compose'
+    cmds:
+      - |
+        which werf >/dev/null || source $(trdl use werf 1.2 beta)
+        # Workaround: set image variable to stub image.
+        WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME=nginx:latest \
+        WERF_BACKEND_DOCKER_IMAGE_NAME=nginx:latest \
+        werf compose down
