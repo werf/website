@@ -177,3 +177,43 @@ EOF
 ## Configuring the container registry
 
 [Enable garbage collection](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) for your container registry.
+
+## Preparing Kubernetes for multi-platform building (optional)
+
+> This step only needed to build images for platforms other than host platform running werf.
+
+Register emulators on your Kubernetes nodes using qemu-user-static:
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: qemu-user-static
+  labels:
+    app: qemu-user-static
+spec:
+  selector:
+    matchLabels:
+      name: qemu-user-static
+  template:
+    metadata:
+      labels:
+        name: qemu-user-static
+    spec:
+      initContainers:
+        - name: qemu-user-static
+          image: multiarch/qemu-user-static
+          args: ["--reset", "-p", "yes"]
+          securityContext:
+            privileged: true
+      containers:
+        - name: pause
+          image: gcr.io/google_containers/pause
+          resources:
+            limits:
+              cpu: 50m
+              memory: 50Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+```

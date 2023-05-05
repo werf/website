@@ -64,50 +64,12 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 
 [Enable garbage collection]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
 
-## Preparing the system for multi-platform building
+## Preparing the system for cross-platform building (optional)
 
-> This step is optional and only needed to build multi-platform images.
+> This step only needed to build images for platforms other than host platform running werf.
 
 Register emulators on your system using qemu-user-static:
 
-{% offtopic title="Using docker container" %}
 ```shell
-docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes ; tail -f /dev/null"
+docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
 ```
-{% endofftopic %}
-
-{% offtopic title="Using DaemonSet in Kubernetes" %}
-```yaml
-apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  name: qemu-user-static
-  labels:
-    app: qemu-user-static
-spec:
-  selector:
-    matchLabels:
-      name: qemu-user-static
-  template:
-    metadata:
-      labels:
-        name: qemu-user-static
-    spec:
-      initContainers:
-        - name: qemu-user-static
-          image: multiarch/qemu-user-static
-          args: ["--reset", "-p", "yes"]
-          securityContext:
-            privileged: true
-      containers:
-        - name: pause
-          image: gcr.io/google_containers/pause
-          resources:
-            limits:
-              cpu: 50m
-              memory: 50Mi
-            requests:
-              cpu: 50m
-              memory: 50Mi
-```
-{% endofftopic %}

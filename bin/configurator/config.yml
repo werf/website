@@ -102,7 +102,7 @@ combinations:
   # github actions simple
   - tabs:
       - name: "project"
-        includePath: "/configurator/tab/ci/github-actions/simple/host-runner/linux/buildah/project.md.liquid"
+        includePath: "/configurator/tab/ci/github-actions/simple/host-runner/linux/docker/project.md.liquid"
     options:
       - name: "usage"
         value: "ci"
@@ -113,7 +113,7 @@ combinations:
       - name: "os"
         value: "linux"
       - name: "buildBackend"
-        value: "buildah"
+        value: "docker"
       - name: "projectType"
         value: "simplified"
       - name: "sharedCICD"
