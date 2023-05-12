@@ -171,19 +171,19 @@ tasks:
         WERF_BACKEND_DOCKER_IMAGE_NAME=nginx:latest \
         werf compose down
 
-  links:check-broken-links:
+  site:check-broken-links:
     desc: 'Check docs for broken links.'
     deps:
-      - links:check-broken-links:ru
-      - links:check-broken-links:en
+      - site:check-broken-links:ru
+      - site:check-broken-links:en
 
-  links:check-broken-links:ru:
+  site:check-broken-links:ru:
     desc: 'Check ru docs for broken links.'
     cmds:
       - |
         ./scripts/docs/check_broken_links.sh ru
 
-  links:check-broken-links:en:
+  site:check-broken-links:en:
     desc: 'Check en docs for broken links.'
     cmds:
       - |

@@ -17,4 +17,4 @@ cd /app && \
 EOF
 )
 
-werf run doc_$arg_site_lang --dev --docker-options="--entrypoint=bash" -- -c "$script"
+werf run doc_$arg_site_lang --docker-options="--entrypoint=bash" -- -c "$script"
