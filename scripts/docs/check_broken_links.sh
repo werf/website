@@ -12,7 +12,8 @@ cd /app && \
     --check_html \
     --file_ignore "/____________/" \
     --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com/werf/,/habr.com/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/documentation/,/guides.html/" \
-    --http-status-ignore "0,429,403,500" \
+    --url-swap "github.com/werf/website/blob/main:github.com/werf/website/blob/$GITHUB_SHA,github.com/werf/website/tree/main:github.com/werf/website/tree/$GITHUB_SHA" \
+    --http-status-ignore "0,429,403" \
     /app/_site
 EOF
 )
