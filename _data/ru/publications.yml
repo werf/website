@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Родительский helm chart для проектов + werf"
+    habr_url: "https://habr.com/ru/articles/734922/"
+    img: "/assets/images/publications/ru_150523.png"
+    created: 2023-05-14
+    comment: |
+      <p>В данном методе используется инструмент werf от компании Флант для сборки и доставки приложения и их накопленные знания конфигураций CI/CD и деплоя приложений в K8s.</p>
   - title: "Canary-релизы в Kubernetes на базе Ingress-NGINX Controller"
     habr_url: "https://habr.com/ru/company/flant/blog/697030/"
     img: "/assets/images/publications/ru_031122.png"
