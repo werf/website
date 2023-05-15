@@ -57,7 +57,7 @@ kubectl -n kube-system apply -f werf-fuse-device-plugin-ds.yaml
 Также давайте создадим политику LimitRange с тем, чтобы Pod'ы, создаваемые в некотором пространстве имен, имели доступ к `/dev/fuse`:
 
 ```yaml
-# enable-fuse-limit-range.yaml
+# enable-fuse-pod-limit-range.yaml
 apiVersion: v1
 kind: LimitRange
 metadata:
