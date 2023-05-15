@@ -13,7 +13,7 @@ tasks:
   # default:
   #   cmds:
   #     - task: xxx
-  
+
   format:
     desc: 'Run all code formatters. Important vars: "paths".'
     run: once
@@ -170,3 +170,21 @@ tasks:
         WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME=nginx:latest \
         WERF_BACKEND_DOCKER_IMAGE_NAME=nginx:latest \
         werf compose down
+
+  site:check-broken-links:
+    desc: 'Check docs for broken links.'
+    deps:
+      - site:check-broken-links:ru
+      - site:check-broken-links:en
+
+  site:check-broken-links:ru:
+    desc: 'Check ru docs for broken links.'
+    cmds:
+      - |
+        ./scripts/docs/check_broken_links.sh ru
+
+  site:check-broken-links:en:
+    desc: 'Check en docs for broken links.'
+    cmds:
+      - |
+        ./scripts/docs/check_broken_links.sh en

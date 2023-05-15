@@ -12,39 +12,31 @@ env:
   WERF_ENV: "production"
 
 jobs:
-  check_links:
-    container: jekyll/builder:4.2.0
-    name: Check broken links
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        lang: [ ru, en ]
+  check_broken_links:
+    runs-on: ubuntu-latest-4-cores
+    timeout-minutes: 60
     steps:
+      - name: Install werf
+        uses: werf/actions/install@v1.2
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
         with:
-          fetch-depth: 0
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare environment
-        run: |
-          chmod 777 Gemfile.lock
-          bundle install
-          mkdir -pm 777 .jekyll-cache .jekyll-cache-en .jekyll-cache-ru _site
-          chmod -R 777 assets/images/plantuml_cache
-
-      - name: Build
-        run: bundle exec jekyll build --config _config.yml,_config_dev.yml,_config_${{ matrix.lang }}.yml --destination _site/
+      - name: Login to GitHub container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check links
         run: |
-          bundle exec htmlproofer \
-            --allow-hash-href \
-            --empty-alt-ignore \
-            --check_html \
-            --file_ignore "/____________/" \
-            --url_ignore "/localhost/,/t.me/,/slack.com/,/cncf.io/,/example.com/,/github.com\/werf\/website\/edit/,/habr.com/,/apple-touch-icon.png/,/site.webmanifest/,/favicon/,/safari-pinned-tab/,/documentation/,/guides.html/" \
-            --url-swap "github.com/werf/website/blob/main:github.com/werf/website/blob/$GITHUB_SHA,github.com/werf/website/tree/main:github.com/werf/website/tree/$GITHUB_SHA" \
-            --http-status-ignore "0,429,403" \
-            ./_site/
+          source "$(werf ci-env github --as-file)"
+          task -o group -p site:check-broken-links
+        env:
+          WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"
