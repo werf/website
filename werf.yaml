@@ -205,3 +205,28 @@ ansible:
       content: |
 {{ .Files.Get ".werf/tuf-router.lua" | indent 8 }}
       dest: /etc/nginx/tuf-router.lua
+---
+image: spell-checker
+from: ubuntu:20.04
+fromCacheVersion: {{ $.CacheVersion }}
+import:
+  - image: doc_ru
+    add: /app/_site
+    to: /spelling/ru
+    before: install
+  - image: doc_en
+    add: /app/_site
+    to: /spelling/en
+    before: install
+git:
+  - add: /scripts/docs/spelling/dictionaries/
+    to: /temp
+    stageDependencies:
+      install: '**/*'
+shell:
+  install:
+    - apt -y update && apt -y upgrade
+    - apt -y install hunspell html2text
+  setup:
+    - rm /usr/share/hunspell/*
+    - cp /temp/* /usr/share/hunspell/
