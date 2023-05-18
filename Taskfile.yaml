@@ -188,3 +188,21 @@ tasks:
     cmds:
       - |
         ./scripts/docs/check_broken_links.sh en
+
+  site:run-spell-check:
+    desc: 'Run spell check for all pages.'
+    deps:
+      - site:run-spell-check:ru
+      - site:run-spell-check:en
+
+  site:run-spell-check:ru:
+    desc: 'Run spell check for ru pages.'
+    cmds:
+      - |
+        ./scripts/docs/spelling/spell_check.sh ru
+
+  site:run-spell-check:en:
+    desc: 'Run spell check for en pages.'
+    cmds:
+      - |
+        ./scripts/docs/spelling/spell_check.sh en
