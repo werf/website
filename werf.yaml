@@ -220,7 +220,11 @@ import:
     before: install
 git:
   - add: /scripts/docs/spelling/dictionaries/
-    to: /temp
+    to: /temp/dictionaries
+    stageDependencies:
+      install: '**/*'
+  - add: /scripts/docs/spelling/internal/
+    to: /temp/internal
     stageDependencies:
       install: '**/*'
 shell:
@@ -229,4 +233,6 @@ shell:
     - apt -y install hunspell html2text
   setup:
     - rm /usr/share/hunspell/*
-    - cp /temp/* /usr/share/hunspell/
+    - cp /temp/dictionaries/* /usr/share/hunspell/
+    - cp /temp/internal/* /spelling/en
+    - cp /temp/internal/* /spelling/ru

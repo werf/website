@@ -10,10 +10,8 @@ elif [[ "$arg_site_lang" == "ru" ]]; then
   language="ru_RU"
 fi
 
-script=$(cat <<EOF
-cd /spelling/$arg_site_lang && \
-  ./container_spell_check.sh $arg_site_lang
-EOF
-)
-
-werf run spell-checker --dev --docker-options="--entrypoint=bash" -- -c "$script"
+for file in `find ./ -type f -name "*.html"`
+do
+   wc -l $file;
+   stat -c %s $file;
+done
