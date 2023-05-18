@@ -5,7 +5,7 @@ layout: default
 sidebar: none
 ---
 
-<main class="page__container">
+<main class="page__container docs">
     <h2>Сборка и развертывание с werf</h2>
     <p>Содержимое демо-проекта:</p>
     <div class="viewer__wrap">
@@ -49,15 +49,79 @@ sidebar: none
         </div>
         <div class="files-view__wrap">
             <div class="file-view first active">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sequi nemo pariatur magni quo quasi, non doloribus eveniet dolor rem illo similique, natus nostrum. Dignissimos perspiciatis voluptatum natus nulla provident voluptate rem cumque expedita illum iure numquam quibusdam nisi earum, adipisci molestiae, ut optio aspernatur reprehenderit facere? Dolore molestiae repellat dicta, est consectetur expedita cumque maiores placeat dolor qui, aspernatur tenetur corrupti, quibusdam ad optio alias nisi quasi vel error ipsa sint. Suscipit voluptatum molestiae repudiandae optio voluptate dolore quis architecto tempore quod maiores quae, sunt illum reprehenderit eum blanditiis, tenetur nulla iusto repellendus eius ad itaque cumque animi? In, molestias.
+                {% raw %}<pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">werf-guide-app</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">werf-guide-app</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="na">app</span><span class="pi">:</span> <span class="s">werf-guide-app</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">imagePullSecrets</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">registrysecret</span>
+      <span class="na">containers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">app</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="pi">{{</span> <span class="nv">.Values.werf.image.app</span> <span class="pi">}}</span>
+        <span class="na">command</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">/app/start.sh"</span><span class="pi">]</span>
+        <span class="na">ports</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8000</span>
+</code></pre>{% endraw %}
             </div>
             <div class="file-view second">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum quae, ad quidem ducimus molestias? Earum voluptatum hic, ab ullam consequatur perspiciatis odio quasi saepe ut ea voluptas fuga deleniti voluptate! Assumenda ipsa, esse quibusdam repudiandae nemo dolorem dignissimos doloremque quod perferendis, non pariatur excepturi quia perspiciatis eaque expedita maiores accusamus cumque optio ratione corrupti fugit laudantium. Dolores vel earum reprehenderit nisi, in sunt explicabo voluptatem, odit, numquam mollitia libero provident. Recusandae aliquid praesentium quaerat tempora, aspernatur ratione ipsam quibusdam ut nihil veniam numquam, quidem quae rem, quam quisquam explicabo non eligendi dolorem blanditiis ex modi illum. Quam natus eius obcaecati fugiat quaerat. Optio fugiat, facilis officia libero natus architecto ex repellendus necessitatibus dignissimos quod fugit beatae sit eveniet ab.
+                {% raw %}<pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">standalone-pod</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">containers</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">main</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">alpine</span>  <span class="c1"># if the user has specified "alpine" as the image name</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">tail"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">-f"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">/dev/null"</span><span class="pi">]</span>
+</code></pre>{% endraw %}
             </div>
             <div class="file-view third">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum quae, ad quidem ducimus molestias? Earum voluptatum hic, ab ullam consequatur perspiciatis odio quasi saepe ut ea voluptas fuga deleniti voluptate! Assumenda ipsa, esse quibusdam repudiandae nemo dolorem dignissimos doloremque quod perferendis, non pariatur excepturi quia perspiciatis eaque expedita maiores accusamus cumque optio ratione corrupti fugit laudantium. Dolores vel earum reprehenderit nisi, in sunt explicabo voluptatem, odit, numquam mollitia libero provident. Recusandae aliquid praesentium quaerat tempora, aspernatur ratione ipsam quibusdam ut nihil veniam numquam, quidem quae rem, quam quisquam explicabo non eligendi dolorem blanditiis ex modi illum. Quam natus eius obcaecati fugiat quaerat. Optio fugiat, facilis officia libero natus architecto ex repellendus necessitatibus dignissimos quod fugit beatae sit eveniet ab.
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum quae, ad quidem ducimus molestias? Earum voluptatum hic, ab ullam consequatur perspiciatis odio quasi saepe ut ea voluptas fuga deleniti voluptate! Assumenda ipsa, esse quibusdam repudiandae nemo dolorem dignissimos doloremque quod perferendis, non pariatur excepturi quia perspiciatis eaque expedita maiores accusamus cumque optio ratione corrupti fugit laudantium. Dolores vel earum reprehenderit nisi, in sunt explicabo voluptatem, odit, numquam mollitia libero provident. Recusandae aliquid praesentium quaerat tempora, aspernatur ratione ipsam quibusdam ut nihil veniam numquam, quidem quae rem, quam quisquam explicabo non eligendi dolorem blanditiis ex modi illum. Quam natus eius obcaecati fugiat quaerat. Optio fugiat, facilis officia libero natus architecto ex repellendus necessitatibus dignissimos quod fugit beatae sit eveniet ab.
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum quae, ad quidem ducimus molestias? Earum voluptatum hic, ab ullam consequatur perspiciatis odio quasi saepe ut ea voluptas fuga deleniti voluptate! Assumenda ipsa, esse quibusdam repudiandae nemo dolorem dignissimos doloremque quod perferendis, non pariatur excepturi quia perspiciatis eaque expedita maiores accusamus cumque optio ratione corrupti fugit laudantium. Dolores vel earum reprehenderit nisi, in sunt explicabo voluptatem, odit, numquam mollitia libero provident. Recusandae aliquid praesentium quaerat tempora, aspernatur ratione ipsam quibusdam ut nihil veniam numquam, quidem quae rem, quam quisquam explicabo non eligendi dolorem blanditiis ex modi illum. Quam natus eius obcaecati fugiat quaerat. Optio fugiat, facilis officia libero natus architecto ex repellendus necessitatibus dignissimos quod fugit beatae sit eveniet ab.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla
+                necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel
+                dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum
+                quae, ad quidem ducimus molestias? Earum voluptatum hic, ab ullam consequatur perspiciatis odio quasi
+                saepe ut ea voluptas fuga deleniti voluptate! Assumenda ipsa, esse quibusdam repudiandae nemo dolorem
+                dignissimos doloremque quod perferendis, non pariatur excepturi quia perspiciatis eaque expedita maiores
+                accusamus cumque optio ratione corrupti fugit laudantium. Dolores vel earum reprehenderit nisi, in sunt
+                explicabo voluptatem, odit, numquam mollitia libero provident. Recusandae aliquid praesentium quaerat
+                tempora, aspernatur ratione ipsam quibusdam ut nihil veniam numquam, quidem quae rem, quam quisquam
+                explicabo non eligendi dolorem blanditiis ex modi illum. Quam natus eius obcaecati fugiat quaerat. Optio
+                fugiat, facilis officia libero natus architecto ex repellendus necessitatibus dignissimos quod fugit
+                beatae sit eveniet ab.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla
+                necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel
+                dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum
+                quae, ad quidem ducimus molestias? Earum voluptatum hic, ab ullam consequatur perspiciatis odio quasi
+                saepe ut ea voluptas fuga deleniti voluptate! Assumenda ipsa, esse quibusdam repudiandae nemo dolorem
+                dignissimos doloremque quod perferendis, non pariatur excepturi quia perspiciatis eaque expedita maiores
+                accusamus cumque optio ratione corrupti fugit laudantium. Dolores vel earum reprehenderit nisi, in sunt
+                explicabo voluptatem, odit, numquam mollitia libero provident. Recusandae aliquid praesentium quaerat
+                tempora, aspernatur ratione ipsam quibusdam ut nihil veniam numquam, quidem quae rem, quam quisquam
+                explicabo non eligendi dolorem blanditiis ex modi illum. Quam natus eius obcaecati fugiat quaerat. Optio
+                fugiat, facilis officia libero natus architecto ex repellendus necessitatibus dignissimos quod fugit
+                beatae sit eveniet ab.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla
+                necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel
+                dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum
+                quae, ad quidem ducimus molestias? Earum voluptatum hic, ab ullam consequatur perspiciatis odio quasi
+                saepe ut ea voluptas fuga deleniti voluptate! Assumenda ipsa, esse quibusdam repudiandae nemo dolorem
+                dignissimos doloremque quod perferendis, non pariatur excepturi quia perspiciatis eaque expedita maiores
+                accusamus cumque optio ratione corrupti fugit laudantium. Dolores vel earum reprehenderit nisi, in sunt
+                explicabo voluptatem, odit, numquam mollitia libero provident. Recusandae aliquid praesentium quaerat
+                tempora, aspernatur ratione ipsam quibusdam ut nihil veniam numquam, quidem quae rem, quam quisquam
+                explicabo non eligendi dolorem blanditiis ex modi illum. Quam natus eius obcaecati fugiat quaerat. Optio
+                fugiat, facilis officia libero natus architecto ex repellendus necessitatibus dignissimos quod fugit
+                beatae sit eveniet ab.
             </div>
         </div>
     </div>

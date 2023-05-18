@@ -225,3 +225,14 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 .hidden {
     display: none;
 }
+
+/*
+    Класс для конфигуратора, который не будет перебивать остальные обертки кода.
+    Надо будет раскомментировать .docs .configurator .viewer__wrap pre.highlight, а .docs pre.highlight - удалить
+ */
+/*.docs .configurator .viewer__wrap pre.highlight {*/
+.docs pre.highlight {
+    background: transparent;
+    padding: 0;
+    margin-top: -35px;
+}
