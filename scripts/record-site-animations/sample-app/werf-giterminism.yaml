@@ -1,4 +1,0 @@
-giterminismConfigVersion: 1
-config:
-  goTemplateRendering:
-    allowEnvVariables: ["CACHE_VERSION"]

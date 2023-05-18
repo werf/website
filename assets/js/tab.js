@@ -20,7 +20,7 @@ $(document).ready(() => {
   const $buttons = $('[data-tabs-button]');
   let fileName = '';
 
-  let player = AsciinemaPlayer.create(`/assets/videos/build.cast`, document.getElementById('demo'), {
+  let player = AsciinemaPlayer.create(`/assets/demo/build.cast`, document.getElementById('demo'), {
     fit: "both",
     autoplay: true,
   });
@@ -32,7 +32,7 @@ $(document).ready(() => {
       fileName = $(button).attr('data-tabs-button');
       player.dispose();
 
-      player = AsciinemaPlayer.create(`/assets/videos/${fileName}.cast`, document.getElementById('demo'), {
+      player = AsciinemaPlayer.create(`/assets/demo/${fileName}.cast`, document.getElementById('demo'), {
         fit: "both",
         autoplay: true,
       });
