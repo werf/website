@@ -42,13 +42,13 @@ sidebar: none
                     </div>
                     <div class="file__wrap child">
                         <span class="file-icon"></span>
-                        <div class="file-name" data-file-name="third">File name</div>
+                        <div class="file-name" data-file-name="dir/dir/file.yaml">File name</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="files-view__wrap">
-            <div class="file-view first active">
+            <div class="file-view active" data-file-view="first">
                 {% raw %}<pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
 <span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
 <span class="na">metadata</span><span class="pi">:</span>
@@ -73,7 +73,7 @@ sidebar: none
         <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">8000</span>
 </code></pre>{% endraw %}
             </div>
-            <div class="file-view second">
+            <div class="file-view" data-file-view="second">
                 {% raw %}<pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
 <span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
 <span class="na">metadata</span><span class="pi">:</span>
@@ -85,7 +85,7 @@ sidebar: none
     <span class="na">command</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">tail"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">-f"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">/dev/null"</span><span class="pi">]</span>
 </code></pre>{% endraw %}
             </div>
-            <div class="file-view third">
+            <div class="file-view" data-file-view="dir/dir/file.yaml">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt maxime laudantium exercitationem nulla
                 necessitatibus. Id cum nihil minus pariatur facere quibusdam aspernatur, atque quasi laudantium. Vel
                 dolores ut ullam tempora quae officia laudantium asperiores! Est recusandae eum nulla excepturi earum

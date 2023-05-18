@@ -30,7 +30,7 @@ $(document).ready(() => {
                 filesView.querySelector('.file-view.active').classList.remove('active');
             }
             e.target.parentNode.classList.add('active');
-            filesView.querySelector(`.file-view.${e.target.dataset.fileName}`).classList.add('active');
+            filesView.querySelector(`[data-file-view="${e.target.dataset.fileName}"]`).classList.add('active');
         } else if (e.target.classList.contains('folder-name')) {
             const parent = e.target.parentNode.parentNode;
             parent.querySelectorAll('.child').forEach(child => {
