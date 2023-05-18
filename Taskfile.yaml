@@ -64,7 +64,47 @@ tasks:
   gen:demo:
     desc: "Generate asciinema werf demos"
     cmds:
-      - echo TODO
+      - task: gen:demo:_setup
+      - task: gen:demo:_build
+      - task: gen:demo:_test
+      - task: gen:demo:_distribute
+      - task: gen:demo:_deploy
+      - task: gen:demo:_cleanup
+
+  gen:demo:_setup:
+    desc: "Setup (reset if already setup) Kubernetes cluster with the self-hosted container registry"
+    cmds:
+      - scripts/record-site-animations/reset.sh
+
+  gen:demo:_build:
+    desc: "Generate asciinema werf build demo"
+    dir: scripts/record-site-animations/sample-app
+    cmds:
+      - ../record-build.sh ../../../assets/videos/build.cast --overwrite
+
+  gen:demo:_test:
+    desc: "Generate asciinema werf test demo"
+    dir: scripts/record-site-animations/sample-app
+    cmds:
+      - ../record-test.sh ../../../assets/videos/test.cast --overwrite
+
+  gen:demo:_distribute:
+    desc: "Generate asciinema werf distribute demo"
+    dir: scripts/record-site-animations/sample-app
+    cmds:
+      - ../record-distribute.sh ../../../assets/videos/distribute.cast --overwrite
+
+  gen:demo:_deploy:
+    desc: "Generate asciinema werf deploy demo"
+    dir: scripts/record-site-animations/sample-app
+    cmds:
+      - ../record-deploy.sh ../../../assets/videos/deploy.cast --overwrite
+
+  gen:demo:_cleanup:
+    desc: "Generate asciinema werf cleanup demo"
+    dir: scripts/record-site-animations/sample-app
+    cmds:
+      - ../record-cleanup.sh ../../../assets/videos/cleanup.cast --overwrite
 
   install:demo-tools-ubuntu:
     desc: "Install tools needed to record werf demos"

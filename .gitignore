@@ -13,4 +13,3 @@ bin/configurator/generated/
 /_includes/*/configurator
 /pages_*/configurator*
 /_data/*/configurator*
-/scripts/demo/sample-app
