@@ -227,9 +227,19 @@ git:
     to: /temp/internal
     stageDependencies:
       install: '**/*'
+docker:
+  ENV:
+    LANG: ru_RU.UTF-8
+    LANGUAGE: ru_RU:ru
+    LC_LANG: ru_RU.UTF-8
+    LC_ALL: ru_RU.UTF-8
+    LC_MESSAGES: ru_RU.UTF-8
 shell:
-  install:
+  beforeInstall:
     - apt -y update && apt -y upgrade
+    - apt install -y locales
+    - sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+  install:
     - apt -y install hunspell html2text
   setup:
     - rm /usr/share/hunspell/*

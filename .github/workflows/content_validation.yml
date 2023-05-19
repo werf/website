@@ -6,6 +6,7 @@ on:
       - '.github/workflows/content_validation.yml'
       - '_data/en/publications.yml'
       - '_data/ru/publications.yml'
+      - 'scripts/docs/spelling/internal/container_spell_check.sh'
       - '**/*.md'
       - '**/*.md.liquid'
       - '**/*.html'
