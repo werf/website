@@ -37,3 +37,14 @@ Run scenario:
 ```
 ./scripts/prepare_deploy_with_failure.sh
 ```
+
+## Build, deploy, test, cleanup and distribute demos
+
+Required terminal window size:
+
+```
+height: 644px;
+width: 760px;
+```
+
+Required terminal font size: 9pt.
