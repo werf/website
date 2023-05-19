@@ -11,6 +11,7 @@ elif [[ "$arg_site_lang" == "ru" ]]; then
   language="ru_RU,en_US"
 fi
 
+echo "Checking $arg_site_lang docs..."
 html2text 404.html | hunspell -d $language -l
 
 #for file in `find ./ -type f -name "*.html"`

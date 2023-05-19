@@ -64,7 +64,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check links
+      - name: Spell check
         run: |
           source "$(werf ci-env github --as-file)"
           task -o group -p site:run-spell-check
