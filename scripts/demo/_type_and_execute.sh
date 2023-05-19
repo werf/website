@@ -3,8 +3,9 @@
 INPUT_THROTTLING="${INPUT_THROTTLING:-11}"
 
 while read p; do
-	if [ "${INSTANT_TYPE}x" == "1x" ] ; then
-		echo -n '$ ' ; echo "${p}" ; sleep 0.8 ; eval ${p}
+	if [ "${INSTANT_TYPE}x" != "x" ] ; then
+		delay=${TYPE_DELAY:-0.1}
+		echo -n '$ ' ; echo "${p}" ; sleep $delay ; eval ${p}
 	else
 		echo -n '$ ' ; echo "${p}" | pv -qL ${INPUT_THROTTLING} ; eval ${p}
 	fi
