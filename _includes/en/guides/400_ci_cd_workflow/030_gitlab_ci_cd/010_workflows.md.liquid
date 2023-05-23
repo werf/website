@@ -162,6 +162,8 @@ Let us look at the basic configurations of `Review` and `Stop Review` jobs. They
 ```yaml
 Review:
   extends: .base_deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     url: http://${CI_PROJECT_NAME}-${CI_MERGE_REQUEST_ID}.kube.DOMAIN
@@ -169,13 +171,13 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop
@@ -214,6 +216,8 @@ It is the most simplistic approach that can be useful when rollouts are rare, an
 ```yaml
 Review:
   extends: .base_deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     url: http://${CI_PROJECT_NAME}-${CI_MERGE_REQUEST_ID}.kube.DOMAIN
@@ -221,14 +225,14 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   when: manual
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop
@@ -250,6 +254,8 @@ In the configuration below, the code is automatically released with every commit
 ```yaml
 Review:
   extends: .base_deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     url: http://${CI_PROJECT_NAME}-${CI_MERGE_REQUEST_ID}.kube.DOMAIN
@@ -257,14 +263,14 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   rules:
     - if: $CI_MERGE_REQUEST_ID && $CI_COMMIT_REF_NAME =~ /^review-/
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop
@@ -288,6 +294,8 @@ By assigning a specific label, the user activates automatic deployment to review
 ```yaml
 Review:
   stage: deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   script:
     - >
       # do optional deploy/dismiss
@@ -306,14 +314,14 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   tags: [werf]
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop
@@ -532,6 +540,8 @@ Build and Publish:
 
 Review:
   stage: deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   script:
     - >
       # do optional deploy/dismiss
@@ -550,14 +560,14 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   tags: [werf]
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop
@@ -637,6 +647,8 @@ Build and Publish:
 
 Review:
   extends: .base_deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     url: http://${CI_PROJECT_NAME}-${CI_MERGE_REQUEST_ID}.kube.DOMAIN
@@ -644,14 +656,14 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   when: manual
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop
@@ -731,6 +743,8 @@ Build and Publish:
 
 Review:
   extends: .base_deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     url: http://${CI_PROJECT_NAME}.kube.DOMAIN
@@ -738,14 +752,14 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   when: manual
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop
@@ -824,6 +838,8 @@ Build and Publish:
 
 Review:
   extends: .base_deploy
+  variables:
+    WERF_SAVE_DEPLOY_REPORT: "1"
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     url: http://${CI_PROJECT_NAME}.kube.DOMAIN
@@ -831,14 +847,14 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   rules:
     - if: $CI_MERGE_REQUEST_ID && $CI_COMMIT_REF_NAME =~ /^review-/
 
 Stop Review:
   stage: dismiss
   script:
-    - werf dismiss --with-namespace
+    - werf dismiss --with-namespace --use-deploy-report
   environment:
     name: review-${CI_MERGE_REQUEST_ID}
     action: stop

@@ -165,7 +165,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
 
 Stop Review:
@@ -217,7 +217,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   when: manual
 
@@ -253,7 +253,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   rules:
     - if: $CI_MERGE_REQUEST_ID && $CI_COMMIT_REF_NAME =~ /^review-/
 
@@ -304,7 +304,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   tags: [werf]
 
@@ -543,7 +543,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   tags: [werf]
 
@@ -637,7 +637,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   when: manual
 
@@ -731,7 +731,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   only: [merge_requests]
   when: manual
 
@@ -824,7 +824,7 @@ Review:
     auto_stop_in: 1 day
   artifacts:
     paths:
-      - werf.yaml
+      - .werf-deploy-report.json
   rules:
     - if: $CI_MERGE_REQUEST_ID && $CI_COMMIT_REF_NAME =~ /^review-/
 
