@@ -46,9 +46,7 @@ entries:
         - title: Варианты рабочих процессов
           url: "400_ci_cd_workflow/020_workflows.html"
         - title: GitLab CI/CD
-          f:
-            - title: Рабочие процессы
-              url: "400_ci_cd_workflow/030_gitlab_ci_cd/010_workflows.html"
+          url: "400_ci_cd_workflow/030_gitlab_ci_cd.html"
         - title: GitHub Actions
           url: "400_ci_cd_workflow/040_github_actions.html"
         - title: ArgoCD
