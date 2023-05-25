@@ -18,11 +18,10 @@ elif [[ "$arg_site_lang" == "ru" ]]; then
 fi
 
 echo "Checking $arg_site_lang docs..."
-html2text -utf8 404.html | sed '/^$/d' | hunspell -d $language -l
 
 for file in `find ./ -type f -name "*.html"`
 do
   echo "$str"
   echo "Checking $file..."
-  html2text -utf8 $file | sed '/^$/d' | hunspell -d $language -l
+  python3 clear_html_from_code.py $file | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
 done
