@@ -98,6 +98,10 @@ groups:
       title:
         en: "Other CI/CD"
         ru: "Other CI/CD"
+    - name: "argoCdWithGitlabCiCd"
+      title:
+        en: "ArgoCD with GitLab CI/CD"
+        ru: "ArgoCD with GitLab CI/CD"
 
 - name: "runnerType"
   title:
