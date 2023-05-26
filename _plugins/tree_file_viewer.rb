@@ -2,9 +2,13 @@ module Jekyll
   module TreeFileViewer
     class TreeFileViewerTag < Liquid::Tag
 
-      def initialize(tag_name, static_rel_tree_root, tokens)
+      def initialize(tag_name, options, tokens)
         super
-        @rel_tree_root = static_rel_tree_root.strip.gsub(/['"]/, '')
+        options = options.strip.gsub(/['"]/, '').split("|")
+        @rel_tree_root = "/" + options[0].delete_prefix("/").delete_suffix("/")
+        if options.length > 1
+          @default_active_file_path = "/" + options[1].delete_prefix("/")
+        end
       end
 
       def render(context)
@@ -84,9 +88,8 @@ module Jekyll
             next
           end
 
-          # pass default active file as an option
           result += %Q(
-<div class="file__wrap #{index == 0 ? "active" : nil} #{is_tree_root_level ? nil : "child"}">
+<div class="file__wrap #{is_file_active(file, index) ? "active" : nil} #{is_tree_root_level ? nil : "child"}">
 <span class="file-icon"></span>
 <div class="file-name" data-file-name="#{file.relative_path_from(@static_files_root).to_s}">#{file.basename}</div>
 </div>
@@ -105,15 +108,24 @@ module Jekyll
       def build_files_contents(files)
         result = ""
         files.each_with_index do |file,index|
-          # pass default active file as an option
           result += %Q(
-<div class="file-view #{index == 0 ? "active" : nil}" data-file-view="#{file.relative_path_from(@static_files_root).to_s}" markdown="1">```#{file.extname.delete_prefix(".")}
+<div class="file-view #{is_file_active(file, index) ? "active" : nil}" data-file-view="#{file.relative_path_from(@static_files_root).to_s}" markdown="1">```#{file.extname.delete_prefix(".")}
 #{File.read(file)}
 ```
 </div>
 )
         end
         result
+      end
+
+      def is_file_active(file, index)
+        if @default_active_file_path != nil
+          if @default_active_file_path == "/" + file.relative_path_from(@tree_root).to_s
+            return true
+          end
+        else
+          index == 0
+        end
       end
     end
   end
