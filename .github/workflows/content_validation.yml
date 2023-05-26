@@ -7,6 +7,7 @@ on:
       - '_data/en/publications.yml'
       - '_data/ru/publications.yml'
       - 'scripts/docs/spelling/internal/container_spell_check.sh'
+      - 'scripts/docs/spelling/internal/clear_html_from_code.py'
       - '**/*.md'
       - '**/*.md.liquid'
       - '**/*.html'

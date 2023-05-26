@@ -6,11 +6,14 @@ import sys
 
 
 if len (sys.argv) > 1:
-    html = open(sys.argv[1]).read()
-
-    root = BeautifulSoup(html, 'html.parser')
-    body = root.select_one('body')
-    for code in body.select('code'):
-        code.decompose()
-
-    print(root)
+    try:
+        html = open(sys.argv[1]).read()
+        root = BeautifulSoup(html, 'html.parser')
+        try:
+            for code in root.select('code'):
+                code.decompose()
+            print(root)
+        except:
+            print("Code tag not found.")
+    except:
+        print("Filename error.")

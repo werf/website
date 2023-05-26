@@ -9,13 +9,13 @@ if [[ "$arg_site_lang" == "en" ]]; then
   language="en_US"
 elif [[ "$arg_site_lang" == "ru" ]]; then
   language="ru_RU,en_US"
-
-  cp /usr/share/hunspell/en_US.aff  /usr/share/hunspell/en_US.aff.orig
-  cp /usr/share/hunspell/en_US.dic  /usr/share/hunspell/en_US.dic.orig
-  iconv --from ISO8859-1 /usr/share/hunspell/en_US.aff.orig > /usr/share/hunspell/en_US.aff
-  iconv --from ISO8859-1 /usr/share/hunspell/en_US.dic.orig > /usr/share/hunspell/en_US.dic
-  sed -i 's/SET ISO8859-1/SET UTF-8/' /usr/share/hunspell/en_US.aff
 fi
+
+cp /usr/share/hunspell/en_US.aff  /usr/share/hunspell/en_US.aff.orig
+cp /usr/share/hunspell/en_US.dic  /usr/share/hunspell/en_US.dic.orig
+iconv --from ISO8859-1 /usr/share/hunspell/en_US.aff.orig > /usr/share/hunspell/en_US.aff
+iconv --from ISO8859-1 /usr/share/hunspell/en_US.dic.orig > /usr/share/hunspell/en_US.dic
+sed -i 's/SET ISO8859-1/SET UTF-8/' /usr/share/hunspell/en_US.aff
 
 echo "Checking $arg_site_lang docs..."
 
