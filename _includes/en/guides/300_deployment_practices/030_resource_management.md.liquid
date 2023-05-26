@@ -21,7 +21,7 @@ The scheduler uses a Pod’s `resources.requests` to decide which node to place 
 
 Therefore, you **have to set both requests and limits for both the CPU and memory**. The only thing you can/should omit is the CPU limit if the [Linux kernel version is older than 5.4](https://engineering.indeedblog.com/blog/2019/12/cpu-throttling-regression-fix/) (in the case of EL7/CentOS7, the kernel version must be older than 3.10.0-1062.8.1.el7).
 
->Подробнее о том, что такое requests и limits, какие бывают QoS-классы в Kubernetes, можно почитать в [этой внешней статье](https://habr.com/ru/company/flant/blog/459326/).
+>Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/) to learn more about QOS classes.
 
 Furthermore, the memory consumption of some applications tends to grow in an unlimited fashion. A good example of that is Redis used for caching or an application that basically runs “on its own”. To limit their impact on other applications on the node, you can (and should) set limits for the amount of memory to be consumed. The only problem with that is the application will be `KILL`ed when this limit is reached. Applications cannot predict/handle this signal, and this will probably prevent them from shutting down correctly. That is why, in addition to Kubernetes limits, we **highly recommend using application-specific mechanisms for limiting memory consumption** so that it does not exceed (or come close to) the amount set in a Pod’s `limits.memory` parameter.
 
