@@ -1,0 +1,47 @@
+version: "3"
+
+tasks:
+  build:
+    cmds:
+      # Here be building your app:
+      - cp src/main.sh app.sh
+  run:
+    cmds:
+      # Here be running your app:
+      - ./app.sh
+  lint:
+    cmds:
+      # Here be your linter:
+      - echo Lint completed.
+  test:unit:
+    cmds:
+      # Here be your unit tests:
+      - echo Unit tests completed. Code coverage is 12.34%
+  test:integration:
+    cmds:
+      # Here be your integration tests:
+      - echo Integration tests completed. Code coverage is 43.21%
+  test:e2e:short:
+    cmds:
+      # Here be your short E2E tests:
+      - echo Short E2E tests completed.
+  test:e2e:long:
+    cmds:
+      # Here be your long E2E tests:
+      - echo Long E2E tests completed.
+  test:performance:
+    cmds:
+      # Here be your performance tests:
+      - echo Performance tests completed.
+  test:smoke:
+    cmds:
+      # Here be your smoke tests:
+      - echo Smoke tests completed.
+  db:init:
+    cmds:
+      # Here be your DB initialization:
+      - echo DB initialized.
+  db:migrate:
+    cmds:
+      # Here be your DB migrations:
+      - echo DB migrated.

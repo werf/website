@@ -1,0 +1,20 @@
+{{ if $.Release.IsInstall }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ $.Chart.Name }}-create-db-{{ $.Release.Revision }}"
+  annotations:
+    werf.io/weight: "10"
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: create-db
+        image: {{ $.Values.werf.image.backend }}
+        command: ["./node_modules/.bin/sequelize-cli", "db:create"]
+        env:
+        - name: NODE_ENV
+          value: {{ $.Values.werf.env }}
+{{ end }}

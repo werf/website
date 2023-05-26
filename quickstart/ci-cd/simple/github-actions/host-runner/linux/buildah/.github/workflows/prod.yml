@@ -1,0 +1,23 @@
+name: prod
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prod:
+    name: prod
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: werf/actions/install@v1.2
+
+      - run: |
+          source "$(werf ci-env github --as-file)"
+          werf converge
+        env:
+          WERF_ENV: prod
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}

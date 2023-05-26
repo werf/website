@@ -39,6 +39,7 @@ exclude:
 include:
   - pages_ru
   - ssi
+  - quickstart
 
 defaults:
   - scope:

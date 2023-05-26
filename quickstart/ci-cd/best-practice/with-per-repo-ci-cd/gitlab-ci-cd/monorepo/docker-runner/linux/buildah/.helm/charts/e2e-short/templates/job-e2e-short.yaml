@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: test-e2e-short-{{ $.Release.Revision }}
+  annotations:
+    werf.io/weight: "10"
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: registrysecret
+      restartPolicy: Never
+      containers:
+        - name: test-e2e-short
+          image: {{ $.Values.werf.image.sources }}
+          command: ["go-task", "test:e2e:short"]

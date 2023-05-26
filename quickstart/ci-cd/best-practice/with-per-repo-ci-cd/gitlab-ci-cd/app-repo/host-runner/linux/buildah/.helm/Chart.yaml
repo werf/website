@@ -1,0 +1,41 @@
+dependencies:
+  - name: app
+    version: 1.0.0
+    tags:
+      - app
+      - apps
+      - release
+      - all
+    export-values: &export-values
+      - parent: werf
+        child: werf
+  - name: database
+    version: 1.0.0
+    condition: database.enabled
+    tags:
+      - database
+      - infra
+      - release
+      - all
+    export-values: *export-values
+  - name: e2e-short
+    version: 1.0.0
+    tags:
+      - e2e-short
+      - tests
+      - all
+    export-values: *export-values
+  - name: e2e-long
+    version: 1.0.0
+    tags:
+      - e2e-long
+      - tests
+      - all
+    export-values: *export-values
+  - name: performance
+    version: 1.0.0
+    tags:
+      - performance
+      - tests
+      - all
+    export-values: *export-values
