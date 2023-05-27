@@ -205,3 +205,47 @@ ansible:
       content: |
 {{ .Files.Get ".werf/tuf-router.lua" | indent 8 }}
       dest: /etc/nginx/tuf-router.lua
+---
+image: spell-checker
+from: ubuntu:20.04
+fromCacheVersion: {{ $.CacheVersion }}
+import:
+  - image: doc_ru
+    add: /app/_site
+    to: /spelling/ru
+    before: install
+  - image: doc_en
+    add: /app/_site
+    to: /spelling/en
+    before: install
+git:
+  - add: /scripts/docs/spelling/dictionaries/
+    to: /temp/dictionaries
+    stageDependencies:
+      install: '**/*'
+  - add: /scripts/docs/spelling/internal/
+    to: /temp/internal
+    stageDependencies:
+      install: '**/*'
+docker:
+  ENV:
+    LANG: ru_RU.UTF-8
+    LANGUAGE: ru_RU:ru
+    LC_LANG: ru_RU.UTF-8
+    LC_ALL: ru_RU.UTF-8
+    LC_MESSAGES: ru_RU.UTF-8
+    TZ: Europe/Moscow
+shell:
+  beforeInstall:
+    - apt -y update && apt -y upgrade
+    - apt install -y locales
+    - sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+    - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+  install:
+    - apt -y install hunspell html2text python3.9 python3-pip
+    - pip3 install beautifulsoup4
+  setup:
+    - rm /usr/share/hunspell/*
+    - cp /temp/dictionaries/* /usr/share/hunspell/
+    - cp /temp/internal/* /spelling/en
+    - cp /temp/internal/* /spelling/ru

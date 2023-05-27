@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - '.github/workflows/content_validation.yml'
+      - '_data/en/publications.yml'
+      - '_data/ru/publications.yml'
       - '**/*.md'
       - '**/*.md.liquid'
       - '**/*.html'
@@ -38,5 +40,34 @@ jobs:
         run: |
           source "$(werf ci-env github --as-file)"
           task -o group -p site:check-broken-links
+        env:
+          WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"
+
+  spell_check:
+    runs-on: ubuntu-latest-4-cores
+    timeout-minutes: 60
+    steps:
+      - name: Install werf
+        uses: werf/actions/install@v1.2
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to GitHub container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Spell check
+        run: |
+          source "$(werf ci-env github --as-file)"
+          task -o group -p site:run-spell-check
         env:
           WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"
