@@ -43,18 +43,10 @@ entries:
     - title: Setting up a CI/CD workflow
       url: "400_ci_cd_workflow.html"
       sf:
-        - title: Workflow basics
-          url: "400_ci_cd_workflow/010_workflow_basics.html"
         - title: Workflows
           url: "400_ci_cd_workflow/020_workflows.html"
         - title: GitLab CI/CD
-          f:
-            - title: Workflows
-              url: "400_ci_cd_workflow/030_gitlab_ci_cd/010_workflows.html"
-            - title: Docker executor
-              url: "400_ci_cd_workflow/030_gitlab_ci_cd/020_docker_executor.html"
-            - title: Kubernetes executor
-              url: "400_ci_cd_workflow/030_gitlab_ci_cd/030_kubernetes_executor.html"
+          url: "400_ci_cd_workflow/030_gitlab_ci_cd.html"
         - title: GitHub Actions
           url: "400_ci_cd_workflow/040_github_actions.html"
         - title: ArgoCD

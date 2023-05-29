@@ -10,9 +10,6 @@
 /400_ci_cd_workflow:
   title: Построение процесса CI/CD
   url: /400_ci_cd_workflow.html
-/400_ci_cd_workflow/030_gitlab_ci_cd:
-  title: GitLab CI/CD
-  url: /400_ci_cd_workflow/030_gitlab_ci_cd/010_workflows.html
 /400_ci_cd_workflow/050_argocd:
   title: ArgoCD
   url: /400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html

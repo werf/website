@@ -10,9 +10,9 @@ Jobs are based on comprehensive GitHub Actions, [werf/actions](https://github.co
 
 The specific set of tiers in the Kubernetes cluster depends on many various factors. In this article, we will examine various options for setting up environments for the following tiers:
 
-* [The production tier](010_workflow_basics.html#production).
-* [The staging tier](010_workflow_basics.html#staging).
-* [The review tier](010_workflow_basics.html#review).
+* Production;
+* Staging;
+* Review.
 
 The detailed description of various jobs and different options for their implementation are available below. We will start with general terms and then move on to the particularities. You may find the [complete set of various configurations for ready-made workflows](#complete-set-of-configurations-for-ready-made-workflows) at the end of this article.
 
@@ -26,9 +26,10 @@ Regardless of the workflow in question, all configuration versions are subject t
 
 We provide various configuration options for deploying to review, staging, and production environments. Each option for the staging and production environments is complemented by several ways to roll back the release in production.
 
-> You can learn more about implementing the CI/CD approach using werf and constructing the custom workflow in the [introductory article](010_workflow_basics.html).
+> You can learn more about implementing the CI/CD approach using werf and constructing the custom workflow in the [introductory article](020_workflows.html).
 
 ## Requirements
+
 * The Kubernetes cluster.
 * The project on GitHub.
 * An application you are going to build and deploy with werf.
