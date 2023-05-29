@@ -1,0 +1,26 @@
+stages:
+  - release
+  - cleanup
+
+default:
+  before_script:
+    - source $(~/bin/trdl use werf 1.2 stable)
+    - source $(werf ci-env gitlab --as-file)
+  tags: ["<GitLab Runner tag>"]
+
+Build and publish release:
+  stage: release
+  script:
+    - werf bundle publish --tag "1.0.${CI_PIPELINE_ID}"
+  only:
+    - main
+  except:
+    - schedules
+
+Cleanup registry:
+  stage: cleanup
+  script:
+    - werf cr login $WERF_REPO
+    - werf cleanup
+  only:
+    - schedules
