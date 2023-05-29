@@ -1,60 +1,77 @@
+require_relative 'plugin_utils'
+
 module Jekyll
   module TreeFileViewer
     class TreeFileViewerTag < Liquid::Tag
 
-      def initialize(tag_name, options, tokens)
+      def initialize(tag_name, params_as_string, tokens)
         super
-        options = options.strip.gsub(/['"]/, '').split("|")
-        @rel_tree_root = "/" + options[0].delete_prefix("/").delete_suffix("/")
-        if options.length > 1
-          @default_active_file_path = "/" + options[1].delete_prefix("/")
-        end
+        @params_as_string = params_as_string
       end
 
       def render(context)
-        @static_files_root = context.registers[:site].config['source']
-        @tree_root = Pathname.new(File.join(@static_files_root, @rel_tree_root))
+        begin
+          unnamed_params, named_params = Utils.parse_params(context, @params_as_string)
+            Utils.validate_params(unnamed_params, named_params, {
+              unnamed: [
+                {}
+              ],
+              named: [
+                { name: "default_file" }
+              ]
+            })
 
-        file_paths = []
-        context.registers[:site].static_files.each do |file|
-          if file.path.start_with?(@tree_root.to_s)
-            file_paths.push(Pathname.new(file.path))
+          @rel_tree_root = "/" + unnamed_params[0].delete_prefix("/").delete_suffix("/")
+          if named_params["default_file"]
+            @default_active_file_path = "/" + named_params["default_file"].delete_prefix("/")
           end
-        end
 
-        files_dirs = [@tree_root]
-        file_paths.each do |path|
-          unless files_dirs.include?(path.dirname)
-            files_dirs.push(path.dirname)
+          @static_files_root = context.registers[:site].config['source']
+          @tree_root = Pathname.new(File.join(@static_files_root, @rel_tree_root))
+
+          file_paths = []
+          context.registers[:site].static_files.each do |file|
+            if file.path.start_with?(@tree_root.to_s)
+              file_paths.push(Pathname.new(file.path))
+            end
           end
 
-          path.descend do |sub_path|
-            if !sub_path.to_s.start_with?(@tree_root.to_s) or files_dirs.include?(sub_path) or !sub_path.directory?
-              next
+          files_dirs = [@tree_root]
+          file_paths.each do |path|
+            unless files_dirs.include?(path.dirname)
+              files_dirs.push(path.dirname)
             end
 
-            files_dirs.push(sub_path)
-          end
-        end
+            path.descend do |sub_path|
+              if !sub_path.to_s.start_with?(@tree_root.to_s) or files_dirs.include?(sub_path) or !sub_path.directory?
+                next
+              end
 
-        result = %Q(
+              files_dirs.push(sub_path)
+            end
+          end
+
+          result = %Q(
 <div class="viewer__wrap">
 <div class="directory-structure" markdown="0">
 )
 
-        result += build_directory_structure(file_paths, files_dirs, @tree_root)
+          result += build_directory_structure(file_paths, files_dirs, @tree_root)
 
-        result += %Q(
+          result += %Q(
 </div>
 <div class="files-view__wrap">
 )
 
-        result += build_files_contents(file_paths)
+          result += build_files_contents(file_paths)
 
-        result + %Q(
+          result + %Q(
 </div>
 </div>
 )
+        rescue => e
+          Jekyll.logger.abort_with("[tree_file_viewer] FATAL:", e.message)
+        end
       end
 
       def build_directory_structure(files, dirs, root)
