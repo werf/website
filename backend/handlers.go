@@ -52,16 +52,50 @@ func groupHandler(w http.ResponseWriter, r *http.Request) {
 	if err, version := getVersionFromGroup(&ReleasesStatus, vars["group"]); err == nil {
 		w.Header().Set("X-Accel-Redirect", fmt.Sprintf("/documentation/%v%v", VersionToURL(version), getDocPageURLRelative(r, true)))
 	} else {
-		var activeRelease string
-		if len(os.Getenv("ACTIVE_RELEASE")) > 0 {
-			activeRelease = os.Getenv("ACTIVE_RELEASE")
-		} else {
-			activeRelease = "1.2"
-		}
-		http.Redirect(w, r, fmt.Sprintf("/documentation/v%s", activeRelease), 302)
-		//w.Header().Set("X-Accel-Redirect", fmt.Sprintf("/%v%v", VersionToURL(version), r.URL.RequestURI()))
+		// Fall back to the version specified in the ACTIVE_RELEASE env, if got the incorrect version.
+		activeRelease := getRootRelease()
+		http.Redirect(w, r, fmt.Sprintf("/documentation/v%s/", activeRelease), 302)
 	}
 
+}
+
+// Handler for versions which are not available (there are no ingress for the version and requests go to router)
+// Redirect request to the corresponding group
+func unknownVersionHandler(w http.ResponseWriter, r *http.Request) {
+	var URLToRedirect string
+	var err error
+
+	log.Debugln("Use handler - unknownVersionHandler")
+
+	pageURLRelative := "/"
+
+	_ = updateReleasesStatus()
+
+	vars := mux.Vars(r)
+
+	group := getRootRelease()
+
+	re := regexp.MustCompile(`^([0-9]+\.[0-9]+)\..+$`)
+	res := re.FindStringSubmatch(vars["version"])
+	if res != nil {
+		group = fmt.Sprintf("v%s", res[1])
+	}
+
+	re = regexp.MustCompile(`^/documentation/[^/]+(/.+)$`)
+	res = re.FindStringSubmatch(r.URL.RequestURI())
+	if res != nil {
+		pageURLRelative = res[1]
+	}
+
+	URLToRedirect = fmt.Sprintf("/documentation/%v%v", group, pageURLRelative)
+	err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
+
+	if err != nil {
+		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
+		notFoundHandler(w, r)
+	} else {
+		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
+	}
 }
 
 // Handles request to /v<group>-<channel>/. E.g. /v1.2-beta/
@@ -213,22 +247,19 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 }
 
 func rootDocHandler(w http.ResponseWriter, r *http.Request) {
-	var redirectTo, activeRelease string
+	var redirectTo, defaultVersionLocation string
 
-	if len(os.Getenv("ACTIVE_RELEASE")) > 0 {
-		activeRelease = os.Getenv("ACTIVE_RELEASE")
-	} else {
-		activeRelease = "1.2"
+	defaultVersionLocation = getRootRelease()
+
+	redirectTo = strings.TrimLeft(r.RequestURI, "/documentation/")
+
+	re := regexp.MustCompile(`^v[0-9]+[^/]*/?(.*)$`)
+	res := re.FindStringSubmatch(redirectTo)
+	if res != nil {
+		redirectTo = res[1]
 	}
 
-	if hasSuffix, _ := regexp.MatchString("^/documentation/.+", r.RequestURI); hasSuffix {
-		items := strings.Split(r.RequestURI, "/documentation/")
-		if len(items) > 1 {
-			redirectTo = strings.Join(items[1:], "/documentation/")
-		}
-	}
-
-	http.Redirect(w, r, fmt.Sprintf("/documentation/v%s/%s", activeRelease, redirectTo), 301)
+	http.Redirect(w, r, fmt.Sprintf("/documentation/v%s/%s", defaultVersionLocation, redirectTo), 301)
 }
 
 // Redirect to root documentation if request not matches any location (override 404 response)
