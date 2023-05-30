@@ -1,0 +1,18 @@
+dependencies:
+- name: app
+  repository: ""
+  version: 1.0.0
+- name: database
+  repository: ""
+  version: 1.0.0
+- name: e2e-short
+  repository: ""
+  version: 1.0.0
+- name: e2e-long
+  repository: ""
+  version: 1.0.0
+- name: performance
+  repository: ""
+  version: 1.0.0
+digest: sha256:efce1b655fce8c8bf7f1739dc34a98fed3dad7943cef39bd6829aeaee34c03e9
+generated: "2023-02-08T12:17:50.931015996+03:00"

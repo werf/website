@@ -1,0 +1,29 @@
+stages:
+  - prod
+  - cleanup
+
+default:
+  image:
+    name: "registry.werf.io/werf/werf:1.2-stable"
+    pull_policy: always
+  before_script:
+    - source "$(werf ci-env gitlab --as-file)"
+  tags: ["<GitLab Runner tag>"]
+
+prod:
+  stage: prod
+  script:
+    - werf converge
+  environment:
+    name: prod
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"
+      when: manual
+
+images:cleanup:
+  stage: cleanup
+  script:
+    - werf cr login -u nobody -p "${WERF_IMAGES_CLEANUP_PASSWORD:?}" "${WERF_REPO:?}"
+    - werf cleanup
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule"

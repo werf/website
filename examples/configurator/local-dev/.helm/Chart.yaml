@@ -1,0 +1,16 @@
+dependencies:
+  - name: mysql
+    version: "~1"
+    repository: https://helm.wso2.com
+
+  - name: backend
+    version: "1.0.0"
+    export-values:
+      - parent: werf
+        child: werf
+
+  - name: frontend
+    version: "1.0.0"
+    export-values:
+      - parent: werf
+        child: werf

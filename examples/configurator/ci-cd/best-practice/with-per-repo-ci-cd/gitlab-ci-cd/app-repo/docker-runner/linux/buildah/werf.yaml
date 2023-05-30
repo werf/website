@@ -1,0 +1,14 @@
+configVersion: 1
+project: myproject
+
+{{- if or (env "ENABLE_ALL_IMAGES" | eq "true") (env "ENABLE_APPS_IMAGES" | eq "true") }}
+---
+image: app
+dockerfile: ./app.Dockerfile
+{{- end }}
+
+{{- if or (env "ENABLE_ALL_IMAGES" | eq "true") (env "ENABLE_IMAGE_SOURCES" | eq "true") }}
+---
+image: sources
+dockerfile: ./sources.Dockerfile
+{{- end }}

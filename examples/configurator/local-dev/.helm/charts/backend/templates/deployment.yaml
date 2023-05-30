@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Chart.Name }}
+  annotations:
+    werf.io/weight: "30"
+spec:
+  selector:
+    matchLabels:
+      app: {{ $.Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $.Chart.Name }}
+    spec:
+      containers:
+      - name: backend
+        image: {{ $.Values.werf.image.backend }}
+        command: ["node", "./bin/www"]
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: {{ .Values.werf.env }}
+        startupProbe:
+          httpGet:
+            port: 3000
+            path: /ping
+        resources:
+          requests:
+            cpu: {{ $.Values.limits.cpu }}
+            memory: {{ $.Values.limits.memory}}
+          limits:
+            cpu: {{ $.Values.limits.cpu }}
+            memory: {{ $.Values.limits.memory }}
