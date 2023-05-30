@@ -156,13 +156,13 @@ tasks:
       - site:run-spell-check:en
 
   site:run-spell-check:ru:
-    desc: 'Run spell check for ru pages.'
+    desc: 'Run spell check for ru pages. You can specify the path to a specific file with `-- ./path/to/file`'
     cmds:
       - |
         ./scripts/docs/spelling/spell_check.sh ru {{.CLI_ARGS}}
 
   site:run-spell-check:en:
-    desc: 'Run spell check for en pages.'
+    desc: 'Run spell check for en pages. You can specify the path to a specific file with `-- ./path/to/file`'
     cmds:
       - |
         ./scripts/docs/spelling/spell_check.sh en {{.CLI_ARGS}}
