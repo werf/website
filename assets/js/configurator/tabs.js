@@ -17,23 +17,24 @@ $(document).ready(() => {
         }
     });
 
-    const structure = document.querySelector('.directory-structure');
-    const filesView = document.querySelector('.files-view__wrap');
+    $(document).on('click tap', '.directory-structure', (e) => {
+        const structure = $('.directory-structure');
+        const filesView = $('.files-view__wrap');
+        const target = $(e.target);
 
 
-    structure.addEventListener('click', (e) => {
-        if (e.target.classList.contains('file-name')) {
-            if (!!structure.querySelector('.file__wrap.active')) {
-                structure.querySelector('.file__wrap.active').classList.remove('active');
+        if (target.hasClass('file-name')) {
+            if (!!structure.find('.file__wrap.active')) {
+                structure.find('.file__wrap.active').removeClass('active');
             }
-            if (!!filesView.querySelector('.file-view.active')) {
-                filesView.querySelector('.file-view.active').classList.remove('active');
+            if (!!filesView.find('.file-view.active')) {
+                filesView.find('.file-view.active').removeClass('active');
             }
-            e.target.parentNode.classList.add('active');
-            filesView.querySelector(`[data-file-view="${e.target.dataset.fileName}"]`).classList.add('active');
-        } else if (e.target.classList.contains('folder-name')) {
-            const parent = e.target.parentNode.parentNode;
-            parent.querySelectorAll('.child').forEach(child => {
+            target.parent().addClass('active');
+            filesView.find(`[data-file-view="${target.attr('data-file-name')}"]`).addClass('active');
+        } else if (target.hasClass('folder-name')) {
+            const parent = target.parent().parent();
+            parent.find('.child').each((_, child) => {
                 child.classList.toggle('hidden');
             });
         }

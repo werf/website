@@ -141,6 +141,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 }
 
 .viewer__wrap {
+    position: relative;
     display: flex;
     gap: 15px;
     height: 500px;
@@ -159,6 +160,17 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 .files-view__wrap {
     overflow: scroll;
     width: 100%;
+}
+
+.files-view__wrap::before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 2px;
+    height: 100%;
+    background: #272822;
+    margin-top: -20px;
+    margin-left: -10px;
 }
 
 .folder__wrap {
@@ -226,13 +238,15 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     display: none;
 }
 
-/*
-    Класс для конфигуратора, который не будет перебивать остальные обертки кода.
-    Надо будет раскомментировать .docs .configurator .viewer__wrap pre.highlight, а .docs pre.highlight - удалить
- */
-/*.docs .configurator .viewer__wrap pre.highlight {*/
-.docs pre.highlight {
+.docs .configurator .viewer__wrap pre code {
+    white-space: pre-wrap;
+}
+
+.docs .configurator .viewer__wrap div.highlight {
+    background: transparent;
+}
+
+.docs .configurator .viewer__wrap pre.highlight {
     background: transparent;
     padding: 0;
-    margin-top: -35px;
 }
