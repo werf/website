@@ -159,13 +159,13 @@ tasks:
     desc: 'Run spell check for ru pages.'
     cmds:
       - |
-        ./scripts/docs/spelling/spell_check.sh ru
+        ./scripts/docs/spelling/spell_check.sh ru {{.CLI_ARGS}}
 
   site:run-spell-check:en:
     desc: 'Run spell check for en pages.'
     cmds:
       - |
-        ./scripts/docs/spelling/spell_check.sh en
+        ./scripts/docs/spelling/spell_check.sh en {{.CLI_ARGS}}
 
   site:generate-special-dictionary:
     desc: 'Generate a dictionary of special terms.'
