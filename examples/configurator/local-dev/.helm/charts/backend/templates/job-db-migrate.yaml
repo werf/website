@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ $.Chart.Name }}-migrate-db-{{ $.Release.Revision }}"
+  annotations:
+    werf.io/weight: "20"
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: migrate-db
+        image: {{ $.Values.werf.image.backend }}
+        command: ["./node_modules/.bin/sequelize-cli", "db:migrate"]
+        env:
+        - name: NODE_ENV
+          value: {{ $.Values.werf.env }}

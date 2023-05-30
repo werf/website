@@ -1,0 +1,24 @@
+image: "registry.werf.io/werf/werf:1.2-stable"
+image_pull_policy: always
+
+environment_variables:
+  WERF_REPO: registry.example.org/myrepo
+  WERF_ENV: "${CI_ENVIRONMENT}"
+  WERF_ENABLE_PROCESS_EXTERMINATOR: "1"
+
+before_every_job:
+  - werf cr login -u "${REGISTRY_USER:?}" -p "${REGISTRY_PASSWORD:?}" "${WERF_REPO:?}"
+
+jobs:
+  prod:
+    commands:
+      - werf converge
+    environment: prod
+    on: master
+    how: manually
+
+  images:cleanup:
+    commands:
+      - werf cleanup
+    on: master
+    how: daily

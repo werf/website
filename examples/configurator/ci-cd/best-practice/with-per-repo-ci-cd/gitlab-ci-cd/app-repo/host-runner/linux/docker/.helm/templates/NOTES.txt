@@ -1,0 +1,15 @@
+{{ $chartsTagNames := dict }}
+{{- range $.Chart.Dependencies }}
+{{- if .Alias }}
+{{- $_ := set $chartsTagNames .Alias .Tags }}
+{{- else }}
+{{- $_ := set $chartsTagNames .Name .Tags }}
+{{- end }}
+{{- end }}
+
+{{- range $chartsTagNames.app }}
+{{- if dig . false $.Values.tags }}
+Application: https://{{ $.Release.Name }}.app.example.org
+{{- break }}
+{{- end }}
+{{- end }}
