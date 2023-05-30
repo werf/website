@@ -1,7 +1,4 @@
 {{- define "rewrites" }}
-# 20230526
-rewrite ^/documentation/v1.2/reference/cheat_sheet.html  /documentation/v1.2/resources/cheat_sheet.html  permanent;
-
 # 20230524
 rewrite ^/guides/(.+)/400_ci_cd_workflow/030_gitlab_ci_cd/010_workflows.html         		/guides/$1/400_ci_cd_workflow/030_gitlab_ci_cd.html permanent;
 rewrite ^/guides/(.+)/400_ci_cd_workflow/030_gitlab_ci_cd/020_docker_executor.html     		/documentation/v1.2/index.html permanent;
