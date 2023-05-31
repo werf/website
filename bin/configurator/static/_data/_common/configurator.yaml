@@ -14,12 +14,12 @@ groups:
   buttons:
     - name: "ci"
       title:
-        en: For CI/CD
-        ru: Для CI/CD
+        en: CI/CD
+        ru: CI/CD
     - name: "localDev"
       title:
-        en: For local development
-        ru: Для локальной разработки
+        en: Local development
+        ru: Локальная разработка
 
 - name: "version"
   title:
@@ -83,8 +83,8 @@ groups:
 
 - name: "ci"
   title:
-    en: "CI system"
-    ru: "CI-система"
+    en: "CI/CD system"
+    ru: "CI/CD-система"
   buttons:
     - name: "githubActions"
       title:
