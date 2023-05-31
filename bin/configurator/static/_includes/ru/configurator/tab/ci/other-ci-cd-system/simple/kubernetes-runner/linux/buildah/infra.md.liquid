@@ -62,7 +62,7 @@ spec:
 Если в конфигурации Kubernetes Runner'а вы включили кеширование `.werf`, то создайте в кластере соответствующий PersistentVolumeClaim, например:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -80,7 +80,7 @@ EOF
 Если будете развертывать приложения в тот же кластер, в котором запускается Kubernetes Runner, то в кластере для запуска CI-задач настройте RBAC следующей командой:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -108,7 +108,7 @@ EOF
 Если Kubernetes-узлы для Kubernetes Runner'а имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для Kubernetes Runner следующей командой:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -163,7 +163,9 @@ EOF
 
 Регистрируем на узлах Kubernetes эмуляторы с помощью образа qemu-user-static:
 
-```yaml
+```shell
+kubectl create -f - <<EOF
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -195,4 +197,5 @@ spec:
             requests:
               cpu: 50m
               memory: 50Mi
+EOF
 ```

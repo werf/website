@@ -70,7 +70,7 @@
 Если в конфигурации GitLab Runner вы включили кеширование `.werf` и `/builds`, то создайте в кластере соответствующие PersistentVolumeClaims, например:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -101,7 +101,7 @@ EOF
 Если будете разворачивать приложения в тот же кластер, в котором запускается GitLab Runner, то в кластере для запуска GitLab Runner'а настройте RBAC следующей командой:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -129,7 +129,7 @@ EOF
 Если Kubernetes-узлы для GitLab Runner имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для GitLab Runner следующей командой:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -184,7 +184,9 @@ EOF
 
 Регистрируем на узлах Kubernetes эмуляторы с помощью образа qemu-user-static:
 
-```yaml
+```shell
+kubectl create -f - <<EOF
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -216,4 +218,5 @@ spec:
             requests:
               cpu: 50m
               memory: 50Mi
+EOF
 ```

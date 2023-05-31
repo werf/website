@@ -70,7 +70,7 @@ You may want to perform [advanced configuration](https://docs.gitlab.com/runner/
 If you enabled caching of `.werf` and `/builds` in the GitLab Runner configuration, create appropriate PersistentVolumeClaims in the cluster, for example:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -101,7 +101,7 @@ EOF
 If you are going to deploy applications to the same cluster in which GitLab Runner is running, configure RBAC in the cluster to run GitLab Runner with the following command:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -129,7 +129,7 @@ EOF
 If the Kubernetes nodes on which the GitLab Runner is hosted run Linux kernel version 5.12 or lower, enable FUSE for GitLab Runner on that cluster using the following command:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -184,7 +184,9 @@ EOF
 
 Register emulators on your Kubernetes nodes using qemu-user-static:
 
-```yaml
+```shell
+kubectl create -f - <<EOF
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -216,4 +218,5 @@ spec:
             requests:
               cpu: 50m
               memory: 50Mi
+EOF
 ```

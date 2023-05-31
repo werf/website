@@ -62,7 +62,7 @@ spec:
 If you enabled caching of `.werf` in the Kubernetes Runner configuration, create the appropriate PersistentVolumeClaim in the cluster as follows:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -80,7 +80,7 @@ EOF
 If you are going to deploy applications to the same cluster in which Kubernetes Runner is running, configure RBAC in the cluster to run CI jobs with the following command:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -108,7 +108,7 @@ EOF
 If the Kubernetes nodes on which the Kubernetes Runner is hosted have Linux kernel version 5.12 or lower, enable FUSE for the Kubernetes Runner on that cluster using the following command:
 
 ```shell
-$ kubectl create -f - <<EOF
+kubectl create -f - <<EOF
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -163,7 +163,9 @@ EOF
 
 Register emulators on your Kubernetes nodes using qemu-user-static:
 
-```yaml
+```shell
+kubectl create -f - <<EOF
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -195,4 +197,5 @@ spec:
             requests:
               cpu: 50m
               memory: 50Mi
+EOF
 ```
