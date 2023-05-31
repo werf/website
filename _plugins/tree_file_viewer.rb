@@ -10,16 +10,18 @@ module Jekyll
       end
 
       def render(context)
+        result = ""
+
         begin
           unnamed_params, named_params = Utils.parse_params(context, @params_as_string)
-            Utils.validate_params(unnamed_params, named_params, {
-              unnamed: [
-                {}
-              ],
-              named: [
-                { name: "default_file" }
-              ]
-            })
+          Utils.validate_params(unnamed_params, named_params, {
+            unnamed: [
+              {}
+            ],
+            named: [
+              { name: "default_file" }
+            ]
+          })
 
           @rel_tree_root = "/" + unnamed_params[0].delete_prefix("/").delete_suffix("/")
           if named_params["default_file"]
@@ -64,14 +66,14 @@ module Jekyll
 )
 
           result += build_files_contents(file_paths)
-
-          result + %Q(
-</div>
-</div>
-)
         rescue => e
           Jekyll.logger.abort_with("[tree_file_viewer] FATAL:", e.message)
         end
+
+        result + %Q(
+</div>
+</div>
+)
       end
 
       def build_directory_structure(files, dirs, root)
@@ -88,7 +90,7 @@ module Jekyll
 
         unless is_tree_root_level
           result += %Q(
-<div class="folder__wrap #{root_depth > tree_root_depth + 1 ? "child" : nil}">
+<div class="folder__wrap #{root_depth > tree_root_depth + 1 ? "hidden child" : nil}">
 <div class="folder">
 <span class="folder-icon"></span>
 <span class="folder-name">#{root.basename}</span>
@@ -106,7 +108,7 @@ module Jekyll
           end
 
           result += %Q(
-<div class="file__wrap #{is_file_active(file, index) ? "active" : nil} #{is_tree_root_level ? nil : "child"}">
+<div class="file__wrap #{is_file_active(file, index) ? "active" : nil} #{is_tree_root_level ? nil : "hidden child"}">
 <span class="file-icon"></span>
 <div class="file-name" data-file-name="#{file.relative_path_from(@static_files_root).to_s}">#{file.basename}</div>
 </div>
