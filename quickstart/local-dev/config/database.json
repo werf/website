@@ -1,9 +1,0 @@
-{
-  "production": {
-    "username": "root",
-    "password": "password",
-    "database": "app",
-    "host": "mysql",
-    "dialect": "mysql"
-  }
-}

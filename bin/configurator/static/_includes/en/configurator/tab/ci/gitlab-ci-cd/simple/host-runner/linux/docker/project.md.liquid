@@ -26,7 +26,7 @@
 
 This is how the repository that uses werf for build and deploy might look:
 
-{% include /common/configurator/codesandbox.html github_path='github/werf/examples/tree/main/ci-cd/simple/gitlab-ci-cd/host-runner/linux/docker' module='/.gitlab-ci.yml' %}
+{% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
 
 Extras:
   * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).

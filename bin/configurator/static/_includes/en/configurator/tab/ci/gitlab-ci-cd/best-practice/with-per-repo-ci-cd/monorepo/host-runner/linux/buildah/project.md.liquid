@@ -36,7 +36,7 @@
 
 This is how the repository that uses werf for build and deploy might look:
 
-{% include /common/configurator/codesandbox.html github_path='github/werf/examples/tree/main/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/buildah' module='/.gitlab-ci.yml' %}
+{% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
 
 Extras:
   * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).

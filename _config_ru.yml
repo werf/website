@@ -20,7 +20,12 @@ exclude:
   - ".werf"
   - backend
   - bin
-  - examples
+  - examples/basic
+  - examples/django
+  - examples/java_springboot
+  - examples/laravel
+  - examples/nodejs
+  - examples/rails
   - pages_en
   - scripts
   - _site_en_includes

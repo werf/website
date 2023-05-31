@@ -1,7 +1,0 @@
-giterminismConfigVersion: 1
-config:
-  goTemplateRendering:
-    allowEnvVariables:
-      - ENABLE_ALL_IMAGES
-      - ENABLE_APPS_IMAGES
-      - ENABLE_IMAGE_SOURCES

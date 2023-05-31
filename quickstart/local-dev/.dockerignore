@@ -1,7 +1,0 @@
-/log/*
-/tmp/*
-
-/node_modules
-
-/.helm/
-/werf.yaml
