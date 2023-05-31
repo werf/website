@@ -139,3 +139,114 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     position: absolute;
     left: -5000px;
 }
+
+.viewer__wrap {
+    position: relative;
+    display: flex;
+    gap: 15px;
+    height: 500px;
+    background: #191919;
+    color: #fff;
+    padding: 20px 20px 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.directory-structure {
+    min-width: 240px;
+    overflow: scroll;
+}
+
+.files-view__wrap {
+    overflow: scroll;
+    width: 100%;
+}
+
+.files-view__wrap::before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 2px;
+    height: 100%;
+    background: #272822;
+    margin-top: -20px;
+    margin-left: -10px;
+}
+
+.folder__wrap {
+    margin-left: 15px;
+}
+
+.folder-icon,
+.file-icon {
+    background-size: 16px;
+    background-position: 0px center;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    vertical-align: top;
+    flex-shrink: 0;
+}
+
+.folder-icon {
+    background-image: url("images/folder-icon.svg");
+}
+
+.file-icon {
+    background-image: url("images/file-icon.svg");
+}
+
+.file-name {
+    margin-left: 4px;
+}
+
+.folder,
+.file__wrap {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 13px;
+    line-height: 24px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.folder:hover,
+.file__wrap:hover {
+    background: #2c2c2c;
+}
+
+.file__wrap {
+    padding-left: 15px;
+}
+
+.file__wrap.active {
+    background: #2c2c2c;
+}
+
+.file-view {
+    display: none;
+}
+
+.file-view.active {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.docs .configurator .viewer__wrap pre code {
+    white-space: pre-wrap;
+}
+
+.docs .configurator .viewer__wrap div.highlight {
+    background: transparent;
+}
+
+.docs .configurator .viewer__wrap pre.highlight {
+    background: transparent;
+    padding: 0;
+}

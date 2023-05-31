@@ -17,4 +17,26 @@ $(document).ready(() => {
         }
     });
 
+    $(document).on('click tap', '.directory-structure', (e) => {
+        const structure = $('.directory-structure');
+        const filesView = $('.files-view__wrap');
+        const target = $(e.target);
+
+
+        if (target.hasClass('file-name')) {
+            if (!!structure.find('.file__wrap.active')) {
+                structure.find('.file__wrap.active').removeClass('active');
+            }
+            if (!!filesView.find('.file-view.active')) {
+                filesView.find('.file-view.active').removeClass('active');
+            }
+            target.parent().addClass('active');
+            filesView.find(`[data-file-view="${target.attr('data-file-name')}"]`).addClass('active');
+        } else if (target.hasClass('folder-name')) {
+            const parent = target.parent().parent();
+            parent.find('.child').each((_, child) => {
+                child.classList.toggle('hidden');
+            });
+        }
+    })
 });

@@ -19,7 +19,12 @@ exclude:
   - ".werf"
   - backend
   - bin
-  - examples
+  - examples/basic
+  - examples/django
+  - examples/java_springboot
+  - examples/laravel
+  - examples/nodejs
+  - examples/rails
   - pages_ru
   - scripts
   - _site_en_includes
@@ -33,6 +38,8 @@ exclude:
   - werf*.yaml
 
 include:
+  # The only way I found to disable filtering of all hidden files.
+  - .
   - pages_en
   - ssi
 
