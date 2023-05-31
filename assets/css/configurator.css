@@ -154,11 +154,11 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 
 .directory-structure {
     min-width: 240px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .files-view__wrap {
-    overflow: scroll;
+    overflow: auto;
     width: 100%;
 }
 
@@ -242,7 +242,8 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     white-space: pre-wrap;
 }
 
-.docs .configurator .viewer__wrap div.highlight {
+.docs .configurator .viewer__wrap div.highlight,
+.docs .configurator .viewer__wrap div.highlight span.w {
     background: transparent;
 }
 
