@@ -87,8 +87,13 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 	m.CurrentVersion = URLToVersion(m.CurrentVersionURL)
 
 	if m.CurrentVersion == "" {
-		m.CurrentVersion = fmt.Sprintf("v%s", getRootRelease())
+		m.CurrentVersion = getRootRelease()
 		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
+	}
+
+	if m.CurrentVersion == "latest" {
+		m.CurrentGroup = "latest"
+		m.CurrentChannel = "latest"
 	}
 
 	// Try to find current channel from URL
@@ -96,13 +101,22 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 		m.CurrentChannel, m.CurrentGroup = getChannelAndGroupFromVersion(releases, m.CurrentVersion)
 	}
 
-	// Add the first menu item
+	// Add the first menu item (current version)
 	m.VersionItems = append(m.VersionItems, versionMenuItems{
 		Group:      m.CurrentGroup,
 		Channel:    m.CurrentChannel,
 		Version:    m.CurrentVersion,
 		VersionURL: m.CurrentVersionURL,
 		IsCurrent:  true,
+	})
+
+	// Add item for the "latest" version
+	m.VersionItems = append(m.VersionItems, versionMenuItems{
+		Group:      "",
+		Channel:    "",
+		Version:    "latest",
+		VersionURL: "latest",
+		IsCurrent:  false,
 	})
 
 	// Add other items
@@ -310,6 +324,9 @@ func getVersionFromChannelAndGroup(releases *ReleasesStatusType, channel, group 
 // Gev version from specified group
 // E.g. get v1.2.3+fix6 from v1.2
 func getVersionFromGroup(releases *ReleasesStatusType, group string) (err error, version string) {
+	if group == "latest" || group == getRootRelease() {
+		return nil, "latest"
+	}
 	if len(releases.Releases) > 0 {
 		for _, ReleaseGroup := range releases.Releases {
 			if ReleaseGroup.Group == group {
@@ -337,7 +354,7 @@ func getVersionFromGroup(releases *ReleasesStatusType, group string) (err error,
 
 // Add prefix 'v' to a version if it doesn't have yet
 func normalizeVersion(version string) string {
-	if strings.HasPrefix(version, "v") {
+	if strings.HasPrefix(version, "v") || version == "latest" {
 		return version
 	} else {
 		return fmt.Sprintf("v%s", version)
@@ -346,6 +363,9 @@ func normalizeVersion(version string) string {
 
 func getRootReleaseVersion() string {
 	activeRelease := getRootRelease()
+	if activeRelease == "latest" {
+		return activeRelease
+	}
 
 	_ = updateReleasesStatus()
 
