@@ -181,3 +181,21 @@ tasks:
     cmds:
       - |
         sort -u -f -o ./scripts/docs/spelling/wordlist{,}
+
+  site:get-words-with-typos:
+    desc: 'Pulls out a list of all the terms in all pages that were considered a typo'
+    deps:
+      - site:get-words-with-typos:ru
+      - site:get-words-with-typos:en
+
+  site:get-words-with-typos:ru:
+    desc: 'Pulls out a list of all the terms in RU pages that were considered a typo'
+    cmds:
+      - |
+        task site:run-spell-check:ru | sed '1,/Checking/ d' | sed '/^$/d' | sed '/Checking/d' | sort -u > spell_log_ru
+
+  site:get-words-with-typos:en:
+    desc: 'Pulls out a list of all the terms in EN pages that were considered a typo'
+    cmds:
+      - |
+        task site:run-spell-check:en | sed '1,/Checking/ d' | sed '/^$/d' | sed '/Checking/d' | sort -u > spell_log_en
