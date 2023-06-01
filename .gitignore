@@ -16,3 +16,5 @@ bin/configurator/generated/
 /scripts/demo/sample-app
 configurator-data.json
 configurator-options-list.json
+spell_log_ru
+spell_log_en
