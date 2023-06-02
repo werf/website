@@ -14,4 +14,4 @@ cd /spelling/$arg_site_lang && \
 EOF
 )
 
-werf run spell-checker --dev --docker-options="--entrypoint=bash" -- -c "$script"
+werf run spell-checker --env='test' --dev --docker-options="--entrypoint=bash" -- -c "$script"
