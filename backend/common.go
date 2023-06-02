@@ -80,20 +80,23 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 			_, m.CurrentVersion = getVersionFromChannelAndGroup(releases, m.CurrentChannel, m.CurrentGroup)
 			m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
 		}
-	} else {
-		m.CurrentVersion = URLToVersion(m.CurrentVersionURL)
 	}
 
 	m.CurrentVersion = URLToVersion(m.CurrentVersionURL)
 
-	if m.CurrentVersion == "" {
-		m.CurrentVersion = getRootRelease()
-		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-	}
-
 	if m.CurrentVersion == "latest" {
 		m.CurrentGroup = "latest"
 		m.CurrentChannel = "latest"
+	}
+
+	if m.CurrentVersion == fmt.Sprintf("v%s", getRootRelease()) {
+		m.CurrentVersion = "latest"
+		m.CurrentGroup = getRootRelease()
+	}
+
+	if m.CurrentVersion == "" {
+		m.CurrentVersion = getRootRelease()
+		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
 	}
 
 	// Try to find current channel from URL
@@ -115,7 +118,7 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 		Group:      "",
 		Channel:    "",
 		Version:    "latest",
-		VersionURL: "latest",
+		VersionURL: fmt.Sprintf("v%s", getRootRelease()),
 		IsCurrent:  false,
 	})
 
@@ -148,9 +151,13 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	} else {
 		if res[2] != "" {
 			// Version is not a group (MAJ.MIN), but the patch version
-			m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(res[1]))
+			// The old behavior (e.g., link to v1.2  for the v1.2.1 version)
+			// m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(res[1]))
+			// The new behavior (link to v1.2.1 for the v1.2.1 version)
+			m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(m.CurrentVersion))
 			m.AbsoluteVersion = fmt.Sprintf("%s", m.CurrentVersion)
 		} else {
+			// Version is a group
 			m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(m.CurrentVersion))
 			err, m.AbsoluteVersion = getVersionFromGroup(&ReleasesStatus, res[1])
 			if err != nil {
@@ -215,7 +222,7 @@ func (m *versionMenuType) getGroupMenuData(r *http.Request, releases *ReleasesSt
 		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
 	}
 
-	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)$`)
+	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)(\..+)?$`)
 	res := re.FindStringSubmatch(m.CurrentVersion)
 	if res != nil {
 		m.VersionItems = append(m.VersionItems, versionMenuItems{
