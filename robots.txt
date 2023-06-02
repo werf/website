@@ -14,6 +14,7 @@ Disallow: /documentation/v
 Disallow: /documentation/v1.2-
 Disallow: /documentation/v1.2.
 Disallow: /configurator/tabs
+Disallow: /guides/framework_id
 Sitemap: {{ site.url }}/sitemap.xml
 Host: {{ site.url }}
 

@@ -23,6 +23,19 @@
     justify-content: flex-start;
 }
 
+.breadcrumbs_versions {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.71;
+    letter-spacing: -0.3px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 0.5em;
+    color: #bbb;
+}
+
 .breadcrumbs__item:not(:last-child)::after {
     content: '/';
     margin: 0 15px;
