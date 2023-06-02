@@ -206,6 +206,7 @@ ansible:
 {{ .Files.Get ".werf/tuf-router.lua" | indent 8 }}
       dest: /etc/nginx/tuf-router.lua
 ---
+{{- if eq $.Env "test" }}
 image: spell-checker
 from: ubuntu:20.04
 fromCacheVersion: {{ $.CacheVersion }}
@@ -249,3 +250,4 @@ shell:
     - cp /temp/dictionaries/* /usr/share/hunspell/
     - cp /temp/internal/* /spelling/en
     - cp /temp/internal/* /spelling/ru
+{{ end -}}
