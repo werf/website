@@ -3,47 +3,35 @@ require "liquid"
 module Jekyll
   module SnippetCut
     class SnippetCutTag < Liquid::Block
-      @@DEFAULTS = {
-          :name => 'changeme.yaml',
-          :url => '/changeme.yaml',
-          :limited => false
-      }
-
-      def self.DEFAULTS
-        return @@DEFAULTS
-      end
-
-      def initialize(tag_name, raw_markup, tokens)
+      def initialize(tag_name, params_as_string, tokens)
         super
-        @raw_markup = raw_markup
-        @config = {}
+        @params_as_string = params_as_string
       end
 
       def render(context)
-        @markup = Liquid::Template
-          .parse(@raw_markup)
-          .render(context)
-          .gsub(/\\[{]\\[{%]/, '\{\{' => "{{", '\{\%' => "{%")
-          .strip
+        result = ""
 
-        override_config(@@DEFAULTS)
+        begin
+          @unnamed_params, @named_params = Utils.parse_params(context, @params_as_string)
+          Utils.validate_params(@unnamed_params, @named_params, {
+            named: [
+              { name: "name", required: true },
+              { name: "url", required: true },
+              { name: "limited", regex: /^(true)|(false)$/ },
+            ]
+          })
 
-        params = @markup.scan /([a-z]+)\=\"(.+?)\"/
-        if params.size > 0
-          config = {}
-          params.each do |param|
-            config[param[0].to_sym] = param[1]
+          unless @named_params.key?("limited")
+            @named_params["limited"] = false
           end
-          override_config(config)
-        end
 
-        content = super
-        site_config = context.registers[:site].config
-        rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(site_config).convert(content)
+          content = super
+          site_config = context.registers[:site].config
+          rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(site_config).convert(content)
 
-        %Q(
-<div class="snippetcut#{@config[:limited] ? ' snippetcut_limited' : ''}" data-snippetcut>
-<div class="snippetcut__title">#{if (@config[:url]!='#') then "<a href=\""+@config[:url]+"\" target=\"_blank\" class=\"snippetcut__title-name\" data-snippetcut-name>" else "<span class=\"snippetcut__title-name-text\">" end}#{@config[:name]}#{if (@config[:url]!='#') then "</a>" else "</span>" end}
+          result = %Q(
+<div class="snippetcut#{@named_params["limited"] ? ' snippetcut_limited' : ''}" data-snippetcut>
+<div class="snippetcut__title">#{if @named_params["url"] != '#' then "<a href=\""+@named_params["url"]+"\" target=\"_blank\" class=\"snippetcut__title-name\" data-snippetcut-name>" else "<span class=\"snippetcut__title-name-text\">" end}#{@named_params["name"]}#{if @named_params["url"] != '#' then "</a>" else "</span>" end}
 <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-name>Copy filename</a>
 <a href="javascript:void(0)" class="snippetcut__title-btn" data-snippetcut-btn-text>Copy text</a>
 </div>
@@ -52,17 +40,18 @@ module Jekyll
 </div>
 <div class="snippetcut__raw" data-snippetcut-text>#{CGI::escapeHTML(remove_excessive_newlines(content.strip.gsub(%r!^```[a-zA-Z0-9]*!,'')))}</div>
 </div>
-        )
+)
+        rescue => e
+          Jekyll.logger.abort_with("[snippetcut] FATAL:", e.message)
+        end
+
+        result
       end
 
       private
 
-      def override_config(config)
-        config.each{ |key,value| @config[key] = value }
-      end
-
       def remove_excessive_newlines(text)
-        return text.sub(/^(\s*\R)*/, "").rstrip()
+        text.sub(/^(\s*\R)*/, "").rstrip
       end
     end
   end
