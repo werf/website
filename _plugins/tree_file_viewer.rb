@@ -13,8 +13,8 @@ module Jekyll
         result = ""
 
         begin
-          unnamed_params, named_params = Utils.parse_params(context, @params_as_string)
-          Utils.validate_params(unnamed_params, named_params, {
+          @unnamed_params, @named_params = Utils.parse_params(context, @params_as_string)
+          Utils.validate_params(@unnamed_params, @named_params, {
             unnamed: [
               {}
             ],
@@ -23,9 +23,9 @@ module Jekyll
             ]
           })
 
-          @rel_tree_root = "/" + unnamed_params[0].delete_prefix("/").delete_suffix("/")
-          if named_params["default_file"]
-            @default_active_file_path = "/" + named_params["default_file"].delete_prefix("/")
+          @rel_tree_root = "/" + @unnamed_params[0].delete_prefix("/").delete_suffix("/")
+          if @named_params["default_file"]
+            @default_active_file_path = "/" + @named_params["default_file"].delete_prefix("/")
           end
 
           @static_files_root = context.registers[:site].config['source']

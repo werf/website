@@ -8,7 +8,8 @@ module Jekyll
                                      .render(context)
                                      .gsub(%r!\\\{\\\{|\\\{\\%!, '\{\{' => "{{", '\{\%' => "{%")
 
-      params = templated_params_as_string.split
+      params = templated_params_as_string.scan(/(?:"(?:\\.|[^"])*"|[^" ])+/)
+
       unnamed_params = params.select { |param| !param.include?("=") }.map do |param|
         param = param.strip
         if (param.start_with?('"') and param.end_with?('"')) or (param.start_with?("'") and param.end_with?("'"))
@@ -16,6 +17,7 @@ module Jekyll
         end
         param.strip
       end
+
       named_params = params.select { |param| param.include?("=") }.to_h do |param|
         parts = param.split("=", 2)
         key = parts[0].strip
@@ -31,6 +33,17 @@ module Jekyll
     end
 
     def validate_params(unnamed, named, scheme)
+      validate_unnamed_params(unnamed, scheme)
+      validate_named_params(named, scheme)
+    end
+
+    private
+
+    def validate_unnamed_params(unnamed, scheme)
+      if unnamed == [] or !scheme.key?("unnamed")
+        return
+      end
+
       if unnamed.length > scheme[:unnamed].length
         raise ArgumentError.new("Too many unnamed parameters. Expected #{scheme[:unnamed].length}, got #{unnamed.length}")
       end
@@ -48,6 +61,12 @@ module Jekyll
         if scheme_param[:regex] and !scheme_param[:regex].match?(param)
           raise ArgumentError.new("Invalid unnamed parameter \"#{param}\", must match #{param[:regex]}")
         end
+      end
+    end
+
+    def validate_named_params(named, scheme)
+      if named == {} or !scheme.key?("named")
+        return
       end
 
       if named.keys.length > scheme[:named].length

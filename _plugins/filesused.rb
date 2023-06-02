@@ -1,46 +1,41 @@
 module Jekyll
   module FilesUsed
     class FilesUsedTag < Liquid::Block
-      @@DEFAULTS = {
-          :title => 'Файлы',
-      }
-
-      def self.DEFAULTS
-        return @@DEFAULTS
-      end
-
-      def initialize(tag_name, markup, tokens)
+      def initialize(tag_name, params_as_string, tokens)
         super
-
-        @config = {}
-        override_config(@@DEFAULTS)
-
-        params = markup.scan /([a-z]+)\=\"(.+?)\"/
-        if params.size > 0
-          config = {}
-          params.each do |param|
-            config[param[0].to_sym] = param[1]
-          end
-          override_config(config)
-        end
-
-      end
-
-      def override_config(config)
-        config.each{ |key,value| @config[key] = value }
+        @params_as_string = params_as_string
       end
 
       def render(context)
-        content = super
-        site_config = context.registers[:site].config
-        rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(site_config).convert(content)
+        result = ""
 
-        %Q(
+        begin
+          @unnamed_params, @named_params = Utils.parse_params(context, @params_as_string)
+          Utils.validate_params(@unnamed_params, @named_params, {
+            named: [
+              { name: "title" }
+            ]
+          })
+
+          unless @named_params.key?("title")
+            @named_params["title"] = "Файлы"
+          end
+
+          content = super
+          site_config = context.registers[:site].config
+          rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(site_config).convert(content)
+
+          result = %Q(
 <div class="filesused">
-<p><strong>#{@config[:title]}</strong></p>
+<p><strong>#{@named_params["title"]}</strong></p>
 #{rendered_content}
 </div>
-        )
+)
+        rescue => e
+          Jekyll.logger.abort_with("[filesused] FATAL:", e.message)
+        end
+
+        result
       end
     end
   end
