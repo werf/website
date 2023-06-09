@@ -6,14 +6,12 @@ import sys
 
 
 if len (sys.argv) > 1:
-    try:
-        html = open(sys.argv[1]).read()
-        root = BeautifulSoup(html, 'html.parser')
-        try:
-            for code in root.select('code'):
-                code.decompose()
-            print(root)
-        except:
-            print("Code tag not found.")
-    except:
-        print("Filename error.")
+    html = open(sys.argv[1]).read()
+    root = BeautifulSoup(html, 'html.parser')
+    if root.find('code'):
+        for code in root.select('code'):
+            code.decompose()
+    snippetcuts = root.find_all("div", {"class": "snippetcut"})
+    for snippetcut in snippetcuts:
+        snippetcut.decompose()
+    print(root)
