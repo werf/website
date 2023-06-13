@@ -199,3 +199,9 @@ tasks:
     cmds:
       - |
         task site:run-spell-check:en | sed '1,/Checking/ d' | sed '/^$/d' | sed '/Checking/d' | sort -u > spell_log_en
+
+  site:view-plain-text-of-target-html:
+    desc: 'Displays HTML stripped of tags.'
+    cmds:
+      - |
+        ./scripts/docs/spelling/spell_check.sh en {{.CLI_ARGS}} plain_text

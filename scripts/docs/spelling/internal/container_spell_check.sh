@@ -27,7 +27,11 @@ echo "Checking $arg_site_lang docs..."
 
 if [ -n "$2" ]; then
   echo "Checking $arg_target_page..."
-  python3 clear_html_from_code.py $arg_target_page | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
+  if [ -n "$3" ]; then
+    python3 clear_html_from_code.py $arg_target_page | html2text -utf8 | sed '/^$/d'
+  else
+    python3 clear_html_from_code.py $arg_target_page | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
+  fi
 else
   for file in `find ./ -type f -name "*.html"`
   do
