@@ -200,8 +200,21 @@ tasks:
       - |
         task site:run-spell-check:en | sed '1,/Checking/ d' | sed '/^$/d' | sed '/Checking/d' | sort -u > spell_log_en
 
-  site:view-plain-text-of-target-html:
-    desc: 'Displays HTML stripped of tags.'
+  site:view-plain-text-of-target-html:en:
+    desc: 'Displays EN HTML stripped of tags.'
     cmds:
       - |
         ./scripts/docs/spelling/spell_check.sh en {{.CLI_ARGS}} plain_text
+
+  site:view-plain-text-of-target-html:ru:
+    desc: 'Displays RU HTML stripped of tags.'
+    cmds:
+      - |
+        ./scripts/docs/spelling/spell_check.sh ru {{.CLI_ARGS}} plain_text
+
+  site:view-plain-text-of-target-html:
+    desc: 'Displays both HTML stripped of tags.'
+    cmds:
+      - |
+        task site:view-plain-text-of-target-html:en -- {{.CLI_ARGS}}
+        task site:view-plain-text-of-target-html:ru -- {{.CLI_ARGS}}
