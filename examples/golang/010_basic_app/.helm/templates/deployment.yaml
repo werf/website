@@ -17,5 +17,8 @@ spec:
       containers:
       - name: app
         image: {{ .Values.werf.image.app }}
+        env:
+          - name: GIN_MODE
+            value: "release"
         ports:
         - containerPort: 8080
