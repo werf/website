@@ -1,3 +1,38 @@
 ```
-TODO (_includes/ru/200_real_apps/010_basic_app/framework_id/015_expected_result.md.liquid): результат выполнения предыдущей команды.
+...
+│ │ app/dockerfile  Successfully built b4db644c6b58
+│ │ app/dockerfile  Successfully tagged 61fa7ef9-7959-4017-b77c-6d352dcd0f0e:latest
+│ │ ┌ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
+│ │ └ Store stage into <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app (9.19 seconds)
+│ ├ Info
+│ │      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:14979813b9457ce28c8f06fa24c57975a14f537d6f6c1a3805b2ffc3-1686828883957
+│ │        id: b4db644c6b58
+│ │   created: 2023-06-15 14:34:42 +0300 MSK
+│ │      size: 8.8 MiB
+│ └ Building stage app/dockerfile (54.72 seconds)
+└ ⛵ image app (55.40 seconds)
+
+┌ Waiting for resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                            REPLICAS                 AVAILABLE                  UP-TO-DATE                                    
+│ │ werf-guide-app                                                                                                                        1/1                      1                          1                                             
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                                                                                                                             
+│ │ ├── guide-app-6658d99959-5nfrg                          1/1                0                         Terminating                      
+│ │ └── guide-app-8456cd6679-8dbd4                          1/1                0                         Running                          
+│ │ RESOURCE                                                                                           NAMESPACE                       CONDITION: CURRENT (DESIRED)                                                                         
+│ │ Service/werf-guide-app                                                                             werf-guide-app                  -                                                                                                    
+│ │ Ingress/werf-guide-app                                                                             werf-guide-app                  -                                                                                                    
+│ └ Status progress
+└ Waiting for resources to become ready (4.64 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Thu Jun 15 14:34:55 2023
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 3
+TEST SUITE: None
+Running time 64.24 seconds
 ```

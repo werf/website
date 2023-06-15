@@ -1,11 +1,25 @@
+# [<en>] Here, a multi-stage build is used to assemble the image
+# [<ru>] Используем многоступенчатую сборку образа (multi-stage build)
+# [<en>] The image to build the project
+# [<ru>] Образ, в котором будет собираться проект
 FROM golang:1.18-alpine AS build
+# [<en>] Copy the source code of the application.
+# [<ru>] Копируем исходники приложения
 COPY . /app
 WORKDIR /app
+# [<en>] Запускаем загрузку нужных пакетов.
+# [<ru>] Запускаем загрузку нужных пакетов.
 RUN go mod download
+# [<en>] Запускаем сборку приложения.
+# [<ru>] Запускаем сборку приложения.
 RUN go build -o /goapp app/main.go
 
+# [<en>] The image to deploy to the cluster.
+# [<ru>] Образ, который будет разворачиваться в кластере
 FROM alpine:latest
 WORKDIR /
+# [<en>] Copy the project executable from the build image.
+# [<ru>] Копируем из сборочного образа исполняемый файл проекта
 COPY --from=build /goapp /goapp
 EXPOSE 8080
 ENTRYPOINT ["/goapp"]
