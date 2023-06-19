@@ -15,17 +15,24 @@ func Run() {
 	route.Use(common.JsonLogger())
 	// [<endsnippet log_enable>]
 
+	// [<snippet assets>]
 	route.Static("/static/stylesheets", "static/stylesheets")
 	route.Static("/static/javascripts", "static/javascripts")
 	route.Static("/static/images", "static/images")
+	// [<endsnippet assets>]
 
+	// [<snippet templates>]
 	route.LoadHTMLGlob("templates/*")
+	// [<endsnippet templates>]
 
 	route.GET("/ping", func(context *gin.Context) {
 		context.String(http.StatusOK, "pong\n")
 	})
+
+	// [<snippet routes>]
 	route.GET("/", controllers.MainPage)
 	route.GET("/image", controllers.ImagePage)
+	// [<endsnippet routes>]
 
 	err := route.Run()
 	if err != nil {
