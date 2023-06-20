@@ -2,7 +2,7 @@
 
 - GitLab;
 
-- Host to run GitLab Runner with:
+- Host to run GitLab Runner on:
 
   - [Docker Engine](https://docs.docker.com/engine/install/);
 
@@ -14,7 +14,7 @@ Install GitLab Runner on its dedicated host by following the [official instructi
 
 ## Registering GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register GitLab Runner in GitLab; specify Docker as the executor and any image as the image (e.g. `alpine`).
+Follow the [official instructions](https://docs.gitlab.com/runner/register/index.html) to register GitLab Runner in GitLab; specify Docker as the executor and any image as the image (e.g. `alpine`).
 
 ## Configuring GitLab Runner
 
@@ -28,7 +28,7 @@ On the GitLab Runner host, open its `config.toml` configuration file and add the
     volumes = ["/home/build/.werf"]
 ```
 
-If the GitLab Runner host runs Linux kernel version 5.12 or lower, install `fuse` on the host and add an extra option to the `config.toml` file:
+If the GitLab Runner host runs Linux kernel version 5.12 or lower, install `fuse` on the host and add the following extra option to the `config.toml` file:
 
 ```toml
 [[runners]]
@@ -45,7 +45,7 @@ If needed, perform [additional configuration](https://docs.gitlab.com/runner/con
 
 ## Preparing the system for cross-platform building (optional)
 
-> This step only needed to build images for platforms other than host platform running werf.
+> This step is only needed to build images for platforms other than the host platform on which werf is being run.
 
 Register emulators on your system using qemu-user-static:
 
