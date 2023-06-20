@@ -15,14 +15,14 @@ spec:
       imagePullSecrets:
       - name: registrysecret
       containers:
-      - name: app
-        image: {{ .Values.werf.image.app }}
-        # [<en>] Задаем переменную окружения, переводящую Gin в Release Mode.
-        # [<ru>] Задаем переменную окружения, переводящую Gin в Release Mode.
-        # [<snippet log_env>]
-        env:
-          - name: GIN_MODE
-            value: "release"
-        # [<endsnippet log_env>]
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
         ports:
         - containerPort: 8080
+        env:
+        - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
+          value: INFO
+      - name: frontend
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+        - containerPort: 80

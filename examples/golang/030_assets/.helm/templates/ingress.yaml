@@ -15,4 +15,4 @@ spec:
           service:
             name: werf-guide-app
             port:
-              number: 8080
+              number: 80
