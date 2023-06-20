@@ -50,7 +50,7 @@
 
 * (Linux 5.12 и ниже) Установите пакет, предоставляющий утилиту `fuse-overlayfs`.
 
-* Убедитесь, что путь `/home/gitlab-runner/.local/share/containers` создан и пользователь `gitlab-runner` имеет доступ на чтение и запись.
+* Убедитесь, что путь `/home/gitlab-runner/.local/share/containers` создан, и пользователь `gitlab-runner` имеет доступ на чтение и запись.
 
 * Команда `sysctl -ne kernel.unprivileged_userns_clone` НЕ должна возвращать `0`, в противном случае выполните команду `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
@@ -72,7 +72,7 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 
 [Включите сборку мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) в своем реестре контейнеров.
 
-## Подготовка системы для кроссплатформенной борки (опционально)
+## Подготовка системы для кроссплатформенной cборки (опционально)
 
 > Этот шаг необходим только если собираются образы для платформ, отличных от хост-платформы, на которой запущен werf.
 
