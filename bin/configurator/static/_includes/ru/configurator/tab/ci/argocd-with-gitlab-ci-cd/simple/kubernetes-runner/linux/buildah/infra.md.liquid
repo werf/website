@@ -1,22 +1,22 @@
-## Requirements
+## Требования
 
 - GitLab;
 
-- Kubernetes to run the GitLab Runner;
+- Kubernetes для запуска GitLab Runner;
 
 - [ArgoCD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 
-## Installing and registering the GitLab Runner
+## Установка и регистрация GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to install the GitLab Runner in Kubernetes and registering it.
+Установите GitLab Runner в Kubernetes и зарегистрируйте его, следуя [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html).
 
-## Configuring the GitLab Runner
+## Настройка GitLab Runner
 
-Modify the configuration of the registered GitLab Runner by adding the following parameters to its `config.toml`:
+Измените конфигурацию зарегистрированного GitLab Runner'а, добавив в его `config.toml` следующие параметры:
 
 ```toml
 [[runners]]
-  name = "<name of the registered Runner>"
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     namespace = "gitlab-ci"
     [runners.kubernetes.pod_annotations]
@@ -28,11 +28,11 @@ Modify the configuration of the registered GitLab Runner by adding the following
       fs_group = 1000
 ```
 
-Add the following parameters to enable `.werf` and `/builds` caching (recommended):
+Добавьте следующие параметры, чтобы включить кеширование `.werf` и `/builds` (рекомендуется):
 
 ```toml
 [[runners]]
-  name = "<name of the registered Runner>"
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     [[runners.kubernetes.volumes.pvc]]
       name = "gitlab-ci-kubernetes-executor-werf-cache"
@@ -42,11 +42,11 @@ Add the following parameters to enable `.werf` and `/builds` caching (recommende
       mount_path = "/builds"
 ```
 
-... or these if caching is not needed:
+... или этИ, если кеширование не требуется:
 
 ```toml
 [[runners]]
-  name = "<name of the registered Runner>"
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     [[runners.kubernetes.volumes.empty_dir]]
       name = "gitlab-ci-kubernetes-executor-werf-cache"
@@ -56,20 +56,20 @@ Add the following parameters to enable `.werf` and `/builds` caching (recommende
       mount_path = "/builds"
 ```
 
-Add one more parameter if you are going to deploy applications using werf to the same cluster in which the GitLab Runner is running:
+Добавьте еще один параметр, если планируете развертывать приложения с помощью werf на том же кластере, на котором запущен GitLab Runner:
 
 ```toml
 [[runners]]
-  name = "<name of the registered Runner'а>"
+  name = "<имя зарегистрированного Runner'а>"
   [runners.kubernetes]
     service_account = "gitlab-ci-kubernetes-executor"
 ```
 
-You may want to perform [additional configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) of the GitLab Runner as well.
+При необходимости проведите [дополнительную настройку](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
 
-## Configuring Kubernetes
+## Настройка Kubernetes
 
-If you enabled caching of `.werf` and `/builds` in the GitLab Runner configuration, create appropriate PersistentVolumeClaims in the cluster, for example:
+Если вы включили кеширование `.werf` и `/builds` в конфигурации GitLab Runner'а, создайте соответствующие PersistentVolumeClaims в кластере, например:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -100,7 +100,7 @@ spec:
 EOF
 ```
 
-If you are going to deploy applications to the same cluster in which GitLab Runner is running, configure RBAC in the cluster to run GitLab Runner with the following command:
+Если вы планируете развертывать приложения в том же кластере, в котором запущен GitLab Runner, настройте RBAC в кластере для запуска GitLab Runner'а с помощью следующей команды:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -126,9 +126,9 @@ subjects:
 EOF
 ```
 
-> For greater security, consider creating a more restricted ClusterRole/Role and using it instead of the `cluster-admin` cluster role above.
+> Для большей безопасности создайте более ограниченную роль ClusterRole/Role и используйте ее вместо указанной выше роли `cluster-admin`.
 
-If the Kubernetes nodes on which the GitLab Runner is hosted run with a Linux kernel version 5.12 or lower, then enable FUSE for GitLab Runner on that cluster using the following command:
+Если узлы Kubernetes, на которых размещен GitLab Runner, работают с ядром Linux версии 5.12 или ниже, включите FUSE для GitLab Runner'а в этом кластере с помощью следующей команды:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -176,15 +176,15 @@ spec:
 EOF
 ```
 
-## Configuring the container registry
+## Настройка реестра контейнеров
 
-[Enable garbage collection](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) for your container registry.
+[Включите сборку мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) в своем реестре контейнеров.
 
-## Preparing Kubernetes for multi-platform building (optional)
+## Подготовка Kubernetes для многоплатформенной сборки (опционально)
 
-> This step only needed to build images for platforms other than host platform running werf.
+> Этот шаг необходим только если собираются образы для платформ, отличных от хост-платформы, на которой запущен werf.
 
-Register emulators on your Kubernetes nodes using qemu-user-static:
+С помощью qemu-user-static зарегистрируйте эмуляторы в Kubernetes:
 
 ```yaml
 apiVersion: apps/v1
@@ -220,9 +220,9 @@ spec:
               memory: 50Mi
 ```
 
-## Installing ArgoCD Image Updater
+## Установка ArgoCD Image Updater
 
-Install ArgoCD Image Updater with the ["continuous deployment of OCI Helm chart type application" patch](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
+Установите ArgoCD Image Updater с патчем ["continuous deployment of OCI Helm chart type application"](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
 
 ```shell
 kubectl apply -n argocd -f https://raw.githubusercontent.com/werf/3p-argocd-image-updater/master/manifests/install.yaml
