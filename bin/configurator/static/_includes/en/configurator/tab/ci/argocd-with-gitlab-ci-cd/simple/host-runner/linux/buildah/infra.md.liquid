@@ -14,7 +14,7 @@
 
 ## Installing the GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html) to install the GitLab Runner on your dedicated host.
+Follow the [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html) to install the GitLab Runner on your dedicated host.
 
 ## Installing Buildah
 
@@ -38,13 +38,13 @@ Follow these steps on the GitLab Runner host to install Buildah:
 
   - Make sure that the `/etc/subuid` and `/etc/subgid` files have a line similar to `gitlab-runner:1000000:65536`, where
 
-    * `gitlab-runner` — name of the GitLab Runner user;
+    * `gitlab-runner` — the name of the GitLab Runner user;
 
     * `1000000` — the first subUID/subGID in the range to be allocated;
 
     * `65536` — subUIDs/subGIDs range size (min `65536`).
 
-    Make sure there are no conflicts with other ranges, if any. Changing files may require a reboot. See `man subuid` and `man subgid` for details.
+    Make sure there are no conflicts with other ranges, if any. Changing the files may require a reboot. See `man subuid` and `man subgid` for details.
 
   {% endofftopic %}
 
@@ -66,7 +66,7 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 
 ## Registering the GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register GitLab Runner in GitLab: set Shell as the executor. Once the registration is complete, you may want to perform [additional GitLab Runner configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
+Follow the [official instructions](https://docs.gitlab.com/runner/register/index.html) to register the GitLab Runner in GitLab: set Shell as the executor. Once the registration is complete, you may want to perform [additional GitLab Runner configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
 
 ## Configuring the container registry
 
@@ -74,7 +74,7 @@ Follow [official instructions](https://docs.gitlab.com/runner/register/index.htm
 
 ## Preparing the system for cross-platform building (optional)
 
-> This step only needed to build images for platforms other than host platform running werf.
+> This step is only needed to build images for platforms other than the host platform on which werf is being run.
 
 Register emulators on your system using qemu-user-static:
 

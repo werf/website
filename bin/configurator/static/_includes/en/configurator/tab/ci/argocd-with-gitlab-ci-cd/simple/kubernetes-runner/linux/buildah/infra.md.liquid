@@ -8,7 +8,7 @@
 
 ## Installing and registering the GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to install the GitLab Runner in Kubernetes and registering it.
+Follow the [official instructions](https://docs.gitlab.com/runner/register/index.html) on how to install the GitLab Runner in Kubernetes and register it.
 
 ## Configuring the GitLab Runner
 
@@ -42,7 +42,7 @@ Add the following parameters to enable `.werf` and `/builds` caching (recommende
       mount_path = "/builds"
 ```
 
-... or these if caching is not needed:
+... or these, if caching is not needed:
 
 ```toml
 [[runners]]
@@ -100,7 +100,7 @@ spec:
 EOF
 ```
 
-If you are going to deploy applications to the same cluster in which GitLab Runner is running, configure RBAC in the cluster to run GitLab Runner with the following command:
+If you are going to deploy applications to the same cluster in which the GitLab Runner is running, configure RBAC in the cluster to run GitLab Runner using the following command:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -128,7 +128,7 @@ EOF
 
 > For greater security, consider creating a more restricted ClusterRole/Role and using it instead of the `cluster-admin` cluster role above.
 
-If the Kubernetes nodes on which the GitLab Runner is hosted run with a Linux kernel version 5.12 or lower, then enable FUSE for GitLab Runner on that cluster using the following command:
+If the Kubernetes nodes on which the GitLab Runner is hosted are running Linux kernel 5.12 or lower, enable FUSE for the GitLab Runner on that cluster using the following command:
 
 ```shell
 $ kubectl create -f - <<EOF
@@ -182,7 +182,7 @@ EOF
 
 ## Preparing Kubernetes for multi-platform building (optional)
 
-> This step only needed to build images for platforms other than host platform running werf.
+> This step is only needed to build images for platforms other than the host platform on which werf is being run.
 
 Register emulators on your Kubernetes nodes using qemu-user-static:
 
