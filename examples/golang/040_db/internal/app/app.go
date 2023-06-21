@@ -34,6 +34,8 @@ func Run() {
 	route.GET("/image", controllers.ImagePage)
 	// [<endsnippet routes>]
 
+	route.GET("/remember", controllers.RememberController)
+
 	err := route.Run()
 	if err != nil {
 		return
