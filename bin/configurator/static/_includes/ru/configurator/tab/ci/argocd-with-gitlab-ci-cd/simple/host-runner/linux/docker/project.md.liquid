@@ -1,6 +1,6 @@
 ## Настройка приложения ArgoCD
 
-1. В целевом кластере примените следующий Application CRD, чтобы развернуть бандл из реестра контейнеров:
+1. В целевом кластере примените следующий Application CRD, чтобы развернуть бандл из container registry:
 
 ```shell
 kubectl create -f - <<EOF
@@ -33,7 +33,7 @@ EOF
 
 Значение `argocd-image-updater.argoproj.io/chart-version="~ 1.0"` означает, что оператор должен автоматически развернуть чарт с последней версией патча в диапазоне `SEMVER` range `1.0.*`.
 
-2. Создайте секрет для доступа к реестру контейнеров проекта:
+2. Создайте Secret для доступа к container registry проекта:
 
 ```shell
 kubectl create -f - <<EOF
@@ -51,7 +51,7 @@ EOF
 
 ## Настройка GitLab-проекта
 
-* [Создайте и сохраните токен доступа](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) для очистки ненужных образов из реестра контейнеров. Используйте следующие параметры:
+* [Создайте и сохраните токен доступа](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) для очистки ненужных образов из container registry. Используйте следующие параметры:
 
   * **Token name:** `werf-images-cleanup`;
 
@@ -71,7 +71,7 @@ EOF
 
     * **Mask variable:** `yes`.
 
-* [Добавьте ночную задачу по расписанию](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) для очистки ненужных образов в реестре контейнеров, установив ветку `main`/`master` в качестве целевой (**Target branch**).
+* [Добавьте ночную задачу по расписанию](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) для очистки ненужных образов в container registry, установив ветку `main`/`master` в качестве целевой (**Target branch**).
 
 ## Настройка CI/CD проекта
 
@@ -80,4 +80,4 @@ EOF
 {% include /common/configurator/codesandbox.html github_path='github/werf/examples/tree/main/ci-cd/simple/argocd-with-gitlab-ci-cd/host-runner/linux/docker' module='/.gitlab-ci.yml' %}
 
 Дополнительно:
-  * Добавьте параметры авторизации для `werf cleanup` в реестре контейнеров, следуя [инструкции]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
+  * Добавьте параметры авторизации для `werf cleanup` в container registry, следуя [инструкции]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).

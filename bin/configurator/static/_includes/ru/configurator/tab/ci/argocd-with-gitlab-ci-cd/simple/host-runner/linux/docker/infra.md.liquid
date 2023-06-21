@@ -30,9 +30,9 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 
 Следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html) по регистрации GitLab Runner'а в GitLab'е; укажите Shell в качестве исполнителя. После завершения регистрации может потребоваться [дополнительная настройка GitLab Runner'а](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
 
-## Настройка реестра контейнеров
+## Настройка container registry
 
-[Включите сборку мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) в своем реестре контейнеров.
+[Включите сборку мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) в своем container registry.
 ## Подготовка системы для кроссплатформенной сборки (опционально)
 
 > Этот шаг необходим только если собираются образы для платформ, отличных от хост-платформы, на которой запущен werf.
