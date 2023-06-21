@@ -1,0 +1,83 @@
+## Настройка приложения ArgoCD
+
+1. В целевом кластере примените следующий Application CRD, чтобы развернуть бандл из container registry:
+
+```shell
+kubectl create -f - <<EOF
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/chart-version: ~ 1.0
+    argocd-image-updater.argoproj.io/pull-secret: pullsecret:myproject-production/myproject-regcred
+  name: myproject
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: myproject-production
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: myproject
+    repoURL: registry.mycompany.org/myproject
+    targetRevision: 1.0.0
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+EOF
+```
+
+Значение `argocd-image-updater.argoproj.io/chart-version="~ 1.0"` означает, что оператор должен автоматически развернуть чарт с последней версией патча в диапазоне `SEMVER` range `1.0.*`.
+
+2. Создайте Secret для доступа к container registry проекта:
+
+```shell
+kubectl create -f - <<EOF
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: myproject-regcred
+  namespace: myproject-production
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: BASE64_DOCKER_CONFIG_JSON
+EOF
+```
+
+## Настройка GitLab-проекта
+
+* [Создайте и сохраните токен доступа](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) для очистки ненужных образов из container registry. Используйте следующие параметры:
+
+  * **Token name:** `werf-images-cleanup`;
+
+  * **Role:** `developer`;
+
+  * **Scopes:** `api`.
+
+* Добавьте следующие переменные в [переменные проекта](https://docs.gitlab.com/ee/ci/variables/#for-a-project):
+
+  * Токен доступа для очистки ненужных образов:
+
+    * **Key:** `WERF_IMAGES_CLEANUP_PASSWORD`;
+
+    * **Value:** `<"werf-images-cleanup" токен доступа, сохраненный ранее>`;
+
+    * **Protect variable:** `yes`;
+
+    * **Mask variable:** `yes`.
+
+* [Добавьте ночную задачу по расписанию](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) для очистки ненужных образов в container registry, установив ветку `main`/`master` в качестве целевой (**Target branch**).
+
+## Настройка CI/CD проекта
+
+Вот как может выглядеть репозиторий, использующий werf для сборки и развертывания:
+
+{% include /common/configurator/codesandbox.html github_path='github/werf/examples/tree/main/ci-cd/simple/argocd-with-gitlab-ci-cd/host-runner/linux/docker' module='/.gitlab-ci.yml' %}
+
+Дополнительно:
+  * Добавьте параметры авторизации для `werf cleanup` в container registry, следуя [инструкции]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).

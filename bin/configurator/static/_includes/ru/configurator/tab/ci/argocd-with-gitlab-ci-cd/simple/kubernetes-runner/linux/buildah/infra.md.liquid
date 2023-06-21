@@ -1,0 +1,229 @@
+## Требования
+
+- GitLab;
+
+- Kubernetes для запуска GitLab Runner;
+
+- [ArgoCD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
+
+## Установка и регистрация GitLab Runner
+
+Установите GitLab Runner в Kubernetes и зарегистрируйте его, следуя [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html).
+
+## Настройка GitLab Runner
+
+Измените конфигурацию зарегистрированного GitLab Runner'а, добавив в его `config.toml` следующие параметры:
+
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
+  [runners.kubernetes]
+    namespace = "gitlab-ci"
+    [runners.kubernetes.pod_annotations]
+      "container.apparmor.security.beta.kubernetes.io/build" = "unconfined"
+    [runners.kubernetes.pod_security_context]
+      run_as_non_root = true
+      run_as_user = 1000
+      run_as_group = 1000
+      fs_group = 1000
+```
+
+Добавьте следующие параметры, чтобы включить кеширование `.werf` и `/builds` (рекомендуется):
+
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
+  [runners.kubernetes]
+    [[runners.kubernetes.volumes.pvc]]
+      name = "gitlab-ci-kubernetes-executor-werf-cache"
+      mount_path = "/home/build/.werf"
+    [[runners.kubernetes.volumes.pvc]]
+      name = "gitlab-ci-kubernetes-executor-builds-cache"
+      mount_path = "/builds"
+```
+
+... или эти, если кеширование не требуется:
+
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
+  [runners.kubernetes]
+    [[runners.kubernetes.volumes.empty_dir]]
+      name = "gitlab-ci-kubernetes-executor-werf-cache"
+      mount_path = "/home/build/.werf"
+    [[runners.kubernetes.volumes.empty_dir]]
+      name = "gitlab-ci-kubernetes-executor-builds-cache"
+      mount_path = "/builds"
+```
+
+Добавьте еще один параметр, если планируете развертывать приложения с помощью werf на том же кластере, на котором запущен GitLab Runner:
+
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
+  [runners.kubernetes]
+    service_account = "gitlab-ci-kubernetes-executor"
+```
+
+При необходимости проведите [дополнительную настройку](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
+
+## Настройка Kubernetes
+
+Если вы включили кеширование `.werf` и `/builds` в конфигурации GitLab Runner'а, создайте соответствующие PersistentVolumeClaims в кластере, например:
+
+```shell
+$ kubectl create -f - <<EOF
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-ci-kubernetes-executor-werf-cache
+  namespace: gitlab-ci
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-ci-kubernetes-executor-builds-cache
+  namespace: gitlab-ci
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi
+EOF
+```
+
+Если планируется развертывать приложения в том же кластере, в котором запущен GitLab Runner, настройте RBAC в кластере для запуска GitLab Runner'а с помощью следующей команды:
+
+```shell
+$ kubectl create -f - <<EOF
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-ci-kubernetes-executor
+  namespace: gitlab-ci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gitlab-ci-kubernetes-executor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-ci-kubernetes-executor
+    namespace: gitlab-ci
+EOF
+```
+
+> Для большей безопасности создайте более ограниченную роль ClusterRole/Role и используйте ее вместо указанной выше роли `cluster-admin`.
+
+Если узлы Kubernetes, на которых размещен GitLab Runner, работают с ядром Linux версии 5.12 или ниже, включите FUSE для GitLab Runner'а в этом кластере с помощью следующей команды:
+
+```shell
+$ kubectl create -f - <<EOF
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fuse-device-plugin
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: fuse-device-plugin
+  template:
+    metadata:
+      labels:
+        name: fuse-device-plugin
+    spec:
+      hostNetwork: true
+      containers:
+      - image: soolaugust/fuse-device-plugin:v1.0
+        name: fuse-device-plugin-ctr
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: enable-fuse
+  namespace: gitlab-ci
+spec:
+  limits:
+  - type: "Container"
+    default:
+      github.com/fuse: 1
+EOF
+```
+
+## Настройка container registry
+
+[Включите сборку мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) в своем container registry.
+
+## Подготовка Kubernetes для многоплатформенной сборки (опционально)
+
+> Этот шаг необходим только если собираются образы для платформ, отличных от хост-платформы, на которой запущен werf.
+
+С помощью qemu-user-static зарегистрируйте эмуляторы в Kubernetes:
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: qemu-user-static
+  labels:
+    app: qemu-user-static
+spec:
+  selector:
+    matchLabels:
+      name: qemu-user-static
+  template:
+    metadata:
+      labels:
+        name: qemu-user-static
+    spec:
+      initContainers:
+        - name: qemu-user-static
+          image: multiarch/qemu-user-static
+          args: ["--reset", "-p", "yes"]
+          securityContext:
+            privileged: true
+      containers:
+        - name: pause
+          image: gcr.io/google_containers/pause
+          resources:
+            limits:
+              cpu: 50m
+              memory: 50Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+```
+
+## Установка ArgoCD Image Updater
+
+Установите ArgoCD Image Updater с патчем ["continuous deployment of OCI Helm chart type application"](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
+
+```shell
+kubectl apply -n argocd -f https://raw.githubusercontent.com/werf/3p-argocd-image-updater/master/manifests/install.yaml
+```

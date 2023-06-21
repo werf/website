@@ -1,0 +1,83 @@
+## Configuring ArgoCD Application
+
+1. Apply the following Application CRD to the target cluster to deploy a bundle from the container registry:
+
+```shell
+kubectl create -f - <<EOF
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/chart-version: ~ 1.0
+    argocd-image-updater.argoproj.io/pull-secret: pullsecret:myproject-production/myproject-regcred
+  name: myproject
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: myproject-production
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: myproject
+    repoURL: registry.mycompany.org/myproject
+    targetRevision: 1.0.0
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+EOF
+```
+
+The value of `argocd-image-updater.argoproj.io/chart-version="~ 1.0"` means that the operator must automatically deploy the chart updated to the latest patch version in the `SEMVER` range `1.0.*`.
+
+2. Create a pull secret to access the project container registry:
+
+```shell
+kubectl create -f - <<EOF
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: myproject-regcred
+  namespace: myproject-production
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: BASE64_DOCKER_CONFIG_JSON
+EOF
+```
+
+## Configuring a GitLab project
+
+- [Create and save the access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) for cleaning up the no longer needed images in the container registry; use the following parameters:
+
+  - **Token name:** `werf-images-cleanup`;
+
+  - **Role:** `developer`;
+
+  - **Scopes:** `api`.
+
+- Add the following variables to the [project variables](https://docs.gitlab.com/ee/ci/variables/#for-a-project):
+
+  - Access token to clean up the no longer needed images:
+
+    - **Key:** `WERF_IMAGES_CLEANUP_PASSWORD`;
+
+    - **Value:** `<"werf-images-cleanup" access token you saved earlier>`;
+
+    - **Protect variable:** `yes`;
+
+    - **Mask variable:** `yes`.
+
+- [Add a nightly scheduled job](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) to clean up the no longer needed images in the container registry and set `main`/`master` as the **Target branch**.
+
+## Configuring CI/CD of the project
+
+This is what the repository that uses werf for building and deploying might look like:
+
+{% include /common/configurator/codesandbox.html github_path='github/werf/examples/tree/main/ci-cd/simple/argocd-with-gitlab-ci-cd/host-runner/linux/buildah' module='/.gitlab-ci.yml' %}
+
+Extras:
+  * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
