@@ -20,8 +20,22 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
-          value: INFO
+          - name: GIN_MODE
+            value: "release"
+          # [<snippet db_env>]
+          - name: DB_TYPE
+            value: "mysql"
+          - name: DB_NAME
+            value: "werf-guide-app"
+          - name: DB_USER
+            value: "root"
+          - name: DB_PASSWD
+            value: "password"
+          - name: DB_HOST
+            value: "mysql"
+          - name: DB_PORT
+            value: "3306"
+          # [<endsnippet db_env>]
       - name: frontend
         image: {{ .Values.werf.image.frontend }}
         ports:

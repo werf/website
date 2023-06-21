@@ -20,8 +20,8 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
-          value: INFO
+          - name: GIN_MODE
+            value: "release"
       - name: frontend
         image: {{ .Values.werf.image.frontend }}
         ports:

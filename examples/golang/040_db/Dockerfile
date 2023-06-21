@@ -5,8 +5,10 @@
 FROM golang:1.18-alpine AS build
 # [<en>] Copy the source code of the application.
 # [<ru>] Копируем исходники приложения
+RUN apk add curl tar
 COPY . /app
 WORKDIR /app
+RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.16.2/migrate.linux-amd64.tar.gz | tar xvz
 # [<en>] Запускаем загрузку нужных пакетов.
 # [<ru>] Запускаем загрузку нужных пакетов.
 RUN go mod download
@@ -21,6 +23,8 @@ WORKDIR /
 # [<en>] Copy the project executable from the build image.
 # [<ru>] Копируем из сборочного образа исполняемый файл проекта
 COPY --from=build /goapp /goapp
+COPY --from=build /app/migrate /migrations/migrate
+COPY db/migrations /migrations/schemes
 # [<en>] Копируем файлы ассетов и шаблоны.
 # [<ru>] Копируем файлы ассетов и шаблоны.
 COPY ./templates /templates
