@@ -35,6 +35,7 @@ func Run() {
 	// [<endsnippet routes>]
 
 	route.GET("/remember", controllers.RememberController)
+	route.GET("/say", controllers.SayController)
 
 	err := route.Run()
 	if err != nil {
