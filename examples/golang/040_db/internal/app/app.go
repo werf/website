@@ -34,8 +34,10 @@ func Run() {
 	route.GET("/image", controllers.ImagePage)
 	// [<endsnippet routes>]
 
+	// [<snippet db_routes>]
 	route.GET("/remember", controllers.RememberController)
 	route.GET("/say", controllers.SayController)
+	// [<endsnippet db_routes>]
 
 	err := route.Run()
 	if err != nil {

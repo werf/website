@@ -1,3 +1,40 @@
+Для начала создадим вспомогательный сервис, который будет доставать из переменных окружения параметры подключения к БД и возвращать их:
+
+{% include snippetcut_example path="internal/services/db_service.go" syntax="go" examples=page.examples %}
+
+Полученные в качестве результата строки с типом БД и адресом для подключения будут использоваться при инициализации подключения.
+
+Создадим два контроллера, отвечающих за новые endpoints:
+
+{% include snippetcut_example path="internal/controllers/db_controllers.go" syntax="go" examples=page.examples %}
+
+Добавим новые маршруты и подключим к ним созданные контроллеры:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="db_routes" examples=page.examples %}
+
+### Миграции БД
+
+Для миграции БД мы воспользуемся утилитой [migrate](https://github.com/golang-migrate/migrate/tree/master). Она позволяет работать с миграциями как из командной строки (CLI), так и напрямую из кода на Go. Мы воспользуемся первым вариантом.
+
+Чтобы сгенерировать файлы миграций, выполним команду в корне проекта:
+
+```shell
+migrate create -ext sql -dir db/migrations -seq create_talkers_table
 ```
-TODO: _includes/ru/guides/200_real_apps/040_db/framework_id/007_new_endpoints.md.liquid
+
+В каталоге `db/migrations` будут созданы два файла:
+
+```shell
+db
+└── migrations
+    ├── 000001_create_talkers_table.down.sql
+    └── 000001_create_talkers_table.up.sql
 ```
+
+Файл с суффиксом `up` содержит миграции для инициализации БД:
+
+{% include snippetcut_example path="db/migrations/000001_create_talkers_table.up.sql" syntax="sql" examples=page.examples %}
+
+Файл с суффиксом `down` — инструкции для очистки БД:
+
+{% include snippetcut_example path="db/migrations/000001_create_talkers_table.down.sql" syntax="sql" examples=page.examples %}

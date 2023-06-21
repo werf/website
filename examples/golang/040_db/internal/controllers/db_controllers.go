@@ -19,7 +19,7 @@ func RememberController(c *gin.Context) {
 
 	answer := c.Query("answer")
 	name := c.Query("name")
-	_, err = db.Exec("insert into talkers (answer, name) values (?, ?)",
+	_, err = db.Exec("INSERT INTO talkers (answer, name) VALUES (?, ?)",
 		answer, name)
 	if err != nil {
 		panic(err)
