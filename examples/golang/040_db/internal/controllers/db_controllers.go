@@ -43,7 +43,9 @@ func SayController(c *gin.Context) {
 		panic(err)
 	}
 
+	count := 0
 	for result.Next() {
+		count++
 		var id int
 		var answer string
 		var name string
@@ -55,5 +57,8 @@ func SayController(c *gin.Context) {
 
 		c.String(http.StatusOK, answer+", "+name+"!\n")
 		break
+	}
+	if count == 0 {
+		c.String(http.StatusOK, "I have nothing to say.\n")
 	}
 }

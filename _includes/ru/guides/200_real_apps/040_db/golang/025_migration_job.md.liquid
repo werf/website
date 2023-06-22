@@ -1,3 +1,5 @@
-```
-TODO (_includes/ru/200_real_apps/040_db/framework_id/025_migration_job.md.liquid): Job для выполнения миграций/инициализации базы данных.
-```
+{% include snippetcut_example path=".helm/templates/job-db-setup-and-migrate.yaml" syntax="yaml" examples=page.examples %}
+
+Здесь используются два контейнера:
+* InitContainer будет запущен первым, и в нем будет в цикле пинговаться сервер MySQL до получения ответа.
+* В основном контейнере (backend из Dockerfile) запустится утилита migrate и произведет миграции БД.

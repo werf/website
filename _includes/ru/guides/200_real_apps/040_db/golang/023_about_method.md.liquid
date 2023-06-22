@@ -9,4 +9,33 @@
 1. Затем выполнится Job с инициализацией/миграциями БД.
 1. Затем запустятся приложения.
 
+Для миграции БД мы воспользуемся утилитой [migrate](https://github.com/golang-migrate/migrate/tree/master). Она позволяет работать с миграциями как из командной строки (CLI), так и напрямую из кода на Go. Мы воспользуемся первым вариантом.
+
+Чтобы сгенерировать файлы миграций, выполним команду в корне проекта:
+
+```shell
+migrate create -ext sql -dir db/migrations -seq create_talkers_table
+```
+
+В каталоге `db/migrations` будут созданы два файла:
+
+```shell
+db
+└── migrations
+    ├── 000001_create_talkers_table.down.sql
+    └── 000001_create_talkers_table.up.sql
+```
+
+Файл с суффиксом `up` содержит миграции для инициализации БД:
+
+{% include snippetcut_example path="db/migrations/000001_create_talkers_table.up.sql" syntax="sql" examples=page.examples %}
+
+Файл с суффиксом `down` — инструкции для очистки БД:
+
+{% include snippetcut_example path="db/migrations/000001_create_talkers_table.down.sql" syntax="sql" examples=page.examples %}
+
+Изменим Dockerfile, установив в конечный образ backend утилиту migrate:
+
+{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+
 Реализуем это, добавив Job для выполнения миграций/инициализации базы данных:
