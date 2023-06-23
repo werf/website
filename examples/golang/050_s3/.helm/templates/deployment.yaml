@@ -36,6 +36,16 @@ spec:
           - name: DB_PORT
             value: "3306"
           # [<endsnippet db_env>]
+          # [<snippet minio_env>]
+          - name: MINIO_ENDPOINT
+            value: "minio:9000"
+          - name: MINIO_ACCESSKEY
+            value: "minioadmin"
+          - name: MINIO_SECRETKEY
+            value: "minioadmin"
+          - name: MINIO_BUCKET
+            value: "werf-guide-app"
+          # [<endsnippet minio_env>]
       - name: frontend
         image: {{ .Values.werf.image.frontend }}
         ports:
