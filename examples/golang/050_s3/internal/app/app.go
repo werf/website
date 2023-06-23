@@ -39,8 +39,10 @@ func Run() {
 	route.GET("/say", controllers.SayController)
 	// [<endsnippet db_routes>]
 
+	// [<snippet minio_routes>]
 	route.POST("/upload", controllers.UploadController)
 	route.GET("/download", controllers.DownloadController)
+	// [<endsnippet minio_routes>]
 
 	err := route.Run()
 	if err != nil {
