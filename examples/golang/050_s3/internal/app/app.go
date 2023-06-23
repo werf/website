@@ -39,6 +39,9 @@ func Run() {
 	route.GET("/say", controllers.SayController)
 	// [<endsnippet db_routes>]
 
+	route.POST("/upload", controllers.UploadController)
+	route.GET("/download", controllers.DownloadController)
+
 	err := route.Run()
 	if err != nil {
 		return
