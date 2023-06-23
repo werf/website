@@ -53,11 +53,13 @@ func DownloadController(c *gin.Context) {
 		"file.txt", minio.GetObjectOptions{})
 	if err != nil {
 		log.Println(err)
-		return
 	}
 	defer object.Close()
 
-	if b, err := io.ReadAll(object); err == nil {
-		c.String(http.StatusOK, string(b))
+	b, err := io.ReadAll(object)
+	if err != nil {
+		c.String(http.StatusOK, "You haven't uploaded anything yet.\n")
 	}
+
+	c.String(http.StatusOK, string(b))
 }
