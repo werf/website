@@ -25,37 +25,23 @@ spec:
       - name: backend
         image: {{ .Values.werf.image.backend }}
         # [<snippet backend_conf>]
+        # [<snippet backend_secret>]
         ports:
         - containerPort: 8080
         envFrom:
             - configMapRef:
                 name: app-envs
         # [<endsnippet backend_conf>]
+            - secretRef:
+                name: app-envs
+        # [<endsnippet backend_secret>]
         env:
           # [<snippet db_env>]
           - name: DB_TYPE
             value: "mysql"
-          - name: DB_NAME
-            value: "werf-guide-app"
-          - name: DB_USER
-            value: "root"
-          - name: DB_PASSWD
-            value: "password"
-          - name: DB_HOST
-            value: "mysql"
           - name: DB_PORT
             value: "3306"
           # [<endsnippet db_env>]
-          # [<snippet minio_env>]
-          - name: MINIO_ENDPOINT
-            value: "minio:9000"
-          - name: MINIO_ACCESSKEY
-            value: "minioadmin"
-          - name: MINIO_SECRETKEY
-            value: "minioadmin"
-          - name: MINIO_BUCKET
-            value: "werf-guide-app"
-          # [<endsnippet minio_env>]
       # [<snippet nginx_conf>]
       - name: frontend
         image: {{ .Values.werf.image.frontend }}

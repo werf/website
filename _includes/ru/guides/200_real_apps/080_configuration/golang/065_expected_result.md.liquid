@@ -1,3 +1,15 @@
-```
-TODO (_includes/ru/200_real_apps/080_configuration/framework_id/065_expected_result.md.liquid): ожидаемый результат.
+```yaml
+app:
+  secretEnvs:
+    DB_HOST: mysql
+    DB_NAME: werf-guide-app
+    DB_USER: root
+    DB_PASSWD: password
+    MINIO_ENDPOINT: minio:9000
+    MINIO_ACCESSKEY: minioadmin
+    MINIO_SECRETKEY: minioadmin
+    MINIO_BUCKET: werf-guide-app
+mysql:
+  secretEnvs:
+    MYSQL_ROOT_PASSWORD: password
 ```
