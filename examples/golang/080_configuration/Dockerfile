@@ -38,13 +38,8 @@ COPY ./static /static
 EXPOSE 8080
 ENTRYPOINT ["/goapp"]
 
-# [<en>] The NGINX image that contains the static files.
-# [<ru>] NGINX-образ со статическими файлами.
+# [<snippet frontend>]
 FROM nginx:stable-alpine as frontend
 WORKDIR /www
-# [<en>] Copy static files.
-# [<ru>] Копируем статические файлы.
 COPY static /www/static/
-# [<en>] Copy NGINX configuration.
-# [<ru>] Копируем конфигурацию NGINX.
-COPY .werf/nginx.conf /etc/nginx/nginx.conf
+# [<endsnippet frontend>]

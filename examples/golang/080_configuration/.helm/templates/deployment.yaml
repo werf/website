@@ -46,7 +46,17 @@ spec:
           - name: MINIO_BUCKET
             value: "werf-guide-app"
           # [<endsnippet minio_env>]
+      # [<snippet nginx_conf>]
       - name: frontend
         image: {{ .Values.werf.image.frontend }}
         ports:
         - containerPort: 80
+        volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          name: nginx-conf
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+      # [<endsnippet nginx_conf>]
