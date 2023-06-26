@@ -7,10 +7,14 @@ spec:
   selector:
     matchLabels:
       app: werf-guide-app
+  # [<snippet nginx_conf_checksum>]
   template:
     metadata:
       labels:
         app: werf-guide-app
+      annotations:
+        checksum/configmap-nginx: '{{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}'
+        # [<endsnippet nginx_conf_checksum>]
     spec:
       imagePullSecrets:
       - name: registrysecret
