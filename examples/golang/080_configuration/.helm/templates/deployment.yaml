@@ -8,6 +8,7 @@ spec:
     matchLabels:
       app: werf-guide-app
   # [<snippet nginx_conf_checksum>]
+  # [<snippet configmap_app_envs_checksum>]
   template:
     metadata:
       labels:
@@ -15,17 +16,22 @@ spec:
       annotations:
         checksum/configmap-nginx: '{{ include (print $.Template.BasePath "/configmap-nginx.yaml") . | sha256sum }}'
         # [<endsnippet nginx_conf_checksum>]
+        checksum/configmap-app-envs: '{{ include (print $.Template.BasePath "/configmap-app-envs.yaml") . | sha256sum }}'
+        # [<endsnippet configmap_app_envs_checksum>]
     spec:
       imagePullSecrets:
       - name: registrysecret
       containers:
       - name: backend
         image: {{ .Values.werf.image.backend }}
+        # [<snippet backend_conf>]
         ports:
         - containerPort: 8080
+        envFrom:
+            - configMapRef:
+                name: app-envs
+        # [<endsnippet backend_conf>]
         env:
-          - name: GIN_MODE
-            value: "release"
           # [<snippet db_env>]
           - name: DB_TYPE
             value: "mysql"

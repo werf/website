@@ -21,12 +21,12 @@ spec:
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
+        # [<snippet volume_claim_templates>]
         envFrom:
           - configMapRef:
               name: db-envs
           - secretRef:
               name: db-envs
-  # [<snippet volume_claim_templates>]
   volumeClaimTemplates:
   - metadata:
       name: mysql-data
