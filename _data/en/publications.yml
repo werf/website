@@ -151,7 +151,7 @@ articles:
   - title: "Werf: Fully customizable GitOps"
     custom_urls:
       - service_name: "Kubes&Clouds"
-        url: "https://kubesandclouds.com/index.php/2020/09/01/werf-gitops/"
+        url: "https://kubesandclouds.com/2020-09-01-werf-gitops/"
       - service_name: "EuropeClouds"
         url: "https://www.europeclouds.com/blog/werf-fully-customizable-gitops"
     img: "/assets/images/publications/en_010920.png"
