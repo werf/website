@@ -241,6 +241,7 @@ sidebar: none
                             <div class="publications__cards--title">{{ publication.title }}</div>
                             <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                         </a>
+                        {% continue %}
                         {%- endif %}
                         {%- if publication.medium_url %}
                         <a href="{{ publication.medium_url }}" class="publications__cards--link" target="_blank">
@@ -248,6 +249,7 @@ sidebar: none
                             <div class="publications__cards--title">{{ publication.title }}</div>
                             <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                         </a>
+                        {% continue %}
                         {%- endif %}
                         {%- if publication.blog_url %}
                         <a href="{{ publication.blog_url }}" class="publications__cards--link" target="_blank">
@@ -255,6 +257,7 @@ sidebar: none
                             <div class="publications__cards--title">{{ publication.title }}</div>
                             <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                         </a>
+                        {% continue %}
                         {%- endif %}
                         {%- if publication.habr_url %}
                         <a href="{{ publication.habr_url }}" class="publications__cards--link" target="_blank">
@@ -262,6 +265,7 @@ sidebar: none
                             <div class="publications__cards--title">{{ publication.title }}</div>
                             <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                         </a>
+                        {% continue %}
                         {%- endif %}
                         {%- for custom in publication.custom_urls %}
                         <a href="{{ custom.url }}" class="publications__cards--link" target="_blank">
@@ -269,6 +273,7 @@ sidebar: none
                             <div class="publications__cards--title">{{ publication.title }}</div>
                             <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                         </a>
+                        {% break %}
                         {%- endfor -%}
                         {%- if publication.youtube_url %}
                         <a href="{{ publication.youtube_url }}" class="publications__cards--link" target="_blank">
@@ -276,6 +281,7 @@ sidebar: none
                             <div class="publications__cards--title">{{ publication.title }}</div>
                             <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                         </a>
+                        {% continue %}
                         {%- endif %}
                         {%- if publication.tproger_url %}
                         <a href="{{ publication.tproger_url }}" class="publications__cards--link" target="_blank">
@@ -283,6 +289,7 @@ sidebar: none
                             <div class="publications__cards--title">{{ publication.title }}</div>
                             <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                         </a>
+                        {% continue %}
                         {%- endif %}
                     </li>
                     {%- endfor %}
