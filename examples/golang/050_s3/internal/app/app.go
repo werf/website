@@ -1,9 +1,9 @@
 package app
 
 import (
-	"050_s3/internal/common"
-	"050_s3/internal/controllers"
 	"net/http"
+	"werf_guide_app/internal/common"
+	"werf_guide_app/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )

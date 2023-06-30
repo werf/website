@@ -1,6 +1,6 @@
 package main
 
-import "030_assets/internal/app"
+import "werf_guide_app/internal/app"
 
 func main() {
 	app.Run()

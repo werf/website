@@ -1,4 +1,4 @@
-module 050_s3
+module werf_guide_app
 
 go 1.18
 

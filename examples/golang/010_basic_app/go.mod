@@ -1,4 +1,4 @@
-module 010_basic_app
+module werf_guide_app
 
 go 1.18
 
