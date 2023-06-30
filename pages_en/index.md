@@ -241,43 +241,40 @@ sidebar: none
                   <div class="publications__cards--title">{{ publication.title }}</div>
                   <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                 </a>
-              {%- endif %}
-              {%- if publication.medium_url %}
+              {%- elsif publication.medium_url %}
                 <a href="{{ publication.medium_url }}" class="publications__cards--link" target="_blank">
                   <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
                   <div class="publications__cards--title">{{ publication.title }}</div>
                   <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                 </a>
-              {%- endif %}
-              {%- if publication.blog_url %}
+              {%- elsif publication.blog_url %}
                 <a href="{{ publication.blog_url }}" class="publications__cards--link" target="_blank">
                   <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
                   <div class="publications__cards--title">{{ publication.title }}</div>
                   <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                 </a>
-              {%- endif %}
-              {%- if publication.habr_url %}
+              {%- elsif publication.habr_url %}
                 <a href="{{ publication.habr_url }}" class="publications__cards--link" target="_blank">
                   <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
                   <div class="publications__cards--title">{{ publication.title }}</div>
                   <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                 </a>
-              {%- endif %}
+              {%- elsif publication.custom_urls %}
               {%- for custom in publication.custom_urls %}
                 <a href="{{ custom.url }}" class="publications__cards--link" target="_blank">
                   <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
                   <div class="publications__cards--title">{{ publication.title }}</div>
                   <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                 </a>
+              {% break %}
               {%- endfor -%}
-              {%- if publication.youtube_url %}
+              {%- elsif publication.youtube_url %}
                 <a href="{{ publication.youtube_url }}" class="publications__cards--link" target="_blank">
                   <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
                   <div class="publications__cards--title">{{ publication.title }}</div>
                   <div class="publications__cards--date">{{ publication.created | date: "%d-%m-%Y" }}</div>
                 </a>
-              {%- endif %}
-              {%- if publication.cloud_yuga_url %}
+              {%- elsif publication.cloud_yuga_url %}
                 <a href="{{ publication.cloud_yuga_url }}" class="publications__cards--link" target="_blank">
                   <span class="publications__cards--pic" style="background-image: url('{{ publication.img | true_relative_url }}')"></span>
                   <div class="publications__cards--title">{{ publication.title }}</div>

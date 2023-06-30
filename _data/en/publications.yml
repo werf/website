@@ -17,6 +17,15 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Why werf for CI/CD in Kubernetes?"
+    youtube_url: "https://www.youtube.com/watch?v=OK9fSBxFN0c"
+    custom_urls:
+      - service_name: "CNCF"
+        url: "https://community.cncf.io/events/details/cncf-cncf-online-programs-presents-cncf-on-demand-webinar-why-werf-for-cicd-in-kubernetes/"
+    img: "/assets/images/publications/en_150623.png"
+    created: 2023-06-15
+    comment: |
+      <p>In this presentation, we will explore werf, an Open Source CLI tool that recently became a CNCF project, designed to implement consistent and efficient software delivery to Kubernetes with your CI/CD system of choice.</p>
   - title: "New werf mode: combining werf & Argo CD into a unified CI/CD process"
     medium_url: "https://blog.werf.io/new-werf-mode-combining-werf-argo-cd-into-a-unified-ci-cd-process-d49bce7f3be1"
     img: "/assets/images/publications/en_170523.png"
