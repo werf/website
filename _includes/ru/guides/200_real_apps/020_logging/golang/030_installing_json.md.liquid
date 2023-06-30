@@ -1,0 +1,11 @@
+Для включения отображения логов в формате JSON нужно добавить фильтр к стандартному логгеру.
+
+Создадим новый фильтр:
+
+{% include snippetcut_example path="internal/common/json_logger_filter.go" syntax="go" examples=page.examples %}
+
+Здесь можно настроить произвольный вывод логов, задав нужный порядок полей в JSON.
+
+Теперь добавим созданный фильтр к серверу, изменив параметры запуска:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="log_enable" examples=page.examples %}

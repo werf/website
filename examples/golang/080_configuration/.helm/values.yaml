@@ -1,0 +1,15 @@
+# [<snippet app>]
+app:
+  envs:
+    GIN_MODE: "release"
+# [<endsnippet app>]
+
+minio:
+  storageSize: "100Mi"
+
+# [<snippet mysql>]
+mysql:
+  envs:
+    MYSQL_DATABASE: "werf-guide-app"
+  storageSize: "100Mi"
+# [<endsnippet mysql>]

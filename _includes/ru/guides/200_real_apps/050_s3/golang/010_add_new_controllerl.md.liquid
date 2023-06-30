@@ -1,0 +1,5 @@
+{% include snippetcut_example path="internal/controllers/minio_controllers.go" syntax="go" examples=page.examples %}
+
+Для инициализации подключения к MinIO создадим отдельный сервис, который будет брать параметры из переменных окружения и возвращать объект подключения:
+
+{% include snippetcut_example path="internal/services/minio_service.go" syntax="go" examples=page.examples %}

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: werf-guide-app
+spec:
+  selector:
+    app: werf-guide-app
+  ports:
+  - name: http
+    port: 8080

@@ -1,0 +1,13 @@
+Для начала создадим вспомогательный сервис, который будет доставать из переменных окружения параметры подключения к БД и возвращать их:
+
+{% include snippetcut_example path="internal/services/db_service.go" syntax="go" examples=page.examples %}
+
+Полученные в качестве результата строки с типом БД и адресом для подключения будут использоваться при инициализации подключения.
+
+Создадим два контроллера, отвечающих за новые endpoints:
+
+{% include snippetcut_example path="internal/controllers/db_controllers.go" syntax="go" examples=page.examples %}
+
+Добавим новые маршруты и подключим к ним созданные контроллеры:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="db_routes" examples=page.examples %}

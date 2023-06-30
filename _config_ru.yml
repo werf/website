@@ -26,6 +26,7 @@ exclude:
   - examples/laravel
   - examples/nodejs
   - examples/rails
+  - examples/golang
   - pages_en
   - scripts
   - _site_en_includes

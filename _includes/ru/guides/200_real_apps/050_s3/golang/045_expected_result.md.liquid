@@ -1,0 +1,78 @@
+```
+┌ Concurrent build plan (no more than 5 images at the same time)
+│ Set #0:
+│ - ⛵ image backend
+│ - ⛵ image frontend
+└ Concurrent build plan (no more than 5 images at the same time)
+
+┌ ⛵ image backend
+│ Use previously built image for backend/dockerfile
+│      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:61c656dad1f4d9647546bf3aff5aa26f6d8271365755154f3c445bd2-1687521165610
+│        id: 3e92f735d96b
+│   created: 2023-06-23 14:52:44 +0300 MSK
+│      size: 26.8 MiB
+└ ⛵ image backend (2.73 seconds)
+
+┌ ⛵ image frontend
+│ Use previously built image for frontend/dockerfile
+│      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:328a492a57c7aa12e8af2ead55341f51f696961c2864d83545c6518d-1687253596426
+│        id: f05a34a1cdd2
+│   created: 2023-06-20 12:33:15 +0300 MSK
+│      size: 16.0 MiB
+└ ⛵ image frontend (2.62 seconds)
+
+┌ Build summary
+│ Set #0:
+│ - ⛵ image frontend (2.62 seconds)
+│ - ⛵ image backend (2.73 seconds)
+└ Build summary
+
+┌ Waiting for resources to become ready
+│ ┌ job/setup-and-migrate-db-rev20 po/setup-and-migrate-db-rev20-khtx6 container/setup-and-migrate-db logs
+│ │ no change
+│ └ job/setup-and-migrate-db-rev20 po/setup-and-migrate-db-rev20-khtx6 container/setup-and-migrate-db logs
+│ 
+│ ┌ Status progress
+│ │ JOB                                                                                                                                   ACTIVE                   DURATION                   SUCCEEDED/FAILED                              
+│ │ setup-and-migrate-db-rev20                                                                                                            0                        7s                         0->1/0                                        
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                                                                                                                             
+│ │ └── and-migrate-db-rev20-khtx6                          0/1                0                         Completed                        
+│ │ setup-minio-rev20                                                                                                                     1                        10s                        0/0                                           
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                           ---                                                                                               
+│ │ └── minio-rev20-j27jj                                   1/1                0                         Running                          Waiting for: pods should be terminated, succeeded 0->1                                            
+│ └ Status progress
+│ 
+│ ┌ job/setup-minio-rev20 po/setup-minio-rev20-j27jj container/setup-minio logs
+│ │ Added `minio` successfully.
+│ │ Bucket created successfully `minio/werf-guide-app`.
+│ └ job/setup-minio-rev20 po/setup-minio-rev20-j27jj container/setup-minio logs
+│ 
+│ ┌ Status progress
+│ │ JOB                                                                                                                                   ACTIVE                   DURATION                   SUCCEEDED/FAILED                              
+│ │ setup-minio-rev20                                                                                                                     1                        15s                        0/0                                           
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                           ---                                                                                               
+│ │ └── minio-rev20-j27jj                                   0/1                0                         Running->Completed               Waiting for: pods should be terminated, succeeded 0->1                                            
+│ └ Status progress
+│ 
+│ ┌ Status progress
+│ │ JOB                                                                                                                                   ACTIVE                   DURATION                   SUCCEEDED/FAILED                              
+│ │ setup-minio-rev20                                                                                                                     0                        17s                        0->1/0                                        
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                                                                                                                             
+│ │ └── minio-rev20-j27jj                                   0/1                0                         Completed                        
+│ └ Status progress
+└ Waiting for resources to become ready (17.27 seconds)
+
+┌ Waiting for resources elimination: jobs/setup-and-migrate-db-rev19, jobs/setup-minio-rev19
+└ Waiting for resources elimination: jobs/setup-and-migrate-db-rev19, jobs/setup-minio-rev19 (0.10 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Fri Jun 23 14:57:21 2023
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 20
+TEST SUITE: None
+Running time 22.25 seconds
+```

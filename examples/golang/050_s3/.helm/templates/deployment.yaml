@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: werf-guide-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: werf-guide-app
+  template:
+    metadata:
+      labels:
+        app: werf-guide-app
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      containers:
+      - name: backend
+        image: {{ .Values.werf.image.backend }}
+        ports:
+        - containerPort: 8080
+        env:
+          - name: GIN_MODE
+            value: "release"
+          # [<snippet db_env>]
+          - name: DB_TYPE
+            value: "mysql"
+          - name: DB_NAME
+            value: "werf-guide-app"
+          - name: DB_USER
+            value: "root"
+          - name: DB_PASSWD
+            value: "password"
+          - name: DB_HOST
+            value: "mysql"
+          - name: DB_PORT
+            value: "3306"
+          # [<endsnippet db_env>]
+          # [<snippet minio_env>]
+          - name: MINIO_ENDPOINT
+            value: "minio:9000"
+          - name: MINIO_ACCESSKEY
+            value: "minioadmin"
+          - name: MINIO_SECRETKEY
+            value: "minioadmin"
+          - name: MINIO_BUCKET
+            value: "werf-guide-app"
+          # [<endsnippet minio_env>]
+      - name: frontend
+        image: {{ .Values.werf.image.frontend }}
+        ports:
+        - containerPort: 80
