@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"040_db/internal/services"
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"werf_guide_app/internal/services"
 
 	_ "github.com/go-sql-driver/mysql"
 )

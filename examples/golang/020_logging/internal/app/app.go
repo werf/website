@@ -1,8 +1,8 @@
 package app
 
 import (
-	"020_logging/internal/common"
 	"net/http"
+	"werf_guide_app/internal/common"
 
 	"github.com/gin-gonic/gin"
 )

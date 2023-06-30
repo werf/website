@@ -1,6 +1,6 @@
 package main
 
-import "040_db/internal/app"
+import "werf_guide_app/internal/app"
 
 func main() {
 	app.Run()

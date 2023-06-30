@@ -1,4 +1,4 @@
-module 080_configuration
+module werf_guide_app
 
 go 1.18
 

@@ -1,13 +1,13 @@
 package controllers
 
 import (
-	"080_configuration/internal/services"
 	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/minio/minio-go/v7"
 	"io"
 	"log"
 	"net/http"
+	"werf_guide_app/internal/services"
 )
 
 func UploadController(c *gin.Context) {

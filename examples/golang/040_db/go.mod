@@ -1,4 +1,4 @@
-module 040_db
+module werf_guide_app
 
 go 1.18
 

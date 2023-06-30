@@ -1,4 +1,4 @@
-module 030_assets
+module werf_guide_app
 
 go 1.18
 
