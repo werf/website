@@ -72,7 +72,7 @@ Login Succeeded
 
 ### Создание Secret
 
-Чтобы в процессе работы у нас была возможность использовать образы из *приватного* container registry, нам необходимо создать Secret с учетными данными пользователя. Здесь есть одна особенность — Secret должен располагаться в том же namespace, что и приложение. 
+Чтобы в процессе работы у нас была возможность использовать образы из *приватного* container registry, нам необходимо создать Secret с учетными данными пользователя. Здесь есть одна особенность — Secret должен располагаться в том же namespace, что и приложение.
 
 Поэтому необходимо заранее создать namespace для нашего приложения:
 ```shell
@@ -92,7 +92,7 @@ kubectl create secret docker-registry registrysecret \
   --docker-password='<ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>'
 ```
 
->Для создания Secret мы используем стандартный способ из [официальной документации Kubernetes](https://kubernetes.io/docs/concepts/configuration/secret/#docker-config-secrets). 
+>Для создания Secret мы используем стандартный способ из [официальной документации Kubernetes](https://kubernetes.io/docs/concepts/configuration/secret/#docker-config-secrets).
 
 В ответ отобразится следующее:
 ```shell
@@ -106,10 +106,10 @@ kubectl delete secret registrysecret
 ```
 {% endofftopic %}
 
-В следующих главах мы будем использовать Secret `registrysecret` в поле `imagePullSecrets` при конфигурации Pod'ов (подробнее можно почитать [здесь](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets)).
+В следующих статьях мы будем использовать Secret `registrysecret` в поле `imagePullSecrets` при конфигурации Pod'ов (подробнее можно почитать [здесь](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets)).
 
 > Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
-> registry. К примеру, для GitHub container registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись 
+> registry. К примеру, для GitHub container registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись
 > без опции и использовать значение по умолчанию.
 
 Теперь окружение для работы готово.

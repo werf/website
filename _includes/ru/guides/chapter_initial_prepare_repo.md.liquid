@@ -2,7 +2,7 @@
 
 <div class="tabs">
 <a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn active" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__continuing')">Продолжаю проходить руководство</a>
-<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__just_started')">Начинаю проходить руководство с этой главы</a>
+<a href="javascript:void(0)" class="tabs__btn tabs__from_scratch__btn" onclick="openTab(event, 'tabs__from_scratch__btn', 'tabs__from_scratch__content', 'tabs__from_scratch__just_started')">Начинаю проходить руководство с этой статьи</a>
 </div>
 
 <div id="tabs__from_scratch__continuing" class="tabs__content tabs__from_scratch__content active" markdown="1">
@@ -12,12 +12,12 @@
 cd ~/werf-guide/app
 ```
 
-Возникли проблемы с репозиторием? Попробуйте инструкции на вкладке "Начинаю проходить руководство с этой главы" выше.
+Возникли проблемы с репозиторием? Попробуйте инструкции на вкладке «Начинаю проходить руководство с этой статьи» выше.
 {%- else %}
 Обновим существующий репозиторий с приложением:
 {% include guides/chapter_prepare_repo_commands.md.liquid examples_to=include.examples_to examples_from=include.examples_from from_scratch=false no_changes=false %}
 
-Не работает? Попробуйте инструкции на вкладке «Начинаю проходить руководство с этой главы» выше.
+Не работает? Попробуйте инструкции на вкладке «Начинаю проходить руководство с этой статьи» выше.
 {%- endif %}
 </div>
 
