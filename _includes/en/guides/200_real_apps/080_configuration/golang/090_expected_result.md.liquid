@@ -1,0 +1,102 @@
+```
+┌ Concurrent build plan (no more than 5 images at the same time)
+│ Set #0:
+│ - ⛵ image backend
+│ - ⛵ image frontend
+└ Concurrent build plan (no more than 5 images at the same time)
+
+┌ ⛵ image backend
+│ Use previously built image for backend/dockerfile
+│      name: index.docker.io/<ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:8a2ed4b23d1c6409af0cf941b4bd022fb4574b402060f831ed70cc1e-1687785505242
+│        id: 1d06a06521ba
+│   created: 2023-06-26 16:18:23 +0300 MSK
+│      size: 26.8 MiB
+└ ⛵ image backend (1.56 seconds)
+
+┌ ⛵ image frontend
+│ Use previously built image for frontend/dockerfile
+│      name: index.docker.io/<ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:c353ab77100e604c9be647ae18e4238cd230f162e1f28ce217382931-1687785068451
+│        id: c8552e73c1a4
+│   created: 2023-06-26 16:11:06 +0300 MSK
+│      size: 16.0 MiB
+└ ⛵ image frontend (1.63 seconds)
+
+┌ Build summary
+│ Set #0:
+│ - ⛵ image backend (1.56 seconds)
+│ - ⛵ image frontend (1.63 seconds)
+└ Build summary
+
+┌ Waiting for resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                            REPLICAS                 AVAILABLE                  UP-TO-DATE                                    
+│ │ werf-guide-app                                                                                                                        1/1                      1                          1                                             
+│ │ STATEFULSET                                                                                                                           REPLICAS                 READY                      UP-TO-DATE                                    
+│ │ minio                                                                                                                                 1/1                      1                          1                                             
+│ │ mysql                                                                                                                                 1/1                      1                          1                                             
+│ │ JOB                                                                                                                                   ACTIVE                   DURATION                   SUCCEEDED/FAILED                              
+│ │ setup-and-migrate-db-rev25                                                                                                            1                        5s                         0/0                                           
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                           ---                                                                                               
+│ │ └── and-migrate-db-rev25-zlbd7                          0/1                0                         Completed                        Waiting for: pods should be terminated, succeeded 0->1                                            
+│ │ setup-minio-rev25                                                                                                                     1                        5s                         0/0                                           
+│ │ RESOURCE                                                                                           NAMESPACE                       CONDITION: CURRENT (DESIRED)                                                                         
+│ │ Secret/app-envs                                                                                    werf-guide-app                  -                                                                                                ↵
+│ │     
+│ │ Secret/db-envs                                                                                     werf-guide-app                  -                                                                                                    
+│ │ ConfigMap/app-envs                                                                                 werf-guide-app                  -                                                                                                    
+│ │ ConfigMap/db-envs                                                                                  werf-guide-app                  -                                                                                                    
+│ │ ConfigMap/nginx-conf                                                                               werf-guide-app                  -                                                                                                    
+│ │ Service/mysql                                                                                      werf-guide-app                  -                                                                                                    
+│ │ Service/werf-guide-app                                                                             werf-guide-app                  -                                                                                                    
+│ │ Service/minio                                                                                      werf-guide-app                  -                                                                                                    
+│ │ Ingress/werf-guide-app                                                                             werf-guide-app                  -                                                                                                    
+│ └ Status progress
+│ 
+│ ┌ job/setup-and-migrate-db-rev25 po/setup-and-migrate-db-rev25-zlbd7 container/setup-and-migrate-db logs
+│ │ no change
+│ └ job/setup-and-migrate-db-rev25 po/setup-and-migrate-db-rev25-zlbd7 container/setup-and-migrate-db logs
+│ 
+│ ┌ Status progress
+│ │ JOB                                                                                                                                   ACTIVE                   DURATION                   SUCCEEDED/FAILED                              
+│ │ setup-and-migrate-db-rev25                                                                                                            0                        6s                         0->1/0                                        
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                                                                                                                             
+│ │ └── and-migrate-db-rev25-zlbd7                          0/1                0                         Completed                        
+│ │ setup-minio-rev25                                                                                                                     1                        10s                        0/0                                           
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                           ---                                                                                               
+│ │ └── minio-rev25-czzg5                                   1/1                0                         Running                          Waiting for: pods should be terminated, succeeded 0->1                                            
+│ └ Status progress
+│ 
+│ ┌ job/setup-minio-rev25 po/setup-minio-rev25-czzg5 container/setup-minio logs
+│ │ Added `minio` successfully.
+│ │ Bucket created successfully `minio/werf-guide-app`.
+│ └ job/setup-minio-rev25 po/setup-minio-rev25-czzg5 container/setup-minio logs
+│ 
+│ ┌ Status progress
+│ │ JOB                                                                                                                                   ACTIVE                   DURATION                   SUCCEEDED/FAILED                              
+│ │ setup-minio-rev25                                                                                                                     1                        15s                        0/0                                           
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                           ---                                                                                               
+│ │ └── minio-rev25-czzg5                                   0/1                0                         Running->Completed               Waiting for: pods should be terminated, succeeded 0->1                                            
+│ └ Status progress
+│ 
+│ ┌ Status progress
+│ │ JOB                                                                                                                                   ACTIVE                   DURATION                   SUCCEEDED/FAILED                              
+│ │ setup-minio-rev25                                                                                                                     0                        17s                        0->1/0                                        
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                                                                                                                             
+│ │ └── minio-rev25-czzg5                                   0/1                0                         Completed                        
+│ └ Status progress
+└ Waiting for resources to become ready (17.29 seconds)
+
+┌ Waiting for resources elimination: jobs/setup-minio-rev24, jobs/setup-and-migrate-db-rev24
+└ Waiting for resources elimination: jobs/setup-minio-rev24, jobs/setup-and-migrate-db-rev24 (0.10 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Mon Jun 26 16:19:27 2023
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 25
+TEST SUITE: None
+Running time 21.57 seconds
+```

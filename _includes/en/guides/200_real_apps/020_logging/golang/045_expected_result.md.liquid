@@ -1,0 +1,42 @@
+```
+...
+│ ├ Info
+│ │      name: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app:e686d41f5f0c8412e935b7e64b370831cab2dabe900fd2335f5defe5-1686918782909
+│ │        id: 005429f13428
+│ │   created: 2023-06-16 15:33:01 +0300 MSK
+│ │      size: 8.8 MiB
+│ └ Building stage app/dockerfile (59.99 seconds)
+└ ⛵ image app (60.65 seconds)
+
+┌ Waiting for resources to become ready
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                            REPLICAS                 AVAILABLE                  UP-TO-DATE                                    
+│ │ werf-guide-app                                                                                                                        2/1                      1                          1                                             
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                           ---                                                                                               
+│ │ ├── guide-app-5d54fdd88-vnm8s                           0/1                0                         ContainerCreating                Waiting for: replicas 2->1                                                                        
+│ │ └── guide-app-8456cd6679-8dbd4                          1/1                0                         Running                          
+│ │ RESOURCE                                                                                           NAMESPACE                       CONDITION: CURRENT (DESIRED)                                                                         
+│ │ Service/werf-guide-app                                                                             werf-guide-app                  -                                                                                                    
+│ │ Ingress/werf-guide-app                                                                             werf-guide-app                  -                                                                                                    
+│ └ Status progress
+│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                            REPLICAS                 AVAILABLE                  UP-TO-DATE                                    
+│ │ werf-guide-app                                                                                                                        2->1/1                   1                          1                                             
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                                                                                                                             
+│ │ ├── guide-app-5d54fdd88-vnm8s                           1/1                0                         ContainerCreating->Running       
+│ │ └── guide-app-8456cd6679-8dbd4                          1/1                0                         Running->Terminating             
+│ └ Status progress
+└ Waiting for resources to become ready (8.32 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Fri Jun 16 15:33:23 2023
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 4
+TEST SUITE: None
+Running time 73.45 seconds
+```

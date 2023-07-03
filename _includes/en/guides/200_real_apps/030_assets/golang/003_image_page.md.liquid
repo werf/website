@@ -1,0 +1,44 @@
+Сейчас наше приложение представляет собой простое API — в нем есть только один endpoint `/ping` без настроенной раздачи ассетов и работы с HTML-шаблонами.
+
+Чтобы сделать из этого API простое веб-приложение, мы произвели следующие изменения. Для начала создали каталоги с ассетами и шаблонами:
+
+```
+├── static
+│   ├── images
+│   │   └── werf-logo.svg
+│   ├── javascripts
+│   │   └── image.js
+│   └── stylesheets
+│       └── site.css
+├── templates
+│   ├── image.html
+│   └── index.html
+```
+
+Затем настроили приложение на раздачу ассетов из созданных каталогов:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="assets" examples=page.examples %}
+
+Слева здесь указаны пути, по которым ассеты будут доступны при запросе, а справа путь к ним в каталоге. Затем настроили загрузку шаблонов из каталога `tamplates`:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="templates" examples=page.examples %}
+
+Следующим шагом мы подготовили контроллеры для обработки запросов по пути `/image` и `/`, использующие загруженные шаблоны:
+
+{% include snippetcut_example path="internal/controllers/image_controller.go" syntax="go" examples=page.examples %}
+
+И прописали новые маршруты, привязав их к созданным контроллерам:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="routes" examples=page.examples %}
+
+Контроллеры обращаются к файлам шаблонов, расположение которых мы указывали выше:
+
+{% include snippetcut_example path="templates/index.html" syntax="html" examples=page.examples %}
+
+{% include snippetcut_example path="templates/image.html" syntax="html" examples=page.examples %}
+
+При нажатии на кнопку *Get image* должен выполняться Ajax-запрос, с помощью которого мы получим и отобразим [SVG-картинку](https://github.com/werf/website/blob/main/examples/golang/030_assets/static/images/werf-logo.svg):
+
+{% include snippetcut_example path="static/javascripts/image.js" syntax="js" examples=page.examples %}
+
+Также на странице будет использоваться CSS-файл [static/stylesheets/site.css](https://github.com/werf/website/blob/main/examples/golang/030_assets/static/stylesheets/site.css).
