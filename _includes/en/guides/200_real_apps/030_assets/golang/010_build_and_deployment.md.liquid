@@ -1,22 +1,22 @@
-Внесем изменения в Dockerfile:
+Let's make the following changes to the Dockerfile:
 
-* добавим копирование в образ шаблонов и ассетов (они должны располагаться рядом с исполняемым файлом приложения);
-* теперь нам требуется собрать не только образ с приложением, но и образ с NGINX, где должны находиться статические файлы приложения, которые NGINX сможет сразу отдать клиенту.
+* enable copying templates and assets into the image (they should be located next to the application's executable);
+* build an NGINX image to store static application files (in addition to the application image); NGINX will serve these static files to the clients directly.
 
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-Во время сборки в образ с NGINX будет добавлен его конфигурационный файл:
+At build time, the NGINX configuration file will be added to the NGINX image:
 
 {% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
 
-Обновим конфигурацию `werf.yaml`, чтобы werf собрал и сохранил два образа (backend, frontend) вместо одного:
+Now we need to update the `werf.yaml` configuration so that werf will build and save two images (backend, frontend) instead of one:
 
 {% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
 
-Добавим новый NGINX-контейнер в Deployment приложения:
+Let's add a new NGINX container to the application's Deployment:
 
 {% include snippetcut_example path=".helm/templates/deployment.yaml" syntax="yaml" examples=page.examples %}
 
-Теперь Service и Ingress должны обращаться на 80-й порт, а не 8080-й, чтобы все запросы шли через NGINX, а не напрямую на наше приложение:
+From now on, the Service and Ingress must connect to port 80 instead of 8080 so that all requests are routed through NGINX instead of going directly to our application:
 {% include snippetcut_example path=".helm/templates/service.yaml" syntax="yaml" examples=page.examples %}
 {% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}

@@ -1,5 +1,5 @@
 {% include snippetcut_example path=".helm/templates/job-db-setup-and-migrate.yaml" syntax="yaml" examples=page.examples %}
 
-Здесь используются два контейнера:
-* InitContainer будет запущен первым, и в нем будет в цикле пинговаться сервер MySQL до получения ответа.
-* В основном контейнере (backend из Dockerfile) запустится утилита migrate и произведет миграции БД.
+Two containers are involved here:
+* The InitContainer will start first, and it will be pinging the MySQL server until it gets a response.
+* Then the the migrate utility running in the main container (the Dockerfile's backend) will migrate the database.
