@@ -20,7 +20,7 @@ search: exclude
     </url>
     {%- endfor %}
 
-    {%- assign configurator_links = site.data.common.configurator_sitemap.links %}
+    {%- assign configurator_links = site.data.common.install_sitemap.links %}
     {%- for link in configurator_links %}
     <url>
         <loc>{{ site.url }}/documentation/v1.2/index.html?{{ link }}</loc>
