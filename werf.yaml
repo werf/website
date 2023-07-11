@@ -214,20 +214,20 @@ import:
   - image: doc_ru
     add: /app/_site
     to: /spelling/ru
-    before: install
+    after: install
   - image: doc_en
     add: /app/_site
     to: /spelling/en
-    before: install
+    after: install
 git:
   - add: /scripts/docs/spelling/dictionaries/
     to: /temp/dictionaries
     stageDependencies:
-      install: '**/*'
+      setup: '**/*'
   - add: /scripts/docs/spelling/internal/
     to: /temp/internal
     stageDependencies:
-      install: '**/*'
+      setup: '**/*'
 docker:
   ENV:
     LANG: ru_RU.UTF-8
