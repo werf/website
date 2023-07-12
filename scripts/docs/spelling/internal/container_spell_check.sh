@@ -7,8 +7,10 @@ str=$'\n'
 
 if [[ "$arg_site_lang" == "en" ]]; then
   language="en_US,dev_OPS"
+  indicator="EN"
 elif [[ "$arg_site_lang" == "ru" ]]; then
   language="ru_RU,en_US,dev_OPS"
+  indicator="RU"
 fi
 
 if [ -n "$2" ]; then
@@ -36,7 +38,7 @@ else
   for file in `find ./ -type f -name "*.html"`
   do
     echo "$str"
-    echo "Checking $file..."
+    echo "$indicator: checking $file..."
     python3 clear_html_from_code.py $file | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
   done
 fi
