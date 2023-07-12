@@ -1,8 +1,0 @@
-links:
-  - "usage=localDev&os=linux&buildBackend=buildah"
-  - "usage=localDev&os=macos&buildBackend=docker"
-  - "usage=localDev&os=windows&buildBackend=docker"
-  - "usage=ci&ci=gitlabCiCd&runnerType=kubernetesRunner&os=linux&buildBackend=buildah&projectType=bestPractice&sharedCICD=no&repoType=application"
-  - "usage=ci&ci=githubActions&runnerType=hostRunner&os=linux&buildBackend=docker&projectType=simplified&sharedCICD=no&repoType=application"
-  - "usage=ci&ci=otherCiCdSystem&runnerType=dockerRunner&os=linux&buildBackend=buildah&projectType=simplified&sharedCICD=no&repoType=application"
-  - "usage=ci&ci=argoCdWithGitlabCiCd&runnerType=dockerRunner&os=linux&buildBackend=buildah&projectType=simplified&sharedCICD=no&repoType=application"
