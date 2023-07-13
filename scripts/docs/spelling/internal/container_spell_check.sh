@@ -28,17 +28,48 @@ sed -i 's/SET ISO8859-1/SET UTF-8/' /usr/share/hunspell/en_US.aff
 echo "Checking $arg_site_lang docs..."
 
 if [ -n "$2" ]; then
-  echo "Checking $arg_target_page..."
   if [ -n "$3" ]; then
     python3 clear_html_from_code.py $arg_target_page | html2text -utf8 | sed '/^$/d'
   else
-    python3 clear_html_from_code.py $arg_target_page | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
+    check=1
+    if test -f "filesignore"; then
+      while read y; do
+        if [[ "$arg_target_page" =~ "$y" ]]; then
+          unset check
+          check=0
+        fi
+      done <<-__EOF__
+  $(cat ./filesignore)
+__EOF__
+      if [ "$check" -eq 1 ]; then
+        echo "Checking $arg_target_page..."
+        python3 clear_html_from_code.py $arg_target_page | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
+      else
+        echo "Ignoring $arg_target_page..."
+      fi
+    fi
   fi
 else
   for file in `find ./ -type f -name "*.html"`
   do
-    echo "$str"
-    echo "$indicator: checking $file..."
-    python3 clear_html_from_code.py $file | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
+    check=1
+    if test -f "filesignore"; then
+      while read y; do
+        if [[ "$file" =~ "$y" ]]; then
+          unset check
+          check=0
+        fi
+      done <<-__EOF__
+  $(cat ./filesignore)
+__EOF__
+      if [ "$check" -eq 1 ]; then
+        echo "$str"
+        echo "$indicator: checking $file..."
+        python3 clear_html_from_code.py $file | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l
+      else
+        echo "$str"
+        echo "Ignoring $indicator: $file..."
+      fi
+    fi
   done
 fi
