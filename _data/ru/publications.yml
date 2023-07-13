@@ -17,6 +17,24 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Hands-on lab on deploying to Kubernetes with werf"
+    custom_urls:
+      - service_name: "CloudYuga"
+        url: "https://cloudyuga.guru/hands_on_lab/werf-deploy"
+    img: "/assets/images/publications/en_200622.png"
+    created: 2022-06-20
+    comment: |
+      <p>В этой англоязычной интерактивной лабораторной работе, запущенной непосредственно в вашем веб-браузере, можно узнать, как легко развертывать приложения в Kubernetes с помощью werf.</p>
+  - title: "Simple End to End GitOps with Werf"
+    custom_urls:
+      - service_name: "KLLRCODA"
+        url: "https://killercoda.com/jarns-zeiher/scenario/Simple-End-to-End-GitOps-with-Werf"
+    img: "/assets/images/publications/ru_130723.jpg"
+    created: 2023-07-13
+    comment: |
+      <p>Это англоязычное интерактивное руководство познакомит вас с подходом GitOps и GitOps-агентом werf.
+      <br><br>
+      Пройдя его, вы получите представление об основных идеях GitOps и узнаете, как с помощью werf автоматически (по коммиту) развертывать приложения в различные окружения (development, production).</p>
   - title: "Родительский helm chart для проектов + werf"
     habr_url: "https://habr.com/ru/articles/734922/"
     img: "/assets/images/publications/ru_150523.png"
