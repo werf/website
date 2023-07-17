@@ -80,7 +80,7 @@
                 {%- endfor %}
                 {%- endfor %}
                 <li class="header__menu-item header__menu-item_parent submenu-parent">
-                    <!-- spell-delete -->
+                    <!-- spell-check-ignore -->
                     <a href="#">
                         {%- if page.lang == "ru" %}
                             Русский
@@ -88,22 +88,22 @@
                             English
                         {%- endif %}
                     </a>
-                    <!-- end-spell-delete -->
+                    <!-- end-spell-check-ignore -->
                     <div class="submenu-container">
                       <ul class="submenu">
                         <li data-proofer-ignore class="submenu-item">
-                            <!-- spell-delete -->
+                            <!-- spell-check-ignore -->
                             <a data-proofer-ignore href="{{ site.site_urls.en }}{{ page.url }}" class="submenu-item-link">
                                 English
                             </a>
-                            <!-- end-spell-delete -->
+                            <!-- end-spell-check-ignore -->
                         </li>
                         <li data-proofer-ignore class="submenu-item">
-                            <!-- spell-delete -->
+                            <!-- spell-check-ignore -->
                             <a data-proofer-ignore href="{{ site.site_urls.ru }}{{ page.url }}" class="submenu-item-link">
                                 Русский
                             </a>
-                            <!-- end-spell-delete -->
+                            <!-- end-spell-check-ignore -->
                         </li>
                       </ul>
                     </div>
