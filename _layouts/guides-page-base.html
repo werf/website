@@ -55,12 +55,14 @@ layout: default-guides
                         <a href="{{ prev_url }}" style="visibility: hidden;"></a>
                       {% elsif index_sub <= 0 %}
                         {% if page.lang == 'en' %}
+                          <!-- spell-delete -->
                           <a href="{{ main_path_prev }}" class="guides-post__nav--link">
                             <div class="guides-post__nav-arrow ">
                               <span class="btn__icon--prev arrow-guides"></span>
                             </div>
                             prev
                           </a>
+                          <!-- end-spell-delete -->
                         {% else %}
                           <a href="{{ main_path_prev }}" class="guides-post__nav--link">
                             <div class="guides-post__nav-arrow">
@@ -71,12 +73,14 @@ layout: default-guides
                         {% endif %}
                       {% else %}
                         {% if page.lang == 'en' %}
+                        <!-- spell-delete -->
                           <a href="{{ prev_url }}" class="guides-post__nav--link">
                             <div class="guides-post__nav-arrow">
                               <span class="btn__icon--prev arrow-guides"></span>
                             </div>
                             prev
                           </a>
+                          <!-- end-spell-delete -->
                         {% else %}
                           <a href="{{ prev_url }}" class="guides-post__nav--link">
                             <div class="guides-post__nav-arrow">
