@@ -25,7 +25,9 @@ sidebar: none
                 </div>
                 <div class="intro-banner__link-cncf">
                     <a href="https://www.cncf.io/projects/werf/" target="_blank">
+                        <!-- spell-check-ignore -->
                         <img src="/assets/images/cncf-logo-small.svg" alt="">
+                        <!-- end-spell-check-ignore -->
                         <div class="link-cncf__text">werf — проект категории sandbox <br>в Cloud Native Computing Foundation</div>
                     </a>
                 </div>

@@ -32,11 +32,15 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 Откроем в браузере [http://werf-guide-app.test/image](http://werf-guide-app.test/image) и нажмём на кнопку _Get image_. Ожидаемый результат:
 
+<!-- spell-check-ignore -->
 {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/020_image_first.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Также обратим внимание на то, какие ресурсы были запрошены и по каким ссылкам (последний ресурс здесь получен через Ajax-запрос):
 
+<!-- spell-check-ignore -->
 {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/025_image_second.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Теперь наше приложение является не просто API, но веб-приложением, которое имеет средства для эффективного менеджмента статических файлов и JavaScript.
 
