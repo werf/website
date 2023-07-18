@@ -7,7 +7,7 @@ sidebar: none
 
 <div class="feedback__title"><strong>Huge thank you</strong> for letting us know<br> about your first deployment with <span>werf</span>!</div>
 
-<p>Collecting this anonymized data helps us to learn more about werf's usage and to improve it.<br> We are sincerely grateful for your kind contribution!</p>
+<p>Collecting this anonymized data helps us to learn more about werf’s usage and to improve it.<br> We are sincerely grateful for your kind contribution!</p>
 
 <div class="feedback__title">One more thing...</div>
 

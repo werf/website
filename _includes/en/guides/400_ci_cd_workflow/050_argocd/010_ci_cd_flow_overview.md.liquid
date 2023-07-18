@@ -16,15 +16,15 @@ The Git repository of the project is considered a single source of truth. It con
 
 ### Release artifacts
 
-1. Release artifacts are published to the container registry and include: 
+1. Release artifacts are published to the container registry and include:
    * built images;
    * Helm charts.
 2. A release artifact can be prepared and published for an arbitrary git commit.
 3. There are two requirements for published artifacts: they must be immutable and reproducible.
-4. Dependening on CI/CD configuration, release artifacts can be published:
+4. Depending on CI/CD configuration, release artifacts can be published:
    * for each commit in the main branch, followed by deployment to production;
    * for Git tags that match the application's releases.
-5. You can use any common CI/CD system (such as Gitlab CI/CD or GitHub Actions) to prepare release artifacts.
+5. You can use any common CI/CD system (such as GitLab CI/CD or GitHub Actions) to prepare release artifacts.
 
 ### Deploying to Kubernetes with GitOps
 
@@ -32,7 +32,7 @@ There is a GitOps operator deployed into the cluster that implements a pull mode
 * keeps track of new release artifact versions in the container registry;
 * rolls out a particular version of the artifact to the Kubernetes cluster.
 
-Depending on the CI/CD flow, the GitOps operator can deploy the release artifact either manually (Continuous Delivery) or automatically (Continous Deployment). 
+Depending on the CI/CD flow, the GitOps operator can deploy the release artifact either manually (Continuous Delivery) or automatically (Continuous Deployment).
 
 ## Reference CI/CD flow
 
@@ -71,7 +71,7 @@ Fast testing of each commit in the Git repository is an essential part of the CI
 
 Usually, the tests are run in one-shot containers with built images. werf offers the following commands to run such one-shot containers:
 * `werf run` — run the one-shot command container on the Docker server;
-* `werf kube-run` — run the one-shot command container in the Kubernetes cluster. 
+* `werf kube-run` — run the one-shot command container in the Kubernetes cluster.
 
 More information can be found [in the configuration article](030_configure_ci_cd.html#fast-commit-testing).
 
@@ -83,7 +83,7 @@ The `werf bundle publish` command:
 * ensures that all the necessary images are build;
 * publishes the Helm chart files, configured to use the built images, to the container registry — the so-called bundle.
 
-The published bundle can then be deployed to a Kubernetes cluster using ArgoCD as a regular OCI Helm chart.  
+The published bundle can then be deployed to a Kubernetes cluster using ArgoCD as a regular OCI Helm chart.
 
 More information can be found [in the configuration article](030_configure_ci_cd.html#preparing-release-artifacts).
 
@@ -93,9 +93,9 @@ Acceptance testing is an integral part of CI/CD. Such tests usually take a long 
 
 Typically, acceptance testing is performed automatically after a Pull Request is merged into the main branch.
 
-Acceptance testing of new releases is not necessary for Continuous Integration, but in most cases it is necessary for Continuous Delivery of new releases. In other words, you can add new commits and PRs to the main branch without conducting acceptance tests, but the release artifact must successfully pass acceptance tests before it can be deployed to production. 
+Acceptance testing of new releases is not necessary for Continuous Integration, but in most cases it is necessary for Continuous Delivery of new releases. In other words, you can add new commits and PR’s to the main branch without conducting acceptance tests, but the release artifact must successfully pass acceptance tests before it can be deployed to production.
 
-werf allows you to set a special test environment  (with `--env ENV` param).
+werf allows you to set a special test environment  (with `--env ENV` parameter).
 * In the test environment, there may be special build and deploy configuration files;
 * The test environment also has a special Helm post-install `Job` resource.
 

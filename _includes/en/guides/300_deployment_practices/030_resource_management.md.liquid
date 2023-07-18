@@ -19,7 +19,7 @@ Setting priorities will help you to avoid sudden evictions of critical component
 
 The scheduler uses a Pod’s `resources.requests` to decide which node to place the Pod on. For instance, a Pod cannot be scheduled on a Node that does not have enough free (i.e., *non-requested*) resources to cover that Pod’s resource requests. On the other hand, `resources.limits` allow you to limit Pods’ resource consumption that heavily exceeds their respective requests. A good tip is to **set limits equal to requests**. Setting limits at much higher than requests may lead to a situation when some of a node’s Pods not getting the requested resources. This may lead to the failure of other applications on the node (or even the node itself). Kubernetes assigns a [QoS class](https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod) to each Pod based on its resource scheme. K8s then uses QoS classes to make decisions about which Pods should be evicted from the nodes.
 
-Therefore, you **have to set both requests and limits for both the CPU and memory**. The only thing you can/should omit is the CPU limit if the [Linux kernel version is older than 5.4](https://engineering.indeedblog.com/blog/2019/12/cpu-throttling-regression-fix/) (in the case of EL7/CentOS7, the kernel version must be older than 3.10.0-1062.8.1.el7).
+Therefore, you **have to set both requests and limits for both the CPU and memory**. The only thing you can/should omit is the CPU limit if the [Linux kernel version is older than 5.4](https://engineering.indeedblog.com/blog/2019/12/cpu-throttling-regression-fix/) (in the case of EL7/CentOS7, the kernel version must be older than <!-- spell-check-ignore -->3.10.0-1062.8.1.el7<!-- end-spell-check-ignore -->).
 
 >Refer to the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/) to learn more about QOS classes.
 
@@ -78,7 +78,7 @@ spec:
     apiVersion: "apps/v1"
     kind: Deployment
     name: my-app
-  updatePolicy: 
+  updatePolicy:
     updateMode: "Recreate"
     containerPolicies:
       - containerName: "*"
@@ -104,7 +104,7 @@ spec:
     apiVersion: "apps/v1"
     kind: Deployment
     name: my-app
-  updatePolicy: 
+  updatePolicy:
     updateMode: "Off"   # !!!
   resourcePolicy:
     containerPolicies:

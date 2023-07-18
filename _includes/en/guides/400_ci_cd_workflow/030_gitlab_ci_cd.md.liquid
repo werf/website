@@ -13,7 +13,7 @@ The set of tiers (as well as GitLab environments) in a Kubernetes cluster may va
 * Staging;
 * Review.
 
-Below, we discuss various pipeline stages and options for setting them up. We will start with general terms and then proceed to the particularities. At the end of the article, you may find [ready-made .gitlab-ci.yml](#the-complete-gitlab-ciyml-for-ready-made-workflows) files tailored for specific workflows.
+Below, we discuss various pipeline stages and options for setting them up. We will start with general terms and then proceed to the particularities. At the end of the article, you may find <!-- spell-check-ignore -->[ready-made .gitlab-ci.yml](#the-complete-gitlab-ciyml-for-ready-made-workflows)<!-- end-spell-check-ignore --> files tailored for specific workflows.
 
 Regardless of the workflow in question, all configuration versions are subject to the following rules:
 
@@ -62,14 +62,14 @@ Let us install and configure the GitLab runner on the node where werf will be ru
 1. Register the `gitLab-runner` by following all the necessary [steps](https://docs.gitlab.com/runner/register/index.html). Note:
     * enter `werf` as the tag associated with the runner;
     * enter `shell` as the runner executor.
-1. Add the `gitlab-runner` user to the `docker` group.
+1. Add the <!-- spell-check-ignore -->`gitlab-runner`<!-- end-spell-check-ignore --> user to the `docker` group.
 
    ```shell
    sudo usermod -aG docker gitlab-runner
    ```
 
 1. [Install werf](/documentation/index.html).
-1. Install `kubectl` and copy the kubectl config to the home directory of the gitlab-runner user.
+1. Install `kubectl` and copy the kubectl config to the home directory of the <!-- spell-check-ignore -->gitlab<!-- end-spell-check-ignore -->-runner user.
 
    ```shell
    mkdir -p /home/gitlab-runner/.kube &&
@@ -116,7 +116,7 @@ If you need to authorize using the custom credentials, the `docker login` comman
 
 ## Deploying an application
 
-First of all, you need to define a template – the general part of the deployment process suitable for any tier. This way, you will decrease the size of the `.gitlab-ci.yml` file while improving its readability. This will allow you to focus on the workflow.
+First of all, you need to define a template – the general part of the deployment process suitable for any tier. This way, you will decrease the size of the <!-- spell-check-ignore -->`.gitlab-ci.yml`<!-- end-spell-check-ignore --> file while improving its readability. This will allow you to focus on the workflow.
 
 {% raw %}
 ```yaml
@@ -143,7 +143,7 @@ Example:
 ```
 {% endraw %}
 
-When running a job, `werf ci-env` sets the `WERF_ENV` variable according to the gitlab environment name (`CI_ENVIRONMENT_SLUG`)
+When running a job, `werf ci-env` sets the `WERF_ENV` variable according to the GitLab environment name (`CI_ENVIRONMENT_SLUG`)
 
 In order to configure the application for using in different tiers, you can take advantage of Go templates and the `.Values.werf.env` variable in helm templates. This is analogous to setting the `–-env` option or the `WERF_ENV` environment variable.
 
@@ -195,7 +195,7 @@ The `Review` job defines the deployment of a review release to a dynamic environ
 
 The `Stop Review` job deletes the review release and shuts down the GitLab environment (`action: stop`): werf deletes the helm release and the associated Kubernetes namespace with all its contents ([werf dismiss]({{ site.url }}/documentation/v1.2/reference/cli/werf_dismiss.html)). You can run the `Stop Review` job manually after the deployment to the review tier is complete, or automatically via the GitLab server (for example, when the corresponding branch is deleted as a result of merging with master, provided that the appropriate option is set in the GitLab interface).
 
-The `werf dismiss` command requires werf.yaml to work, because this file contains [templates for the release name and the namespace]({{ site.url }}/documentation/v1.2/usage/deploy/environments.html). It is not possible to use the source code from the git when deleting a branch, that is why we use werf.yaml (it was saved when the Review job was running), while pulling changes from git is disabled (`GIT_STRATEGY: none`).
+The `werf dismiss` command requires <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore --> to work, because this file contains [templates for the release name and the namespace]({{ site.url }}/documentation/v1.2/usage/deploy/environments.html). It is not possible to use the source code from the git when deleting a branch, that is why we use <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore --> (it was saved when the Review job was running), while pulling changes from git is disabled (`GIT_STRATEGY: none`).
 
 Thus, by default, we have the following options for deleting the review environment:
 
@@ -371,7 +371,7 @@ Deploy to Production:
 
 Options for rolling back changes in production:
 
-- by [revert](https://git-scm.com/docs/git-revert)-ing changes in master (**recommended**);
+- by [reverting](https://git-scm.com/docs/git-revert) changes in master (**recommended**);
 - by rolling out a stable MR or via the [Rollback](https://docs.gitlab.com/ee/ci/environments/#environment-rollback) button.
 
 #### 2. Push the button
@@ -462,8 +462,8 @@ Deploy to Production:
 Options for rolling back changes in production:
 
 - using the [Rollback environment](https://docs.gitlab.com/ee/ci/environments/#environment-rollback) button;
-- by [revert](https://git-scm.com/docs/git-revert)-ing changes in the production branch;
-- by [revert](https://git-scm.com/docs/git-revert)-ing changes to master and fast-forwarding merge to the production branch;
+- by [reverting](https://git-scm.com/docs/git-revert) changes in the production branch;
+- by [reverting](https://git-scm.com/docs/git-revert) changes to master and fast-forwarding merge to the production branch;
 - by deleting a commit from the production branch and then making a push-force.
 
 ## Cleaning up Images
@@ -490,7 +490,7 @@ To pass `Personal Access Token` to the GitLab environment variable, open your pr
 
 The cleanup stage runs on a schedule only. You can define the schedule by opening the `CI/CD` —> `Schedules` section of the project settings in GitLab. Click the `New schedule` button, fill in the task description, and define the launch template in the cron format. Leave the master branch in the Target Branch field (the branch name does not affect the cleanup process), make sure the `Active` checkbox is selected, and save the pipeline schedule.
 
-## The complete .gitlab-ci.yml for ready-made workflows
+## The complete <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore --> for ready-made workflows
 
 <div class="tabs">
   <a href="javascript:void(0)" class="tabs__btn active" onclick="openTab(event, 'tabs__btn', 'tabs__content', 'complete_gitlab_ci_1')">No. 1 Fast and Furious (recommended)</a>
@@ -511,7 +511,7 @@ The cleanup stage runs on a schedule only. You can define the schedule by openin
 * Deploying to staging and production tiers via the strategy [No. 1 Fast and Furious (recommended)](#1-fast-and-furious-recommended).
 * [Cleaning up stages](#cleaning-up-images).
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 
 {:.no_toc}
 
@@ -617,7 +617,7 @@ Cleanup:
 * Deploying to staging and production tiers via the strategy [No. 2 Push the Button](#2-push-the-button).
 * [Cleaning up stages](#cleaning-up-images).
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 
 {:.no_toc}
 
@@ -714,7 +714,7 @@ Cleanup:
 * Deploying to staging and production tiers via the strategy [No. 3 Tag Everything](#3-tag-everything-recommended).
 * [Cleaning up stages](#cleaning-up-images).
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 {:.no_toc}
 
 {% raw %}
@@ -809,7 +809,7 @@ Cleanup:
 * Deploying to staging and production tiers via the strategy [No. 4 Branch, branch, branch!](#4-branch-branch-branch).
 * [Cleaning up stages](#cleaning-up-images).
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 {:.no_toc}
 
 {% raw %}

@@ -90,7 +90,7 @@ The `kubectl` interface is already pre-installed on GitHub virtual machines, so 
 
 Job configuring is quite simple, so we prefer to focus on what it lacks — an explicit authorization in the container registry, and calling the `docker login`.
 
-In the simplest case, if an [integrated Github Packages-like container registry](https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages) is used, then the authorization is performed automatically when the `werf ci-env` command is invoked. This command is run with several required arguments such as GitHub environment variables, the [`GITHUB_TOKEN` secret](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret) (you have to explicitly declare it), and the name of the user (`GITHUB_ACTOR`) who started the workflow process.
+In the simplest case, if an [integrated GitHub Packages-like container registry](https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages) is used, then the authorization is performed automatically when the `werf ci-env` command is invoked. This command is run with several required arguments such as GitHub environment variables, the [`GITHUB_TOKEN` secret](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret) (you have to explicitly declare it), and the name of the user (`GITHUB_ACTOR`) who started the workflow process.
 
 If there is a need to perform authorization using custom credentials or in an external container registry, then you have to use a ready-made action tailored to your container registry (or just run `docker login` before using werf).
 
@@ -128,9 +128,11 @@ As it was said before, the review environment is a dynamic tier. Therefore, this
 
 Let us consider some basic GitHub workflow files that would serve as a basis for all the suggested options.
 
-First, let's analyze the `.github\workflows\review_deployment.yml` file.
+First, let's analyze the <!-- spell-check-ignore -->`.github\workflows\review_deployment.yml`<!-- end-spell-check-ignore --> file.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_base.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 It lacks the triggering condition since it depends on the chosen approach to setting up environments.
 
@@ -146,9 +148,11 @@ This job is identical to the basic configuration except for the `Define environm
 ```
 {% endraw %}
 
-Now, let's analyze `.github\workflows\review_deployment_dismiss.yml`.
+Now, let's analyze <!-- spell-check-ignore -->`.github\workflows\review_deployment_dismiss.yml`<!-- spell-check-ignore -->.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_dismiss_base.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 This GitHub workflow will be run when closing the PR.
 
@@ -172,7 +176,9 @@ In this approach, the user deploys and deletes the environment by assigning the 
 
 It is the most simplistic approach that can be useful when deployments are rare, and the review environment is not used during development. In essence, this approach is used for testing before accepting a PR.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_1.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 In this case, both GitHub workflows expect the label to be assigned to the PR.
 
@@ -214,7 +220,9 @@ labels:
 
 In the configuration below, the code is automatically released with every commit in the PR (if the name of the git branch contains the `review` prefix).
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_2.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 The deployment is triggered when there is a new commit to the branch, or a PR is opened (re-opened), which corresponds to the default set of types for the `pull_request` event:
 
@@ -240,7 +248,9 @@ Semi-automatic mode with a label is a comprehensive solution that combines the p
 
 By assigning a specific label (`review` in the example below), the user activates the automatic deployment to review environments for each commit. When a label is removed, the process of deleting the review release is triggered automatically.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_3.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 The deployment process is triggered by a commit to the branch or by assigning/removing a label in the PR. All these actions correspond to the following set of pull_request events:
 
@@ -264,11 +274,13 @@ In our case, these environments are the most important ones. Thus, the names of 
 
 The code is automatically deployed to **production** in response to any changes in master. At the same time, you can deploy an application to **staging** by clicking the button in the PR.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_1.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Options for rolling back changes in production:
 
-- by [revert](https://git-scm.com/docs/git-revert)-ing changes in master (**recommended**);
+- by [reverting](https://git-scm.com/docs/git-revert) changes in master (**recommended**);
 - by deploying a stable PR.
 
 #### 2. Push the button (*)
@@ -279,7 +291,9 @@ Options for rolling back changes in production:
 
 Deploying to **production** is triggered by clicking the button associated with the commit in master, and rolling out to **staging** is performed automatically in response to changes in master.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_2.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 We have the following condition for releasing to production:
 
@@ -314,7 +328,9 @@ Options for rolling back changes in production: by rolling out a stable PR and t
 
 The rollout to **production** is triggered when the tag is assigned; deploying to **staging** is performed manually on master.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_3.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 ```yaml
 on:
@@ -345,17 +361,21 @@ Options for rolling back changes in production: by assigning a new tag to the ol
 
 The code is deployed to **production** automatically; rolling out to **staging** is performed in response to changes in the master branch.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_4.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Options for rolling back changes in production:
 
-- by [revert](https://git-scm.com/docs/git-revert)-ing changes in the production branch;
-- by [revert](https://git-scm.com/docs/git-revert)-ing changes to master and performing a fast-forward merge to the production branch;
+- by [reverting](https://git-scm.com/docs/git-revert) changes in the production branch;
+- by [reverting](https://git-scm.com/docs/git-revert) changes to master and performing a fast-forward merge to the production branch;
 - by deleting a commit from the production branch and then performing a push-force.
 
 ## Cleaning up Images
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/cleanup_base.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 First of all, you need to perform a code checkout - add the source code of an application. It is the initial step of a job.
 
@@ -394,7 +414,9 @@ Workflow details
 ### Related configuration files
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_1.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>
 
@@ -414,7 +436,9 @@ Workflow details
 Related configuration files
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_2.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>
 
@@ -434,7 +458,9 @@ Related configuration files
 ### Related configuration files
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_3.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>
 
@@ -452,6 +478,8 @@ Related configuration files
 ### Related configuration files
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_4.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>

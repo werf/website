@@ -1,7 +1,7 @@
 Now we need to build an NGINX image in addition to the Rails/Puma one. This NGINX image must have all the static files to serve to the client:
 {% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
 
-The NIGINX config will be added to the NGINX image during the build:
+The NGINX config will be added to the NGINX image during the build:
 {% include snippetcut_example path=".werf/nginx.conf" syntax="nginx" examples=page.examples %}
 
 Let's update `werf.yaml` so that werf can build two images (backend, frontend) instead of one:
