@@ -20,7 +20,7 @@ The Service resource allows other applications in the cluster to connect to your
 
 ## Ingress
 
-The Ingress resource manages *external* access to the cluster (unlike a Service in Kuberneters that defines a policy for accessing applications *inside* the cluster). The Ingress configuration defines what Service to use for external traffic sent to the `werf-guide-app.test` domain.
+The Ingress resource manages *external* access to the cluster (unlike a Service in Kubernetes that defines a policy for accessing applications *inside* the cluster). The Ingress configuration defines what Service to use for external traffic sent to the `werf-guide-app.test` domain.
 
 {% include snippetcut_example path=".helm/templates/ingress.yaml" syntax="yaml" examples=page.examples %}
 

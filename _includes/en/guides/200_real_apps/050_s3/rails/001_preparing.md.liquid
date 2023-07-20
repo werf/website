@@ -14,7 +14,7 @@ rails new --database mysql \
 
 Here is the list of changes made to our application:
 1. Adding the `aws-sdk-s3` gem to [Gemfile]({{ page.base_url | append: page.examples | append: "/Gemfile" }}).
-1. Adding the `rails-activestorage` package to [package.json]({{ page.base_url | append: page.examples | append: "/package.json" }}).
+1. Adding the `rails-activestorage` package to <!-- spell-check-ignore -->[package.json]({{ page.base_url | append: page.examples | append: "/package.json" }})<!-- end-spell-check-ignore -->.
 1. Enabling `active_storage/engine` in [config/application.rb]({{ page.base_url | append: page.examples | append: "/config/application.rb" }}) and initializing Active Storage in [packs/application.js]({{ page.base_url | append: page.examples | append: "/app/javascript/packs/application.js" }}).
 1. Generating a [migration]({{ page.base_url | append: page.examples | append: "/db/migrate/20210830170827_create_active_storage_tables.active_storage.rb" }}) that creates tables required for Active Storage.
 1. Creating the [config/storage.yml]({{ page.base_url | append: page.examples | append: "/config/storage.yml" }}) configuration file.

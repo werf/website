@@ -81,7 +81,7 @@ articles:
     img: "/assets/images/publications/en_210922.png"
     created: 2022-09-21
     comment: |
-      <p>Custom readiness probes in initContainers wih Helm vs. resource weights in werf.</p>
+      <p>Custom readiness probes in initContainers with Helm vs. resource weights in werf.</p>
   - title: "Review or dynamic environments in Kubernetes. Theory and practice"
     blog_url: "https://blog.palark.com/review-environments-in-kubernetes-gitlab-ci/"
     img: "/assets/images/publications/en_290921.png"
@@ -229,7 +229,7 @@ articles:
     img: "/assets/images/publications/en_311019.png"
     created: 2019-10-31
     comment: |
-      <p>Are you struggling with implementing CI/CD for many microservices in a efficient and elegant way? Here’s our current approach in solving this task using GitLab CI (thanks to its include keyword in <i>.gitlab-ci.yml</i>) and werf.</p>
+      <p>Are you struggling with implementing CI/CD for many microservices in a efficient and elegant way? Here’s our current approach in solving this task using GitLab CI (thanks to its include keyword in <!-- spell-check-ignore --><i>.gitlab-ci.yml</i><!-- end-spell-check-ignore -->) and werf.</p>
   - title: "How to kill a dragon: Rewriting your app to Golang"
     medium_url: "https://medium.com/flant-com/rewriting-your-app-to-golang-2839e8920ace"
     img: "/assets/images/publications/en_251019.png"

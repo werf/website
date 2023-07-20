@@ -147,6 +147,7 @@ sidebar: none
             <div class="demo-block__title title-h3">How it works</div>
             <div class="demo-block__tabs-wrap">
                 <div class="demo-block__code">
+                    <!-- spell-check-ignore -->
                     <ul class="code-list">
                         <li class="code-item">
                             <div class="code-item-title">werf.yaml</div>
@@ -200,6 +201,7 @@ sidebar: none
                             </div>
                         </li>
                     </ul>
+                    <!-- end-spell-check-ignore -->
                 </div>
                 <div class="demo-block__tabs">
                     <div class="tabs__nav">

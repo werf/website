@@ -1,6 +1,6 @@
 ## ConfigMap and Secret
 
-ConfigMap and Secret Kubernetes resources allow you to separate environment-dependent and context-specific configuration from container images. 
+ConfigMap and Secret Kubernetes resources allow you to separate environment-dependent and context-specific configuration from container images.
 
 Both objects store data in key-value pairs and provide them to Pods as environment variables, command-line arguments, or configuration files mounted in a selected container.
 
@@ -34,7 +34,7 @@ Note that you will need a unique annotation for each mounted ConfigMap/Secret.
 Using a Helm chart to deploy an application has many advantages — for example, you can create manifest templates with Helm charts. `Values` is the key built-in templating object. With it, you can access values passed to the chart from various sources.
 
 When using werf, all data passed to the chart can be grouped into several categories:
-- [User-defined regular values]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/values.html#user-defined-regular-values): `values.yaml` parameters and corresponding options. 
+- [User-defined regular values]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/values.html#user-defined-regular-values): `values.yaml` parameters and corresponding options.
 - [User-defined secret values]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/values.html#user-defined-secret-values): parameters from the `secret-values.yaml` file.
 - [Service values]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/values.html#service-values): information about the project, release, built images, etc.
 

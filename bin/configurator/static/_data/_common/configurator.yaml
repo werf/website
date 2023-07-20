@@ -132,8 +132,8 @@ groups:
         ru: "Linux"
     - name: "macos"
       title:
-        en: "MacOS"
-        ru: "MacOS"
+        en: "macOS"
+        ru: "macOS"
     - name: "windows"
       title:
         en: "Windows"

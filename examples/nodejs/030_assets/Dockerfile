@@ -41,7 +41,7 @@ COPY --from=builder /app/routes      ./routes/
 
 #############################################################################
 
-# [<en>] Add an NIGINX image with the pre-built assets.
+# [<en>] Add an NGINX image with the pre-built assets.
 # [<ru>] NGINX-образ с собранными ранее ассетами.
 FROM nginx:stable-alpine as frontend
 WORKDIR /www
