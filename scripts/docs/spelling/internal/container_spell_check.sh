@@ -4,6 +4,7 @@ set -e
 
 arg_site_lang="${1:?ERROR: Site language \'en\' or \'ru\' should be specified as the first argument.}"
 str=$'\n'
+ex_result=0
 
 if [[ "$arg_site_lang" == "en" ]]; then
   language="en_US,dev_OPS"
@@ -68,6 +69,8 @@ __EOF__
       if [ "$check" -eq 1 ]; then
         result=$(python3 clear_html_from_code.py $file | sed '/<!-- spell-check-ignore -->/,/<!-- end-spell-check-ignore -->/d' | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l)
         if [ -n "$result" ]; then
+          unset ex_result
+          ex_result=1
           echo $str
           echo "$indicator: checking $file..."
           echo $result | sed 's/\s\+/\n/g'
@@ -77,4 +80,7 @@ __EOF__
       fi
     fi
   done
+  if [ "$ex_result" -eq 1 ]; then
+    exit 1
+  fi
 fi
