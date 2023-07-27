@@ -12,7 +12,7 @@ WORKDIR /app
 RUN go mod download
 # [<en>] Запускаем сборку приложения.
 # [<ru>] Запускаем сборку приложения.
-RUN go build -o /goapp app/main.go
+RUN go build -o /goapp cmd/main.go
 
 # [<en>] The image to deploy to the cluster.
 # [<ru>] Образ, который будет разворачиваться в кластере
