@@ -1,0 +1,36 @@
+```shell
+│ ├ Info
+│ │      name: <DOCKER HUB USERNAME>/werf-guide-app:328a492a57c7aa12e8af2ead55341f51f696961c2864d83545c6518d-1687253596426
+│ │        id: f05a34a1cdd2
+│ │   created: 2023-06-20 12:33:15 +0300 MSK
+│ │      size: 16.0 MiB
+│ └ Building stage frontend/dockerfile (97.50 seconds)
+└ ⛵ image frontend (99.86 seconds)
+
+┌ Build summary
+│ Set #0:
+│ - ⛵ image backend (85.30 seconds)
+│ - ⛵ image frontend (99.86 seconds)
+└ Build summary
+
+┌ Waiting for resources to become ready│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                                                            REPLICAS                 AVAILABLE                  UP-TO-DATE                                    
+│ │ werf-guide-app                                                                                                                        2->1/1                   1                          1                                             
+│ │ │   POD                                                 READY              RESTARTS                  STATUS                                                                                                                             
+│ │ ├── guide-app-5bfbc4cdd7-lgm48                          2/2                0                         ContainerCreating->Running       
+│ │ └── guide-app-5d54fdd88-vnm8s                           1/1                1                         Running->Terminating             
+│ └ Status progress
+└ Waiting for resources to become ready (17.26 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Tue Jun 20 12:33:40 2023
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 5
+TEST SUITE: None
+Running time 127.71 seconds
+```

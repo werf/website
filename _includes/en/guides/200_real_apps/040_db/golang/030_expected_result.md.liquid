@@ -1,0 +1,65 @@
+```
+┌ Concurrent build plan (no more than 5 images at the same time)
+│ Set #0:
+│ - ⛵ image backend
+│ - ⛵ image frontend
+└ Concurrent build plan (no more than 5 images at the same time)
+
+┌ ⛵ image backend
+│ Use previously built image for backend/dockerfile
+│      name: <DOCKER HUB USERNAME>/werf-guide-app:4dedde8307a6aa4cecc00f99a44d19a7e716484677bf321c2ba68feb-1687373921162
+│        id: e6ea855b7d02
+│   created: 2023-06-21 21:58:40 +0300 MSK
+│      size: 25.5 MiB
+└ ⛵ image backend (2.05 seconds)
+
+┌ ⛵ image frontend
+│ Use previously built image for frontend/dockerfile
+│      name: <DOCKER HUB USERNAME>/werf-guide-app:328a492a57c7aa12e8af2ead55341f51f696961c2864d83545c6518d-1687253596426
+│        id: f05a34a1cdd2
+│   created: 2023-06-20 12:33:15 +0300 MSK
+│      size: 16.0 MiB
+└ ⛵ image frontend (2.08 seconds)
+
+┌ Build summary
+│ Set #0:
+│ - ⛵ image backend (2.05 seconds)
+│ - ⛵ image frontend (2.08 seconds)
+└ Build summary
+
+┌ Waiting for resources to become ready
+│ ┌ job/setup-and-migrate-db-rev17 po/setup-and-migrate-db-rev17-62f6d container/setup-and-migrate-db logs
+│ │ 1/u create_talkers_table (129.700116ms)
+│ └ job/setup-and-migrate-db-rev17 po/setup-and-migrate-db-rev17-62f6d container/setup-and-migrate-db logs
+│ 
+│ ┌ Status progress
+│ │ DEPLOYMENT                                                                                    REPLICAS         AVAILABLE          UP-TO-DATE                       
+│ │ werf-guide-app                                                                                1/1              1                  1                                
+│ │ STATEFULSET                                                                                   REPLICAS         READY              UP-TO-DATE                       
+│ │ mysql                                                                                         1/1              1                  1                                
+│ │ JOB                                                                                           ACTIVE           DURATION           SUCCEEDED/FAILED                 
+│ │ setup-and-migrate-db-rev17                                                                    0                5s                 1/0                              
+│ │ │   POD                                 READY        RESTARTS          STATUS                                                                                      
+│ │ └── and-migrate-db-rev17-62f6d          0/1          0                 Completed              
+│ │ RESOURCE                                                              NAMESPACE             CONDITION: CURRENT (DESIRED)                                           
+│ │ Service/mysql                                                         werf-guide-app        -                                                                      
+│ │ Service/werf-guide-app                                                werf-guide-app        -                                                                      
+│ │ Ingress/werf-guide-app                                                werf-guide-app        -                                                                 ↵
+│ │      
+│ └ Status progress
+└ Waiting for resources to become ready (4.98 seconds)
+
+┌ Waiting for resources elimination: jobs/setup-and-migrate-db-rev11, jobs/setup-and-migrate-db-rev12, jobs/setup-and-migrate-db-rev16, jobs/setup-and-migrate-db-re ...
+└ Waiting for resources elimination: jobs/setup-and-migrate-db-rev11, jobs/setup-and-migrate-db-rev12, jobs/setup-and-migrate-db-rev16, jobs/setup-an ... (0.30 seconds)
+
+Release "werf-guide-app" has been upgraded. Happy Helming!
+NAME: werf-guide-app
+LAST DEPLOYED: Wed Jun 21 21:59:06 2023
+LAST PHASE: rollout
+LAST STAGE: 0
+NAMESPACE: werf-guide-app
+STATUS: deployed
+REVISION: 17
+TEST SUITE: None
+Running time 9.43 seconds
+```

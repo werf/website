@@ -1,0 +1,13 @@
+First, let's create an auxiliary service that retrieves the database connection parameters from the environment variables and returns them:
+
+{% include snippetcut_example path="internal/services/db_service.go" syntax="go" examples=page.examples %}
+
+The resulting strings with the database type and the address to connect to will be used to initialize the connection.
+
+Let's create two controllers in charge of the new endpoints:
+
+{% include snippetcut_example path="internal/controllers/db_controllers.go" syntax="go" examples=page.examples %}
+
+Now you need to add new routes and connect the created controllers to them:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="db_routes" examples=page.examples %}

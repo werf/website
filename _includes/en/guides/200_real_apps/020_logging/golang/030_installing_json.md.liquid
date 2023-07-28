@@ -1,0 +1,11 @@
+To enable the JSON log format, you need to add a filter to the standard logger.
+
+Create a new filter:
+
+{% include snippetcut_example path="internal/common/json_logger_filter.go" syntax="go" examples=page.examples %}
+
+Here, you can customize the log output by specifying the order of the fields in JSON.
+
+Now, add the created filter to the server by changing the startup parameters:
+
+{% include snippetcut_example path="internal/app/app.go" syntax="go" snippet="log_enable" examples=page.examples %}

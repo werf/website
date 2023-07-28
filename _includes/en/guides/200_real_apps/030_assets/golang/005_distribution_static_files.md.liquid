@@ -1,0 +1,3 @@
+The static files are currently served by the Go application itself, using its built-in tools. A better way would be to use a reverse proxy such as NGINX. This is recommended because the performance and efficiency of the reverse proxy for serving static files is much better than the application's built-in tools.
+
+There are several ways to use a reverse proxy with a Go application in Kubernetes. We will follow a common and simple one that scales well. In it, an NGINX container is run together with the application container (in the same Pod). It proxies all requests to the application, except for static file requests. The static files are then served by the NGINX container itself.

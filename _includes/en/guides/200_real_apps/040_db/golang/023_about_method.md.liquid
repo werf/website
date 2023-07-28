@@ -1,0 +1,41 @@
+{{- "In it, database migrations (and database initialization, if necessary) will be carried out by a separate Job simultaneously with the deployment of the application and the database itself." -}}
+
+To ensure that resources are deployed in an orderly fashion, we:
+1. Require that the initialization/migration Job wait for the database to be accessible before running.
+1. Require applications to wait for the database to be accessible _and_ ready _and_ migrations to be complete before running.
+
+Thus, all K8s resources will be created simultaneously during the deployment, yet they will start in the following order:
+1. The database will start.
+1. The Job to initialize/migrate the database will run.
+1. The applications will start.
+
+We will use the [migrate](https://github.com/golang-migrate/migrate/tree/master) tool to migrate the database. It lets you work with migrations both from the command line (CLI) or straight from the Go code. We will stick with the first option.
+
+To generate the migration files, run the command in the project's root:
+
+```shell
+migrate create -ext sql -dir db/migrations -seq create_talkers_table
+```
+
+The following two files will be created in the `db/migrations` directory:
+
+```shell
+db
+└── migrations
+    ├── 000001_create_talkers_table.down.sql
+    └── 000001_create_talkers_table.up.sql
+```
+
+The file with the `up` suffix contains migrations to initialize the database:
+
+{% include snippetcut_example path="db/migrations/000001_create_talkers_table.up.sql" syntax="sql" examples=page.examples %}
+
+The file with the `down` suffix contains instructions for clearing the database:
+
+{% include snippetcut_example path="db/migrations/000001_create_talkers_table.down.sql" syntax="sql" examples=page.examples %}
+
+Let's modify the Dockerfile by adding the migrate tool to the final backend image:
+
+{% include snippetcut_example path="Dockerfile" syntax="dockerfile" examples=page.examples %}
+
+Let's do this by adding a Job to perform the database migrations/initialization:
