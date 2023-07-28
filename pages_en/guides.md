@@ -13,6 +13,6 @@ breadcrumbs: none
 
 <p>In this tutorial, you will find both, practical step-by-step instructions and the necessary theory. Comprised of different sections, it will guide you from basics to more advanced features. The guides also take into account the specifics of different programming languages/frameworks and include examples of the application source code and related infrastructure (IaC).</p>
 
-<p>Please, choose the framework that fits you best:</p>
+<p>Please, choose the technology that fits you best:</p>
 
 {% include common/guides-landing-tiles.html %}
