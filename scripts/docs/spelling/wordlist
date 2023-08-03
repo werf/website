@@ -66,6 +66,7 @@ DevOpsConf
 Django
 Dockerfile
 Dockerfiles
+Dockerfile’s
 dockerignore
 dockersamples
 DSL
