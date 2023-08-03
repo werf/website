@@ -50,12 +50,6 @@ articles:
     created: 2023-05-17
     comment: |
       <p>This article takes a look at a new experimental operation mode that connects the werf Open Source utility with Argo CD. It combines the features and user-friendliness of both tools into a unified CI/CD process. Note that these werf features are still being refined. That said, you can take the opportunity to check them out and see if they are right for you.</p>
-  - title: "werf: A solution for efficient and consistent software delivery to Kubernetes"
-    url: "https://kubedaily.com/werf-a-solution-for-implementing-efficient-and-consistent-software-delivery-to-kubernetes-facilitating-best-practices/"
-    img: "/assets/images/publications/en_050423.png"
-    created: 2023-04-05
-    comment: |
-      <p>werf is a CNCF Sandbox CLI tool to implement full-cycle CI/CD to Kubernetes easily. werf integrates into your CI system and leverages familiar and reliable technologies, such as Git, Dockerfile, Helm, and Buildah.</p>
   - title: "Canary releases in Kubernetes based on Ingress-NGINX Controller"
     medium_url: "https://blog.werf.io/canary-releases-in-kubernetes-based-on-ingress-nginx-controller-96193efe34f9"
     img: "/assets/images/publications/en_220223.png"
