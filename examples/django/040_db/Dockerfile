@@ -5,7 +5,7 @@
 FROM python:3-alpine as backend
 WORKDIR /app
 
-RUN apk add python3-dev gcc libc-dev linux-headers musl-dev mariadb-connector-c-dev
+RUN apk add python3-dev gcc libc-dev linux-headers musl-dev mariadb-connector-c-dev mariadb-dev
 
 # [<en>] Install the Django web framework.
 # [<ru>] Устанавливаем Django веб-фреймворк.
