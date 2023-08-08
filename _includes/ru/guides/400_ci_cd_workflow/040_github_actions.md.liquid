@@ -125,9 +125,10 @@
 
 Рассмотрим базовые GitHub workflow файлы, которые лягут в основу всех предложенных вариантов.
 
-Сначала разберём файл `.github/workflows/review_deployment.yml`.
-
+Сначала разберём файл <!-- spell-check-ignore -->`.github/workflows/review_deployment.yml`<!-- end-spell-check-ignore -->.
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_base.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 В нём пропущено условие запуска, т.к. оно зависит от выбранного варианта организации.
 
@@ -144,9 +145,10 @@
 ```
 {% endraw %}
 
-Далее файл `.github/workflows/review_deployment_dismiss.yml`.
-
+Далее файл <!-- spell-check-ignore -->`.github/workflows/review_deployment_dismiss.yml`<!-- spell-check-ignore -->.
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_dismiss_base.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Данный GitHub workflow будет выполняться при закрытии PR.
 
@@ -170,8 +172,9 @@ on:
 
 Он самый простой и может быть удобен в случае, когда развёртывания происходят редко и review окружение не используется при разработке.
 По сути, для проверки перед принятием PR.
-
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_1.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 В данном варианте оба GitHub workflow ожидают проставление лейбла в PR.
 
@@ -214,8 +217,9 @@ labels:
 > Данный вариант реализует подход описанный в разделе [Развёртывание на review из ветки по шаблону автоматически](020_workflows.html#развёртывание-на-review-из-ветки-по-шаблону-автоматически)
 
 В предложенном ниже варианте автоматический релиз выполняется для каждого коммита в PR, в случае, если имя git-ветки содержит `review`.
-
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_2.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Развёртывание инициируется при коммите в ветку, открытии и переоткрытии PR, что соответствует набору событий по умолчанию для `pull_request`:
 ```yaml
@@ -240,8 +244,9 @@ on:
 
 При проставлении специального лейбла, в примере ниже `review`, пользователь активирует автоматическое развёртывание в review окружения для каждого коммита.
 При снятии лейбла автоматически запускается удаление review-релиза.
-
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/review_3.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Развёртывание инициируется при коммите в ветку, добавлении и снятии лейбла в PR, что соответствует следующему набору событий для `pull_request`:
 
@@ -264,8 +269,9 @@ pull_request:
 > Данный вариант реализует подходы описанные в разделах [«Развёртывание на production из master автоматически»](020_workflows.html#развёртывание-на-production-из-master-автоматически) и [«Развёртывание на production-like из pull request по кнопке»](020_workflows.html#развёртывание-на-production-like-из-pull-request-по-кнопке)
 
 Развёртывание в **production** происходит автоматически при любых изменениях в master. Выполнить развёртывание в **staging** можно только проставив соответствующий лейбл в PR.
-
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_1.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Варианты отката изменений в production:
 - [revert изменений](https://git-scm.com/docs/git-revert) в master (**рекомендованный**);
@@ -279,7 +285,9 @@ pull_request:
 
 Развёртывание **production** осуществляется вручную на master, а развёртывание в **staging** происходит автоматически при любых изменениях в master.
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_2.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Имеем следующее условие для релиза в production:
 
@@ -315,8 +323,9 @@ curl \
 {% include /guides/400_ci_cd_workflow/040_github_actions/not_recommended_approach.md.liquid %}
 
 Развёртывание в **production** выполняется при проставлении тега, а в **staging** осуществляется вручную на master.
-
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_3.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 ```yaml
 on:
@@ -348,8 +357,9 @@ curl \
 > Данный вариант реализует подходы описанные в разделах [«Развёртывание на production из ветки автоматически»](020_workflows.html#развёртывание-на-production-из-ветки-автоматически) и [«Развёртывание на production-like из ветки автоматически»](020_workflows.html#развёртывание-на-production-like-из-ветки-автоматически)
 
 Развёртывание в **production** происходит автоматически при любых изменениях в ветке production, а в **staging** при любых изменениях в ветке master.
-
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/production_staging_4.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Варианты отката изменений в production:
 - [revert изменений](https://git-scm.com/docs/git-revert) в ветке production;
@@ -357,8 +367,9 @@ curl \
 - удаление коммита из ветки production и push-force.
 
 ## Очистка образов
-
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/cleanup_base.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 Первый шаг, с которого начинается задание — `Checkout code`, добавление исходных кодов приложения.
 
@@ -398,7 +409,9 @@ curl \
 ### Конфигурации
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_1.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>
 
@@ -418,7 +431,9 @@ curl \
 ### Конфигурации
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_2.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>
 
@@ -438,7 +453,9 @@ curl \
 ### Конфигурации
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_3.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>
 
@@ -456,6 +473,8 @@ curl \
 ### Конфигурации
 {:.no_toc}
 
+<!-- spell-check-ignore -->
 {% include /common/guides/400_ci_cd_workflow/040_github_actions/workflow_4.md.liquid %}
+<!-- end-spell-check-ignore -->
 
 </div>

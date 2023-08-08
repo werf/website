@@ -4,7 +4,7 @@
 
 - Kubernetes для запуска GitLab Runner;
 
-- [ArgoCD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
+- [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 
 ## Установка и регистрация GitLab Runner
 
@@ -220,9 +220,9 @@ spec:
               memory: 50Mi
 ```
 
-## Установка ArgoCD Image Updater
+## Установка Argo CD Image Updater
 
-Установите ArgoCD Image Updater с патчем ["continuous deployment of OCI Helm chart type application"](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
+Установите Argo CD Image Updater с патчем ["continuous deployment of OCI Helm chart type application"](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
 
 ```shell
 kubectl apply -n argocd -f https://raw.githubusercontent.com/werf/3p-argocd-image-updater/master/manifests/install.yaml

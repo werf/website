@@ -12,7 +12,7 @@
 * Staging;
 * Review.
 
-Далее последовательно рассматриваются стадии pipeline и различные варианты их организации. Изложение построено от общего к частному. В конце статьи приведены [окончательные версии `.gitlab-ci.yml`](#полный-gitlab-ciyml-для-готовых-workflow) для готовых workflow.
+Далее последовательно рассматриваются стадии pipeline и различные варианты их организации. Изложение построено от общего к частному. В конце статьи приведены <!-- spell-check-ignore -->[окончательные версии `.gitlab-ci.yml`](#полный-gitlab-ciyml-для-готовых-workflow)<!-- end-spell-check-ignore --> для готовых workflow.
 
 Независимо от workflow, все версии конфигурации подчиняются следующим правилам:
 * [*Сборка и публикация*](#сборка-и-публикация-образов-приложения) выполняется при каждом push в репозитории.
@@ -58,14 +58,14 @@
 1. Зарегистрируем `gitlab-runner`, выполнив [шаги](https://docs.gitlab.com/runner/register/index.html) за исключением следующих моментов:
    * используем `werf` в качестве тега runner;
    * используем `shell` в качестве executor для runner.
-1. Добавим пользователя `gitlab-runner` в группу `docker`.
+1. Добавим пользователя <!-- spell-check-ignore -->`gitlab-runner`<!-- end-spell-check-ignore --> в группу `docker`.
 
    ```shell
    sudo usermod -aG docker gitlab-runner
    ```
 
 1. [Установим werf](/documentation/index.html).
-1. Установим `kubectl` и скопируем файл конфигурации `kubectl` в домашнюю папку пользователя `gitlab-runner`.
+1. Установим `kubectl` и скопируем файл конфигурации `kubectl` в домашнюю папку пользователя <!-- spell-check-ignore -->`gitlab-runner<!-- end-spell-check-ignore -->.
    ```shell
    mkdir -p /home/gitlab-runner/.kube &&
    sudo cp -i /etc/kubernetes/admin.conf /home/gitlab-runner/.kube/config &&
@@ -112,7 +112,7 @@ Build and Publish:
 
 ## Развёртывание приложения
 
-Прежде всего необходимо описать шаблон, общую часть для деплоя в любой контур, что позволит уменьшить размер файла `.gitlab-ci.yml`, улучшит его читаемость, а также позволит далее сосредоточиться на workflow.
+Прежде всего необходимо описать шаблон, общую часть для деплоя в любой контур, что позволит уменьшить размер файла <!-- spell-check-ignore -->`.gitlab-ci.yml`<!-- end-spell-check-ignore -->, улучшит его читаемость, а также позволит далее сосредоточиться на workflow.
 
 {% raw %}
 ```yaml
@@ -189,7 +189,7 @@ Stop Review:
 
 Задание `Stop Review` выполняет удаление review-релиза, а также остановку окружения GitLab (`action: stop`): werf удаляет helm-релиз и namespace в Kubernetes со всем его содержимым ([werf dismiss]({{ site.url }}/documentation/v1.2/reference/cli/werf_dismiss.html)). Задание `Stop Review` может быть запущено вручную после деплоя на review контур, а также автоматически GitLab-сервером, например, при удалении соответствующей ветки в результате слияния ветки с master и указания соответствующей опции в интерфейсе GitLab.
 
-Для выполнения `werf dismiss` требуется werf.yaml, так как в нём содержаться [шаблоны имени релиза и namespace]({{ site.url }}/documentation/v1.2/usage/deploy/releases.html#имя-релиза"). При удалении ветки нет возможности использовать исходники из git, поэтому в задании `Stop Review` используется werf.yaml, сохранённый при выполнении задания `Review`, и отключено подтягивание изменений из git (`GIT_STRATEGY: none`).
+Для выполнения `werf dismiss` требуется <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore -->, так как в нём содержаться [шаблоны имени релиза и namespace]({{ site.url }}/documentation/v1.2/usage/deploy/releases.html#имя-релиза"). При удалении ветки нет возможности использовать исходники из git, поэтому в задании `Stop Review` используется <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore -->, сохранённый при выполнении задания `Review`, и отключено подтягивание изменений из git (`GIT_STRATEGY: none`).
 
 Таким образом, по умолчанию закладываем следующие варианты удаления review окружения:
 * вручную;
@@ -476,7 +476,7 @@ Cleanup:
 
 Стадия очистки запускается только по расписанию, которое вы можете определить открыв раздел `CI/CD` —> `Schedules` настроек проекта в GitLab. Нажмите кнопку `New schedule`, заполните описание задания и определите шаблон запуска в обычном cron-формате. В качестве ветки оставьте master (название ветки не влияет на процесс очистки), отметьте `Active` и сохраните pipeline.
 
-## Полный .gitlab-ci.yml для готовых workflow
+## Полный <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore --> для готовых workflow
 
 <div class="tabs">
   <a href="javascript:void(0)" class="tabs__btn active" onclick="openTab(event, 'tabs__btn', 'tabs__content', 'complete_gitlab_ci_1')">№1 Fast and Furious (рекомендованный)</a>
@@ -497,7 +497,7 @@ Cleanup:
 * Развёртывание на staging и production контуры осуществляется по стратегии [№1 Fast and Furious (рекомендованный)](#1-fast-and-furious-рекомендованный).
 * [Очистка стадий](#очистка-образов) выполняется по расписанию раз в сутки.
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 {:.no_toc}
 
 {% raw %}
@@ -600,7 +600,7 @@ Cleanup:
 * Развёртывание на staging и production контуры осуществляется по стратегии [№2 Push the Button](#2-push-the-button).
 * [Очистка стадий](#очистка-образов) выполняется по расписанию раз в сутки.
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 
 {:.no_toc}
 
@@ -695,7 +695,7 @@ Cleanup:
 * Развёртывание на staging и production контуры осуществляется по стратегии [№3 Tag everything](#3-tag-everything-рекомендованный).
 * [Очистка стадий](#очистка-образов) выполняется по расписанию раз в сутки.
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 {:.no_toc}
 
 {% raw %}
@@ -788,7 +788,7 @@ Cleanup:
 * Развёртывание на staging и production контуры осуществляется по стратегии [№4 Branch, branch, branch!](#4-branch-branch-branch).
 * [Очистка стадий](#очистка-образов) выполняется по расписанию раз в сутки.
 
-### .gitlab-ci.yml
+### <!-- spell-check-ignore -->.gitlab-ci.yml<!-- end-spell-check-ignore -->
 {:.no_toc}
 
 {% raw %}

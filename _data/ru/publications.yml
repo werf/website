@@ -82,9 +82,9 @@ articles:
       <br><br>
       Сегодня хочу рассказать о связке GitLab + K8S + Werf и как с помощью него быстро собрать и задеплоить свое приложение в одну команду. Этот пост будет иметь формат мини-туториала.
       <br><br>
-      Думаю большинство набредших на эту статью знают, что такое Gitlab и Kubernetes. Не знаете - гугл в помощь. В этой статье это out of scope.
+      Думаю большинство набредших на эту статью знают, что такое GitLab и Kubernetes. Не знаете - гугл в помощь. В этой статье это out of scope.
       <br><br>
-      Что такое Werf? Werf - это утилита, объединяющая CI/CD системы (типа Gitlab, Github Actions), docker и helm в одном флаконе и позволяющая одной командой собрать образ контейнера, запушить его в репозиторий контейнеров и задеплоить с помощью helm.</p>
+      Что такое Werf? Werf - это утилита, объединяющая CI/CD системы (типа GitLab, GitHub Actions), docker и helm в одном флаконе и позволяющая одной командой собрать образ контейнера, запушить его в репозиторий контейнеров и задеплоить с помощью helm.</p>
   - title: "Собираем и деплоим в Kubernetes приложение на Node.js с помощью werf"
     tproger_url: "https://tproger.ru/articles/kubernetes-node-js-werf/"
     img: "/assets/images/publications/ru_200622.png"
@@ -98,7 +98,7 @@ articles:
     img: "/assets/images/publications/ru_230622.png"
     created: 2022-06-23
     comment: |
-      <p>Использование того или иного продукта в проекте - это всегда попытка найти лучшее решение, балансируя между ограниченным бюджетом, возможностями роста практически по любому сценарию и высотой "порога входа". Существует много продуктов, которые связаны с контейнерами, что выбрать подходящий инструмент становится всё сложнее и сложенее, а community с "промытыми мозгами" и мышлением "ёжиков жрущих кактус" только добавляет сложности (хотя в противовес оным есть хейтеры, которые наоборот обгадят решение, просто потому что в своё время оно им не подошло).
+      <p>Использование того или иного продукта в проекте - это всегда попытка найти лучшее решение, балансируя между ограниченным бюджетом, возможностями роста практически по любому сценарию и высотой "порога входа". Существует много продуктов, которые связаны с контейнерами, что выбрать подходящий инструмент становится всё сложнее и сложнее, а community с "промытыми мозгами" и мышлением "ёжиков жрущих кактус" только добавляет сложности (хотя в противовес оным есть хейтеры, которые наоборот обгадят решение, просто потому что в своё время оно им не подошло).
       <br><br>
       В целом, чтобы выбрать нужное решение чаще всего приходится поднять лабу, которая покроет 90% задач, чтобы понять насколько решение подходящее, а это значит пройти какую-то боль, потратить время и деньги. Но ещё помогают статьи, в которых рассматриваются частные случаи внедрения и подбор инструментов, чтобы научиться на чужих ошибках через объективный взгляд со стороны. Надеюсь, эта статья о том, почему и как мы пришли к решению с werf, поможет кому-то подобрать инструмент для своих нужд.</p>
   - title: "Новые возможности werf: CI/CD на основе werf и Argo CD"
@@ -174,7 +174,7 @@ articles:
     img: "/assets/images/publications/ru_291020.png"
     created: 2020-10-29
     comment: |
-      <p>Практическая статья, автор которой делится своим опытом решения инфраструктурной задачи по сбору логов с помощью fluentd в «домашнем» Kubernetes-кластере (MicroK8s). Он использует werf для сборки и доставки образа (с fluentd), Docker Hub для его хранения и GitHub Actions для запуска своего пайплайна.</p>
+      <p>Практическая статья, автор которой делится своим опытом решения инфраструктурной задачи по сбору логов с помощью FluentD в «домашнем» Kubernetes-кластере (MicroK8s). Он использует werf для сборки и доставки образа (с FluentD), Docker Hub для его хранения и GitHub Actions для запуска своего пайплайна.</p>
   - title: "Проблема «умной» очистки образов контейнеров и её решение в werf"
     habr_url: "https://habr.com/ru/company/flant/blog/522024/"
     img: "/assets/images/publications/ru_061020.png"
@@ -235,7 +235,7 @@ articles:
     img: "/images/publications/ru_071019.png"
     created: 2019-10-07
     comment: |
-      <p>Раннее мы публиковали статью <a target="_blank" rel="noopener nofollow" href="https://habr.com/ru/company/flant/blog/340996/">«Сборка проектов с GitLab CI: один .gitlab-ci.yml для сотни приложений»</a>, а теперь расскажем о решении схожей задачи сегодня. Новый материал — о том, как можно построить CI/CD-процессы для большого количества однотипных приложений с появлением include в <i>.gitlab-ci.yml</i> и приходом werf на замену dapp.</p>
+      <p>Раннее мы публиковали статью <!-- spell-check-ignore --><a target="_blank" rel="noopener nofollow" href="https://habr.com/ru/company/flant/blog/340996/">«Сборка проектов с GitLab CI: один .gitlab-ci.yml для сотни приложений»</a><!-- end-spell-check-ignore -->, а теперь расскажем о решении схожей задачи сегодня. Новый материал — о том, как можно построить CI/CD-процессы для большого количества однотипных приложений с появлением include в <!-- spell-check-ignore --><i>.gitlab-ci.yml</i><!-- end-spell-check-ignore --> и приходом werf на замену dapp.</p>
   - title: "Использование werf для выката комплексных Helm-чартов"
     habr_url: "https://habr.com/ru/company/flant/blog/468049/"
     img: "/images/publications/ru_240919.png"
@@ -270,7 +270,7 @@ articles:
     img: "/images/publications/ru_300518.jpg"
     comment: |
       <p>Этот материал продолжает цикл о сборке Docker-образов для приложений на различных языках программирования с помощью утилиты <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp">werf (dapp)</a>. Поговорим о приложениях на JavaScript. Для начала это будет frontend-приложение, а в следующей части планируется рассказать о сборке backend'а и запуске всего в Kubernetes.</p>
-      <p>В качестве иллюстрации будут использованы приложения <a target="_blank" rel="noopener nofollow" href="https://github.com/Snipa22/nodejs-pool">nodejs-pool</a> и <a target="_blank" rel="noopener nofollow" href="https://github.com/mesh0000/poolui">poolui</a>. Да-да, подготовим к запуску в Kubernetes свой майнинг-пул с блокчейном и выплатами!</p>
+      <p>В качестве иллюстрации будут использованы приложения <!-- spell-check-ignore --><a target="_blank" rel="noopener nofollow" href="https://github.com/Snipa22/nodejs-pool">nodejs-pool</a> и <a target="_blank" rel="noopener nofollow" href="https://github.com/mesh0000/poolui">poolui</a><!-- end-spell-check-ignore -->. Да-да, подготовим к запуску в Kubernetes свой майнинг-пул с блокчейном и выплатами!</p>
   - title: "Возможности werf (dapp), которые делают жизнь проще"
     habr_url: "https://habr.com/company/flant/blog/354866/"
     created: 2018-05-07
@@ -300,7 +300,7 @@ articles:
     img: "/images/publications/ru_140218.jpg"
     comment: |
       <p>Эта статья — начало цикла о сборке <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp">werf</a>'ом (dapp) приложений на различных языках, платформах, технологических стеках. Предыдущие статьи про dapp были больше обзорными, описывали возможности dapp. Теперь же пора поговорить более предметно и поделиться конкретным опытом работы с проектами. В связи с недавним релизом <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp/releases/tag/0.26.2">dapp 0.26.2</a> я заодно покажу, как описывать сборку в YAML-файле.</p>
-      <p>Описывать сборку буду на примере приложения из репозитория dockersamples — <a target="_blank" rel="noopener nofollow" href="https://github.com/dockersamples/atsea-sample-shop-app">atsea-sample-shop-app</a>. Это прототип небольшого магазина, построенный на React (фронт) и Java Spring Boot (бэкенд). В качестве БД используется PostgreSQL. Для большей похожести на рабочий проект добавлены реверсивный прокси на nginx и шлюз платежей в виде простого скрипта.</p>
+      <p>Описывать сборку буду на примере приложения из репозитория dockersamples — <!-- spell-check-ignore --><a target="_blank" rel="noopener nofollow" href="https://github.com/dockersamples/atsea-sample-shop-app">atsea-sample-shop-app</a><!-- end-spell-check-ignore -->. Это прототип небольшого магазина, построенный на React (фронт) и Java Spring Boot (бэкенд). В качестве БД используется PostgreSQL. Для большей похожести на рабочий проект добавлены реверсивный прокси на nginx и шлюз платежей в виде простого скрипта.</p>
 
   - title: "Сборка и дeплой приложений в Kubernetes с помощью werf (dapp) и GitLab CI"
     habr_url: "https://habr.com/company/flant/blog/345580/"
@@ -352,7 +352,7 @@ articles:
     img: "/images/publications/ru_280317.jpg"
     created: 2017-03-28
     comment: |
-      <p>Доклад Дмитрия Столярова, технического директора компании «Флант», с конференции Highload++ 2016 (8 ноября 2016 г.). Посвящен сборке Docker-образов в контексте CI/CD (Continuous Integration, Continuous Delivery) и обзору основных возможностей Open Source-утилиты werf (dapp).</p>
+      <p>Доклад Дмитрия Столярова, технического директора компании «Флант», с конференции HighLoad++ 2016 (8 ноября 2016 г.). Посвящен сборке Docker-образов в контексте CI/CD (Continuous Integration, Continuous Delivery) и обзору основных возможностей Open Source-утилиты werf (dapp).</p>
 
   - title: "Практики Continuous Delivery с Docker (обзор и видео)"
     habr_url: "https://habr.com/company/flant/blog/322686/"

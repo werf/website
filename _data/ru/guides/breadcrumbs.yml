@@ -11,5 +11,5 @@
   title: Построение процесса CI/CD
   url: /400_ci_cd_workflow.html
 /400_ci_cd_workflow/050_argocd:
-  title: ArgoCD
+  title: Argo CD
   url: /400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html

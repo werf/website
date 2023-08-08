@@ -10,7 +10,7 @@
 
   * GPG;
 
-- [ArgoCD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
+- [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 
 ## Installing the GitLab Runner
 
@@ -82,9 +82,9 @@ Register emulators on your system using qemu-user-static:
 docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
 ```
 
-## Installing ArgoCD Image Updater
+## Installing Argo CD Image Updater
 
-Install ArgoCD Image Updater with the ["continuous deployment of OCI Helm chart type application" patch](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
+Install Argo CD Image Updater with the ["continuous deployment of OCI Helm chart type application" patch](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
 
 ```shell
 kubectl apply -n argocd -f https://raw.githubusercontent.com/werf/3p-argocd-image-updater/master/manifests/install.yaml

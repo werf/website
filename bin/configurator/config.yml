@@ -482,7 +482,7 @@ combinations:
       - name: "repoType"
         value: "application"
 
-  # ArgoCD
+  # Argo CD
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/argocd-with-gitlab-ci-cd/simple/docker-runner/linux/buildah/infra.md.liquid"

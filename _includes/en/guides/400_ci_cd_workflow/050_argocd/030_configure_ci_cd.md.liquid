@@ -79,9 +79,9 @@ werf helm uninstall TEST_RELEASE -n TEST_NAMESPACE
 kubectl delete ns TEST_NAMESPACE
 ```
 
-### Running with release artifact and ArgoCD
+### Running with release artifact and Argo CD
 
-First, you need to create a special ArgoCD Application CRD:
+First, you need to create a special Argo CD Application CRD:
 
 ```yaml
 spec:
@@ -103,9 +103,9 @@ argocd app sync TEST_APPNAME --revision SEMVER
 
 ## Deploying to production
 
-### Configuring ArgoCD Application
+### Configuring Argo CD Application
 
-When creating the ArgoCD Application CRD, note the following fields:
+When creating the Argo CD Application CRD, note the following fields:
 
 ```yaml
 spec:
@@ -135,7 +135,7 @@ Note that the `SEMVER` revision should be generated in the same way as described
 
 Continuous deployment means that the latest release artifact for, e.g., the `main` branch will be automatically deployed to the Kubernetes production cluster.
 
-To configure continuous deployment of release artifacts, add the following annotations to the ArgoCD Application CRD:
+To configure continuous deployment of release artifacts, add the following annotations to the Argo CD Application CRD:
 
 ```
 apiVersion: argoproj.io/v1alpha1
