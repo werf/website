@@ -44,7 +44,7 @@ if [ -n "$2" ]; then
 __EOF__
       if [ "$check" -eq 1 ]; then
         echo "Checking $arg_target_page..."
-        result=$(python3 clear_html_from_code.py $file | sed '/<!-- spell-check-ignore -->/,/<!-- end-spell-check-ignore -->/d' | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l)
+        result=$(python3 clear_html_from_code.py $arg_target_page | sed '/<!-- spell-check-ignore -->/,/<!-- end-spell-check-ignore -->/d' | html2text -utf8 | sed '/^$/d' | hunspell -d $language -l)
         if [ -n "$result" ]; then
           echo $result | sed 's/\s\+/\n/g'
         fi
