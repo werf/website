@@ -1,4 +1,4 @@
-451
+485
 1GB
 2GB
 5XX
@@ -12,7 +12,6 @@ app
 apparmor
 apps
 app’s
-ArgoCD
 Assumenda
 async
 au
@@ -24,6 +23,7 @@ base64
 behaviour
 Bitbucket
 blog
+boto
 boto3
 Buildah
 CentOS
@@ -61,6 +61,8 @@ cтимулирует
 Cинхронизация
 DaemonSet
 Daemonsets
+dapp
+dappdeps
 dev
 DevOps
 DevOpsConf
@@ -72,7 +74,7 @@ dockerignore
 dockersamples
 DSL
 EL7
-ENV
+env
 EuropeClouds
 FastCGI
 filesystem
@@ -124,6 +126,8 @@ macOS
 manifest’s
 matchLabels
 metadata
+MicroK
+MicroK8s
 microservices
 minikube
 MinIO
@@ -181,6 +185,7 @@ RollingUpdate
 rollout
 rollouts
 RootConf
+ru
 S3
 SaaS
 SaaSUninstall
@@ -210,6 +215,7 @@ subGIDs
 subUID
 subUIDs
 SVG
+targetRef
 Taskfile
 TBH
 templating
@@ -248,19 +254,37 @@ www
 yaml
 yml
 YouTube
+г
+д
+е
+й
+м
+п
+т
+х
+ч
+ы
 иcпользовать
 дeплой
 ОK
+ам
 БД
+ов
+ает
+ами
+кэш
+ООМ
 фич
 хеш
 гугл
 демо
+лабу
 патч
 файл
 фичи
 хост
 бандл
+иться
 кэшем
 лейбл
 патча
@@ -271,6 +295,7 @@ YouTube
 Хабре
 хоста
 хосте
+ассеты
 бандлу
 бэкенд
 деплое
@@ -283,6 +308,7 @@ YouTube
 логгер
 патчем
 прокси
+реверт
 токена
 штатно
 менятьcя
@@ -299,6 +325,7 @@ YouTube
 лейблом
 линтеры
 логгера
+логгеру
 майнинг
 парсить
 паттерн
@@ -333,7 +360,9 @@ YouTube
 кастомной
 коммитами
 пайплайна
+Перевыкат
 прокинуть
+Столярова
 сущностей
 сущностям
 таймаутам
@@ -341,6 +370,7 @@ YouTube
 флаппинга
 фреймворк
 хардкодом
+блокирующе
 блокчейном
 задеплоить
 кэшировать
@@ -370,6 +400,7 @@ YouTube
 несекретных
 перезапущен
 пересоздает
+пинговаться
 репозитории
 репозиторий
 репозиторию
@@ -402,6 +433,7 @@ YouTube
 нереляционные
 передеплоятся
 перезапускать
+пересоберётся
 пересоберется
 пересоздастся
 примонтировав
@@ -440,6 +472,8 @@ YouTube
 кастомизированные
 Переиспользование
 переиспользования
+переразвёртывание
+переразвёртывания
 Переразвертывание
 переразвертывания
 раскомментировать

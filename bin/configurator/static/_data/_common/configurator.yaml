@@ -100,8 +100,8 @@ groups:
         ru: "Другая CI/CD"
     - name: "argoCdWithGitlabCiCd"
       title:
-        en: "ArgoCD with GitLab CI/CD"
-        ru: "ArgoCD с GitLab CI/CD"
+        en: "Argo CD with GitLab CI/CD"
+        ru: "Argo CD с GitLab CI/CD"
 
 - name: "runnerType"
   title:

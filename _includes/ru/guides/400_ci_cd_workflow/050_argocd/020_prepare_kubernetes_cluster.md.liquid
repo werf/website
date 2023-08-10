@@ -1,6 +1,6 @@
-## 1. Установите ArgoCD с плагином werf
+## 1. Установите Argo CD с плагином werf
 
-[Установите ArgoCD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
+[Установите Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 
 Включите sidecar-плагин werf:
 
@@ -33,9 +33,9 @@
               name: tmp
     ```
 
-## 2. Установите ArgoCD Image Updater
+## 2. Установите Argo CD Image Updater
 
-Установите ArgoCD Image Updater с патчем [Непрерывное развертывание приложений на основе OCI-совместимых Helm-чартов](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
+Установите Argo CD Image Updater с патчем [Непрерывное развертывание приложений на основе OCI-совместимых Helm-чартов](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
 
 ```shell
 kubectl apply -n argocd -f https://raw.githubusercontent.com/werf/3p-argocd-image-updater/master/manifests/install.yaml

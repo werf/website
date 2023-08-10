@@ -81,9 +81,9 @@ werf helm uninstall TEST_RELEASE -n TEST_NAMESPACE
 kubectl delete ns TEST_NAMESPACE
 ```
 
-### Запуск с использованием артефакта релиза и ArgoCD
+### Запуск с использованием артефакта релиза и Argo CD
 
-Прежде всего необходимо создать специальный Application CRD ArgoCD:
+Прежде всего необходимо создать специальный Application CRD Argo CD:
 
 ```yaml
 spec:
@@ -105,9 +105,9 @@ argocd app sync TEST_APPNAME --revision SEMVER
 
 ## Развертывание в production
 
-### Настройка приложения ArgoCD
+### Настройка приложения Argo CD
 
-Создавая Application CRD ArgoCD, обратите внимание на следующие поля:
+Создавая Application CRD Argo CD, обратите внимание на следующие поля:
 
 ```yaml
 spec:
@@ -137,7 +137,7 @@ argocd app sync APPNAME --revision SEMVER
 
 Непрерывное развертывание означает, что последний (latest) артефакт релиза, например, для ветки `main`, будет автоматически развернут в production-кластер Kubernetes.
 
-Чтобы настроить непрерывное развертывание артефактов релиза, дополните Application CRD ArgoCD следующими аннотациями:
+Чтобы настроить непрерывное развертывание артефактов релиза, дополните Application CRD Argo CD следующими аннотациями:
 
 ```
 apiVersion: argoproj.io/v1alpha1

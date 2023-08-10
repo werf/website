@@ -49,7 +49,7 @@ entries:
           url: "400_ci_cd_workflow/030_gitlab_ci_cd.html"
         - title: GitHub Actions
           url: "400_ci_cd_workflow/040_github_actions.html"
-        - title: ArgoCD
+        - title: Argo CD
           f:
             - title: CI/CD flow overview
               url: "400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html"

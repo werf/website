@@ -1,7 +1,7 @@
 In this article, we will describe how to implement continuous delivery and continuous deployment for your project using werf and the GitOps model. The following topics will be discussed:
 * using **werf** to build and publish release artifacts;
-* using the **ArgoCD GitOps tool** to deliver release artifacts to Kubernetes;
-* gluing together werf and ArgoCD using **bundles**.
+* using the **Argo CD GitOps tool** to deliver release artifacts to Kubernetes;
+* gluing together werf and Argo CD using **bundles**.
 
 ## Key points and principles
 
@@ -36,7 +36,7 @@ Depending on the CI/CD flow, the GitOps operator can deploy the release artifact
 
 ## Reference CI/CD flow
 
-The CI/CD reference flow will be implemented using two main tools: werf and ArgoCD.
+The CI/CD reference flow will be implemented using two main tools: werf and Argo CD.
 
 The diagram below shows the blocks representing the stages of the cycle, as well as the tools for implementing them.
 
@@ -83,7 +83,7 @@ The `werf bundle publish` command:
 * ensures that all the necessary images are build;
 * publishes the Helm chart files, configured to use the built images, to the container registry — the so-called bundle.
 
-The published bundle can then be deployed to a Kubernetes cluster using ArgoCD as a regular OCI Helm chart.
+The published bundle can then be deployed to a Kubernetes cluster using Argo CD as a regular OCI Helm chart.
 
 More information can be found [in the configuration article](030_configure_ci_cd.html#preparing-release-artifacts).
 
@@ -106,18 +106,18 @@ werf offers the following commands to run acceptance tests:
 * `werf bundle apply` to deploy a production-like environment to Kubernetes and run the test `Job` as a Helm post-install hook.
   * This command does not require access to the Git repository, it only requires access to the bundle published in the container registry.
 
-Acceptance tests can also be run by ArgoCD using a published release artifact, the werf bundle. In this case, ArgoCD will deploy a production-like environment to Kubernetes and run the test `Job` as a Helm post-install hook.
+Acceptance tests can also be run by Argo CD using a published release artifact, the werf bundle. In this case, Argo CD will deploy a production-like environment to Kubernetes and run the test `Job` as a Helm post-install hook.
 
 More information can be found [in the configuration article](030_configure_ci_cd.html#acceptance-testing).
 
 ### 7. Deploying to production
 
-In this step, ArgoCD must deploy the published release artifact for the target application commit to the Kubernetes cluster.
+In this step, Argo CD must deploy the published release artifact for the target application commit to the Kubernetes cluster.
 
-Here, the werf bundle serves as the release artifact. ArgoCD treats it as a regular OCI Helm chart.
+Here, the werf bundle serves as the release artifact. Argo CD treats it as a regular OCI Helm chart.
 
-ArgoCD can deploy the target release artifact after a manual user command.
+Argo CD can deploy the target release artifact after a manual user command.
 
-ArgoCD Image Updater with the ["continuous deployment of OCI Helm chart type application" patch](https://github.com/argoproj-labs/argocd-image-updater/pull/405) can automatically deploy the latest version of a published release artifact.
+Argo CD Image Updater with the ["continuous deployment of OCI Helm chart type application" patch](https://github.com/argoproj-labs/argocd-image-updater/pull/405) can automatically deploy the latest version of a published release artifact.
 
 More information can be found [in the configuration article](030_configure_ci_cd.html#acceptance-testing).

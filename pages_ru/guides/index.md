@@ -6,6 +6,7 @@ permalink: guides/index.html
 
 <div class="landing">
     <div class="landing__header">
+        <!-- spell-check-ignore -->
         <div class="landing__container">
             <a href="/" class="landing__header-title" data-proofer-ignore>
                 {% asset werf-logo.svg alt="werf" width="167" height="70" %}
@@ -15,6 +16,7 @@ permalink: guides/index.html
                 <span>ru.werf.io</span>
             </a>
         </div>
+        <!-- end-spell-check-ignore -->
     </div>
     <div class="landing__content">
         <div class="landing__container">
@@ -81,6 +83,7 @@ permalink: guides/index.html
             </div>
         </div>
     </div>
+    <!-- spell-check-ignore -->
     <div class="landing__side">
         <div class="landing__captain" data-sm-captain="intro">
             {% asset landing/parrot.png class="landing__captain-img landing__captain-img_intro" %}
@@ -89,4 +92,5 @@ permalink: guides/index.html
             {% asset landing/parrot4.png class="landing__captain-img landing__captain-img_select" %}
         </div>
     </div>
+    <!-- end-spell-check-ignore -->
 </div>
