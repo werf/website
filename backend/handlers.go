@@ -251,7 +251,7 @@ func rootDocHandler(w http.ResponseWriter, r *http.Request) {
 
 	defaultVersionLocation = getRootRelease()
 
-	redirectTo = strings.TrimLeft(r.RequestURI, "/documentation/")
+	redirectTo = strings.TrimPrefix(r.RequestURI, "/documentation/")
 
 	re := regexp.MustCompile(`^v[0-9]+[^/]*/?(.*)$`)
 	res := re.FindStringSubmatch(redirectTo)
