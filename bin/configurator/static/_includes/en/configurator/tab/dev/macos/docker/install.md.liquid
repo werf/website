@@ -17,13 +17,3 @@ curl -sSL https://werf.io/install.sh | bash -s -- --version 1.2 --channel stable
 ```
 
 ... and then start a new shell session.
-
-## Preparing the system for cross-platform building (optional)
-
-> This step only needed to build images for platforms other than host platform running werf.
-
-Register emulators on your system using qemu-user-static:
-
-```shell
-docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
-```

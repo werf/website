@@ -17,13 +17,3 @@ curl -sSL https://werf.io/install.sh | bash -s -- --version 1.2 --channel stable
 ```
 
 ... после чего откройте новую shell-сессию.
-
-## Подготовка системы к кроссплатформенной сборке (опционально)
-
-> Данный шаг требуется только для сборки образов для платформ, отличных от платформы системы, где запущен werf.
-
-Регистрируем в системе эмуляторы с помощью образа qemu-user-static:
-
-```shell
-docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
-```
