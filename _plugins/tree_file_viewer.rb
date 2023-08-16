@@ -90,7 +90,7 @@ module Jekyll
 
         unless is_tree_root_level
           result += %Q(
-<div class="folder__wrap #{root_depth > tree_root_depth + 1 ? "hidden child" : nil}">
+<div class="folder__wrap #{root_depth > tree_root_depth + 1 ? "hidden child" : nil}" data-depth="#{root_depth - tree_root_depth}">
 <div class="folder">
 <span class="folder-icon"></span>
 <span class="folder-name">#{root.basename}</span>
