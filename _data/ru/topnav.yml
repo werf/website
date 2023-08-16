@@ -1,6 +1,6 @@
 - title: Документация
   url: /documentation/v1.2/
-- title: Руководство CI/CD
+- title: Самоучитель по Kubernetes
   url: /guides.html
   hot: true
 - title: О проекте
