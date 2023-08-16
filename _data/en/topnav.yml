@@ -1,6 +1,6 @@
 - title: Documentation
   url: /documentation/v1.2/
-- title: CI/CD guide
+- title: Kubernetes guide
   url: /guides.html
   hot: true
 - title: About
