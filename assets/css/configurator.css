@@ -147,7 +147,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     height: 500px;
     background: #191919;
     color: #fff;
-    padding: 20px 20px 20px 0;
+    padding: 20px 7px 20px 0;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -239,7 +239,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     display: inline-block;
     background: url(../assets/images/icons/dropdown.svg) no-repeat;
     background-size: contain;
-    margin-left: -10px;
+    margin-left: -5px;
     transition: transform .3s ease;
 }
 
