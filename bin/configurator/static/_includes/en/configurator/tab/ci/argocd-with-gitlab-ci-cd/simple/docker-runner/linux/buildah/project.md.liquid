@@ -77,7 +77,7 @@ EOF
 
 This is what the repository that uses werf for building and deploying might look like:
 
-{% include /common/configurator/codesandbox.html github_path='github/werf/examples/tree/main/ci-cd/simple/argocd-with-gitlab-ci-cd/docker-runner/linux/buildah' module='/.gitlab-ci.yml' %}
+{% tree_file_viewer '/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/docker-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
 
 Extras:
   * Add authorization options for `werf cleanup` in the container registry by following the [instructions]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
