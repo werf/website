@@ -1,0 +1,39 @@
+## Installing Buildah
+
+Perform the following steps to install Buildah:
+
+* Install the Buildah package following the [official instructions](https://github.com/containers/buildah/blob/main/install.md) but refrain from configuring it. If there are no pre-made Buildah packages for your distribution, refer to the following guidelines:
+
+  {% offtopic title="Installing Buildah manually" %}
+
+  - Install packages for `newuidmap` and `newgidmap`.
+
+  - Make sure that `newuidmap` and `newgidmap` have the proper permissions:
+
+    ```yaml
+    sudo setcap cap_setuid+ep /usr/bin/newuidmap
+    sudo setcap cap_setgid+ep /usr/bin/newgidmap
+    sudo chmod u-s,g-s /usr/bin/newuidmap /usr/bin/newgidmap
+    ```
+
+  - Install the package that provides the `/etc/subuid` and `/etc/subgid` files.
+
+  - Make sure that the `/etc/subuid` and `/etc/subgid` files contain a line similar to `user:1000000:65536`, where
+
+    - `user` — name of the current user;
+
+    - `1000000` — first subUID/subGID in the range to be allocated;
+
+    - `65536` — subUIDs/subGIDs range size (min `65536`).
+
+    Avoid conflicts with other ranges, if any. Changing files may require a reboot. See `man subuid` and `man subgid` for details.
+
+  {% endofftopic %}
+
+* (For Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
+
+* Make sure that the `/home/<current user>/.local/share/containers` path has been created and the current user has read and write access to it.
+
+* The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
+
+* The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
