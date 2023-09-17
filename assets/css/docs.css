@@ -95,14 +95,16 @@
 }
 
 .layout-sidebar__sidebar {
+    position: sticky;
+    top: 100px;
+    display: block;
     width: 260px;
     margin-right: 40px;
-    display: block;
 }
 
 .layout-sidebar__content {
     width: 860px;
-    min-height: 85vh;
+    /*min-height: 85vh;*/
 }
 
 @media screen and (max-width: 1200px) {
@@ -116,10 +118,10 @@
 .sidebar__wrapper-inner {
     /*position: fixed;*/
     width: 260px;
-    top: 100px;
-    bottom: 25px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    /*top: 100px;*/
+    /*bottom: 25px;*/
+    /*overflow-x: hidden;*/
+    /*overflow-y: auto;*/
 }
 
 .sidebar__container {
