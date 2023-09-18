@@ -1,0 +1,70 @@
+## Requirements
+
+* Kubernetes cluster.
+
+* Public repository in container registry.
+
+* Git version 2.18.0 or above.
+{% if include.powershell == true %}
+* PowerShell.
+{% endif %}
+
+## Build and deploy with werf
+
+Contents of the demo project:
+
+{% tree_file_viewer '/examples/configurator/local-dev' default_file='werf.yaml' %}
+
+Initialize the demo project on the local machine:
+
+```{{include.shell}}
+git clone https://github.com/werf/examples
+{% if include.powershell == true %}
+cp -Recurse -Force examples/local-dev example
+{% else %}
+cp -rf examples/local-dev example
+{% endif %}
+cd example
+git init
+git add .
+git commit -m-
+```
+{% if include.buildah == true %}
+Activate Buildah builder:
+
+```shell
+export WERF_BUILDAH_MODE=auto
+```
+{% endif %}
+
+Specify werf secret key to decrypt secrets in `.helm/secret-values.yaml`:
+
+```{{include.shell}}
+{% if include.powershell == true %}
+$ENV:WERF_SECRET_KEY="733658e8ce39dff4ceef0a3e5d8c15f6"
+{% else %}
+export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6
+{% endif %}
+```
+
+Build and deploy with werf:
+
+```{{include.shell}}
+werf converge --dev --repo "<path to repository in container registry>" --env production
+```
+
+Make sure that the deployed application actually works:
+
+```{{include.shell}}
+werf kubectl run tmp --image=alpine -n demo-app-production -it --rm -- sh
+> apk add curl
+> curl 'http://frontend/ping'
+> curl 'http://frontend/remember?answer=Hello&name=You'
+> curl 'http://frontend/say'
+```
+
+Uninstall the deployed application:
+
+```{{include.shell}}
+werf dismiss --env production
+```
