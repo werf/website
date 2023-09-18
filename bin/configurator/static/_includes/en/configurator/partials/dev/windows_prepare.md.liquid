@@ -1,0 +1,41 @@
+## Preparing the system
+
+Grant the user permission to create symbolic links by following [these instructions](https://superuser.com/a/105381), or by running the following commands in PowerShell as an administrator:
+
+{% offtopic title="Grant the user permission using PowerShell" %}
+
+```powershell
+$ntprincipal = new-object System.Security.Principal.NTAccount "$env:UserName"
+$sidstr = $ntprincipal.Translate([System.Security.Principal.SecurityIdentifier]).Value.ToString()
+$tmp = [System.IO.Path]::GetTempFileName()
+secedit.exe /export /cfg "$($tmp)"
+$currentSetting = ""
+foreach($s in (Get-Content -Path $tmp)) {
+  if ($s -like "SECreateSymbolicLinkPrivilege*") {
+      $x = $s.split("=",[System.StringSplitOptions]::RemoveEmptyEntries)
+      $currentSetting = $x[1].Trim()
+  }
+}
+if ($currentSetting -notlike "*$($sidstr)*") {
+  if ([string]::IsNullOrEmpty($currentSetting)) {
+      $currentSetting = "*$($sidstr)"
+  } else {
+      $currentSetting = "*$($sidstr),$($currentSetting)"
+  }
+  $tmp2 = [System.IO.Path]::GetTempFileName()
+  @"
+[Unicode]
+Unicode=yes
+[Version]
+signature="`$CHICAGO`$"
+Revision=1
+[Privilege Rights]
+SECreateSymbolicLinkPrivilege = $($currentSetting)
+"@ | Set-Content -Path $tmp2 -Encoding Unicode -Force
+  cd (Split-Path $tmp2)
+  secedit.exe /configure /db "secedit.sdb" /cfg "$($tmp2)" /areas USER_RIGHTS
+}
+gpupdate /force
+```
+
+{% endofftopic %}
