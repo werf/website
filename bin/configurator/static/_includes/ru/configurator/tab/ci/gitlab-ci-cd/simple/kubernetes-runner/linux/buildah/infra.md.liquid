@@ -174,13 +174,11 @@ spec:
 EOF
 ```
 
-## Конфигурация container registry
-
-[Включите сборщик мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) вашего container registry.
+{% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
 ## Подготовка кластера Kubernetes к мультиплатформенной сборке (опционально)
 
-> Данный шаг требуется только для сборки образов для платформ, отличных от платформы системы, где запущен werf.
+{% include configurator/partials/ci/cross_platform_note.md.liquid %}
 
 Регистрируем на узлах Kubernetes эмуляторы с помощью образа qemu-user-static:
 
