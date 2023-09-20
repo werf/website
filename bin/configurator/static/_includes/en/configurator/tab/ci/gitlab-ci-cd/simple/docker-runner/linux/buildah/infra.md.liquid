@@ -37,13 +37,12 @@ If the GitLab Runner host runs Linux kernel version 5.12 or lower, install `fuse
 
 If needed, perform [additional configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) of the GitLab Runner.
 
-## Configuring the container registry
-
-[Enable garbage collection](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) for your container registry.
+{% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
 ## Preparing the system for cross-platform building (optional)
 
-> This step only needed to build images for platforms other than host platform running werf.
+{% include configurator/partials/ci/cross_platform_note.md.liquid %}
+
 
 Register emulators on your system using qemu-user-static:
 
