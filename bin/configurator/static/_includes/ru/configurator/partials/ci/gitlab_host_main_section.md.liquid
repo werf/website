@@ -13,6 +13,10 @@
   - [Docker Engine](https://docs.docker.com/engine/install/).
 {% endif %}
 
+{% if include.argocd == true %}
+- [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
+{% endif %}
+
 ## Установка GitLab Runner
 
 Установите GitLab Runner на выделенный для него хост, следуя [официальным инструкциям](https://docs.gitlab.com/runner/install/linux-repository.html).
@@ -46,3 +50,12 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 ```shell
 docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
 ```
+{% if include.argocd == true %}
+## Установка Argo CD Image Updater
+
+Установите Argo CD Image Updater с патчем ["continuous deployment of OCI Helm chart type application"](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
+
+```shell
+kubectl apply -n argocd -f https://raw.githubusercontent.com/werf/3p-argocd-image-updater/master/manifests/install.yaml
+```
+{% endif %}
