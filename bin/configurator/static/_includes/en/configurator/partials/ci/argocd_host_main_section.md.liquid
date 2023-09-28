@@ -2,28 +2,27 @@
 
 - GitLab;
 
-- Linux host to install the GitLab Runner, featuring:
+- {{include.host}}ost to install the GitLab Runner, featuring:
 
   * Bash;
 
   * Git version 2.18.0 or above;
 
-  * GPG{{include.gpg_ending}}
+  * GPG;
 {% if include.docker == true %}
-  - [Docker Engine](https://docs.docker.com/engine/install/).
+  * [Docker Engine](https://docs.docker.com/engine/install/);
 {% endif %}
 
-{% if include.argocd == true %}
 - [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
-{% endif %}
 
 ## Installing the GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html) to install the GitLab Runner on your dedicated host.
+Follow the [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html) to install the GitLab Runner on your dedicated host.
 
 {% if include.buildah == true %}
-{% include configurator/partials/ci/buildah_install.md.liquid %}
+{% include configurator/partials/dev/buildah_install.md.liquid %}
 {% endif %}
+
 
 ## Installing werf
 
@@ -35,7 +34,7 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 
 ## Registering the GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register GitLab Runner in GitLab: set Shell as the executor. Once the registration is complete, you may want to perform [additional GitLab Runner configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
+Follow the [official instructions](https://docs.gitlab.com/runner/register/index.html) to register the GitLab Runner in GitLab: set Shell as the executor. Once the registration is complete, you may want to perform [additional GitLab Runner configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
 
 ## Configuring the container registry
 
@@ -43,14 +42,14 @@ Follow [official instructions](https://docs.gitlab.com/runner/register/index.htm
 
 ## Preparing the system for cross-platform building (optional)
 
-> This step only needed to build images for platforms other than host platform running werf.
+> This step is only needed to build images for platforms other than the host platform on which werf is being run.
 
 Register emulators on your system using qemu-user-static:
 
 ```shell
 docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
 ```
-{% if include.argocd == true %}
+
 ## Installing Argo CD Image Updater
 
 Install Argo CD Image Updater with the ["continuous deployment of OCI Helm chart type application" patch](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
@@ -58,4 +57,3 @@ Install Argo CD Image Updater with the ["continuous deployment of OCI Helm chart
 ```shell
 kubectl apply -n argocd -f https://raw.githubusercontent.com/werf/3p-argocd-image-updater/master/manifests/install.yaml
 ```
-{% endif %}
