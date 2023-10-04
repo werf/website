@@ -1,5 +1,9 @@
 ## Настройка проекта GitLab
+{% if include.type == "best-monorepo-linux-buildah" or include.type == "best-monorepo-linux-docker" %}
+- Включите [требование удачно выполненного pipeline для merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html#require-a-successful-pipeline-for-merge).
 
+- Включите [возможность автоматически отменять лишние pipelines](https://docs.gitlab.com/ee/ci/pipelines/settings.html#auto-cancel-redundant-pipelines).
+{% endif %}
 - [Создайте и сохраните access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) для очистки ненужных образов из container registry со следующей конфигурацией:
 
   - **Token name:** `werf-images-cleanup`;
@@ -9,7 +13,13 @@
   - **Scopes:** `api`.
 
 - [В переменных проекта](https://docs.gitlab.com/ee/ci/variables/#for-a-project) добавьте следующие переменные:
+{% if include.type == "best-monorepo-linux-buildah" or include.type == "best-monorepo-linux-docker" %}
+  - Версия werf:
 
+    - **Key:** `WERF_VERSION`;
+
+    - **Value:** `1.2 stable`;
+{% endif %}
   - Access token для очистки ненужных образов:
 
     - **Key:** `WERF_IMAGES_CLEANUP_PASSWORD`;
@@ -34,6 +44,10 @@
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
 {% elsif include.type == "kubernetes-linux-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% elsif include.type == "kubernetes-linux-buildah" %}
+{% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% elsif include.type == "kubernetes-linux-docker" %}
+{% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
 {% endif %}
 
 {% capture registry_guide_url %}/documentation/v1.2/usage/cleanup/cr_cleanup.html#%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%BB%D0%B8%D1%87%D0%BD%D1%8B%D0%BC%D0%B8-container-registries{% endcapture %}
