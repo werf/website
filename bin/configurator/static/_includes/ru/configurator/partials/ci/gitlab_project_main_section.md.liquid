@@ -1,5 +1,5 @@
 ## Настройка проекта GitLab
-{% if include.type == "best-monorepo-linux-buildah" or include.type == "best-monorepo-linux-docker" or include.type == "best-monorepo-kubernetes" or include.type == "best-application-docker" %}
+{% if include.type == "best-monorepo-linux-buildah" or include.type == "best-monorepo-linux-docker" or include.type == "best-monorepo-kubernetes" or include.type == "best-monorepo-docker" or include.type == "best-application-docker" %}
 - Включите [требование удачно выполненного pipeline для merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html#require-a-successful-pipeline-for-merge).
 
 - Включите [возможность автоматически отменять лишние pipelines](https://docs.gitlab.com/ee/ci/pipelines/settings.html#auto-cancel-redundant-pipelines).
@@ -50,6 +50,8 @@
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
 {% elsif include.type == "best-monorepo-kubernetes" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% elsif include.type == "best-monorepo-docker" %}
+{% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/docker-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
 {% elsif include.type == "best-application-docker" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/docker-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
 {% endif %}
