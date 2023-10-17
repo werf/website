@@ -1,0 +1,50 @@
+## Требования
+
+- GitLab;
+
+- Хост для установки GitLab Runner, имеющий:
+
+  - [Docker Engine](https://docs.docker.com/engine/install/).
+
+## Установка GitLab Runner
+
+Установите GitLab Runner на выделенный для него хост, следуя [официальным инструкциям](https://docs.gitlab.com/runner/install/linux-repository.html).
+
+## Регистрация GitLab Runner
+
+Для регистрации GitLab Runner в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html), указав Docker в качестве executor'а и любой образ в качестве image (например, `alpine`).
+
+## Настройка GitLab Runner
+
+На хосте GitLab Runner'а откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner'у следующие опции:
+
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
+  [runners.docker]
+    security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
+    volumes = ["/home/build/.werf"]
+```
+
+Если хост GitLab Runner'а имеет версию ядра Linux 5.12 или ниже, то установите на хост `fuse` и добавьте в файл `config.toml` ещё одну опцию:
+
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
+  [runners.docker]
+    devices = ["/dev/fuse"]
+```
+
+При желании произведите [дополнительную конфигурацию](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
+
+{% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
+
+## Подготовка системы к кроссплатформенной сборке (опционально)
+
+{% include configurator/partials/ci/cross_platform_note.md.liquid %}
+
+Регистрируем в системе эмуляторы с помощью образа qemu-user-static:
+
+```shell
+docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
+```
