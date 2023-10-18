@@ -94,6 +94,10 @@
     justify-content: flex-start;
 }
 
+.layout-sidebar__sidebar {
+    flex-shrink: 0;
+}
+
 .layout-sidebar__sidebar:not(.guides) {
     position: sticky;
     top: 100px;
