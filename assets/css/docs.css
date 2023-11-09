@@ -121,10 +121,6 @@
     }
 }
 
-/*.sidebar__wrapper-inner {*/
-/*    width: 260px;*/
-/*}*/
-
 .sidebar {
     list-style-type: none;
     margin: 0;
@@ -193,9 +189,9 @@ li.sidebar__item.active[data-parent] > a {
 }
 
 .sidebar__submenu-item > a {
-    /*display: inline-block;*/
     display: flex;
     align-items: center;
+    flex-shrink: 0;
     font-size: 14px;
     color: #00122C;
     letter-spacing: -0.26px;
