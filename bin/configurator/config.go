@@ -43,6 +43,15 @@ func (options configCombinationOptions) ToSlug() configCombinationSlug {
 	return configCombinationSlug(strings.Join(opts, "_"))
 }
 
+func (options configCombinationOptions) ToUrlPath() configCombinationSlug {
+	var opts []string
+	for _, option := range options {
+		opts = append(opts, fmt.Sprintf("%s_%s", option.Name, option.Value))
+	}
+
+	return configCombinationSlug(strings.Join(opts, "_"))
+}
+
 type configCombinationTab struct {
 	Name        string            `yaml:"name"`
 	IncludePath string            `yaml:"includePath"`
