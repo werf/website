@@ -11,6 +11,14 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header X-Original-URI         $request_uri;
+
+      if ($request_uri ~* "^/documentation/([^/]+)/configurator/index\.html$") {
+          set $configurator_selected_page "usage-localDev_os-macos_buildBackend-docker.html";
+      }
+      if ($request_uri ~* "^/documentation/([^/]+)/configurator/([^/]+\.html)") {
+          set $configurator_selected_page $2;
+      }
+
       ssi on;
       ssi_silent_errors on;
 {{- include "rewrites" . | indent 6 }}
