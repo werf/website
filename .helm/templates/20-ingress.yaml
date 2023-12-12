@@ -12,18 +12,11 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header X-Original-URI         $request_uri;
 
-      if ($request_uri ~* "^/documentation/([^/]+)/configurator/index\.html$") {
-          set $configurator_selected_page "usage-localDev_os-macos_buildBackend-docker.html";
-      }
-      if ($request_uri ~* "^/documentation/([^/]+)/configurator/([^/]+\.html)") {
-          set $configurator_selected_page $2;
-      }
-
       ssi on;
       ssi_silent_errors on;
 
 {{ include "rewrites" . | indent 6 }}
-{{- if eq .Values.werf.env "production" }}
+{{ if eq .Values.werf.env "production" }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 {{- else }}
     nginx.ingress.kubernetes.io/auth-url: http://basic-auth.kube-basic-auth.svc.cluster.local/werfio
