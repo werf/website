@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Werf: The Modern and Platform Agnostic CI/CD Tool"
+    medium_url: "https://8grams.medium.com/werf-the-modern-and-platform-agnostic-ci-cd-tool-a21259611cb1"
+    img: "/assets/images/publications/en_061123.png"
+    created: 2023-06-11
+    comment: |
+      <p>Werf is a Continuous Integration/Continuous Deployment (CI/CD) tool that simplifies the process of building, testing, releasing, and deploying applications to Kubernetes. It’s an Open Source project under the Cloud Native Computing Foundation (CNCF), designated as a sandbox project as of December 13, 2022​.<br><br>Werf was designed to address the complexities and inconsistencies encountered in CI/CD processes, especially when deploying applications to Kubernetes. It originated in a professional services company that provided DevOps as a Service, Flant. The motivation behind its creation was to standardize and automate the implementation of CI/CD pipelines across various projects​.</p>
   - title: "Werf: Pioneering the Future of CI/CD — A Close Look at the CNCF’s Noteworthy Addition to the DevOps Landscape"
     medium_url: "https://itnext.io/werf-pioneering-the-future-of-ci-cd-a-close-look-at-the-cncfs-noteworthy-addition-to-the-b61a7260e0a2"
     img: "/assets/images/publications/en_110723.jpeg"
