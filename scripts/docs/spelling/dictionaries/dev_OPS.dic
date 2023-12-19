@@ -1,4 +1,4 @@
-485
+502
 1GB
 2GB
 5XX
@@ -63,6 +63,7 @@ DaemonSet
 Daemonsets
 dapp
 dappdeps
+Deckhouse
 dev
 DevOps
 DevOpsConf
@@ -92,6 +93,7 @@ GitLab
 GitOps
 Golang
 GPG
+Grafana
 hardcoded
 healthcheck
 HighLoad
@@ -99,6 +101,7 @@ HorizontalPodAutoscaler
 hostname
 HPA
 HTML
+HTTPS
 IaC
 idempotence
 init
@@ -191,6 +194,7 @@ SaaS
 SaaSUninstall
 scriptable
 sed
+Selectel
 SEMVER
 Sep
 sequelize
@@ -240,6 +244,7 @@ versioning
 VersionItems
 VerticalPodAutoscaler
 VPA
+Vue
 webhook
 webinar
 webpack
@@ -276,6 +281,7 @@ YouTube
 ООМ
 фич
 хеш
+гайд
 гугл
 демо
 лабу
@@ -334,8 +340,10 @@ YouTube
 таймаут
 тредами
 хейтеры
+хотелок
 ассетами
 бандлами
+бэкендом
 деплоить
 запушить
 инстансы
@@ -344,13 +352,16 @@ YouTube
 коммитом
 линтеров
 монорепо
+пайплайн
 парсинга
 паттерна
 паттерну
 помотрим
+пошагово
 релизных
 сервисов
 таймауту
+фронтенд
 хардкода
 валидатор
 валидации
@@ -386,6 +397,8 @@ YouTube
 скриптовом
 сущностями
 тегируются
+фреймворка
+фронтендом
 гитерминизм
 деактивации
 деплоймента
@@ -399,6 +412,7 @@ YouTube
 несекретную
 несекретных
 перезапущен
+пересборкой
 пересоздает
 пинговаться
 репозитории
@@ -413,7 +427,9 @@ YouTube
 гитерминизму
 доустановить
 задеплоенное
+задеплоенные
 задеплоенных
+закоммиченых
 коммитнутыми
 кэшироваться
 переоткрытии
@@ -436,6 +452,7 @@ YouTube
 пересоберётся
 пересоберется
 пересоздастся
+потестировать
 примонтировав
 репозиториями
 сгенерировали
