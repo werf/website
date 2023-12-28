@@ -45,11 +45,18 @@ func (options configCombinationOptions) ToSlug() configCombinationSlug {
 
 func (options configCombinationOptions) ToUrlPath() configCombinationSlug {
 	var opts []string
+	var usage string
 	for _, option := range options {
-		opts = append(opts, fmt.Sprintf("%s_%s", option.Name, option.Value))
+		if option.Value == "localDev" {
+			usage = "local-dev/"
+		} else if option.Value == "ci" {
+			usage = "ci-cd/"
+		} else {
+			opts = append(opts, strings.ToLower(option.Value))
+		}
 	}
 
-	return configCombinationSlug(strings.Join(opts, "_"))
+	return configCombinationSlug(usage + strings.Join(opts, "-"))
 }
 
 type configCombinationTab struct {

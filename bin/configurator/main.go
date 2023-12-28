@@ -19,7 +19,7 @@ const (
 	pagePermalinkConfigurator = "/includes/configurator.html"
 	includePathFormatTabs     = "/configurator/tabs/%s.md"
 	pagePermalinkFormatTabs   = "/configurator/tabs/%s.html"
-	pagePermalinkFormatPages  = "/configurator/pages/%s.html"
+	pagePermalinkFormatPages  = "/configurator/content/%s.html"
 
 	templatePathPagesConfigurator = "templates/pages/configurator.html"
 	templatePathPagesTabs         = "templates/pages/tabs.html"
@@ -135,7 +135,6 @@ func generateTabsIncludesAndPages(conf config) error {
 					for _, pageOptions := range configuratorPageOptions {
 						var pageData configurationPageData
 						pageData.Title = pageOptions.Title
-						pageData.Permalink = pageOptions.Permalink
 						pageData.Groups = conf.getOptionGroupList()
 						pageData.DefaultCombinationOptions = conf.getAllCombinationOptionsList()[0]
 						pageData.DefaultIncludePath = getTabsIncludePath(pageData.DefaultCombinationOptions.ToSlug())
