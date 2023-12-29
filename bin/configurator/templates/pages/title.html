@@ -1,0 +1,14 @@
+---
+title: {{ .Title }}
+permalink: {{ .Permalink }}
+layout: none
+search: exclude
+sitemap_include: false
+sidebar: none
+---
+
+{% if page.lang == "en" %}
+Install and run on{{ range $part := .TitleParts }} {{ $part }}{{ end }} and {{ .EndingTitle }}
+{% elsif page.lang == "ru" %}
+Установка и запуск на {{ range $part := .TitleParts }} {{ $part }}{{ end }} и {{ .EndingTitle }}
+{% endif %}

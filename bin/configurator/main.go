@@ -13,6 +13,7 @@ const (
 	generatedPagePathFormatConfigurator = "generated/pages_%s/configurator.md"
 	generatedPagePathFormatTabs         = "generated/pages_%s/configurator/tabs/%s.md"
 	generatedPagePathFormat             = "generated/pages_%s/configurator/pages/%s.html"
+	generatedTitlePathFormat            = "generated/pages_%s/configurator/titles/%s.html"
 	generatedPathCombinationTreeConfig  = "generated/configurator-options-list.json"
 	generatedPathCombinationTabsConfig  = "generated/configurator-data.json"
 
@@ -20,10 +21,12 @@ const (
 	includePathFormatTabs     = "/configurator/tabs/%s.md"
 	pagePermalinkFormatTabs   = "/configurator/tabs/%s.html"
 	pagePermalinkFormatPages  = "/configurator/content/%s.html"
+	pagePermalinkFormatTitles = "/configurator/title/%s.html"
 
-	templatePathPagesConfigurator = "templates/pages/configurator.html"
-	templatePathPagesTabs         = "templates/pages/tabs.html"
-	templatePathIncludesTabs      = "templates/includes/tabs.html"
+	templatePathPagesConfigurator  = "templates/pages/configurator.html"
+	templatePathTitlesConfigurator = "templates/pages/title.html"
+	templatePathPagesTabs          = "templates/pages/tabs.html"
+	templatePathIncludesTabs       = "templates/includes/tabs.html"
 
 	pageTitleEnConfigurator = "Configurator"
 	pageTitleRuConfigurator = "Конфигуратор"
@@ -142,10 +145,32 @@ func generateTabsIncludesAndPages(conf config) error {
 						pageData.IncludePath = getTabsIncludePath(combinationOptions.ToSlug())
 						pageData.Permalink = getPagesPagePermalink(combinationOptions.ToUrlPath())
 
-						pageData.PageTab = true
+						pageData.PageTab = false
 
 						pageFilePath := getPagesGeneratedPagePath(lang, combinationOptions.ToSlug())
 						if err := createFileByTemplate(templatePathPagesConfigurator, pageFilePath, pageData); err != nil {
+							return fmt.Errorf("unable to generate file %q: %s", pageFilePath, err)
+						}
+					}
+				}
+
+				// generate titles
+				{
+					for _, pageOptions := range configuratorPageOptions {
+						var pageData configurationPageData
+						pageData.Title = pageOptions.Title
+						pageData.Groups = conf.getOptionGroupList()
+						pageData.DefaultCombinationOptions = conf.getAllCombinationOptionsList()[0]
+						pageData.DefaultIncludePath = getTabsIncludePath(pageData.DefaultCombinationOptions.ToSlug())
+
+						pageData.IncludePath = getTabsIncludePath(combinationOptions.ToSlug())
+						pageData.Permalink = getTitlesPagePermalink(combinationOptions.ToUrlPath())
+
+						pageData.TitleParts, pageData.EndingTitle = combinationOptions.GetTitle()
+						pageData.PageTab = true
+
+						pageFilePath := getTitlesGeneratedPagePath(lang, combinationOptions.ToSlug())
+						if err := createFileByTemplate(templatePathTitlesConfigurator, pageFilePath, pageData); err != nil {
 							return fmt.Errorf("unable to generate file %q: %s", pageFilePath, err)
 						}
 					}
@@ -165,6 +190,10 @@ func getPagesGeneratedPagePath(lang string, slug configCombinationSlug) string {
 	return fmt.Sprintf(generatedPagePathFormat, lang, slug)
 }
 
+func getTitlesGeneratedPagePath(lang string, slug configCombinationSlug) string {
+	return fmt.Sprintf(generatedTitlePathFormat, lang, slug)
+}
+
 func getTabsGeneratedIncludePath(lang string, slug configCombinationSlug) string {
 	return fmt.Sprintf(generatedIncludePathFormatTabs, lang, slug)
 }
@@ -181,8 +210,14 @@ func getPagesPagePermalink(slug configCombinationSlug) string {
 	return fmt.Sprintf(pagePermalinkFormatPages, slug)
 }
 
+func getTitlesPagePermalink(slug configCombinationSlug) string {
+	return fmt.Sprintf(pagePermalinkFormatTitles, slug)
+}
+
 type configurationPageData struct {
 	Title                     string
+	EndingTitle               string
+	TitleParts                []string
 	Permalink                 string
 	IncludePath               string
 	Groups                    []optionGroup
