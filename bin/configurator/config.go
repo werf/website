@@ -107,8 +107,7 @@ func (options configCombinationOptions) GetTitle() ([]string, string) {
 	for i := 0; i < len(opts)-2; i++ {
 		opts[i] = opts[i] + ","
 	}
-
-	fmt.Println(opts)
+	
 	return opts[:len(opts)-1], opts[len(opts)-1]
 }
 
