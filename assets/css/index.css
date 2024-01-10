@@ -155,7 +155,7 @@ body,
 }
 
 .page__icon_twitter {
-  background-image: url('/assets/images/icons/twitter.svg');
+  fill: #0066ff;
 }
 
 .page__icon_github {
