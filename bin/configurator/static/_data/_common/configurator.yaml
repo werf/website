@@ -98,6 +98,9 @@ groups:
       title:
         en: "Other CI/CD"
         ru: "Другая CI/CD"
+        page-name:
+          en: "other CI/CD"
+          ru: "другой CI/CD"
     - name: "argoCdWithGitlabCiCd"
       title:
         en: "Argo CD with GitLab CI/CD"

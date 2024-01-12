@@ -166,7 +166,7 @@ func generateTabsIncludesAndPages(conf config) error {
 						pageData.IncludePath = getTabsIncludePath(combinationOptions.ToSlug())
 						pageData.Permalink = getTitlesPagePermalink(combinationOptions.ToUrlPath())
 
-						pageData.TitleParts, pageData.EndingTitle = combinationOptions.GetTitle()
+						pageData.TitleParts = combinationOptions.GetTitle()
 						pageData.PageTab = true
 
 						pageFilePath := getTitlesGeneratedPagePath(lang, combinationOptions.ToSlug())
@@ -216,8 +216,7 @@ func getTitlesPagePermalink(slug configCombinationSlug) string {
 
 type configurationPageData struct {
 	Title                     string
-	EndingTitle               string
-	TitleParts                []string
+	TitleParts                []configCombinationOption
 	Permalink                 string
 	IncludePath               string
 	Groups                    []optionGroup

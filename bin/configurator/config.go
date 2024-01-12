@@ -2,13 +2,10 @@ package main
 
 import (
 	"fmt"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 	"io/ioutil"
 	"regexp"
 	"strings"
 
-	"github.com/fatih/camelcase"
 	"gopkg.in/yaml.v2"
 )
 
@@ -62,53 +59,17 @@ func (options configCombinationOptions) ToUrlPath() configCombinationSlug {
 	return configCombinationSlug(usage + strings.Join(opts, "-"))
 }
 
-func (options configCombinationOptions) GetTitle() ([]string, string) {
-	var opts []string
+func (options configCombinationOptions) GetTitle() []configCombinationOption {
+	var opts []configCombinationOption
 	for _, option := range options {
 		if option.Name != "usage" &&
 			option.Name != "repoType" &&
 			option.Name != "sharedCICD" &&
 			option.Name != "projectType" {
-			splitted := camelcase.Split(option.Value)
-			for i := 0; i < len(splitted)-1; i++ {
-				switch splitted[i] {
-				case "Ci":
-					if i+1 < len(splitted) && splitted[i+1] == "Cd" {
-						splitted[i] = "CI/CD"
-						splitted[i+1] = ""
-					}
-				case "argo":
-					if i+1 < len(splitted) && splitted[i+1] == "Cd" {
-						splitted[i] = "Argo CD"
-						splitted[i+1] = ""
-					}
-				case "Gitlab", "gitlab":
-					splitted[i] = "GitLab"
-				case "Github", "github":
-					splitted[i] = "GitHub"
-				case "With":
-					splitted[i] = "with"
-				}
-			}
-			for i := 0; i < len(splitted); i++ {
-				if splitted[i] == "" {
-					splitted = append(splitted[:i], splitted[i+1:]...)
-				}
-			}
-			strValue := strings.Join(splitted, " ")
-			if strings.Contains(strValue, "with") {
-				opts = append(opts, strValue)
-			} else {
-				opts = append(opts, cases.Title(language.Und, cases.NoLower).String(strValue))
-			}
+			opts = append(opts, option)
 		}
 	}
-
-	for i := 0; i < len(opts)-2; i++ {
-		opts[i] = opts[i] + ","
-	}
-	
-	return opts[:len(opts)-1], opts[len(opts)-1]
+	return opts
 }
 
 type configCombinationTab struct {
