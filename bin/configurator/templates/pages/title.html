@@ -42,7 +42,7 @@ sidebar: none
         {% assign button = group.buttons | find: "name", "{{$title.Value}}" %}
         {% if index != length %}
             {% if button.title.page-name %}
-                {{`{{button.title.page-name.ru}}`}}{% if index != sep %},{% else %}and{% endif %}
+                {{`{{button.title.page-name.ru}}`}}{% if index != sep %},{% else %}и{% endif %}
             {% else %}
                 {{`{{button.title.ru}}`}}{% if index != sep %},{% else %} и {% endif %}
             {% endif %}
