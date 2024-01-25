@@ -1,8 +1,7 @@
 i18n:
   default_btn_title: "Read more"
-  habr_btn_title: "Read on Habr"
   medium_btn_title: "Read on Medium"
-  blog_btn_title: "Read on Flant Blog"
+  blog_btn_title: "Read on werf blog"
   custom_url_btn_title_prefix: "Read on "
   youtube_btn_title: "Watch on YouTube"
   cloud_yuga_btn_title: "Run lab on CloudYuga"
@@ -10,8 +9,8 @@ i18n:
 articles:
   #- title: TITLE
   #  url: URL
-  #  habr_url: URL
   #  medium_url: URL
+  #  blog_url: URL
   #  youtube_url: URL
   #  img: ABSOLUTE PATH
   #  created: ISO format date, yyyy-mm-dd
@@ -20,7 +19,7 @@ articles:
   - title: "Werf: The Modern and Platform Agnostic CI/CD Tool"
     medium_url: "https://8grams.medium.com/werf-the-modern-and-platform-agnostic-ci-cd-tool-a21259611cb1"
     img: "/assets/images/publications/en_061123.png"
-    created: 2023-06-11
+    created: 2023-11-06
     comment: |
       <p>Werf is a Continuous Integration/Continuous Deployment (CI/CD) tool that simplifies the process of building, testing, releasing, and deploying applications to Kubernetes. It’s an Open Source project under the Cloud Native Computing Foundation (CNCF), designated as a sandbox project as of December 13, 2022​.<br><br>Werf was designed to address the complexities and inconsistencies encountered in CI/CD processes, especially when deploying applications to Kubernetes. It originated in a professional services company that provided DevOps as a Service, Flant. The motivation behind its creation was to standardize and automate the implementation of CI/CD pipelines across various projects​.</p>
   - title: "Werf: Pioneering the Future of CI/CD — A Close Look at the CNCF’s Noteworthy Addition to the DevOps Landscape"
@@ -33,7 +32,7 @@ articles:
       As a standout member of the CNCF (Cloud Native Computing Foundation) project family, Werf brings a fresh perspective and cutting-edge capabilities to the ever-evolving field of DevOps.</p>
   - title: "Simple End to End GitOps with Werf"
     custom_urls:
-      - service_name: "KLLRCODA"
+      - service_name: "Killercoda"
         url: "https://killercoda.com/jarns-zeiher/scenario/Simple-End-to-End-GitOps-with-Werf"
     img: "/assets/images/publications/en_130723.jpg"
     created: 2023-07-13
@@ -51,13 +50,13 @@ articles:
     comment: |
       <p>In this presentation, we will explore werf, an Open Source CLI tool that recently became a CNCF project, designed to implement consistent and efficient software delivery to Kubernetes with your CI/CD system of choice.</p>
   - title: "New werf mode: combining werf & Argo CD into a unified CI/CD process"
-    medium_url: "https://blog.werf.io/new-werf-mode-combining-werf-argo-cd-into-a-unified-ci-cd-process-d49bce7f3be1"
+    blog_url: "https://blog.werf.io/new-werf-mode-combining-werf-argo-cd-into-a-unified-ci-cd-process-d49bce7f3be1"
     img: "/assets/images/publications/en_170523.png"
     created: 2023-05-17
     comment: |
       <p>This article takes a look at a new experimental operation mode that connects the werf Open Source utility with Argo CD. It combines the features and user-friendliness of both tools into a unified CI/CD process. Note that these werf features are still being refined. That said, you can take the opportunity to check them out and see if they are right for you.</p>
   - title: "Canary releases in Kubernetes based on Ingress-NGINX Controller"
-    medium_url: "https://blog.werf.io/canary-releases-in-kubernetes-based-on-ingress-nginx-controller-96193efe34f9"
+    blog_url: "https://blog.werf.io/canary-releases-in-kubernetes-based-on-ingress-nginx-controller-96193efe34f9"
     img: "/assets/images/publications/en_220223.png"
     created: 2023-02-22
     comment: |
@@ -65,19 +64,21 @@ articles:
       <br><br>
       Canary deployment is a good way to test new features on a subset of users. A specific subset of users is selected based on a particular attribute. At the same time, testing activities cannot affect the user experience on the main application version. The load between the two app versions should be allocated in a predictable fashion.</p>
   - title: "A brief introduction to werf, CI/CD tool and CNCF project now"
-    url: "https://blog.palark.com/introduction-to-werf/"
+    custom_urls:
+      - service_name: "Palark blog"
+        url: "https://blog.palark.com/introduction-to-werf/"
     img: "/assets/images/publications/en_090223.png"
     created: 2023-02-09
     comment: |
       <p>werf strives to make software delivery in Kubernetes consistent and efficient. Here's the story behind this project and a quick look at what it offers today.</p>
   - title: "werf CI/CD tool becomes a CNCF project!"
-    medium_url: "https://blog.werf.io/werf-joins-cncf-4767462dd8a6"
+    blog_url: "https://blog.werf.io/werf-joins-cncf-4767462dd8a6"
     img: "/assets/images/publications/en_070223.png"
     created: 2023-02-07
     comment: |
       <p>werf is officially a Sandbox project in the CNCF (Cloud Native Computing Foundation) now. Here is a brief intro to the project, this change, and our nearest plans.</p>
   - title: "Deploying Kubernetes resources in a specific order using Helm or werf"
-    medium_url: "https://blog.werf.io/deploying-kubernetes-resources-in-a-specific-order-using-helm-or-werf-f8eb8c1a08"
+    blog_url: "https://blog.werf.io/deploying-kubernetes-resources-in-a-specific-order-using-helm-or-werf-f8eb8c1a08"
     img: "/assets/images/publications/en_210922.png"
     created: 2022-09-21
     comment: |
@@ -101,37 +102,37 @@ articles:
     comment: |
       <p>This article looks at building a Docker image of a minimalistic application and deploying it to a Kubernetes cluster using the Open Source tool called werf.</p>
   - title: "Running werf in GitLab CI/CD without a Docker server"
-    medium_url: "https://blog.werf.io/running-werf-in-gitlab-ci-cd-without-a-docker-server-4973c5c5b50d"
+    blog_url: "https://blog.werf.io/running-werf-in-gitlab-ci-cd-without-a-docker-server-4973c5c5b50d"
     img: "/assets/images/publications/en_050522.jpeg"
     created: 2022-05-05
     comment: |
       <p>werf is an Open Source tool for building applications and deploying them to Kubernetes. This article discusses the new experimental werf operating mode that does not require a Docker server to be run. You will learn how to ensure this mode works properly on your machine, build an image, and use the Kubernetes executor to automate builds in GitLab CI/CD.</p>
   - title: "Local development in Kubernetes with werf 1.2 and minikube"
-    medium_url: "https://blog.werf.io/local-development-in-kubernetes-with-werf-1-2-and-minikube-9b21a266830a"
+    blog_url: "https://blog.werf.io/local-development-in-kubernetes-with-werf-1-2-and-minikube-9b21a266830a"
     img: "/assets/images/publications/en_080422.png"
     created: 2022-04-08
     comment: |
       <p>This article discusses preparing and deploying a Kubernetes-based infrastructure for local development using a basic application as an example. Local development means you can change your app’s source code and instantly see how it works in K8s running on your computer.</p>
   - title: "werf v1.2 is now stable! Here’s what it is all about"
-    medium_url: "https://blog.werf.io/werf-v1-2-is-now-stable-heres-what-it-is-all-about-832ed647810f"
+    blog_url: "https://blog.werf.io/werf-v1-2-is-now-stable-heres-what-it-is-all-about-832ed647810f"
     img: "/assets/images/publications/en_141221.png"
     created: 2021-12-14
     comment: |
       <p>werf is a CLI Open Source tool for building applications and deploying them to Kubernetes clusters. Version 1.2 features many new changes and improvements. We have been thoroughly testing and refining them as part of the Early-Access version over the last eleven months (since January 2021). Finally, we are pleased to announce that it has been promoted to Stable!</p>
   - title: "werf vs. Docker: What is the difference when it comes to building images?"
-    medium_url: "https://blog.werf.io/werf-vs-docker-what-is-the-difference-when-it-comes-to-building-images-fe886bc011a4"
+    blog_url: "https://blog.werf.io/werf-vs-docker-what-is-the-difference-when-it-comes-to-building-images-fe886bc011a4"
     img: "/assets/images/publications/en_030921.png"
     created: 2021-09-03
     comment: |
-      <p>This article is the next installment in the “werf vs. …” series. In the <a target="_blank" rel="noopener nofollow" href="https://blog.werf.io/werf-vs-helm-should-you-even-compare-them-7f68cbb37279">previous article</a>, we discussed the ways that werf differs from Helm. This article compares werf with an even more basic tool: Docker.</p>
+      <p>This article is the next installment in the “werf vs. …” series. In the previous article, we discussed the ways that werf differs from Helm. This article compares werf with an even more basic tool: Docker.</p>
   - title: "werf vs. Helm: Should you even compare them?"
-    medium_url: "https://blog.werf.io/werf-vs-helm-should-you-even-compare-them-7f68cbb37279"
+    blog_url: "https://blog.werf.io/werf-vs-helm-should-you-even-compare-them-7f68cbb37279"
     img: "/assets/images/publications/en_260821.png"
     created: 2021-08-26
     comment: |
       <p>This article attempts to provide a detailed answer to a question we stumble upon every now and then: What is the difference between werf and Helm? At first glance, both of these tools seem to be designed with the same purpose: automating application deployment in Kubernetes. However, the reality is a little more complicated than that.</p>
   - title: "Configuring Continuous Integration for Jenkins & Bitbucket using werf"
-    medium_url:  "https://blog.werf.io/configuring-continuous-integration-for-jenkins-bitbucket-using-werf-15aa27540172"
+    blog_url: "https://blog.werf.io/configuring-continuous-integration-for-jenkins-bitbucket-using-werf-15aa27540172"
     img: "/assets/images/publications/en_040221.png"
     created: 2021-02-04
     comment: |
@@ -158,7 +159,7 @@ articles:
     comment: |
       <p>werf is a CLI tool that glues well-established software (Git, Docker, Kubernetes, Helm, a variety of container registries & CI systems) to facilitate applications’ delivery. In this webinar, developers, release engineers & SREs will learn how they can benefit from werf in their infrastructure, release management & CI/CD pipelines. Using Git as a single source of truth, we will build images of a simple Node.js application, push them into registry, deploy to Kubernetes and integrate with GitLab CI. You will also see how actual Kubernetes deployments are kept always in sync with your defined state via GitOps push-based approach.</p>
   - title: "Overcoming the challenges of cleaning up container images"
-    medium_url: "https://blog.werf.io/cleaning-up-container-images-with-werf-ec35b5d46569"
+    blog_url: "https://blog.werf.io/cleaning-up-container-images-with-werf-ec35b5d46569"
     custom_urls:
       - service_name: "CNCF"
         url: "https://www.cncf.io/blog/2020/10/15/overcoming-the-challenges-of-cleaning-up-container-images/"
@@ -177,55 +178,55 @@ articles:
     comment: |
       <p>This is the third post of a GitOps tools article collection. In this post, the author gets to know continuous integration and continuous deployment tool for Kubernetes  — werf.</p>
   - title: "Distributed CI/CD with werf"
-    medium_url: "https://blog.werf.io/werf-distributed-build-deploy-7724f6c31988"
+    blog_url: "https://blog.werf.io/werf-distributed-build-deploy-7724f6c31988"
     img: "/assets/images/publications/en_020620.png"
     created: 2020-06-02
     comment: |
       <p>werf is our Open Source tool to build your applications and deploy them to Kubernetes — continuously & consistently. Today we are excited to announce that werf has learned to operate in a distributed mode!</p>
   - title: "Full support for popular Docker Registry implementations in werf"
-    medium_url: "https://blog.werf.io/docker-registry-support-in-werf-fa8eee780c44"
+    blog_url: "https://blog.werf.io/docker-registry-support-in-werf-fa8eee780c44"
     img: "/assets/images/publications/en_060520.png"
     created: 2020-05-06
     comment: |
       <p>Container registries tend to support the Docker Registry HTTP API, allowing their users to rely on the same tools to operate them. However, some implementations have their peculiarities and limitations. Thus, you have to take into account their specifics when using them as part of your CI/CD toolchain. That is exactly what happened when we decided to improve the way our werf GitOps utility manages the lifecycle of images.</p>
   - title: "Content-based tagging in the werf builder"
-    medium_url: "https://blog.werf.io/content-based-tagging-in-werf-eb96d22ac509"
+    blog_url: "https://blog.werf.io/content-based-tagging-in-werf-eb96d22ac509"
     img: "/assets/images/publications/en_170420.png"
     created: 2020-04-17
     comment: |
-      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. The<a href="https://blog.werf.io/werf-1-1-release-notes-and-future-plans-df49f6b229c1" target="_blank" rel="noopener nofollow"> v1.1</a> release introduced a new feature in the image builder: the <em>content-based tagging</em>. Until now, the typical tagging strategy in werf involved tagging Docker images by a Git tag, Git branch, or Git commit. However, all these strategies have drawbacks that are fully resolved by implementing the new tagging strategy. In this article, we discuss its advantages.</p>
+      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. The v1.1 release introduced a new feature in the image builder: the <em>content-based tagging</em>. Until now, the typical tagging strategy in werf involved tagging Docker images by a Git tag, Git branch, or Git commit. However, all these strategies have drawbacks that are fully resolved by implementing the new tagging strategy. In this article, we discuss its advantages.</p>
   - title: "werf 1.1: Release notes and future plans"
-    medium_url: "https://blog.werf.io/werf-1-1-release-notes-and-future-plans-df49f6b229c1"
+    blog_url: "https://blog.werf.io/werf-1-1-release-notes-and-future-plans-df49f6b229c1"
     img: "/assets/images/publications/en_270320.png"
     created: 2020-03-27
     comment: |
-      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. As promised, the <a href="https://blog.werf.io/announcing-werf-1-0-stable-813b664a06ae" target="_blank" rel="noopener nofollow">release of werf 1.0</a> marked the beginning of the era of new features and revising established approaches. Now, we are excited to announce the latest version (v1.1) of our tool which is a massive step in the development of <em>its builder</em> and laying the groundwork for the future. Currently, version 1.1 is available in the <a href="https://github.com/werf/werf#backward-compatibility-promise" target="_blank" rel="noopener nofollow">1.1 <em>ea</em> channel</a>.</p>
+      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. As promised, the release of werf 1.0 marked the beginning of the era of new features and revising established approaches. Now, we are excited to announce the latest version (v1.1) of our tool which is a massive step in the development of <em>its builder</em> and laying the groundwork for the future. Currently, version 1.1 is available in the <a href="https://github.com/werf/werf#backward-compatibility-promise" target="_blank" rel="noopener nofollow">1.1 <em>ea</em> channel</a>.</p>
   - title: "Building & deploying a versioned documentation site with werf"
-    medium_url: "https://blog.werf.io/dynamic-building-deploying-with-werf-5c65bb5c29cb"
+    blog_url: "https://blog.werf.io/dynamic-building-deploying-with-werf-5c65bb5c29cb"
     img: "/assets/images/publications/en_210220.png"
     created: 2020-02-21
     comment: |
-      <p>You may already know our GitOps tool called <a href="https://github.com/werf/werf" target="_blank" rel="noopener nofollow">werf</a> — we have discussed it in <a href="https://blog.palark.com/tag/werf/" target="_blank" rel="noopener nofollow">several of our articles</a>. Today, we would like to share our experience in building &amp; deploying the site with our tool’s documentation, werf.io. Despite it is a regular static site, the building process is noteworthy as we use a <em class="iq">dynamic</em> number of artifacts.</p>
+      <p>You may already know our GitOps tool called werf — we have discussed it in several of our articles. Today, we would like to share our experience in building &amp; deploying the site with our tool’s documentation, werf.io. Despite it is a regular static site, the building process is noteworthy as we use a <em class="iq">dynamic</em> number of artifacts.</p>
   - title: "Executing commands while deploying your app’s new release in Kubernetes"
-    medium_url: "https://blog.werf.io/custom-commands-deploying-in-kubernetes-df4ea4487f18"
+    blog_url: "https://blog.werf.io/custom-commands-deploying-in-kubernetes-df4ea4487f18"
     img: "/assets/images/publications/en_240120.png"
     created: 2020-01-24
     comment: |
-      <p>In <a href="https://flant.com/" target="_blank" rel="noopener nofollow">Flant</a>, we are often confronted with the challenge of adapting applications for running them in Kubernetes. When dealing with this challenge, we usually encounter many repetitive problems. We have already discussed one of them in the “<a target="_blank" rel="noopener nofollow" href="https://blog.palark.com/migrating-your-app-to-kubernetes-what-to-do-with-files/">Migrating your app to Kubernetes: what to do with files?</a>”. In this article, we’ll focus on another problem which relates to CI/CD processes for this time.</p>
+      <p>We are often confronted with the challenge of adapting applications for running them in Kubernetes. When dealing with this challenge, we usually encounter many repetitive problems. In this article, we’ll focus on some of specific CI/CD processes.</p>
   - title: "Announcing werf 1.0 stable: The state & future of our GitOps tool"
-    medium_url: "https://blog.werf.io/announcing-werf-1-0-stable-813b664a06ae"
+    blog_url: "https://blog.werf.io/announcing-werf-1-0-stable-813b664a06ae"
     img: "/assets/images/publications/en_140120.png"
     created: 2020-01-14
     comment: |
       <p>In this article, timed to coincide with the werf release, we will provide a detailed description of what this version can and cannot do, as well as discuss our plans for future versions. However, let’s start with what the term “GitOps” means and what role werf has in the process of continuous integration and continuous delivery (CI/CD).</p>
   - title: "3-way merge in werf: deploying to Kubernetes via Helm “on steroids”"
-    medium_url: "https://blog.werf.io/3-way-merge-patches-helm-werf-beb7eccecdfe"
+    blog_url: "https://blog.werf.io/3-way-merge-patches-helm-werf-beb7eccecdfe"
     img: "/assets/images/publications/en_261119.png"
     created: 2019-11-26
     comment: |
       <p>Let’s start with a theory. What are three-way-merge patches? How they’ve been invented, and why they are so essential for CI/CD processes with a Kubernetes-based infrastructure? And later, we will discuss the 3-way-merge process in werf, what modes are used by default, and how can you manage all this stuff.</p>
   - title: "Building and deploying lots of microservices using werf and GitLab CI"
-    medium_url: "https://blog.werf.io/building-and-deploying-lots-of-microservices-using-werf-and-gitlab-ci-3ce2b7d19450"
+    blog_url: "https://blog.werf.io/building-and-deploying-lots-of-microservices-using-werf-and-gitlab-ci-3ce2b7d19450"
     img: "/assets/images/publications/en_311019.png"
     created: 2019-10-31
     comment: |
@@ -237,23 +238,23 @@ articles:
     comment: |
       <p>Let’s imagine that your application is written in some scripting language — e.g. Ruby — and you want to rewrite it in Golang. You may ask a reasonable question: what is the point in rewriting a program that is up and running?..</p>
   - title: "Deploying Helm charts with dependencies in Kubernetes via werf"
-    medium_url: "https://blog.werf.io/deploying-helm-charts-with-dependencies-in-kubernetes-via-werf-17e5457cdd3f"
+    blog_url: "https://blog.werf.io/deploying-helm-charts-with-dependencies-in-kubernetes-via-werf-17e5457cdd3f"
     img: "/assets/images/publications/en_041019.png"
     created: 2019-10-04
     comment: |
       <p>This article should be useful if you create & apply Helm charts for Kubernetes using the existing solutions drawn from the chart repositories.</p>
   - title: "Monorepo/multirepo support in werf (and what does it have to do with Docker Registry?)"
-    medium_url: "https://blog.werf.io/monorepo-multirepo-registry-support-in-werf-a73b2a5172d8"
+    blog_url: "https://blog.werf.io/monorepo-multirepo-registry-support-in-werf-a73b2a5172d8"
     img: "/assets/images/publications/en_090919.png"
     created: 2019-09-09
   - title: "Improve your CI/CD experience with werf and existing Dockerfiles"
-    medium_url: "https://blog.werf.io/werf-dockerfile-support-e6504211b8e6"
+    blog_url: "https://blog.werf.io/werf-dockerfile-support-e6504211b8e6"
     img: "/assets/images/publications/en_230819.png"
     created: 2019-08-23
     comment: |
       <p>Better late than never. The story of how we almost made a major mistake by not implementing support for building images using regular Dockerfiles.</p>
   - title: "Announcing werf — a missing part for CI/CD systems"
-    medium_url: "https://blog.werf.io/werf-devops-tool-d3f1251a65ab"
+    blog_url: "https://blog.werf.io/werf-devops-tool-d3f1251a65ab"
     img: "/assets/images/publications/en_190519.jpg"
     created: 2019-05-19
     comment: |
