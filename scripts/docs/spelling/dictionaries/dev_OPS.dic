@@ -115,7 +115,7 @@ js
 json
 k3d
 K8s
-KLLRCODA
+Killercoda
 kube
 kubeconfig
 kubectl
@@ -151,6 +151,7 @@ npm
 OCI
 OOM
 ORM
+Palark
 PDB
 PersistentVolumeClaim
 PersistentVolumeClaims
