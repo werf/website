@@ -47,3 +47,11 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Change URL of a source document on the latest version on the site.
+        let editMeButton = $('.btn-group.editme > a');
+
+        editMeButton.attr('href', $(editMeButton).attr('href').replace('/latest/', '/master/'));
+    });
+</script>
