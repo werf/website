@@ -1,7 +1,7 @@
 name: Cleanup Docker registry
 on:
   schedule:
-    - cron:  '0 6 * * *'
+    - cron:  '10 6 * * *'
   repository_dispatch:
     types: [cleanup]
 
@@ -16,7 +16,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
