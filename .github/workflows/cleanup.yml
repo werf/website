@@ -22,7 +22,7 @@ jobs:
         run: git fetch --prune --unshallow
 
       - name: Cleanup
-        uses: werf/actions/cleanup@v1.2
+        uses: werf/actions/cleanup@43075e4ab81952b181d33e125ef15b9c060a782e
         env:
           WERF_LOG_VERBOSE: "on"
           WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
