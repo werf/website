@@ -1,12 +1,10 @@
 ---
 title: {{ .Title }}
 permalink: {{ .Permalink }}
-layout: none
-search: exclude
-sitemap_include: false
-sidebar: none
+layout: plain
+breadcrumbs: none
 ---
-
+<h1 class="docs__title">Быстрый старт</h1>
 <div class="configurator">
     <div class="configurator__buttons">
         {{- range $group := .Groups }}

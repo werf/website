@@ -48,9 +48,9 @@ func (options configCombinationOptions) ToUrlPath() configCombinationSlug {
 	var usage string
 	for _, option := range options {
 		if option.Value == "localDev" {
-			usage = "local-dev/"
+			usage = "local/"
 		} else if option.Value == "ci" {
-			usage = "ci-cd/"
+			usage = "cicd/"
 		} else {
 			opts = append(opts, strings.ToLower(option.Value))
 		}
