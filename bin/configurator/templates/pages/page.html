@@ -54,8 +54,10 @@ breadcrumbs: none
         {{- end }}
     {% endif %}
 </h1>
-<div class="configurator">
+<div class="configurator" markdown="1">
     <div id="configurator-content" markdown="1">
-    {{ if .PageTab }} {% include {{ .IncludePath }} %} {{ else }} {% include {{ .DefaultIncludePath }} %} {{ end }}
+{{ if .PageTab }}
+{% include {{ .IncludePath }} %} {{ else }} {% include {{ .DefaultIncludePath }} %}
+{{ end }}
     </div>
 </div>

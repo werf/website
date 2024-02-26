@@ -4,7 +4,7 @@
     {% assign tab_title = tab_info.title[page.lang] | default: "{{ $tab.Name }}" %}
     <h2>{{`{{tab_title}}`}}</h2>
     <div markdown="1">
-    {% include {{ $tab.IncludePath }} {{ range $option := $.Options }}{{ $option.Name }}='{{ $option.Value }}' {{ end }} {{ range $k, $v := $tab.Params }}{{ $k }}='{{ $v }}' {{ end -}} %}
+{% include {{ $tab.IncludePath }} {{ range $option := $.Options }}{{ $option.Name }}='{{ $option.Value }}' {{ end }} {{ range $k, $v := $tab.Params }}{{ $k }}='{{ $v }}' {{ end -}} %}
     </div>
     {{ end }}
 </div>
