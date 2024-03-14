@@ -13,7 +13,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: setup-minio
-        image: minio/mc
+        image: minio/mc:RELEASE.2023-10-24T21-42-22Z
         command:
         - sh
         - -euc
@@ -22,7 +22,7 @@ spec:
             tries=$1
             i=0
             while [ $i -lt $tries ]; do
-              timeout 5s bash -c ':> /dev/tcp/minio/9000' || return 1
+              curl -sSL http://minio:9000/minio/health/live || return 1
               i=$((i+1))
               sleep 1
             done
