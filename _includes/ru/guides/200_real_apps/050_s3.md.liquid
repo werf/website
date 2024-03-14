@@ -105,7 +105,7 @@ This is file content.
 
 Также убедимся, что файл сохранился и достаётся именно из хранилища. Для этого сначала запустим контейнер с утилитой `mc` для взаимодействия с MinIO:
 ```shell
-kubectl -n werf-guide-app run mc --image=minio/mc --rm -it --command -- bash
+kubectl -n werf-guide-app run mc --image=minio/mc:RELEASE.2023-10-24T21-42-22Z --rm -it --command -- bash
 ```
 
 Теперь, оказавшись внутри контейнера, выполним команды:
