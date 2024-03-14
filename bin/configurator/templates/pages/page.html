@@ -4,6 +4,7 @@ permalink: {{ .Permalink }}
 layout: plain
 breadcrumbs: none
 ---
+
 <h1 class="docs__title">
     {{ $length := len .TitleParts }}
     {{$length = add $length -1}}
@@ -54,10 +55,9 @@ breadcrumbs: none
         {{- end }}
     {% endif %}
 </h1>
-<div class="configurator" markdown="1">
-    <div id="configurator-content" markdown="1">
-{{ if .PageTab }}
-{% include {{ .IncludePath }} %} {{ else }} {% include {{ .DefaultIncludePath }} %}
-{{ end }}
-    </div>
+
+<div class="configurator">
+<div id="configurator-content" markdown="1">
+{{ if .PageTab }}{% include {{ .IncludePath }} %}{{ else }}{% include {{ .DefaultIncludePath }} %}{{ end }}
+</div>
 </div>
