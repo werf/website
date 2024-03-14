@@ -18,7 +18,7 @@ spec:
             tries=$1
             i=0
             while [ $i -lt $tries ]; do
-              curl -sSL http://minio:9000/minio/health/live || return 1
+              timeout 5s bash -c ':> /dev/tcp/minio/9000' || return 1
               i=$((i+1))
               sleep 1
             done
