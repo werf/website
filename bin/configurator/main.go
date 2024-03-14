@@ -13,7 +13,7 @@ const (
 	generatedIncludePathFormatTabsForPages = "generated/_includes/%s/configurator/tabs_for_pages/%s.md"
 	generatedPagePathFormatConfigurator    = "generated/pages_%s/configurator.md"
 	generatedPagePathFormatTabs            = "generated/pages_%s/configurator/tabs/%s.md"
-	generatedPagePathFormat                = "generated/pages_%s/configurator/pages/%s.html"
+	generatedPagePathFormat                = "generated/pages_%s/configurator/pages/%s.md"
 	generatedPathCombinationTreeConfig     = "generated/configurator-options-list.json"
 	generatedPathCombinationTabsConfig     = "generated/configurator-data.json"
 
