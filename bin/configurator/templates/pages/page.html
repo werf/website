@@ -5,57 +5,6 @@ layout: page-nosidebar
 breadcrumbs: none
 ---
 
-<h1 class="docs__title">
-    {{ $length := len .TitleParts }}
-    {{$length = add $length -1}}
-    {{$sep := add $length -1}}
-
-    {% assign length = "{{$length}}" %}
-    {% assign sep = "{{$sep}}" %}
-
-    {% if page.lang == "en" %}
-        Install and run on
-        {{- range $index, $title := .TitleParts }}
-            {% assign index = "{{$index}}" %}
-            {% assign group = site.data.common.configurator.groups | find: "name", "{{$title.Name}}" %}
-            {% assign button = group.buttons | find: "name", "{{$title.Value}}" %}
-            {% if index != length %}
-                {% if button.title.page-name %}
-                    {{`{{button.title.page-name.en}}`}}{% if index != sep %},{% else %}and{% endif %}
-                {% else %}
-                    {{`{{button.title.en}}`}}{% if index != sep %},{% else %} and {% endif %}
-                {% endif %}
-            {% else %}
-                {% if button.title.page-name %}
-                    {{`{{button.title.page-name.en}}`}}.
-                {% else %}
-                    {{`{{button.title.en}}`}}
-                {% endif %}
-            {% endif %}
-        {{- end }}
-    {% elsif page.lang == "ru" %}
-        Установка и запуск на
-        {{- range $index, $title := .TitleParts }}
-            {% assign index = "{{$index}}" %}
-            {% assign group = site.data.common.configurator.groups | find: "name", "{{$title.Name}}" %}
-            {% assign button = group.buttons | find: "name", "{{$title.Value}}" %}
-            {% if index != length %}
-                {% if button.title.page-name %}
-                    {{`{{button.title.page-name.ru}}`}}{% if index != sep %},{% else %}и{% endif %}
-                {% else %}
-                    {{`{{button.title.ru}}`}}{% if index != sep %},{% else %} и {% endif %}
-                {% endif %}
-            {% else %}
-                {% if button.title.page-name %}
-                    {{`{{button.title.page-name.ru}}`}}.
-                {% else %}
-                    {{`{{button.title.ru}}`}}
-                {% endif %}
-            {% endif %}
-        {{- end }}
-    {% endif %}
-</h1>
-
 <div class="configurator">
 <div id="configurator-content" markdown="1">
 {{ if .PageTab }}{% include {{ .IncludePath }} %}{{ else }}{% include {{ .DefaultIncludePath }} %}{{ end }}

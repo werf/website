@@ -10,7 +10,7 @@ import (
 )
 
 func createFileByTemplate(templatePath, filePath string, data interface{}) error {
-	t, err := parseFiles(template.FuncMap{"add": add}, templatePath)
+	t, err := template.ParseFiles(templatePath)
 	if err != nil {
 		return fmt.Errorf("unable to parse template: %w", err)
 	}
@@ -27,14 +27,6 @@ func createFileByTemplate(templatePath, filePath string, data interface{}) error
 	}
 
 	return nil
-}
-
-func parseFiles(funcs template.FuncMap, filenames ...string) (*template.Template, error) {
-	return template.New(filepath.Base(filenames[0])).Funcs(funcs).ParseFiles(filenames...)
-}
-
-func add(a int, b int) int {
-	return a + b
 }
 
 func createJsonFile(filePath string, obj interface{}) error {

@@ -160,7 +160,7 @@ func generateTabsIncludesAndPages(conf config) error {
 						pageData.IncludePath = getTabsForPagesIncludePath(combinationOptions.ToSlug())
 						pageData.Permalink = getPagesPagePermalink(combinationOptions.ToUrlPath())
 
-						pageData.TitleParts = combinationOptions.GetTitle()
+						pageData.Title = combinationOptions.GetTitle(lang)
 
 						pageData.PageTab = true
 

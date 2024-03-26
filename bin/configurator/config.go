@@ -3,10 +3,18 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
+	"os"
 	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v2"
+)
+
+const (
+	pathToConfiguratorYaml = "static/_data/_common/configurator.yaml"
+	startPhraseRu          = "Установка и запуск на "
+	startPhraseEn          = "Install and run on "
 )
 
 type config struct {
@@ -34,6 +42,43 @@ type configCombinationOption struct {
 
 type configCombinationSlug string
 
+type configNames struct {
+	Groups []struct {
+		Name  string `yaml:"name"`
+		Title struct {
+			En string `yaml:"en"`
+			Ru string `yaml:"ru"`
+		} `yaml:"title"`
+		Tooltip struct {
+			En string `yaml:"en"`
+			Ru string `yaml:"ru"`
+		} `yaml:"tooltip,omitempty"`
+		Buttons []struct {
+			Name  string `yaml:"name"`
+			Title struct {
+				En       string `yaml:"en"`
+				Ru       string `yaml:"ru"`
+				PageName struct {
+					En string `yaml:"en"`
+					Ru string `yaml:"ru"`
+				} `yaml:"page-name"`
+			} `yaml:"title"`
+		} `yaml:"buttons"`
+	} `yaml:"groups"`
+	Tabs []struct {
+		Name  string `yaml:"name"`
+		Title struct {
+			En string `yaml:"en"`
+			Ru string `yaml:"ru"`
+		} `yaml:"title"`
+	} `yaml:"tabs"`
+}
+
+type titlesStruct struct {
+	Ru string
+	En string
+}
+
 func (options configCombinationOptions) ToSlug() configCombinationSlug {
 	var opts []string
 	for _, option := range options {
@@ -59,7 +104,7 @@ func (options configCombinationOptions) ToUrlPath() configCombinationSlug {
 	return configCombinationSlug(usage + strings.Join(opts, "-"))
 }
 
-func (options configCombinationOptions) GetTitle() []configCombinationOption {
+func (options configCombinationOptions) GetTitle(lang string) string {
 	var opts []configCombinationOption
 	for _, option := range options {
 		if option.Name != "usage" &&
@@ -69,7 +114,73 @@ func (options configCombinationOptions) GetTitle() []configCombinationOption {
 			opts = append(opts, option)
 		}
 	}
-	return opts
+
+	file, err := os.Open(pathToConfiguratorYaml)
+	if err != nil {
+		log.Fatalf("Failed to open configurator.yaml file: %v", err)
+	}
+	defer file.Close()
+	confData, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Fatalf("Failed to open configurator.yaml file: %v", err)
+	}
+	var configNames configNames
+	err = yaml.Unmarshal(confData, &configNames)
+	if err != nil {
+		log.Fatalf("Failed to unmarshal YAML data: %v", err)
+	}
+
+	var titles titlesStruct
+	titles.Ru = startPhraseRu
+	titles.En = startPhraseEn
+	count := 0
+	for _, opt := range opts {
+		count++
+		for _, group := range configNames.Groups {
+			if group.Name == opt.Name {
+				for _, btn := range group.Buttons {
+					if opt.Value == btn.Name {
+						switch lang {
+						case "ru":
+							if len(btn.Title.PageName.Ru) != 0 {
+								titles.Ru += btn.Title.PageName.Ru
+							} else {
+								titles.Ru += btn.Title.Ru
+							}
+							if count < len(opts) {
+								if count < len(opts)-1 {
+									titles.Ru += ", "
+								} else {
+									titles.Ru += " и "
+								}
+							}
+						case "en":
+							if len(btn.Title.PageName.Ru) != 0 {
+								titles.En += btn.Title.PageName.En
+							} else {
+								titles.En += btn.Title.En
+							}
+							if count < len(opts) {
+								if count < len(opts)-1 {
+									titles.En += ", "
+								} else {
+									titles.En += " and "
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if lang == "ru" {
+		return titles.Ru
+	} else if lang == "en" {
+		return titles.En
+	}
+
+	return ""
 }
 
 type configCombinationTab struct {
