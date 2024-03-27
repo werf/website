@@ -1,4 +1,4 @@
-## Configuring the GitLab project
+### Configuring the GitLab project
 {% if include.type == "best-monorepo-linux-buildah" or include.type == "best-monorepo-linux-docker" or include.type == "best-monorepo-kubernetes" or include.type == "best-monorepo-docker" or include.type == "best-application-docker" or include.type == "best-application-buildah" or include.type == "best-application-host-docker" or include.type == "best-application-kubernetes-buildah" %}
 - Enable [Require a successful pipeline for merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html#require-a-successful-pipeline-for-merge).
 
@@ -31,7 +31,7 @@
 
 * [Add a scheduled nightly task](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) to clean up the no longer needed images in the container registry by setting the `main`/`master` branch as the **Target branch**.
 
-## Configuring CI/CD of the project
+### Configuring CI/CD of the project
 
 This is how the repository that uses werf for build and deploy might look:
 

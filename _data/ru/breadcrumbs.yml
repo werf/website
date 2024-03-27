@@ -1,3 +1,12 @@
 /about:
   title: О проекте
   url: /about/release_channels.html
+/getting_started:
+  title: Быстрый старт
+  url: /getting_started/
+/getting_started/cicd:
+  title: CI/CD
+  url: /getting_started/сicd
+/getting_started/local:
+  title: Локальная разработка
+  url: /getting_started/local
