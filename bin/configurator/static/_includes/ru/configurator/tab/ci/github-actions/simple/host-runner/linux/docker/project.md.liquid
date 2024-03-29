@@ -1,14 +1,14 @@
-## Требования
+### Требования
 
 * GitHub Actions;
 
 * GitHub-hosted Linux Runner.
 
-## Настройка проекта GitHub
+### Настройка проекта GitHub
 
 Сохраните kubeconfig-файл для доступа к Kubernetes-кластеру [в зашифрованный секрет](https://docs.github.com/en/actions/security-guides/encrypted-secrets) `KUBECONFIG_BASE64`, предварительно закодировав его в Base64.
 
-## Конфигурация CI/CD проекта
+### Конфигурация CI/CD проекта
 
 Так может выглядеть репозиторий, использующий werf для сборки и развертывания:
 

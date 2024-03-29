@@ -1,0 +1,12 @@
+---
+title: {{ .Title }}
+permalink: {{ .Permalink }}
+layout: page-nosidebar
+breadcrumbs: none
+---
+
+<div class="configurator">
+<div id="configurator-content" markdown="1">
+{{ if .PageTab }}{% include {{ .IncludePath }} %}{{ else }}{% include {{ .DefaultIncludePath }} %}{{ end }}
+</div>
+</div>
