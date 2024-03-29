@@ -30,13 +30,7 @@
         {%- assign breadcrumb_err = "Check breadcrumbs.yml: " | append: current_breadcrumb_url | append: " not defined" %}
         {{ breadcrumb_err | raise_error }}
     {% endunless -%}
-    {%- if current_breadcrumb_url != "/getting_started" %}
-        {%- assign title_parts = title_parts | push: breadcrumb.title -%}
-    {%- elsif current_breadcrumb_url == "/getting_started" %}
-        {%- if max_ind > 1 %}
-            {%- assign title_parts = title_parts | push: breadcrumb.title -%}
-        {%- endif %}
-    {%- endif %}
+    {%- assign title_parts = title_parts | push: breadcrumb.title -%}
 {%- endfor %}
 
 {%- if page.head_title %}

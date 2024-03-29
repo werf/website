@@ -69,7 +69,7 @@ ansible:
       chdir: /artifacts
 ---
 image: configuration_artifacts
-from: golang:1.21
+from: golang:1.16
 fromCacheVersion: {{ $.CacheVersion }}
 git:
   - add: /bin/configurator

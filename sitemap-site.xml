@@ -22,4 +22,16 @@ search: exclude
         <priority>0.5</priority>
     </url>
     {%- endfor %}
+
+    {%- assign configurator_links = site.data.common.install_sitemap.links %}
+    {%- for link in configurator_links %}
+    <url>
+        <loc>{{ site.url }}/documentation/v1.2/index.html?{{ link }}</loc>
+        <xhtml:link rel="alternate" hreflang="ru" href="{{ site.site_urls.ru }}/documentation/v1.2/index.html?{{ link }}" />
+        <xhtml:link rel="alternate" hreflang="en" href="{{ site.site_urls.en }}/documentation/v1.2/index.html?{{ link }}" />
+        <lastmod>{{site.time | date: '%Y-%m-%d' }}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.5</priority>
+    </url>
+    {%- endfor %}
 </urlset>

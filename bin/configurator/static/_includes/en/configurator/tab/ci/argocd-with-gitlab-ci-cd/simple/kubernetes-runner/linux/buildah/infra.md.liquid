@@ -1,4 +1,4 @@
-### Requirements
+## Requirements
 
 - GitLab;
 
@@ -6,11 +6,11 @@
 
 - [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 
-### Installing and registering the GitLab Runner
+## Installing and registering the GitLab Runner
 
 Follow the [official instructions](https://docs.gitlab.com/runner/register/index.html) on how to install the GitLab Runner in Kubernetes and register it.
 
-### Configuring the GitLab Runner
+## Configuring the GitLab Runner
 
 Modify the configuration of the registered GitLab Runner by adding the following parameters to its `config.toml`:
 
@@ -67,7 +67,7 @@ Add one more parameter if you are going to deploy applications using werf to the
 
 You may want to perform [additional configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) of the GitLab Runner as well.
 
-### Configuring Kubernetes
+## Configuring Kubernetes
 
 If you enabled caching of `.werf` and `/builds` in the GitLab Runner configuration, create appropriate PersistentVolumeClaims in the cluster, for example:
 
@@ -176,11 +176,11 @@ spec:
 EOF
 ```
 
-### Configuring the container registry
+## Configuring the container registry
 
 [Enable garbage collection](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) for your container registry.
 
-### Preparing Kubernetes for multi-platform building (optional)
+## Preparing Kubernetes for multi-platform building (optional)
 
 > This step is only needed to build images for platforms other than the host platform on which werf is being run.
 
@@ -220,7 +220,7 @@ spec:
               memory: 50Mi
 ```
 
-### Installing Argo CD Image Updater
+## Installing Argo CD Image Updater
 
 Install Argo CD Image Updater with the ["continuous deployment of OCI Helm chart type application" patch](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
 

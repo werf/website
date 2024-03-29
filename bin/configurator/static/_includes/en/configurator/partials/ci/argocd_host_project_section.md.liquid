@@ -1,4 +1,4 @@
-### Configuring Argo CD Application
+## Configuring Argo CD Application
 
 1. Apply the following Application CRD to the target cluster to deploy a bundle from the container registry:
 
@@ -49,7 +49,7 @@ data:
 EOF
 ```
 
-### Configuring the GitLab project
+## Configuring the GitLab project
 
 - [Create and save the access token](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) for cleaning up the no longer needed images in the container registry; use the following parameters:
 
@@ -73,7 +73,7 @@ EOF
 
 - [Add a scheduled nightly task](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) to clean up the no longer needed images in the container registry and set the `main`/`master` branch as the **Target branch**.
 
-### Configuring CI/CD of the project
+## Configuring CI/CD of the project
 
 This is what the repository that uses werf for building and deploying might look like:
 

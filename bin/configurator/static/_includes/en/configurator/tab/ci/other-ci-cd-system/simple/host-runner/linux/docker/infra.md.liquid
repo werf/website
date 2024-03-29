@@ -1,4 +1,4 @@
-### Requirements
+## Requirements
 
 * CI system;
 
@@ -14,7 +14,7 @@
 
   - [Docker Engine](https://docs.docker.com/engine/install/).
 
-### Installing werf
+## Installing werf
 
 To install werf, run the following command on the host for running CI jobs:
 
@@ -22,11 +22,11 @@ To install werf, run the following command on the host for running CI jobs:
 curl -sSL https://werf.io/install.sh | bash -s -- --ci
 ```
 
-### Configuring the container registry
+## Configuring the container registry
 
 [Enable garbage collection]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
 
-### Preparing the system for cross-platform building (optional)
+## Preparing the system for cross-platform building (optional)
 
 > This step only needed to build images for platforms other than host platform running werf.
 

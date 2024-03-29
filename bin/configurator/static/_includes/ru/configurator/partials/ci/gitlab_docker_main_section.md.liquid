@@ -1,4 +1,4 @@
-### Требования
+## Требования
 
 - GitLab;
 
@@ -6,15 +6,15 @@
 
   - [Docker Engine](https://docs.docker.com/engine/install/).
 
-### Установка GitLab Runner
+## Установка GitLab Runner
 
 Установите GitLab Runner на выделенный для него хост, следуя [официальным инструкциям](https://docs.gitlab.com/runner/install/linux-repository.html).
 
-### Регистрация GitLab Runner
+## Регистрация GitLab Runner
 
 Для регистрации GitLab Runner в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html), указав Docker в качестве executor'а и любой образ в качестве image (например, `alpine`).
 
-### Настройка GitLab Runner
+## Настройка GitLab Runner
 
 На хосте GitLab Runner'а откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner'у следующие опции:
 
@@ -39,7 +39,7 @@
 
 {% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
-### Подготовка системы к кроссплатформенной сборке (опционально)
+## Подготовка системы к кроссплатформенной сборке (опционально)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
 
