@@ -1,4 +1,4 @@
-## Требования
+### Требования
 
 - GitLab;
 
@@ -17,7 +17,7 @@
 - [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 {% endif %}
 
-## Установка GitLab Runner
+### Установка GitLab Runner
 
 Установите GitLab Runner на выделенный для него хост, следуя [официальным инструкциям](https://docs.gitlab.com/runner/install/linux-repository.html).
 
@@ -25,7 +25,7 @@
 {% include configurator/partials/ci/buildah_install.md.liquid %}
 {% endif %}
 
-## Установка werf
+### Установка werf
 
 Для установки werf на хосте для GitLab Runner выполните:
 
@@ -33,15 +33,15 @@
 curl -sSL https://werf.io/install.sh | bash -s -- --ci
 ```
 
-## Регистрация GitLab Runner
+### Регистрация GitLab Runner
 
 Для регистрации GitLab Runner в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html), указав Shell в качестве executor'а. При желании после регистрации произведите [дополнительную конфигурацию](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
 
-## Конфигурация container registry
+### Конфигурация container registry
 
 [Включите сборщик мусора](https://docs.gitlab.com/ee/administration/packages/container_registry.html#container-registry-garbage-collection) вашего container registry.
 
-## Подготовка системы к кроссплатформенной сборке (опционально)
+### Подготовка системы к кроссплатформенной сборке (опционально)
 
 > Данный шаг требуется только для сборки образов для платформ, отличных от платформы системы, где запущен werf.
 
@@ -51,7 +51,7 @@ curl -sSL https://werf.io/install.sh | bash -s -- --ci
 docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
 ```
 {% if include.argocd == true %}
-## Установка Argo CD Image Updater
+### Установка Argo CD Image Updater
 
 Установите Argo CD Image Updater с патчем ["continuous deployment of OCI Helm chart type application"](https://github.com/argoproj-labs/argocd-image-updater/pull/405):
 

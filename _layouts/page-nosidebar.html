@@ -30,12 +30,12 @@ layout: sidebar-nosidebar
 
     <div class="post-content">
 
-    {%- if page.summary %}
-        <div class="summary">{{page.summary}}</div>
+    {%- if page.directive_summary %}
+    {%- include directive_summary.html directive=page.directive_summary %}
     {%- endif %}
 
         {%- unless page.toc == false %}
-        {%- include toc.html %}
+        {%- include common/toc.html %}
         {%- endunless %}
 
         {%- unless jekyll.environment == "production" %}

@@ -1,3 +1,12 @@
 /about:
   title: About
   url: /about/release_channels.html
+/getting_started:
+  title: Getting Started
+  url: /getting_started/
+/getting_started/cicd:
+  title: CI/CD
+  url: /getting_started/сicd
+/getting_started/local:
+  title: Local development
+  url: /getting_started/local
