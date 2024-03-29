@@ -1,4 +1,4 @@
-### Настройка проекта GitLab
+## Настройка проекта GitLab
 {% if include.type == "best-monorepo-linux-buildah" or include.type == "best-monorepo-linux-docker" or include.type == "best-monorepo-kubernetes" or include.type == "best-monorepo-docker" or include.type == "best-application-docker" or include.type == "best-application-buildah" or include.type == "best-application-host-docker" or include.type == "best-application-kubernetes-buildah" %}
 - Включите [требование удачно выполненного pipeline для merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html#require-a-successful-pipeline-for-merge).
 
@@ -32,7 +32,7 @@
 
 - [Добавьте плановое задание](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) на каждую ночь для очистки ненужных образов в container registry, указав ветку `main`/`master` в качестве **Target branch**.
 
-### Конфигурация CI/CD проекта
+## Конфигурация CI/CD проекта
 
 Так может выглядеть репозиторий, использующий werf для сборки и развертывания:
 

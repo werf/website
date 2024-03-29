@@ -1,10 +1,10 @@
-### Requirements
+## Requirements
 
 - CI system;
 
 - Kubernetes for running CI jobs with your CI system's Kubernetes Runner.
 
-### Configuring the Runner
+## Configuring the Runner
 
 Configure your CI system's Runner so that the containers you create have the following configuration:
 
@@ -57,7 +57,7 @@ spec:
   serviceAccountName: ci-kubernetes-runner
 ```
 
-### Configuring Kubernetes
+## Configuring Kubernetes
 
 If you enabled caching of `.werf` in the Kubernetes Runner configuration, create the appropriate PersistentVolumeClaim in the cluster as follows:
 
@@ -153,11 +153,11 @@ spec:
 EOF
 ```
 
-### Configuring the container registry
+## Configuring the container registry
 
 [Enable garbage collection]({{ "/documentation/v1.2/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
 
-### Preparing Kubernetes for multi-platform building (optional)
+## Preparing Kubernetes for multi-platform building (optional)
 
 > This step only needed to build images for platforms other than host platform running werf.
 

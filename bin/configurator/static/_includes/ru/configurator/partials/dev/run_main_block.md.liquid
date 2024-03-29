@@ -1,4 +1,4 @@
-### Требования
+## Требования
 
 * Кластер Kubernetes.
 
@@ -9,7 +9,7 @@
 * PowerShell.
 {% endif %}
 
-### Сборка и развертывание с werf
+## Сборка и развертывание с werf
 
 Содержимое демо-проекта:
 
@@ -41,11 +41,11 @@ export WERF_BUILDAH_MODE=auto
 Укажите секретный ключ werf для расшифровки секретов в `.helm/secret-values.yaml`:
 
 ```{{include.shell}}
-{%- if include.powershell == true %}
+{% if include.powershell == true %}
 $ENV:WERF_SECRET_KEY="733658e8ce39dff4ceef0a3e5d8c15f6"
-{%- else %}
+{% else %}
 export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6
-{%- endif %}
+{% endif %}
 ```
 
 Запустите сборку и развертывание с werf:

@@ -1,10 +1,12 @@
 ---
 title: {{ .Title }}
 permalink: {{ .Permalink }}
-layout: plain
-breadcrumbs: none
+layout: none
+search: exclude
+sitemap_include: false
+sidebar: none
 ---
-<h1 class="docs__title">Быстрый старт</h1>
+
 <div class="configurator">
     <div class="configurator__buttons">
         {{- range $group := .Groups }}
@@ -35,6 +37,6 @@ breadcrumbs: none
     </div>
 
 <div id="configurator-content" markdown="1">
-{{ if .PageTab }} {% include {{ .IncludePath }} %} {{ else }} {% include {{ .DefaultIncludePath }} %} {{ end }}
+{% include {{ .DefaultIncludePath }} %}
 </div>
 </div>

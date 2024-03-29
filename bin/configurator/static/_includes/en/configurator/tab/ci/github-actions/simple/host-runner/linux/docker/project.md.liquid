@@ -1,14 +1,14 @@
-### Requirements
+## Requirements
 
 * GitHub Actions;
 
 * GitHub-hosted Linux Runner.
 
-### Setting up a GitHub project
+## Setting up a GitHub project
 
 Save the kubeconfig file to access the Kubernetes cluster as a `KUBECONFIG_BASE64` [encrypted secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets), pre-encoding it in Base64.
 
-### Configuring CI/CD of the project
+## Configuring CI/CD of the project
 
 This is how the repository that uses werf for build and deploy might look:
 

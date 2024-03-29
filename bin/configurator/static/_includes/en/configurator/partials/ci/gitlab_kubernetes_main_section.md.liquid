@@ -1,14 +1,14 @@
-### Requirements
+## Requirements
 
 - GitLab;
 
 - Kubernetes to run the GitLab Runner.
 
-### Installing and registering the GitLab Runner
+## Installing and registering the GitLab Runner
 
 Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to install the GitLab Runner in Kubernetes and registering it.
 
-### Configuring the GitLab Runner
+## Configuring the GitLab Runner
 
 Modify the configuration of the registered GitLab Runner by adding the following parameters to its `config.toml`:
 
@@ -65,7 +65,7 @@ Add one more parameter if you are going to deploy applications using werf to the
 
 You may want to perform [additional configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) of the GitLab Runner as well.
 
-### Configuring Kubernetes
+## Configuring Kubernetes
 
 If you enabled caching of `.werf` and `/builds` in the GitLab Runner configuration, create appropriate PersistentVolumeClaims in the cluster, for example:
 
@@ -176,7 +176,7 @@ EOF
 
 {% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
-### Preparing Kubernetes for multi-platform building (optional)
+## Preparing Kubernetes for multi-platform building (optional)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
 
