@@ -1,4 +1,4 @@
-## Настройка приложения Argo CD
+### Настройка приложения Argo CD
 
 1. В целевом кластере примените следующий Application CRD, чтобы развернуть бандл из container registry:
 
@@ -49,7 +49,7 @@ data:
 EOF
 ```
 
-## Настройка GitLab-проекта
+### Настройка GitLab-проекта
 
 - [Создайте и сохраните токен доступа](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html#create-a-project-access-token) для очистки ненужных образов из container registry. Используйте следующие параметры:
 
@@ -73,7 +73,7 @@ EOF
 
 - [Добавьте ночную задачу по расписанию](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) для очистки ненужных образов в container registry, установив ветку `main`/`master` в качестве целевой (**Target branch**).
 
-## Настройка CI/CD проекта
+### Настройка CI/CD проекта
 
 Вот как может выглядеть репозиторий, использующий werf для сборки и развертывания:
 

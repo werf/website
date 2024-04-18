@@ -1,14 +1,14 @@
-## Требования
+### Требования
 
 - GitLab;
 
 - Kubernetes для запуска GitLab Runner.
 
-## Установка и регистрация GitLab Runner
+### Установка и регистрация GitLab Runner
 
 Для установки GitLab Runner в Kubernetes и его регистрации в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html).
 
-## Настройка GitLab Runner
+### Настройка GitLab Runner
 
 Измените конфигурацию зарегистрированного GitLab Runner'а, добавив в его `config.toml` следующие параметры:
 
@@ -65,7 +65,7 @@
 
 При желании произведите [дополнительную конфигурацию](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
 
-## Настройка Kubernetes
+### Настройка Kubernetes
 
 Если в конфигурации GitLab Runner вы включили кеширование `.werf` и `/builds`, то создайте в кластере соответствующие PersistentVolumeClaims, например:
 
@@ -176,7 +176,7 @@ EOF
 
 {% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
-## Подготовка кластера Kubernetes к мультиплатформенной сборке (опционально)
+### Подготовка кластера Kubernetes к мультиплатформенной сборке (опционально)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
 

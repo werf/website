@@ -1,4 +1,4 @@
-## Requirements
+### Requirements
 
 * Kubernetes cluster.
 
@@ -9,7 +9,7 @@
 * PowerShell.
 {% endif %}
 
-## Build and deploy with werf
+### Build and deploy with werf
 
 Contents of the demo project:
 
@@ -40,11 +40,11 @@ export WERF_BUILDAH_MODE=auto
 Specify werf secret key to decrypt secrets in `.helm/secret-values.yaml`:
 
 ```{{include.shell}}
-{% if include.powershell == true %}
+{%- if include.powershell == true %}
 $ENV:WERF_SECRET_KEY="733658e8ce39dff4ceef0a3e5d8c15f6"
-{% else %}
+{%- else %}
 export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6
-{% endif %}
+{%- endif %}
 ```
 
 Build and deploy with werf:
