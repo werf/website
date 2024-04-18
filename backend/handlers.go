@@ -47,16 +47,24 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 // X-Redirect to the stablest documentation version for specific group
 func groupHandler(w http.ResponseWriter, r *http.Request) {
 	_ = updateReleasesStatus()
+	rawQuery := r.URL.RawQuery
 	log.Debugln("Use handler - groupHandler")
 	vars := mux.Vars(r)
 	if err, version := getVersionFromGroup(&ReleasesStatus, vars["group"]); err == nil {
-		w.Header().Set("X-Accel-Redirect", fmt.Sprintf("/documentation/%v%v", VersionToURL(version), getDocPageURLRelative(r, true)))
+		redirectURL := fmt.Sprintf("/documentation/%v%v", VersionToURL(version), getDocPageURLRelative(r, true))
+		if rawQuery != "" {
+			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
+		}
+		w.Header().Set("X-Accel-Redirect", redirectURL)
 	} else {
 		// Fall back to the version specified in the ACTIVE_RELEASE env, if got the incorrect version.
 		activeRelease := getRootRelease()
-		http.Redirect(w, r, fmt.Sprintf("/documentation/v%s/", activeRelease), 302)
+		redirectURL := fmt.Sprintf("/documentation/v%s/", activeRelease)
+		if rawQuery != "" {
+			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
+		}
+		http.Redirect(w, r, redirectURL, 302)
 	}
-
 }
 
 // Handler for versions which are not available (there are no ingress for the version and requests go to router)
