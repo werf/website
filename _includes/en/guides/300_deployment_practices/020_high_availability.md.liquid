@@ -18,8 +18,6 @@ There’s a little trick to the default update strategy (`RollingUpdate`): the a
 
 *Other deployment strategies (blue-green, canary, etc.) can often provide a much better alternative to the RollingUpdate strategy. However, we are not taking them into account in this article since their implementation depends on the software used to deploy the application. That goes beyond the scope of this article*.
 
->Here is a [great article](https://www.weave.works/blog/kubernetes-deployment-strategies) on the topic that we recommend and is well worth the read.
-
 ## Uniform replicas distribution across nodes
 
 It is very important that you distribute Pods of the application across different nodes if you have multiple replicas of the application. To do so, **you can instruct your scheduler to avoid starting multiple Pods of the same Deployment on the same node**:

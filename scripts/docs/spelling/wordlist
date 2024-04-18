@@ -115,6 +115,7 @@ json
 k3d
 K8s
 Killercoda
+KLLRCODA
 kube
 kubeconfig
 kubectl
@@ -168,7 +169,7 @@ printf
 PriorityClass
 PR’s
 qa
-QEMU
+qemu
 QoS
 Quickstart
 RabbitMQ
@@ -496,6 +497,7 @@ YouTube
 раскомментировать
 шаблонизироваться
 кроссплатформенной
+многоплатформенной
 неконфиденциальных
 проинициализирован
 автомасштабирование

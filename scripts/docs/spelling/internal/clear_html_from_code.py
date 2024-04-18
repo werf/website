@@ -14,4 +14,7 @@ if len (sys.argv) > 1:
     snippetcuts = root.find_all("div", {"class": "snippetcut"})
     for snippetcut in snippetcuts:
         snippetcut.decompose()
+    code_wrappers = root.find_all("div", {"class": "viewer__wrap"})
+    for wrapper in code_wrappers:
+        wrapper.decompose()
     print(root)
