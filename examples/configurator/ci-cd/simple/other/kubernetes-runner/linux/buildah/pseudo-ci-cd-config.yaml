@@ -1,4 +1,4 @@
-image: "registry.werf.io/werf/werf:1.2-stable"
+image: "registry.werf.io/werf/werf:2-stable"
 image_pull_policy: always
 
 environment_variables:

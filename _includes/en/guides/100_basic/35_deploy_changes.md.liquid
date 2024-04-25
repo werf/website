@@ -171,7 +171,7 @@ werf-guide-app-57f854484f-2xbzl   1/1     Running   0          119m
 ```
 {% endofftopic %}
 
-The number of replicas changed: now, it corresponds to that specified in the Git repository. It happened because werf brought the cluster state to the state described in the current Git commit. This principle is called [**giterminism**](https://en.werf.io/documentation/v1.2/advanced/giterminism.html).
+The number of replicas changed: now, it corresponds to that specified in the Git repository. It happened because werf brought the cluster state to the state described in the current Git commit. This principle is called [**giterminism**](https://en.werf.io/documentation/v2/advanced/giterminism.html).
 
 So how do you comply with the principles of **giterminism** and do it all right? Let's set `spec.replicas=4`, but this time we'll do it by describing the application state in Git:
 

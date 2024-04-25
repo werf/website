@@ -4,7 +4,7 @@ stages:
 
 default:
   image:
-    name: "registry.werf.io/werf/werf:1.2-stable"
+    name: "registry.werf.io/werf/werf:2-stable"
     pull_policy: always
   before_script:
     - source "$(werf ci-env gitlab --as-file)"

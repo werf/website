@@ -4,8 +4,6 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -16,6 +14,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
 
 type ChannelType struct {
@@ -151,9 +152,9 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	} else {
 		if res[2] != "" {
 			// Version is not a group (MAJ.MIN), but the patch version
-			// The old behavior (e.g., link to v1.2  for the v1.2.1 version)
+			// The old behavior (e.g., link to v2  for the v2.0.1 version)
 			// m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(res[1]))
-			// The new behavior (link to v1.2.1 for the v1.2.1 version)
+			// The new behavior (link to v2.0.1 for the v2.0.1 version)
 			m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(m.CurrentVersion))
 			m.AbsoluteVersion = fmt.Sprintf("%s", m.CurrentVersion)
 		} else {
@@ -166,14 +167,14 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 		}
 	}
 
-	//m.MenuDocumentationLink = fmt.Sprintf("/documentation/v%s/", VersionToURL(getRootRelease()))
-	//if m.CurrentChannel == "" && m.CurrentGroup == "" {
+	// m.MenuDocumentationLink = fmt.Sprintf("/documentation/v%s/", VersionToURL(getRootRelease()))
+	// if m.CurrentChannel == "" && m.CurrentGroup == "" {
 	//	m.MenuDocumentationLink = fmt.Sprintf("/documentation/%v/", VersionToURL(m.CurrentVersion))
-	//} else if  m.CurrentChannel == "" && m.CurrentGroup != "" {
+	// } else if  m.CurrentChannel == "" && m.CurrentGroup != "" {
 	//	m.MenuDocumentationLink = fmt.Sprintf("/documentation/v%v/", m.CurrentGroup)
-	//} else {
+	// } else {
 	//	m.MenuDocumentationLink = fmt.Sprintf("/documentation/v%v-%v/", m.CurrentGroup, m.CurrentChannel)
-	//}
+	// }
 
 	// Add the first menu item
 	m.VersionItems = append(m.VersionItems, versionMenuItems{
@@ -184,7 +185,7 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 		IsCurrent:  true,
 	})
 
-	//for _, releaseItem_ := range releases.Releases {
+	// for _, releaseItem_ := range releases.Releases {
 	//	if releaseItem_.Group == m.CurrentGroup {
 	//		for _, channelItem_ := range releaseItem_.Channels {
 	//			if channelItem_.Name == m.CurrentChannel {
@@ -198,7 +199,7 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	//			}
 	//		}
 	//	}
-	//}
+	// }
 
 	// Add other items
 	for _, group := range getGroups() {
@@ -404,7 +405,7 @@ func getRootRelease() (result string) {
 	if len(os.Getenv("ACTIVE_RELEASE")) > 0 {
 		result = os.Getenv("ACTIVE_RELEASE")
 	} else {
-		result = "1.2"
+		result = "2"
 	}
 
 	return

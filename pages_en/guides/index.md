@@ -69,7 +69,7 @@ permalink: guides/index.html
             </div>
             <div class="landing__section" data-sm-trigger="select">
                 <h1 class="landing__h2">
-                    Dive in! <span>(werf 1.2)</span>
+                    Dive in! <span>(werf 2)</span>
                 </h1>
 
                 <div class="landing__text">

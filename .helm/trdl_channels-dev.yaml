@@ -21,4 +21,17 @@ groups:
       version: 1.2.3-dev
     - name: stable
       version: 1.2.3-dev
-
+    - name: rock-solid
+      version: 1.2.3-dev
+ - name: "2"
+   channels:
+     - name: alpha
+       version: 2.0.3-dev
+     - name: beta
+       version: 2.0.3-dev
+     - name: ea
+       version: 2.0.3-dev
+     - name: stable
+       version: 2.0.3-dev
+     - name: rock-solid
+       version: 2.0.3-dev

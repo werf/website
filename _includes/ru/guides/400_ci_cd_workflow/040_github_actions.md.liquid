@@ -63,7 +63,7 @@
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v1.2
+  uses: werf/actions/converge@v2
   with:
     env: ANY_ENV_NAME
     kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
@@ -80,7 +80,7 @@
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v1.2
+  uses: werf/actions/converge@v2
   with:
     kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
@@ -97,7 +97,7 @@
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v1.2
+  uses: werf/actions/converge@v2
   with:
     env: ANY_ENV_NAME
   env:
@@ -158,7 +158,7 @@ on:
     types: [closed]
 ```
 
-На шаге `Dismiss` выполняется удаление review-релиза: werf удаляет helm-релиз и namespace в Kubernetes со всем его содержимым ([werf dismiss]({{ site.url }}/documentation/v1.2/reference/cli/werf_dismiss.html)).
+На шаге `Dismiss` выполняется удаление review-релиза: werf удаляет helm-релиз и namespace в Kubernetes со всем его содержимым ([werf dismiss]({{ site.url }}/documentation/v2/reference/cli/werf_dismiss.html)).
 
 Далее разберём основные стратегии при организации развёртывания review окружения.
 
@@ -384,7 +384,7 @@ curl \
 ```
 
 В werf встроен эффективный механизм очистки, который позволяет избежать переполнения container registry и диска сборочного узла от устаревших и неиспользуемых образов.
-Более подробно ознакомиться с возможностями очистки, встроенными в werf, можно [здесь]({{ site.url }}/documentation/v1.2/usage/cleanup/cr_cleanup.html).
+Более подробно ознакомиться с возможностями очистки, встроенными в werf, можно [здесь]({{ site.url }}/documentation/v2/usage/cleanup/cr_cleanup.html).
 
 ## Полный набор конфигураций для готовых workflow
 

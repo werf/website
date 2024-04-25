@@ -27,7 +27,7 @@ workflow:
 
 default:
   image:
-    name: "registry.werf.io/werf/werf:1.2-stable"
+    name: "registry.werf.io/werf/werf:2-stable"
     pull_policy: always
   tags:
     - "<GitLab Runner tag>"
