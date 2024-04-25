@@ -241,7 +241,7 @@ articles:
     img: "/assets/images/publications/ru_240320.png"
     created: 2020-03-24
     comment: |
-      <p>werf — наша GitOps CLI-утилита с открытым кодом для сборки и доставки приложений в Kubernetes. Как и обещали, <a href="https://habr.com/ru/company/flant/blog/481306/" target="_blank" rel="noopener nofollow">выход версии v1.0</a> знаменовал начало добавления в werf новых возможностей и пересмотра привычных подходов. Теперь мы рады представить релиз v1.1, который является большим шагом в развитии и заделом на будущее <i>сборщика</i> werf. Версия доступна на данный момент в <a href="https://github.com/werf/werf#backward-compatibility-promise" target="_blank" rel="noopener nofollow">канале 1.1 ea</a>.</p>
+      <p>werf — наша GitOps CLI-утилита с открытым кодом для сборки и доставки приложений в Kubernetes. Как и обещали, <a href="https://habr.com/ru/company/flant/blog/481306/" target="_blank" rel="noopener nofollow">выход версии v1.0</a> знаменовал начало добавления в werf новых возможностей и пересмотра привычных подходов. Теперь мы рады представить релиз v1.1, который является большим шагом в развитии и заделом на будущее <i>сборщика</i> werf.</p>
   - title: "Динамическая сборка и деплой Docker-образов с werf на примере сайта версионированной документации"
     habr_url: "https://habr.com/ru/company/flant/blog/478690/"
     img: "/assets/images/publications/ru_160120.png"
