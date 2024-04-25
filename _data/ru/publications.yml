@@ -56,7 +56,7 @@ articles:
   - title: "Hands-on lab on deploying to Kubernetes with werf"
     custom_urls:
       - service_name: "CloudYuga"
-        url: "https://cloudyuga.guru/hands_on_lab/werf-deploy"
+        url: "https://cloudyuga.guru/blogs/werf-deploy"
     img: "/assets/images/publications/en_200622.png"
     created: 2022-06-20
     comment: |

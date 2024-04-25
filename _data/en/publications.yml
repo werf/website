@@ -90,7 +90,7 @@ articles:
     comment: |
       <p>This article discusses the so-called review environments running in Kubernetes clusters. Why are these environments necessary and what are typical use cases for them? How to make a review environment pipeline in GitLab CI/CD? What potential problems can arise, and how to avoid them?</p>
   - title: "Hands-on lab on deploying to Kubernetes with werf"
-    cloud_yuga_url: "https://cloudyuga.guru/hands_on_lab/werf-deploy"
+    cloud_yuga_url: "https://cloudyuga.guru/blogs/werf-deploy"
     img: "/assets/images/publications/en_200622.png"
     created: 2022-06-20
     comment: |
