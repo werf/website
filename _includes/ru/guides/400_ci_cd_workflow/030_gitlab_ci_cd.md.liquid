@@ -119,7 +119,7 @@ Build and Publish:
 .base_deploy:
   stage: deploy
   script:
-    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    - werf converge -Z --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
   except: [schedules]
   tags: [werf]
 ```
@@ -293,7 +293,7 @@ Review:
       # do optional deploy/dismiss
 
       if echo $CI_MERGE_REQUEST_LABELS | tr ',' '\n' | grep -q -P '^review$'; then
-        werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+        werf converge -Z --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
       else
         if werf helm get $(werf helm get-release) 2>/dev/null; then
           werf dismiss --with-namespace
@@ -522,7 +522,7 @@ Build and Publish:
 .base_deploy:
   stage: deploy
   script:
-    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    - werf converge -Z --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
   tags: [werf]
 
 Review:
@@ -532,7 +532,7 @@ Review:
       # do optional deploy/dismiss
 
       if echo $CI_MERGE_REQUEST_LABELS | tr ',' '\n' | grep -q -P '^review$'; then
-        werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+        werf converge -Z --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
       else
         if werf helm get $(werf helm get-release) 2>/dev/null; then
           werf dismiss --with-namespace
@@ -626,7 +626,7 @@ Build and Publish:
 .base_deploy:
   stage: deploy
   script:
-    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    - werf converge -Z --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
   except: [schedules]
   tags: [werf]
 
@@ -720,7 +720,7 @@ Build and Publish:
 .base_deploy:
   stage: deploy
   script:
-    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    - werf converge -Z --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
   except: [schedules]
   tags: [werf]
 
@@ -813,7 +813,7 @@ Build and Publish:
 .base_deploy:
   stage: deploy
   script:
-    - werf converge --skip-build --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
+    - werf converge -Z --set "env_url=$(echo ${CI_ENVIRONMENT_URL} | cut -d / -f 3)"
   except: [schedules]
   tags: [werf]
 

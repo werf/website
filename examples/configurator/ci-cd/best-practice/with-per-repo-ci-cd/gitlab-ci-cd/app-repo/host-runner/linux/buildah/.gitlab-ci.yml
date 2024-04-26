@@ -14,7 +14,7 @@ variables:
   ENABLE_ALL_IMAGES: "false"
   ENABLE_APPS_IMAGES: "false"
   ENABLE_IMAGE_SOURCES: "false"
-  WERF_SKIP_BUILD: "true"
+  WERF_REQUIRE_BUILT_IMAGES: "true"
 
 workflow:
   rules:
