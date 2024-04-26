@@ -257,6 +257,8 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 func rootDocHandler(w http.ResponseWriter, r *http.Request) {
 	var redirectTo, defaultVersionLocation string
 
+	log.Debugln("Use handler - rootDocHandler")
+
 	defaultVersionLocation = getRootRelease()
 
 	redirectTo = strings.TrimPrefix(r.RequestURI, "/documentation/")
