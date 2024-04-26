@@ -8,7 +8,7 @@ The Deployment resource creates a set of resources for launching the application
 
 Here, we insert the full name of the Docker image of our application using the template engine: {% raw %}`{{ .Values.werf.image.app }}`{% endraw %}. Note that you must use the component name specified in `werf.yaml` (`app` in our case) to access this value.
 
-werf automatically adds full names of the images to build as well as other [service data]({{ site.url }}/documentation/v1.2/advanced/helm/configuration/values.html#service-values) to values of the Helm Chart (`.Values`). You can access them using the `werf` key.
+werf automatically adds full names of the images to build as well as other [service data]({{ site.url }}/documentation/v2/advanced/helm/configuration/values.html#service-values) to values of the Helm Chart (`.Values`). You can access them using the `werf` key.
 
 werf only rebuilds images when the added files are changed (those used in the Dockerfile `COPY/ADD` instructions) or if `werf.yaml` itself is changed. The image tag will also change during a rebuild resulting in the Deployment update. If no changes were made to the files mentioned above, the werf would not rebuild the image. The Deployment and the resources it creates will not be redeployed because the latest version of the application is already running in the cluster.
 
@@ -28,7 +28,7 @@ The Ingress resource manages *external* access to the cluster (unlike a Service 
 
 > Note that you need to go back to the previous chapter and recreate the registry secret if you deleted the application namespace.
 
-The [werf converge]({{ site.url }}/documentation/v1.2/reference/cli/werf_converge.html) command builds the application and deploys it to Kubernetes:
+The [werf converge]({{ site.url }}/documentation/v2/reference/cli/werf_converge.html) command builds the application and deploys it to Kubernetes:
 ```shell
 werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 ```

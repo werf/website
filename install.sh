@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script contains functions with different licenses. Some functions specifically annotated  with the author/license information.
-# Functions that are not annotated with author/license information are release under Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0.txt
+# Functions that are not annotated with author/license information released under Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0.txt
 set -uo pipefail
 
 main() {
@@ -16,7 +16,7 @@ main() {
   OPT_DEFAULT_AUTOACTIVATE_WERF="auto"
   OPT_DEFAULT_VERIFY_TRDL_SIGNATURE="yes"
   OPT_DEFAULT_SHELL="auto"
-  OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION="1.2"
+  OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION="2"
   OPT_DEFAULT_WERF_AUTOACTIVATE_CHANNEL="stable"
   OPT_DEFAULT_INITIAL_TRDL_VERSION="0.7.0"
   OPT_DEFAULT_TRDL_TUF_REPO="https://tuf.trdl.dev"
@@ -358,8 +358,8 @@ add_automatic_werf_activation_to_file() {
   declare werf_autoactivate_version="$2"
   declare werf_autoactivate_channel="$3"
 
-  declare werf_activation_cmd="! { which werf | grep -qsE \"^$HOME/.trdl/\"; } && [[ -x \"\$HOME/bin/trdl\" ]] && source \$(\"\$HOME/bin/trdl\" use werf \"$werf_autoactivate_version\" \"$werf_autoactivate_channel\")"
-  grep -qsxF -- "$werf_activation_cmd" "$file" && log::info "Skipping adding werf activation to \"$file\": already added." && return 0
+  declare werf_activation_cmd="! { which werf | grep -qsE \"^$HOME/.trdl/\"; } && [[ -x \"\$HOME/bin/trdl\" ]] && source \$(\"\$HOME/bin/trdl\" use werf"
+  grep -qsxF -- "$werf_activation_cmd" "$file" && log::info "Skipping adding werf activation to \"$file\": already added. You can change werf version and channel by manually editing the line in \"$file\"" && return 0
 
   append_line_to_file "$werf_activation_cmd" "$file"
 }

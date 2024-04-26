@@ -90,7 +90,7 @@ articles:
     comment: |
       <p>This article discusses the so-called review environments running in Kubernetes clusters. Why are these environments necessary and what are typical use cases for them? How to make a review environment pipeline in GitLab CI/CD? What potential problems can arise, and how to avoid them?</p>
   - title: "Hands-on lab on deploying to Kubernetes with werf"
-    cloud_yuga_url: "https://cloudyuga.guru/hands_on_lab/werf-deploy"
+    cloud_yuga_url: "https://cloudyuga.guru/blogs/werf-deploy"
     img: "/assets/images/publications/en_200622.png"
     created: 2022-06-20
     comment: |
@@ -200,7 +200,7 @@ articles:
     img: "/assets/images/publications/en_270320.png"
     created: 2020-03-27
     comment: |
-      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. As promised, the release of werf 1.0 marked the beginning of the era of new features and revising established approaches. Now, we are excited to announce the latest version (v1.1) of our tool which is a massive step in the development of <em>its builder</em> and laying the groundwork for the future. Currently, version 1.1 is available in the <a href="https://github.com/werf/werf#backward-compatibility-promise" target="_blank" rel="noopener nofollow">1.1 <em>ea</em> channel</a>.</p>
+      <p>werf is our Open Source GitOps tool to build your applications and deploy them to Kubernetes. As promised, the release of werf 1.0 marked the beginning of the era of new features and revising established approaches. Now, we are excited to announce the latest version (v1.1) of our tool which is a massive step in the development of <em>its builder</em> and laying the groundwork for the future.</p>
   - title: "Building & deploying a versioned documentation site with werf"
     blog_url: "https://blog.werf.io/dynamic-building-deploying-with-werf-5c65bb5c29cb"
     img: "/assets/images/publications/en_210220.png"

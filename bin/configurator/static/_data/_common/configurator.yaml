@@ -26,10 +26,10 @@ groups:
     en: Version
     ru: Версия
   buttons:
-    - name: "1.2"
+    - name: "2"
       title:
-        en: "1.2"
-        ru: "1.2"
+        en: "2"
+        ru: "2"
 
 - name: "channel"
   title:

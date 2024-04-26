@@ -47,7 +47,7 @@ services:
   backend:
     image: $WERF_BACKEND_DOCKER_IMAGE_NAME
     environment:
-      ACTIVE_RELEASE: "1.2"
+      ACTIVE_RELEASE: "2"
       LOG_LEVEL: info
       URL_VALIDATION: "false"
     command: "/app/server"

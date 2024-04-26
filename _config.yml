@@ -5,7 +5,7 @@ site_urls:
   ru: https://ru.werf.io
   en: https://werf.io
 editlink: "https://github.com/werf/website/edit/main"
-canonical_url_prefix: /documentation/v1.2
+canonical_url_prefix: /documentation/v2
 
 social_links:
   ru:

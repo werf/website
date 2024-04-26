@@ -12,7 +12,7 @@ env:
   WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
-  WERF_SET_ACTIVE_RELEASE: "global.active_release=1.2"
+  WERF_SET_ACTIVE_RELEASE: "global.active_release=2"
   WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"
 
 jobs:
@@ -34,7 +34,7 @@ jobs:
           bash generate_artifacts.sh
 
     - name: Deploy to test
-      uses: werf/actions/converge@v1.2
+      uses: werf/actions/converge@v2
       if: contains(github.event.pull_request.labels.*.name, 'test website')
       with:
         env: test
@@ -45,7 +45,7 @@ jobs:
         WERF_LOG_VERBOSE: "on"
 
     - name: Deploy to stage
-      uses: werf/actions/converge@v1.2
+      uses: werf/actions/converge@v2
       if: contains(github.event.pull_request.labels.*.name, 'stage website')
       with:
         env: stage
@@ -56,7 +56,7 @@ jobs:
         WERF_LOG_VERBOSE: "on"
 
     - name: Deploy to production
-      uses: werf/actions/converge@v1.2
+      uses: werf/actions/converge@v2
       if: github.ref == 'refs/heads/main'
       with:
         env: production

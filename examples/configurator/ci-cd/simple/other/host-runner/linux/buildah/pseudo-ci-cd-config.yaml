@@ -5,7 +5,7 @@ environment_variables:
   WERF_ENABLE_PROCESS_EXTERMINATOR: "1"
 
 before_every_job:
-  - source "$(~/bin/trdl use werf 1.2 stable)"
+  - source "$(~/bin/trdl use werf 2 stable)"
   - werf cr login -u "${REGISTRY_USER:?}" -p "${REGISTRY_PASSWORD:?}" "${WERF_REPO:?}"
 
 jobs:

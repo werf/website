@@ -8,7 +8,10 @@ User-agent: *
 Disallow: *.js
 Disallow: *?*
 Allow: /
-Allow: /documentation/v1.2
+Allow: /documentation/v2
+Disallow: /documentation/v2-
+Disallow: /documentation/v2.
+Disallow: /documentation/v1.2
 Disallow: /documentation/v1.1
 Disallow: /documentation/v
 Disallow: /documentation/v1.2-

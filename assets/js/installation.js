@@ -8,7 +8,7 @@ $(document).ready(function () {
     default_os = 'linux'
 
   var defaults = {
-    version: '1.2',
+    version: '2',
     channel: 'stable',
     os: default_os,
     arch: 'amd64'
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     // Update buttons status
     if (group == "version") {
-      if (param == "1.2") {
+      if (param == "2") {
         $(`[data-install-tab="rock-solid"]`).hide();
       } else {
         $(`[data-install-tab="rock-solid"]`).show();

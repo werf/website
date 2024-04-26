@@ -1,7 +1,7 @@
 - title: Getting Started
   url: /getting_started/
 - title: Documentation
-  url: /documentation/v1.2/
+  url: /documentation/v2/
 - title: Kubernetes guide
   url: /guides.html
   hot: true
@@ -12,7 +12,5 @@
       url: /publications.html
     - title: Release channels
       url: /about/release_channels.html
-    - title: Backward compatibility
-      url: /about/backward_compatibility.html
     - title: Changelog
       url: /about/changelog.html

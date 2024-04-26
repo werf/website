@@ -1,7 +1,7 @@
 - title: Быстрый старт
   url: /getting_started/
 - title: Документация
-  url: /documentation/v1.2/
+  url: /documentation/v2/
 - title: Самоучитель по Kubernetes
   url: /guides.html
   hot: true
@@ -12,7 +12,5 @@
       url: /publications.html
     - title: Каналы обновлений
       url: /about/release_channels.html
-    - title: Обратная совместимость
-      url: /about/backward_compatibility.html
     - title: История изменений
       url: /about/changelog.html
