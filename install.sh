@@ -358,8 +358,16 @@ add_automatic_werf_activation_to_file() {
   declare werf_autoactivate_version="$2"
   declare werf_autoactivate_channel="$3"
 
-  declare werf_activation_cmd="! { which werf | grep -qsE \"^$HOME/.trdl/\"; } && [[ -x \"\$HOME/bin/trdl\" ]] && source \$(\"\$HOME/bin/trdl\" use werf"
-  grep -qsxF -- "$werf_activation_cmd" "$file" && log::info "Skipping adding werf activation to \"$file\": already added. You can change werf version and channel by manually editing the line in \"$file\"" && return 0
+  declare werf_activation_cmd_grep1="trdl use werf"
+  declare werf_activation_cmd_grep2="trdl\" use werf"
+
+  declare werf_activation_cmd="! { which werf | grep -qsE \"^$HOME/.trdl/\"; } && [[ -x \"\$HOME/bin/trdl\" ]] && source \$(\"\$HOME/bin/trdl\" use werf \"$werf_autoactivate_version\" \"$werf_autoactivate_channel\")"
+
+  if grep -qsF -- "$werf_activation_cmd_grep1" "$file" || \
+    grep -qsF -- "$werf_activation_cmd_grep2" "$file"; then
+    log::info "Skipping adding werf activation to \"$file\": already found \"trdl use werf\" command."
+    return 0
+  fi
 
   append_line_to_file "$werf_activation_cmd" "$file"
 }
