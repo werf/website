@@ -3,8 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	log "github.com/sirupsen/logrus"
 	"html/template"
 	"io"
 	"net/http"
@@ -13,6 +11,9 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 )
 
 // Deprecated
@@ -130,11 +131,11 @@ func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
-		//URLToRedirect = fmt.Sprintf("/404.html")
+		// URLToRedirect = fmt.Sprintf("/404.html")
 		notFoundHandler(w, r)
 	} else {
 		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
-		//w.Header().Set("X-Accel-Redirect", URLToRedirect)
+		// w.Header().Set("X-Accel-Redirect", URLToRedirect)
 	}
 }
 
@@ -269,7 +270,7 @@ func rootDocHandler(w http.ResponseWriter, r *http.Request) {
 		redirectTo = res[1]
 	}
 
-	http.Redirect(w, r, fmt.Sprintf("/documentation/v%s/%s", defaultVersionLocation, redirectTo), 301)
+	http.Redirect(w, r, fmt.Sprintf("/documentation/v%s/%s", defaultVersionLocation, redirectTo), 302)
 }
 
 // Redirect to root documentation if request not matches any location (override 404 response)
@@ -291,5 +292,5 @@ Try searching for it or check the URL to see if it looks correct.</p>
 		return
 	}
 	io.Copy(w, page404File)
-	//w.Header().Set("X-Accel-Redirect", fmt.Sprintf("/404.html"))
+	// w.Header().Set("X-Accel-Redirect", fmt.Sprintf("/404.html"))
 }
