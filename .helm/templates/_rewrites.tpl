@@ -157,9 +157,9 @@ rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/configuration/stapel_
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/configuration/stapel_image/(?<tail>.+)                                          /documentation/$ver/advanced/building_images_with_stapel/$tail      redirect;
 
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/main/(?<tail>.+)                                                            /documentation/$ver/reference/cli/werf_$tail                        redirect;
-rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)$                                 /documentation/$ver/reference/cli/werf_$tail1_$tail2                redirect;
-rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)/(?<tail3>[^/]+)$                 /documentation/$ver/reference/cli/werf_$tail1_$tail2_$tail3         redirect;
-rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)/(?<tail3>[^/]+)/(?<tail4>[^/]+)$ /documentation/$ver/reference/cli/werf_$tail1_$tail2_$tail3_$tail4  redirect;
+rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)$                                 /documentation/$ver/reference/cli/werf_${tail1}_${tail2}                redirect;
+rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)/(?<tail3>[^/]+)$                 /documentation/$ver/reference/cli/werf_${tail1}_${tail2}_${tail3}         redirect;
+rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)/(?<tail3>[^/]+)/(?<tail4>[^/]+)$ /documentation/$ver/reference/cli/werf_${tail1}_${tail2}_${tail3}_${tail4}  redirect;
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/other/(?<tail>.+)                                                           /documentation/$ver/reference/cli/werf_$tail                        redirect;
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/cli/toolbox/(?<tail>.+)                                                         /documentation/$ver/reference/cli/werf_$tail                        redirect;
 
