@@ -43,7 +43,7 @@ rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/usage/build/?$       
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/usage/build/stapel/?$                /documentation/$ver/usage/build/stapel/overview.html                     redirect;
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/usage/deploy/?$                      /documentation/$ver/usage/deploy/overview.html                           redirect;
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/usage/distribute/?$                  /documentation/$ver/usage/distribute/overview.html                       redirect;
-rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/usage/cleanup/?$                     /documentation/$ver/usage/cleanup/cr_cleanup.html                        redirect;
+rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^\/]+)?)?)/usage/cleanup/?$                     /documentation/$ver/usage/cleanup/cr_cleanup.html                        redirect;
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/reference/?$                         /documentation/$ver/reference/werf_yaml.html                             redirect;
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/reference/cli/?$                     /documentation/$ver/reference/cli/overview.html                          redirect;
 rewrite ^/documentation/(?<ver>v1\.2(?:\.\d+(?:-[^/]+)?)?)/resources/?$                         /documentation/$ver/resources/cheat_sheet.html                           redirect;
