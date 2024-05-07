@@ -11,7 +11,7 @@
     {{- $prevVersion := "" }}
     {{- range (slice .VersionItems 1) }}
             <li class="submenu-item">
-                <a data-proofer-ignore class="submenu-item-link" href="/documentation/{{ .VersionURL }}{{ $CurrentPageURLRelative }}">
+                <a data-proofer-ignore class="submenu-item-link" href="/docs/{{ .VersionURL }}{{ $CurrentPageURLRelative }}">
                     {{- if eq .Version "latest" }}
                     <span class="submenu-item-channel">latest</span>
                     {{- else }}

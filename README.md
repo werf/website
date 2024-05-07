@@ -4,7 +4,7 @@ This repository contains files required to build the [werf CI/CD tool website](h
 and run it locally.
 
 It includes all of website pages with the only exception for the official
-[werf documentation](https://werf.io/documentation/) which can be found
+[werf documentation](https://werf.io/docs/) which can be found
 in the [main werf](https://github.com/werf/werf/tree/main/docs) repo since it's
 versioned and provided together with werf releases themselves (e.g. we have
 the documentation for werf v1.2.51, v1.1.23, and so on).

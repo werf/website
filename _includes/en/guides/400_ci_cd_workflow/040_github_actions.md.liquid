@@ -162,7 +162,7 @@ on:
     types: [closed]
 ```
 
-The review release is deleted at the `Dismiss` step: werf deletes the helm release and the namespace in Kubernetes with all its contents ([werf dismiss]({{ site.url }}/documentation/v2/reference/cli/werf_dismiss.html)).
+The review release is deleted at the `Dismiss` step: werf deletes the helm release and the namespace in Kubernetes with all its contents ([werf dismiss]({{ site.url }}/docs/v2/reference/cli/werf_dismiss.html)).
 
 Now, let us explore the main strategies to deploy the review environment.
 
@@ -389,7 +389,7 @@ Most cleaning policies in werf are based on git primitives (commit, branch, and 
   run: git fetch --prune --unshallow
 ```
 
-werf has an efficient built-in cleanup mechanism to avoid overflowing the container registry and the disk space on the building node with outdated and unused images. You can learn more about the werf's cleanup functionality [here]({{ site.url }}/documentation/v2/usage/cleanup/cr_cleanup.html).
+werf has an efficient built-in cleanup mechanism to avoid overflowing the container registry and the disk space on the building node with outdated and unused images. You can learn more about the werf's cleanup functionality [here]({{ site.url }}/docs/v2/usage/cleanup/cr_cleanup.html).
 
 ## Complete set of configurations for ready-made workflows
 

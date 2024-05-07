@@ -23,10 +23,11 @@
                             {%- if folder.folderitems %} header__menu-item_parent{% endif %}
                             {%- if folder.url.size>1 and page.url == folder.url %} header__menu-item_active{% endif %}
                             {%- if folder.url.size>1 and page.url != folder.url and page.url contains folder.url
-                            and page.url != '/documentation/index.html' %} header__menu-item_active{% endif %}
+                            and page.url != '/docs/index.html' %} header__menu-item_active{% endif %}
                             {%- if folder.title == 'Документация' or folder.title == 'Documentation'  %} header__menu-item_active{% endif %}">
                             {%- if folder.title == 'Документация' or folder.title == 'Documentation'  %}
-                                {%- if page.name == '404.md' %}
+                                {%- assign page_name = page.url | split: "/" | last %}
+                                {%- if page_name == '404.html' %}
                                 <a href="{{ folder.url }}">{{ folder.title }}</a>
                                 {%- else %}
                                 <a data-proofer-ignore href="{% raw %}{{ .MenuDocumentationLink }}{% endraw %}">{{ folder.title }}</a>

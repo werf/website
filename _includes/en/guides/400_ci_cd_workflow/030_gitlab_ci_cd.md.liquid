@@ -68,7 +68,7 @@ Let us install and configure the GitLab runner on the node where werf will be ru
    sudo usermod -aG docker gitlab-runner
    ```
 
-1. [Install werf](/documentation/index.html).
+1. [Install werf](/docs/index.html).
 1. Install `kubectl` and copy the kubectl config to the home directory of the <!-- spell-check-ignore -->gitlab<!-- end-spell-check-ignore -->-runner user.
 
    ```shell
@@ -193,9 +193,9 @@ Stop Review:
 
 The `Review` job defines the deployment of a review release to a dynamic environment, the name of which is based on an unique MR identifier. The `auto_stop_in` parameter allows you to specify a period of inactivity in the MR. The GitLab environment will be automatically stopped after this period is over. Stopping the GitLab environment does not affect resources in the cluster or a review release in any way. Therefore, we need to define the job that is called when the environment is being stopped (`on_stop`). In our case, this is a `Stop Review` job.
 
-The `Stop Review` job deletes the review release and shuts down the GitLab environment (`action: stop`): werf deletes the helm release and the associated Kubernetes namespace with all its contents ([werf dismiss]({{ site.url }}/documentation/v2/reference/cli/werf_dismiss.html)). You can run the `Stop Review` job manually after the deployment to the review tier is complete, or automatically via the GitLab server (for example, when the corresponding branch is deleted as a result of merging with master, provided that the appropriate option is set in the GitLab interface).
+The `Stop Review` job deletes the review release and shuts down the GitLab environment (`action: stop`): werf deletes the helm release and the associated Kubernetes namespace with all its contents ([werf dismiss]({{ site.url }}/docs/v2/reference/cli/werf_dismiss.html)). You can run the `Stop Review` job manually after the deployment to the review tier is complete, or automatically via the GitLab server (for example, when the corresponding branch is deleted as a result of merging with master, provided that the appropriate option is set in the GitLab interface).
 
-The `werf dismiss` command requires <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore --> to work, because this file contains [templates for the release name and the namespace]({{ site.url }}/documentation/v2/usage/deploy/environments.html). It is not possible to use the source code from the git when deleting a branch, that is why we use <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore --> (it was saved when the Review job was running), while pulling changes from git is disabled (`GIT_STRATEGY: none`).
+The `werf dismiss` command requires <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore --> to work, because this file contains [templates for the release name and the namespace]({{ site.url }}/docs/v2/usage/deploy/environments.html). It is not possible to use the source code from the git when deleting a branch, that is why we use <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore --> (it was saved when the Review job was running), while pulling changes from git is disabled (`GIT_STRATEGY: none`).
 
 Thus, by default, we have the following options for deleting the review environment:
 
@@ -480,7 +480,7 @@ Cleanup:
 ```
 {% endraw %}
 
-werf has an efficient built-in cleanup mechanism to avoid overflowing the container registry and the building node with outdated and unused images. You can learn more about the werf's cleanup functionality [here]({{ site.url }}/documentation/v2/usage/cleanup/cr_cleanup.html).
+werf has an efficient built-in cleanup mechanism to avoid overflowing the container registry and the building node with outdated and unused images. You can learn more about the werf's cleanup functionality [here]({{ site.url }}/docs/v2/usage/cleanup/cr_cleanup.html).
 
 To use cleanup, you have to create a `Personal Access Token` in GitLab with the necessary permissions. This token will be used for authorization in the container registry before cleanup.
 

@@ -49,7 +49,7 @@ type versionMenuType struct {
 	CurrentVersion         string
 	AbsoluteVersion        string // Contains explicit version, used for getting git link to source file
 	CurrentVersionURL      string
-	CurrentPageURLRelative string // Relative URL, without "/documentation/<version>"
+	CurrentPageURLRelative string // Relative URL, without "/docs/<version>"
 	CurrentPageURL         string // Full page URL
 	MenuDocumentationLink  string
 }
@@ -91,7 +91,7 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 	}
 
 	if m.CurrentVersion == fmt.Sprintf("v%s", getRootRelease()) {
-		m.CurrentVersion = "latest"
+		m.CurrentVersion = getRootRelease()
 		m.CurrentGroup = getRootRelease()
 	}
 
@@ -119,7 +119,7 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 		Group:      "",
 		Channel:    "",
 		Version:    "latest",
-		VersionURL: fmt.Sprintf("v%s", getRootRelease()),
+		VersionURL: "latest",
 		IsCurrent:  false,
 	})
 
@@ -148,18 +148,18 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)(\..+)?$`)
 	res := re.FindStringSubmatch(m.CurrentVersion)
 	if res == nil {
-		m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(m.CurrentVersion))
+		m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
 	} else {
 		if res[2] != "" {
 			// Version is not a group (MAJ.MIN), but the patch version
 			// The old behavior (e.g., link to v2  for the v2.0.1 version)
-			// m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(res[1]))
+			// m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(res[1]))
 			// The new behavior (link to v2.0.1 for the v2.0.1 version)
-			m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(m.CurrentVersion))
+			m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
 			m.AbsoluteVersion = fmt.Sprintf("%s", m.CurrentVersion)
 		} else {
 			// Version is a group
-			m.MenuDocumentationLink = fmt.Sprintf("/documentation/%s/", VersionToURL(m.CurrentVersion))
+			m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
 			err, m.AbsoluteVersion = getVersionFromGroup(&ReleasesStatus, res[1])
 			if err != nil {
 				log.Debugln(fmt.Sprintf("getVersionMenuData: error determine absolute version for %s (got %s)", m.CurrentVersion, m.AbsoluteVersion))
@@ -167,13 +167,13 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 		}
 	}
 
-	// m.MenuDocumentationLink = fmt.Sprintf("/documentation/v%s/", VersionToURL(getRootRelease()))
+	// m.MenuDocumentationLink = fmt.Sprintf("/docs/v%s/", VersionToURL(getRootRelease()))
 	// if m.CurrentChannel == "" && m.CurrentGroup == "" {
-	//	m.MenuDocumentationLink = fmt.Sprintf("/documentation/%v/", VersionToURL(m.CurrentVersion))
+	//	m.MenuDocumentationLink = fmt.Sprintf("/docs/%v/", VersionToURL(m.CurrentVersion))
 	// } else if  m.CurrentChannel == "" && m.CurrentGroup != "" {
-	//	m.MenuDocumentationLink = fmt.Sprintf("/documentation/v%v/", m.CurrentGroup)
+	//	m.MenuDocumentationLink = fmt.Sprintf("/docs/v%v/", m.CurrentGroup)
 	// } else {
-	//	m.MenuDocumentationLink = fmt.Sprintf("/documentation/v%v-%v/", m.CurrentGroup, m.CurrentChannel)
+	//	m.MenuDocumentationLink = fmt.Sprintf("/docs/v%v-%v/", m.CurrentGroup, m.CurrentChannel)
 	// }
 
 	// Add the first menu item
@@ -420,7 +420,7 @@ func getPage(filename string) ([]byte, error) {
 }
 
 // Get the full page URL menu requested for
-// E.g /documentation/v1.2.3/reference/build_process.html
+// E.g /docs/v1.2.3/reference/build_process.html
 func getCurrentPageURL(r *http.Request) (result string) {
 
 	originalURI, err := url.Parse(r.Header.Get("x-original-uri"))
@@ -437,7 +437,7 @@ func getCurrentPageURL(r *http.Request) (result string) {
 }
 
 // Get page URL menu requested for without a leading version suffix
-// E.g /reference/build_process.html for /documentation/v1.2.3/reference/build_process.html
+// E.g /reference/build_process.html for /docs/v1.2.3/reference/build_process.html
 // if useURI == true - use requestURI instead of x-original-uri header value
 func getDocPageURLRelative(r *http.Request, useURI ...bool) (result string) {
 	var (
@@ -462,7 +462,7 @@ func getDocPageURLRelative(r *http.Request, useURI ...bool) (result string) {
 		URLtoParse = originalURI.Path
 	}
 
-	re := regexp.MustCompile(`^/documentation/[^/]+(/.+)$`)
+	re := regexp.MustCompile(`^/docs/[^/]+(/.+)$`)
 	res := re.FindStringSubmatch(URLtoParse)
 	if res != nil {
 		result = res[1]
@@ -473,7 +473,7 @@ func getDocPageURLRelative(r *http.Request, useURI ...bool) (result string) {
 }
 
 // Get version URL page belongs to if request came from concrete documentation version, otherwise empty.
-// E.g for the /documentation/v1.2.3-plus-fix5/reference/build_process.html return "v1.2.3-plus-fix5".
+// E.g for the /docs/v1.2.3-plus-fix5/reference/build_process.html return "v1.2.3-plus-fix5".
 func getVersionURL(r *http.Request) (result string) {
 	URLtoParse := ""
 	originalURI, err := url.Parse(r.Header.Get("x-original-uri"))
@@ -492,7 +492,7 @@ func getVersionURL(r *http.Request) (result string) {
 		URLtoParse = originalURI.Path
 	}
 
-	re := regexp.MustCompile(`^/documentation/([^/]+)/?.*$`)
+	re := regexp.MustCompile(`^/docs/([^/]+)/?.*$`)
 	res := re.FindStringSubmatch(URLtoParse)
 	if res != nil {
 		result = res[1]
