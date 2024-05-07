@@ -255,24 +255,6 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 	})
 }
 
-func rootDocHandler(w http.ResponseWriter, r *http.Request) {
-	var redirectTo, defaultVersionLocation string
-
-	log.Debugln("Use handler - rootDocHandler")
-
-	defaultVersionLocation = getRootRelease()
-
-	redirectTo = strings.TrimPrefix(r.RequestURI, "/documentation/")
-
-	re := regexp.MustCompile(`^v[0-9]+[^/]*/?(.*)$`)
-	res := re.FindStringSubmatch(redirectTo)
-	if res != nil {
-		redirectTo = res[1]
-	}
-
-	http.Redirect(w, r, fmt.Sprintf("/documentation/v%s/%s", defaultVersionLocation, redirectTo), 302)
-}
-
 // Redirect to root documentation if request not matches any location (override 404 response)
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
