@@ -1,6 +1,6 @@
 ## Подготовка
 
-Установите werf и его зависимости, [следуя инструкциям]({{ site.url }}/documentation/).
+Установите werf и его зависимости, [следуя инструкциям]({{ site.url }}/docs/).
 
 ## Создадим новый репозиторий с приложением
 
@@ -20,7 +20,7 @@
 
 {% include snippetcut_example path="werf.yaml" syntax="yaml" examples=page.examples %}
 
-В `werf.yaml` может описываться сборка сразу нескольких образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться [в документации]({{ site.url }}/documentation/v2/reference/werf_yaml.html#dockerfile-image-section-image).
+В `werf.yaml` может описываться сборка сразу нескольких образов. Также для сборки образа существует ряд дополнительных настроек, с которыми можно ознакомиться [в документации]({{ site.url }}/docs/v2/reference/werf_yaml.html#dockerfile-image-section-image).
 
 ## Сборка с werf
 
@@ -30,7 +30,7 @@
 
 Здесь мы уже сделали это ранее в самом начале страницы в главе «Создадим новый репозиторий с приложением». В обычном же случае необходимо выполнить команды `git add` и `git commit`.
 
-Запустим сборку командой [`werf build`]({{ site.url }}/documentation/v2/reference/cli/werf_build.html):
+Запустим сборку командой [`werf build`]({{ site.url }}/docs/v2/reference/cli/werf_build.html):
 
 ```shell
 werf build
@@ -80,7 +80,7 @@ Running time 11.02 seconds
 
 ## Запуск приложения
 
-Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/documentation/v2/reference/cli/werf_run.html):
+Запустить контейнер локально на основе собранного образа можно командой [werf run]({{ site.url }}/docs/v2/reference/cli/werf_run.html):
 
 ```shell
 werf run app --docker-options="-ti --rm -p 8000:8000" -- /app/start.sh

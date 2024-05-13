@@ -34,9 +34,9 @@ Note that you will need a unique annotation for each mounted ConfigMap/Secret.
 Using a Helm chart to deploy an application has many advantages — for example, you can create manifest templates with Helm charts. `Values` is the key built-in templating object. With it, you can access values passed to the chart from various sources.
 
 When using werf, all data passed to the chart can be grouped into several categories:
-- [User-defined regular values]({{ site.url }}/documentation/v2/advanced/helm/configuration/values.html#user-defined-regular-values): `values.yaml` parameters and corresponding options.
-- [User-defined secret values]({{ site.url }}/documentation/v2/advanced/helm/configuration/values.html#user-defined-secret-values): parameters from the `secret-values.yaml` file.
-- [Service values]({{ site.url }}/documentation/v2/advanced/helm/configuration/values.html#service-values): information about the project, release, built images, etc.
+- [User-defined regular values]({{ site.url }}/docs/v2/advanced/helm/configuration/values.html#user-defined-regular-values): `values.yaml` parameters and corresponding options.
+- [User-defined secret values]({{ site.url }}/docs/v2/advanced/helm/configuration/values.html#user-defined-secret-values): parameters from the `secret-values.yaml` file.
+- [Service values]({{ site.url }}/docs/v2/advanced/helm/configuration/values.html#service-values): information about the project, release, built images, etc.
 
 ## Reusing configuration with Values and ConfigMaps
 
@@ -71,7 +71,7 @@ Similarly, you can load this ConfigMap into other resources that use the same en
 
 To start working with secrets, you first need to generate a symmetric encryption key. You can use the following command to do this: `werf helm secret generate-secret-key`. However, since we have already prepared/encrypted the secrets for you, the encryption key that will be used in this chapter is generated as well. This encryption key is stored in the repository in the `.werf_secret_key` file; werf uses it automatically.
 
->_Caution! You MUST NOT store the key in the repository when working with real-life applications. We recommend keeping it in a safe place and passing via the `WERF_SECRET_KEY` environment variable. You can read more about using encryption keys in the [werf documentation]({{ site.url }}/documentation/v2/advanced/helm/configuration/secrets.html#encryption-key)._
+>_Caution! You MUST NOT store the key in the repository when working with real-life applications. We recommend keeping it in a safe place and passing via the `WERF_SECRET_KEY` environment variable. You can read more about using encryption keys in the [werf documentation]({{ site.url }}/docs/v2/advanced/helm/configuration/secrets.html#encryption-key)._
 
 The application configuration contains data that should not be stored in unencrypted form in the repository (e.g., the database login and password). Thus, we won't store the login and password in plain text
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/055_loginpas_storage.md.liquid %}
@@ -96,9 +96,9 @@ You have to make similar changes to the rest of the `.helm/templates` files (we 
 
 {% include guides/200_real_apps/080_configuration/{{ page.framework_id }}/085_configs_including.md.liquid %}
 
-You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)), except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/documentation/v2/advanced/helm/configuration/secrets.html#secret-files).
+You can also use Secrets to store and mount complete secret configuration files. This is similar to using ConfigMap to mount non-secret configuration files (as [described above](#storing-applications-config-files-in-the-configmap)), except that the Secret contents must be stored encrypted in `.helm/secret/...` or `.helm/secret-values.yaml`. You can read more about this in the [werf documentation]({{ site.url }}/docs/v2/advanced/helm/configuration/secrets.html#secret-files).
 
-Note: learn more about working with secrets in the [werf documentation]({{ site.url }}/documentation/v2/advanced/helm/configuration/secrets.html).
+Note: learn more about working with secrets in the [werf documentation]({{ site.url }}/docs/v2/advanced/helm/configuration/secrets.html).
 
 ## Checking whether the application runs as expected
 

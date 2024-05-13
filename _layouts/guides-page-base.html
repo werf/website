@@ -13,7 +13,8 @@ layout: default-guides
         </div>
         <div class="layout-sidebar__content">
             <div class="docs">
-                {%- if page.name != '404.md' %}
+                {%- assign page_name = page.url | split: "/" | last %}
+                {%- if page_name == '404.html' %}
                 <div class="btn-group editme">
                     <a href="{{ site.editlink }}/{{ page.path }}" class="btn btn_o" id="editme_link" target="_blank">
                         <span class="btn__icon btn__icon_github"></span>

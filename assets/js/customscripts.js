@@ -144,7 +144,7 @@ $(document).ready(function () {
   let CurrentGroup = getDocGroupFromURL();
   $('input[name="sitesearch"]').attr("value",function(index,currentvalue){
     if (CurrentGroup) {
-        return currentvalue + "/documentation/" + CurrentGroup + "/"
+        return currentvalue + "/docs/" + CurrentGroup + "/"
     } else {
         return currentvalue
     }
@@ -466,7 +466,7 @@ $(document).ready(function () {
 });
 
 function getDocGroupFromURL() {
-  let result = window.location.pathname.match(/^\/documentation\/(v\d+\.\d+)/);
+  let result = window.location.pathname.match(/^\/docs\/(v\d+\.\d+)/);
   if ( result && result[1] ) {
     return result[1];
   }
@@ -474,7 +474,7 @@ function getDocGroupFromURL() {
 }
 
 function getDocVersionFromURL() {
-  let result = window.location.pathname.match(/\/documentation\/(v\d+\.\d+([^/]+)?)\/.*/);
+  let result = window.location.pathname.match(/\/docs\/(v\d+\.\d+([^/]+)?)\/.*/);
   if ( result ) {
     if  ( result.length > 2 && result[2] ) {
       return result[1].replace('-plus-','+');

@@ -1,7 +1,7 @@
 - title: Getting Started
   url: /getting_started/
 - title: Documentation
-  url: /documentation/v2/
+  url: /docs/v2/
 - title: Kubernetes guide
   url: /guides.html
   hot: true

@@ -5,7 +5,7 @@ ___
 
 ## Development
 
-- Install [werf](http://werf.io/documentation/index.html).
+- Install [werf](http://werf.io/docs/index.html).
 - Install [task](https://taskfile.dev/installation/).
 
 ### Local development setup

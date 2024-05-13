@@ -52,7 +52,7 @@ func groupHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debugln("Use handler - groupHandler")
 	vars := mux.Vars(r)
 	if err, version := getVersionFromGroup(&ReleasesStatus, vars["group"]); err == nil {
-		redirectURL := fmt.Sprintf("/documentation/%v%v", VersionToURL(version), getDocPageURLRelative(r, true))
+		redirectURL := fmt.Sprintf("/docs/%v%v", VersionToURL(version), getDocPageURLRelative(r, true))
 		if rawQuery != "" {
 			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
 		}
@@ -60,7 +60,7 @@ func groupHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// Fall back to the version specified in the ACTIVE_RELEASE env, if got the incorrect version.
 		activeRelease := getRootRelease()
-		redirectURL := fmt.Sprintf("/documentation/v%s/", activeRelease)
+		redirectURL := fmt.Sprintf("/docs/v%s/", activeRelease)
 		if rawQuery != "" {
 			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
 		}
@@ -90,13 +90,13 @@ func unknownVersionHandler(w http.ResponseWriter, r *http.Request) {
 		group = fmt.Sprintf("v%s", res[1])
 	}
 
-	re = regexp.MustCompile(`^/documentation/[^/]+(/.+)$`)
+	re = regexp.MustCompile(`^/docs/[^/]+(/.+)$`)
 	res = re.FindStringSubmatch(r.URL.RequestURI())
 	if res != nil {
 		pageURLRelative = res[1]
 	}
 
-	URLToRedirect = fmt.Sprintf("/documentation/%v%v", group, pageURLRelative)
+	URLToRedirect = fmt.Sprintf("/docs/%v%v", group, pageURLRelative)
 	err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
 
 	if err != nil {
@@ -117,7 +117,7 @@ func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
 	var version, URLToRedirect string
 	var err error
 
-	re := regexp.MustCompile(`^/documentation/[^/]+(/.+)$`)
+	re := regexp.MustCompile(`^/docs/[^/]+(/.+)$`)
 	res := re.FindStringSubmatch(r.URL.RequestURI())
 	if res != nil {
 		pageURLRelative = res[1]
@@ -125,7 +125,7 @@ func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
 
 	err, version = getVersionFromChannelAndGroup(&ReleasesStatus, vars["channel"], vars["group"])
 	if err == nil {
-		URLToRedirect = fmt.Sprintf("/documentation/%v%v", VersionToURL(version), pageURLRelative)
+		URLToRedirect = fmt.Sprintf("/docs/%v%v", VersionToURL(version), pageURLRelative)
 		err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
 	}
 

@@ -19,14 +19,14 @@ spec:
   - host: {{ $host }}
     http:
       paths:
-      - path: /targets
+      - path: /targets/
         pathType: Prefix
         backend:
           service:
             name: tuf-router
             port:
               name: http
-      - path: /download
+      - path: /download/
         pathType: Prefix
         backend:
           service:
@@ -36,14 +36,14 @@ spec:
   - host: ru.{{ $host }}
     http:
       paths:
-      - path: /targets
+      - path: /targets/
         pathType: Prefix
         backend:
           service:
             name: tuf-router
             port:
               name: http
-      - path: /download
+      - path: /download/
         pathType: Prefix
         backend:
           service:

@@ -64,7 +64,7 @@
    sudo usermod -aG docker gitlab-runner
    ```
 
-1. [Установим werf](/documentation/index.html).
+1. [Установим werf](/docs/index.html).
 1. Установим `kubectl` и скопируем файл конфигурации `kubectl` в домашнюю папку пользователя <!-- spell-check-ignore -->`gitlab-runner<!-- end-spell-check-ignore -->.
    ```shell
    mkdir -p /home/gitlab-runner/.kube &&
@@ -187,9 +187,9 @@ Stop Review:
 
 В задание `Review` описывается развёртывание review-релиза в динамическое окружение, в основу имени которого закладывается уникальный идентификатор MR. Параметр `auto_stop_in` позволяет указать период отсутствия активности в MR, после которого окружение GitLab будет автоматически остановлено. Остановка окружения GitLab сама по себе никак не влияет на ресурсы в кластере, review-релиз, поэтому в дополнении необходимо определить задание, которое вызывается при остановке (`on_stop`). В нашем случае, это задание `Stop Review`.
 
-Задание `Stop Review` выполняет удаление review-релиза, а также остановку окружения GitLab (`action: stop`): werf удаляет helm-релиз и namespace в Kubernetes со всем его содержимым ([werf dismiss]({{ site.url }}/documentation/v2/reference/cli/werf_dismiss.html)). Задание `Stop Review` может быть запущено вручную после деплоя на review контур, а также автоматически GitLab-сервером, например, при удалении соответствующей ветки в результате слияния ветки с master и указания соответствующей опции в интерфейсе GitLab.
+Задание `Stop Review` выполняет удаление review-релиза, а также остановку окружения GitLab (`action: stop`): werf удаляет helm-релиз и namespace в Kubernetes со всем его содержимым ([werf dismiss]({{ site.url }}/docs/v2/reference/cli/werf_dismiss.html)). Задание `Stop Review` может быть запущено вручную после деплоя на review контур, а также автоматически GitLab-сервером, например, при удалении соответствующей ветки в результате слияния ветки с master и указания соответствующей опции в интерфейсе GitLab.
 
-Для выполнения `werf dismiss` требуется <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore -->, так как в нём содержаться [шаблоны имени релиза и namespace]({{ site.url }}/documentation/v2/usage/deploy/releases.html#имя-релиза"). При удалении ветки нет возможности использовать исходники из git, поэтому в задании `Stop Review` используется <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore -->, сохранённый при выполнении задания `Review`, и отключено подтягивание изменений из git (`GIT_STRATEGY: none`).
+Для выполнения `werf dismiss` требуется <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore -->, так как в нём содержаться [шаблоны имени релиза и namespace]({{ site.url }}/docs/v2/usage/deploy/releases.html#имя-релиза"). При удалении ветки нет возможности использовать исходники из git, поэтому в задании `Stop Review` используется <!-- spell-check-ignore -->werf.yaml<!-- end-spell-check-ignore -->, сохранённый при выполнении задания `Review`, и отключено подтягивание изменений из git (`GIT_STRATEGY: none`).
 
 Таким образом, по умолчанию закладываем следующие варианты удаления review окружения:
 * вручную;
@@ -466,7 +466,7 @@ Cleanup:
 {% endraw %}
 
 В werf встроен эффективный механизм очистки, который позволяет избежать переполнения container registry и диска сборочного узла от устаревших и неиспользуемых образов.
-Более подробно ознакомиться с возможностями очистки, встроенными в werf, можно [здесь]({{ site.url }}/documentation/v2/usage/cleanup/cr_cleanup.html).
+Более подробно ознакомиться с возможностями очистки, встроенными в werf, можно [здесь]({{ site.url }}/docs/v2/usage/cleanup/cr_cleanup.html).
 
 Чтобы использовать очистку, необходимо создать `Personal Access Token` в GitLab с необходимыми правами. С помощью данного токена будет осуществляться авторизация в container registry перед очисткой.
 

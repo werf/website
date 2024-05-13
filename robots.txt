@@ -8,14 +8,14 @@ User-agent: *
 Disallow: *.js
 Disallow: *?*
 Allow: /
-Allow: /documentation/v2
-Disallow: /documentation/v2-
-Disallow: /documentation/v2.
-Disallow: /documentation/v1.2
-Disallow: /documentation/v1.1
-Disallow: /documentation/v
-Disallow: /documentation/v1.2-
-Disallow: /documentation/v1.2.
+Allow: /docs/v2
+Disallow: /docs/v2-
+Disallow: /docs/v2.
+Disallow: /docs/v1.2
+Disallow: /docs/v1.1
+Disallow: /docs/v
+Disallow: /docs/v1.2-
+Disallow: /docs/v1.2.
 Disallow: /configurator/tabs
 Disallow: /guides/framework_id
 Sitemap: {{ site.url }}/sitemap.xml
