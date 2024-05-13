@@ -10,6 +10,6 @@ host:
 resources:
   requests:
     memory:
-      _default: 20M
-      production: 50M
+      _default: 30M
+      production: 300M
 
