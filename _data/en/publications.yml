@@ -16,6 +16,21 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "From improving Helm to developing Nelm- the evolution of deployments in werf"
+    youtube_url: "https://www.youtube.com/watch?v=-ny_SXusAks"
+    custom_urls:
+      - service_name: "CNCF"
+        url: "https://www.cncf.io/online-programs/cncf-on-demand-webinar-from-improving-helm-to-developing-nelm-the-evolution-of-deployments-in-werf/"
+    img: "/assets/images/publications/en_230524.jpg"
+    created: 2024-05-23
+    comment: |
+      <p></p>
+  - title: "werf 2.0 is out with a new deployment engine Nelm replacing Helm"
+    medium_url: "https://blog.werf.io/werf-2-nelm-replacing-helm-a11980c2bdda"
+    img: "/assets/images/publications/en_160524.png"
+    created: 2024-05-16
+    comment: |
+      <p>For four years, we have been developing and improving werf 1.2. Now, we are proud to unveil werf 2.0 stable! It accumulates all changes delivered to werf throughout the last 300+ releases and comes with Nelm — our new deployment engine, replacing Helm. Nelm is backward compatible with Helm, so there’s no need to make any special changes to the charts — you can use them just like before.</p>
   - title: "Werf: The Modern and Platform Agnostic CI/CD Tool"
     medium_url: "https://8grams.medium.com/werf-the-modern-and-platform-agnostic-ci-cd-tool-a21259611cb1"
     img: "/assets/images/publications/en_061123.png"
