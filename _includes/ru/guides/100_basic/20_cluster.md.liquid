@@ -56,13 +56,9 @@ curl http://werf-guide-app.test/ping
 ### Авторизация в Docker Hub
 Регистрируемся на [Docker Hub](https://hub.docker.com/signup), после чего [создаём приватный репозиторий](https://hub.docker.com/repository/create) с именем `werf-guide-app`, в котором будем хранить собираемые образы.
 
-С помощью `docker login` получим доступ с текущего компьютера к новому репозиторию, введя логин и пароль от нашего пользователя на Docker Hub:
+С помощью `werf cr login` получим доступ с текущего компьютера к новому репозиторию, введя логин и пароль от нашего пользователя на Docker Hub:
 ```shell
-docker login
-# Введем ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB.
-Username: <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>
-# Введем ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB.
-Password: <ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>
+werf cr login https://index.docker.io/v1/ -u <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB> -p <ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>
 ```
 
 В случае успеха получим ответ:

@@ -86,11 +86,11 @@
 ```
 {% endraw %}
 
-Конфигурация задания достаточно проста, поэтому хочется сделать акцент на том, чего в ней нет — явной авторизации в container registry, вызова `docker login`.
+Конфигурация задания достаточно проста, поэтому хочется сделать акцент на том, чего в ней нет — явной авторизации в container registry, вызова `werf cr login`.
 
 В простейшем случае, при использовании встроенного [container registry](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#external-events-repository_dispatch), авторизация выполняется автоматически при вызове команды `werf ci-env`. В качестве необходимых аргументов используются переменные окружения GitHub, [секретная переменная `GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret), а также имя пользователя (`GITHUB_ACTOR`) инициировавшего запуск workflow.
 
-Если необходимо выполнить авторизацию с произвольными учётными данными или с внешним container registry, то необходимо использовать готовый action для вашего container registry или просто выполнить `docker login` перед использованием werf.
+Если необходимо выполнить авторизацию с произвольными учётными данными или с внешним container registry, то необходимо использовать готовый action для вашего container registry или просто выполнить `werf cr login` перед.
 
 Рассмотрим оставшиеся используемые параметры на этом шаге:
 

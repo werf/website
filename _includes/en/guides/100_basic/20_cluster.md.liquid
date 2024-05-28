@@ -56,13 +56,9 @@ In this guide, we will use the Docker Hub container registry. However, you can u
 ### Authorizing in Docker Hub
 Create a [Docker Hub](https://hub.docker.com/signup) ID  and create a [private repository](https://hub.docker.com/repository/create) named `werf-guide-app`. We will store the built images in it.
 
-Using the `docker login` command, log in to the new repository by entering the username and password of the Docker Hub user:
+Using the `werf cr login` command, log in to the new repository by entering the username and password of the Docker Hub user:
 ```shell
-docker login
-# Enter the name of the Docker Hub user
-Username: <DOCKER HUB USERNAME>
-# Enter the password of the Docker Hub user
-Password: <DOCKER HUB PASSWORD>
+werf cr login https://index.docker.io/v1/ -u <DOCKER HUB USERNAME> -p <DOCKER HUB PASSWORD> 
 ```
 
 If the login is successful, you will see the following message:

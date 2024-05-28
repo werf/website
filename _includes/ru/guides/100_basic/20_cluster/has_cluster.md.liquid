@@ -71,8 +71,8 @@ werf поддерживает [множество имплементаций]({{
 
 ### Авторизация в Registry
 
-Для того, чтобы werf смог загрузить собранный образ в registry, нужно на локальной машине авторизоваться с помощью `docker login` примерно так:
+Для того, чтобы werf смог загрузить собранный образ в registry, нужно на локальной машине авторизоваться с помощью `werf cr login` примерно так:
 
 ```shell
-docker login <registry_domain> -u <account_login> -p <account_password>
+werf cr login <registry_domain> -u <account_login> -p <account_password>
 ```
