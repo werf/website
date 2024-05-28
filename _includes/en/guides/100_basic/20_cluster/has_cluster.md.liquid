@@ -71,8 +71,8 @@ This guide assumes that the example application (or its Nginx Ingress, to be mor
 
 ### Registry authorization
 
-You must be logged on the local machine using `docker login` for werf to be able to push the built image to the registry:
+You must be logged on the local machine using `werf cr login` for werf to be able to push the built image to the registry:
 
 ```shell
-docker login <registry_domain> -u <account_login> -p <account_password>
+werf cr login <registry_domain> -u <account_login> -p <account_password>
 ```
