@@ -16,7 +16,7 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
-  - title: "From improving Helm to developing Nelm- the evolution of deployments in werf"
+  - title: "From improving Helm to developing Nelm: The evolution of deployments in werf"
     youtube_url: "https://www.youtube.com/watch?v=-ny_SXusAks"
     custom_urls:
       - service_name: "CNCF"
@@ -37,14 +37,6 @@ articles:
     created: 2023-11-06
     comment: |
       <p>Werf is a Continuous Integration/Continuous Deployment (CI/CD) tool that simplifies the process of building, testing, releasing, and deploying applications to Kubernetes. It’s an Open Source project under the Cloud Native Computing Foundation (CNCF), designated as a sandbox project as of December 13, 2022​.<br><br>Werf was designed to address the complexities and inconsistencies encountered in CI/CD processes, especially when deploying applications to Kubernetes. It originated in a professional services company that provided DevOps as a Service, Flant. The motivation behind its creation was to standardize and automate the implementation of CI/CD pipelines across various projects​.</p>
-  - title: "Werf: Pioneering the Future of CI/CD — A Close Look at the CNCF’s Noteworthy Addition to the DevOps Landscape"
-    medium_url: "https://itnext.io/werf-pioneering-the-future-of-ci-cd-a-close-look-at-the-cncfs-noteworthy-addition-to-the-b61a7260e0a2"
-    img: "/assets/images/publications/en_110723.jpeg"
-    created: 2023-07-11
-    comment: |
-      <p>Welcome to this blog post, where we explore the fascinating world of Werf a remarkable CI/CD tool that is transforming the way we approach software development and deployment.
-      <br><br>
-      As a standout member of the CNCF (Cloud Native Computing Foundation) project family, Werf brings a fresh perspective and cutting-edge capabilities to the ever-evolving field of DevOps.</p>
   - title: "Simple End to End GitOps with Werf"
     custom_urls:
       - service_name: "Killercoda"
@@ -55,6 +47,14 @@ articles:
       <p>In this tutorial, you will get to know GitOps and the GitOps agent werf.
       <br><br>
       After finishing this tutorial, you will know about the core ideas of GitOps. You will know how to setup an end-to-end GitOps workflow using werf and will be able to deploy applications to different environments (development, production) with a simple commit.</p>
+  - title: "Werf: Pioneering the Future of CI/CD — A Close Look at the CNCF’s Noteworthy Addition to the DevOps Landscape"
+    medium_url: "https://itnext.io/werf-pioneering-the-future-of-ci-cd-a-close-look-at-the-cncfs-noteworthy-addition-to-the-b61a7260e0a2"
+    img: "/assets/images/publications/en_110723.jpeg"
+    created: 2023-07-11
+    comment: |
+      <p>Welcome to this blog post, where we explore the fascinating world of Werf a remarkable CI/CD tool that is transforming the way we approach software development and deployment.
+      <br><br>
+      As a standout member of the CNCF (Cloud Native Computing Foundation) project family, Werf brings a fresh perspective and cutting-edge capabilities to the ever-evolving field of DevOps.</p>
   - title: "Why werf for CI/CD in Kubernetes?"
     youtube_url: "https://www.youtube.com/watch?v=OK9fSBxFN0c"
     custom_urls:
@@ -98,12 +98,6 @@ articles:
     created: 2022-09-21
     comment: |
       <p>Custom readiness probes in initContainers with Helm vs. resource weights in werf.</p>
-  - title: "Review or dynamic environments in Kubernetes. Theory and practice"
-    blog_url: "https://blog.palark.com/review-environments-in-kubernetes-gitlab-ci/"
-    img: "/assets/images/publications/en_290921.png"
-    created: 2021-09-29
-    comment: |
-      <p>This article discusses the so-called review environments running in Kubernetes clusters. Why are these environments necessary and what are typical use cases for them? How to make a review environment pipeline in GitLab CI/CD? What potential problems can arise, and how to avoid them?</p>
   - title: "Hands-on lab on deploying to Kubernetes with werf"
     cloud_yuga_url: "https://cloudyuga.guru/blogs/werf-deploy"
     img: "/assets/images/publications/en_200622.png"
@@ -134,6 +128,12 @@ articles:
     created: 2021-12-14
     comment: |
       <p>werf is a CLI Open Source tool for building applications and deploying them to Kubernetes clusters. Version 1.2 features many new changes and improvements. We have been thoroughly testing and refining them as part of the Early-Access version over the last eleven months (since January 2021). Finally, we are pleased to announce that it has been promoted to Stable!</p>
+  - title: "Review or dynamic environments in Kubernetes. Theory and practice"
+    blog_url: "https://blog.palark.com/review-environments-in-kubernetes-gitlab-ci/"
+    img: "/assets/images/publications/en_290921.png"
+    created: 2021-09-29
+    comment: |
+      <p>This article discusses the so-called review environments running in Kubernetes clusters. Why are these environments necessary and what are typical use cases for them? How to make a review environment pipeline in GitLab CI/CD? What potential problems can arise, and how to avoid them?</p>
   - title: "werf vs. Docker: What is the difference when it comes to building images?"
     blog_url: "https://blog.werf.io/werf-vs-docker-what-is-the-difference-when-it-comes-to-building-images-fe886bc011a4"
     img: "/assets/images/publications/en_030921.png"
