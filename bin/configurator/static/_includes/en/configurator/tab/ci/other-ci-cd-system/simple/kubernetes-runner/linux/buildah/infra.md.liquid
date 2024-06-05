@@ -4,9 +4,9 @@
 
 - Kubernetes for running CI jobs with your CI system's Kubernetes Runner.
 
-### Configuring the Runner
+### Basic Runner configuration (no caching)
 
-Configure your CI system's Runner so that the containers you create have the following configuration:
+Configure your CI system's Runner so that the Pods you create have the following configuration:
 
 ```yaml
 apiVersion: v1
@@ -16,6 +16,13 @@ metadata:
   annotations:
     "container.apparmor.security.beta.kubernetes.io/build": unconfined
 spec:
+  containers:
+  - volumeMounts:
+    - name: werf-cache
+      mountPath: /home/build/.werf
+  volumes:
+  - name: werf-cache
+    emptyDir: {}
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
@@ -23,10 +30,33 @@ spec:
     fsGroup: 1000
 ```
 
-To enable `.werf` caching (recommended), the Pods must have some additional configuration:
+### Basic Runner configuration (with caching using Persistent Volumes)
+
+Configure your CI system's Runner so that the Pods you create have the following configuration:
 
 ```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: ci
+  annotations:
+    "container.apparmor.security.beta.kubernetes.io/build": unconfined
 spec:
+  initContainers:
+  - name: fix-volumes-permissions
+    image: alpine
+    command:
+    - sh
+    - -ec
+    - |
+      chown :$(id -g) /home/build/.werf
+      chmod g+rwx /home/build/.werf
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
+    volumeMounts:
+    - mountPath: /home/build/.werf
+      name: werf-cache
   containers:
   - volumeMounts:
     - name: werf-cache
@@ -35,34 +65,18 @@ spec:
   - name: werf-cache
     persistentVolumeClaim:
       claimName: ci-kubernetes-runner-werf-cache
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
 ```
 
-... if caching is not needed, use the following configuration:
-
-```yaml
-spec:
-  containers:
-  - volumeMounts:
-    - name: werf-cache
-      mountPath: /home/build/.werf
-  volumes:
-  - name: werf-cache
-    emptyDir: {}
-```
-
-Add the following configuration if you are going to deploy applications using werf to the same cluster in which the Kubernetes Runner is running:
-
-```yaml
-spec:
-  serviceAccountName: ci-kubernetes-runner
-```
-
-### Configuring Kubernetes
-
-If you enabled caching of `.werf` in the Kubernetes Runner configuration, create the appropriate PersistentVolumeClaim in the cluster as follows:
+Create PVC:
 
 ```shell
 kubectl create -f - <<EOF
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -77,7 +91,11 @@ spec:
 EOF
 ```
 
-If you are going to deploy applications to the same cluster in which Kubernetes Runner is running, configure RBAC in the cluster to run CI jobs with the following command:
+### Configure access to Kubernetes from Runner Pods
+
+If werf will run directly in Runner Pods and you are going to deploy with werf to the **same** cluster where Runner Pods are running, then you need to configure custom ServiceAccount and ClusterRoleBinding.
+
+Create a ServiceAccount and a ClusterRoleBinding:
 
 ```shell
 kubectl create -f - <<EOF
@@ -105,7 +123,16 @@ EOF
 
 > For greater security, consider creating a more restricted ClusterRole/Role and using it instead of the `cluster-admin` cluster role above.
 
-If the Kubernetes nodes on which the Kubernetes Runner is hosted have Linux kernel version 5.12 or lower, enable FUSE for the Kubernetes Runner on that cluster using the following command:
+Now add this line to Pod spawned by your Runner:
+
+```yaml
+spec:
+  serviceAccountName: ci-kubernetes-runner
+```
+
+### Allow FUSE (for Kubernetes Nodes with Linux kernel older than 5.13)
+
+If the Kubernetes Nodes on which you are going to run Runner Pods have Linux kernel version older than 5.13, then you need to allow FUSE:
 
 ```shell
 kubectl create -f - <<EOF
@@ -153,10 +180,6 @@ spec:
 EOF
 ```
 
-### Configuring the container registry
-
-[Enable garbage collection]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
-
 ### Preparing Kubernetes for multi-platform building (optional)
 
 > This step only needed to build images for platforms other than host platform running werf.
@@ -170,6 +193,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: qemu-user-static
+  namespace: ci
   labels:
     app: qemu-user-static
 spec:
@@ -199,3 +223,8 @@ spec:
               memory: 50Mi
 EOF
 ```
+
+### Configuring the container registry
+
+[Enable garbage collection]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#container-registrys-garbage-collector" | relative_url }}) for your container registry.
+

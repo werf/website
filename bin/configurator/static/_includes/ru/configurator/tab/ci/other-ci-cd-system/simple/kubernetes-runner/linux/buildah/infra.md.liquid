@@ -3,10 +3,10 @@
 - CI-система;
 
 - Kubernetes для запуска CI-задач с установленным Kubernetes Runner вашей CI-системы.
+-
+### Базовая настройка Runner (без кеширования)
 
-### Настройка Runner'а
-
-Настройте Kubernetes Runner вашей CI-системы так, чтобы создаваемые им Pod'ы имели следующую конфигурацию:
+Настройте раннер вашей CI-системы так, чтобы создаваемые им Pod'ы имели следующую конфигурацию:
 
 ```yaml
 apiVersion: v1
@@ -16,6 +16,13 @@ metadata:
   annotations:
     "container.apparmor.security.beta.kubernetes.io/build": unconfined
 spec:
+  containers:
+  - volumeMounts:
+    - name: werf-cache
+      mountPath: /home/build/.werf
+  volumes:
+  - name: werf-cache
+    emptyDir: {}
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
@@ -23,10 +30,33 @@ spec:
     fsGroup: 1000
 ```
 
-Если нужно кеширование `.werf` (рекомендуется), то Pod'ы должны иметь дополнительную конфигурацию:
+### Базовая настройка Runner (с кешированием в Persistent Volumes)
+
+Настройте раннер вашей CI-системы так, чтобы создаваемые им Pod'ы имели следующую конфигурацию:
 
 ```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: ci
+  annotations:
+    "container.apparmor.security.beta.kubernetes.io/build": unconfined
 spec:
+  initContainers:
+  - name: fix-volumes-permissions
+    image: alpine
+    command:
+    - sh
+    - -ec
+    - |
+      chown :$(id -g) /home/build/.werf
+      chmod g+rwx /home/build/.werf
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
+    volumeMounts:
+    - mountPath: /home/build/.werf
+      name: werf-cache
   containers:
   - volumeMounts:
     - name: werf-cache
@@ -35,34 +65,18 @@ spec:
   - name: werf-cache
     persistentVolumeClaim:
       claimName: ci-kubernetes-runner-werf-cache
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
 ```
 
-... а если кеширование не нужно, то пусть имеют эту конфигурацию:
-
-```yaml
-spec:
-  containers:
-  - volumeMounts:
-    - name: werf-cache
-      mountPath: /home/build/.werf
-  volumes:
-  - name: werf-cache
-    emptyDir: {}
-```
-
-Если будете развертывать приложения с werf в тот же кластер, в котором запускается Kubernetes Runner, то добавьте эту конфигурацию:
-
-```yaml
-spec:
-  serviceAccountName: ci-kubernetes-runner
-```
-
-### Настройка Kubernetes
-
-Если в конфигурации Kubernetes Runner'а вы включили кеширование `.werf`, то создайте в кластере соответствующий PersistentVolumeClaim, например:
+Создайте PVC:
 
 ```shell
 kubectl create -f - <<EOF
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -77,7 +91,11 @@ spec:
 EOF
 ```
 
-Если будете развертывать приложения в тот же кластер, в котором запускается Kubernetes Runner, то в кластере для запуска CI-задач настройте RBAC следующей командой:
+### Настройте доступ в Kubernetes из Runner Pod'ов
+
+Если werf запускается напрямую в Runner Pod'ах и вы собираетесь деплоить с werf в тот же кластер, где запускаются Runner Pod'ы, то вам нужно настроить отдельные ServiceAccount и ClusterRoleBinding.
+
+Создайте ServiceAccount и ClusterRoleBinding:
 
 ```shell
 kubectl create -f - <<EOF
@@ -103,9 +121,18 @@ subjects:
 EOF
 ```
 
-> Для большей безопасности можете создать более ограниченную ClusterRole/Role и использовать её вместо кластерной роли `cluster-admin` выше.
+> Для большей безопасности подумайте над использованием более ограниченной в правах ClusterRole/Role и используйте её вместо `cluster-admin` ClusterRole выше.
 
-Если Kubernetes-узлы для Kubernetes Runner'а имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для Kubernetes Runner следующей командой:
+Теперь добавьте эту строку в Pod, создаваемый вашим раннером:
+
+```yaml
+spec:
+  serviceAccountName: ci-kubernetes-runner
+```
+
+### Разрешите использование FUSE (для Kubernetes Nodes с ядром Linux старее, чем 5.13)
+
+Если Kubernetes Nodes, на которых вы будете запускать Runner Pods, имеют версию ядра Linux старее 5.13, то вам нужно разрешить использование FUSE:
 
 ```shell
 kubectl create -f - <<EOF
@@ -153,15 +180,11 @@ spec:
 EOF
 ```
 
-### Конфигурация container registry
+### Настройка Kubernetes для мульти-платформенных сборок (опционально)
 
-[Включите сборщик мусора]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#%D1%81%D0%B1%D0%BE%D1%80%D1%89%D0%B8%D0%BA-%D0%BC%D1%83%D1%81%D0%BE%D1%80%D0%B0-container-registry" | relative_url }}) вашего container registry.
+> Этот шаг нужен только для сборки образов для платформ, отличных от платформы системы, где запущен werf.
 
-### Подготовка кластера Kubernetes к мультиплатформенной сборке (опционально)
-
-> Данный шаг требуется только для сборки образов для платформ, отличных от платформы системы, где запущен werf.
-
-Регистрируем на узлах Kubernetes эмуляторы с помощью образа qemu-user-static:
+Активируйте эмуляторы для ваших Kubernetes Nodes, используя qemu-user-static:
 
 ```shell
 kubectl create -f - <<EOF
@@ -170,6 +193,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: qemu-user-static
+  namespace: ci
   labels:
     app: qemu-user-static
 spec:
@@ -199,3 +223,7 @@ spec:
               memory: 50Mi
 EOF
 ```
+
+### Конфигурация container registry
+
+[Включите сборщик мусора]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#%D1%81%D0%B1%D0%BE%D1%80%D1%89%D0%B8%D0%BA-%D0%BC%D1%83%D1%81%D0%BE%D1%80%D0%B0-container-registry" | relative_url }}) вашего container registry.

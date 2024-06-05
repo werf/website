@@ -2,72 +2,126 @@
 
 - GitLab;
 
-- Kubernetes для запуска GitLab Runner.
+- Kubernetes для запуска GitLab Kubernetes Executor.
 
-### Установка и регистрация GitLab Runner
+### Установка GitLab Runner
 
-Для установки GitLab Runner в Kubernetes и его регистрации в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html).
+Следуйте [официальным инструкциям](https://docs.gitlab.com/runner/install/) для установки и регистрации GitLab Runner. Если вы собираетесь устанавливать ваш GitLab Runner в Kubernetes, то установите его в namespace `gitlab-ci`.
 
-### Настройка GitLab Runner
+### Базовая настройка GitLab Runner (без кеширования)
 
-Измените конфигурацию зарегистрированного GitLab Runner'а, добавив в его `config.toml` следующие параметры:
+Добавьте следующее в конфигурационный файл GitLab Runner `config.toml`:
 
 ```toml
 [[runners]]
-  name = "<имя зарегистрированного Runner'а>"
+  environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true"]
+
   [runners.kubernetes]
     namespace = "gitlab-ci"
+
     [runners.kubernetes.pod_annotations]
       "container.apparmor.security.beta.kubernetes.io/build" = "unconfined"
+
     [runners.kubernetes.pod_security_context]
       run_as_non_root = true
       run_as_user = 1000
       run_as_group = 1000
       fs_group = 1000
-```
 
-Если нужно кеширование `.werf` и `/builds` (рекомендуется), то добавьте эти параметры:
-
-```toml
-[[runners]]
-  name = "<имя зарегистрированного Runner'а>"
-  [runners.kubernetes]
-    [[runners.kubernetes.volumes.pvc]]
-      name = "gitlab-ci-kubernetes-executor-werf-cache"
-      mount_path = "/home/build/.werf"
-    [[runners.kubernetes.volumes.pvc]]
-      name = "gitlab-ci-kubernetes-executor-builds-cache"
-      mount_path = "/builds"
-```
-
-... а если не нужно, то добавьте эти:
-
-```toml
-[[runners]]
-  name = "<имя зарегистрированного Runner'а>"
-  [runners.kubernetes]
     [[runners.kubernetes.volumes.empty_dir]]
       name = "gitlab-ci-kubernetes-executor-werf-cache"
       mount_path = "/home/build/.werf"
+
     [[runners.kubernetes.volumes.empty_dir]]
       name = "gitlab-ci-kubernetes-executor-builds-cache"
       mount_path = "/builds"
+
+    [[runners.kubernetes.volumes.empty_dir]]
+      name = "gitlab-ci-kubernetes-executor-helper-home"
+      mount_path = "/home/helper"
+
+    [[runners.kubernetes.pod_spec]]
+      name = "fix helper HOME"
+      patch = '''
+        containers:
+        - name: helper
+          env:
+          - name: HOME
+            value: /home/helper
+      '''
+      patch_type = "strategic"
 ```
 
-Если будете развертывать приложения с werf в тот же кластер, в котором запускается GitLab Runner, то добавьте ещё один параметр:
+### Базовая настройка Gitlab Runner (с кешированием в Persistent Volumes)
+
+Добавьте следующее в конфигурационный файл GitLab Runner `config.toml`:
 
 ```toml
 [[runners]]
-  name = "<имя зарегистрированного Runner'а>"
+  environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true"]
+
   [runners.kubernetes]
-    service_account = "gitlab-ci-kubernetes-executor"
+    namespace = "gitlab-ci"
+
+    [runners.kubernetes.pod_annotations]
+      "container.apparmor.security.beta.kubernetes.io/build" = "unconfined"
+
+    [runners.kubernetes.pod_security_context]
+      run_as_non_root = true
+      run_as_user = 1000
+      run_as_group = 1000
+      fs_group = 1000
+
+    [[runners.kubernetes.volumes.pvc]]
+      name = "gitlab-ci-kubernetes-executor-werf-cache"
+      mount_path = "/home/build/.werf"
+
+    [[runners.kubernetes.volumes.pvc]]
+      name = "gitlab-ci-kubernetes-executor-builds-cache"
+      mount_path = "/builds"
+
+    [[runners.kubernetes.volumes.pvc]]
+      name = "gitlab-ci-kubernetes-executor-helper-home"
+      mount_path = "/home/helper"
+
+    [[runners.kubernetes.pod_spec]]
+      name = "fix helper HOME"
+      patch = '''
+        containers:
+        - name: helper
+          env:
+          - name: HOME
+            value: /home/helper
+      '''
+      patch_type = "strategic"
+
+    [[runners.kubernetes.pod_spec]]
+      name = "fix volumes permissions"
+      patch = '''
+        initContainers:
+        - name: fix-volumes-permissions
+          image: alpine
+          command:
+          - sh
+          - -ec
+          - |
+            chown :$(id -g) /home/build/.werf /builds /home/helper
+            chmod g+rwx /home/build/.werf /builds /home/helper
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+          volumeMounts:
+          - mountPath: /home/build/.werf
+            name: gitlab-ci-kubernetes-executor-werf-cache
+          - mountPath: /builds
+            name: gitlab-ci-kubernetes-executor-builds-cache
+          - mountPath: /home/helper
+            name: gitlab-ci-kubernetes-executor-helper-home
+      '''
+      patch_type = "strategic"
 ```
 
-При желании произведите [дополнительную конфигурацию](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
-
-### Настройка Kubernetes
-
-Если в конфигурации GitLab Runner вы включили кеширование `.werf` и `/builds`, то создайте в кластере соответствующие PersistentVolumeClaims, например:
+Создайте PVC:
 
 ```shell
 kubectl create -f - <<EOF
@@ -95,10 +149,26 @@ spec:
   resources:
     requests:
       storage: 30Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-ci-kubernetes-executor-helper-home
+  namespace: gitlab-ci
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi
 EOF
 ```
 
-Если будете разворачивать приложения в тот же кластер, в котором запускается GitLab Runner, то в кластере для запуска GitLab Runner'а настройте RBAC следующей командой:
+### Настройте доступ к Kubernetes из GitLab Executor Pod'ов
+
+werf будет запускаться в GitLab Executor Pod'ах. Скорее всего вы будете деплоить с werf в тот же кластер, в котором запускаются GitLab Executor Pod'ы. Если так, то вам нужно настроить отдельные ServiceAccount и ClusterRoleBinding.
+
+Создайте ServiceAccount и ClusterRoleBinding:
 
 ```shell
 kubectl create -f - <<EOF
@@ -124,9 +194,19 @@ subjects:
 EOF
 ```
 
-> Для большей безопасности можете создать более ограниченную ClusterRole/Role и использовать её вместо кластерной роли `cluster-admin` выше.
+> Для большей безопасности подумайте над использованием более ограниченной в правах ClusterRole/Role и используйте её вместо `cluster-admin` ClusterRole выше.
 
-Если Kubernetes-узлы для GitLab Runner имеют ядро Linux версии 5.12 или ниже, то разрешите в этом кластере использование FUSE для GitLab Runner следующей командой:
+Теперь добавьте эту строку в конфигурационный файл GitLab Runner `config.toml`:
+
+```toml
+[[runners]]
+  [runners.kubernetes]
+    service_account = "gitlab-ci-kubernetes-executor"
+```
+
+### Разрешите использование FUSE (для Kubernetes Nodes с ядром Linux старее, чем 5.13)
+
+Если Kubernetes Nodes, на которых вы будете запускать Kubernetes Executor Pods, имеют версию ядра Linux старее 5.13, то вам нужно разрешить использование FUSE:
 
 ```shell
 kubectl create -f - <<EOF
@@ -174,13 +254,11 @@ spec:
 EOF
 ```
 
-{% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
-
-### Подготовка кластера Kubernetes к мультиплатформенной сборке (опционально)
+### Настройка Kubernetes для мульти-платформенных сборок (опционально)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
 
-Регистрируем на узлах Kubernetes эмуляторы с помощью образа qemu-user-static:
+Активируйте эмуляторы для ваших Kubernetes Nodes, используя qemu-user-static:
 
 ```shell
 kubectl create -f - <<EOF
@@ -189,6 +267,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: qemu-user-static
+  namespace: gitlab-ci
   labels:
     app: qemu-user-static
 spec:
@@ -218,3 +297,5 @@ spec:
               memory: 50Mi
 EOF
 ```
+
+{% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
