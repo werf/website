@@ -16,6 +16,16 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "werf 2.0 with Nelm, and what it brings to the cloud native community"
+    custom_urls:
+      - service_name: "Palark blog"
+        url: "https://blog.palark.com/werf-v2-history-nelm-alternative-to-helm/"
+      - service_name: "CNCF"
+        url: "https://www.cncf.io/blog/2024/06/05/werf-2-0-with-nelm-and-what-it-brings-to-the-cloud-native-community/"
+    img: "/assets/images/publications/en_050624.png"
+    created: 2024-06-05
+    comment: |
+      <p>In the recent werf v2.0 release, the CI/CD solution has unveiled a new deployment engine called Nelm. It has replaced Helm while retaining backward compatibility and introducing new prominent features. You can try them in werf right now with other tools to come around the corner. Let’s explore the history of the project and examine the path it’s traveled to this transformation.</p>
   - title: "From improving Helm to developing Nelm: The evolution of deployments in werf"
     youtube_url: "https://www.youtube.com/watch?v=-ny_SXusAks"
     custom_urls:
