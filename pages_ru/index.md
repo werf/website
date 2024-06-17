@@ -318,6 +318,10 @@ sidebar: none
                     <span class="page__icon page__icon_github"></span>
                     GitHub Discussions
                 </a>
+                <a href="https://stackoverflow.com/questions/tagged/werf" rel="noopener noreferrer" target="_blank" class="page__btn page__btn_w community__btn">
+                    <span class="page__icon page__icon_stackoverflow"></span>
+                    Stack Overflow
+                </a>
             </div>
         </div>
     </div>
