@@ -9,7 +9,7 @@ description: Changelog history of releases within channels
 {%- asset releases.css %}
 
 {%- assign releases = site.data.common.releases.releases %}
-{%- assign groups = site.data.common.releases_history.history | map: "group" | uniq | reverse %}
+{%- assign groups = site.data.common.releases_history.history | map: "group" | uniq %}
 {%- assign channels_sorted = site.data.common.channels_info.channels | sort: "stability" %}
 {%- assign channels_sorted_reverse = site.data.common.channels_info.channels | sort: "stability" | reverse  %}
 
