@@ -4,6 +4,7 @@ configVersion: 1
 project: werf-site
 ---
 
+
 image: jekyll_base
 from: jekyll/builder:4.2.0
 fromCacheVersion: {{ $.CacheVersion }}
