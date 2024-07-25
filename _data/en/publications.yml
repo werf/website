@@ -16,6 +16,14 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Finally, a viable Helm Replacement"
+    custom_urls:
+      - service_name: "ITNEXT"
+        url: "https://itnext.io/finally-a-viable-helm-replacement-388d538f9e1f"
+    img: "/assets/images/publications/en_240724.png"
+    created: 2024-07-24
+    comment: |
+      <p>Nelm, a part of the Werf project, is emerging as a promising alternative to Helm. It is a fully backwards compatible reimplementation of Helm, with improvements aimed at making it more robust and feature-rich.</p>
   - title: "werf 2.0 with Nelm, and what it brings to the cloud native community"
     custom_urls:
       - service_name: "Palark blog"
