@@ -1,6 +1,6 @@
 .werf-configuration-table {
     border-radius: 4px;
-    color: #444444;
+    color: #333333;
     background-color: #F6F7F8;
 }
 
@@ -64,7 +64,7 @@
 .werf-configuration-table table tr.directive td:last-child {
     background: transparent;
     transition: all 0.1s ease-in-out;
-    opacity: 0.5;
+    opacity: 0.75;
 }
 
 .werf-configuration-table table tr td span {
