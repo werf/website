@@ -26,7 +26,7 @@
 }
 
 .button__wrap.disabled {
-    color:rgba(0, 0, 0, .25);
+    color: rgba(0, 0, 0, .25);
     display: none;
 }
 
@@ -132,7 +132,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     height: 500px;
     border: 0;
     border-radius: 4px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .view__item:not(.active) .codesandbox__wrap iframe {
@@ -145,8 +145,8 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     display: flex;
     gap: 15px;
     height: 500px;
-    background: #191919;
-    color: #fff;
+    background: #f1f2f4;
+    color: #444444;
     padding: 20px 7px 20px 0;
     border-radius: 10px;
     overflow: hidden;
@@ -160,7 +160,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 /* Scrollbar style */
 .files-view__wrap::-webkit-scrollbar-track,
 .directory-structure::-webkit-scrollbar-track {
-    background-color: #2c2c2c;
+    background-color: #ddd;
     border-radius: 5px;
 }
 
@@ -171,7 +171,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 
 .files-view__wrap::-webkit-scrollbar-thumb,
 .directory-structure::-webkit-scrollbar-thumb {
-    background: #4d4d4d;
+    background: #c5cad4;
     border-radius: 5px;
 }
 
@@ -186,7 +186,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     display: block;
     width: 2px;
     height: 100%;
-    background: #272822;
+    background: #c5cad4;
     margin-top: -20px;
     margin-left: -10px;
 }
@@ -253,7 +253,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 
 .folder:hover,
 .file__wrap:hover {
-    background: #2c2c2c;
+    background: #e2e5e9;
 }
 
 .file__wrap {
@@ -261,7 +261,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
 }
 
 .file__wrap.active {
-    background: #2c2c2c;
+    background: #e2e5e9;
 }
 
 .file-view {
