@@ -1,7 +1,7 @@
 .werf-configuration-table {
     border-radius: 4px;
-    color: #f8f8f2;
-    background-color: #272822;
+    color: #444444;
+    background-color: #f1f2f4;
 }
 
 .werf-configuration-table table {
@@ -58,7 +58,7 @@
 }
 
 .werf-configuration-table table tr.section {
-    background: rgba(255,255,255,0.04);
+    background: #e2e5e9;
 }
 
 .werf-configuration-table table tr.directive td:last-child {
@@ -93,7 +93,7 @@
 }
 
 .werf-configuration-table span.btn:hover {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .werf-configuration-table span.btn::after {
@@ -111,7 +111,7 @@
 }
 
 .werf-configuration-table table tr:not(.section):hover {
-    background: rgba(255,255,255,0.04);
+    background: #e2e5e9;
 }
 
 .werf-configuration-table table tr:hover td:last-child,
@@ -142,14 +142,15 @@
 
 .werf-configuration-table code {
     background: #000;
+    color: white;
 }
 
 .werf-configuration-table .line-number-anchor {
-  color: #f8f8f2 !important;
+    color: #444444 !important;
 }
 
 .werf-configuration-table .anchorjs-link {
-  margin-left: -1.4em !important;
+    margin-left: -1.4em !important;
 }
 
 .tooltip {
