@@ -36,6 +36,7 @@ CIOps
 CLI
 CloudYuga
 ClusterRole
+ClusterRoleBinding
 CMD
 CNCF
 CNCF’s
@@ -90,6 +91,7 @@ giterminism
 GitHub
 gitignore
 GitLab
+Gitlab
 GitOps
 Golang
 GPG
@@ -109,6 +111,7 @@ initContainer
 initContainers
 io
 IP
+ITNEXT
 javascript
 JPA
 js
@@ -157,6 +160,7 @@ Palark
 PDB
 PersistentVolumeClaim
 PersistentVolumeClaims
+PVCs
 php
 plugin
 PNG
@@ -200,6 +204,7 @@ sed
 Selectel
 SEMVER
 Sep
+ServiceAccount
 sequelize
 sequelizerc
 Sidekiq
@@ -236,11 +241,14 @@ toolchain
 Tproger
 trdl
 txt
+Ubuntu
+ubuntu
 uninstall
 uptick
 username
 uwsgi
 v1
+v2
 validator
 versioned
 versioning
@@ -339,7 +347,9 @@ YouTube
 парсить
 паттерн
 патчить
+раннер
 раннера
+раннером
 таймаут
 тредами
 хейтеры
@@ -405,8 +415,8 @@ YouTube
 гитерминизм
 деактивации
 деплоймента
-кеширование
 кэширование
+кэшированием
 кэширования
 логирование
 логирования
@@ -505,3 +515,4 @@ YouTube
 автомасштабирование
 автомасштабировании
 мультиплатформенной
+мульти
