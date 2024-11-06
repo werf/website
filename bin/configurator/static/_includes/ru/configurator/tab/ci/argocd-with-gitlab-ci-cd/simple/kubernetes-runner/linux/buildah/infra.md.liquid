@@ -10,7 +10,7 @@
 
 Следуйте [официальным инструкциям](https://docs.gitlab.com/runner/install/) для установки и регистрации GitLab Runner. Если вы собираетесь устанавливать ваш GitLab Runner в Kubernetes, то установите его в namespace `gitlab-ci`.
 
-### Базовая настройка GitLab Runner (без кеширования)
+### Базовая настройка GitLab Runner (без кэширования)
 
 Добавьте следующее в конфигурационный файл GitLab Runner `config.toml`:
 
@@ -54,7 +54,7 @@
       patch_type = "strategic"
 ```
 
-### Базовая настройка Gitlab Runner (с кешированием в Persistent Volumes)
+### Базовая настройка Gitlab Runner (с кэшированием в Persistent Volumes)
 
 Добавьте следующее в конфигурационный файл GitLab Runner `config.toml`:
 
