@@ -38,4 +38,4 @@
 
 * Команда `sysctl -n user.max_user_namespaces` должна вернуть `15000` или больше, а иначе выполните `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-* (Для Ubuntu 23.10 и выше) установите значения `kernel.apparmor_restrict_unprivileged_unconfined` и `kernel.apparmor_restrict_unprivileged_userns` в `0` командой `{ echo "kernel.apparmor_restrict_unprivileged_userns = 0"; echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
+* (Для Ubuntu 23.10 и выше) установите значения `kernel.apparmor_restrict_unprivileged_unconfined` и `kernel.apparmor_restrict_unprivileged_userns` в `0` командой `{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
