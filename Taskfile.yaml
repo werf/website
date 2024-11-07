@@ -173,14 +173,9 @@ tasks:
       - |
         test -f ./scripts/docs/spelling/dictionaries/dev_OPS.dic && rm ./scripts/docs/spelling/dictionaries/dev_OPS.dic
         touch ./scripts/docs/spelling/dictionaries/dev_OPS.dic
-        cat ./scripts/docs/spelling/wordlist | wc -l | sed 's/^[ \t]*//g' > ./scripts/docs/spelling/dictionaries/dev_OPS.dic
-        sort -u -f ./scripts/docs/spelling/wordlist >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
-
-  site:sort-custom-dict:
-    desc: 'Sorts the list of words for a custom dictionary before pushing into the Git.'
-    cmds:
-      - |
+        cat ./scripts/docs/spelling/wordlist | wc -l | sed 's/^[ \t]*//g' >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
         sort -u -f -o ./scripts/docs/spelling/wordlist{,}
+        sort -u -f ./scripts/docs/spelling/wordlist >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
 
   site:get-words-with-typos:
     desc: 'Pulls out a list of all the terms in all pages that were considered a typo'

@@ -85,11 +85,11 @@ sidebar: none
                 <ul class="what-problems__list">
                     <li class="features-card__item">
                         <div class="card__item-title">Детерминированный CI/CD</div>
-                        <div class="card__item-text">What you Git is what you get. werf предлагает подход гитерминизм, который cтимулирует IaC и Git как единый источник истины</div>
+                        <div class="card__item-text">What you Git is what you get. werf предлагает подход гитерминизм, который стимулирует IaC и Git как единый источник истины</div>
                     </li>
                     <li class="features-card__item">
                         <div class="card__item-title">Воспроизводимость сборок</div>
-                        <div class="card__item-text">Cинхронизация с container registry. Однажды собранный образ неизменяем, а работа с container registry скоординирована между сборщиками</div>
+                        <div class="card__item-text">Синхронизация с container registry. Однажды собранный образ неизменяем, а работа с container registry скоординирована между сборщиками</div>
                     </li>
                     <li class="features-card__item">
                         <div class="card__item-title">Предсказуемость выката</div>
