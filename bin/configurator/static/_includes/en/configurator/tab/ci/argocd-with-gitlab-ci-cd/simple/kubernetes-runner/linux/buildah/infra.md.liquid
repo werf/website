@@ -54,7 +54,7 @@ Add the following to the GitLab Runner configuration file `config.toml`:
       patch_type = "strategic"
 ```
 
-### Basic Gitlab Runner Configuration (with caching using Persistent Volumes)
+### Basic GitLab Runner Configuration (with caching using Persistent Volumes)
 
 Add the following to the GitLab Runner configuration file `config.toml`:
 
@@ -166,7 +166,7 @@ spec:
 EOF
 ```
 
-### Configure access to Kubernetes from Gitlab Executor Pods
+### Configure access to Kubernetes from GitLab Executor Pods
 
 werf will run in GitLab Kubernetes Executor Pods. Usually you are going to deploy with werf to the same cluster where GitLab Kubernetes Executor Pods are running. If so, you need to configure custom ServiceAccount and ClusterRoleBinding.
 
