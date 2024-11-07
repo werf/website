@@ -8,6 +8,10 @@
 
   * [Docker Engine](https://docs.docker.com/engine/install/).
 
+### Подготовка окружения
+
+(Для Ubuntu 23.10 и выше) на хосте GitLab Runner запустите `{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
+
 ### Настройка Runner'а
 
 На хосте для запуска CI задач создайте volume `werf`:

@@ -6,6 +6,10 @@
 
 - [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 
+### Prepare the environment
+
+(For Ubuntu 23.10 and later) on the GitLab Runner nodes run `{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
+
 ### Install GitLab Runner
 
 Follow [official instructions](https://docs.gitlab.com/runner/install/) to install and register the GitLab Runner. If you are going to install your GitLab Runner in Kubernetes, then install it to `gitlab-ci` namespace.
