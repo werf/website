@@ -4,6 +4,10 @@
 
 - Kubernetes for running CI jobs with your CI system's Kubernetes Runner.
 
+### Prepare the environment
+
+(For Ubuntu 23.10 and later) on the GitLab Runner nodes run `{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
+
 ### Basic Runner configuration (no caching)
 
 Configure your CI system's Runner so that the Pods you create have the following configuration:
