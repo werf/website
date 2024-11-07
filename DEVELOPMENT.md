@@ -38,3 +38,13 @@ Optionally serve documentation content:
 - `task compose:down` - stop all containers.
 - `task clean` - delete all generated content.
 - `docker network delete werfio-dev` - delete shared docker network (requires task compose:down in werf/werf repository).
+
+### Spell-check management
+
+We use a `./scripts/docs/spelling/wordlist.txt` file as the base for creating a custom spell-check dictionary.
+
+- Add any new words directly to `wordlist.txt` in any order.
+- Run:
+  ```shell
+  task site:generate-special-dictionary
+  ```
