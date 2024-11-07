@@ -4,6 +4,7 @@ on:
     - cron:  '10 6 * * *'
   repository_dispatch:
     types: [cleanup]
+  workflow_dispatch:
 
 env:
   WERF_ENV: "production"

@@ -9,6 +9,8 @@ on:
       - '**/*.md'
       - '**/*.md.liquid'
       - '**/*.html'
+      - 'scripts/docs/**'
+  workflow_dispatch:
 
 env:
   WERF_ENV: "production"
