@@ -40,6 +40,4 @@ Perform the following steps to install Buildah:
 
 * (For Ubuntu 23.10 and later) set values `kernel.apparmor_restrict_unprivileged_unconfined` and `kernel.apparmor_restrict_unprivileged_userns` to `0` with the command: 
 
-```shell
-{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
-```
+      { echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf

@@ -54,9 +54,7 @@
 
 * (Для Ubuntu 23.10 и выше) установите значения `kernel.apparmor_restrict_unprivileged_unconfined` и `kernel.apparmor_restrict_unprivileged_userns` в `0` командой:
 
-```shell
-{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
-```
+      { echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
 
 ### Установка werf
 
