@@ -38,4 +38,6 @@ Follow these steps on the GitLab Runner host to install Buildah:
 
 * The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
-* (For Ubuntu 23.10 and later) set values `kernel.apparmor_restrict_unprivileged_unconfined` and `kernel.apparmor_restrict_unprivileged_userns` to `0` with the command `{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
+* (For Ubuntu 23.10 and later) set values `kernel.apparmor_restrict_unprivileged_unconfined` and `kernel.apparmor_restrict_unprivileged_userns` to `0` with the command:
+
+      { echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
