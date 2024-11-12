@@ -16,8 +16,7 @@ converge:
     - name: Converge
       run: |
         . $(werf ci-env github --as-file)
-        werf cleanup
-        kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        werf converge
       env:
         WERF_SET_ENV_URL: "envUrl=ANY_ENV_URL"
         WERF_ENV: ANY_ENV_NAME
