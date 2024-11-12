@@ -27,6 +27,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install werf
+      uses: werf/actions/install@v2
+
     - name: Generate artifacts
       if: github.ref == 'refs/heads/main'
       run: |
@@ -34,37 +37,42 @@ jobs:
           bash generate_artifacts.sh
 
     - name: Deploy to test
-      uses: werf/actions/converge@v2
       if: contains(github.event.pull_request.labels.*.name, 'test website')
-      with:
-        env: test
-        kube-config-base64-data: ${{ secrets.KUBECONFIG_BASE64_DEV }}
+      run: |
+        . $(werf ci-env github --as-file)
+        werf converge
       env:
         WERF_NAMESPACE: "werfio-test"
         WERF_RELEASE: "werfio-site-test"
         WERF_LOG_VERBOSE: "on"
+        WERF_ENV: "test"
+        WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
 
     - name: Deploy to stage
-      uses: werf/actions/converge@v2
       if: contains(github.event.pull_request.labels.*.name, 'stage website')
+      run: |
+        . $(werf ci-env github --as-file)
+        werf converge
       with:
-        env: stage
         kube-config-base64-data: ${{ secrets.KUBECONFIG_BASE64_DEV }}
       env:
         WERF_NAMESPACE: "werfio-stage"
         WERF_RELEASE: "werfio-site-stage"
         WERF_LOG_VERBOSE: "on"
+        WERF_ENV: "stage"
+        WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
 
     - name: Deploy to production
-      uses: werf/actions/converge@v2
       if: github.ref == 'refs/heads/main'
-      with:
-        env: production
-        kube-config-base64-data: ${{ secrets.KUBECONFIG_BASE64_PROD }}
+      run: |
+        . $(werf ci-env github --as-file)
+        werf converge        
       env:
         WERF_NAMESPACE: "werfio-production"
         WERF_RELEASE: "werfio-site-production"
         WERF_LOG_VERBOSE: "on"
+        WERF_ENV: "production"
+        WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
 
   notification:
     name: Notification

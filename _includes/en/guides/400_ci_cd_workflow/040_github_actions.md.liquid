@@ -6,8 +6,7 @@ The workflow in the repository (a set of GitHub workflow configurations) will be
 * `dismiss` — the job to delete an application (it is used for review environments only);
 * `cleanup` — the job to clean up the container registry.
 
-Jobs are based on comprehensive GitHub Actions, [werf/actions](https://github.com/werf/actions), that include all the necessary steps for setting up a specific environment and running required werf commands. Below, we will discuss examples of their use (detailed information is available in the related repository).
-
+Jobs are based on the werf commnads and GitHub Action, [werf/actions/install](https://github.com/werf/actions/tree/v2/install), which include all the necessary steps to set up a specific environment and perform the necessary actions. Below we will discuss examples of their use.
 The specific set of tiers in the Kubernetes cluster depends on many various factors. In this article, we will examine various options for setting up environments for the following tiers:
 
 * Production;
@@ -59,17 +58,27 @@ werf generates stages on the basis of the git history. So, if there is no histor
 ```
 {% endraw %}
 
-The action `werf/actions/converge` combines all the necessary steps, sets up an environment, and invokes the appropriate command.
+The action `werf/actions/install` perform werf installation.
+
+{% raw %}
+```yaml
+- name: Install
+  uses: werf/actions/install@v2
+```
+{% endraw %}
+
+Step `Converge` sets up an environment, and invokes the appropriate command.
 
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v2
-  with:
-    env: ANY_ENV_NAME
-    kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+  run: |
+    . $(werf ci-env github --as-file)
+    werf converge
   env:
     WERF_SET_ENV_URL: "envUrl=ANY_ENV_URL"
+    WERF_ENV: ANY_ENV_NAME
+    WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
 {% endraw %}
 
@@ -77,14 +86,16 @@ The `kubectl` interface is already pre-installed on GitHub virtual machines, so 
 
 * decide on the [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) configuration;
 * create a secret `KUBE_CONFIG_BASE64_DATA` variable containing the contents of the kubeconfig file (`cat ~/.kube/config | base64`). To do this, go to the Settings/Secrets tab of the project on GitHub.
-* forward the `secrets.KUBE_CONFIG_BASE64_DATA` secret variable to the target werf action:
+* forward the `secrets.KUBE_CONFIG_BASE64_DATA` secret variable to the target werf converge:
 
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v2
-  with:
-    kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+  run: |
+    . $(werf ci-env github --as-file)
+    werf converge
+  env:
+    WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
 {% endraw %}
 
@@ -99,10 +110,11 @@ Now, let us explore other parameters used in this step:
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v2
-  with:
-    env: ANY_ENV_NAME
+  run: |
+    . $(werf ci-env github --as-file)
+    werf converge
   env:
+    WERF_ENV: ANY_ENV_NAME
     WERF_SET_ENV_URL: "envUrl=ANY_ENV_URL"
 ```
 {% endraw %}
@@ -112,9 +124,9 @@ You must define an environment for each tier. In our case, it is defined by:
 * the name (`ANY_ENV_NAME`), and
 * the URL (`ANY_ENV_URL`).
 
-In order to configure the application for using in different tiers, you can use Go templates and the `.Values.werf.env` variable. This is analogous to setting the `env` parameter of the action.
+In order to configure the application for using in different tiers, you can use Go templates and the `.Values.werf.env` variable. This is analogous to setting the `env` parameter of the task.
 
-> The address of an environment is optional. In this article, it is used solely for illustrative purposes and to demonstrate the usage of werf when working with actions (all werf options can be set via environment variables)
+> The address of an environment is optional. In this article, it is used solely for illustrative purposes and to demonstrate the usage of werf (all werf options can be set via environment variables)
 
 You can also use the environment address — the URL for accessing the application deployed to the tier — in helm templates (for example, for configuring Ingress resources). It is passed via the `envUrl` parameter. You can find out the URL via the `WERF_SET_ENV_URL` environment variable (it is analogous to run werf with the `--set` (`WERF_SET_<ANY_NAME>`) argument).
 

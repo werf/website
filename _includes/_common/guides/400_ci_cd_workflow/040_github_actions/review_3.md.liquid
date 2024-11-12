@@ -30,19 +30,26 @@ jobs:
           echo WERF_SET_ENV_URL=envUrl=http://${github_repository_id}-${pr_id}.kube.DOMAIN >> $GITHUB_ENV
         if: contains( github.event.pull_request.labels.*.name, 'review' )
 
+      - name: Install werf
+        uses: werf/actions/install@v2
+
       - name: Converge
-        uses: werf/actions/converge@v2
-        with:
-          env: review-${{ github.event.number }}
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         if: contains( github.event.pull_request.labels.*.name, 'review' )
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
+        env:
+          WERF_ENV: review-${{ github.event.number }}
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 
       - name: Dismiss
-        uses: werf/actions/dismiss@v2
-        with:
-          env: review-${{ github.event.number }}
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         if: "!contains( github.event.pull_request.labels.*.name, 'review' )"
+        run: |
+          . $(werf ci-env github --as-file)
+          werf dismiss
+        env:
+          WERF_ENV: review-${{ github.event.number }}
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
 {% endraw %}
 
@@ -69,11 +76,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install werf
+        uses: werf/actions/install@v2
+
       - name: Dismiss
-        uses: werf/actions/dismiss@v2
-        with:
-          env: review-${{ github.event.number }}
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        run: |
+          . $(werf ci-env github --as-file)
+          werf dismiss
+        env:
+          WERF_ENV: review-${{ github.event.number }}
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
 {% endraw %}
 

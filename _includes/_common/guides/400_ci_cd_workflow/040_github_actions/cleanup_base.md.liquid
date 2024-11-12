@@ -19,9 +19,16 @@ jobs:
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
 
+      - name: Install werf
+        uses: werf/actions/install@v2
+
       - name: Cleanup
-        uses: werf/actions/cleanup@v2
-        with:
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        run: |
+          . $(werf ci-env github --as-file)
+          werf cleanup
+        env:
+          WERF_REPO: ...
+          WERF_REPO_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_KUBE_CONFIG_BASE64:  ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
 {% endraw %}
