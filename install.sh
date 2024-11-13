@@ -226,8 +226,7 @@ propose_joining_docker_group() {
   declare override_join_docker_group="$1"
 
   [[ $override_join_docker_group == "no" ]] && return 0
-  ensure_cmds_available getent 
-  if [ $(getent group docker) ]; then
+  if is_command_exists docker; then
     is_user_in_group "$(get_user)" docker && return 0
     is_root && return 0
     ensure_cmds_available usermod
