@@ -60,6 +60,13 @@
 
 Следующим шагом используется action `werf/actions/install`, который выполняет установку werf.
 
+{% raw %}
+```yaml
+- name: Install
+  uses: werf/actions/install@v2
+```
+{% endraw %}
+
 Затем шаг `Converge` подготавливает окружение и вызывает соответствующую команду.
 
 {% raw %}
