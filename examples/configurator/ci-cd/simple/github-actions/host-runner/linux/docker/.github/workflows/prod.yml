@@ -7,7 +7,7 @@ on:
 jobs:
   prod:
     name: prod
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
@@ -20,4 +20,4 @@ jobs:
           werf converge
         env:
           WERF_ENV: prod
-          WERF_BUILDAH_MODE: auto
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}

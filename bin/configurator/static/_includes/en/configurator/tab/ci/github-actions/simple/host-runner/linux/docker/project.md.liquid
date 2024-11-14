@@ -12,7 +12,7 @@ Save the kubeconfig file to access the Kubernetes cluster as a `KUBECONFIG_BASE6
 
 This is how the repository that uses werf for build and deploy might look:
 
-{% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/host-runner/linux/buildah' default_file='.github/workflows/prod.yml' %}
+{% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/host-runner/linux/docker' default_file='.github/workflows/prod.yml' %}
 
 Extras:
   * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).

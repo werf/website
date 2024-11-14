@@ -100,7 +100,7 @@ combinations:
       - name: "buildBackend"
         value: "docker"
 
-  # github actions simple
+  # GitHub actions host docker
   - tabs:
       - name: "project"
         includePath: "/configurator/tab/ci/github-actions/simple/host-runner/linux/docker/project.md.liquid"
@@ -115,6 +115,30 @@ combinations:
         value: "linux"
       - name: "buildBackend"
         value: "docker"
+      - name: "projectType"
+        value: "simplified"
+      - name: "sharedCICD"
+        value: "no"
+      - name: "repoType"
+        value: "application"
+
+  # GitHub Actions host buildah
+  - tabs:
+      - name: "infra"
+        includePath: "/configurator/tab/ci/github-actions/simple/host-runner/linux/buildah/infra.md.liquid"
+      - name: "project"
+        includePath: "/configurator/tab/ci/github-actions/simple/host-runner/linux/buildah/project.md.liquid"
+    options:
+      - name: "usage"
+        value: "ci"
+      - name: "ci"
+        value: "githubActions"
+      - name: "runnerType"
+        value: "hostRunner"
+      - name: "os"
+        value: "linux"
+      - name: "buildBackend"
+        value: "buildah"
       - name: "projectType"
         value: "simplified"
       - name: "sharedCICD"
