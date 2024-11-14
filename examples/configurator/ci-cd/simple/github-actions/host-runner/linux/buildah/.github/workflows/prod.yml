@@ -23,3 +23,4 @@ jobs:
           WERF_BUILDAH_MODE: auto
           WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_BUILDAH_MODE: auto
