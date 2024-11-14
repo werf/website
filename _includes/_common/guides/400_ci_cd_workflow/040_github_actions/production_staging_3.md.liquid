@@ -31,6 +31,7 @@ jobs:
           WERF_ENV: "staging"
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
           WERF_SET_ENV_URL: "envUrl=http://staging-company.kube.DOMAIN"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 
@@ -71,6 +72,7 @@ jobs:
           WERF_ENV: "production"
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
           WERF_SET_ENV_URL: "envUrl=https://www.company.org"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 

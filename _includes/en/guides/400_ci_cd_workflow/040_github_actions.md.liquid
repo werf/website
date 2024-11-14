@@ -79,6 +79,7 @@ Step `Converge` sets up an environment, and invokes the appropriate command.
     WERF_SET_ENV_URL: "envUrl=ANY_ENV_URL"
     WERF_ENV: ANY_ENV_NAME
     WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 
@@ -96,6 +97,7 @@ The `kubectl` interface is already pre-installed on GitHub virtual machines, so 
     werf converge
   env:
     WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 
@@ -116,6 +118,7 @@ Now, let us explore other parameters used in this step:
   env:
     WERF_ENV: ANY_ENV_NAME
     WERF_SET_ENV_URL: "envUrl=ANY_ENV_URL"
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 

@@ -40,6 +40,7 @@ jobs:
         env:
           WERF_ENV: review-${{ github.event.number }}
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 
@@ -77,6 +78,7 @@ jobs:
         env:
           WERF_ENV: review-${{ github.event.number }}
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 

@@ -47,6 +47,7 @@ jobs:
         WERF_LOG_VERBOSE: "on"
         WERF_ENV: "test"
         WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Deploy to stage
       if: contains(github.event.pull_request.labels.*.name, 'stage website')
@@ -59,6 +60,7 @@ jobs:
         WERF_LOG_VERBOSE: "on"
         WERF_ENV: "stage"
         WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Deploy to production
       if: github.ref == 'refs/heads/main'
@@ -71,6 +73,7 @@ jobs:
         WERF_LOG_VERBOSE: "on"
         WERF_ENV: "production"
         WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   notification:
     name: Notification

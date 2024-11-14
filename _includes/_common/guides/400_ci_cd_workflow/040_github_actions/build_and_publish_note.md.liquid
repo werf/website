@@ -25,6 +25,7 @@
 >       env:
 >         WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 >         WERF_REPO: "example.org/mycompany/myapp"
+>         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 > 
 > converge:
 >   name: Converge
@@ -48,6 +49,7 @@
 >         WERF_ENV: production
 >         WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 >         WERF_REPO: "example.org/mycompany/myapp"
+>         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 >
 > ```
 > {% endraw %}
