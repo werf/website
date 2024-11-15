@@ -1,0 +1,19 @@
+### Requirements
+
+- GitHub;
+
+- Host to run GitHub Runner with:
+
+  - [Docker Engine](https://docs.docker.com/engine/install/).
+
+### Prepare the environment
+
+(For Ubuntu 23.10 and later) on the GitHub Runner host run:
+
+```shell
+{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
+```
+
+### Installing GitHub Runner
+
+Install GitHub Runner on its dedicated host by following the [official instructions](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners).
