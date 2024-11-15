@@ -21,3 +21,4 @@ jobs:
         env:
           WERF_ENV: prod
           WERF_BUILDAH_MODE: auto
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
