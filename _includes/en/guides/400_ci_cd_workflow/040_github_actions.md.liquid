@@ -83,6 +83,8 @@ Step `Converge` sets up an environment, and invokes the appropriate command.
 ```
 {% endraw %}
 
+> Environment variables `WERF_REPO`, `GITHUB_TOKEN` and `WERF_REPO_GITHUB_TOKEN` for converge should only be used if building images is required otherwise they can be omitted 
+
 The `kubectl` interface is already pre-installed on GitHub virtual machines, so the user only needs to:
 
 * decide on the [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) configuration;
@@ -104,6 +106,8 @@ The `kubectl` interface is already pre-installed on GitHub virtual machines, so 
 Job configuring is quite simple, so we prefer to focus on what it lacks — an explicit authorization in the container registry, and calling the `werf cr login`.
 
 In the simplest case, if an [integrated GitHub Packages-like container registry](https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages) is used, then the authorization is performed automatically when the `werf ci-env` command is invoked. This command is run with several required arguments such as GitHub environment variables, the [`GITHUB_TOKEN` secret](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret) (you have to explicitly declare it), and the name of the user (`GITHUB_ACTOR`) who started the workflow process.
+
+> Using `. $(werf ci-env github --as-file)` you need to explicitly pass the `GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}` variable
 
 If there is a need to perform authorization using custom credentials or in an external container registry, then you have to use a ready-made action tailored to your container registry (or just run `werf cr login`).
 

@@ -83,6 +83,8 @@
 ```
 {% endraw %}
 
+> Переменные окружения `WERF_REPO`, `GITHUB_TOKEN` и `WERF_REPO_GITHUB_TOKEN` должны быть использованы только в том случае, если необходима сборка образов иначе можно их опустить
+
 Среди предустановленного ПО на виртуальных машинах GitHub уже установлен `kubectl`, поэтому пользователю остаётся только:
 * определиться с конфигурацией [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/);
 * создать секретную переменную `KUBE_CONFIG_BASE64_DATA` с контентом файла kubeconfig (`cat ~/.kube/config | base64`) в Settings/Secrets проекта на GitHub.
@@ -103,6 +105,8 @@
 Конфигурация задания достаточно проста, поэтому хочется сделать акцент на том, чего в ней нет — явной авторизации в container registry, вызова `werf cr login`.
 
 В простейшем случае, при использовании встроенного [container registry](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#external-events-repository_dispatch), авторизация выполняется автоматически при вызове команды `werf ci-env`. В качестве необходимых аргументов используются переменные окружения GitHub, [секретная переменная `GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret), а также имя пользователя (`GITHUB_ACTOR`) инициировавшего запуск workflow.
+
+> Используя `. $(werf ci-env github --as-file)` нужно явно передавать переменную `GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}`
 
 Если необходимо выполнить авторизацию с произвольными учётными данными или с внешним container registry, то необходимо использовать готовый action для вашего container registry или просто выполнить `werf cr login` перед.
 
