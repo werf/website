@@ -27,8 +27,8 @@ jobs:
           . $(werf ci-env github --as-file)
           werf cleanup
         env:
-          WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
           WERF_KUBE_CONFIG_BASE64:  ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
 ```
 {% endraw %}
