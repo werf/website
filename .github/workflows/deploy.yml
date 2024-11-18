@@ -27,14 +27,14 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install werf
-      uses: werf/actions/install@v2
-
     - name: Generate artifacts
       if: github.ref == 'refs/heads/main'
       run: |
           cd .werf/artifacts
           bash generate_artifacts.sh
+
+    - name: Install werf
+      uses: werf/actions/install@v2
 
     - name: Deploy to test
       if: contains(github.event.pull_request.labels.*.name, 'test website')

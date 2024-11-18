@@ -17,14 +17,14 @@ jobs:
     name: Cleanup
     runs-on: ubuntu-latest-4-cores
     steps:
-      - name: Install werf
-        uses: werf/actions/install@v2
-
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
+
+      - name: Install werf
+        uses: werf/actions/install@v2
 
       - name: Cleanup
         run: |
