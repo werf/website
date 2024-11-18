@@ -5,7 +5,7 @@
 * `dismiss` — задание удаления приложения (используется только для review окружений);
 * `cleanup` — задание очистки container registry.
 
-Ключевыми шагами заданий будут наши комплексные GitHub Actions, [werf/actions](https://github.com/werf/actions), которые сочетают в себе все необходимые шаги по подготовке окружения и выполнения требуемых werf команд. В статье будут рассмотрены примеры использования большинства из них, больше подробностей можно найти в репозитории набора.
+Ключевыми шагами заданий будут команды werf и наш GitHub Actions, [werf/actions/install](https://github.com/werf/actions/tree/v2/install), которые сочетают в себе все необходимые шаги по подготовке окружения и выполнения требуемых действий.
 
 Набор контуров в кластере Kubernetes может варьироваться в зависимости от многих факторов.
 В статье будут приведены различные варианты организации окружений для следующих:
@@ -58,37 +58,55 @@
 ```
 {% endraw %}
 
-Следующим шагом используется action `werf/actions/converge`, который объединяет все необходимые шаги, подготавливает окружение и вызывает соответствующую команду.
+Следующим шагом используется action `werf/actions/install`, который выполняет установку werf.
+
+{% raw %}
+```yaml
+- name: Install
+  uses: werf/actions/install@v2
+```
+{% endraw %}
+
+Затем шаг `Converge` подготавливает окружение и вызывает соответствующую команду.
 
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v2
-  with:
-    env: ANY_ENV_NAME
-    kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+  run: |
+    . $(werf ci-env github --as-file)
+    werf converge
   env:
-    WERF_SET_ENV_URL: "env_url=ANY_ENV_URL"
+    WERF_SET_ENV_URL: "envUrl=ANY_ENV_URL"
+    WERF_ENV: ANY_ENV_NAME
+    WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
+
+> Переменные окружения **`WERF_REPO`** и **`GITHUB_TOKEN`** должны быть использованы только в том случае, если необходима сборка образов, иначе можно их опустить
 
 Среди предустановленного ПО на виртуальных машинах GitHub уже установлен `kubectl`, поэтому пользователю остаётся только:
 * определиться с конфигурацией [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/);
 * создать секретную переменную `KUBE_CONFIG_BASE64_DATA` с контентом файла kubeconfig (`cat ~/.kube/config | base64`) в Settings/Secrets проекта на GitHub.
-* прокинуть секретную переменную `secrets.KUBE_CONFIG_BASE64_DATA` в используемый werf action:
+* прокинуть секретную переменную `secrets.KUBE_CONFIG_BASE64_DATA` в используемый werf converge:
 
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v2
-  with:
-    kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+  run: |
+    . $(werf ci-env github --as-file)
+    werf converge
+  env:
+    WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 
 Конфигурация задания достаточно проста, поэтому хочется сделать акцент на том, чего в ней нет — явной авторизации в container registry, вызова `werf cr login`.
 
 В простейшем случае, при использовании встроенного [container registry](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#external-events-repository_dispatch), авторизация выполняется автоматически при вызове команды `werf ci-env`. В качестве необходимых аргументов используются переменные окружения GitHub, [секретная переменная `GITHUB_TOKEN`](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret), а также имя пользователя (`GITHUB_ACTOR`) инициировавшего запуск workflow.
+
+> Используя `. $(werf ci-env github --as-file)` нужно явно передавать переменную `GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}`
 
 Если необходимо выполнить авторизацию с произвольными учётными данными или с внешним container registry, то необходимо использовать готовый action для вашего container registry или просто выполнить `werf cr login` перед.
 
@@ -97,11 +115,13 @@
 {% raw %}
 ```yaml
 - name: Converge
-  uses: werf/actions/converge@v2
-  with:
-    env: ANY_ENV_NAME
+  run: |
+    . $(werf ci-env github --as-file)
+    werf converge
   env:
+    WERF_ENV: ANY_ENV_NAME
     WERF_SET_ENV_URL: "env_url=ANY_ENV_URL"
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 
@@ -109,9 +129,9 @@
 * именем (`ANY_ENV_NAME`) и;
 * URL (`ANY_ENV_URL`).
 
-Для того, чтобы по-разному конфигурировать приложение для используемых контуров кластера в helm-шаблонах можно использовать Go-шаблоны и переменную `.Values.werf.env`, что соответствует значению, которое задаётся в качестве параметра у action (`env`).
+Для того, чтобы по-разному конфигурировать приложение для используемых контуров кластера в helm-шаблонах можно использовать Go-шаблоны и переменную `.Values.werf.env`, что соответствует значению, которое задаётся в качестве параметра у шага (`env`).
 
-> Адрес окружения является необязательным. В данной статье используется исключительно в качестве примера организации окружений и для демонстрации работы с опциями werf при использовании actions (все опции werf можно задавать через переменные окружения)
+> Адрес окружения является необязательным. В данной статье используется исключительно в качестве примера организации окружений и для демонстрации работы с опциями werf (все опции werf можно задавать через переменные окружения)
 
 Адрес окружения, URL для доступа к разворачиваемому в контуре приложению, который передаётся параметром `env_url`, может использоваться в helm-шаблонах, например, для конфигурации Ingress-ресурсов. Для того, чтобы определить URL, используется переменная окружения `WERF_SET_ENV_URL`, которая соответствует вызову werf с опцией `--set` (`WERF_SET_<ANY_NAME>`).
 

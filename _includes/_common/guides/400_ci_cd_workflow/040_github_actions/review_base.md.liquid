@@ -23,11 +23,17 @@ jobs:
           github_repository_id=$(echo ${GITHUB_REPOSITORY} | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
           echo WERF_SET_ENV_URL=envUrl=http://${github_repository_id}-${pr_id}.kube.DOMAIN >> $GITHUB_ENV
   
+      - name: Install werf
+        uses: werf/actions/install@v2
+
       - name: Converge
-        uses: werf/actions/converge@v2
-        with:
-          env: review-${{ github.event.number }}
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
+        env:
+          WERF_ENV: review-${{ github.event.number }}
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 

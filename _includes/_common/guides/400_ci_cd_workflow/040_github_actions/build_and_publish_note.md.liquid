@@ -14,14 +14,21 @@
 >       uses: actions/checkout@v3
 >       with:
 >         fetch-depth: 0
+>       
+>     - name: Install werf
+>       uses: werf/actions/install@v2
+>
+>     - name: Build
+>       run: |
+>         . $(werf ci-env github --as-file)
+>         werf build
+>       env:
+>         WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+>         WERF_REPO: "example.org/mycompany/myapp"
+>         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 > 
->     - name: Build and Publish
->       uses: werf/actions/build-and-publish@master
->       with:
->         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
-> 
-> deploy:
->   name: Deploy
+> converge:
+>   name: Converge
 >   needs: build-and-publish
 >   runs-on: ubuntu-latest
 >   steps:
@@ -30,12 +37,20 @@
 >       uses: actions/checkout@v3
 >       with:
 >         fetch-depth: 0
-> 
->     - name: Deploy
->       uses: werf/actions/deploy@v2
->       with:
->         env: production
->         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+>
+>     - name: Install werf
+>       uses: werf/actions/install@v2
+>
+>     - name: Converge
+>       run: |
+>         . $(werf ci-env github --as-file)
+>         werf converge --require-built-images
+>       env:
+>         WERF_ENV: production
+>         WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+>         WERF_REPO: "example.org/mycompany/myapp"
+>         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+>
 > ```
 > {% endraw %}
 > 

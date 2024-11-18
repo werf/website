@@ -23,8 +23,14 @@ jobs:
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
 
+      - name: Install werf
+        uses: werf/actions/install@v2
+
       - name: Cleanup
-        uses: werf/actions/cleanup@43075e4ab81952b181d33e125ef15b9c060a782e
+        run: |
+          . $(werf ci-env github --as-file)
+          werf cleanup
         env:
           WERF_LOG_VERBOSE: "on"
           WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
