@@ -20,13 +20,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install werf
+        uses: werf/actions/install@v2
+
       - name: Converge
-        uses: werf/actions/converge@v2
-        with:
-          env: staging
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
         env:
+          WERF_ENV: "staging"
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
           WERF_SET_ENV_URL: "envUrl=http://staging-company.kube.DOMAIN"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 ```
 {% endraw %}
 
@@ -55,13 +61,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install werf
+        uses: werf/actions/install@v2
+
       - name: Converge
-        uses: werf/actions/converge@v2
-        with:
-          env: production
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
         env:
+          WERF_ENV: "production"
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
           WERF_SET_ENV_URL: "envUrl=https://www.company.org"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 {% endraw %}
 
