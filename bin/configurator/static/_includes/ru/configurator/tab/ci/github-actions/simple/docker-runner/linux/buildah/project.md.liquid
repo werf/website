@@ -1,5 +1,7 @@
 ### Конфигурация CI/CD проекта
 
+> Если хост GitHub Runner’а имеет версию ядра Linux 5.12 или ниже, то установите на хост fuse и добавьте в опцию `--device /dev/fuse`
+
 Так может выглядеть репозиторий, использующий werf для сборки и развертывания:
 
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/docker-runner/linux/buildah' default_file='.github/workflows/prod.yml' %}

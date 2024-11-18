@@ -11,6 +11,8 @@ jobs:
     container:
       image: ghcr.io/werf/werf:2-stable-ubuntu
       options: --security-opt "seccomp:unconfined" --security-opt "apparmor:unconfined"
+      volumes:
+        - /home/build/.werf
     steps:
       - uses: actions/checkout@v3
         with:
