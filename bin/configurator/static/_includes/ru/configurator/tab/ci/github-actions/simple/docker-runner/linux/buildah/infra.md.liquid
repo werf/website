@@ -1,6 +1,8 @@
+> Подготовка инфрастурктуры для self-hosted GitHub Runner
+
 ### Требования
 
-- GitHub;
+- GitHub Actions;
 
 - Linux-хост для установки GitHub Runner, имеющий:
 
@@ -17,3 +19,15 @@
 ### Установка GitHub Runner
 
 Установите GitHub Runner на выделенный для него хост, следуя [официальным инструкциям](https://docs.github.com/ru/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners).
+
+{% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
+
+### Подготовка системы к кроссплатформенной сборке (опционально)
+
+{% include configurator/partials/ci/cross_platform_note.md.liquid %}
+
+Регистрируем в системе эмуляторы с помощью образа qemu-user-static:
+
+```shell
+docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
+```

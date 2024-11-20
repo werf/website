@@ -102,6 +102,8 @@ combinations:
 
   # GitHub actions host docker
   - tabs:
+      - name: "infra"
+        includePath: "/configurator/tab/ci/github-actions/simple/host-runner/linux/docker/infra.md.liquid"
       - name: "project"
         includePath: "/configurator/tab/ci/github-actions/simple/host-runner/linux/docker/project.md.liquid"
     options:

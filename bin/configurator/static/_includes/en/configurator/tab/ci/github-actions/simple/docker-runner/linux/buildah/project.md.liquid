@@ -1,7 +1,16 @@
-### Configuring CI/CD of the project
+### Requirements
 
-> If the GitHub Runner host runs Linux kernel version 5.12 or lower, install fuse on the host and add an extra option `--device /dev/fuse`:
+* GitHub Actions;
+
+* GitHub-hosted Runner or self-hosted runner.
+
+### Configuring CI/CD of the project
 
 This is how the repository that uses werf for build and deploy might look:
 
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/docker-runner/linux/buildah' default_file='.github/workflows/prod.yml' %}
+
+Extras:
+  * To use GitHub-hosted Runner, specify `ubuntu-latest` in `runs-on:`
+  * If the GitHub Runner host is running Linux kernel version 5.12 or lower, install `fuse` on the host and add `--device /dev/fuse` to `options`:
+  * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).

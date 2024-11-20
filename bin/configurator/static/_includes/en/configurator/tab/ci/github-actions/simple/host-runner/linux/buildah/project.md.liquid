@@ -1,3 +1,13 @@
+### Requirements
+
+* GitHub Actions;
+
+* GitHub-hosted Runner or self-hosted runner.
+
+### Setting up a GitHub project
+
+Save the kubeconfig file to access the Kubernetes cluster as a `KUBECONFIG_BASE64` [encrypted secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets), pre-encoding it in Base64.
+
 ### Configuring CI/CD of the project
 
 This is how the repository that uses werf for build and deploy might look:
@@ -5,4 +15,5 @@ This is how the repository that uses werf for build and deploy might look:
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/host-runner/linux/buildah' default_file='.github/workflows/prod.yml' %}
 
 Extras:
+  * To use GitHub-hosted Runner, specify `ubuntu-latest` in `runs-on:`
   * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
