@@ -19,14 +19,3 @@
 ### Installing GitHub Runner
 
 Install GitHub Runner on its dedicated host by following the [official instructions](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners).
-
-### Preparing the system for cross-platform building (optional)
-
-{% include configurator/partials/ci/cross_platform_note.md.liquid %}
-
-
-Register emulators on your system using qemu-user-static:
-
-```shell
-docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
-```

@@ -17,7 +17,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
+      #   uncomment this block for cross-platform build
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: linux/amd64, linux/arm64
+
       - run: |
           . "$(werf ci-env github --as-file)"
           werf converge
