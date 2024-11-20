@@ -1,0 +1,24 @@
+> Preparing your infrastructure for self-hosting GitHub Runner
+
+### Requirements
+
+- GitHub Actions;
+
+- Host to run GitHub Runner with:
+
+  - [Docker Engine](https://docs.docker.com/engine/install/).
+
+### Installing the GitHub Runner
+
+Follow [official instructions](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners) to install the GitHub Runner on your dedicated host.
+
+### Preparing the system for cross-platform building (optional)
+
+{% include configurator/partials/ci/cross_platform_note.md.liquid %}
+
+
+Register emulators on your system using qemu-user-static:
+
+```shell
+docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
+```
