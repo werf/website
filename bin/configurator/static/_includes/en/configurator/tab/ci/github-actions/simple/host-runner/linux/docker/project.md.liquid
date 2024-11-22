@@ -31,6 +31,9 @@ This is how the repository that uses werf for build and deploy might look:
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/host-runner/linux/docker' default_file='.github/workflows/prod.yml' %}
 
 Extras:
+
   * To use GitHub-hosted Runner, specify `ubuntu-latest` in `runs-on`;
+
   * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }});
+  
   * For more information about action `docker/setup-qemu-action` see [here](https://github.com/docker/setup-qemu-action?tab=readme-ov-file#usage).
