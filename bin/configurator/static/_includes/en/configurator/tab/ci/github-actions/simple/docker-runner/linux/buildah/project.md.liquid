@@ -34,8 +34,6 @@ Extras:
 
   * To use GitHub-hosted Runner, specify `ubuntu-latest` in `runs-on`;
 
-  * If the GitHub Runner host is running Linux kernel version 5.12 or lower, install `fuse` on the host and add `--device /dev/fuse` to `options`;
-
   * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }});
   
   * For more information about action `docker/setup-qemu-action` see [here](https://github.com/docker/setup-qemu-action?tab=readme-ov-file#usage).
