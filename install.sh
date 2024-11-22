@@ -73,6 +73,10 @@ main() {
     install_package buildah
   fi
 
+  if ! is_command_exists curl; then
+    install_package curl
+  fi
+
   # Get the current user's name
   CURRENT_USER=$(get_user)
 
@@ -86,20 +90,25 @@ main() {
   # Ensure the current user has read and write access to the directory
   chmod u+rw "$CONTAINER_PATH"
   echo "Set read and write permissions for $CURRENT_USER in $CONTAINER_PATH"
-
-  # Check the sysctl value: kernel.unprivileged_userns_clone
-  KERNEL_SETTING=$(sysctl -ne kernel.unprivileged_userns_clone)
-  KERNEL_APPARMOR=$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)
-  if [ "$(grep -i "ubuntu" /etc/*release)" ] && [ "$KERNEL_APPARMOR" -eq 1 ] ; then
-    echo "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
-    { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
-      echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
-      run_as_root "sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf"
-    fi
-  if [ "$KERNEL_SETTING" -eq 0 ]; then
+  
+  # Check if kernel.unprivileged_userns_clone exists
+  if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then
+    KERNEL_SETTING=$(sysctl -ne kernel.unprivileged_userns_clone)
+    if [ "$KERNEL_SETTING" -eq 0 ]; then
     echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
     run_as_root "sysctl -p"
     echo "Updated kernel.unprivileged_userns_clone value"
+    fi
+  fi
+  # Check if kernel.apparmor_restrict_unprivileged_userns exists
+  if ! [ -z $(sysctl -ne kernel.apparmor_restrict_unprivileged_userns) ]; then
+    KERNEL_APPARMOR=$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)
+    if [ "$KERNEL_APPARMOR" -eq 1 ]; then
+      echo "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
+      { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
+        echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
+        run_as_root "sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf"
+    fi
   fi
 
   # Check the sysctl value: user.max_user_namespaces
