@@ -78,16 +78,6 @@ main() {
     shell="$OPT_SHELL"
   fi
 
-  # declare linux_distro
-  # if [[ $os == "linux" ]]; then
-  #   linux_distro="$(get_linux_distro)" || abort "Failure getting Linux distro."
-  # fi
-
-  # declare darwin_version
-  # if [[ $os == "darwin" ]]; then
-  #   darwin_version="$(sw_vers -productVersion)" || abort "Failure getting macOS version."
-  # fi
-
   [[ $os == "linux" ]] && propose_joining_docker_group "$OPT_JOIN_DOCKER_GROUP"
   setup_trdl_bin_path "$shell" "$OPT_SETUP_BIN_PATH"
   install_trdl "$os" "$arch" "$OPT_TRDL_TUF_REPO" "$OPT_TRDL_PGP_PUBKEY_URL" "$OPT_INITIAL_TRDL_VERSION" "$OPT_VERIFY_TRDL_SIGNATURE"
@@ -236,12 +226,15 @@ propose_joining_docker_group() {
   declare override_join_docker_group="$1"
 
   [[ $override_join_docker_group == "no" ]] && return 0
-  is_user_in_group "$(get_user)" docker && return 0
-  is_root && return 0
-
-  ensure_cmds_available usermod
-  [[ $override_join_docker_group == "auto" ]] && prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
-  run_as_root "usermod -aG docker '$(get_user)'" || abort "Can't add user \"$(get_user)\" to group \"docker\"."
+  if is_command_exists docker; then
+    is_user_in_group "$(get_user)" docker && return 0
+    is_root && return 0
+    ensure_cmds_available usermod
+    [[ $override_join_docker_group == "auto" ]] && prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
+    run_as_root "usermod -aG docker '$(get_user)'" || abort "Can't add user \"$(get_user)\" to group \"docker\"."
+  else
+    return 0
+  fi    
 }
 
 setup_trdl_bin_path() {
