@@ -4,6 +4,26 @@
 
 * GitHub-hosted Runner или self-hosted GitHub runner.
 
+### Настройка проекта GitHub
+
+* [Создайте и сохраните access token](https://docs.github.com/ru/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) для очистки ненужных образов из container registry со следующей конфигурацией:
+
+  * Token name: `werf-images-cleanup`;
+
+  * Scopes: `read:packages` и `delete:packages`.
+
+* В [секреты](https://docs.github.com/ru/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) проекта добавьте следующую переменную:
+
+  * Access token для очистки ненужных образов:
+
+    * Name: `REGISTRY_CLEANUP_TOKEN`;
+
+    * Secret: `<сохранённый "werf-images-cleanup" access token>`.
+
+* [Добавьте плановое задание](https://docs.github.com/ru/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule) на каждую ночь для очистки ненужных образов в container registry, указав ветку main/master в качестве Target branch.
+
+* Сохраните kubeconfig-файл для доступа к Kubernetes-кластеру [в зашифрованный секрет](https://docs.github.com/ru/actions/security-guides/encrypted-secrets) `KUBECONFIG_BASE64`, предварительно закодировав его в Base64.
+
 ### Конфигурация CI/CD проекта
 
 Так может выглядеть репозиторий, использующий werf для сборки и развертывания:
@@ -12,5 +32,7 @@
 
 {% capture registry_guide_url %}/docs/v2/usage/cleanup/cr_cleanup.html#%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%BB%D0%B8%D1%87%D0%BD%D1%8B%D0%BC%D0%B8-container-registries{% endcapture %}
 Дополнительно:
-  * Для использования GitHub-hosted Runner укажите `ubuntu-latest` в `runs-on:`
+
+  * Для использования GitHub-hosted Runner укажите `ubuntu-latest` в `runs-on`;
+
   * Добавьте для `werf cleanup` опции авторизации в container registry, следуя [инструкциям]({{ registry_guide_url | relative_url }}).
