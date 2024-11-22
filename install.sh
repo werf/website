@@ -14,6 +14,8 @@ main() {
   OPT_DEFAULT_JOIN_DOCKER_GROUP="auto"
   OPT_DEFAULT_SETUP_BIN_PATH="auto"
   OPT_DEFAULT_AUTOACTIVATE_WERF="auto"
+  OPT_DEFAULT_PREPARE_ENVIRONMENT_FOR_WERF="auto"
+  OPT_DEFAULT_PREPARE_ENVIRONMENT_FOR_BUILDAH="auto"
   OPT_DEFAULT_VERIFY_TRDL_SIGNATURE="yes"
   OPT_DEFAULT_SHELL="auto"
   OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION="2"
@@ -43,13 +45,16 @@ main() {
     OPT_JOIN_DOCKER_GROUP="${OPT_JOIN_DOCKER_GROUP:-"no"}"
     OPT_SETUP_BIN_PATH="${OPT_SETUP_BIN_PATH:-"no"}"
     OPT_AUTOACTIVATE_WERF="${OPT_AUTOACTIVATE_WERF:-"no"}"
+    OPT_PREPARE_ENVIRONMENT_FOR_WERF="${OPT_PREPARE_ENVIRONMENT_FOR_WERF:-"no"}"
+    OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH="${OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH:-"no"}"
   else
     OPT_INTERACTIVE="${OPT_INTERACTIVE:-$OPT_DEFAULT_INTERACTIVE}"
     OPT_JOIN_DOCKER_GROUP="${OPT_JOIN_DOCKER_GROUP:-$OPT_DEFAULT_JOIN_DOCKER_GROUP}"
     OPT_SETUP_BIN_PATH="${OPT_SETUP_BIN_PATH:-$OPT_DEFAULT_SETUP_BIN_PATH}"
     OPT_AUTOACTIVATE_WERF="${OPT_AUTOACTIVATE_WERF:-$OPT_DEFAULT_AUTOACTIVATE_WERF}"
+    OPT_PREPARE_ENVIRONMENT_FOR_WERF="${OPT_PREPARE_ENVIRONMENT_FOR_WERF:-$OPT_DEFAULT_PREPARE_ENVIRONMENT_FOR_WERF}"
+    OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH="${OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH:-$OPT_DEFAULT_PREPARE_ENVIRONMENT_FOR_BUILDAH}"
   fi
-
   OPT_VERIFY_TRDL_SIGNATURE="${OPT_VERIFY_TRDL_SIGNATURE:-$OPT_DEFAULT_VERIFY_TRDL_SIGNATURE}"
   OPT_SHELL="${OPT_SHELL:-$OPT_DEFAULT_SHELL}"
   OPT_WERF_AUTOACTIVATE_VERSION="${OPT_WERF_AUTOACTIVATE_VERSION:-$OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION}"
@@ -61,65 +66,11 @@ main() {
   OPT_WERF_TUF_ROOT_VERSION="${OPT_WERF_TUF_ROOT_VERSION:-$OPT_DEFAULT_WERF_TUF_ROOT_VERSION}"
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
 
-  if ! is_command_exists git; then
-    install_package git
-  fi
+  prepare_environment_for_werf "$OPT_PREPARE_ENVIRONMENT_FOR_WERF"
+  [[ "$OPT_PREPARE_ENVIRONMENT_FOR_WERF" == "no" ]] && ensure_cmds_available uname git grep tee install
 
-  if ! is_command_exists gpg; then
-    install_package gpg
-  fi
+  prepare_environment_for_buildah "$OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH"
 
-  if ! is_command_exists buildah; then
-    install_package buildah
-  fi
-
-  if ! is_command_exists curl; then
-    install_package curl
-  fi
-
-  # Get the current user's name
-  CURRENT_USER=$(get_user)
-
-  # Create the path /home/<current user>/.local/share/containers if it doesn't exist
-  CONTAINER_PATH="/home/${CURRENT_USER}/.local/share/containers"
-  if [ ! -d "$CONTAINER_PATH" ]; then
-    mkdir -p "$CONTAINER_PATH"
-    echo "Created directory: $CONTAINER_PATH"
-  fi
-
-  # Ensure the current user has read and write access to the directory
-  chmod u+rw "$CONTAINER_PATH"
-  echo "Set read and write permissions for $CURRENT_USER in $CONTAINER_PATH"
-  
-  # Check if kernel.unprivileged_userns_clone exists
-  if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then
-    KERNEL_SETTING=$(sysctl -ne kernel.unprivileged_userns_clone)
-    if [ "$KERNEL_SETTING" -eq 0 ]; then
-    echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
-    run_as_root "sysctl -p"
-    echo "Updated kernel.unprivileged_userns_clone value"
-    fi
-  fi
-  # Check if kernel.apparmor_restrict_unprivileged_userns exists
-  if ! [ -z $(sysctl -ne kernel.apparmor_restrict_unprivileged_userns) ]; then
-    KERNEL_APPARMOR=$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)
-    if [ "$KERNEL_APPARMOR" -eq 1 ]; then
-      echo "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
-      { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
-        echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
-        run_as_root "sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf"
-    fi
-  fi
-
-  # Check the sysctl value: user.max_user_namespaces
-  USER_NAMESPACES_SETTING=$(sysctl -n user.max_user_namespaces)
-  if [ "$USER_NAMESPACES_SETTING" -lt 15000 ]; then
-    echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
-    run_as_root "sysctl -p"
-    echo "Updated user.max_user_namespaces value"
-  fi
-
-  ensure_cmds_available uname git grep tee install
   [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
   validate_git_version "$REQUIRED_GIT_VERSION"
 
@@ -161,6 +112,10 @@ getoptions_config() {
     "Add \"$HOME/bin\" to \$PATH for trdl? Default: $OPT_DEFAULT_SETUP_BIN_PATH"
   flag OPT_AUTOACTIVATE_WERF -a --{no-}autoactivate-werf -- \
     "Enable werf autoactivation? Default: $OPT_DEFAULT_AUTOACTIVATE_WERF"
+  flag OPT_PREPARE_ENVIRONMENT_FOR_WERF --{no-}prepare-environment-for-werf -- \
+    "Need to install packages for werf ? Default: $OPT_DEFAULT_PREPARE_ENVIRONMENT_FOR_WERF"
+  flag OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH --{no-}prepare-environment-for-buildah -- \
+    "Need to install packages for werf ? Default: $OPT_DEFAULT_PREPARE_ENVIRONMENT_FOR_BUILDAH"
   
   param OPT_SHELL -s --shell validate:"validate_option_by_regex '$OPT_REGEX_SHELL'" -- \
     "Shell, for which werf/trdl should be set up. Default: $OPT_DEFAULT_SHELL. Allowed values regex: $OPT_REGEX_SHELL"
@@ -613,6 +568,81 @@ compare_versions() {
   done
 
   return 0
+}
+
+prepare_environment_for_werf() {
+
+  local override_prepare_environment_for_werf="$1"
+  echo $override_prepare_environment_for_werf
+
+  [[ $override_prepare_environment_for_werf == "no" ]] && return 0
+
+  [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Need to install packages for werf?" "yes" || return 0
+
+  if ! is_command_exists git; then
+    install_package git
+  fi
+
+  if ! is_command_exists curl; then
+    install_package curl
+  fi
+
+}
+
+prepare_environment_for_buildah() {
+
+  local override_prepare_environment_for_buildah="$1"
+
+  if ! is_command_exists buildah; then
+    install_package buildah
+  fi
+
+  [[ $override_prepare_environment_for_buildah == "no" ]] && return 0
+
+  [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Need to install packages buildah and set kernel values?" "yes" || return 0
+
+  # Get the current user's name
+  CURRENT_USER=$(get_user)
+
+  # Create the path /home/<current user>/.local/share/containers if it doesn't exist
+  CONTAINER_PATH="/home/${CURRENT_USER}/.local/share/containers"
+  if [ ! -d "$CONTAINER_PATH" ]; then
+    mkdir -p "$CONTAINER_PATH"
+    echo "Created directory: $CONTAINER_PATH"
+  fi
+
+  # Ensure the current user has read and write access to the directory
+  chmod u+rw "$CONTAINER_PATH"
+  echo "Set read and write permissions for $CURRENT_USER in $CONTAINER_PATH"
+  
+  # Check if kernel.unprivileged_userns_clone exists
+  if ! [ -z $(sysctl -ne kernel.unprivileged_userns_clone) ]; then
+    KERNEL_SETTING=$(sysctl -ne kernel.unprivileged_userns_clone)
+    if [ "$KERNEL_SETTING" -eq 0 ]; then
+    echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
+    run_as_root "sysctl -p"
+    echo "Updated kernel.unprivileged_userns_clone value"
+    fi
+  fi
+
+  # Check if kernel.apparmor_restrict_unprivileged_userns exists
+  if ! [ -z $(sysctl -ne kernel.apparmor_restrict_unprivileged_userns) ]; then
+    KERNEL_APPARMOR=$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)
+    if [ "$KERNEL_APPARMOR" -eq 1 ]; then
+      echo "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
+      { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
+        echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
+        run_as_root "sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf"
+    fi
+  fi
+
+  # Check the sysctl value: user.max_user_namespaces
+  USER_NAMESPACES_SETTING=$(sysctl -n user.max_user_namespaces)
+  if [ "$USER_NAMESPACES_SETTING" -lt 15000 ]; then
+    echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
+    run_as_root "sysctl -p"
+    echo "Updated user.max_user_namespaces value"
+  fi
 }
 
 # Function to install on Arch Linux
