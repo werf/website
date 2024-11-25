@@ -573,7 +573,6 @@ compare_versions() {
 prepare_environment_for_werf() {
 
   local override_prepare_environment_for_werf="$1"
-  echo $override_prepare_environment_for_werf
 
   [[ $override_prepare_environment_for_werf == "no" ]] && return 0
 
@@ -585,6 +584,10 @@ prepare_environment_for_werf() {
 
   if ! is_command_exists curl; then
     install_package curl
+  fi
+
+  if ! is_command_exists gpg; then
+    install_package gpg
   fi
 
 }
