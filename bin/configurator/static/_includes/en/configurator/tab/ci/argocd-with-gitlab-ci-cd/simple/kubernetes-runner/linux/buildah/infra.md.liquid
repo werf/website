@@ -6,11 +6,11 @@
 
 - [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd).
 
-{% include configurator/partials/ci/buildah_ubuntu.md.liquid %}
-
 ### Install GitLab Runner
 
 Follow [official instructions](https://docs.gitlab.com/runner/install/) to install and register the GitLab Runner. If you are going to install your GitLab Runner in Kubernetes, then install it to `gitlab-ci` namespace.
+
+{% include configurator/partials/ci/buildah_ubuntu.md.liquid %}
 
 ### Basic GitLab Runner configuration (no caching)
 
