@@ -580,14 +580,21 @@ prepare_environment_for_werf() {
 
   if ! is_command_exists git; then
     install_package git
+  else
+    already_installed git
   fi
 
   if ! is_command_exists curl; then
     install_package curl
+  else
+    already_installed curl
   fi
 
   if ! is_command_exists gpg; then
     install_package gpg
+  else
+    already_installed gpg
+    echo
   fi
 
 }
@@ -596,14 +603,15 @@ prepare_environment_for_buildah() {
 
   local override_prepare_environment_for_buildah="$1"
 
-  if ! is_command_exists buildah; then
-    install_package buildah
-  fi
-
   [[ $override_prepare_environment_for_buildah == "no" ]] && return 0
 
   [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Need to install packages buildah and set kernel values?" "yes" || return 0
 
+  if ! is_command_exists buildah; then
+    install_package buildah
+  else
+    already_installed buildah
+  fi 
   # Get the current user's name
   CURRENT_USER=$(get_user)
 
@@ -611,40 +619,43 @@ prepare_environment_for_buildah() {
   CONTAINER_PATH="/home/${CURRENT_USER}/.local/share/containers"
   if [ ! -d "$CONTAINER_PATH" ]; then
     mkdir -p "$CONTAINER_PATH"
-    echo "Created directory: $CONTAINER_PATH"
+    log::info "Created directory: $CONTAINER_PATH"
   fi
 
   # Ensure the current user has read and write access to the directory
   chmod u+rw "$CONTAINER_PATH"
-  echo "Set read and write permissions for $CURRENT_USER in $CONTAINER_PATH"
+  log::info "Set read and write permissions for $CURRENT_USER in $CONTAINER_PATH"
+  echo
   
+  if is_command_exists sysctl; then
   # Check if kernel.unprivileged_userns_clone exists
-  if ! [ -z $(sysctl -ne kernel.unprivileged_userns_clone) ]; then
-    KERNEL_SETTING=$(sysctl -ne kernel.unprivileged_userns_clone)
-    if [ "$KERNEL_SETTING" -eq 0 ]; then
-    echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
-    run_as_root "sysctl -p"
-    echo "Updated kernel.unprivileged_userns_clone value"
+    if ! [ -z $(sysctl -ne kernel.unprivileged_userns_clone) ]; then
+      KERNEL_SETTING=$(sysctl -ne kernel.unprivileged_userns_clone)
+      if [ "$KERNEL_SETTING" -eq 0 ]; then
+      echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
+      run_as_root "sysctl -p"
+      log::info "Updated kernel.unprivileged_userns_clone value"
+      fi
     fi
-  fi
 
-  # Check if kernel.apparmor_restrict_unprivileged_userns exists
-  if ! [ -z $(sysctl -ne kernel.apparmor_restrict_unprivileged_userns) ]; then
-    KERNEL_APPARMOR=$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)
-    if [ "$KERNEL_APPARMOR" -eq 1 ]; then
-      echo "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
-      { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
-        echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
-        run_as_root "sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf"
+    # Check if kernel.apparmor_restrict_unprivileged_userns exists
+    if ! [ -z $(sysctl -ne kernel.apparmor_restrict_unprivileged_userns) ]; then
+      KERNEL_APPARMOR=$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)
+      if [ "$KERNEL_APPARMOR" -eq 1 ]; then
+        log::info "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
+        { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
+          echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
+          run_as_root "sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf"
+      fi
     fi
-  fi
 
-  # Check the sysctl value: user.max_user_namespaces
-  USER_NAMESPACES_SETTING=$(sysctl -n user.max_user_namespaces)
-  if [ "$USER_NAMESPACES_SETTING" -lt 15000 ]; then
-    echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
-    run_as_root "sysctl -p"
-    echo "Updated user.max_user_namespaces value"
+    # Check the sysctl value: user.max_user_namespaces
+    USER_NAMESPACES_SETTING=$(sysctl -n user.max_user_namespaces)
+    if [ "$USER_NAMESPACES_SETTING" -lt 15000 ]; then
+      echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
+      run_as_root "sysctl -p"
+      log::info "Updated user.max_user_namespaces value"
+    fi
   fi
 }
 
@@ -722,10 +733,10 @@ install_ubuntu() {
 
 # Function to manually install Buildah
 manual_install() {
-    echo "Manual installation of Buildah is required for your system."
+    log::info "Manual installation of Buildah is required for your system."
     
     # Install packages providing newuidmap and newgidmap
-    echo "Installing necessary packages for newuidmap and newgidmap..."
+    log::info "Installing necessary packages for newuidmap and newgidmap..."
     if command -v apt-get &> /dev/null; then
         run_as_root "apt-get update"
         run_as_root "apt-get install -y uidmap"
@@ -734,18 +745,18 @@ manual_install() {
     elif command -v zypper &> /dev/null; then
         run_as_root "zypper install -y shadow"
     else
-        echo "Please install newuidmap and newgidmap manually for your distribution."
+        log::info "Please install newuidmap and newgidmap manually for your distribution."
         exit 1
     fi
 
     # Ensure correct capabilities for newuidmap and newgidmap
-    echo "Setting capabilities for newuidmap and newgidmap..."
+    log::info "Setting capabilities for newuidmap and newgidmap..."
     run_as_root "setcap cap_setuid+ep /usr/bin/newuidmap"
     run_as_root "setcap cap_setgid+ep /usr/bin/newgidmap"
     run_as_root "chmod u-s,g-s /usr/bin/newuidmap /usr/bin/newgidmap"
 
     # Ensure /etc/subuid and /etc/subgid files exist
-    echo "Checking /etc/subuid and /etc/subgid..."
+    log::info "Checking /etc/subuid and /etc/subgid..."
     if [ ! -f /etc/subuid ] || [ ! -f /etc/subgid ]; then
         if command -v apt-get &> /dev/null; then
             run_as_root "apt-get install -y login"
@@ -760,7 +771,7 @@ manual_install() {
     fi
 
     # Add an entry to /etc/subuid and /etc/subgid
-    echo "Configuring /etc/subuid and /etc/subgid for user $CURRENT_USER..."
+    log::info "Configuring /etc/subuid and /etc/subgid for user $CURRENT_USER..."
     if ! grep -q "$CURRENT_USER" /etc/subuid; then
         echo "$CURRENT_USER:1000000:65536" | run_as_root "tee -a /etc/subuid"
     fi
@@ -768,11 +779,11 @@ manual_install() {
         echo "$CURRENT_USER:1000000:65536" | run_as_root "tee -a /etc/subgid"
     fi
 
-    echo "Manual configuration complete. You may need to reboot your system for changes to take full effect."
+    log::info "Manual configuration complete. You may need to reboot your system for changes to take full effect."
 }
 
 install_package() {
-  echo "Installing package $1"
+  log::info "Installing package $1"
   if grep -qi "arch" /etc/*release; then
     install_arch $1
   elif grep -qi "centos" /etc/*release; then
@@ -800,9 +811,14 @@ install_package() {
   elif grep -qi "ubuntu" /etc/*release; then
       install_ubuntu $1
   else
-      echo "Attempting manual installation of Buildah..."
+      log::info "Attempting manual installation of Buildah..."
       manual_install
   fi
+}
+
+already_installed() {
+  local package="$1"
+  log::info "$package already installed"
 }
 
 log::info() {
