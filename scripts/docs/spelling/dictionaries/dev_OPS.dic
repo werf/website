@@ -1,4 +1,4 @@
-519
+521
 1GB
 2GB
 5XX
@@ -50,6 +50,7 @@ configs
 configurator
 configVersion
 contraire
+cr
 CRD
 cron
 CronJob
@@ -86,6 +87,7 @@ former’s
 fpm
 frontend
 Gemfile
+ghcr
 giterminism
 GitHub
 gitignore

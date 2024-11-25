@@ -1,0 +1,23 @@
+name: cleanup
+on:
+  schedule:
+    - cron: "0 3 * * *"
+
+jobs:
+  cleanup:
+    name: cleanup
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/werf/werf:2-stable-ubuntu
+      options: --security-opt "seccomp:unconfined" --security-opt "apparmor:unconfined"
+    steps:
+      - uses: actions/checkout@v3
+      - run: git fetch --prune --unshallow
+      
+      - run: |
+          . "$(werf ci-env github --as-file)"
+          werf cleanup
+        env:
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}

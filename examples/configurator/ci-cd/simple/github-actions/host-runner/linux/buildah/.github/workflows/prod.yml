@@ -7,7 +7,7 @@ on:
 jobs:
   prod:
     name: prod
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
         with:
@@ -22,3 +22,4 @@ jobs:
           WERF_ENV: prod
           WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_BUILDAH_MODE: auto

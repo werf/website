@@ -1,0 +1,35 @@
+### Requirements
+
+* GitHub Actions;
+
+* GitHub-hosted Runner or self-hosted runner.
+
+### Setting up a GitHub project
+
+* [Create and save the access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) to clean up the no longer needed images from the container registry with the following parameters:
+
+  * Token name: `werf-images-cleanup`;
+
+  * Scopes: `read:packages` and `delete:packages`.
+
+* Add the following variable to the project [secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions):
+
+  * Access token to clean up the no longer needed images:
+
+    * Name: `REGISTRY_CLEANUP_TOKEN`;
+
+    * Secret: `<"werf-images-cleanup" access token you saved earlier>`.
+
+* Save the kubeconfig file to access the Kubernetes cluster as a `KUBECONFIG_BASE64` [encrypted secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets), pre-encoding it in Base64.
+
+### Configuring CI/CD of the project
+
+This is how the repository that uses werf for build and deploy might look:
+
+{% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/docker-runner/linux/buildah' default_file='.github/workflows/prod.yml' %}
+
+Extras:
+
+  * To use GitHub-hosted Runner, specify `ubuntu-latest` in `runs-on`;
+
+  * If you do not use ghcr as a container registry, then enter `WERF_REPO`, run [werf cr login]({{ "/docs/reference/cli/werf_cr_login.html" | relative_url }}), and also take into account [features]({{ "/docs/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}) of your container registry when cleaning.

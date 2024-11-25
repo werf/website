@@ -1,0 +1,7 @@
+configVersion: 1
+project: test
+
+---
+image: app
+dockerfile: Dockerfile
+context: ./app

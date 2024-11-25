@@ -1,0 +1,35 @@
+name: prod
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prod:
+    name: prod
+    runs-on: self-hosted
+    container:
+      image: ghcr.io/werf/werf:2-stable-ubuntu
+      # if you use fuse, then add the option --device /dev/fuse
+      options: --security-opt "seccomp:unconfined" --security-opt "apparmor:unconfined"
+      volumes:
+        - /home/build/.werf
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Uncomment this block for cross-platform build
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: linux/amd64, linux/arm64
+
+      - run: |
+          . "$(werf ci-env github --as-file)"
+          werf converge
+        env:
+          WERF_ENV: prod
+          WERF_BUILDAH_MODE: auto
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}

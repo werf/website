@@ -8,13 +8,7 @@
 
 Follow [official instructions](https://docs.gitlab.com/runner/install/) to install and register the GitLab Runner. If you are going to install your GitLab Runner in Kubernetes, then install it to `gitlab-ci` namespace.
 
-### Prepare the environment
-
-(For Ubuntu 23.10 and later) on the GitLab Runner nodes run:
-
-```shell
-{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
-```
+{% include configurator/partials/ci/buildah_ubuntu.md.liquid %}
 
 ### Basic GitLab Runner configuration (no caching)
 

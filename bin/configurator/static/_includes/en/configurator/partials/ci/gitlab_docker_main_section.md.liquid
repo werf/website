@@ -6,17 +6,11 @@
 
   - [Docker Engine](https://docs.docker.com/engine/install/).
 
-### Prepare the environment
-
-(For Ubuntu 23.10 and later) on the GitLab Runner host run:
-
-```shell
-{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
-```
-
 ### Installing GitLab Runner
 
 Install GitLab Runner on its dedicated host by following the [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html).
+
+{% include configurator/partials/ci/buildah_ubuntu.md.liquid %}
 
 ### Registering GitLab Runner
 

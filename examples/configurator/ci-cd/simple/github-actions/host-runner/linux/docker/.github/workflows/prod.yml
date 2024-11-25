@@ -1,0 +1,30 @@
+name: prod
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prod:
+    name: prod
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      # Uncomment this block for cross-platform build
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: linux/amd64, linux/arm64
+
+      - uses: werf/actions/install@v2
+
+      - run: |
+          source "$(werf ci-env github --as-file)"
+          werf converge
+        env:
+          WERF_ENV: prod
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -49,6 +49,7 @@ configs
 configurator
 configVersion
 contraire
+cr
 CRD
 cron
 CronJob
@@ -85,6 +86,7 @@ former’s
 fpm
 frontend
 Gemfile
+ghcr
 giterminism
 GitHub
 gitignore

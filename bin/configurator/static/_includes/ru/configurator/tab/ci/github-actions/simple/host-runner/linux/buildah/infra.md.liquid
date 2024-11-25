@@ -1,0 +1,19 @@
+> **_Важно_**: раздел описывает подготовку инфраструктуры для self-hosted GitHub Runner
+
+### Требования
+
+- GitHub Actions;
+
+- Хост для установки GitHub Runner, имеющий:
+
+  - Bash;
+
+  - Git версии 2.18.0 или выше;
+
+  - GPG.
+
+### Установка и регистрация GitHub Runner
+
+Установите и зарегистрируйте GitHub Runner на выделенный для него хост, следуя [официальным инструкциям](https://docs.github.com/ru/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners).
+
+{% include configurator/partials/ci/buildah_install.md.liquid %}
