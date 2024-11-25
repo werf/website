@@ -33,4 +33,4 @@
 
   * Для использования GitHub-hosted Runner укажите `ubuntu-latest` в `runs-on`;
 
-  * Если вы не используете ghcr в качестве container registry, то проставьте `WERF_REPO`, выполните [werf cr login](https://ru.werf.io/docs/v1.2/reference/cli/werf_cr_login.html), а также учтите [особенности](https://ru.werf.io/docs/v1.2/usage/cleanup/cr_cleanup.html#%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%80%D0%B0%D0%B7%D0%BB%D0%B8%D1%87%D0%BD%D1%8B%D0%BC%D0%B8-container-registries) вашего container registry при очистке.
+ * Если вы не используете ghcr в качестве container registry, то проставьте `WERF_REPO`, выполните [werf cr login]({{ "/docs/reference/cli/werf_cr_login.html" | relative_url }}), а также учтите [особенности]({{ "/docs/usage/cleanup/cr_cleanup.html#особенности-работы-с-различными-container-registries" | relative_url }}) вашего container registry при очистке.
