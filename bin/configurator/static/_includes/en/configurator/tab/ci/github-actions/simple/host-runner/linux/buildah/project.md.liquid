@@ -20,8 +20,6 @@
 
     * Secret: `<"werf-images-cleanup" access token you saved earlier>`.
 
-* [Add a scheduled nightly task](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule) to clean up the no longer needed images in the container registry by setting the main/master branch as the Target branch.
-
 * Save the kubeconfig file to access the Kubernetes cluster as a `KUBECONFIG_BASE64` [encrypted secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets), pre-encoding it in Base64.
 
 ### Configuring CI/CD of the project
