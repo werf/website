@@ -67,7 +67,7 @@ main() {
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
 
   prepare_environment_for_werf "$OPT_PREPARE_ENVIRONMENT_FOR_WERF"
-  [[ "$OPT_PREPARE_ENVIRONMENT_FOR_WERF" == "no" ]] && ensure_cmds_available uname git grep tee install
+  ensure_cmds_available uname git grep tee install
 
   prepare_environment_for_buildah "$OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH"
 
@@ -576,7 +576,7 @@ prepare_environment_for_werf() {
 
   [[ $override_prepare_environment_for_werf == "no" ]] && return 0
 
-  [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Need to install packages for werf?" "yes" || return 0
+  [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "yes" || return 0
 
   if ! is_command_exists git; then
     install_package git
@@ -590,12 +590,7 @@ prepare_environment_for_werf() {
     already_installed curl
   fi
 
-  if ! is_command_exists gpg; then
-    install_package gpg
-  else
-    already_installed gpg
-    echo
-  fi
+  is_command_exists gpg || install_package gpg
 
 }
 
@@ -605,7 +600,7 @@ prepare_environment_for_buildah() {
 
   [[ $override_prepare_environment_for_buildah == "no" ]] && return 0
 
-  [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Need to install packages buildah and set kernel values?" "yes" || return 0
+  [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Install and set up Buildah backend?" "yes" || return 0
 
   if ! is_command_exists buildah; then
     install_package buildah
@@ -629,9 +624,9 @@ prepare_environment_for_buildah() {
   
   if is_command_exists sysctl; then
   # Check if kernel.unprivileged_userns_clone exists
-    if ! [ -z $(sysctl -ne kernel.unprivileged_userns_clone) ]; then
-      KERNEL_SETTING=$(sysctl -ne kernel.unprivileged_userns_clone)
-      if [ "$KERNEL_SETTING" -eq 0 ]; then
+    if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then
+      KERNEL_SETTING="$(sysctl -ne kernel.unprivileged_userns_clone)"
+      if [ "$KERNEL_SETTING" = "0" ]; then
       echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
       run_as_root "sysctl -p"
       log::info "Updated kernel.unprivileged_userns_clone value"
@@ -674,7 +669,7 @@ install_centos() {
 # Function to install on Debian
 install_debian() {
   local package="$1"
-  run_as_root "apt-get update"
+  run_as_root "apt-get -y update"
   run_as_root "apt-get -y install $package"
 }
 
@@ -737,7 +732,7 @@ manual_install() {
     
     # Install packages providing newuidmap and newgidmap
     log::info "Installing necessary packages for newuidmap and newgidmap..."
-    if command -v apt-get &> /dev/null; then
+    if is_command_exists apt-get; then
         run_as_root "apt-get update"
         run_as_root "apt-get install -y uidmap"
     elif command -v yum &> /dev/null; then
