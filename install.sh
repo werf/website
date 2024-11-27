@@ -576,7 +576,7 @@ prepare_environment_for_werf() {
 
   [[ $override_prepare_environment_for_werf == "no" ]] && return 0
 
-  [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "yes" || return 0
+  [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "skip" || return 0
 
   if ! is_command_exists git; then
     install_package git
@@ -600,7 +600,7 @@ prepare_environment_for_buildah() {
 
   [[ $override_prepare_environment_for_buildah == "no" ]] && return 0
 
-  [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Install and set up Buildah backend?" "yes" || return 0
+  [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
 
   if ! is_command_exists buildah; then
     install_package buildah
@@ -610,8 +610,8 @@ prepare_environment_for_buildah() {
   # Get the current user's name
   CURRENT_USER=$(get_user)
 
-  # Create the path /home/<current user>/.local/share/containers if it doesn't exist
-  CONTAINER_PATH="/home/${CURRENT_USER}/.local/share/containers"
+  # Create the path /$HOME/.local/share/containers/ if it doesn't exist
+  CONTAINER_PATH="$HOME/.local/share/containers/"
   if [ ! -d "$CONTAINER_PATH" ]; then
     mkdir -p "$CONTAINER_PATH"
     log::info "Created directory: $CONTAINER_PATH"
@@ -623,6 +623,7 @@ prepare_environment_for_buildah() {
   echo
   
   if is_command_exists sysctl; then
+    log::warn "sysctl not found"
   # Check if kernel.unprivileged_userns_clone exists
     if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then
       KERNEL_SETTING="$(sysctl -ne kernel.unprivileged_userns_clone)"
@@ -634,9 +635,9 @@ prepare_environment_for_buildah() {
     fi
 
     # Check if kernel.apparmor_restrict_unprivileged_userns exists
-    if ! [ -z $(sysctl -ne kernel.apparmor_restrict_unprivileged_userns) ]; then
-      KERNEL_APPARMOR=$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)
-      if [ "$KERNEL_APPARMOR" -eq 1 ]; then
+    if ! [ -z "$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)" ]; then
+      KERNEL_APPARMOR="$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)"
+      if [ "$KERNEL_APPARMOR" = "1" ]; then
         log::info "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
         { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
           echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
@@ -645,8 +646,8 @@ prepare_environment_for_buildah() {
     fi
 
     # Check the sysctl value: user.max_user_namespaces
-    USER_NAMESPACES_SETTING=$(sysctl -n user.max_user_namespaces)
-    if [ "$USER_NAMESPACES_SETTING" -lt 15000 ]; then
+    USER_NAMESPACES_SETTING="$(sysctl -n user.max_user_namespaces)"
+    if [ "$USER_NAMESPACES_SETTING" < "15000" ]; then
       echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
       run_as_root "sysctl -p"
       log::info "Updated user.max_user_namespaces value"
@@ -669,8 +670,7 @@ install_centos() {
 # Function to install on Debian
 install_debian() {
   local package="$1"
-  run_as_root "apt-get -y update"
-  run_as_root "apt-get -y install $package"
+  run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get -y install $package"
 }
 
 # Function to install on Fedora
@@ -722,8 +722,7 @@ install_rhel8_beta() {
 # Function to install on Ubuntu
 install_ubuntu() {
   local package="$1"
-  run_as_root "apt-get -y update"
-  run_as_root "apt-get -y install $package"
+  run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get -y install $package"
 }
 
 # Function to manually install Buildah
@@ -733,11 +732,10 @@ manual_install() {
     # Install packages providing newuidmap and newgidmap
     log::info "Installing necessary packages for newuidmap and newgidmap..."
     if is_command_exists apt-get; then
-        run_as_root "apt-get update"
-        run_as_root "apt-get install -y uidmap"
-    elif command -v yum &> /dev/null; then
+        run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get install -y uidmap"
+    elif is_command_exists yum; then
         run_as_root "yum install -y shadow-utils"
-    elif command -v zypper &> /dev/null; then
+    elif is_command_exists zypper; then
         run_as_root "zypper install -y shadow"
     else
         log::info "Please install newuidmap and newgidmap manually for your distribution."
@@ -753,11 +751,11 @@ manual_install() {
     # Ensure /etc/subuid and /etc/subgid files exist
     log::info "Checking /etc/subuid and /etc/subgid..."
     if [ ! -f /etc/subuid ] || [ ! -f /etc/subgid ]; then
-        if command -v apt-get &> /dev/null; then
-            run_as_root "apt-get install -y login"
-        elif command -v yum &> /dev/null ; then
+        if is_command_exists apt-get; then
+            run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get install -y login"
+        elif is_command_exists yum; then
             run_as_root "yum install -y shadow-utils"
-        elif command -v zypper &> /dev/null; then
+        elif is_command_exists zypper; then
             run_as_root "zypper install -y shadow"
         else
             echo "Please ensure /etc/subuid and /etc/subgid are correctly set up."
