@@ -5,7 +5,7 @@ on:
     branches:
       - main
   pull_request:
-    types: [ labeled, synchronize ]
+    types: [labeled, synchronize]
   workflow_dispatch:
 
 env:
@@ -21,59 +21,58 @@ jobs:
     if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'test website') || contains(github.event.pull_request.labels.*.name, 'stage website')
     runs-on: ubuntu-latest-4-cores
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Generate artifacts
-      if: github.ref == 'refs/heads/main'
-      run: |
+      - name: Generate artifacts
+        if: github.ref == 'refs/heads/main'
+        run: |
           cd .werf/artifacts
           bash generate_artifacts.sh
 
-    - name: Install werf
-      uses: werf/actions/install@v2
+      - name: Install werf
+        uses: werf/actions/install@v2
 
-    - name: Deploy to test
-      if: contains(github.event.pull_request.labels.*.name, 'test website')
-      run: |
-        . $(werf ci-env github --as-file)
-        werf converge
-      env:
-        WERF_NAMESPACE: "werfio-test"
-        WERF_RELEASE: "werfio-site-test"
-        WERF_LOG_VERBOSE: "on"
-        WERF_ENV: "test"
-        WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to test
+        if: contains(github.event.pull_request.labels.*.name, 'test website')
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
+        env:
+          WERF_NAMESPACE: "werfio-test"
+          WERF_RELEASE: "werfio-site-test"
+          WERF_LOG_VERBOSE: "on"
+          WERF_ENV: "test"
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Deploy to stage
-      if: contains(github.event.pull_request.labels.*.name, 'stage website')
-      run: |
-        . $(werf ci-env github --as-file)
-        werf converge
-      env:
-        WERF_NAMESPACE: "werfio-stage"
-        WERF_RELEASE: "werfio-site-stage"
-        WERF_LOG_VERBOSE: "on"
-        WERF_ENV: "stage"
-        WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to stage
+        if: contains(github.event.pull_request.labels.*.name, 'stage website')
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
+        env:
+          WERF_NAMESPACE: "werfio-stage"
+          WERF_RELEASE: "werfio-site-stage"
+          WERF_LOG_VERBOSE: "on"
+          WERF_ENV: "stage"
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Deploy to production
-      if: github.ref == 'refs/heads/main'
-      run: |
-        . $(werf ci-env github --as-file)
-        werf converge        
-      env:
-        WERF_NAMESPACE: "werfio-production"
-        WERF_RELEASE: "werfio-site-production"
-        WERF_LOG_VERBOSE: "on"
-        WERF_ENV: "production"
-        WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_PROD }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
+        env:
+          WERF_NAMESPACE: "werfio-production"
+          WERF_RELEASE: "werfio-site-production"
+          WERF_LOG_VERBOSE: "on"
+          WERF_ENV: "production"
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_PROD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   notification:
     name: Notification
@@ -81,12 +80,64 @@ jobs:
     needs: converge
     runs-on: ubuntu-latest-4-cores
     steps:
-
       - uses: technote-space/workflow-conclusion-action@v2
 
-      - name: Notify
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_COLOR: ${{ env.WORKFLOW_CONCLUSION }}
-          MSG_MINIMAL: "ref,actions url"
+      - if: env.WORKFLOW_CONCLUSION == 'failure'
+        name: get failed jobs
+        id: failed_jobs
+        run: |
+          echo 'failed<<EOF' >> $GITHUB_OUTPUT 
+          echo "$(curl ${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs | jq -r '.jobs[]| select (.conclusion == "failure") | .html_url')" >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
+
+      - if: env.WORKFLOW_CONCLUSION == 'failure' && github.ref != 'refs/heads/main'
+        name: get user
+        id: get_user
+        run: |
+          echo username=$(curl ${{ github.api_url }}/users/${{ github.triggering_actor }} | jq -r '.name' | tr '[:upper:]' '[:lower:]' | tr " " . ) >> $GITHUB_OUTPUT
+
+      - if: env.WORKFLOW_CONCLUSION == 'failure' && github.ref == 'refs/heads/main'
+        name: Failure notify
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.LOOP_NOTIFICATION_WEBHOOK }}
+          MATTERMOST_CHANNEL: ${{ secrets.LOOP_NOTIFICATION_CHANNEL }}
+          TEXT: |
+            ${{ secrets.LOOP_NOTIFICATION_GROUP }} Публикация документов из ${{ github.repository }} упала :alert:
+            [${{ github.workflow }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Упавшие джобы:
+            ${{ steps.failed_jobs.outputs.failed }}
+
+      - if: env.WORKFLOW_CONCLUSION == 'failure' && github.ref == 'refs/heads/main'
+        name: Failure notify
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.LOOP_NOTIFICATION_WEBHOOK }}
+          MATTERMOST_CHANNEL: ${{ secrets.LOOP_NOTIFICATION_CHANNEL }}
+          TEXT: |
+            ${{ secrets.LOOP_NOTIFICATION_GROUP }} Публикация документов из ${{ github.repository }} упала :alert:
+            [${{ github.workflow }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Упавшие джобы:
+            ${{ steps.failed_jobs.outputs.failed }}
+
+      - if: env.WORKFLOW_CONCLUSION == 'failure' && github.ref != 'refs/heads/main'
+        name: Failure notify
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.LOOP_NOTIFICATION_WEBHOOK }}
+          MATTERMOST_CHANNEL: ${{ secrets.LOOP_NOTIFICATION_CHANNEL }}
+          TEXT: |
+            @${{ steps.get_user.outputs.username }} Публикация документов из ${{ github.repository }} упала :alert:
+            [${{ github.workflow }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Упавшие джобы:
+            ${{ steps.failed_jobs.outputs.failed }}
+
+      - if: env.WORKFLOW_CONCLUSION == 'success' && github.ref == 'refs/heads/main'
+        name: Success notify
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.LOOP_NOTIFICATION_WEBHOOK }}
+          MATTERMOST_CHANNEL: ${{ secrets.LOOP_NOTIFICATION_CHANNEL }}
+          TEXT: |
+            Публикация документов из ${{ github.repository }} завершена :stonks:
+            [${{ github.workflow }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
