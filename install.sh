@@ -5,7 +5,7 @@ set -uo pipefail
 
 main() {
   REQUIRED_BASH_VERSION="3.2.57"
-  REQUIRED_GIT_VERSION="2.18.0"
+  REQUIRED_GIT_VERSION="2.18.5"
 
   validate_bash_version "$REQUIRED_BASH_VERSION"
 
@@ -68,11 +68,11 @@ main() {
 
   prepare_environment_for_werf "$OPT_PREPARE_ENVIRONMENT_FOR_WERF"
   ensure_cmds_available uname git grep tee install
+  validate_git_version "$REQUIRED_GIT_VERSION"
 
   prepare_environment_for_buildah "$OPT_PREPARE_ENVIRONMENT_FOR_BUILDAH"
 
   [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
-  validate_git_version "$REQUIRED_GIT_VERSION"
 
   declare arch
   arch="$(get_arch)" || abort "Failure getting system architecture."
@@ -160,7 +160,12 @@ validate_git_version() {
   declare current_git_version
   current_git_version="$(git --version | awk '{print $3}' | awk -F. '{printf("%s.%s.%s", $1, $2, $3)}')" || abort "Unable to parse git version."
   compare_versions "$current_git_version" "$required_git_version"
-  [[ $? -gt 1 ]] && abort "Git version must be at least \"$required_git_version\"."
+  case $? in
+    1)  log::info "Current version is greater than or equal to required version." ;;
+    2)  abort "Git version must be at least \"$required_git_version\"." ;;
+    0)  log::info "Versions are equal." ;;
+    *)  abort "Unexpected error comparing versions." ;;
+  esac
 }
 
 get_arch() {
@@ -579,7 +584,7 @@ prepare_environment_for_werf() {
   [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "skip" || return 0
 
   if ! is_command_exists git; then
-    install_package git
+    install_git
   else
     already_installed git
   fi
@@ -623,7 +628,6 @@ prepare_environment_for_buildah() {
   echo
   
   if is_command_exists sysctl; then
-    log::warn "sysctl not found"
   # Check if kernel.unprivileged_userns_clone exists
     if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then
       KERNEL_SETTING="$(sysctl -ne kernel.unprivileged_userns_clone)"
@@ -647,82 +651,14 @@ prepare_environment_for_buildah() {
 
     # Check the sysctl value: user.max_user_namespaces
     USER_NAMESPACES_SETTING="$(sysctl -n user.max_user_namespaces)"
-    if [ "$USER_NAMESPACES_SETTING" < "15000" ]; then
+    if [[ "$USER_NAMESPACES_SETTING" < "15000" ]]; then
       echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
       run_as_root "sysctl -p"
       log::info "Updated user.max_user_namespaces value"
     fi
+  else 
+    log::warn "sysctl not found"
   fi
-}
-
-# Function to install on Arch Linux
-install_arch() {
-  local package="$1"
-  run_as_root "pacman -S $package"
-}
-
-# Function to install on CentOS
-install_centos() {
-  local package="$1"
-  run_as_root "yum -y install $package"
-}
-
-# Function to install on Debian
-install_debian() {
-  local package="$1"
-  run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get -y install $package"
-}
-
-# Function to install on Fedora
-install_fedora() {
-  local package="$1"
-  run_as_root "dnf -y install $package"
-}
-
-# Function to install on Fedora SilverBlue
-install_fedora_silverblue() {
-  local package="$1"
-}
-
-# Function to install on Fedora CoreOS
-install_fedora_coreos() {
-  local package="$1"    
-  rpm-ostree install $package
-}
-
-# Function to install on Gentoo
-install_gentoo() {
-  run_as_root "emerge app-containers/buildah"
-}
-
-# Function to install on openSUSE
-install_opensuse() {
-  local package="$1"
-  run_as_root "zypper install $package"
-}
-
-# Function to install on openSUSE Kubic
-install_opensuse_kubic() {
-    transactional-update pkg in buildah
-}
-
-# Function to install on RHEL 7
-install_rhel7() {
-  local package="$1"
-  run_as_root "subscription-manager repos --enable=rhel-7-server-extras-rpms"
-  run_as_root "yum -y install $package"
-}
-
-# Function to install on RHEL 8 Beta
-install_rhel8_beta() {
-  run_as_root "yum module enable -y container-tools:1.0"
-  run_as_root "yum module install -y buildah"
-}
-
-# Function to install on Ubuntu
-install_ubuntu() {
-  local package="$1"
-  run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get -y install $package"
 }
 
 # Function to manually install Buildah
@@ -732,7 +668,8 @@ manual_install() {
     # Install packages providing newuidmap and newgidmap
     log::info "Installing necessary packages for newuidmap and newgidmap..."
     if is_command_exists apt-get; then
-        run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get install -y uidmap"
+        run_as_root "apt-get -y update"
+        run_as_root "DEBIAN_FRONTEND=noninteractive  apt-get install -y uidmap"
     elif is_command_exists yum; then
         run_as_root "yum install -y shadow-utils"
     elif is_command_exists zypper; then
@@ -752,7 +689,8 @@ manual_install() {
     log::info "Checking /etc/subuid and /etc/subgid..."
     if [ ! -f /etc/subuid ] || [ ! -f /etc/subgid ]; then
         if is_command_exists apt-get; then
-            run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y update && apt-get install -y login"
+            run_as_root "apt-get -y update"
+            run_as_root "DEBIAN_FRONTEND=noninteractive  apt-get install -y login"
         elif is_command_exists yum; then
             run_as_root "yum install -y shadow-utils"
         elif is_command_exists zypper; then
@@ -775,39 +713,109 @@ manual_install() {
     log::info "Manual configuration complete. You may need to reboot your system for changes to take full effect."
 }
 
-install_package() {
-  log::info "Installing package $1"
-  if grep -qi "arch" /etc/*release; then
-    install_arch $1
-  elif grep -qi "centos" /etc/*release; then
-      install_centos $1
-  elif grep -qi "debian" /etc/*release; then
-      install_debian $1
-  elif grep -qi "fedora" /etc/*release && ! grep -qi "coreos" /etc/*release && ! grep -qi "silverblue" /etc/*release; then
-      install_fedora $1
-  elif grep -qi "fedora" /etc/*release && grep -qi "silverblue" /etc/*release; then
-      install_fedora_silverblue
-  elif grep -qi "fedora" /etc/*release && grep -qi "coreos" /etc/*release; then
-      install_fedora_coreos $1
-  elif grep -qi "gentoo" /etc/*release; then
-      install_gentoo $1
-  elif grep -qi "suse" /etc/*release; then
-      if grep -qi "kubic" /etc/*release; then
-          install_opensuse_kubic
-      else
-          install_opensuse $1
-      fi
-  elif grep -qi "red hat" /etc/*release && grep -q "release 7" /etc/*release; then
-      install_rhel7 $1
-  elif grep -qi "red hat" /etc/*release && grep -q "release 8" /etc/*release; then
-      install_rhel8_beta
-  elif grep -qi "ubuntu" /etc/*release; then
-      install_ubuntu $1
-  else
-      log::info "Attempting manual installation of Buildah..."
-      manual_install
+get_linux_distro() {
+  declare distro
+  if [[ -f /etc/os-release ]]; then
+    . "/etc/os-release"
+    distro="$NAME"
+  elif type lsb_release 1>/dev/null 2>&1; then
+    distro="$(lsb_release -si)"
+  elif [[ -f "/etc/lsb-release" ]]; then
+    . "/etc/lsb-release"
+    distro="$DISTRIB_ID"
+  elif [[ -f "/etc/debian_version" ]]; then
+    distro="debian"
+  elif [[ -f "/etc/SuSe-release" ]]; then
+    distro="suse"
+  elif [[ -f "/etc/redhat-release" ]]; then
+    distro="redhat"
   fi
+  echo "$distro"
 }
+
+install_package() {
+  local package="$1"
+  distro=$(get_linux_distro)
+  
+  log::info "Detected Linux distribution: $distro"
+
+  case "$distro" in
+    *Arch*)
+      run_as_root "pacman -S $package"
+      ;;
+    *CentOS*|*Red\ Hat*|*Fedora*)
+      run_as_root "yum -y install $package"
+      ;;
+    *Debian*|*Ubuntu*)
+      run_as_root "apt-get -y update"
+      run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y install $package"
+      ;;
+    *Gentoo*)
+      run_as_root "emerge $package"
+      ;;
+    *SUSE*|*openSUSE*)
+      run_as_root "zypper install $package"
+      ;;
+    *RHEL*)
+      if [[ "$distro" == *"7"* ]]; then
+        run_as_root "subscription-manager repos --enable=rhel-7-server-extras-rpms"
+        run_as_root "yum -y install $package"
+      elif [[ "$distro" == *"8"* ]]; then
+        run_as_root "yum module enable -y container-tools:1.0"
+        run_as_root "yum module install -y $package"  # Теперь устанавливаем пакет через переменную $package
+      fi
+      ;;
+    *)
+      abort "Unsupported distribution: $distro"
+      ;;
+  esac
+}
+
+
+# TODO:  fix git compile error
+# install_git() {
+#   distro=$(get_linux_distro)
+#   log::info "Detected Linux distribution: $distro"
+  
+#   # Установка зависимостей в зависимости от дистрибутива
+#   log::info "Installing dependencies for Git compilation..."
+  
+#   case "$distro" in
+#     *Debian*|*Ubuntu*)
+#       install_package "make gcc libssl-dev curl zlib1g-dev autoconf"
+#       ;;
+#     *CentOS*|*Red\ Hat*|*Fedora*)
+#       run_as_root "yum groupinstall -y 'Development Tools'"
+#       install_package "curl openssl-devel zlib-devel autoconf"
+#       ;;
+#     *SUSE*|*openSUSE*)
+#       install_package "make gcc libopenssl-devel curl zlib-devel autoconf"
+#       ;;
+#     *)
+#       log::info "Unsupported distribution. Attempting to install common dependencies..."
+#       install_package "make gcc libssl-dev curl zlib1g-dev autoconf"
+#       ;;
+#   esac
+
+#   # Скачиваем исходный архив Git
+#   log::info "Downloading Git source code..."
+#   curl -L -o /tmp/git-$REQUIRED_GIT_VERSION.tar.gz https://github.com/git/git/archive/refs/tags/v$REQUIRED_GIT_VERSION.tar.gz
+
+#   # Распаковываем архив
+#   log::info "Extracting Git source code..."
+#   tar -xzf /tmp/git-$REQUIRED_GIT_VERSION.tar.gz -C /tmp/
+#   cd /tmp/git-$REQUIRED_GIT_VERSION
+
+#   # Сборка и установка Git
+#   log::info "Compiling and installing Git..."
+#   make configure
+#   ./configure --prefix=/usr
+#   run_as_root "make install install-doc install-html install-info"
+
+#   # Проверяем установку
+#   log::info "Git installation complete."
+#   git --version
+# }
 
 already_installed() {
   local package="$1"
