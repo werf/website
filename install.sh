@@ -608,24 +608,10 @@ prepare_environment_for_buildah() {
   [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
 
   if ! is_command_exists buildah; then
-    install_package buildah
+    install_buildah
   else
     already_installed buildah
   fi 
-  # Get the current user's name
-  CURRENT_USER=$(get_user)
-
-  # Create the path /$HOME/.local/share/containers/ if it doesn't exist
-  CONTAINER_PATH="$HOME/.local/share/containers/"
-  if [ ! -d "$CONTAINER_PATH" ]; then
-    mkdir -p "$CONTAINER_PATH"
-    log::info "Created directory: $CONTAINER_PATH"
-  fi
-
-  # Ensure the current user has read and write access to the directory
-  chmod u+rw "$CONTAINER_PATH"
-  log::info "Set read and write permissions for $CURRENT_USER in $CONTAINER_PATH"
-  echo
   
   if is_command_exists sysctl; then
   # Check if kernel.unprivileged_userns_clone exists
@@ -642,10 +628,9 @@ prepare_environment_for_buildah() {
     if ! [ -z "$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)" ]; then
       KERNEL_APPARMOR="$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)"
       if [ "$KERNEL_APPARMOR" = "1" ]; then
-        log::info "Set kernel.apparmor_restrict_unprivileged_userns and kernel.apparmor_restrict_unprivileged_unconfined to 0"
-        { echo "kernel.apparmor_restrict_unprivileged_userns = 0" \ &&
-          echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | run_as_root "tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf" \ &&
-          run_as_root "sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf"
+        log::info "Set kernel.apparmor_restrict_unprivileged_userns to 0"
+        echo "kernel.apparmor_restrict_unprivileged_userns = 0" | run_as_root "tee -a /etc/sysctl.d/20-apparmor.conf" \ &&
+          run_as_root "sysctl -p /etc/sysctl.d/20-apparmor.conf"
       fi
     fi
 
@@ -659,58 +644,6 @@ prepare_environment_for_buildah() {
   else 
     log::warn "sysctl not found"
   fi
-}
-
-# Function to manually install Buildah
-manual_install() {
-    log::info "Manual installation of Buildah is required for your system."
-    
-    # Install packages providing newuidmap and newgidmap
-    log::info "Installing necessary packages for newuidmap and newgidmap..."
-    if is_command_exists apt-get; then
-        run_as_root "apt-get -y update"
-        run_as_root "DEBIAN_FRONTEND=noninteractive  apt-get install -y uidmap"
-    elif is_command_exists yum; then
-        run_as_root "yum install -y shadow-utils"
-    elif is_command_exists zypper; then
-        run_as_root "zypper install -y shadow"
-    else
-        log::info "Please install newuidmap and newgidmap manually for your distribution."
-        exit 1
-    fi
-
-    # Ensure correct capabilities for newuidmap and newgidmap
-    log::info "Setting capabilities for newuidmap and newgidmap..."
-    run_as_root "setcap cap_setuid+ep /usr/bin/newuidmap"
-    run_as_root "setcap cap_setgid+ep /usr/bin/newgidmap"
-    run_as_root "chmod u-s,g-s /usr/bin/newuidmap /usr/bin/newgidmap"
-
-    # Ensure /etc/subuid and /etc/subgid files exist
-    log::info "Checking /etc/subuid and /etc/subgid..."
-    if [ ! -f /etc/subuid ] || [ ! -f /etc/subgid ]; then
-        if is_command_exists apt-get; then
-            run_as_root "apt-get -y update"
-            run_as_root "DEBIAN_FRONTEND=noninteractive  apt-get install -y login"
-        elif is_command_exists yum; then
-            run_as_root "yum install -y shadow-utils"
-        elif is_command_exists zypper; then
-            run_as_root "zypper install -y shadow"
-        else
-            echo "Please ensure /etc/subuid and /etc/subgid are correctly set up."
-            exit 1
-        fi
-    fi
-
-    # Add an entry to /etc/subuid and /etc/subgid
-    log::info "Configuring /etc/subuid and /etc/subgid for user $CURRENT_USER..."
-    if ! grep -q "$CURRENT_USER" /etc/subuid; then
-        echo "$CURRENT_USER:1000000:65536" | run_as_root "tee -a /etc/subuid"
-    fi
-    if ! grep -q "$CURRENT_USER" /etc/subgid; then
-        echo "$CURRENT_USER:1000000:65536" | run_as_root "tee -a /etc/subgid"
-    fi
-
-    log::info "Manual configuration complete. You may need to reboot your system for changes to take full effect."
 }
 
 get_linux_distro() {
@@ -740,9 +673,6 @@ install_package() {
   log::info "Detected Linux distribution: $distro"
 
   case "$distro" in
-    *Arch*)
-      run_as_root "pacman -S $package"
-      ;;
     *CentOS*|*Red\ Hat*|*Fedora*)
       run_as_root "yum -y install $package"
       ;;
@@ -750,19 +680,14 @@ install_package() {
       run_as_root "apt-get -y update"
       run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y install $package"
       ;;
-    *Gentoo*)
-      run_as_root "emerge $package"
-      ;;
     *SUSE*|*openSUSE*)
       run_as_root "zypper install $package"
       ;;
     *RHEL*)
       if [[ "$distro" == *"7"* ]]; then
-        run_as_root "subscription-manager repos --enable=rhel-7-server-extras-rpms"
         run_as_root "yum -y install $package"
       elif [[ "$distro" == *"8"* ]]; then
-        run_as_root "yum module enable -y container-tools:1.0"
-        run_as_root "yum module install -y $package"  # Теперь устанавливаем пакет через переменную $package
+        run_as_root "dnf module install -y $package"  
       fi
       ;;
     *)
@@ -771,51 +696,110 @@ install_package() {
   esac
 }
 
-
-# TODO:  fix git compile error
-# install_git() {
-#   distro=$(get_linux_distro)
-#   log::info "Detected Linux distribution: $distro"
+install_git() {
+  distro=$(get_linux_distro)
   
-#   # Установка зависимостей в зависимости от дистрибутива
-#   log::info "Installing dependencies for Git compilation..."
+  # Установка зависимостей в зависимости от дистрибутива
+  log::info "Installing dependencies for Git compilation..."
   
-#   case "$distro" in
-#     *Debian*|*Ubuntu*)
-#       install_package "make gcc libssl-dev curl zlib1g-dev autoconf"
-#       ;;
-#     *CentOS*|*Red\ Hat*|*Fedora*)
-#       run_as_root "yum groupinstall -y 'Development Tools'"
-#       install_package "curl openssl-devel zlib-devel autoconf"
-#       ;;
-#     *SUSE*|*openSUSE*)
-#       install_package "make gcc libopenssl-devel curl zlib-devel autoconf"
-#       ;;
-#     *)
-#       log::info "Unsupported distribution. Attempting to install common dependencies..."
-#       install_package "make gcc libssl-dev curl zlib1g-dev autoconf"
-#       ;;
-#   esac
+  case "$distro" in
+    *Debian*|*Ubuntu*)
+      install_package "make gcc libssl-dev zlib1g-dev libcurl4-openssl-dev gettext autoconf automake libexpat1-dev perl"
+      ;;
+    *CentOS*|*Red\ Hat*|*Fedora*)
+      run_as_root "yum groupinstall -y 'Development Tools'"
+      install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf"
+      ;;
+    *SUSE*|*openSUSE*)
+      install_package "make gcc libopenssl-devel zlib-devel libcurl-devel gettext-tools autoconf automake libexpat-devel perl"
+      ;;
+    *RHEL*)
+      if [[ "$distro" == *"7"* ]]; then
+        run_as_root "subscription-manager repos --enable=rhel-7-server-optional-rpms"
+        install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf automake asciidoc xmlto docbook2X"
+      elif [[ "$distro" == *"8"* ]]; then
+        run_as_root "subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms"
+        install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf automake asciidoc xmlto docbook2X"
+      else
+        abort "Unsupported RHEL version for Git compilation."
+      fi
+      ;;
+    *)
+      abort "Unsupported distribution."
+      ;;
+  esac
 
-#   # Скачиваем исходный архив Git
-#   log::info "Downloading Git source code..."
-#   curl -L -o /tmp/git-$REQUIRED_GIT_VERSION.tar.gz https://github.com/git/git/archive/refs/tags/v$REQUIRED_GIT_VERSION.tar.gz
+  # Проверяем, установлен ли curl
+  if ! is_command_exists curl; then
+    install_package curl
+  else
+    already_installed curl
+  fi
 
-#   # Распаковываем архив
-#   log::info "Extracting Git source code..."
-#   tar -xzf /tmp/git-$REQUIRED_GIT_VERSION.tar.gz -C /tmp/
-#   cd /tmp/git-$REQUIRED_GIT_VERSION
+  # Скачиваем исходный архив Git
+  log::info "Downloading Git source code..."
+  curl -L -o /tmp/git-$REQUIRED_GIT_VERSION.tar.gz https://github.com/git/git/archive/refs/tags/v$REQUIRED_GIT_VERSION.tar.gz
 
-#   # Сборка и установка Git
-#   log::info "Compiling and installing Git..."
-#   make configure
-#   ./configure --prefix=/usr
-#   run_as_root "make install install-doc install-html install-info"
+  # Распаковываем архив
+  log::info "Extracting Git source code..."
+  tar -xzf /tmp/git-$REQUIRED_GIT_VERSION.tar.gz -C /tmp/
+  cd /tmp/git-$REQUIRED_GIT_VERSION
 
-#   # Проверяем установку
-#   log::info "Git installation complete."
-#   git --version
-# }
+  # Сборка и установка Git
+  log::info "Compiling and installing Git..."
+  make -s configure
+  ./configure --prefix=/usr
+  make -s all
+  run_as_root "make -s install"
+
+  # Проверяем установку
+  log::info "Git installation complete."
+  git --version
+}
+
+install_buildah(){
+  distro=$(get_linux_distro)
+  log::info "Installing Buildah and configuring user namespaces..."
+
+  case "$distro" in
+    *Debian*|*Ubuntu*)
+      install_package "buildah uidmap"
+      ;;
+    *CentOS*|*Red\ Hat*|*Fedora*)
+      run_as_root "yum groupinstall -y 'Development Tools'"
+      install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf"
+      ;;
+    *SUSE*|*openSUSE*)
+      install_package "buildah shadow"
+      ;;
+    *RHEL*)
+      if [[ "$distro" == *"8"* ]]; then
+          run_as_root "dnf module enable -y container-tools:2.0"
+          install_package "buildah uidmap"
+      elif [[ "$distro" == *"7"* ]]; then
+          run_as_root "subscription-manager repos --enable=rhel-7-server-extras-rpms"
+          install_package "buildah uidmap"
+      fi
+      ;;
+    *)
+      abort "Unsupported distribution."
+      ;;
+  esac
+
+  # Configure user namespaces
+  if ! grep -q "$(get_user)" /etc/subuid; then
+    log::info "Configuring /etc/subuid and /etc/subgid for user namespaces..."
+    echo "$(get_user):100000:65536" | sudo tee -a /etc/subuid /etc/subgid
+  fi
+
+  # Migrate Podman system if applicable
+  if is_command_exists podman; then
+    log::info "Migrating Podman system configuration..."
+    run_as_root "podman system migrate"
+  fi
+
+  log::info "Buildah installation and configuration completed."
+}
 
 already_installed() {
   local package="$1"
