@@ -583,17 +583,9 @@ prepare_environment_for_werf() {
 
   [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "skip" || return 0
 
-  if ! is_command_exists git; then
-    install_git
-  else
-    already_installed git
-  fi
+  is_command_exists git || install_git
 
-  if ! is_command_exists curl; then
-    install_package curl
-  else
-    already_installed curl
-  fi
+  is_command_exists curl || install_package curl
 
   is_command_exists gpg || install_package gpg
 
@@ -607,12 +599,8 @@ prepare_environment_for_buildah() {
 
   [[ $override_prepare_environment_for_buildah == "auto" ]] && prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
 
-  if ! is_command_exists buildah; then
-    install_buildah
-  else
-    already_installed buildah
-  fi 
-  
+  is_command_exists buildah || install_buildah
+    
   if is_command_exists sysctl; then
   # Check if kernel.unprivileged_userns_clone exists
     if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then
@@ -730,11 +718,7 @@ install_git() {
   esac
 
   # Проверяем, установлен ли curl
-  if ! is_command_exists curl; then
-    install_package curl
-  else
-    already_installed curl
-  fi
+  is_command_exists curl || install_package curl
 
   # Скачиваем исходный архив Git
   log::info "Downloading Git source code..."
