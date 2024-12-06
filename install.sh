@@ -785,11 +785,6 @@ install_buildah(){
   log::info "Buildah installation and configuration completed."
 }
 
-already_installed() {
-  local package="$1"
-  log::info "$package already installed"
-}
-
 log::info() {
   declare msg="$1"
 
