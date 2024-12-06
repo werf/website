@@ -30,7 +30,7 @@
 
 * Кластер Kubernetes.
 * Проект на [GitHub](https://github.com/).
-* Приложение, которое успешно собирается и деплоится с помощью werf.
+* Приложение, которое успешно собирается и запускается с помощью werf.
 * Понимание [основных концептов GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions).
 
 > Далее в примерах статьи будут использоваться виртуальные машины, предоставляемые GitHub, с OS Linux (`runs-on: ubuntu-latest`). Тем не менее, все примеры также справедливы для предустановленных self-hosted runners на базе любой OS
@@ -88,7 +88,7 @@
 Среди предустановленного ПО на виртуальных машинах GitHub уже установлен `kubectl`, поэтому пользователю остаётся только:
 * определиться с конфигурацией [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/);
 * создать секретную переменную `KUBE_CONFIG_BASE64_DATA` с контентом файла kubeconfig (`cat ~/.kube/config | base64`) в Settings/Secrets проекта на GitHub.
-* прокинуть секретную переменную `secrets.KUBE_CONFIG_BASE64_DATA` в используемый werf converge:
+* прописать секретную переменную `secrets.KUBE_CONFIG_BASE64_DATA` в используемый werf converge:
 
 {% raw %}
 ```yaml

@@ -355,7 +355,7 @@ articles:
       <p>Эта статья — начало цикла о сборке <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp">werf</a>'ом (dapp) приложений на различных языках, платформах, технологических стеках. Предыдущие статьи про dapp были больше обзорными, описывали возможности dapp. Теперь же пора поговорить более предметно и поделиться конкретным опытом работы с проектами. В связи с недавним релизом <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp/releases/tag/0.26.2">dapp 0.26.2</a> я заодно покажу, как описывать сборку в YAML-файле.</p>
       <p>Описывать сборку буду на примере приложения из репозитория dockersamples — <!-- spell-check-ignore --><a target="_blank" rel="noopener nofollow" href="https://github.com/dockersamples/atsea-sample-shop-app">atsea-sample-shop-app</a><!-- end-spell-check-ignore -->. Это прототип небольшого магазина, построенный на React (фронт) и Java Spring Boot (бэкенд). В качестве БД используется PostgreSQL. Для большей похожести на рабочий проект добавлены реверсивный прокси на nginx и шлюз платежей в виде простого скрипта.</p>
 
-  - title: "Сборка и дeплой приложений в Kubernetes с помощью werf (dapp) и GitLab CI"
+  - title: "Сборка и деплой приложений в Kubernetes с помощью werf (dapp) и GitLab CI"
     habr_url: "https://habr.com/company/flant/blog/345580/"
     created: 2017-12-27
     img: "/images/publications/ru_271217.jpg"
