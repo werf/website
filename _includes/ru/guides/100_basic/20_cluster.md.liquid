@@ -105,7 +105,7 @@ kubectl delete secret registrysecret
 В следующих статьях мы будем использовать Secret `registrysecret` в поле `imagePullSecrets` при конфигурации Pod'ов (подробнее можно почитать [здесь](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets)).
 
 > Стоит обратить внимание на опцию `--docker-server`, параметр которой должен соответствовать адресу используемого
-> registry. К примеру, для GitHub container registry необходимо иcпользовать `ghcr.io`, а для Docker Hub можно обойтись
+> registry. К примеру, для GitHub container registry необходимо использовать `ghcr.io`, а для Docker Hub можно обойтись
 > без опции и использовать значение по умолчанию.
 
 Теперь окружение для работы готово.
