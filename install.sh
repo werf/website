@@ -607,7 +607,7 @@ prepare_environment_for_buildah() {
       KERNEL_SETTING="$(sysctl -ne kernel.unprivileged_userns_clone)"
       if [ "$KERNEL_SETTING" = "0" ]; then
       echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
-      run_as_root "sysctl -p"
+      run_as_root "sysctl -w kernel.unprivileged_userns_clone=1"
       log::info "Updated kernel.unprivileged_userns_clone value"
       fi
     fi
@@ -626,7 +626,7 @@ prepare_environment_for_buildah() {
     USER_NAMESPACES_SETTING="$(sysctl -n user.max_user_namespaces)"
     if [[ "$USER_NAMESPACES_SETTING" < "15000" ]]; then
       echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
-      run_as_root "sysctl -p"
+      run_as_root "sysctl -w user.max_user_namespaces=15000"
       log::info "Updated user.max_user_namespaces value"
     fi
   else 
@@ -714,7 +714,7 @@ install_buildah(){
   esac
 
   is_command_exists usermod || abort "usermod not found" 
-   
+
   # Configure user namespaces
   if ! grep -q "$(get_user)" /etc/subuid; then
     log::info "Configuring /etc/subuid and /etc/subgid for user namespaces..."
