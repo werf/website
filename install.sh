@@ -583,7 +583,7 @@ prepare_environment_for_werf() {
 
   [[ $override_prepare_environment_for_werf == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "skip" || return 0
 
-  is_command_exists git || install_git
+  is_command_exists git || install_package git 
 
   is_command_exists curl || install_package curl
 
@@ -684,63 +684,6 @@ install_package() {
   esac
 }
 
-install_git() {
-  distro=$(get_linux_distro)
-  
-  # Установка зависимостей в зависимости от дистрибутива
-  log::info "Installing dependencies for Git compilation..."
-  
-  case "$distro" in
-    *Debian*|*Ubuntu*)
-      install_package "make gcc libssl-dev zlib1g-dev libcurl4-openssl-dev gettext autoconf automake libexpat1-dev perl"
-      ;;
-    *CentOS*|*Red\ Hat*|*Fedora*)
-      run_as_root "yum groupinstall -y 'Development Tools'"
-      install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf"
-      ;;
-    *SUSE*|*openSUSE*)
-      install_package "make gcc libopenssl-devel zlib-devel libcurl-devel gettext-tools autoconf automake libexpat-devel perl"
-      ;;
-    *RHEL*)
-      if [[ "$distro" == *"7"* ]]; then
-        run_as_root "subscription-manager repos --enable=rhel-7-server-optional-rpms"
-        install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf automake asciidoc xmlto docbook2X"
-      elif [[ "$distro" == *"8"* ]]; then
-        run_as_root "subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms"
-        install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf automake asciidoc xmlto docbook2X"
-      else
-        abort "Unsupported RHEL version for Git compilation."
-      fi
-      ;;
-    *)
-      abort "Unsupported distribution."
-      ;;
-  esac
-
-  # Проверяем, установлен ли curl
-  is_command_exists curl || install_package curl
-
-  # Скачиваем исходный архив Git
-  log::info "Downloading Git source code..."
-  curl -L -o /tmp/git-$REQUIRED_GIT_VERSION.tar.gz https://github.com/git/git/archive/refs/tags/v$REQUIRED_GIT_VERSION.tar.gz
-
-  # Распаковываем архив
-  log::info "Extracting Git source code..."
-  tar -xzf /tmp/git-$REQUIRED_GIT_VERSION.tar.gz -C /tmp/
-  cd /tmp/git-$REQUIRED_GIT_VERSION
-
-  # Сборка и установка Git
-  log::info "Compiling and installing Git..."
-  make -s configure
-  ./configure --prefix=/usr
-  make -s all
-  run_as_root "make -s install"
-
-  # Проверяем установку
-  log::info "Git installation complete."
-  git --version
-}
-
 install_buildah(){
   distro=$(get_linux_distro)
   log::info "Installing Buildah and configuring user namespaces..."
@@ -770,10 +713,12 @@ install_buildah(){
       ;;
   esac
 
+  is_command_exists usermod || abort "usermod not found" 
+   
   # Configure user namespaces
   if ! grep -q "$(get_user)" /etc/subuid; then
     log::info "Configuring /etc/subuid and /etc/subgid for user namespaces..."
-    echo "$(get_user):100000:65536" | sudo tee -a /etc/subuid /etc/subgid
+    run_as_root "usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $(get_user)"
   fi
 
   # Migrate Podman system if applicable
