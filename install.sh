@@ -14,6 +14,8 @@ main() {
   OPT_DEFAULT_JOIN_DOCKER_GROUP="auto"
   OPT_DEFAULT_SETUP_BIN_PATH="auto"
   OPT_DEFAULT_AUTOACTIVATE_WERF="auto"
+  OPT_DEFAULT_INSTALL_WERF_SYSTEM_DEPENDENCIES="auto"
+  OPT_DEFAULT_SETUP_BUILDAH="auto"
   OPT_DEFAULT_VERIFY_TRDL_SIGNATURE="yes"
   OPT_DEFAULT_SHELL="auto"
   OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION="2"
@@ -43,13 +45,16 @@ main() {
     OPT_JOIN_DOCKER_GROUP="${OPT_JOIN_DOCKER_GROUP:-"no"}"
     OPT_SETUP_BIN_PATH="${OPT_SETUP_BIN_PATH:-"no"}"
     OPT_AUTOACTIVATE_WERF="${OPT_AUTOACTIVATE_WERF:-"no"}"
+    OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES="${OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES:-"no"}"
+    OPT_SETUP_BUILDAH="${OPT_SETUP_BUILDAH:-"no"}"
   else
     OPT_INTERACTIVE="${OPT_INTERACTIVE:-$OPT_DEFAULT_INTERACTIVE}"
     OPT_JOIN_DOCKER_GROUP="${OPT_JOIN_DOCKER_GROUP:-$OPT_DEFAULT_JOIN_DOCKER_GROUP}"
     OPT_SETUP_BIN_PATH="${OPT_SETUP_BIN_PATH:-$OPT_DEFAULT_SETUP_BIN_PATH}"
     OPT_AUTOACTIVATE_WERF="${OPT_AUTOACTIVATE_WERF:-$OPT_DEFAULT_AUTOACTIVATE_WERF}"
+    OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES="${OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES:-$OPT_DEFAULT_INSTALL_WERF_SYSTEM_DEPENDENCIES}"
+    OPT_SETUP_BUILDAH="${OPT_SETUP_BUILDAH:-$OPT_DEFAULT_SETUP_BUILDAH}"
   fi
-
   OPT_VERIFY_TRDL_SIGNATURE="${OPT_VERIFY_TRDL_SIGNATURE:-$OPT_DEFAULT_VERIFY_TRDL_SIGNATURE}"
   OPT_SHELL="${OPT_SHELL:-$OPT_DEFAULT_SHELL}"
   OPT_WERF_AUTOACTIVATE_VERSION="${OPT_WERF_AUTOACTIVATE_VERSION:-$OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION}"
@@ -61,9 +66,13 @@ main() {
   OPT_WERF_TUF_ROOT_VERSION="${OPT_WERF_TUF_ROOT_VERSION:-$OPT_DEFAULT_WERF_TUF_ROOT_VERSION}"
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
 
+  install_werf_system_dependencies "$OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
   ensure_cmds_available uname git grep tee install
-  [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
   validate_git_version "$REQUIRED_GIT_VERSION"
+
+  setup_buildah "$OPT_SETUP_BUILDAH"
+
+  [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
 
   declare arch
   arch="$(get_arch)" || abort "Failure getting system architecture."
@@ -103,6 +112,10 @@ getoptions_config() {
     "Add \"$HOME/bin\" to \$PATH for trdl? Default: $OPT_DEFAULT_SETUP_BIN_PATH"
   flag OPT_AUTOACTIVATE_WERF -a --{no-}autoactivate-werf -- \
     "Enable werf autoactivation? Default: $OPT_DEFAULT_AUTOACTIVATE_WERF"
+  flag OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES --{no-}install-werf-system-depedencies -- \
+    "Install system dependencies for werf? Default: $OPT_DEFAULT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
+  flag OPT_SETUP_BUILDAH --{no-}setup-buildah -- \
+    "Install and set up Buildah backend? Default: $OPT_DEFAULT_SETUP_BUILDAH"
   
   param OPT_SHELL -s --shell validate:"validate_option_by_regex '$OPT_REGEX_SHELL'" -- \
     "Shell, for which werf/trdl should be set up. Default: $OPT_DEFAULT_SHELL. Allowed values regex: $OPT_REGEX_SHELL"
@@ -147,7 +160,12 @@ validate_git_version() {
   declare current_git_version
   current_git_version="$(git --version | awk '{print $3}' | awk -F. '{printf("%s.%s.%s", $1, $2, $3)}')" || abort "Unable to parse git version."
   compare_versions "$current_git_version" "$required_git_version"
-  [[ $? -gt 1 ]] && abort "Git version must be at least \"$required_git_version\"."
+  case $? in
+    1)  log::info "Current version is greater than or equal to required version." ;;
+    2)  abort "Git version must be at least \"$required_git_version\"." ;;
+    0)  log::info "Versions are equal." ;;
+    *)  abort "Unexpected error comparing versions." ;;
+  esac
 }
 
 get_arch() {
@@ -557,6 +575,69 @@ compare_versions() {
   return 0
 }
 
+install_werf_system_dependencies() {
+  local override_install_werf_system_dependencies="$1"
+
+  [[ $override_install_werf_system_dependencies == "no" ]] && return 0
+
+  [[ $override_install_werf_system_dependencies == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "skip" || return 0
+
+  local missing_packages=""
+
+  is_command_exists git || missing_packages="$missing_packages git"
+  is_command_exists curl || missing_packages="$missing_packages curl"
+  is_command_exists gpg || missing_packages="$missing_packages gpg"
+
+  if [ "$missing_packages" == "" ]; then
+    return 0
+  fi
+
+  install_package "$missing_packages"
+}
+
+setup_buildah() {
+
+  local override_setup_buildah="$1"
+
+  [[ $override_setup_buildah == "no" ]] && return 0
+
+  [[ $override_setup_buildah == "auto" ]] && prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
+
+  is_command_exists buildah || install_buildah
+    
+  if is_command_exists sysctl; then
+  # Check if kernel.unprivileged_userns_clone exists
+    if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then
+      KERNEL_SETTING="$(sysctl -ne kernel.unprivileged_userns_clone)"
+      if [ "$KERNEL_SETTING" = "0" ]; then
+      echo 'kernel.unprivileged_userns_clone = 1' | run_as_root "tee -a /etc/sysctl.conf"
+      run_as_root "sysctl -w kernel.unprivileged_userns_clone=1"
+      log::info "Updated kernel.unprivileged_userns_clone value"
+      fi
+    fi
+
+    # Check if kernel.apparmor_restrict_unprivileged_userns exists
+    if ! [ -z "$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)" ]; then
+      KERNEL_APPARMOR="$(sysctl -ne kernel.apparmor_restrict_unprivileged_userns)"
+      if [ "$KERNEL_APPARMOR" = "1" ]; then
+        log::info "Set kernel.apparmor_restrict_unprivileged_userns to 0"
+        echo "kernel.apparmor_restrict_unprivileged_userns = 0" | run_as_root "tee -a /etc/sysctl.conf" \ &&
+          run_as_root "sysctl -w kernel.apparmor_restrict_unprivileged_userns=0"
+      fi
+    fi
+
+    # Check the sysctl value: user.max_user_namespaces
+    USER_NAMESPACES_SETTING="$(sysctl -n user.max_user_namespaces)"
+    if [[ "$USER_NAMESPACES_SETTING" < "15000" ]]; then
+      echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
+      run_as_root "sysctl -w user.max_user_namespaces=15000"
+      log::info "Updated user.max_user_namespaces value"
+    fi
+  else 
+    log::warn "sysctl not found"
+  fi
+}
+
 get_linux_distro() {
   declare distro
   if [[ -f /etc/os-release ]]; then
@@ -568,19 +649,146 @@ get_linux_distro() {
     . "/etc/lsb-release"
     distro="$DISTRIB_ID"
   elif [[ -f "/etc/debian_version" ]]; then
-    # Older Debian/Ubuntu/etc.
     distro="debian"
   elif [[ -f "/etc/SuSe-release" ]]; then
-    # Older SuSE/etc.
     distro="suse"
   elif [[ -f "/etc/redhat-release" ]]; then
-    # Older Red Hat, CentOS, etc.
     distro="redhat"
   else
     abort "Unable to detect Linux distro."
   fi
+  echo "$distro"
+}
 
-  printf '%s' "$distro" | tr '[:upper:]' '[:lower:]'
+install_package() {
+  local package="$1"
+  distro=$(get_linux_distro)
+  
+  log::info "Detected Linux distribution: $distro"
+
+  case "$distro" in
+    *CentOS*|*Red\ Hat*|*Fedora*)
+      run_as_root "yum -y install $package"
+      ;;
+    *Debian*|*Ubuntu*)
+      run_as_root "apt-get -y update"
+      run_as_root "DEBIAN_FRONTEND=noninteractive apt-get -y install $package"
+      ;;
+    *SUSE*|*openSUSE*)
+      run_as_root "zypper install $package"
+      ;;
+    *RHEL*)
+      if [[ "$distro" == *"7"* ]]; then
+        run_as_root "yum -y install $package"
+      elif [[ "$distro" == *"8"* ]]; then
+        run_as_root "dnf module install -y $package"  
+      fi
+      ;;
+    *)
+      abort "Unsupported distribution: $distro"
+      ;;
+  esac
+}
+
+install_buildah(){
+  distro=$(get_linux_distro)
+  log::info "Installing Buildah and configuring user namespaces..."
+
+  case "$distro" in
+    *Debian*|*Ubuntu*)
+      install_package "buildah uidmap"
+      ;;
+    *CentOS*|*Red\ Hat*|*Fedora*)
+      run_as_root "yum groupinstall -y 'Development Tools'"
+      install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf"
+      ;;
+    *SUSE*|*openSUSE*)
+      install_package "buildah shadow"
+      ;;
+    *RHEL*)
+      if [[ "$distro" == *"8"* ]]; then
+          run_as_root "dnf module enable -y container-tools:2.0"
+          install_package "buildah uidmap"
+      elif [[ "$distro" == *"7"* ]]; then
+          run_as_root "subscription-manager repos --enable=rhel-7-server-extras-rpms"
+          install_package "buildah uidmap"
+      fi
+      ;;
+    *)
+      abort "Unsupported distribution."
+      ;;
+  esac
+
+  set_user_subuids_subgids
+
+  # Migrate Podman system if applicable
+  if is_command_exists podman; then
+    log::info "Migrating Podman system configuration..."
+    run_as_root "podman system migrate"
+  fi
+
+  log::info "Buildah installation and configuration completed."
+}
+
+get_free_range() {
+  local start=100000
+  local end=6000000
+  local range_size=65536
+
+  local used_ranges
+  if [[ -s /etc/subuid || -s /etc/subgid ]]; then
+    used_ranges=$(awk -F: '{print $2 ":" $3}' /etc/subuid /etc/subgid 2>/dev/null | sort -n)
+  else
+    echo "$start:$range_size"
+    return 0
+  fi
+
+  while read -r range; do
+    local range_start range_size_in_use
+    range_start=$(echo "$range" | cut -d: -f1)
+    range_size_in_use=$(echo "$range" | cut -d: -f2)
+    local range_end=$((range_start + range_size_in_use - 1))
+
+    if ((start + range_size - 1 < range_start)); then
+      echo "$start:$range_size"
+      return 0
+    fi
+    start=$((range_end + 1))
+  done <<< "$used_ranges"
+
+  echo "$start:$range_size"
+  return 0
+}
+
+set_user_subuids_subgids() {
+
+  local min_range_size=65536
+  local current_user=$(get_user)
+  local free_range=$(get_free_range)
+
+  if grep -q "^$current_user:" /etc/subuid; then
+    local current_range=$(awk -F: -v user="$current_user" '$1 == user {print $3}' /etc/subuid)
+    if (( current_range < min_range_size )); then
+      abort "User $current_user has a subuid range smaller than $min_range_size. Please adjust it manually."
+    else
+      log::info "User $current_user already has a valid subuid range."
+    fi
+  else
+    echo "$current_user:$free_range" | run_as_root "tee -a /etc/subuid"
+    log::info "Assigned subuid range $free_range to user $current_user."
+  fi
+
+  if grep -q "^$current_user:" /etc/subgid; then
+    local current_range=$(awk -F: -v user="$current_user" '$1 == user {print $3}' /etc/subgid)
+    if (( current_range < min_range_size )); then
+      abort "User $current_user has a subgid range smaller than $min_range_size. Please adjust it manually."
+    else
+      log::info "User $current_user already has a valid subgid range."
+    fi
+  else
+    echo "$current_user:$free_range" | run_as_root "tee -a /etc/subgid"
+    log::info "Assigned subgid range $free_range to user $current_user."
+  fi
 }
 
 log::info() {
