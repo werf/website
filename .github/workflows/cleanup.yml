@@ -33,7 +33,7 @@ jobs:
           WERF_LOG_VERBOSE: "on"
           WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_PROD }}
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
 
       - name: Cleanup staged storage
         run: |
