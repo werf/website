@@ -1,7 +1,7 @@
 name: Cleanup Docker registry
 on:
   schedule:
-    - cron:  '10 6 * * *'
+    - cron: "10 6 * * *"
   repository_dispatch:
     types: [cleanup]
   workflow_dispatch:
@@ -16,6 +16,11 @@ jobs:
   cleanup:
     name: Cleanup
     runs-on: ubuntu-latest-4-cores
+    strategy:
+      matrix:
+        repo:
+          - "ghcr.io/${{ github.repository_owner }}/werfio-guides"
+          - "ghcr.io/werf/werfio-guides-stages"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,3 +39,4 @@ jobs:
           WERF_LOG_VERBOSE: "on"
           WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_REPO: ${{ matrix.repo }}
