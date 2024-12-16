@@ -35,7 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
 
-      - name: Cleanup staged storage
+      - name: Cleanup stages storage
         run: |
           . $(werf ci-env github --as-file)
           werf cleanup
