@@ -1,7 +1,7 @@
 name: Cleanup Docker registry
 on:
   schedule:
-    - cron:  '10 6 * * *'
+    - cron: "10 6 * * *"
   repository_dispatch:
     types: [cleanup]
   workflow_dispatch:
@@ -9,8 +9,6 @@ on:
 env:
   WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
-  WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
-  WERF_WITHOUT_KUBE: "true"
 
 jobs:
   cleanup:
@@ -34,3 +32,15 @@ jobs:
           WERF_LOG_VERBOSE: "on"
           WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
+
+      - name: Cleanup stages storage
+        run: |
+          . $(werf ci-env github --as-file)
+          werf cleanup
+        env:
+          WERF_LOG_VERBOSE: "on"
+          WERF_REPO_GITHUB_TOKEN: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_REPO: "ghcr.io/werf/werfio-guides-stages"
+          WERF_WITHOUT_KUBE: "true"
