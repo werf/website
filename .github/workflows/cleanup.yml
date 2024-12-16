@@ -9,7 +9,6 @@ on:
 env:
   WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
-  WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
 
 jobs:
   cleanup:
