@@ -46,6 +46,9 @@ rewrite ^/docs/(?<ver>v2(?:\.\d+(?:\.\d+(?:[^/]+)?)?)?|latest)/usage/cleanup/?$ 
 rewrite ^/docs/(?<ver>v2(?:\.\d+(?:\.\d+(?:[^/]+)?)?)?|latest)/reference/?$                   /docs/$ver/reference/werf_yaml.html                             redirect;
 rewrite ^/docs/(?<ver>v2(?:\.\d+(?:\.\d+(?:[^/]+)?)?)?|latest)/reference/cli/?$               /docs/$ver/reference/cli/overview.html                          redirect;
 rewrite ^/docs/(?<ver>v2(?:\.\d+(?:\.\d+(?:[^/]+)?)?)?|latest)/resources/?$                   /docs/$ver/resources/cheat_sheet.html                           redirect;
+rewrite ^/docs/(?<ver>v2(?:\.\d+(?:[^/]+)?)?|latest)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)$                                 /docs/$ver/reference/cli/werf_${tail1}_${tail2}                   redirect;
+rewrite ^/docs/(?<ver>v2(?:\.\d+(?:[^/]+)?)?|latest)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)/(?<tail3>[^/]+)$                 /docs/$ver/reference/cli/werf_${tail1}_${tail2}_${tail3}          redirect;
+rewrite ^/docs/(?<ver>v2(?:\.\d+(?:[^/]+)?)?|latest)/cli/management/(?<tail1>[^/]+)/(?<tail2>[^/]+)/(?<tail3>[^/]+)/(?<tail4>[^/]+)$ /docs/$ver/reference/cli/werf_${tail1}_${tail2}_${tail3}_${tail4} redirect;
 
 rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/?$                                    /docs/$ver/usage/project_configuration/overview.html            redirect;
 rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/usage/?$                              /docs/$ver/usage/project_configuration/overview.html            redirect;
@@ -120,7 +123,6 @@ rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/cleanup\.htm
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/configuration/giterminism\.html$                                          /docs/$ver/usage/project_configuration/giterminism.html redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/configuration/organizing_configuration\.html$                             /docs/$ver/reference/werf_yaml_template_engine.html     redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/configuration/supported_go_templates\.html$                               /docs/$ver/reference/werf_yaml_template_engine.html     redirect;
-rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/development_and_debug/stage_introspection\.html$                          /docs/$ver/usage/build/stapel/base.html                 redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/giterminism\.html$                                                        /docs/$ver/usage/project_configuration/giterminism.html redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/helm/configuration/chart\.html$                                           /docs/$ver/usage/deploy/charts.html                     redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/advanced/helm/configuration/chart_dependencies\.html$                              /docs/$ver/usage/deploy/charts.html                     redirect;
@@ -150,7 +152,6 @@ rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/internals/how_ci_cd_i
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/internals/how_ci_cd_integration_works/github_actions\.html$                        /docs/$ver/usage/integration_with_ci_cd_systems.html    redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/internals/how_ci_cd_integration_works/gitlab_ci_cd\.html$                          /docs/$ver/usage/integration_with_ci_cd_systems.html    redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/internals/integration_with_ssh_agent\.html$                                        /docs/$ver/usage/build/stapel/base.html                 redirect;
-rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/internals/stages_and_storage\.html$                                                /docs/$ver/usage/build/process.html                     redirect;
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/internals/telemetry\.html$                                                         /docs/$ver/resources/telemetry.html                     redirect;
 
 rewrite ^/docs/(?<ver>v1\.[12](?:\.\d+(?:[^/]+)?)?|latest)/reference/build/artifact\.html$                                                    /docs/$ver/usage/build/stapel/imports.html              redirect;
@@ -206,6 +207,8 @@ rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/reference/toolbox/slug\.
 rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/reference/toolbox/ssh\.html$                                                    /docs/$ver/usage/build/stapel/base.html                           redirect;
 rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/reference/working_with_docker_registries\.html$                                 /docs/$ver/usage/cleanup/cr_cleanup.html                          redirect;
 
+rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/internals/stages_and_storage\.html$                                             /docs/$ver/usage/build/process.html                               redirect;
+
 rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/whats_new_in_v1_2/changelog\.html$                                              /docs/$ver/resources/how_to_migrate_from_v1_1_to_v1_2.html        redirect;
 rewrite ^/docs/(?<ver>v1\.2(?:\.\d+(?:[^/]+)?)?|latest)/whats_new_in_v1_2/how_to_migrate_from_v1_1_to_v1_2\.html$                       /docs/$ver/resources/how_to_migrate_from_v1_1_to_v1_2.html        redirect;
 
@@ -235,7 +238,7 @@ rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/configuration/stapel_ima
 
 rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/reference/cleanup_process\.html$                           /docs/$ver/reference/cleaning_process.html                            redirect;
 rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/reference/config\.html$                                    /docs/$ver/configuration/introduction.html                            redirect;
-rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/reference/stages_and_images\.html$                         /docs/$ver/internals/stages_and_storage.html                          redirect;
+rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/reference/stages_and_images\.html$                         /docs/$ver/reference/build_process.html                               redirect;
 rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/reference/build/as_layers\.html$                           /docs/$ver/reference/development_and_debug/as_layers.html             redirect;
 rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/reference/build/stage_introspection\.html$                 /docs/$ver/reference/development_and_debug/stage_introspection.html   redirect;
 rewrite ^/docs/(?<ver>v1\.1(?:\.\d+(?:[^/]+)?)?|latest)/reference/build/(?<tail>.+)                                /docs/$ver/configuration/stapel_image/$tail                           redirect;
