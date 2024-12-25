@@ -20,6 +20,7 @@ jobs:
 
   notification:
     name: Notification
+    needs: prettier
     if: always()
     uses: werf/common-ci/.github/workflows/notification.yml@main
     secrets:
