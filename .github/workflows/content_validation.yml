@@ -3,13 +3,13 @@ name: Content Validation
 on:
   push:
     paths:
-      - '.github/workflows/content_validation.yml'
-      - '_data/en/publications.yml'
-      - '_data/ru/publications.yml'
-      - '**/*.md'
-      - '**/*.md.liquid'
-      - '**/*.html'
-      - 'scripts/docs/**'
+      - ".github/workflows/content_validation.yml"
+      - "_data/en/publications.yml"
+      - "_data/ru/publications.yml"
+      - "**/*.md"
+      - "**/*.md.liquid"
+      - "**/*.html"
+      - "scripts/docs/**"
   workflow_dispatch:
 
 env:
