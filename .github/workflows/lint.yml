@@ -1,0 +1,28 @@
+name: Lint
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Taskfile.yaml"
+      - ".github/**"
+      - "bin/**"
+      - "_data/**"
+      - "_config*"
+  pull_request:
+  repository_dispatch:
+    types: ["Lint"]
+  workflow_dispatch:
+
+jobs:
+  prettier:
+    uses: werf/common-ci/.github/workflows/lint.yml@chore/ci/lint
+
+  notification:
+    name: Notification
+    if: always()
+    uses: werf/common-ci/.github/workflows/notification.yml@main
+    secrets:
+      loopNotificationGroup: ${{ secrets.LOOP_NOTIFICATION_GROUP }}
+      webhook: ${{ secrets.LOOP_NOTIFICATION_WEBHOOK }}
+      notificationChannel: ${{ secrets.LOOP_NOTIFICATION_CHANNEL }}
