@@ -19,7 +19,7 @@ jobs:
   lint:
     uses: werf/common-ci/.github/workflows/lint.yml@chore/ci/lint
     with:
-      directories: '["backend"]'
+      directories: '["backend", "bin/configurator"]'
       cmd: task -p lint:golangci-lint
 
   notification:

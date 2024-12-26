@@ -189,15 +189,6 @@ type configCombinationTab struct {
 	Params      map[string]string `yaml:"params,omitempty"`
 }
 
-func (c config) mustGetCombinationTree() optionTreeNode {
-	rootOption, err := c.getCombinationTree()
-	if err != nil {
-		panic(err)
-	}
-
-	return rootOption
-}
-
 type optionTreeNode struct {
 	Option string               `json:"option"`
 	Values optionTreeNodeValues `json:"values"`
