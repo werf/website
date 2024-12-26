@@ -9,18 +9,22 @@ on:
       - "bin/**"
       - "_data/**"
       - "_config*"
+      - "backend/**"
   pull_request:
   repository_dispatch:
     types: ["Lint"]
   workflow_dispatch:
 
 jobs:
-  prettier:
+  lint:
     uses: werf/common-ci/.github/workflows/lint.yml@chore/ci/lint
+    with:
+      directories: '["bin", "backend"]'
+      cmd: task -p lint:golangci-lint
 
   notification:
     name: Notification
-    needs: prettier
+    needs: lint
     if: always()
     uses: werf/common-ci/.github/workflows/notification.yml@main
     secrets:

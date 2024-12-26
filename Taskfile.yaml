@@ -218,10 +218,10 @@ tasks:
     cmds:
       - npm install -g prettier
 
-  lint:
-    desc: "Run all linters in parallel."
-    deps:
-      - lint:prettier
+  deps:install:golangci-lint:
+    desc: "Install golangci-lint binary."
+    cmds:
+      - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin {{.golangcilintVersion | default "v1.57.1"}}
 
   lint:prettier:
     desc: "Check if prettier-formatted."
@@ -232,3 +232,8 @@ tasks:
     desc: "Check if yaml files are prettier-formatted."
     cmds:
       - prettier -c "**/*.yaml" "**/*.yml"
+
+  lint:golangci-lint:
+    desc: "Lint with golangci-lint"
+    cmds:
+      - GOOS=$(OS) GOARCH="$(GOARCH)" golangci-lint run ./... --config ../.golangci.yaml
