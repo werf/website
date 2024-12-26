@@ -235,14 +235,5 @@ tasks:
 
   lint:golangci-lint:
     desc: "Lint with golangci-lint"
-    deps:
-      - lint:golangci-lint:configurator
-      - lint:golangci-lint:backend
-
-  lint:golangci-lint:configurator:
     cmds:
-      - GOOS=$(OS) GOARCH="$(GOARCH)" golangci-lint run ./... --config ../../.golangci.yaml
-
-  lint:golangci-lint:backend:
-    cmds:
-      - GOOS=$(OS) GOARCH="$(GOARCH)" golangci-lint run ./... --config ../.golangci.yaml
+      - golangci-lint run ./... --config {{.Env.GITHUB_WORKSPACE}}/.golangci.yaml
