@@ -236,4 +236,4 @@ tasks:
   lint:golangci-lint:
     desc: "Lint with golangci-lint"
     cmds:
-      - golangci-lint run ./... --config {{.Env.GITHUB_WORKSPACE}}/.golangci.yaml
+      - golangci-lint run ./... --config {{.GITHUB_WORKSPACE}}/.golangci.yaml
