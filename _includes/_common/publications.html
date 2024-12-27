@@ -53,6 +53,9 @@
                             {%- endif %}
                             {%- for custom in publication.custom_urls %}
                             <a href="{{ custom.url }}" class="publications__btn" target="_blank">
+                                {%- if custom.service_name == "github.io" %}
+                                    {{ i18n.custom_url_btn_title }}{{ custom.service_name }}
+                                {%- endif}
                                 {{ i18n.custom_url_btn_title_prefix }}{{ custom.service_name }}
                             </a>
                             {%- endfor -%}

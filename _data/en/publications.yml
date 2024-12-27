@@ -5,6 +5,7 @@ i18n:
   custom_url_btn_title_prefix: "Read on "
   youtube_btn_title: "Watch on YouTube"
   cloud_yuga_btn_title: "Run lab on CloudYuga"
+  custom_url_btn_title: "Read more"
 
 articles:
   #- title: TITLE
@@ -65,14 +66,16 @@ articles:
       <p>In this tutorial, you will get to know GitOps and the GitOps agent werf.
       <br><br>
       After finishing this tutorial, you will know about the core ideas of GitOps. You will know how to setup an end-to-end GitOps workflow using werf and will be able to deploy applications to different environments (development, production) with a simple commit.</p>
-  # - title: "Werf: Pioneering the Future of CI/CD — A Close Look at the CNCF’s Noteworthy Addition to the DevOps Landscape"
-  #   medium_url: "https://itnext.io/werf-pioneering-the-future-of-ci-cd-a-close-look-at-the-cncfs-noteworthy-addition-to-the-b61a7260e0a2"
-  #   img: "/assets/images/publications/en_110723.jpeg"
-  #   created: 2023-07-11
-  #   comment: |
-  #     <p>Welcome to this blog post, where we explore the fascinating world of Werf a remarkable CI/CD tool that is transforming the way we approach software development and deployment.
-  #     <br><br>
-  #     As a standout member of the CNCF (Cloud Native Computing Foundation) project family, Werf brings a fresh perspective and cutting-edge capabilities to the ever-evolving field of DevOps.</p>
+  - title: "Werf: Pioneering the Future of CI/CD — A Close Look at the CNCF’s Noteworthy Addition to the DevOps Landscape"
+    custom_urls:
+      - service_name: github.io
+        url: "https://seifrajhi.github.io/blog/werf-ci-cd-cncf/"
+    img: "/assets/images/publications/en_110723.jpeg"
+    created: 2023-07-11
+    comment: |
+      <p>Welcome to this blog post, where we explore the fascinating world of Werf a remarkable CI/CD tool that is transforming the way we approach software development and deployment.
+      <br><br>
+      As a standout member of the CNCF (Cloud Native Computing Foundation) project family, Werf brings a fresh perspective and cutting-edge capabilities to the ever-evolving field of DevOps.</p>
   - title: "Why werf for CI/CD in Kubernetes?"
     youtube_url: "https://www.youtube.com/watch?v=OK9fSBxFN0c"
     custom_urls:
