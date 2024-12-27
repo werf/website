@@ -1,6 +1,6 @@
 ### Настройка окружения для сборки с Buildah
 
-(Для Ubuntu 23.10 и выше) на хосте GitHub Runner запустите:
+(Для Ubuntu 23.10 и выше) на хосте Раннер запустите:
 
 ```shell
 { echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf
