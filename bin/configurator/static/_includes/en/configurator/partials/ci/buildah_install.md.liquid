@@ -1,10 +1,10 @@
 ### Setting up the build environment with Buildah
 
+{% offtopic title="Installing Buildah manually" %}
+
 Follow these steps on the GitLab Runner host to install Buildah:
 
 * Install the Buildah package following the [official instructions](https://github.com/containers/buildah/blob/main/install.md) but avoid configuring it. If there are no ready-made Buildah packages for your distribution, refer to the following guidelines:
-
-  {% offtopic title="Installing Buildah manually" %}
 
   - Install the packages for `newuidmap` and `newgidmap`.
 
@@ -28,8 +28,6 @@ Follow these steps on the GitLab Runner host to install Buildah:
 
     Make sure there are no conflicts with other ranges, if any. Changing files may require a reboot. See `man subuid` and `man subgid` for details.
 
-  {% endofftopic %}
-
 * (Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
 
 * Make sure that the `/home/gitlab-runner/.local/share/containers` path is created and the `gitlab-runner` user has read and write access.
@@ -39,3 +37,13 @@ Follow these steps on the GitLab Runner host to install Buildah:
 * The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 * (For Ubuntu 23.10 and later) set values `kernel.apparmor_restrict_unprivileged_unconfined` and `kernel.apparmor_restrict_unprivileged_userns` to `0` with the command:`{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
+
+{% endofftopic %}
+
+{% offtopic title="Installing Buildah automatically" %}
+
+```bash
+curl -sSL https://werf.io/install.sh | bash -s -- --install-werf-system-depedencies --setup-buildah --version 2 --channel stable
+```
+
+{% endofftopic %}
