@@ -1,8 +1,6 @@
 ### Setting up the build environment with Buildah
 
-{% offtopic title="Installing Buildah manually" %}
-
-Follow these steps on the GitLab Runner host to install Buildah:
+{% offtopic title="Manual installation" %}
 
 * Install the Buildah package following the [official instructions](https://github.com/containers/buildah/blob/main/install.md) but avoid configuring it. If there are no ready-made Buildah packages for your distribution, refer to the following guidelines:
 
@@ -40,7 +38,7 @@ Follow these steps on the GitLab Runner host to install Buildah:
 
 {% endofftopic %}
 
-{% offtopic title="Installing Buildah automatically" %}
+{% offtopic title="Automatic installation" %}
 
 Run the command below to install werf, it's depedencies and buildah:
 
