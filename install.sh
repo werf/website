@@ -248,7 +248,9 @@ propose_joining_docker_group() {
     is_user_in_group "$(get_user)" docker && return 0
     is_root && return 0
     ensure_cmds_available usermod
-    [[ $override_join_docker_group == "auto" ]] && prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
+    if [[ $override_join_docker_group == "auto" ]]; then
+      prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
+    fi
     run_as_root "usermod -aG docker '$(get_user)'" || abort "Can't add user \"$(get_user)\" to group \"docker\"."
   else
     return 0
@@ -264,13 +266,17 @@ setup_trdl_bin_path() {
   case "$shell" in
     bash)
       declare active_bash_profile_file="$(get_active_bash_profile_file)"
-      [[ $override_setup_trdl_bin_path == "auto" ]] && prompt_yes_no_skip "trdl is going to be installed in \"$HOME/bin/\". Add this directory to your \$PATH in \"$HOME/.bashrc\" and \"$active_bash_profile_file\"? (strongly recommended)" "yes" || return 0
+      if [[ $override_setup_trdl_bin_path == "auto" ]]; then
+        prompt_yes_no_skip "trdl is going to be installed in \"$HOME/bin/\". Add this directory to your \$PATH in \"$HOME/.bashrc\" and \"$active_bash_profile_file\"? (strongly recommended)" "yes" || return 0
+      fi
       add_trdl_bin_path_setup_to_file "$HOME/.bashrc"
       add_trdl_bin_path_setup_to_file "$active_bash_profile_file"
       ;;
     zsh)
       declare active_zsh_profile_file="$(get_active_zsh_profile_file)"
-      [[ $override_setup_trdl_bin_path == "auto" ]] && prompt_yes_no_skip "trdl is going to be installed in \"$HOME/bin/\". Add this directory to your \$PATH in \"$HOME/.zshrc\" and \"$active_zsh_profile_file\"? (strongly recommended)" "yes" || return 0
+      if [[ $override_setup_trdl_bin_path == "auto" ]]; then
+        prompt_yes_no_skip "trdl is going to be installed in \"$HOME/bin/\". Add this directory to your \$PATH in \"$HOME/.zshrc\" and \"$active_zsh_profile_file\"? (strongly recommended)" "yes" || return 0
+      fi
       add_trdl_bin_path_setup_to_file "$HOME/.zshrc"
       add_trdl_bin_path_setup_to_file "$active_zsh_profile_file"
       ;;
@@ -350,13 +356,17 @@ enable_automatic_werf_activation() {
   case "$shell" in
     bash)
       declare active_bash_profile_file="$(get_active_bash_profile_file)"
-      [[ $override_werf_enable_autoactivation == "auto" ]] && prompt_yes_no_skip "Add automatic werf activation to \"$HOME/.bashrc\" and \"$active_bash_profile_file\"? (recommended for interactive usage, not recommended for CI)" "yes" || return 0
+      if [[ $override_werf_enable_autoactivation == "auto" ]]; then
+        prompt_yes_no_skip "Add automatic werf activation to \"$HOME/.bashrc\" and \"$active_bash_profile_file\"? (recommended for interactive usage, not recommended for CI)" "yes" || return 0
+      fi
       add_automatic_werf_activation_to_file "$HOME/.bashrc" "$werf_autoactivate_version" "$werf_autoactivate_channel"
       add_automatic_werf_activation_to_file "$active_bash_profile_file" "$werf_autoactivate_version" "$werf_autoactivate_channel"
       ;;
     zsh)
       declare active_zsh_profile_file="$(get_active_zsh_profile_file)"
-      [[ $override_werf_enable_autoactivation == "auto" ]] && prompt_yes_no_skip "Add automatic werf activation to \"$HOME/.zshrc\" and \"$active_zsh_profile_file\"? (recommended for interactive usage, not recommended for CI)" "yes" || return 0
+      if [[ $override_werf_enable_autoactivation == "auto" ]]; then
+        prompt_yes_no_skip "Add automatic werf activation to \"$HOME/.zshrc\" and \"$active_zsh_profile_file\"? (recommended for interactive usage, not recommended for CI)" "yes" || return 0
+      fi
       add_automatic_werf_activation_to_file "$HOME/.zshrc" "$werf_autoactivate_version" "$werf_autoactivate_channel"
       add_automatic_werf_activation_to_file "$active_zsh_profile_file" "$werf_autoactivate_version" "$werf_autoactivate_channel"
       ;;
@@ -580,7 +590,9 @@ install_werf_system_dependencies() {
 
   [[ $override_install_werf_system_dependencies == "no" ]] && return 0
 
-  [[ $override_install_werf_system_dependencies == "auto" ]] && prompt_yes_no_skip "Install system dependencies for werf?" "skip" || return 0
+  if [[ $override_install_werf_system_dependencies == "auto" ]]; then
+    prompt_yes_no_skip "Install system dependencies for werf?" "skip" || return 0
+  fi
 
   local missing_packages=""
 
@@ -601,7 +613,9 @@ setup_buildah() {
 
   [[ $override_setup_buildah == "no" ]] && return 0
 
-  [[ $override_setup_buildah == "auto" ]] && prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
+  if [[ $override_setup_buildah == "auto" ]]; then
+    prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
+  fi
 
   is_command_exists buildah || install_buildah
     
