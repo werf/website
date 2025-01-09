@@ -11,6 +11,7 @@ main() {
 
   OPT_DEFAULT_CI="no"
   OPT_DEFAULT_INTERACTIVE="auto"
+  OPT_DEFAULT_INSTALL_WERF="auto"
   OPT_DEFAULT_JOIN_DOCKER_GROUP="auto"
   OPT_DEFAULT_SETUP_BIN_PATH="auto"
   OPT_DEFAULT_AUTOACTIVATE_WERF="auto"
@@ -55,6 +56,7 @@ main() {
     OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES="${OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES:-$OPT_DEFAULT_INSTALL_WERF_SYSTEM_DEPENDENCIES}"
     OPT_SETUP_BUILDAH="${OPT_SETUP_BUILDAH:-$OPT_DEFAULT_SETUP_BUILDAH}"
   fi
+  OPT_INSTALL_WERF="${OPT_INSTALL_WERF:-$OPT_DEFAULT_INSTALL_WERF}"
   OPT_VERIFY_TRDL_SIGNATURE="${OPT_VERIFY_TRDL_SIGNATURE:-$OPT_DEFAULT_VERIFY_TRDL_SIGNATURE}"
   OPT_SHELL="${OPT_SHELL:-$OPT_DEFAULT_SHELL}"
   OPT_WERF_AUTOACTIVATE_VERSION="${OPT_WERF_AUTOACTIVATE_VERSION:-$OPT_DEFAULT_WERF_AUTOACTIVATE_VERSION}"
@@ -71,6 +73,12 @@ main() {
   validate_git_version "$REQUIRED_GIT_VERSION"
 
   setup_buildah "$OPT_SETUP_BUILDAH"
+
+  [[ "$OPT_INSTALL_WERF" == "no" ]] && return 0
+
+  if [[ "$OPT_INSTALL_WERF" == "auto" ]]; then
+    prompt_yes_no_skip 'Install werf?' "yes" || return 0
+  fi
 
   [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
 
@@ -104,6 +112,8 @@ getoptions_config() {
 
   flag OPT_INTERACTIVE -i --{no-}interactive -- \
     "If run non-interactively, then choose recommended answers for all prompts. Default: $OPT_DEFAULT_INTERACTIVE"
+  flag OPT_INSTALL_WERF --{no-}install-werf -- \
+    "Install werf. Default $OPT_DEFAULT_INSTALL_WERF"
   flag OPT_VERIFY_TRDL_SIGNATURE --{no-}verify-trdl-signature -- \
     "Verify PGP signature of trdl binary. Default: $OPT_DEFAULT_VERIFY_TRDL_SIGNATURE"
   flag OPT_JOIN_DOCKER_GROUP --{no-}join-docker-group -- \
