@@ -1,10 +1,8 @@
 ### Настройка окружения для сборки с Buildah
 
-Для установки Buildah выполните следующие инструкции:
+{% offtopic title="Ручная установка" %}
 
 * Установите пакет Buildah, следуя [официальным инструкциям](https://github.com/containers/buildah/blob/main/install.md), но не производите его дальнейшую настройку. Если для вашего дистрибутива нет готовых пакетов Buildah, используйте следующие инструкции:
-
-  {% offtopic title="Ручная установка Buildah" %}
 
   - Установите пакеты, предоставляющие программы `newuidmap` и `newgidmap`.
 
@@ -28,8 +26,6 @@
 
     Избегайте коллизий с другими диапазонами, если они имеются. Изменение файлов может потребовать перезагрузки. Подробнее в `man subuid` и `man subgid`.
 
-  {% endofftopic %}
-
 * (Для Linux 5.12 и ниже) Установите пакет, предоставляющий программу `fuse-overlayfs`.
 
 * Убедитесь, что путь `/home/<текущий пользователь>/.local/share/containers` создан, и текущий пользователь имеет доступ на чтение и запись.
@@ -39,3 +35,15 @@
 * Команда `sysctl -n user.max_user_namespaces` должна вернуть `15000` или больше, а иначе выполните `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 * (Для Ubuntu 23.10 и выше) установите значения `kernel.apparmor_restrict_unprivileged_unconfined` и `kernel.apparmor_restrict_unprivileged_userns` в `0` командой: `{ echo "kernel.apparmor_restrict_unprivileged_userns = 0" && echo "kernel.apparmor_restrict_unprivileged_unconfined = 0";} | sudo tee -a /etc/sysctl.d/20-apparmor-donotrestrict.conf && sudo sysctl -p /etc/sysctl.d/20-apparmor-donotrestrict.conf`
+
+{% endofftopic %}
+
+{% offtopic title="Автоматическая установка" %}
+
+Запустите команду ниже, чтобы установить werf и системные зависимости:
+
+```bash
+curl -sSL https://werf.io/install.sh | bash -s -- --install-werf-system-depedencies --setup-buildah --version 2 --channel stable
+```
+
+{% endofftopic %}
