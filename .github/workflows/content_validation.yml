@@ -3,13 +3,13 @@ name: Content Validation
 on:
   push:
     paths:
-      - '.github/workflows/content_validation.yml'
-      - '_data/en/publications.yml'
-      - '_data/ru/publications.yml'
-      - '**/*.md'
-      - '**/*.md.liquid'
-      - '**/*.html'
-      - 'scripts/docs/**'
+      - ".github/workflows/content_validation.yml"
+      - "_data/en/publications.yml"
+      - "_data/ru/publications.yml"
+      - "**/*.md"
+      - "**/*.md.liquid"
+      - "**/*.html"
+      - "scripts/docs/**"
   workflow_dispatch:
 
 env:
@@ -17,7 +17,7 @@ env:
 
 jobs:
   check_broken_links:
-    runs-on: ubuntu-latest-4-cores
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
       - name: Checkout code
@@ -46,7 +46,7 @@ jobs:
           WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"
 
   spell_check_ru:
-    runs-on: ubuntu-latest-4-cores
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
       - name: Install werf
@@ -75,7 +75,7 @@ jobs:
           WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"
 
   spell_check_en:
-    runs-on: ubuntu-latest-4-cores
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     steps:
       - name: Install werf
