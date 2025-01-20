@@ -19,7 +19,7 @@ jobs:
   converge:
     name: Deploy
     if: github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'test website') || contains(github.event.pull_request.labels.*.name, 'stage website')
-    runs-on: ubuntu-latest-4-cores
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
