@@ -16,6 +16,24 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "werf project turns 9!"
+    medium_url: "https://blog.werf.io/werf-cncf-project-9-years-32f0ea7681ef"
+    img: "/assets/images/publications/en_230125.png"
+    created: 2025-01-23
+    comment: |
+      <p>Celebrating 9 years of facilitating best practices for software delivery in Kubernetes by revisiting the project’s achievements in 2024.</p>
+  - title: "Werf: Deploy or Not Deploy, There is No Try — Part 1"
+    medium_url: "https://medium.com/@ivan_75772/werf-deploy-or-not-deploy-there-is-no-try-part-1-6f5480190c27"
+    img: "/assets/images/publications/en_301024.jpg"
+    created: 2024-10-30
+    comment: |
+      <p>Imagine Han Solo driving the Millennium Falcon without his loyal co-pilot Chewbacca. No matter how he’s skilled, flying alone in space would be a perilous mission. This is exactly what Werf represents! It’s the Chewbacca of your Kubernetes deployments, always there to back you up.</p>
+  - title: "Server-Side Apply instead of 3-Way Merge: How werf 2.0 solves Helm 3 challenges"
+    medium_url: "https://blog.werf.io/ssa-vs-3wm-in-helm-werf-nelm-4d7996354ebe"
+    img: "/assets/images/publications/en_250724.jpg"
+    created: 2024-07-25
+    comment: |
+      <p>In werf 2.0 and Nelm, we took it a step further and replaced 3-Way Merge with Server-Side Apply (SSA), a more modern and robust mechanism for updating Kubernetes resources. It solves all 3-Way Merge issues and ensures that resources in the cluster are updated correctly during deployments.</p>
   - title: "Finally, a viable Helm Replacement"
     custom_urls:
       - service_name: "ITNEXT"
