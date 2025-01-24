@@ -93,8 +93,8 @@ func main() {
 	signal.Notify(c, os.Interrupt)
 	<-c
 	ctx, cancel := context.WithTimeout(context.Background(), wait)
-	defer cancel()
 	srv.Shutdown(ctx)
 	log.Infoln("Shutting down")
+	cancel()
 	os.Exit(0)
 }

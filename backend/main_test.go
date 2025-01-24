@@ -8,7 +8,6 @@ import (
 
 func TestHandler(t *testing.T) {
 	req, err := http.NewRequest("GET", "/", nil)
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -42,6 +41,8 @@ func TestStaticFileServer(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	defer resp.Body.Close()
+
 	if resp.StatusCode != http.StatusOK {
 		t.Errorf("Status should be 200, got %d", resp.StatusCode)
 	}
@@ -52,5 +53,4 @@ func TestStaticFileServer(t *testing.T) {
 	if expectedContentType != contentType {
 		t.Errorf("Wrong content type, expected %s, got %s", expectedContentType, contentType)
 	}
-
 }
