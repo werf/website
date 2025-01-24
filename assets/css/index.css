@@ -155,8 +155,8 @@ body,
   background-image: url('/assets/images/icons/telegram.svg');
 }
 
-.page__icon_twitter {
-  fill: #0066ff;
+.page__icon_bluesky {
+  background-image: url('/assets/images/icons/bluesky.svg');
 }
 
 .page__icon_github {
