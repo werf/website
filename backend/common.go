@@ -145,16 +145,10 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
 	}
 
-	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)(\..+)?$`)
+	re := regexp.MustCompile(`^v([0-9]+(?:\.[0-9]+)?)(\..+)?$`)
 	res := re.FindStringSubmatch(m.CurrentVersion)
 	if res == nil {
-		m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
-		if m.CurrentVersion == "v2" {
-			_, m.AbsoluteVersion = getVersionFromChannelAndGroup(releases, "stable", m.CurrentGroup)
-		} else {
-			m.AbsoluteVersion = m.CurrentVersion
-		}
-
+		m.AbsoluteVersion = m.CurrentVersion
 	} else {
 		if res[2] != "" {
 			// Version is not a group (MAJ.MIN), but the patch version
