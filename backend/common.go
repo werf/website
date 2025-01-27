@@ -155,10 +155,7 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	if res == nil {
 		m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
 		if m.CurrentVersion == "v2" {
-			err, m.AbsoluteVersion = getVersionFromChannelAndGroup(&ReleasesStatus, m.CurrentChannel, m.CurrentGroup)
-			if err != nil {
-				log.Debugln(fmt.Sprintf("getVersionMenuData: error determine absolute version for %s (got %s)", m.CurrentVersion, m.AbsoluteVersion))
-			}
+			_, m.AbsoluteVersion = getVersionFromChannelAndGroup(releases, m.CurrentChannel, m.CurrentGroup)
 		} else {
 			m.AbsoluteVersion = m.CurrentVersion
 		}
