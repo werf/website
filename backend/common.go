@@ -90,6 +90,11 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 		m.CurrentChannel = "latest"
 	}
 
+	if m.CurrentVersion == "v2" {
+		m.CurrentGroup = "2"
+		m.CurrentChannel = "stable"
+	}
+
 	if m.CurrentVersion == fmt.Sprintf("v%s", getRootRelease()) {
 		m.CurrentVersion = getRootRelease()
 		m.CurrentGroup = getRootRelease()
@@ -149,7 +154,15 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	res := re.FindStringSubmatch(m.CurrentVersion)
 	if res == nil {
 		m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
-		m.AbsoluteVersion = m.CurrentVersion
+		if m.CurrentVersion == "v2" {
+			err, m.AbsoluteVersion = getVersionFromChannelAndGroup(&ReleasesStatus, m.CurrentChannel, m.CurrentGroup)
+			if err != nil {
+				log.Debugln(fmt.Sprintf("getVersionMenuData: error determine absolute version for %s (got %s)", m.CurrentVersion, m.AbsoluteVersion))
+			}
+		} else {
+			m.AbsoluteVersion = m.CurrentVersion
+		}
+
 	} else {
 		if res[2] != "" {
 			// Version is not a group (MAJ.MIN), but the patch version
