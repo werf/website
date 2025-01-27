@@ -148,6 +148,7 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	re := regexp.MustCompile(`^v([0-9]+(?:\.[0-9]+)?)(\..+)?$`)
 	res := re.FindStringSubmatch(m.CurrentVersion)
 	if res == nil {
+		m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
 		m.AbsoluteVersion = m.CurrentVersion
 	} else {
 		if res[2] != "" {
