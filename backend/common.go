@@ -90,11 +90,6 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 		m.CurrentChannel = "latest"
 	}
 
-	if m.CurrentVersion == "v2" {
-		m.CurrentGroup = "2"
-		m.CurrentChannel = "stable"
-	}
-
 	if m.CurrentVersion == fmt.Sprintf("v%s", getRootRelease()) {
 		m.CurrentVersion = getRootRelease()
 		m.CurrentGroup = getRootRelease()
@@ -155,7 +150,7 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	if res == nil {
 		m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
 		if m.CurrentVersion == "v2" {
-			_, m.AbsoluteVersion = getVersionFromChannelAndGroup(releases, m.CurrentChannel, m.CurrentGroup)
+			_, m.AbsoluteVersion = getVersionFromChannelAndGroup(releases, "stable", m.CurrentGroup)
 		} else {
 			m.AbsoluteVersion = m.CurrentVersion
 		}
