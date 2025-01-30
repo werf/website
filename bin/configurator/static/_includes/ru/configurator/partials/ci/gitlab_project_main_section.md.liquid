@@ -44,9 +44,9 @@
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
 {% elsif include.type == "kubernetes-linux-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
-{% elsif include.type == "kubernetes-linux-buildah" %}
+{% elsif include.type == "best-monorepo-linux-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
-{% elsif include.type == "kubernetes-linux-docker" %}
+{% elsif include.type == "best-monorepo-linux-docker" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
 {% elsif include.type == "best-monorepo-kubernetes" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
