@@ -727,6 +727,11 @@ install_buildah(){
       install_package "libfuse3-dev fuse-overlayfs"
       fi
       install_package "buildah uidmap"
+
+      # workaround for https://github.com/containers/podman/issues/11745
+      if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" ]]; then
+      run_as_root "sed -i 's/^\[machine\]$/#\[machine\]/' /usr/share/containers/containers.conf"
+      fi
       ;;
     *CentOS*|*Red\ Hat*|*Fedora*)
       run_as_root "yum groupinstall -y 'Development Tools'"
