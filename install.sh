@@ -715,10 +715,11 @@ install_buildah(){
     *Ubuntu*)
       VERSION_ID=$(lsb_release -r | cut -f2)
       if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" ]]; then
-      install_package "wget ca-certificates gnupg2 libfuse3-dev fuse-overlayfs"
+      install_package "wget ca-certificates gnupg2"
       echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | run_as_root "tee /etc/apt/sources.list.d/devel-kubic-libcontainers-stable.list"
       curl -Ls https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_$VERSION_ID/Release.key | run_as_root "apt-key add -"
       run_as_root "apt-get update"
+      install_package "libfuse3-dev fuse-overlayfs"
       fi
       install_package "buildah uidmap"
       ;;
