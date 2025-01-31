@@ -709,8 +709,21 @@ install_buildah(){
   log::info "Installing Buildah and configuring user namespaces..."
 
   case "$distro" in
-    *Debian*|*Ubuntu*)
+    *Debian*)
       install_package "buildah uidmap"
+      ;;
+    *Ubuntu*)
+      VERSION_ID=$(lsb_release -r | cut -f2)
+      if [[ "$VERSION_ID" == "20.04" ]]; then
+      install_package "wget ca-certificates gnupg2 libfuse3-dev fuse-overlayfs"
+      echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | run_as_root "tee /etc/apt/sources.list.d/devel-kubic-libcontainers-stable.list"
+      curl -Ls https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_$VERSION_ID/Release.key | run_as_root "apt-key add -"
+      run_as_root "apt-get update"
+      fi
+      install_package "buildah uidmap"
+      if [[ "$VERSION_ID" == "20.04" ]]; then
+      run_as_root "sed -i 's/^\[machine\]$/#\[machine\]/' /usr/share/containers/containers.conf"
+      fi 
       ;;
     *CentOS*|*Red\ Hat*|*Fedora*)
       run_as_root "yum groupinstall -y 'Development Tools'"
