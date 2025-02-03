@@ -786,6 +786,10 @@ set_user_subuids_subgids() {
     abort "You cannot assign subuids/subgids to root."
   fi
 
+  if ! id "$current_user" &>/dev/null; then
+    abort "User '$current_user' does not exist."
+  fi
+
   if grep -q "^$current_user:" /etc/subuid; then
     local current_range=$(awk -F: -v user="$current_user" '$1 == user {print $3}' /etc/subuid)
     if (( current_range < min_range_size )); then
