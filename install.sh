@@ -135,6 +135,8 @@ getoptions_config() {
     "werf TUF-repository root version. Default: $OPT_DEFAULT_WERF_TUF_ROOT_VERSION. Allowed values regex: $OPT_REGEX_WERF_TUF_ROOT_VERSION"
   param OPT_WERF_TUF_ROOT_SHA --werf-tuf-root-sha validate:"validate_option_by_regex '$OPT_REGEX_WERF_TUF_ROOT_SHA'" -- \
     "werf TUF-repository root SHA-hash. Default: $OPT_DEFAULT_WERF_TUF_ROOT_SHA. Allowed values regex: $OPT_REGEX_WERF_TUF_ROOT_SHA"
+  param OPT_USER -u --user -- \
+    "User for which subuid subguid should be set up"
 
   disp    :usage  -h --help
 }
@@ -777,8 +779,12 @@ get_free_range() {
 set_user_subuids_subgids() {
 
   local min_range_size=65536
-  local current_user=$(get_user)
+  local current_user="${OPT_USER:-$(get_user)}"
   local free_range=$(get_free_range)
+
+  if [[ "$current_user" == "root" ]]; then
+    abort "You cannot assign subuids/subgids to root."
+  fi
 
   if grep -q "^$current_user:" /etc/subuid; then
     local current_range=$(awk -F: -v user="$current_user" '$1 == user {print $3}' /etc/subuid)
