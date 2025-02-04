@@ -809,14 +809,14 @@ set_user_subuids_subgids() {
   fi
 }
 
-check_user_existence()
+check_user_existence() {
   local user="$1"
   local current_user="${user:-$(get_user)}"
 
   if ! id "$current_user" &>/dev/null; then
     abort "User '$current_user' does not exist."
   fi
-
+}
 log::info() {
   declare msg="$1"
 
