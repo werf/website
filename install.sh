@@ -66,6 +66,7 @@ main() {
   OPT_WERF_TUF_ROOT_VERSION="${OPT_WERF_TUF_ROOT_VERSION:-$OPT_DEFAULT_WERF_TUF_ROOT_VERSION}"
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
 
+  check_user_existence "$OPT_USER"
   install_werf_system_dependencies "$OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
   ensure_cmds_available uname git grep tee install
   validate_git_version "$REQUIRED_GIT_VERSION"
@@ -735,7 +736,7 @@ install_buildah(){
       ;;
   esac
 
-  set_user_subuids_subgids
+  set_user_subuids_subgids "$OPT_USER"
 
   # Migrate Podman system if applicable
   if is_command_exists podman; then
@@ -778,17 +779,10 @@ get_free_range() {
 
 set_user_subuids_subgids() {
 
+  local user="$1"
   local min_range_size=65536
-  local current_user="${OPT_USER:-$(get_user)}"
+  local current_user="${user:-$(get_user)}"
   local free_range=$(get_free_range)
-
-  if [[ "$current_user" == "root" ]]; then
-    abort "You cannot assign subuids/subgids to root."
-  fi
-
-  if ! id "$current_user" &>/dev/null; then
-    abort "User '$current_user' does not exist."
-  fi
 
   if grep -q "^$current_user:" /etc/subuid; then
     local current_range=$(awk -F: -v user="$current_user" '$1 == user {print $3}' /etc/subuid)
@@ -814,6 +808,14 @@ set_user_subuids_subgids() {
     log::info "Assigned subgid range $free_range to user $current_user."
   fi
 }
+
+check_user_existence()
+  local user="$1"
+  local current_user="${user:-$(get_user)}"
+
+  if ! id "$current_user" &>/dev/null; then
+    abort "User '$current_user' does not exist."
+  fi
 
 log::info() {
   declare msg="$1"
