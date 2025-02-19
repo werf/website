@@ -68,6 +68,11 @@ main() {
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
 
   check_user_existence "$OPT_USER"
+
+  if [[ -n "$OPT_USER" ]]; then
+    export HOME=$(eval echo ~$OPT_USER)
+  fi
+
   install_werf_system_dependencies "$OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
   ensure_cmds_available uname git grep tee install
   validate_git_version "$REQUIRED_GIT_VERSION"
