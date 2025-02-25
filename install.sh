@@ -26,7 +26,6 @@ main() {
   OPT_DEFAULT_WERF_TUF_REPO="https://tuf.werf.io"
   OPT_DEFAULT_WERF_TUF_ROOT_VERSION="1"
   OPT_DEFAULT_WERF_TUF_ROOT_SHA="b7ff6bcbe598e072a86d595a3621924c8612c7e6dc6a82e919abe89707d7e3f468e616b5635630680dd1e98fc362ae5051728406700e6274c5ed1ad92bea52a2"
-
   OPT_REGEX_SHELL='^(bash|zsh|auto)?$'
   OPT_REGEX_WERF_AUTOACTIVATE_VERSION='^[.0-9]+$'
   OPT_REGEX_WERF_AUTOACTIVATE_CHANNEL='.+'
@@ -37,7 +36,6 @@ main() {
   OPT_REGEX_WERF_TUF_ROOT_VERSION='^[0-9]+$'
   OPT_REGEX_WERF_TUF_ROOT_SHA='^[a-fA-F0-9]+$'
   OPT_REGEX_USER='^[a-z_][a-z0-9_-]{0,31}$'
-
   eval "$(getoptions getoptions_config) abort 'Failure parsing options.'"
 
   OPT_CI="${OPT_CI:-$OPT_DEFAULT_CI}"
@@ -66,18 +64,18 @@ main() {
   OPT_WERF_TUF_REPO="${OPT_WERF_TUF_REPO:-$OPT_DEFAULT_WERF_TUF_REPO}"
   OPT_WERF_TUF_ROOT_VERSION="${OPT_WERF_TUF_ROOT_VERSION:-$OPT_DEFAULT_WERF_TUF_ROOT_VERSION}"
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
-
-  check_user_existence "$OPT_USER"
-
+  OPT_USER="${OPT_USER:-$(get_user)}"
+  
   if [[ -n "$OPT_USER" ]]; then
     export HOME=$(eval echo ~$OPT_USER)
   fi
 
+  check_user_existence "$OPT_USER"
   install_werf_system_dependencies "$OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
   ensure_cmds_available uname git grep tee install
   validate_git_version "$REQUIRED_GIT_VERSION"
 
-  setup_buildah "$OPT_SETUP_BUILDAH"
+  setup_buildah "$OPT_SETUP_BUILDAH" "$OPT_USER"
 
   [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
 
@@ -94,10 +92,10 @@ main() {
     shell="$OPT_SHELL"
   fi
 
-  [[ $os == "linux" ]] && propose_joining_docker_group "$OPT_JOIN_DOCKER_GROUP"
+  [[ $os == "linux" ]] && propose_joining_docker_group "$OPT_JOIN_DOCKER_GROUP" "$OPT_USER"
   setup_trdl_bin_path "$shell" "$OPT_SETUP_BIN_PATH"
-  install_trdl "$os" "$arch" "$OPT_TRDL_TUF_REPO" "$OPT_TRDL_PGP_PUBKEY_URL" "$OPT_INITIAL_TRDL_VERSION" "$OPT_VERIFY_TRDL_SIGNATURE"
-  add_trdl_werf_repo "$OPT_WERF_TUF_REPO" "$OPT_WERF_TUF_ROOT_VERSION" "$OPT_WERF_TUF_ROOT_SHA"
+  install_trdl "$os" "$arch" "$OPT_TRDL_TUF_REPO" "$OPT_TRDL_PGP_PUBKEY_URL" "$OPT_INITIAL_TRDL_VERSION" "$OPT_VERIFY_TRDL_SIGNATURE" "$OPT_USER"
+  add_trdl_werf_repo "$OPT_WERF_TUF_REPO" "$OPT_WERF_TUF_ROOT_VERSION" "$OPT_WERF_TUF_ROOT_SHA" "$OPT_USER" 
   enable_automatic_werf_activation "$shell" "$OPT_AUTOACTIVATE_WERF" "$OPT_WERF_AUTOACTIVATE_VERSION" "$OPT_WERF_AUTOACTIVATE_CHANNEL"
   finalize "$OPT_WERF_AUTOACTIVATE_VERSION" "$OPT_WERF_AUTOACTIVATE_CHANNEL"
 }
@@ -251,16 +249,17 @@ set_shell() {
 
 propose_joining_docker_group() {
   declare override_join_docker_group="$1"
+  local user="$2"
 
   [[ $override_join_docker_group == "no" ]] && return 0
   if is_command_exists docker; then
-    is_user_in_group "$(get_user)" docker && return 0
+    is_user_in_group $user docker && return 0
     is_root && return 0
     ensure_cmds_available usermod
     if [[ $override_join_docker_group == "auto" ]]; then
       prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
     fi
-    run_as_root "usermod -aG docker '$(get_user)'" || abort "Can't add user \"$(get_user)\" to group \"docker\"."
+    run_as_root "usermod -aG docker $user" || abort "Can't add user \"$user\" to group \"docker\"."
   else
     return 0
   fi    
@@ -309,27 +308,29 @@ install_trdl() {
   declare trdl_gpg_pubkey_url="$4"
   declare trdl_version="$5"
   declare skip_signature_verification="$6"
+  declare user="$7"
 
   is_trdl_installed_and_up_to_date "$trdl_version" && log::info "Skipping trdl installation: already installed in \"$HOME/bin/\"." && return 0
   log::info "Installing trdl to \"$HOME/bin/\"."
 
-  mkdir -p "$HOME/bin" || abort "Can't create \"$HOME/bin\" directory."
+  run_as_user "$user" "mkdir -p \"$HOME/bin\"" || abort "Can't create \"$HOME/bin\" directory."
 
   declare tmp_dir
-  tmp_dir="$(mktemp -d)" || abort "Can't create temporary directory."
+  tmp_dir="$(run_as_user "$user" "mktemp -d")" || abort "Can't create temporary directory."
 
-  download "${trdl_tuf_repo}/targets/releases/${trdl_version}/${os}-${arch}/bin/trdl" "$tmp_dir/trdl"
-  download "${trdl_tuf_repo}/targets/signatures/${trdl_version}/${os}-${arch}/bin/trdl.sig" "$tmp_dir/trdl.sig"
+  run_as_user "$user" "$(download ${trdl_tuf_repo}/targets/releases/${trdl_version}/${os}-${arch}/bin/trdl $tmp_dir/trdl)"
+  run_as_user "$user" "$(download ${trdl_tuf_repo}/targets/signatures/${trdl_version}/${os}-${arch}/bin/trdl.sig $tmp_dir/trdl.sig)"
+
 
   if [[ $skip_signature_verification == "no" ]]; then
     log::info "Verifying trdl binary signatures."
-    download "$trdl_gpg_pubkey_url" "$tmp_dir/trdl.pub"
-    gpg -q --import <"$tmp_dir/trdl.pub" || abort "Can't import trdl public gpg key."
-    gpg -q --verify "$tmp_dir/trdl.sig" "$tmp_dir/trdl" || abort "Can't verify trdl binary with a gpg signature."
+    run_as_user "$user" "$(download $trdl_gpg_pubkey_url $tmp_dir/trdl.pub)"
+    run_as_user "$user" "gpg -q --import <$tmp_dir/trdl.pub" || abort "Can't import trdl public gpg key."
+    run_as_user "$user" "gpg -q --verify $tmp_dir/trdl.sig $tmp_dir/trdl" || abort "Can't verify trdl binary with a gpg signature."
   fi
 
-  install "$tmp_dir/trdl" "$HOME/bin" || abort "Can't install trdl binary from \"$tmp_dir/trdl\" to \"$HOME/bin\"."
-  rm -rf "$tmp_dir" 2>/dev/null
+  run_as_user "$user" "install $tmp_dir/trdl $HOME/bin" || abort "Can't install trdl binary from \"$tmp_dir/trdl\" to \"$HOME/bin\"."
+  run_as_user "$user" "rm -rf $tmp_dir" 2>/dev/null
 }
 
 is_trdl_installed_and_up_to_date() {
@@ -349,9 +350,10 @@ add_trdl_werf_repo() {
   declare werf_tuf_repo_url="$1"
   declare werf_tuf_repo_root_version="$2"
   declare werf_tuf_repo_root_sha="$3"
+  declare user="$4"
 
   log::info "Adding werf repo to trdl."
-  "$HOME/bin/trdl" add werf "$werf_tuf_repo_url" "$werf_tuf_repo_root_version" "$werf_tuf_repo_root_sha" || abort "Can't add \"werf\" repo to trdl."
+  run_as_user $user "$HOME/bin/trdl add werf $werf_tuf_repo_url $werf_tuf_repo_root_version $werf_tuf_repo_root_sha" || abort "Can't add \"werf\" repo to trdl."
 }
 
 enable_automatic_werf_activation() {
@@ -497,6 +499,15 @@ get_user() {
   id -un
 }
 
+run_as_user() {
+  local user="$1"
+  shift
+  local cmd="$@"
+  [[ $OPT_INTERACTIVE == "no" ]] && log::warn "Non-interactive mode enabled, but current user doesn't have enough privilege, so the next command will be called with sudo (this might hang): sudo $cmd"
+  ensure_cmds_available sudo
+  sudo -u "$user" bash -c "$cmd" || return 1
+}
+
 is_root() {
   test "$(id -u)" -eq 0
   return
@@ -619,6 +630,7 @@ install_werf_system_dependencies() {
 setup_buildah() {
 
   local override_setup_buildah="$1"
+  local user="$2"
 
   [[ $override_setup_buildah == "no" ]] && return 0
 
@@ -626,7 +638,7 @@ setup_buildah() {
     prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
   fi
 
-  is_command_exists buildah || install_buildah
+  is_command_exists buildah || install_buildah $user
     
   if is_command_exists sysctl; then
   # Check if kernel.unprivileged_userns_clone exists
@@ -714,6 +726,7 @@ install_package() {
 }
 
 install_buildah(){
+  local user=$1
   distro=$(get_linux_distro)
   log::info "Installing Buildah and configuring user namespaces..."
 
@@ -742,7 +755,7 @@ install_buildah(){
       ;;
   esac
 
-  set_user_subuids_subgids "$OPT_USER"
+  set_user_subuids_subgids $user
 
   # Migrate Podman system if applicable
   if is_command_exists podman; then
@@ -785,9 +798,8 @@ get_free_range() {
 
 set_user_subuids_subgids() {
 
-  local user="$1"
   local min_range_size=65536
-  local current_user="${user:-$(get_user)}"
+  local current_user="$1"
   local free_range=$(get_free_range)
 
   if grep -q "^$current_user:" /etc/subuid; then
@@ -817,12 +829,12 @@ set_user_subuids_subgids() {
 
 check_user_existence() {
   local user="$1"
-  local current_user="${user:-$(get_user)}"
 
-  if ! id "$current_user" &>/dev/null; then
-    abort "User '$current_user' does not exist."
+  if ! id "$user" &>/dev/null; then
+    abort "User '$user' does not exist."
   fi
 }
+
 log::info() {
   declare msg="$1"
 
