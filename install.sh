@@ -604,6 +604,11 @@ install_werf_system_dependencies() {
     return 0
   fi
 
+  VERSION_ID=$(lsb_release -r | cut -f2)
+  if [[ "$VERSION_ID" == "18.04" ]]; then
+    run_as_root "add-apt-repository -y ppa:git-core/ppa"
+    run_as_root "apt-get update"
+  fi
   install_package "$missing_packages"
 }
 
@@ -709,8 +714,24 @@ install_buildah(){
   log::info "Installing Buildah and configuring user namespaces..."
 
   case "$distro" in
-    *Debian*|*Ubuntu*)
+    *Debian*)
       install_package "buildah uidmap"
+      ;;
+    *Ubuntu*)
+      VERSION_ID=$(lsb_release -r | cut -f2)
+      if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" ]]; then
+      install_package "wget ca-certificates gnupg2"
+      echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | run_as_root "tee /etc/apt/sources.list.d/devel-kubic-libcontainers-stable.list"
+      curl -Ls https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_$VERSION_ID/Release.key | run_as_root "apt-key add -"
+      run_as_root "apt-get update"
+      install_package "libfuse3-dev fuse-overlayfs"
+      fi
+      install_package "buildah uidmap"
+
+      # workaround for https://github.com/containers/podman/issues/11745
+      if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" ]]; then
+      run_as_root "sed -i 's/^\[machine\]$/#\[machine\]/' /usr/share/containers/containers.conf"
+      fi
       ;;
     *CentOS*|*Red\ Hat*|*Fedora*)
       run_as_root "yum groupinstall -y 'Development Tools'"
