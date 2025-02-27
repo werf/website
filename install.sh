@@ -66,9 +66,7 @@ main() {
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
   OPT_USER="${OPT_USER:-$(get_user)}"
   
-  if [[ -n "$OPT_USER" ]]; then
-    export HOME=$(eval echo ~$OPT_USER)
-  fi
+  export HOME=$(eval echo ~$OPT_USER)
 
   check_user_existence "$OPT_USER"
   install_werf_system_dependencies "$OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
