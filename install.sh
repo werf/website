@@ -311,7 +311,7 @@ install_trdl() {
   is_trdl_installed_and_up_to_date "$trdl_version" && log::info "Skipping trdl installation: already installed in \"$HOME/bin/\"." && return 0
   log::info "Installing trdl to \"$HOME/bin/\"."
 
-  run_as_user "$user" "mkdir -p \"$HOME/bin\"" || abort "Can't create \"$HOME/bin\" directory."
+  run_as_user "$user" "mkdir -p $HOME/bin" || abort "Can't create \"$HOME/bin\" directory."
 
   declare tmp_dir
   tmp_dir="$(run_as_user "$user" "mktemp -d")" || abort "Can't create temporary directory."
@@ -501,10 +501,16 @@ run_as_user() {
   local user="$1"
   shift
   local cmd="$@"
-  [[ $OPT_INTERACTIVE == "no" ]] && log::warn "Non-interactive mode enabled, but current user doesn't have enough privilege, so the next command will be called with sudo (this might hang): sudo $cmd"
   ensure_cmds_available sudo
-  sudo -u "$user" bash -c "$cmd" || return 1
-}
+  if [[ "$user" == $(get_user) ]]; then
+    eval "$cmd" || return 1
+  else
+    ensure_cmds_available sudo
+    [[ $OPT_INTERACTIVE == "no" ]] && log::warn "Non-interactive mode is enabled, the following command will be invoked using sudo for the specified user (this might hang): sudo -u $user $cmd"
+    sudo -u "$user" bash -c "$cmd" || return 1
+  fi
+
+} 
 
 is_root() {
   test "$(id -u)" -eq 0
