@@ -248,7 +248,7 @@ func (m *versionMenuType) getGroupMenuData(r *http.Request, releases *ReleasesSt
 	// Add other items
 	for _, group := range getGroups() {
 		// TODO error handling
-		if group == "1.0" {
+		if group == "1.0" || group == "1.1" {
 			continue
 		}
 		m.VersionItems = append(m.VersionItems, versionMenuItems{
@@ -266,7 +266,7 @@ func (m *versionMenuType) getGroupMenuData(r *http.Request, releases *ReleasesSt
 // Get channels and corresponding versions for the specified
 // group according to the reverse order of stability
 func (m *versionMenuType) getChannelsFromGroup(releases *ReleasesStatusType, group string) (err error) {
-	if group == "1.0" {
+	if group == "1.0" || group == "1.1" {
 		return
 	}
 	for _, item := range releases.Releases {
