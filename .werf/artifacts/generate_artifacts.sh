@@ -7,15 +7,15 @@ shopt -s nocasematch
 # tag_name, html_url, body
 PER_PAGE=100
 PAGES=1
-link_re='^.*<http.+[\&\?]page=([0-9]+)[^;]*; rel="last"'
-if [[ "$(curl -Is  'https://api.github.com/repos/werf/werf/releases?per_page=${PER_PAGE}' | grep link | sed 's/^link: //')" =~ $link_re ]]; then
+link_re='^.+[\&\?]page=([0-9]+)>?; rel="last"'
+if [[ $(curl -Is  "https://api.github.com/repos/werf/werf/releases?per_page=${PER_PAGE}" | grep link | sed 's/^link: //') =~ $link_re ]]; then
   PAGES=${BASH_REMATCH[1]}
 fi
 
 echo "There are ${PAGES} pages (${PER_PAGE} items per page) to get."
 
 (for (( PAGE=1 ; $PAGE <= $PAGES; PAGE++ )); do
-    curl -u werfio:${WERFIO_GITHUB_TOKEN} -s  "https://api.github.com/repos/werf/werf/releases?per_page=${PER_PAGE}&page=${PAGE}" | jq -cM '.|  map(select( (.tag_name|test("^v")) and (.tag_name | test("^v1.0") | not ) )) | map(.body = "{% raw %}\(.body | gsub("\n";"  \n") ){% endraw %}\n\n") | .[] | {tag_name: .tag_name, html_url: .html_url, body: .body} '
+    curl -u werfio:${WERFIO_GITHUB_TOKEN} -s  "https://api.github.com/repos/werf/werf/releases?per_page=${PER_PAGE}&page=${PAGE}" | jq -cM '.|  map(select( (.tag_name|test("^v")) and (.tag_name | test("^v1.0|^v1.1") | not ) )) | map(.body = "{% raw %}\(.body | gsub("\n";"  \n") ){% endraw %}\n\n") | .[] | {tag_name: .tag_name, html_url: .html_url, body: .body} '
     echo "Got page ${PAGE}." >&2
 done) | jq -sc ' . | {releases: .} ' > releases.json
 

@@ -1,9 +1,29 @@
 {
   "releases": [
     {
-      "tag_name": "v1.2.8+fix2",
-      "html_url": "https://github.com/werf/werf/releases/tag/v1.2.8%2Bfix2",
-      "body": "{% raw %}# New site infra  \n  \nFix CI.  \n  \n# Installation  \n  \n[Linux amd64](https://dl.bintray.com/flant/werf/v1.2.8+fix2/werf-linux-amd64-v1.2.8+fix2)  \n  \n[Darwin amd64](https://dl.bintray.com/flant/werf/v1.2.8+fix2/werf-darwin-amd64-v1.2.8+fix2)  \n  \n[Windows amd64](https://dl.bintray.com/flant/werf/v1.2.8+fix2/werf-windows-amd64-v1.2.8+fix2.exe)  \n  \n{% endraw %}\n\n"
+      "tag_name": "v1.2.11+fix16",
+      "html_url": "https://github.com/werf/werf/releases/tag/v1.2.11%2Bfix16",
+      "body": "{% raw %}\n## test \n"
+    },
+    {
+      "tag_name": "v1.2.10+fix29",
+      "html_url": "https://github.com/werf/werf/releases/tag/v1.2.10%2Bfix29",
+      "body": "{% raw %}\n## test \n{% endraw %}\n\n"
+    },
+    {
+      "tag_name": "v1.2.10+fix27",
+      "html_url": "https://github.com/werf/werf/releases/tag/v1.2.10%2Bfix27",
+      "body": "{% raw %}\n## test \n{% endraw %}\n\n"
+    },
+    {
+      "tag_name": "v2.27.1",
+      "html_url": "https://github.com/werf/werf/releases/tag/v2.27.1",
+      "body": "{% raw %}\n## test \n{% endraw %}\n\n"
+    },
+    {
+      "tag_name": "v2.22.0",
+      "html_url": "https://github.com/werf/werf/releases/tag/v2.22.0",
+      "body": "{% raw %}\n## test \n{% endraw %}\n\n"
     }
   ]
 }

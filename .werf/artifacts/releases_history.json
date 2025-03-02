@@ -1,21 +1,144 @@
 {
   "history": [
     {
-      "ts": "1614448827",
-      "date": "2021-02-27T18:00:27Z",
+      "ts": "1621610614",
+      "date": "2021-05-21T15:23:34Z",
+      "group": "1.2",
+      "name": "alpha",
+      "version": "v1.2.11+fix1"
+    },
+    {
+      "ts": "1621610614",
+      "date": "2021-05-21T15:23:34Z",
+      "group": "1.2",
+      "name": "beta",
+      "version": "v1.2.10+fix29"
+    },
+    {
+      "ts": "1621610614",
+      "date": "2021-05-21T15:23:34Z",
+      "group": "1.2",
+      "name": "ea",
+      "version": "v1.2.10+fix27"
+    },
+    {
+      "ts": "1638543695",
+      "date": "2021-12-03T15:01:35Z",
+      "group": "1.2",
+      "name": "stable",
+      "version": "v1.2.10+fix27"
+    },
+    {
+      "ts": "1643219342",
+      "date": "2022-01-26T17:49:02Z",
+      "group": "1.2",
+      "name": "rock-solid",
+      "version": "v1.2.10+fix27"
+    },
+    {
+      "ts": "1739892654",
+      "date": "2025-02-18T15:30:54Z",
+      "group": "2",
+      "name": "ea",
+      "version": "v2.27.1"
+    },
+    {
+      "ts": "1739892654",
+      "date": "2025-02-18T15:30:54Z",
+      "group": "2",
+      "name": "rock-solid",
+      "version": "v2.22.0"
+    }
+  ],
+  "latest": [
+    {
+      "name": "alpha",
+      "versions": [
+        "1.2.334",
+        "2.30.0"
+      ]
+    },
+    {
+      "name": "beta",
+      "versions": [
+        "1.2.334",
+        "2.30.0"
+      ]
+    },
+    {
+      "name": "ea",
+      "versions": [
+        "1.2.334",
+        "2.27.1"
+      ]
+    },
+    {
+      "name": "rock-solid",
+      "versions": [
+        "1.2.333",
+        "2.22.0+fix1"
+      ]
+    },
+    {
+      "name": "stable",
+      "versions": [
+        "1.2.333",
+        "2.27.1"
+      ]
+    }
+  ],
+  "latest4menu": [
+    {
+      "ts": "1740732179",
+      "date": "2025-02-28T08:42:59Z",
       "group": "1.2",
       "channels": [
         {
           "name": "alpha",
-          "version": "v1.2.8+fix2"
+          "version": "1.2.334"
         },
         {
           "name": "beta",
-          "version": "v1.2.8+fix2"
+          "version": "1.2.334"
         },
         {
           "name": "ea",
-          "version": "v1.2.8+fix2"
+          "version": "1.2.334"
+        },
+        {
+          "name": "stable",
+          "version": "1.2.333"
+        },
+        {
+          "name": "rock-solid",
+          "version": "1.2.333"
+        }
+      ]
+    },
+    {
+      "ts": "1740732179",
+      "date": "2025-02-28T08:42:59Z",
+      "group": "2",
+      "channels": [
+        {
+          "name": "alpha",
+          "version": "2.30.0"
+        },
+        {
+          "name": "beta",
+          "version": "2.30.0"
+        },
+        {
+          "name": "ea",
+          "version": "2.27.1"
+        },
+        {
+          "name": "stable",
+          "version": "2.27.1"
+        },
+        {
+          "name": "rock-solid",
+          "version": "2.22.0+fix1"
         }
       ]
     }

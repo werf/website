@@ -1,0 +1,19 @@
+changelog-history-of-releases-within-channels:
+  en: Changelog history of releases within channels
+  ru: История изменений версий в каналах обновлений
+
+release:
+  en: Release
+  ru: Релиз
+
+release-channel:
+  en: Release channel
+  ru: Канал обновлений
+
+all-channels:
+  en: All channels
+  ru: Все уровни
+
+there-are-no-versions-on-the-channel-yet:
+  en: There are no versions on the channel yet, but they will appear soon.
+  ru: На канале пока нет версий, но обязательно скоро появятся.
