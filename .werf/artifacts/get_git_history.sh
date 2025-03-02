@@ -45,7 +45,7 @@ for i in $(git log --format="%H-%at" -- trdl_channels.yaml multiwerf.json ); do
       CONTENT=$(2>/dev/null > git show $COMMIT_HASH:multiwerf.json)
   fi
   if [ -n "$CONTENT" ]; then
-    echo $CONTENT | jq -cM ".multiwerf[] | select( (.outdated != "true") and ( .group | test(\"^1.0\") | not ) ) | {\"ts\":\"$COMMIT_AUTH_TS\",\"date\":\"\($COMMIT_AUTH_TS | tonumber| todate)\",\"group\":.group,\"channels\":[(.channels[] | select(.version != \"v1.2.0-alpha1\") | select(.version != \"v1.2.0-alpha2\"))]} "
+    echo $CONTENT | jq -cM --arg commit_auth_ts "$COMMIT_AUTH_TS" '.multiwerf[] | select( (.outdated != "true") and ( .group | test("^1.0|^1.1") | not ) ) | {"ts":$commit_auth_ts,"date": ($commit_auth_ts | tonumber| todate),"group":.group,"channels":[(.channels[] | select(.version != "v1.2.0-alpha1") | select(.version != "v1.2.0-alpha2"))]}'
   fi
 done
 
