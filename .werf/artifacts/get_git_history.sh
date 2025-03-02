@@ -37,13 +37,16 @@ _OUT=''
 for i in $(git log --format="%H-%at" -- trdl_channels.yaml multiwerf.json ); do
   COMMIT_HASH=$( echo $i | cut -d- -f1 )
   COMMIT_AUTH_TS=$( echo $i | cut -d- -f2 )
-  CONTENT=$(2>/dev/null git show $COMMIT_HASH:trdl_channels.yaml | $YQ eval -o json)
+
+  CONTENT=$(2>/dev/null git show $COMMIT_HASH:trdl_channels.yaml | ($YQ eval -o json 2>/dev/null || exit 0 ))
   if [[ "$CONTENT" != "null" ]]; then
       CONTENT=$(echo $CONTENT | jq '.groups[] | {"group":.name, "channels": .channels}' | jq -s ' {"multiwerf":.}')
   else
-      CONTENT=$(git show $COMMIT_HASH:multiwerf.json)
+      CONTENT=$(2>/dev/null > git show $COMMIT_HASH:multiwerf.json)
   fi
-  echo $CONTENT | jq -cM ".multiwerf[] | select( (.outdated != "true") and ( .group | test(\"^1.0\") | not ) ) | {\"ts\":\"$COMMIT_AUTH_TS\",\"date\":\"\($COMMIT_AUTH_TS | tonumber| todate)\",\"group\":.group,\"channels\":[(.channels[] | select(.version != \"v1.2.0-alpha1\") | select(.version != \"v1.2.0-alpha2\"))]} "
+  if [ -n "$CONTENT" ]; then
+    echo $CONTENT | jq -cM ".multiwerf[] | select( (.outdated != "true") and ( .group | test(\"^1.0\") | not ) ) | {\"ts\":\"$COMMIT_AUTH_TS\",\"date\":\"\($COMMIT_AUTH_TS | tonumber| todate)\",\"group\":.group,\"channels\":[(.channels[] | select(.version != \"v1.2.0-alpha1\") | select(.version != \"v1.2.0-alpha2\"))]} "
+  fi
 done
 
 if [ -n $WORKDIR ]; then  rm -rf $WORKDIR; fi

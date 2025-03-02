@@ -26,15 +26,23 @@ if [ $(( $RELEASES_COUNT )) -lt 3 ]; then echo "Too low releases count - ${RELEA
 
 HISTORY_JSON=${1:-git_history.json}
 
+echo -n "Creating git_history.json: "
 bash ./get_git_history.sh | jq -s '{"history":.}' > $HISTORY_JSON
+echo "✔"
 
+echo -n "Converting data: "
 ./convert $HISTORY_JSON > releases_history.json
+echo "✔"
 
+echo -n "Creating channels_versions.json: "
 (for i in $(cat $HISTORY_JSON | jq '.history| unique_by(.group) | .[].group' | xargs); do
   echo "$(cat $HISTORY_JSON | jq --arg group $i '.history | map(select (.group == $group)) | .[0] as $item | $item.channels[] | select((.version | length) >0) | {"\(.name)-\($group)": .version}')"
 done  ) | jq -s '{"versions": .|add } ' 1> channels_versions.json
+echo "✔"
+
 
 # make archive with feeds
+echo -n "Creating feeds files: "
 rm -rf feeds 2>/dev/null
 mkdir -p feeds feeds/pages_en feeds/pages_ru
 for group in $(cat $HISTORY_JSON | jq -r '.history| unique_by(.group) | .[].group' | xargs); do
@@ -47,6 +55,9 @@ done
 tar czf feeds.tgz feeds
 
 base64 feeds.tgz > feeds.tgz.base64
-rm -rf feeds feeds.tgz 2>/dev/null
+echo "✔"
 
+echo -n "Cleaning: "
+rm -rf feeds feeds.tgz 2>/dev/null
 rm -f $HISTORY_JSON
+echo "✔"
