@@ -34,6 +34,31 @@ breadcrumbs: none
         {{- end }}
     </div>
 
+    <div class="configurator-toc">
+        <div>Содержание</div>
+        <script>
+            $( document ).ready(function() {
+                // Handler for .ready() called.
+
+                $('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2, h3:not(.tabs__content>h3), h4' });
+
+                if ($('#toc').is(':empty')) { $('#toc').hide(); }
+
+                /* this offset helps account for the space taken up by the floating toolbar. */
+                $('#toc').on('click tap', 'a', function() {
+                    var target = $(this.getAttribute('href'))
+                        , scroll_target = target.offset().top;
+
+                    $(window).scrollTop(scroll_target - 110);
+                    return false
+                })
+
+            });
+        </script>
+
+        <div id="toc"></div>
+    </div>
+
 <div id="configurator-content" markdown="1">
 {{ if .PageTab }} {% include {{ .IncludePath }} %} {{ else }} {% include {{ .DefaultIncludePath }} %} {{ end }}
 </div>
