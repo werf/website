@@ -162,7 +162,18 @@ validate_git_version() {
   compare_versions "$current_git_version" "$required_git_version"
   case $? in
     1)  log::info "Current version is greater than or equal to required version." ;;
-    2)  abort "Git version must be at least \"$required_git_version\"." ;;
+    2)  log::info "Git version is too old, proceeding to upgrade." 
+        if dpkg -l &>/dev/null; then
+          log::info "Debian-based system detected. Adding PPA and installing Git..."
+          if ! is_command_exists add-apt-repository; then
+            log::info "Installing add-apt-repository..."
+            install_package software-properties-common
+          fi
+          log::info "Adding PPA for Git..."
+          run_as_root "add-apt-repository ppa:git-core/ppa"
+          install_package git
+        fi
+        ;;
     0)  log::info "Versions are equal." ;;
     *)  abort "Unexpected error comparing versions." ;;
   esac
@@ -679,6 +690,29 @@ get_linux_distro() {
   echo "$distro"
 }
 
+get_distro_version() {
+  declare version
+  if [[ -f /etc/os-release ]]; then
+    . "/etc/os-release"
+    version="$VERSION_ID"
+  elif type lsb_release 1>/dev/null 2>&1; then
+    version=$(lsb_release -r | awk -F"\t" '{print $2}')
+  elif [[ -f "/etc/lsb-release" ]]; then
+    . "/etc/lsb-release"
+    version="$DISTRIB_RELEASE"
+  elif [[ -f "/etc/debian_version" ]]; then
+    version=$(cat /etc/debian_version)
+  elif [[ -f "/etc/SuSe-release" ]]; then
+    version=$(cat /etc/SuSe-release | grep -oP 'VERSION = \K[^\s]+')
+  elif [[ -f "/etc/redhat-release" ]]; then
+    version=$(cat /etc/redhat-release | sed -E 's/[^0-9]*([0-9]+\.[0-9]+).*/\1/')
+  else
+    echo "Unable to detect Linux distro."
+    return 1
+  fi
+  echo "$version"
+}
+
 install_package() {
   local package="$1"
   distro=$(get_linux_distro)
@@ -711,6 +745,7 @@ install_package() {
 
 install_buildah(){
   distro=$(get_linux_distro)
+  distro_version=$(get_distro_version)
   log::info "Installing Buildah and configuring user namespaces..."
 
   case "$distro" in
@@ -718,20 +753,20 @@ install_buildah(){
       install_package "buildah uidmap"
       ;;
     *Ubuntu*)
-      VERSION_ID=$(lsb_release -r | cut -f2)
-      if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" ]]; then
-      install_package "wget ca-certificates gnupg2"
-      echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | run_as_root "tee /etc/apt/sources.list.d/devel-kubic-libcontainers-stable.list"
-      curl -Ls https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_$VERSION_ID/Release.key | run_as_root "apt-key add -"
-      run_as_root "apt-get update"
-      install_package "libfuse3-dev fuse-overlayfs"
-      fi
-      install_package "buildah uidmap"
+      compare_versions "$distro_version" "20.04"
+      case $? in
+        0|2)
+          install_package "wget ca-certificates gnupg2"
+          echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${distro_version}/ /" \
+            | run_as_root "tee /etc/apt/sources.list.d/devel-kubic-libcontainers-stable.list"
 
-      # workaround for https://github.com/containers/podman/issues/11745
-      if [[ "$VERSION_ID" == "20.04" || "$VERSION_ID" == "18.04" ]]; then
-      run_as_root "sed -i 's/^\[machine\]$/#\[machine\]/' /usr/share/containers/containers.conf"
-      fi
+          curl -Ls "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_${distro_version}/Release.key" \
+            | run_as_root "apt-key add -"
+          run_as_root "apt-get update"
+          install_package "libfuse3-dev fuse-overlayfs"
+          ;;
+      esac
+      install_package "buildah uidmap"
       ;;
     *CentOS*|*Red\ Hat*|*Fedora*)
       run_as_root "yum groupinstall -y 'Development Tools'"
@@ -764,6 +799,7 @@ install_buildah(){
 
   log::info "Buildah installation and configuration completed."
 }
+
 
 get_free_range() {
   local start=100000
