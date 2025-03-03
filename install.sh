@@ -615,11 +615,6 @@ install_werf_system_dependencies() {
     return 0
   fi
 
-  VERSION_ID=$(lsb_release -r | cut -f2)
-  if [[ "$VERSION_ID" == "18.04" ]]; then
-    run_as_root "add-apt-repository -y ppa:git-core/ppa"
-    run_as_root "apt-get update"
-  fi
   install_package "$missing_packages"
 }
 
