@@ -66,7 +66,7 @@ main() {
   OPT_WERF_TUF_ROOT_SHA="${OPT_WERF_TUF_ROOT_SHA:-$OPT_DEFAULT_WERF_TUF_ROOT_SHA}"
   OPT_USER="${OPT_USER:-$(get_user)}"
   
-  export HOME=$(eval echo ~$OPT_USER)
+  export HOME="$(eval echo ~$OPT_USER)"
 
   check_user_existence "$OPT_USER"
   install_werf_system_dependencies "$OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
@@ -251,13 +251,13 @@ propose_joining_docker_group() {
 
   [[ $override_join_docker_group == "no" ]] && return 0
   if is_command_exists docker; then
-    is_user_in_group $user docker && return 0
+    is_user_in_group "$user" docker && return 0
     is_root && return 0
     ensure_cmds_available usermod
     if [[ $override_join_docker_group == "auto" ]]; then
       prompt_yes_no_skip 'werf needs access to the Docker daemon. Add current user to the "docker" group? (root required)' "yes" || return 0
     fi
-    run_as_root "usermod -aG docker $user" || abort "Can't add user \"$user\" to group \"docker\"."
+    run_as_root "usermod -aG docker \"$user\"" || abort "Can't add user \"$user\" to group \"docker\"."
   else
     return 0
   fi    
@@ -311,7 +311,7 @@ install_trdl() {
   is_trdl_installed_and_up_to_date "$trdl_version" && log::info "Skipping trdl installation: already installed in \"$HOME/bin/\"." && return 0
   log::info "Installing trdl to \"$HOME/bin/\"."
 
-  run_as_user "$user" "mkdir -p $HOME/bin" || abort "Can't create \"$HOME/bin\" directory."
+  run_as_user "$user" "mkdir -p \"$HOME/bin\"" || abort "Can't create \"$HOME/bin\" directory."
 
   declare tmp_dir
   tmp_dir="$(run_as_user "$user" "mktemp -d")" || abort "Can't create temporary directory."
@@ -327,7 +327,7 @@ install_trdl() {
     run_as_user "$user" "gpg -q --verify $tmp_dir/trdl.sig $tmp_dir/trdl" || abort "Can't verify trdl binary with a gpg signature."
   fi
 
-  run_as_user "$user" "install $tmp_dir/trdl $HOME/bin" || abort "Can't install trdl binary from \"$tmp_dir/trdl\" to \"$HOME/bin\"."
+  run_as_user "$user" "install $tmp_dir/trdl \"$HOME/bin\"" || abort "Can't install trdl binary from \"$tmp_dir/trdl\" to \"$HOME/bin\"."
   run_as_user "$user" "rm -rf $tmp_dir" 2>/dev/null
 }
 
@@ -351,7 +351,7 @@ add_trdl_werf_repo() {
   declare user="$4"
 
   log::info "Adding werf repo to trdl."
-  run_as_user $user "$HOME/bin/trdl add werf $werf_tuf_repo_url $werf_tuf_repo_root_version $werf_tuf_repo_root_sha" || abort "Can't add \"werf\" repo to trdl."
+  run_as_user "$user" "\"$HOME/bin/trdl\" add werf $werf_tuf_repo_url $werf_tuf_repo_root_version $werf_tuf_repo_root_sha" || abort "Can't add \"werf\" repo to trdl."
 }
 
 enable_automatic_werf_activation() {
@@ -502,11 +502,11 @@ run_as_user() {
   shift
   local cmd="$@"
   ensure_cmds_available sudo
-  if [[ "$user" == $(get_user) ]]; then
+  if [[ "$user" == "$(get_user)" ]]; then
     eval "$cmd" || return 1
   else
     ensure_cmds_available sudo
-    [[ $OPT_INTERACTIVE == "no" ]] && log::warn "Non-interactive mode is enabled, the following command will be invoked using sudo for the specified user (this might hang): sudo -u $user $cmd"
+    [[ $OPT_INTERACTIVE == "no" ]] && log::warn "Non-interactive mode is enabled, the following command will be invoked using sudo for the specified user (this might hang): sudo -u \"$user\" \"$cmd\""
     sudo -u "$user" bash -c "$cmd" || return 1
   fi
 
@@ -642,7 +642,7 @@ setup_buildah() {
     prompt_yes_no_skip "Install and set up Buildah backend?" "skip" || return 0
   fi
 
-  is_command_exists buildah || install_buildah $user
+  is_command_exists buildah || install_buildah "$user"
     
   if is_command_exists sysctl; then
   # Check if kernel.unprivileged_userns_clone exists
@@ -759,7 +759,7 @@ install_buildah(){
       ;;
   esac
 
-  set_user_subuids_subgids $user
+  set_user_subuids_subgids "$user"
 
   # Migrate Podman system if applicable
   if is_command_exists podman; then
