@@ -163,7 +163,7 @@ validate_git_version() {
   case $? in
     1)  log::info "Current version is greater than or equal to required version." ;;
     2)  log::info "Git version is too old, proceeding to upgrade." 
-        if dpkg -l &>/dev/null; then
+        if is_command_exists apt-get; then
           log::info "Debian-based system detected. Adding PPA and installing Git..."
           if ! is_command_exists add-apt-repository; then
             log::info "Installing add-apt-repository..."
@@ -751,14 +751,12 @@ install_buildah(){
       compare_versions "$distro_version" "20.04"
       case $? in
         0|2)
-          install_package "wget ca-certificates gnupg2"
           echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${distro_version}/ /" \
             | run_as_root "tee /etc/apt/sources.list.d/devel-kubic-libcontainers-stable.list"
 
           curl -Ls "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_${distro_version}/Release.key" \
             | run_as_root "apt-key add -"
-          run_as_root "apt-get update"
-          install_package "libfuse3-dev fuse-overlayfs"
+          install_package "wget ca-certificates gnupg2 libfuse3-dev fuse-overlayfs"
           ;;
       esac
       install_package "buildah uidmap"
