@@ -291,7 +291,6 @@ func (m *versionMenuType) getChannelsFromGroup(releases *ReleasesStatusType, gro
 
 // Get channel and group for specified version
 func getChannelAndGroupFromVersion(releases *ReleasesStatusType, version string) (channel, group string) {
-
 	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)$`)
 	res := re.FindStringSubmatch(version)
 	if res != nil {
@@ -358,7 +357,6 @@ func getVersionFromGroup(releases *ReleasesStatusType, group string) (err error,
 	}
 
 	return errors.New(fmt.Sprintf("Can't get version for %s", group)), ""
-
 }
 
 // Add prefix 'v' to a version if it doesn't have yet
@@ -402,7 +400,6 @@ func getRootReleaseVersion() string {
 }
 
 func getRootRelease() (result string) {
-
 	if len(os.Getenv("ACTIVE_RELEASE")) > 0 {
 		result = os.Getenv("ACTIVE_RELEASE")
 	} else {
@@ -412,18 +409,9 @@ func getRootRelease() (result string) {
 	return
 }
 
-func getPage(filename string) ([]byte, error) {
-	body, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
-}
-
 // Get the full page URL menu requested for
 // E.g /docs/v1.2.3/reference/build_process.html
 func getCurrentPageURL(r *http.Request) (result string) {
-
 	originalURI, err := url.Parse(r.Header.Get("x-original-uri"))
 	if err != nil {
 		return
@@ -434,7 +422,6 @@ func getCurrentPageURL(r *http.Request) (result string) {
 	} else {
 		return originalURI.Path
 	}
-
 }
 
 // Get page URL menu requested for without a leading version suffix
@@ -478,7 +465,6 @@ func getDocPageURLRelative(r *http.Request, useURI ...bool) (result string) {
 func getVersionURL(r *http.Request) (result string) {
 	URLtoParse := ""
 	originalURI, err := url.Parse(r.Header.Get("x-original-uri"))
-
 	if err != nil {
 		return
 	}
@@ -500,29 +486,6 @@ func getVersionURL(r *http.Request) (result string) {
 	}
 
 	return strings.TrimPrefix(result, "/")
-}
-
-func inspectRequest(r *http.Request) string {
-	var request []string
-
-	url := fmt.Sprintf("%v %v %v", r.Method, r.URL, r.Proto)
-	request = append(request, url)
-	request = append(request, fmt.Sprintf("Host: %v", r.Host))
-	for name, headers := range r.Header {
-		name = strings.ToLower(name)
-		for _, h := range headers {
-			request = append(request, fmt.Sprintf("%v: %v", name, h))
-		}
-	}
-
-	// If this is a POST, add post data
-	if r.Method == "POST" {
-		_ = r.ParseForm()
-		request = append(request, "\n")
-		request = append(request, r.Form.Encode())
-	}
-
-	return strings.Join(request, "\n")
 }
 
 func inspectRequestHTML(r *http.Request) string {
@@ -561,7 +524,7 @@ func URLToVersion(version string) (result string) {
 	return
 }
 
-func validateURL(URL string) (err error) {
+func validateURL(url string) (err error) {
 	if strings.ToLower(os.Getenv("URL_VALIDATION")) == "false" {
 		return nil
 	}
@@ -588,11 +551,16 @@ func validateURL(URL string) (err error) {
 	}
 
 	for {
-		resp, err = client.Get(URL)
-		log.Tracef("Validating %v (tries-%v):\nStatus - %v\nHeader - %+v,", URL, tries, resp.Status, resp.Header)
+		resp, err = client.Get(url)
+		if err != nil {
+			log.Tracef("Error while getting %v: %v", url, err)
+			break
+		}
+		defer resp.Body.Close()
+		log.Tracef("Validating %v (tries-%v):\nStatus - %v\nHeader - %+v,", url, tries, resp.Status, resp.Header)
 		if err == nil && (resp.StatusCode == 301 || resp.StatusCode == 302) {
 			if len(resp.Header.Get("Location")) > 0 {
-				URL = resp.Header.Get("Location")
+				url = resp.Header.Get("Location")
 			} else {
 				tries = 0
 			}
@@ -608,7 +576,7 @@ func validateURL(URL string) (err error) {
 	if err == nil {
 		place := sort.SearchInts(allowedStatusCodes, resp.StatusCode)
 		if place >= len(allowedStatusCodes) {
-			err = errors.New(fmt.Sprintf("%s is not valid", URL))
+			err = errors.New(fmt.Sprintf("%s is not valid", url))
 		}
 	}
 	return

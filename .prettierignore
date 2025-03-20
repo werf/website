@@ -1,0 +1,3 @@
+.helm
+examples/
+werf*.yaml
