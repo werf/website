@@ -100,7 +100,7 @@ tasks:
         cp -R bin/configurator/generated/* .
 
   docker:network:create:
-    desc: 'Create shared docker network werfio-dev to use with werf/website'
+    desc: "Create shared docker network werfio-dev to use with werf/website"
     vars:
       NETWORK_NAME: werfio-dev
     cmds:
@@ -109,7 +109,7 @@ tasks:
       - docker network inspect {{.NETWORK_NAME}}
 
   compose:up:
-    desc: 'Run jekyll in werf compose for local development. Use lang=en or lang=ru to run only specified lang. Run task compose:up in werf/werf repository to access documentation.'
+    desc: "Run jekyll in werf compose for local development. Use lang=en or lang=ru to run only specified lang. Run task compose:up in werf/werf repository to access documentation."
     deps:
       - docker:network:create
     cmds:
@@ -122,7 +122,7 @@ tasks:
         werf compose up jekyll_base backend --dev --docker-compose-command-options="$services front backend" --platform=linux/amd64 || true
 
   compose:down:
-    desc: 'Stop and clean after werf compose'
+    desc: "Stop and clean after werf compose"
     cmds:
       - |
         which werf >/dev/null || source $(trdl use werf 2 beta)
@@ -132,84 +132,113 @@ tasks:
         werf compose down
 
   site:check-broken-links:
-    desc: 'Check docs for broken links.'
+    desc: "Check docs for broken links."
     deps:
       - site:check-broken-links:ru
       - site:check-broken-links:en
 
   site:check-broken-links:ru:
-    desc: 'Check ru docs for broken links.'
+    desc: "Check ru docs for broken links."
     cmds:
       - |
         ./scripts/docs/check_broken_links.sh ru
 
   site:check-broken-links:en:
-    desc: 'Check en docs for broken links.'
+    desc: "Check en docs for broken links."
     cmds:
       - |
         ./scripts/docs/check_broken_links.sh en
 
   site:run-spell-check:
-    desc: 'Run spell check for all pages.'
+    desc: "Run spell check for all pages."
     deps:
       - site:run-spell-check:ru
       - site:run-spell-check:en
 
   site:run-spell-check:ru:
-    desc: 'Run spell check for ru pages. You can specify the path to a specific file with `-- ./path/to/file`'
+    desc: "Run spell check for ru pages. You can specify the path to a specific file with `-- ./path/to/file`"
     cmds:
       - |
         ./scripts/docs/spelling/spell_check.sh ru {{.CLI_ARGS}}
 
   site:run-spell-check:en:
-    desc: 'Run spell check for en pages. You can specify the path to a specific file with `-- ./path/to/file`'
+    desc: "Run spell check for en pages. You can specify the path to a specific file with `-- ./path/to/file`"
     cmds:
       - |
         ./scripts/docs/spelling/spell_check.sh en {{.CLI_ARGS}}
 
   site:generate-special-dictionary:
-    desc: 'Generate a dictionary of special terms.'
+    desc: "Generate a dictionary of special terms."
     cmds:
       - |
-        test -f ./scripts/docs/spelling/dictionaries/dev_OPS.dic && rm ./scripts/docs/spelling/dictionaries/dev_OPS.dic
-        touch ./scripts/docs/spelling/dictionaries/dev_OPS.dic
-        cat ./scripts/docs/spelling/wordlist | wc -l | sed 's/^[ \t]*//g' >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
-        sort -u -f -o ./scripts/docs/spelling/wordlist{,}
-        sort -u -f ./scripts/docs/spelling/wordlist >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
+        docker run --rm -v $(pwd)/scripts/:/scripts registry.werf.io/website/sorter:latest bash -c '
+          test -f ./scripts/docs/spelling/dictionaries/dev_OPS.dic && rm ./scripts/docs/spelling/dictionaries/dev_OPS.dic
+          touch ./scripts/docs/spelling/dictionaries/dev_OPS.dic
+          cat ./scripts/docs/spelling/wordlist | wc -l | sed "s/^[ \t]*//g" >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
+          sort -u -f -o ./scripts/docs/spelling/wordlist{,}
+          sort -u -f ./scripts/docs/spelling/wordlist >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
+        '
 
   site:get-words-with-typos:
-    desc: 'Pulls out a list of all the terms in all pages that were considered a typo'
+    desc: "Pulls out a list of all the terms in all pages that were considered a typo"
     deps:
       - site:get-words-with-typos:ru
       - site:get-words-with-typos:en
 
   site:get-words-with-typos:ru:
-    desc: 'Pulls out a list of all the terms in RU pages that were considered a typo'
+    desc: "Pulls out a list of all the terms in RU pages that were considered a typo"
     cmds:
       - |
         task site:run-spell-check:ru | sed '1,/Checking/ d' | sed '/^$/d' | sed '/Checking/d' | sort -u > spell_log_ru
 
   site:get-words-with-typos:en:
-    desc: 'Pulls out a list of all the terms in EN pages that were considered a typo'
+    desc: "Pulls out a list of all the terms in EN pages that were considered a typo"
     cmds:
       - |
         task site:run-spell-check:en | sed '1,/Checking/ d' | sed '/^$/d' | sed '/Checking/d' | sort -u > spell_log_en
 
   site:view-plain-text-of-target-html:en:
-    desc: 'Displays EN HTML stripped of tags.'
+    desc: "Displays EN HTML stripped of tags."
     cmds:
       - |
         ./scripts/docs/spelling/spell_check.sh en {{.CLI_ARGS}} plain_text
 
   site:view-plain-text-of-target-html:ru:
-    desc: 'Displays RU HTML stripped of tags.'
+    desc: "Displays RU HTML stripped of tags."
     cmds:
       - |
         ./scripts/docs/spelling/spell_check.sh ru {{.CLI_ARGS}} plain_text
 
   site:view-plain-text-of-target-html:
-    desc: 'Displays both HTML stripped of tags.'
+    desc: "Displays both HTML stripped of tags."
     cmds:
       - |
         task site:view-plain-text-of-target-html:en -- {{.CLI_ARGS}}
         task site:view-plain-text-of-target-html:ru -- {{.CLI_ARGS}}
+
+  _image:build:
+    cmds:
+      - docker build {{.CLI_ARGS}} --platform=linux/amd64,linux/arm64 -f "{{.dfilePath}}" -t "{{.imageName}}" "{{.context | default "."}}"
+
+  image:build:sorter:
+    desc: 'Build wordlist sorter image. Important vars: "imageName".'
+    cmds:
+      - task: _image:build
+        vars:
+          dfilePath: scripts/docs/spelling/sorter/Dockerfile
+          imageName:
+            sh: "echo registry-write.werf.io/website/sorter:latest"
+
+  _image:push:
+    cmds:
+      - docker push {{.CLI_ARGS}} "{{.imageName}}"
+
+  image:publish:sorter:
+    desc: 'Build and publish wordlist sorter image. Important vars: "imageName".'
+    deps:
+      - image:build:sorter
+    cmds:
+      - task: _image:push
+        vars:
+          imageName:
+            sh: "echo registry-write.werf.io/website/sorter:latest"

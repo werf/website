@@ -1,4 +1,4 @@
-496
+497
 1GB
 2GB
 5XX
@@ -10,8 +10,8 @@ apiserver
 apiVersion
 app
 apparmor
-apps
 app’s
+apps
 Assumenda
 async
 au
@@ -46,8 +46,8 @@ commands
 conf
 config
 ConfigMap
-ConfigMaps
 ConfigMap’s
+ConfigMaps
 configs
 configurator
 configVersion
@@ -72,8 +72,8 @@ DevOps
 DevOpsConf
 Django
 Dockerfile
-Dockerfiles
 Dockerfile’s
+Dockerfiles
 dockerignore
 dockersamples
 DSL
@@ -83,6 +83,8 @@ EuropeClouds
 FastCGI
 filesystem
 filesystems
+fix27
+fix29
 flant
 FluentD
 former’s
@@ -410,8 +412,8 @@ YouTube
 пересборкой
 пересборку
 пересборок
-пересоберётся
 пересоберется
+пересоберётся
 пересобирает
 пересоздает
 пересоздастся
