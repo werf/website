@@ -9,8 +9,8 @@ apiserver
 apiVersion
 app
 apparmor
-apps
 app’s
+apps
 Assumenda
 async
 au
@@ -45,8 +45,8 @@ commands
 conf
 config
 ConfigMap
-ConfigMaps
 ConfigMap’s
+ConfigMaps
 configs
 configurator
 configVersion
@@ -71,8 +71,8 @@ DevOps
 DevOpsConf
 Django
 Dockerfile
-Dockerfiles
 Dockerfile’s
+Dockerfiles
 dockerignore
 dockersamples
 DSL
@@ -409,8 +409,8 @@ YouTube
 пересборкой
 пересборку
 пересборок
-пересоберётся
 пересоберется
+пересоберётся
 пересобирает
 пересоздает
 пересоздастся
