@@ -15,11 +15,16 @@
     ```
 
   - Install the package that provides the `/etc/subuid` and `/etc/subgid` files.
+  {% if include.type == "github" %}
 
+  - Make sure that the `/etc/subuid` and `/etc/subgid` files have a line similar to `github-runner:1000000:65536`, where
+
+    * `github-runner` — name of the GitHub Runner user;
+  {% else %}
   - Make sure that the `/etc/subuid` and `/etc/subgid` files have a line similar to `gitlab-runner:1000000:65536`, where
 
     * `gitlab-runner` — name of the GitLab Runner user;
-
+  {% endif %}
     * `1000000` — the first subUID/subGID in the range to be allocated;
 
     * `65536` — subUIDs/subGIDs range size (min `65536`).
@@ -27,9 +32,12 @@
     Make sure there are no conflicts with other ranges, if any. Changing files may require a reboot. See `man subuid` and `man subgid` for details.
 
 * (Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
+  {% if include.type == "github" %}
 
+* Make sure that the `/home/github-runner/.local/share/containers` path is created and the `github-runner` user has read and write access.
+  {% else %}
 * Make sure that the `/home/gitlab-runner/.local/share/containers` path is created and the `gitlab-runner` user has read and write access.
-
+  {% endif %}
 * The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
 * The `sysctl -n user.max_user_namespaces` command should return `15000` or more, otherwise run `echo 'user.max_user_namespaces = 15000' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
