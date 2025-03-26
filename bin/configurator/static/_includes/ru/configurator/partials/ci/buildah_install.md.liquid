@@ -1,6 +1,6 @@
 ### Настройка окружения для сборки с Buildah
 
-{% offtopic title="Ручная установка " %}
+{% offtopic title="Ручная установка" %}
 
 * Установите пакет Buildah, следуя [официальным инструкциям](https://github.com/containers/buildah/blob/main/install.md), но не производите его дальнейшую настройку. Если для вашего дистрибутива нет готовых пакетов Buildah, используйте следующие инструкции:
 
@@ -15,11 +15,15 @@
     ```
 
   - Установите пакет, предоставляющий файлы `/etc/subuid` и `/etc/subgid`.
+  {% if include.type == "github" %}
+  - Убедитесь, что в файлах `/etc/subuid` и `/etc/subgid` имеется строка вида `github-runner:1000000:65536`, где:
 
+    - `github-runner` — имя пользователя GitHub Runner;
+  {% else %}
   - Убедитесь, что в файлах `/etc/subuid` и `/etc/subgid` имеется строка вида `gitlab-runner:1000000:65536`, где:
 
     - `gitlab-runner` — имя пользователя GitLab Runner;
-
+  {% endif %}
     - `1000000` — первый subUID/subGID в выделяемом диапазоне;
 
     - `65536` — размер диапазона subUIDs/subGIDs (минимум `65536`).
@@ -27,8 +31,12 @@
     Избегайте коллизий с другими диапазонами, если они имеются. Изменение файлов может потребовать перезагрузки. Подробнее в `man subuid` и `man subgid`.
 
 * (Для Linux 5.12 и ниже) Установите пакет, предоставляющий программу `fuse-overlayfs`.
+  {% if include.type == "github" %}
 
+* Убедитесь, что путь `/home/github-runner/.local/share/containers` создан, и пользователь `github-runner` имеет доступ на чтение и запись.
+  {% else %}
 * Убедитесь, что путь `/home/gitlab-runner/.local/share/containers` создан, и пользователь `gitlab-runner` имеет доступ на чтение и запись.
+  {% endif %}
 
 * Команда `sysctl -ne kernel.unprivileged_userns_clone` НЕ должна вернуть `0`, а иначе выполните `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
 
