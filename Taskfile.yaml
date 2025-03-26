@@ -171,7 +171,7 @@ tasks:
     desc: "Generate a dictionary of special terms."
     cmds:
       - |
-        docker run --rm -v $(pwd)/scripts/:/scripts registry-write.werf.io/website/sorter:latest bash -c '
+        docker run --rm -v $(pwd)/scripts/:/scripts registry.werf.io/website/sorter:latest bash -c '
           test -f ./scripts/docs/spelling/dictionaries/dev_OPS.dic && rm ./scripts/docs/spelling/dictionaries/dev_OPS.dic
           touch ./scripts/docs/spelling/dictionaries/dev_OPS.dic
           cat ./scripts/docs/spelling/wordlist | wc -l | sed "s/^[ \t]*//g" >> ./scripts/docs/spelling/dictionaries/dev_OPS.dic
