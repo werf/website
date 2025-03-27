@@ -211,3 +211,8 @@ tabs:
     title:
       en: "Run"
       ru: "Запуск"
+toc:
+  - name: "tableOfContent"
+    title:
+      en: "Content"
+      ru: "Содержание"
