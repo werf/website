@@ -9,7 +9,6 @@ const (
 	configFile = "config.yml"
 
 	generatedDirectory                     = "generated"
-	generatedIncludePathFormatTabs         = "generated/_includes/%s/configurator/tabs/%s.md"
 	generatedIncludePathFormatTabsForPages = "generated/_includes/%s/configurator/tabs_for_pages/%s.md"
 	generatedPagePathFormatConfigurator    = "generated/pages_%s/configurator.md"
 	generatedPagePathFormatTabs            = "generated/pages_%s/configurator/tabs/%s.md"
@@ -18,7 +17,6 @@ const (
 	generatedPathCombinationTabsConfig     = "generated/configurator-data.json"
 
 	pagePermalinkConfigurator     = "/getting_started/index.html"
-	includePathFormatTabs         = "/configurator/tabs/%s.md"
 	includePathFormatTabsForPages = "/configurator/tabs_for_pages/%s.md"
 	pagePermalinkFormatTabs       = "/configurator/tabs/%s.html"
 	pagePermalinkFormatPages      = "/getting_started/%s.html"
@@ -115,20 +113,6 @@ func generateTabsIncludesAndPages(conf config) error {
 						pageData.Tabs = append(pageData.Tabs, cCombTab)
 					}
 
-					tabsIncludePath := getTabsGeneratedIncludePath(lang, combinationOptions.ToSlug())
-					if err := createFileByTemplate(templatePathIncludesTabs, tabsIncludePath, pageData); err != nil {
-						return fmt.Errorf("unable to create file %q: %s", tabsIncludePath, err)
-					}
-				}
-
-				// generate tabs includes for searched pages
-				{
-					var pageData tabsIncludeData
-					pageData.Options = combinationOptions
-					for _, cCombTab := range combination.Tabs {
-						pageData.Tabs = append(pageData.Tabs, cCombTab)
-					}
-
 					tabsIncludePath := getTabsForPagesGeneratedIncludePath(lang, combinationOptions.ToSlug())
 					if err := createFileByTemplate(templatePathIncludesTabsForPages, tabsIncludePath, pageData); err != nil {
 						return fmt.Errorf("unable to create file %q: %s", tabsIncludePath, err)
@@ -138,7 +122,7 @@ func generateTabsIncludesAndPages(conf config) error {
 				// generate tabs pages
 				{
 					tabsPagePath := getTabsGeneratedPagePath(lang, combinationOptions.ToSlug())
-					tabsIncludePath := getTabsIncludePath(combinationOptions.ToSlug())
+					tabsIncludePath := getTabsForPagesIncludePath(combinationOptions.ToSlug())
 					permalink := getTabsPagePermalink(combinationOptions.ToSlug())
 					if err := createFileByTemplate(templatePathPagesTabs, tabsPagePath, tabsPageData{
 						Permalink:   permalink,
@@ -155,7 +139,7 @@ func generateTabsIncludesAndPages(conf config) error {
 						pageData.Title = pageOptions.Title
 						pageData.Groups = conf.getOptionGroupList()
 						pageData.DefaultCombinationOptions = conf.getAllCombinationOptionsList()[0]
-						pageData.DefaultIncludePath = getTabsIncludePath(pageData.DefaultCombinationOptions.ToSlug())
+						pageData.DefaultIncludePath = getTabsForPagesIncludePath(pageData.DefaultCombinationOptions.ToSlug())
 
 						pageData.IncludePath = getTabsForPagesIncludePath(combinationOptions.ToSlug())
 						pageData.Permalink = getPagesPagePermalink(combinationOptions.ToUrlPath())
@@ -185,16 +169,8 @@ func getPagesGeneratedPagePath(lang string, slug configCombinationSlug) string {
 	return fmt.Sprintf(generatedPagePathFormat, lang, slug)
 }
 
-func getTabsGeneratedIncludePath(lang string, slug configCombinationSlug) string {
-	return fmt.Sprintf(generatedIncludePathFormatTabs, lang, slug)
-}
-
 func getTabsForPagesGeneratedIncludePath(lang string, slug configCombinationSlug) string {
 	return fmt.Sprintf(generatedIncludePathFormatTabsForPages, lang, slug)
-}
-
-func getTabsIncludePath(slug configCombinationSlug) string {
-	return fmt.Sprintf(includePathFormatTabs, slug)
 }
 
 func getTabsForPagesIncludePath(slug configCombinationSlug) string {
@@ -227,7 +203,7 @@ func generateConfiguratorPage(conf config) error {
 		pageData.Permalink = pageOptions.Permalink
 		pageData.Groups = conf.getOptionGroupList()
 		pageData.DefaultCombinationOptions = conf.getAllCombinationOptionsList()[0]
-		pageData.DefaultIncludePath = getTabsIncludePath(pageData.DefaultCombinationOptions.ToSlug())
+		pageData.DefaultIncludePath = getTabsForPagesIncludePath(pageData.DefaultCombinationOptions.ToSlug())
 		pageData.PageTab = false
 
 		pageFilePath := getConfiguratorGeneratedPagePath(pageOptions.Language)
