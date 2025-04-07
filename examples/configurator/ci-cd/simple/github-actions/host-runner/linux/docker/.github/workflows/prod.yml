@@ -12,12 +12,31 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
-      # Uncomment this block for cross-platform build
+
+      # ===========================
+      # 1. Docker Buildx with docker-container driver (default)
+      # ===========================
+      # This is the default option and will run builds inside a container-based builder instance.
+      # No additional configuration is required, and QEMU is automatically used for cross-platform builds.
+      #
+      # - name: Set up Docker Buildx (docker-container driver)
+      #   uses: docker/setup-buildx-action@v3
+      #
+      # ===========================
+      # 2. Docker Buildx with docker driver (requires QEMU for cross-platform builds)
+      # ===========================
+      # This option runs builds directly on the host Docker engine. To enable cross-platform builds,
+      # QEMU must be installed and configured.
+      #
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v3
       #   with:
-      #     platforms: linux/amd64, linux/arm64
+      #     platforms: linux/amd64,linux/arm64
+      #
+      # - name: Set up Docker Buildx (docker driver)
+      #   uses: docker/setup-buildx-action@v3
+      #   with:
+      #     driver: docker
 
       - uses: werf/actions/install@v2
 
