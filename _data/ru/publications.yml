@@ -17,6 +17,42 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Вышел Nelm 1.0: совместимая с Helm-чартами альтернатива Helm 3"
+    habr_url: "https://habr.com/ru/companies/flant/articles/896846/"
+    img: "/assets/images/publications/ru_030425.png"
+    created: 2025-04-03
+    comment: |
+      <p>Nelm — это свободная Open Source CLI-утилита для управления Helm-чартами и их развёртыванием в Kubernetes. Взяв за основу кодовую базу Helm 3, Nelm не только делает почти всё то, что может делать Helm, но делает это лучше, а также предлагает дополнительную функциональность. Nelm обратно совместим с Helm-чартами и Helm-релизами, что сильно упрощает процесс миграции для пользователей Helm. Если вы уже работали с werf, то Nelm — это werf, но без гитерминизма, сборки, доставки и очистки образов.</p>
+  - title: "Полезные инструменты: используем werf для подробного логирования при обновлениях и перехода на Helm 3"
+    habr_url: "https://habr.com/ru/companies/flant/articles/891012/"
+    img: "/assets/images/publications/ru_210325.png"
+    created: 2025-03-21
+    comment: |
+      <p>В проектах STM Labs нам нужно было получить подробные логи при обновлениях развёртываний и перейти на Helm 3. Мы попробовали несколько подходов к решению задачи и остановили свой выбор на werf — Open Source-утилите «Фланта» для упрощения организации жизненного цикла CI/CD в Kubernetes. В статье рассмотрим возможности утилиты, а также решения, которые можно использовать в рамках werf или отдельно от неё.</p>
+  - title: "Готовим Gitea со вкусом werf CI/CD и Dex-авторизации в кластере Deckhouse Kubernetes Platform. Часть 3"
+    habr_url: "https://habr.com/ru/companies/flant/articles/857100/"
+    img: "/assets/images/publications/ru_261124.png"
+    created: 2024-11-26
+    comment: |
+      <p>Завершаем приготовление Gitea со вкусом werf CI/CD. В финальной части серии создадим репозиторий с кодом приложения, подготовим простенький Helm-чарт и Gitea Actions-пайплайн, в котором опишем автоматический процесс сборки и деплоя приложения в кластер Deckhouse Kubernetes Platform.</p>
+  - title: "Готовим Gitea со вкусом werf CI/CD и Dex-авторизации в кластере Deckhouse Kubernetes Platform. Часть 2"
+    habr_url: "https://habr.com/ru/companies/flant/articles/857098/"
+    img: "/assets/images/publications/ru_211124.png"
+    created: 2024-11-21
+    comment: |
+      <p>Продолжаем готовить возможную замену GitLab или GitHub с удобным CI/CD и on-premise размещением. Во второй части подробной статьи-инструкции для новичков поговорим о Gitea Actions: настроим инфраструктуру и Gitea Actions CI/CD.</p>
+  - title: "Готовим Gitea со вкусом werf CI/CD и Dex-авторизации в кластере Deckhouse Kubernetes Platform. Часть 1"
+    habr_url: "https://habr.com/ru/companies/flant/articles/857096/"
+    img: "/assets/images/publications/ru_191124.png"
+    created: 2024-11-19
+    comment: |
+      <p>В сравнении с GitLab сервис Gitea прост и потребляет в два раза меньше ресурсов. При этом его функциональности достаточно, чтобы построить экосистему управления кодом и его развёртывания в Kubernetes. Эта статья — детальная инструкция по установке и настройке сервера Gitea, а также организации с его помощью авторизации через Dex в кластере Deckhouse Kubernetes Platform.</p>
+  - title: "Замена 3-way merge на Server-Side Apply: как werf 2.0 решает проблемы Helm 3"
+    habr_url: "https://habr.com/ru/companies/flant/articles/821665/"
+    img: "/assets/images/publications/ru_140624.png"
+    created: 2024-06-14
+    comment: |
+      <p>В werf 2.0 и Nelm мы заменили 3-way merge на более современный механизм обновления ресурсов Kubernetes — Server-Side Apply. Он решает все проблемы 3-way merge и гарантирует корректные обновления ресурсов в кластере при развёртывании. В этой статье мы расскажем, какие проблемы испытывают пользователи Helm 3 и как Server-Side Apply помогает их преодолеть.</p>      
   - title: "Вышла werf 2.0: новый движок развёртывания Nelm и 300+ релизов за четыре года"
     habr_url: "https://habr.com/ru/companies/flant/articles/815023/"
     img: "/assets/images/publications/ru_160524.png"
