@@ -1,4 +1,4 @@
-497
+500
 1GB
 2GB
 5XX
@@ -92,6 +92,7 @@ fpm
 frontend
 Gemfile
 ghcr
+Gitea
 giterminism
 GitHub
 gitignore
@@ -223,6 +224,7 @@ StatefulSet
 StatefulSets
 stderr
 stdout
+STM
 stylesheets
 Subfolder
 subGID
