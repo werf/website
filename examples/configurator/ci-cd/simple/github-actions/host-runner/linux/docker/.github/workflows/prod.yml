@@ -14,12 +14,12 @@ jobs:
           fetch-depth: 0
 
       # ===========================
-      # 1. Docker Buildx with docker-container driver (default)
+      # Docker Buildx (optional)
       # ===========================
-      # This is the default option and will run builds inside a container-based builder instance.
-      # No additional configuration is required, and QEMU is automatically used for cross-platform builds.
+      # This step is optional and only needed for cross-platform or multi-platform builds.
+      # It sets up a Buildx builder using the docker-container driver, which enables QEMU support automatically.
       #
-      # - name: Set up Docker Buildx (docker-container driver)
+      # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v3
 
       - uses: werf/actions/install@v2
