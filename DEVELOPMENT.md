@@ -14,7 +14,7 @@ Run `jekyll serve` with --watch option to test changes in "real time":
 
 - Run:
   ```shell
-  task compose:up
+  task dev:setup:website
   ```
 - Check the English version is available on [https://localhost](http://localhost), and the Russian version on [http://ru.localhost](https://ru.localhost) (add `ru.localhost` record in your `/etc/hosts` to access the Russian version of the site).
 
@@ -23,21 +23,19 @@ Add configurator content:
   ```shell
   task local:gen:configurator
   ```
-  Run `task clean` to cleanup working directory.
+  Run `task dev:cleanup:website` to cleanup working directory.
 
 Optionally serve documentation content:
 
 - Run in werf/werf repository:
   ```shell
   cd ../werf/werf
-  task compose:up
+  task dev:setup:website
   ```
 
 ### Cleanup
 
-- `task compose:down` - stop all containers.
-- `task clean` - delete all generated content.
-- `docker network delete werfio-dev` - delete shared docker network (requires task compose:down in werf/werf repository).
+- `task dev:cleanup:website` - stop all containers and delete shared docker network.
 
 ### Spell-check management
 

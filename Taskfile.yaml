@@ -10,9 +10,6 @@ vars:
   framework_template_dir: "_pages/guides/framework_id"
 
 tasks:
-  # default:
-  #   cmds:
-  #     - task: xxx
 
   format:
     desc: 'Run all code formatters. Important vars: "paths".'
@@ -31,62 +28,6 @@ tasks:
     cmds:
       - gofumpt -extra -w {{.CLI_ARGS}} {{.paths | default "bin/"}}
 
-  # TODO: specify target framework
-  gen:pages:
-    desc: "Generate pages for all existing frameworks using framework_id folder as the source data"
-    cmds:
-      - |
-        for framework in {{.frameworks}}
-        do
-          for lang in {{.languages}}
-          do
-            target_dir=pages_$lang/guides/$framework
-
-            echo "# Regenerate $framework pages ($lang)"
-            rm -rf $target_dir
-            cp -a {{.framework_template_dir}} $target_dir
-            find $target_dir -type f -exec sed -i -e "s|framework_id|$framework|g" {} \;
-
-            if [ "x$framework" = "xgolang" ]
-            then
-              echo 1>&2 "WARNING: Removing $target_dir/200_real_apps because no content available for $framework at the moment"
-              rm -rf $target_dir/200_real_apps*
-            fi
-
-            echo
-          done
-        done
-
-      - |
-        # FIXME: this page not available for other frameworks and languages yet
-        git checkout pages_ru/guides/rails/200_real_apps/60_cron.md
-
-  gen:demo:
-    desc: "Generate asciinema werf demos"
-    cmds:
-      - echo TODO
-
-  install:demo-tools-ubuntu:
-    desc: "Install tools needed to record werf demos"
-    cmds:
-      # NOTE: also we need werf itself
-      - sudo apt install pv asciinema
-      - wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-
-  clean:
-    desc: "Delete temporary directories after build/serve"
-    cmds:
-      - |
-        for d in $(ls -1d ./_site* ./.jekyll-cache* ./.jekyll-metadata 2>/dev/null) ; do
-          echo "Remove dir $d ..."
-          rm -rf $d
-        done
-        echo "Remove configurator generated content"
-        for d in $(ls -1d ./_includes/*/configurator ./pages_*/configurator* ./_data/*/configurator* 2>/dev/null) ; do
-          echo "   Remove dir $d ..."
-          rm -rf $d
-        done
-
   local:gen:configurator:
     desc: "Regenerate configurator pages and copy to site directories"
     cmds:
@@ -99,7 +40,7 @@ tasks:
         cp -R bin/configurator/static/* .
         cp -R bin/configurator/generated/* .
 
-  docker:network:create:
+  dev:setup:docker-network:
     desc: "Create shared docker network werfio-dev to use with werf/website"
     vars:
       NETWORK_NAME: werfio-dev
@@ -108,10 +49,10 @@ tasks:
     status:
       - docker network inspect {{.NETWORK_NAME}}
 
-  compose:up:
-    desc: "Run jekyll in werf compose for local development. Use lang=en or lang=ru to run only specified lang. Run task compose:up in werf/werf repository to access documentation."
+  dev:setup:website:
+    desc: "Run jekyll in werf compose for local development. Use lang=en or lang=ru to run only specified lang. Run task dev:setup:website in werf/werf repository to access documentation."
     deps:
-      - docker:network:create
+      - dev:setup:docker-network
     cmds:
       - |
         services="{{ .lang }}"
@@ -121,7 +62,7 @@ tasks:
         which werf >/dev/null || source $(trdl use werf 2 beta)
         werf compose up jekyll_base backend --dev --docker-compose-command-options="$services front backend" --platform=linux/amd64 || true
 
-  compose:down:
+  dev:cleanup:website:
     desc: "Stop and clean after werf compose"
     cmds:
       - |
@@ -130,6 +71,17 @@ tasks:
         WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME=nginx:latest \
         WERF_BACKEND_DOCKER_IMAGE_NAME=nginx:latest \
         werf compose down
+        docker network delete werfio-dev
+      - |
+        for d in $(ls -1d ./_site* ./.jekyll-cache* ./.jekyll-metadata 2>/dev/null) ; do
+          echo "Remove dir $d ..."
+          rm -rf $d
+        done
+        echo "Remove configurator generated content"
+        for d in $(ls -1d ./_includes/*/configurator ./pages_*/configurator* ./_data/*/configurator* 2>/dev/null) ; do
+          echo "   Remove dir $d ..."
+          rm -rf $d
+        done
 
   site:check-broken-links:
     desc: "Check docs for broken links."
