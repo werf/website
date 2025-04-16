@@ -28,6 +28,44 @@ tasks:
     cmds:
       - gofumpt -extra -w {{.CLI_ARGS}} {{.paths | default "bin/"}}
 
+ # TODO: specify target framework
+  gen:pages:
+    desc: "Generate pages for all existing frameworks using framework_id folder as the source data"
+    cmds:
+      - |
+        for framework in {{.frameworks}}
+        do
+          for lang in {{.languages}}
+          do
+            target_dir=pages_$lang/guides/$framework
+            echo "# Regenerate $framework pages ($lang)"
+            rm -rf $target_dir
+            cp -a {{.framework_template_dir}} $target_dir
+            find $target_dir -type f -exec sed -i -e "s|framework_id|$framework|g" {} \;
+            if [ "x$framework" = "xgolang" ]
+            then
+              echo 1>&2 "WARNING: Removing $target_dir/200_real_apps because no content available for $framework at the moment"
+              rm -rf $target_dir/200_real_apps*
+            fi
+            echo
+          done
+        done
+      - |
+        # FIXME: this page not available for other frameworks and languages yet
+        git checkout pages_ru/guides/rails/200_real_apps/60_cron.md
+        
+  gen:demo:
+    desc: "Generate asciinema werf demos"
+    cmds:
+      - echo TODO
+
+  install:demo-tools-ubuntu:
+    desc: "Install tools needed to record werf demos"
+    cmds:
+      # NOTE: also we need werf itself
+      - sudo apt install pv asciinema
+      - wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
   local:gen:configurator:
     desc: "Regenerate configurator pages and copy to site directories"
     cmds:
