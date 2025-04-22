@@ -141,6 +141,10 @@ Add the following to the GitLab Runner configuration file `config.toml`:
 
 Create PVCs:
 
+> **Note**  
+> You can use `ReadWriteOnce` if you don't need parallel builds that share the same cache.
+> In setups with multiple runners or jobs running in parallel, use `ReadWriteMany` to avoid volume attachment issues.
+
 ```shell
 kubectl create -f - <<EOF
 ---
