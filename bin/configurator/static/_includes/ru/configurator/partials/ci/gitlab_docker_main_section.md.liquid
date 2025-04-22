@@ -38,7 +38,7 @@ sudo chown -R 1000:1000 $HOME/.local/
 chmod 755 $HOME/.local/share/containers
 ```
 
-После чего нужно запустить gitlab-runner следующим образом:
+После чего нужно запустить GitLab Runner следующим образом:
 ```bash
 docker run -d --name gitlab-runner --restart always \
   -v $HOME/.local/share/containers:/home/ubuntu/.local/share/containers \
