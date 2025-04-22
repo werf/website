@@ -92,6 +92,10 @@
       name = "gitlab-ci-kubernetes-executor-helper-home"
       mount_path = "/home/helper"
 
+    [[runners.kubernetes.volumes.pvc]]
+      name = "gitlab-ci-kubernetes-executor-buildah-cache"
+      mount_path = "/home/build/.local/share/containers"
+
     [[runners.kubernetes.pod_spec]]
       name = "fix helper HOME"
       patch = '''
@@ -113,8 +117,8 @@
           - sh
           - -ec
           - |
-            chown :$(id -g) /home/build/.werf /builds /home/helper
-            chmod g+rwx /home/build/.werf /builds /home/helper
+            chown :$(id -g) /home/build/.werf /builds /home/helper /home/build/.local/share/containers
+            chmod g+rwx /home/build/.werf /builds /home/helper /home/build/.local/share/containers
           securityContext:
             runAsUser: 0
             runAsNonRoot: false
@@ -125,6 +129,8 @@
             name: gitlab-ci-kubernetes-executor-builds-cache
           - mountPath: /home/helper
             name: gitlab-ci-kubernetes-executor-helper-home
+          - mountPath: /home/build/.local/share/containers
+            name: gitlab-ci-kubernetes-executor-buildah-cache
       '''
       patch_type = "strategic"
 ```
@@ -162,6 +168,18 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: gitlab-ci-kubernetes-executor-helper-home
+  namespace: gitlab-ci
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-ci-kubernetes-executor-buildah-cache
   namespace: gitlab-ci
 spec:
   accessModes:
