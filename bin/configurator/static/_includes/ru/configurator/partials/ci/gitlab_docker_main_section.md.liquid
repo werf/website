@@ -16,9 +16,9 @@
 
 Для регистрации GitLab Runner в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html), указав Docker в качестве executor'а и любой образ в качестве image (например, `alpine`).
 
-### Настройка GitLab Runner
+### Настройка GitLab Runner без кэширования
 
-На хосте GitLab Runner'а откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner'у следующие опции:
+На хосте GitLab Runner откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner следующие опции:
 
 ```toml
 [[runners]]
@@ -28,7 +28,37 @@
     volumes = ["/home/build/.werf"]
 ```
 
-Если хост GitLab Runner'а имеет версию ядра Linux 5.12 или ниже, то установите на хост `fuse` и добавьте в файл `config.toml` ещё одну опцию:
+### Настройка GitLab Runner с поддержкой кэширования
+
+На хосте GitLab Runner выполните следующие команды:
+```bash
+# Создание необходимых директорий и прав
+mkdir -p $HOME/.local/share/containers
+sudo chown -R 1000:1000 $HOME/.local/
+chmod 755 /home/ubuntu/.local/share/containers
+```
+
+После чего нужно запустить gitlab-runner следующим образом:
+```bash
+docker run -d --name gitlab-runner --restart always \
+  -v $HOME/.local/share/containers:/home/ubuntu/.local/share/containers \
+  -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  gitlab/gitlab-runner:latest
+```
+
+На хосте GitLab Runner откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner следующие опции:
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
+  [runners.docker]
+    security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
+    volumes = ["/home/build/.werf", "/home/ubuntu/.local/share/containers:/home/build/.local/share/containers"]
+```
+
+### Использование FUSE на старых ядрах Linux
+
+Если хост GitLab Runner имеет версию ядра Linux 5.12 или ниже, то установите на хост `fuse` и добавьте в файл `config.toml` ещё одну опцию:
 
 ```toml
 [[runners]]
@@ -37,7 +67,7 @@
     devices = ["/dev/fuse"]
 ```
 
-При желании произведите [дополнительную конфигурацию](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
+При желании произведите [дополнительную конфигурацию](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner.
 
 {% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
