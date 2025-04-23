@@ -31,6 +31,7 @@
     - **Mask variable:** `yes`.
 
 - [Добавьте плановое задание](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) на каждую ночь для очистки ненужных образов в container registry, указав ветку `main`/`master` в качестве **Target branch**.
+- (Применимо только при использовании persistent volumes) [Добавьте плановое задание](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) на каждую ночь для очистки неиспользуемого кэша и образов на хосте GitLab Runner.
 
 ### Конфигурация CI/CD проекта
 

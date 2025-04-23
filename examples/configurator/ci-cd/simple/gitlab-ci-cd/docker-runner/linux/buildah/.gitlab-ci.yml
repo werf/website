@@ -28,11 +28,9 @@ images:cleanup:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule"
 
-# Optional manual job for host cleanup — relevant only when using persistent volume mounts.
-# host:cleanup:
-#   stage: cleanup
-#   script:
-#     - werf host cleanup
-#   rules:
-#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#       when: manual
+host:cleanup:
+  stage: cleanup
+  script:
+    - werf host cleanup
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule"
