@@ -35,7 +35,8 @@ breadcrumbs: none
     </div>
 
     <div class="configurator-toc">
-        <div>{{`{{- site.data.common.configurator.toc.title[page.lang] -}}`}}</div>
+        {% assign toc_title = site.data.common.configurator.toc.title[page.lang] %}
+        <div>{{`{{toc_title}}`}}</div>
         {%- include common/toc.html %}
     </div>
 
