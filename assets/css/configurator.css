@@ -86,19 +86,12 @@
 }
 
 .view__item {
-    display: none;
-    opacity: 0;
-    height: 0;
     position: relative;
-    z-index: -1;
 }
 
 .view__item.active {
-    display: inherit;
-    opacity: 1;
     min-height: 500px;
     height: fit-content;
-    z-index: 1;
 }
 
 .configurator span.tooltip-text {
@@ -133,6 +126,43 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     border: 0;
     border-radius: 4px;
     overflow: hidden;
+}
+
+.configurator-toc {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 680px;
+    padding: 32px 64px 32px 40px;
+    border-radius: 16px;
+    background: #F6F8FE;
+
+    #toc {
+        margin-bottom: 0;
+    }
+}
+
+.configurator-toc #toc > ul > li::before {
+    content: '';
+    display: block;
+    background: var(--main-color);
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--main-color);
+    border-radius: 50%;
+}
+
+.configurator-toc #toc ul ul > li::before {
+    content: '';
+    display: block;
+    top: 12px;
+    background: transparent;
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--main-color);
+    border-radius: 50%;
 }
 
 .view__item:not(.active) .codesandbox__wrap iframe {

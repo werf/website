@@ -34,6 +34,12 @@ breadcrumbs: none
         {{- end }}
     </div>
 
+    <div class="configurator-toc">
+        {% assign toc_title = site.data.common.configurator.toc.title[page.lang] %}
+        <div>{{`{{toc_title}}`}}</div>
+        {%- include common/toc.html %}
+    </div>
+
 <div id="configurator-content" markdown="1">
 {{ if .PageTab }} {% include {{ .IncludePath }} %} {{ else }} {% include {{ .DefaultIncludePath }} %} {{ end }}
 </div>

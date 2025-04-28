@@ -3,7 +3,7 @@
     {% assign tab_info = site.data.common.configurator.tabs | find: "name", "{{ $tab.Name }}" %}
     {% assign tab_title = tab_info.title[page.lang] | default: "{{ $tab.Name }}" %}
     
-    <h2>{{`{{tab_title}}`}}</h2>
+    <h2 id="{{`{{tab_title | slugify }}`}}">{{`{{tab_title}}`}}</h2>
     
 <div markdown="1">
 {% include {{ $tab.IncludePath }} {{ range $option := $.Options }}{{ $option.Name }}='{{ $option.Value }}' {{ end }} {{ range $k, $v := $tab.Params }}{{ $k }}='{{ $v }}' {{ end -}} %}

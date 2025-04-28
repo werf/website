@@ -211,3 +211,7 @@ tabs:
     title:
       en: "Run"
       ru: "Запуск"
+toc:
+  title:
+    en: "Contents"
+    ru: "Содержание"

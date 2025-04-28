@@ -23,6 +23,8 @@ $(document).ready(() => {
                     url: `${res[initPathToData]}`,
                     success: function (response) {
                         $('#configurator-content').html(response);
+                        tocUpdate();
+                        addAnchors();
                     }
                 })
             }
@@ -144,6 +146,8 @@ $(document).ready(() => {
                             url: `${res[pathToData]}`,
                             success: function (response) {
                                 $('#configurator-content').html(response);
+                                tocUpdate();
+                                addAnchors();
                             }
                         })
                     }
@@ -212,3 +216,32 @@ function setActive(target, currentTarget) {
         $(target).addClass('active');
     }
 }
+
+function tocUpdate() {
+    $('#toc').toc({minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2, h3:not(.tabs__content>h3), h4'});
+
+    if ($('#toc').is(':empty')) { $('#toc').hide(); }
+
+    /* this offset helps account for the space taken up by the floating toolbar. */
+    $('#toc').on('click tap', 'a', function() {
+        const target = $(this.getAttribute('href'));
+        const scrollTarget = target.offset().top;
+
+        $(window).scrollTop(scrollTarget - 110);
+        return false
+    })
+}
+
+function addAnchors() {
+    anchors.add('h2,h3,h4,h5');
+
+    var referenceAnchors;
+    if ($('.line-number-anchor')) {
+        referenceAnchors = new AnchorJS();
+        referenceAnchors.options = {
+            placement: 'left'
+        };
+        referenceAnchors.add('.line-number-anchor');
+    }
+}
+
