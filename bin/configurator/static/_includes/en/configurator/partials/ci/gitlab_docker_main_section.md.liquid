@@ -16,26 +16,14 @@ Install GitLab Runner on its dedicated host by following the [official instructi
 
 Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register GitLab Runner in GitLab; specify Docker as the executor and any image as the image (e.g. `alpine`).
 
-### Configuring GitLab Runner without caching
-
-On the GitLab Runner host, open its `config.toml` configuration file and add the following options to the GitLab Runner you registered earlier:
-
-```toml
-[[runners]]
-  name = "<name of the Runner you registered>"
-  [runners.docker]
-    security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    volumes = ["/home/build/.werf"]
-```
-
-### Configuring GitLab Runner with caching support
+### Configuring GitLab Runner
 
 On the GitLab Runner host, run the following commands:
 
 ```bash
 # Create necessary directories and set permissions
-mkdir -p $HOME/.local/share/containers
-sudo chown -R 1000:1000 $HOME/.local/
+mkdir -p $HOME/.local/share/containers $HOME/.werf
+sudo chown -R 1000:1000 $HOME/.local/ $HOME/.werf
 chmod 755 $HOME/.local/share/containers
 ```
 
@@ -44,6 +32,7 @@ Then start the GitLab Runner container:
 ```bash
 docker run -d --name gitlab-runner --restart always \
   -v $HOME/.local/share/containers:/home/ubuntu/.local/share/containers \
+  -v $HOME/.werf:/home/ubuntu/.werf \
   -v /srv/gitlab-runner/config:/etc/gitlab-runner \
   -v /var/run/docker.sock:/var/run/docker.sock \
   gitlab/gitlab-runner:latest
@@ -56,7 +45,12 @@ Open the `config.toml` configuration file and add the following options:
   name = "<name of the Runner you registered>"
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    volumes = ["/home/build/.werf", "/home/ubuntu/.local/share/containers:/home/build/.local/share/containers"]
+    volumes = [
+    # buildah cache
+    "/home/ubuntu/.local/share/containers:/home/build/.local/share/containers",
+    # werf cache
+    "/home/ubuntu/.werf:/home/build/.werf"
+    ]
 ```
 
 ### Using FUSE on older Linux kernels

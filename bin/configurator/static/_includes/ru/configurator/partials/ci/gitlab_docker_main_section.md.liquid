@@ -16,25 +16,13 @@
 
 Для регистрации GitLab Runner в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html), указав Docker в качестве executor'а и любой образ в качестве image (например, `alpine`).
 
-### Настройка GitLab Runner без кэширования
-
-На хосте GitLab Runner откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner следующие опции:
-
-```toml
-[[runners]]
-  name = "<имя зарегистрированного Runner'а>"
-  [runners.docker]
-    security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    volumes = ["/home/build/.werf"]
-```
-
-### Настройка GitLab Runner с поддержкой кэширования
+### Настройка GitLab Runner
 
 На хосте GitLab Runner выполните следующие команды:
 ```bash
 # Создание необходимых директорий и прав
-mkdir -p $HOME/.local/share/containers
-sudo chown -R 1000:1000 $HOME/.local/
+mkdir -p $HOME/.local/share/containers $HOME/.werf
+sudo chown -R 1000:1000 $HOME/.local/ $HOME/.werf
 chmod 755 $HOME/.local/share/containers
 ```
 
@@ -42,6 +30,7 @@ chmod 755 $HOME/.local/share/containers
 ```bash
 docker run -d --name gitlab-runner --restart always \
   -v $HOME/.local/share/containers:/home/ubuntu/.local/share/containers \
+  -v $HOME/.werf:/home/ubuntu/.werf \
   -v /srv/gitlab-runner/config:/etc/gitlab-runner \
   -v /var/run/docker.sock:/var/run/docker.sock \
   gitlab/gitlab-runner:latest
@@ -50,10 +39,15 @@ docker run -d --name gitlab-runner --restart always \
 На хосте GitLab Runner откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner следующие опции:
 ```toml
 [[runners]]
-  name = "<имя зарегистрированного Runner'а>"
+  name = "<name of the Runner you registered>"
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    volumes = ["/home/build/.werf", "/home/ubuntu/.local/share/containers:/home/build/.local/share/containers"]
+    volumes = [
+    # buildah cache
+    "/home/ubuntu/.local/share/containers:/home/build/.local/share/containers",
+    # werf cache
+    "/home/ubuntu/.werf:/home/build/.werf"
+    ]
 ```
 
 ### Использование FUSE на старых ядрах Linux
