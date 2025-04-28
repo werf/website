@@ -24,7 +24,6 @@ const (
 	templatePathPagesConfigurator    = "templates/pages/configurator.html"
 	templatePathAllPagesConfigurator = "templates/pages/page.html"
 	templatePathPagesTabs            = "templates/pages/tabs.html"
-	templatePathIncludesTabs         = "templates/includes/tabs.html"
 	templatePathIncludesTabsForPages = "templates/includes/tabs-for-pages.html"
 
 	pageTitleEnConfigurator = "Getting Started"
