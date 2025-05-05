@@ -1,79 +1,60 @@
 ### Requirements
 
 - GitLab;
-
-- Host to run GitLab Runner with:
+- Host for GitLab Runner, with:
 
   - [Docker Engine](https://docs.docker.com/engine/install/).
 
 ### Installing GitLab Runner
 
-Install GitLab Runner on its dedicated host by following the [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html).
+Install GitLab Runner on the dedicated host using the [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html).
 
 {% include configurator/partials/ci/buildah_ubuntu.md.liquid %}
 
 ### Registering GitLab Runner
 
-Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register GitLab Runner in GitLab; specify Docker as the executor and any image as the image (e.g. `alpine`).
-
-### Configuring GitLab Runner
-
-On the GitLab Runner host, run the following commands:
+You can follow the [official registration guide](https://docs.gitlab.com/runner/register/index.html), or run the following command to register the Runner with Docker executor:
 
 ```bash
-# Create necessary directories and set permissions
-mkdir -p $HOME/.local/share/containers $HOME/.werf
-sudo chown -R 1000:1000 $HOME/.local/ $HOME/.werf
-chmod 755 $HOME/.local/share/containers
+gitlab-runner register \
+  --non-interactive \
+  --name "werf-runner" \
+  --docker-image alpine \
+  --url $URL \
+  --token $TOKEN \
+  --executor docker \
+  --docker-security-opt "seccomp:unconfined" \
+  --docker-security-opt "apparmor:unconfined" \
+  --docker-volumes "$HOME/.werf:/home/build/.werf" \
+  --docker-volumes "$HOME/.local/share/containers:/home/build/.local/share/containers"
 ```
 
-Then start the GitLab Runner container:
+> **Note:** The user running GitLab Runner must have UID and GID **1000:1000** — this is required for cache support. If not set, caching will not work.
 
-```bash
-docker run -d --name gitlab-runner --restart always \
-  -v $HOME/.local/share/containers:/home/ubuntu/.local/share/containers \
-  -v $HOME/.werf:/home/ubuntu/.werf \
-  -v /srv/gitlab-runner/config:/etc/gitlab-runner \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  gitlab/gitlab-runner:latest
-```
+### Using FUSE on Older Kernels
 
-Open the `config.toml` configuration file and add the following options:
+If your host uses **Linux kernel 5.12 or earlier**, you need to install `fuse` and add the following to your `config.toml`:
 
 ```toml
 [[runners]]
-  name = "<name of the Runner you registered>"
-  [runners.docker]
-    security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    volumes = [
-    # buildah cache
-    "/home/ubuntu/.local/share/containers:/home/build/.local/share/containers",
-    # werf cache
-    "/home/ubuntu/.werf:/home/build/.werf"
-    ]
-```
-
-### Using FUSE on older Linux kernels
-
-If the GitLab Runner host runs Linux kernel version 5.12 or lower, install `fuse` on the host and add the following option to the `config.toml` file:
-
-```toml
-[[runners]]
-  name = "<name of the Runner you registered>"
+  name = "<your-runner-name>"
   [runners.docker]
     devices = ["/dev/fuse"]
 ```
 
-If needed, perform [additional configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) of the GitLab Runner.
+You can find additional tuning options in the [advanced GitLab Runner configuration guide](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
 
 {% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
-### Preparing the system for cross-platform building (optional)
+### Preparing for cross-platform builds (Optional)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
 
-Register emulators on your system using the `qemu-user-static` image:
+Register QEMU emulators for multi-arch support using the following command:
 
-```shell
-docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
+```bash
+docker run --restart=always --name=qemu-user-static \
+  -d --privileged \
+  --entrypoint=/bin/sh multiarch/qemu-user-static \
+  -c "/register --reset -p yes && tail -f /dev/null"
 ```
