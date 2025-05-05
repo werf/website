@@ -1,7 +1,8 @@
 ### Requirements
 
 - GitLab;
-- Host for GitLab Runner, with:
+
+- Host to run GitLab Runner with:
 
   - [Docker Engine](https://docs.docker.com/engine/install/).
 
@@ -13,48 +14,42 @@ Install GitLab Runner on the dedicated host using the [official instructions](ht
 
 ### Registering GitLab Runner
 
-You can follow the [official registration guide](https://docs.gitlab.com/runner/register/index.html), or run the following command to register the Runner with Docker executor:
+Follow [official instructions](https://docs.gitlab.com/runner/register/index.html) to register GitLab Runner in GitLab; specify Docker as the executor and any image as the image (e.g. `alpine`).
 
-```bash
-gitlab-runner register \
-  --non-interactive \
-  --name "werf-runner" \
-  --docker-image alpine \
-  --url $URL \
-  --token $TOKEN \
-  --executor docker \
-  --docker-security-opt "seccomp:unconfined" \
-  --docker-security-opt "apparmor:unconfined" \
-  --docker-volumes "$HOME/.werf:/home/build/.werf" \
-  --docker-volumes "$HOME/.local/share/containers:/home/build/.local/share/containers"
-```
+### Configuring GitLab Runner
 
-> **Note:** The user running GitLab Runner must have UID and GID **1000:1000** — this is required for cache support. If not set, caching will not work.
-
-### Using FUSE on Older Kernels
-
-If your host uses **Linux kernel 5.12 or earlier**, you need to install `fuse` and add the following to your `config.toml`:
+On the GitLab Runner host, open its `config.toml` configuration file and add the following options to the GitLab Runner you registered earlier:
 
 ```toml
 [[runners]]
-  name = "<your-runner-name>"
+  name = "<name of the Runner you registered>"
+  [runners.docker]
+    security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
+    volumes = [
+      "werf-cache:/home/build/.werf",
+      "buildah-cache:/home/build/.local/share/containers"
+    ]
+```
+
+If the GitLab Runner host runs Linux kernel version 5.12 or lower, install `fuse` on the host and add an extra option to the `config.toml` file:
+
+```toml
+[[runners]]
+  name = "<name of the Runner you registered>"
   [runners.docker]
     devices = ["/dev/fuse"]
 ```
 
-You can find additional tuning options in the [advanced GitLab Runner configuration guide](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
+If needed, perform [additional configuration](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) of the GitLab Runner.
 
 {% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
-### Preparing for cross-platform builds (Optional)
+### Preparing the system for cross-platform building (optional)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
 
-Register QEMU emulators for multi-arch support using the following command:
+Register emulators on your system using qemu-user-static:
 
-```bash
-docker run --restart=always --name=qemu-user-static \
-  -d --privileged \
-  --entrypoint=/bin/sh multiarch/qemu-user-static \
-  -c "/register --reset -p yes && tail -f /dev/null"
+```shell
+docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
 ```

@@ -1,60 +1,55 @@
 ### Требования
 
 - GitLab;
-- Хост для запуска GitLab Runner, на котором установлен:
+
+- Хост для установки GitLab Runner, имеющий:
 
   - [Docker Engine](https://docs.docker.com/engine/install/).
 
 ### Установка GitLab Runner
 
-Установите GitLab Runner на выделенном хосте, следуя [официальной инструкции](https://docs.gitlab.com/runner/install/linux-repository.html).
+Установите GitLab Runner на выделенный для него хост, следуя [официальным инструкциям](https://docs.gitlab.com/runner/install/linux-repository.html).
 
 {% include configurator/partials/ci/buildah_ubuntu.md.liquid %}
 
 ### Регистрация GitLab Runner
 
-Вы можете воспользоваться [официальным руководством по регистрации](https://docs.gitlab.com/runner/register/index.html) или выполнить следующую команду для регистрации раннера с Docker executor:
+Для регистрации GitLab Runner в GitLab следуйте [официальным инструкциям](https://docs.gitlab.com/runner/register/index.html), указав Docker в качестве executor'а и любой образ в качестве image (например, `alpine`).
 
-```bash
-gitlab-runner register \
-  --non-interactive \
-  --name "werf-runner" \
-  --docker-image alpine \
-  --url $URL \
-  --token $TOKEN \
-  --executor docker \
-  --docker-security-opt "seccomp:unconfined" \
-  --docker-security-opt "apparmor:unconfined" \
-  --docker-volumes "$HOME/.werf:/home/build/.werf" \
-  --docker-volumes "$HOME/.local/share/containers:/home/build/.local/share/containers"
-```
+### Настройка GitLab Runner
 
-> **Примечание:** Пользователь, под которым запускается GitLab Runner, должен иметь UID и GID **1000:1000** — это необходимо для работы кэша. Без этого кэш работать не будет.
-
-### Использование FUSE на старых ядрах Linux
-
-Если хост использует **ядро Linux версии 5.12 или ниже**, необходимо установить `fuse` и добавить следующее в файл `config.toml`:
+На хосте GitLab Runner'а откройте его конфигурационный файл `config.toml` и добавьте зарегистрированному ранее GitLab Runner'у следующие опции:
 
 ```toml
 [[runners]]
-  name = "<имя_вашего_раннера>"
+  name = "<name of the Runner you registered>"
+  [runners.docker]
+    security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
+    volumes = [
+      "werf-cache:/home/build/.werf",
+      "buildah-cache:/home/build/.local/share/containers"
+    ]
+```
+
+Если хост GitLab Runner'а имеет версию ядра Linux 5.12 или ниже, то установите на хост `fuse` и добавьте в файл `config.toml` ещё одну опцию:
+
+```toml
+[[runners]]
+  name = "<имя зарегистрированного Runner'а>"
   [runners.docker]
     devices = ["/dev/fuse"]
 ```
 
-Дополнительные параметры настройки можно найти в [руководстве по продвинутой конфигурации GitLab Runner](https://docs.gitlab.com/runner/configuration/advanced-configuration.html).
+При желании произведите [дополнительную конфигурацию](https://docs.gitlab.com/runner/configuration/advanced-configuration.html) GitLab Runner'а.
 
 {% include configurator/partials/ci/configuring_the_container_registry.md.liquid %}
 
-### Подготовка к кроссплатформенной сборке (опционально)
+### Подготовка системы к кроссплатформенной сборке (опционально)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
 
-Для поддержки многоплатформенных сборок зарегистрируйте эмуляторы QEMU с помощью следующей команды:
+Регистрируем в системе эмуляторы с помощью образа qemu-user-static:
 
-```bash
-docker run --restart=always --name=qemu-user-static \
-  -d --privileged \
-  --entrypoint=/bin/sh multiarch/qemu-user-static \
-  -c "/register --reset -p yes && tail -f /dev/null"
+```shell
+docker run --restart=always --name=qemu-user-static -d --privileged --entrypoint=/bin/sh multiarch/qemu-user-static -c "/register --reset -p yes && tail -f /dev/null"
 ```
