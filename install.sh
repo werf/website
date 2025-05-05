@@ -512,7 +512,6 @@ run_as_user() {
   local user="$1"
   shift
   local cmd="$@"
-  ensure_cmds_available sudo
   if [[ "$user" == "$(get_user)" ]]; then
     eval "$cmd" || return 1
   else
