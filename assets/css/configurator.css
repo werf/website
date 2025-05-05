@@ -319,3 +319,7 @@ https://github.com/codesandbox/codesandbox-client/blob/389073613e06eee944231f4ae
     background: transparent;
     padding: 0;
 }
+
+.docs .configurator .clickable-header {
+    scroll-margin-top: 120px;
+}
