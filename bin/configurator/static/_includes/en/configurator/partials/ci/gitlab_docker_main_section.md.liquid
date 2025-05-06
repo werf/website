@@ -8,7 +8,7 @@
 
 ### Installing GitLab Runner
 
-Install GitLab Runner on its dedicated host by following the [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html).
+Install GitLab Runner on the dedicated host using the [official instructions](https://docs.gitlab.com/runner/install/linux-repository.html).
 
 {% include configurator/partials/ci/buildah_ubuntu.md.liquid %}
 
@@ -25,7 +25,10 @@ On the GitLab Runner host, open its `config.toml` configuration file and add the
   name = "<name of the Runner you registered>"
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    volumes = ["/home/build/.werf"]
+    volumes = [
+      "werf-cache:/home/build/.werf",
+      "buildah-cache:/home/build/.local/share/containers"
+    ]
 ```
 
 If the GitLab Runner host runs Linux kernel version 5.12 or lower, install `fuse` on the host and add an extra option to the `config.toml` file:
@@ -44,7 +47,6 @@ If needed, perform [additional configuration](https://docs.gitlab.com/runner/con
 ### Preparing the system for cross-platform building (optional)
 
 {% include configurator/partials/ci/cross_platform_note.md.liquid %}
-
 
 Register emulators on your system using qemu-user-static:
 

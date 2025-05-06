@@ -30,6 +30,7 @@
     * **Mask variable:** `yes`.
 
 * [Add a scheduled nightly task](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) to clean up the no longer needed images in the container registry by setting the `main`/`master` branch as the **Target branch**.
+* (Applicable only when using persistent volumes) [Add a scheduled nightly task](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule)  to clean up unused cache and images from the GitLab Runner host.
 
 ### Configuring CI/CD of the project
 

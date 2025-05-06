@@ -22,10 +22,13 @@
 
 ```toml
 [[runners]]
-  name = "<имя зарегистрированного Runner'а>"
+  name = "<name of the Runner you registered>"
   [runners.docker]
     security_opt = ["seccomp:unconfined", "apparmor:unconfined"]
-    volumes = ["/home/build/.werf"]
+    volumes = [
+      "werf-cache:/home/build/.werf",
+      "buildah-cache:/home/build/.local/share/containers"
+    ]
 ```
 
 Если хост GitLab Runner'а имеет версию ядра Linux 5.12 или ниже, то установите на хост `fuse` и добавьте в файл `config.toml` ещё одну опцию:
