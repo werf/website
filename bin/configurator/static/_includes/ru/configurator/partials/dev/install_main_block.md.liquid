@@ -1,23 +1,33 @@
 ### Требования
 
-- {{include.shell}};
+{% if include.os == "macos" %}
 
-- Git версии 2.18.0 или выше;
+* [Docker Engine](https://docs.docker.com/engine/install/).
+  {% else %}
+* {{include.shell}};
+* Git версии 2.18.0 или выше;
+* GPG{{include.gpg_ending}}
 
-- GPG{{include.gpg_ending}}
 {% if include.docker == true %}
-- [Docker Engine](https://docs.docker.com/engine/install/).
-{% endif %}
+
+* [Docker Engine](https://docs.docker.com/engine/install/).
+  {% endif %}
+  {% endif %}
 
 {% if include.os == "win" %}
 {% include configurator/partials/dev/windows_prepare.md.liquid %}
 {% endif %}
+
 {% if include.buildah == true %}
 {% include configurator/partials/dev/buildah_install.md.liquid %}
 {% endif %}
 
+{% if include.os != "macos" %}
+
 ### Установка werf
+
 {% if include.os == "win" %}
+
 * [Установите trdl](https://github.com/werf/trdl/releases/) в `<диск>:\Users\<имя пользователя>\bin\trdl`.
 
 * Добавьте директорию `<диск>:\Users\<имя пользователя>\bin\` в постоянную переменную окружения `$PATH`.
@@ -33,6 +43,7 @@
   ```powershell
   . $(trdl use werf 2 stable)
   ```
+
 {% else %}
 Для установки werf выполните:
 
@@ -42,6 +53,8 @@ curl -sSL https://werf.io/install.sh | bash -s -- --version 2 --channel stable
 
 ... после чего откройте новую shell-сессию.
 {% endif %}
+{% endif %}
+
 {% if include.cross == true %}
 {% include configurator/partials/dev/cross_build.md.liquid %}
 {% endif %}
