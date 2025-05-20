@@ -11,7 +11,7 @@
   icon_class: sidebar__btn-icon_github
 
 # Preparing the environment
-- url: https://werf.io/guides/rails/100_basic/20_cluster.html
+- url: /guides/{framework}/100_basic/20_cluster.html
   title: Go to &quot;Prepare the environment&quot; section
   text: Prepare/fix the environment
   class: sidebar-button--environment

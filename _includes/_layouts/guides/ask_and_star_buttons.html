@@ -1,6 +1,11 @@
 <div class="sidebar__btns">
   {%- for btn in site.data.guides.ask_and_star_buttons %}
-  <a href="{{ btn.url }}" target="_blank" class="sidebar__btn {%- if btn.class %} {{ btn.class }}{%- endif %}" title="{{ btn.title }}">
+    {% assign btn_url = btn.url | replace: "{framework}", page.framework_id %}
+    {% assign btn_url_first = btn_url | truncate : 1, '' %}
+    {% if btn_url_first == '/' %}
+      {% assign btn_internal = true %}
+    {% endif %}
+  <a href="{{ btn_url }}" {%- if btn_internal != true %}target="_blank"{%- endif %} class="sidebar__btn {%- if btn.class %} {{ btn.class }}{%- endif %}" title="{{ btn.title }}">
     <span class="sidebar__btn-icon {{ btn.icon_class }}"></span>
     {{ btn.text }}
   </a>
