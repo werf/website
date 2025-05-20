@@ -12,9 +12,11 @@
     {% assign folder_pages = "" | split: "," %}
 
     {%- for section in sections.f %}
-      {%- capture folder_page_permalink %}guides/{{ framework.name }}/{{ section.url }}{% endcapture -%}
-      {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
-      {% assign folder_pages = folder_pages | push: folder_page %}
+      {% if section.external != true %}
+        {%- capture folder_page_permalink %}guides/{{ framework.name }}/{{ section.url }}{% endcapture -%}
+        {% assign folder_page = site.pages | find: "permalink", folder_page_permalink %}
+        {% assign folder_pages = folder_pages | push: folder_page %}
+      {% endif %}
     {%- endfor -%}
 
     {% include common/guides-landing-tile.html %}

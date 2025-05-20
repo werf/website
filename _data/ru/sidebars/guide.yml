@@ -15,7 +15,6 @@ entries:
           url: "100_basic/38_kubernetes_basics.html"
         - title: Необходимо знать
           url: "100_basic/40_must_haves.html"
-
     - title: Реалистичные приложения
       url: "200_real_apps.html"
       sf:
@@ -40,20 +39,6 @@ entries:
           url: "300_deployment_practices/020_high_availability.html"
         - title: Управление ресурсами
           url: "300_deployment_practices/030_resource_management.html"
-    - title: Построение процесса CI/CD
-      url: "400_ci_cd_workflow.html"
-      sf:
-        - title: Варианты рабочих процессов
-          url: "400_ci_cd_workflow/020_workflows.html"
-        - title: GitLab CI/CD
-          url: "400_ci_cd_workflow/030_gitlab_ci_cd.html"
-        - title: GitHub Actions
-          url: "400_ci_cd_workflow/040_github_actions.html"
-        - title: Argo CD
-          f:
-            - title: Обзор процесса CI/CD
-              url: "400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html"
-            - title: Подготовка кластера Kubernetes
-              url: "400_ci_cd_workflow/050_argocd/020_prepare_kubernetes_cluster.html"
-            - title: Настройка CI/CD
-              url: "400_ci_cd_workflow/050_argocd/030_configure_ci_cd.html"
+    - title: Быстрый старт с werf
+      url: "/getting_started/"
+      external: true
