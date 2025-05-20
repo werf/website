@@ -1,17 +1,13 @@
 ### Требования
 
-{% if include.os == "macos" %}
-
-* [Docker Engine](https://docs.docker.com/engine/install/).
-  {% else %}
 * {{include.shell}};
 * Git версии 2.18.0 или выше;
+{% if include.os != "macos" %}
 * GPG{{include.gpg_ending}}
-
+{% endif %}
 {% if include.docker == true %}
 
 * [Docker Engine](https://docs.docker.com/engine/install/).
-  {% endif %}
   {% endif %}
 
 {% if include.os == "win" %}

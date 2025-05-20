@@ -29,11 +29,19 @@ git init
 git add .
 git commit -m-
 ```
-{% if include.buildah == true %}
+{% if include.buildah == true and include.os == "linux" %}
 Activate Buildah builder:
 
 ```shell
 export WERF_BUILDAH_MODE=auto
+```
+{% endif %}
+{% if include.buildah == true and include.os == "macos" or include.buildah == true and include.os == "win" %}
+```{{include.shell}}
+docker run -it --rm \      
+  -v $HOME/.werf:/home/build/.werf \
+  -v $(pwd):/home/build/example -w /home/build/example \
+  ghcr.io/werf/werf:2-stable-ubuntu bash
 ```
 {% endif %}
 

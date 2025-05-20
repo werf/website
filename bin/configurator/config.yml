@@ -90,8 +90,8 @@ combinations:
   - tabs:
       - name: "install"
         includePath: "/configurator/tab/dev/macos/buildah/install.md.liquid"
-      # - name: "run"
-      #   includePath: "/configurator/tab/dev/macos/buildah/run.md.liquid"
+      - name: "run"
+        includePath: "/configurator/tab/dev/macos/buildah/run.md.liquid"
     options:
       - name: "usage"
         value: "localDev"
