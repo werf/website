@@ -14,11 +14,11 @@
 {% include configurator/partials/dev/windows_prepare.md.liquid %}
 {% endif %}
 
-{% if include.buildah == true %}
+{% if include.buildah == true and include.os == "linux" %}
 {% include configurator/partials/dev/buildah_install.md.liquid %}
 {% endif %}
 
-{% if include.os != "macos" %}
+{% if not (include.os == "macos" or (include.os == "win" and include.buildah == true)) %}
 
 ### Installing werf
 

@@ -36,7 +36,8 @@ Activate Buildah builder:
 export WERF_BUILDAH_MODE=auto
 ```
 {% endif %}
-{% if include.buildah == true and include.os == "macos" or include.buildah == true and include.os == "win" %}
+{% if include.buildah == true and include.os == "macos" %}
+Run container
 ```{{include.shell}}
 docker run -it --rm \      
   -v $HOME/.werf:/home/build/.werf \
@@ -45,10 +46,23 @@ docker run -it --rm \
 ```
 {% endif %}
 
+{% if include.buildah == true and include.os == "win" %}
+Run container
+
+```{{include.shell}}
+docker run -it --rm `
+ -v "$env:USERPROFILE\.werf:/home/build/.werf" `
+ -v "${PWD}:/home/build/example" `
+ -w "/home/build/example" `
+ registry.werf.io/werf/werf:2-stable-ubuntu
+```
+
+{% endif %}
+
 Specify werf secret key to decrypt secrets in `.helm/secret-values.yaml`:
 
 ```{{include.shell}}
-{%- if include.powershell == true %}
+{%- if include.powershell == true and include.buildah != true %}
 $ENV:WERF_SECRET_KEY="733658e8ce39dff4ceef0a3e5d8c15f6"
 {%- else %}
 export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6

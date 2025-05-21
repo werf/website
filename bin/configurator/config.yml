@@ -111,6 +111,18 @@ combinations:
         value: "windows"
       - name: "buildBackend"
         value: "docker"
+  - tabs:
+      - name: "install"
+        includePath: "/configurator/tab/dev/windows/buildah/install.md.liquid"
+      - name: "run"
+        includePath: "/configurator/tab/dev/windows/buildah/run.md.liquid"
+    options:
+      - name: "usage"
+        value: "localDev"
+      - name: "os"
+        value: "windows"
+      - name: "buildBackend"
+        value: "buildah"
 
   # GitHub actions host docker
   - tabs:
