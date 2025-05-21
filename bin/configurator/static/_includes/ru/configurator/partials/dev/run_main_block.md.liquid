@@ -39,7 +39,7 @@ export WERF_BUILDAH_MODE=auto
 {% endif %}
 
 {% if include.buildah == true and include.os == "macos" %}
-Run container
+Запустите контейнер
 
 ```{{include.shell}}
 docker run -it --rm \      
@@ -50,7 +50,7 @@ docker run -it --rm \
 {% endif %}
 
 {% if include.buildah == true and include.os == "win" %}
-Run container
+Запустите контейнер
 
 ```{{include.shell}}
 docker run -it --rm `
