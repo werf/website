@@ -39,10 +39,10 @@ export WERF_BUILDAH_MODE=auto
 {% if include.buildah == true and include.os == "macos" %}
 Run container
 ```{{include.shell}}
-docker run -it --rm \      
+docker run -it --rm \
   -v $HOME/.werf:/home/build/.werf \
   -v $(pwd):/home/build/example -w /home/build/example \
-  ghcr.io/werf/werf:2-stable-ubuntu bash
+  registry.werf.io/werf/werf:2-stable-ubuntu bash
 ```
 {% endif %}
 
@@ -54,8 +54,18 @@ docker run -it --rm `
  -v "$env:USERPROFILE\.werf:/home/build/.werf" `
  -v "${PWD}:/home/build/example" `
  -w "/home/build/example" `
- registry.werf.io/werf/werf:2-stable-ubuntu
+ registry.werf.io/werf/werf:2-stable-ubuntu bash
 ```
+
+> **Note**
+> When mounting the project into a container, Git inside the container may show uncommitted changes even if you have just run `git commit`.
+> This happens due to differences in line endings (CRLF ↔ LF).
+>
+> To avoid this, run:
+>
+> ```{{include.shell}}
+> git config core.autocrlf input
+> ```
 
 {% endif %}
 
