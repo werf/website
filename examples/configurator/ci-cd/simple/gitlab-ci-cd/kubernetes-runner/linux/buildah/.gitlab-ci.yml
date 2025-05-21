@@ -27,3 +27,10 @@ images:cleanup:
     - werf cleanup
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule"
+
+host:cleanup:
+  stage: cleanup
+  script:
+    - werf host cleanup
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "schedule"

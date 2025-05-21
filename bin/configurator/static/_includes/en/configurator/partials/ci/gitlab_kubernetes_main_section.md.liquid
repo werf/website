@@ -48,6 +48,10 @@ Add the following to the GitLab Runner configuration file `config.toml`:
       name = "gitlab-ci-kubernetes-executor-helper-home"
       mount_path = "/home/helper"
 
+    [[runners.kubernetes.volumes.empty_dir]]
+      name = "gitlab-ci-kubernetes-executor-buildah-cache"
+      mount_path = "/home/build/.local/share/containers"
+
     [[runners.kubernetes.pod_spec]]
       name = "fix helper HOME"
       patch = '''
@@ -92,6 +96,10 @@ Add the following to the GitLab Runner configuration file `config.toml`:
       name = "gitlab-ci-kubernetes-executor-helper-home"
       mount_path = "/home/helper"
 
+    [[runners.kubernetes.volumes.pvc]]
+      name = "gitlab-ci-kubernetes-executor-buildah-cache"
+      mount_path = "/home/build/.local/share/containers"
+
     [[runners.kubernetes.pod_spec]]
       name = "fix helper HOME"
       patch = '''
@@ -113,8 +121,8 @@ Add the following to the GitLab Runner configuration file `config.toml`:
           - sh
           - -ec
           - |
-            chown :$(id -g) /home/build/.werf /builds /home/helper
-            chmod g+rwx /home/build/.werf /builds /home/helper
+            chown :$(id -g) /home/build/.werf /builds /home/helper /home/build/.local/share/containers
+            chmod g+rwx /home/build/.werf /builds /home/helper /home/build/.local/share/containers
           securityContext:
             runAsUser: 0
             runAsNonRoot: false
@@ -125,11 +133,17 @@ Add the following to the GitLab Runner configuration file `config.toml`:
             name: gitlab-ci-kubernetes-executor-builds-cache
           - mountPath: /home/helper
             name: gitlab-ci-kubernetes-executor-helper-home
+          - mountPath: /home/build/.local/share/containers
+            name: gitlab-ci-kubernetes-executor-buildah-cache
       '''
       patch_type = "strategic"
 ```
 
 Create PVCs:
+
+> **Note**  
+> You can use `ReadWriteOnce` if you don't need parallel builds that share the same cache.
+> In setups with multiple runners or jobs running in parallel, use `ReadWriteMany` to avoid volume attachment issues.
 
 ```shell
 kubectl create -f - <<EOF
@@ -162,6 +176,18 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: gitlab-ci-kubernetes-executor-helper-home
+  namespace: gitlab-ci
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-ci-kubernetes-executor-buildah-cache
   namespace: gitlab-ci
 spec:
   accessModes:
