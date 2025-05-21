@@ -2,7 +2,7 @@
 
 * {{include.shell}};
 * Git версии 2.18.0 или выше;
-{% if include.os != "macos" %}
+{% if not (include.os == "macos" or (include.os == "win" and include.buildah == true)) %}
 * GPG{{include.gpg_ending}}
 {% endif %}
 {% if include.docker == true %}
