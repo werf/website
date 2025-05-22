@@ -54,6 +54,7 @@ configVersion
 contraire
 cr
 CRD
+CRLF
 cron
 CronJob
 CronJobs
@@ -131,6 +132,7 @@ kubectl
 Kubernetes
 Kubes
 Laravel
+LF
 lifecycle
 linters
 livenessProbe
