@@ -5,7 +5,7 @@
     {% if btn_url_first == '/' %}
       {% assign btn_internal = true %}
     {% endif %}
-  <a href="{{ btn_url }}" {%- if btn_internal != true %}target="_blank"{%- endif %} class="sidebar__btn {%- if btn.class %} {{ btn.class }}{%- endif %}" title="{{ btn.title }}">
+  <a href="{{ btn_url }}" {% if btn_internal != true %}target="_blank"{% endif %} class="sidebar__btn {%- if btn.class %} {{ btn.class }}{%- endif %}" title="{{ btn.title }}">
     <span class="sidebar__btn-icon {{ btn.icon_class }}"></span>
     {{ btn.text }}
   </a>
