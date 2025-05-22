@@ -25,7 +25,14 @@
         {%- endif %}
     </li>
 {% else %}
-    <li class="{{ base_li_class }} {{ include.li_disabled_class }}">
-        {{ entry.title }}
-    </li>
+    {% assign entry_url_first = entry.url | truncate : 1, '' %}
+    {% if entry_url_first == '/' %}
+        <li class="{{ base_li_class }} sidebar__item_external">
+            <a href="{{ entry.url }}">{{ entry.title }}</a>
+        </li>
+    {% else %}
+        <li class="{{ base_li_class }} {{ include.li_disabled_class }}">
+            {{ entry.title }}
+        </li>
+    {% endif %}
 {% endif %}

@@ -7,9 +7,3 @@
 /300_deployment_practices:
   title: Лучшие практики деплоя
   url: /300_deployment_practices.html
-/400_ci_cd_workflow:
-  title: Построение процесса CI/CD
-  url: /400_ci_cd_workflow.html
-/400_ci_cd_workflow/050_argocd:
-  title: Argo CD
-  url: /400_ci_cd_workflow/050_argocd/010_ci_cd_flow_overview.html

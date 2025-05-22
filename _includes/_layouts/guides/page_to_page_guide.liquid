@@ -6,6 +6,7 @@
 {% assign subsection = section.sf %}
 {% assign folder_pages = "" | split: "," %}
 {% assign index_per = 0 %}
+{% assign index_sub = 0 %}
 
 {% assign sidebar_entry = page.url | sidebar_entry_by_url: sections %}
 {% assign page_title = sidebar_entry.title %}
@@ -58,7 +59,9 @@
       {% assign prev_section = sections.f | find: "url", folder_pages_url %}
       {%- assign prev_url = prev_section.sf.last.url -%}
     {% endif %}
-    {%- assign next_url = sections.f[index].sf[0].url -%}
+    {% if section.external != true %}
+      {%- assign next_url = sections.f[index].sf[0].url -%}
+    {% endif %}
 
   {% elsif section.sf[index_sub].url == path %}
     {%- for subsection in section.sf -%}
