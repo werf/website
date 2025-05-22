@@ -1,3 +1,12 @@
+{% assign show_werf_install = false %}
+{% if include.os == "linux" %}
+  {% assign show_werf_install = true %}
+{% elsif include.os == "macos" and include.buildah != true %}
+  {% assign show_werf_install = true %}
+{% elsif include.os == "win" and include.buildah != true %}
+  {% assign show_werf_install = true %}
+{% endif %}
+
 ### Требования
 
 * {{include.shell}};
@@ -18,7 +27,7 @@
 {% include configurator/partials/dev/buildah_install.md.liquid %}
 {% endif %}
 
-{% if not (include.os == "macos" or (include.os == "win" and include.buildah == true)) %}
+{% if show_werf_install %}
 
 ### Установка werf
 
