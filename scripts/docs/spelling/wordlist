@@ -53,6 +53,7 @@ configVersion
 contraire
 cr
 CRD
+CRLF
 cron
 CronJob
 CronJobs
@@ -130,6 +131,7 @@ kubectl
 Kubernetes
 Kubes
 Laravel
+LF
 lifecycle
 linters
 livenessProbe
@@ -373,6 +375,7 @@ YouTube
 монорепозиториях
 мульти
 мультиплатформенной
+незакоммиченные
 незафиксированные
 незафиксированными
 незашифрованном

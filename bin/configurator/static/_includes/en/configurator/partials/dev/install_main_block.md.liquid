@@ -1,23 +1,29 @@
 ### Requirements
 
-- {{include.shell}};
-
-- Git version 2.18.0 or above;
-
-- GPG{{include.gpg_ending}}
-{% if include.docker == true %}
-- [Docker Engine](https://docs.docker.com/engine/install/).
+* {{include.shell}};
+* Git version 2.18.0 or above;
+{% if not (include.os == "macos" or (include.os == "win" and include.buildah == true)) %}
+* GPG{{include.gpg_ending}}
 {% endif %}
+{% if include.docker == true %}
+
+* [Docker Engine](https://docs.docker.com/engine/install/).
+  {% endif %}
 
 {% if include.os == "win" %}
 {% include configurator/partials/dev/windows_prepare.md.liquid %}
 {% endif %}
-{% if include.buildah == true %}
+
+{% if include.buildah == true and include.os == "linux" %}
 {% include configurator/partials/dev/buildah_install.md.liquid %}
 {% endif %}
 
+{% if not (include.os == "macos" or (include.os == "win" and include.buildah == true)) %}
+
 ### Installing werf
+
 {% if include.os == "win" %}
+
 * [Install trdl](https://github.com/werf/trdl/releases/) to `<disk>:\Users\<user name>\bin\trdl`.
 
 * Add the `<disk>:\Users\<user name>\bin\` directory to the `$PATH` persistent environment variable.
@@ -33,6 +39,7 @@
   ```powershell
   . $(trdl use werf 2 stable)
   ```
+
 {% else %}
 Run the command below to install werf:
 
@@ -41,8 +48,9 @@ curl -sSL https://werf.io/install.sh | bash -s -- --version 2 --channel stable
 ```
 
 ... and then start a new shell session.
-
 {% endif %}
+{% endif %}
+
 {% if include.cross == true %}
 {% include configurator/partials/dev/cross_build.md.liquid %}
 {% endif %}

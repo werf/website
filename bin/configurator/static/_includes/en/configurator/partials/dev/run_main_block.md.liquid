@@ -29,18 +29,49 @@ git init
 git add .
 git commit -m-
 ```
-{% if include.buildah == true %}
+{% if include.buildah == true and include.os == "linux" %}
 Activate Buildah builder:
 
 ```shell
 export WERF_BUILDAH_MODE=auto
 ```
 {% endif %}
+{% if include.buildah == true and include.os == "macos" %}
+Run container
+```{{include.shell}}
+docker run -it --rm \
+  -v $HOME/.werf:/home/build/.werf \
+  -v $(pwd):/home/build/example -w /home/build/example \
+  registry.werf.io/werf/werf:2-stable-ubuntu bash
+```
+{% endif %}
+
+{% if include.buildah == true and include.os == "win" %}
+Run container:
+
+```{{include.shell}}
+docker run -it --rm `
+ -v "$env:USERPROFILE\.werf:/home/build/.werf" `
+ -v "${PWD}:/home/build/example" `
+ -w "/home/build/example" `
+ registry.werf.io/werf/werf:2-stable-ubuntu bash
+```
+
+> **Note**
+> When mounting the project into a container, Git inside the container may show uncommitted changes even if you have just run `git commit`.
+> This happens due to differences in line endings (CRLF ↔ LF).
+> To avoid this, run:
+>
+> ```{{include.shell}}
+> git config core.autocrlf input
+> ```
+
+{% endif %}
 
 Specify werf secret key to decrypt secrets in `.helm/secret-values.yaml`:
 
 ```{{include.shell}}
-{%- if include.powershell == true %}
+{%- if include.powershell == true and include.buildah != true %}
 $ENV:WERF_SECRET_KEY="733658e8ce39dff4ceef0a3e5d8c15f6"
 {%- else %}
 export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6
