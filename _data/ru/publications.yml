@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Миграция с legacy: как werf упростил переезд на Kubernetes и ускорил CI/CD"
+    habr_url: "https://habr.com/ru/companies/flant/articles/910860/"
+    img: "/assets/images/publications/ru_030425.png"
+    created: 2025-05-21
+    comment: |
+      <p>Реальный кейс компании Seznam.cz по миграции инфраструктуры с устаревших решений на современный стек с использованием Kubernetes. Основное внимание уделяется инструменту werf — open source-решению для автоматизации CI/CD процессов в Kubernetes.</p>
   - title: "Вышел Nelm 1.0: совместимая с Helm-чартами альтернатива Helm 3"
     habr_url: "https://habr.com/ru/companies/flant/articles/896846/"
     img: "/assets/images/publications/ru_030425.png"
