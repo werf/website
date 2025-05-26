@@ -62,6 +62,7 @@ CurrentChannel
 CurrentGroup
 CurrentPageURL
 CurrentPageURLRelative
+cz
 DaemonSet
 Daemonsets
 dapp
@@ -212,6 +213,7 @@ Sep
 sequelize
 sequelizerc
 ServiceAccount
+Seznam
 Sidekiq
 SLA
 SonarQube
