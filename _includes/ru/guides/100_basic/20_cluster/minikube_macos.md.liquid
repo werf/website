@@ -7,7 +7,7 @@
 # Удалим существующий minikube-кластер (если он есть).
 minikube delete
 # Запустим новый minikube-кластер.
-minikube start --driver=hyperkit
+minikube start --driver=docker
 ```
 
 Выставим Namespace по умолчанию, чтобы не указывать его при каждом вызове `kubectl`:

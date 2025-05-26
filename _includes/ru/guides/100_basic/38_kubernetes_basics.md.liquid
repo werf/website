@@ -202,13 +202,11 @@ werf-guide-app          <none>   werf-guide-app.test                            
 agent Пользователь
 agent Ingress
 agent Service
-agent Deployment
 agent Pod
 agent Приложение
 Пользователь <--> Ingress : Запрос
 Ingress <--> Service
-Service <--> Deployment
-Deployment <--> Pod
+Service <--> Pod
 Pod <--> Приложение
 {% endplantuml %}
 
