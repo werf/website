@@ -202,13 +202,11 @@ The general interaction between different resources within a cluster looks as fo
 agent User
 agent Ingress
 agent Service
-agent Deployment
 agent Pod
 agent Application
 User <--> Ingress : Request
 Ingress <--> Service
-Service <--> Deployment
-Deployment <--> Pod
+Service <--> Pod
 Pod <--> Application
 {% endplantuml %}
 
