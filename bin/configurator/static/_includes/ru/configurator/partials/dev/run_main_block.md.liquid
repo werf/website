@@ -71,21 +71,33 @@ docker run -it --rm `
 
 {% endif %}
 
+Авторизуйтесь в реестре контейнеров с помощью `werf cr login`:
+
+```{{include.shell}}
+werf cr login -u username -p token registry.example.com
+```
+
 Укажите секретный ключ werf для расшифровки секретов в `.helm/secret-values.yaml`:
 
 ```{{include.shell}}
-{%- if include.powershell == true %}
+{%- if include.powershell == true and include.buildah != true %}
 $ENV:WERF_SECRET_KEY="733658e8ce39dff4ceef0a3e5d8c15f6"
 {%- else %}
 export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6
 {%- endif %}
 ```
 
+Убедитесь, что вы аутентифицированы в кластере Kubernetes. По умолчанию используется файл kubeconfig по стандартному пути (обычно `$HOME/.kube/config`).
+
+При необходимости вы можете указать путь к кастомному kubeconfig с помощью флага `--kube-config`.
+
 Запустите сборку и развертывание с werf:
 
 ```{{include.shell}}
-werf converge --dev --repo "<путь к репозиторию в container registry>" --env production
+werf converge --dev --repo "<путь к репозиторию в container registry>" --env production --kube-config /path/to/your/kubeconfig
 ```
+
+Подробнее о подключении к Kubernetes смотрите в [документации по аутентификации]({{ "/docs/usage/deploy/authentication.html" | relative_url }}).
 
 Убедитесь, что развернутое приложение действительно работает:
 

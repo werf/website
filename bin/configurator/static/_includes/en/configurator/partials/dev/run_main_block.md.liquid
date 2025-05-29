@@ -68,6 +68,12 @@ docker run -it --rm `
 
 {% endif %}
 
+Authenticate to the container registry using the `werf cr login` command:
+
+```{{include.shell}}
+werf cr login -u username -p token registry.example.com
+```
+
 Specify werf secret key to decrypt secrets in `.helm/secret-values.yaml`:
 
 ```{{include.shell}}
@@ -78,11 +84,17 @@ export WERF_SECRET_KEY=733658e8ce39dff4ceef0a3e5d8c15f6
 {%- endif %}
 ```
 
+Make sure you are authenticated to your Kubernetes cluster. By default, werf will use the kubeconfig from the default location (usually $HOME/.kube/config).
+
+If needed, you can provide a custom path using the --kube-config option.
+
 Build and deploy with werf:
 
 ```{{include.shell}}
-werf converge --dev --repo "<path to repository in container registry>" --env production
+werf converge --dev --repo "<path to repository in container registry>" --env production --kube-config /path/to/your/kubeconfig
 ```
+
+See the [authentication guide]({{ "/docs/usage/deploy/authentication.html" | relative_url }}) for more information on accessing the Kubernetes cluster.
 
 Make sure that the deployed application actually works:
 
