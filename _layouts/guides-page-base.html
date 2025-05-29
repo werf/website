@@ -95,8 +95,6 @@ layout: default-guides
                     <div class="guides-post__nav--next">
                       {% if index_sub >= subsection_size and sections.f[index_next] == nil %}
                         <a href="{{ next_url }}" style="visibility: hidden;"></a>
-                      {% elsif index_sub >= subsection_size and sections.f[index_next].external == true %}
-                        <a href="{{ next_url }}" style="visibility: hidden;"></a>
                       {% elsif index_sub >= subsection_size and folder_page == nil %}
                         <a href="{{ next_url }}" style="visibility: hidden;"></a>
                       {% elsif index_sub >= subsection_size and folder_page != nil %}
