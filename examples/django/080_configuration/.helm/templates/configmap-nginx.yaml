@@ -62,8 +62,8 @@ data:
           try_files $uri =404;
         }
 
-        # [<en>] All requests, except for asset requests, are sent to the Spring Boot backend.
-        # [<ru>] Все запросы, кроме запросов на получение ассетов, отправляются на Spring Boot бэкенд.
+        # [<en>] All requests, except for asset requests, are sent to the backend.
+        # [<ru>] Все запросы, кроме запросов на получение ассетов, отправляются на бэкенд.
         location / {
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Real-IP $remote_addr;

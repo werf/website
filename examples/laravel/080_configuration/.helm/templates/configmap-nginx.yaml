@@ -54,7 +54,7 @@ data:
         location = /favicon.ico { access_log off; log_not_found off; }
         location = /robots.txt  { access_log off; log_not_found off; }
 
-        # [<ru>] Все запросы, кроме запросов на получение ассетов, отправляются на php-fpm-бэкенд.
+        # [<ru>] Все запросы, кроме запросов на получение ассетов, отправляются на бэкенд.
         location ~ \.php$ {
             fastcgi_pass unix:/var/run/php/php-fpm.sock;
             fastcgi_param DOCUMENT_ROOT   /app/public;

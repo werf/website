@@ -16,7 +16,6 @@ spec:
       containers:
       - name: mysql
         image: mysql:9.1
-        args: ["--default-authentication-plugin=mysql_native_password"]
         ports:
           - containerPort: 3306
         envFrom:
