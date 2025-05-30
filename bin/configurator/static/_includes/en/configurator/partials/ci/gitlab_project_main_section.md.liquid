@@ -29,6 +29,16 @@
 
     * **Mask variable:** `yes`.
 
+  * kubeconfig encoded in base64, used to access the Kubernetes cluster:
+
+    * **Key:** `WERF_KUBECONFIG_BASE64`;
+
+    * **Value:** `<base64-encoded contents of your kubeconfig file>`;
+
+    * **Protect variable:** `yes` (if the cluster is used only in protected branches);
+
+    * **Mask variable:** `yes`.
+
 * [Add a scheduled nightly task](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) to clean up the no longer needed images in the container registry by setting the `main`/`master` branch as the **Target branch**.
 * (Applicable only when using persistent volumes) [Add a scheduled nightly task](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule)  to clean up unused cache and images from the GitLab Runner host.
 
@@ -63,4 +73,5 @@ This is how the repository that uses werf for build and deploy might look:
 {% endif %}
 
 Extras:
-  * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
+  * Add authorization options for `werf cleanup` in the container registry by following [instructions]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }});
+  * See the [authentication guide]({{ "/docs/v2/usage/deploy/authentication.html" | relative_url }}) for more information on accessing the Kubernetes cluster.

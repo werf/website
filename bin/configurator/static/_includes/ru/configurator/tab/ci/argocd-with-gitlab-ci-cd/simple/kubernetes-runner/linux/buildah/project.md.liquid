@@ -71,6 +71,16 @@ EOF
 
     - **Mask variable:** `yes`.
 
+  - kubeconfig, закодированный в base64, для доступа к Kubernetes кластеру:
+
+    - **Key:** `WERF_KUBECONFIG_BASE64`;
+
+    - **Value:** `<base64-кодированное содержимое kubeconfig-файла>`;
+
+    - **Protect variable:** `yes` (если кластер используется только в protected ветках);
+
+    - **Mask variable:** `yes`.
+
 - [Добавьте ночную задачу по расписанию](https://docs.gitlab.com/ee/ci/pipelines/schedules.html#add-a-pipeline-schedule) для очистки ненужных образов в container registry, установив ветку `main`/`master` в качестве целевой (**Target branch**).
 
 ### Настройка CI/CD проекта
@@ -80,4 +90,6 @@ EOF
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
 
 Дополнительно:
-  * Добавьте параметры авторизации для `werf cleanup` в container registry, следуя [инструкции]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}).
+  * Добавьте параметры авторизации для `werf cleanup` в container registry, следуя [инструкции]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }});
+  * Подробнее о подключении к Kubernetes смотрите в [документации по аутентификации]({{ "/docs/v2/usage/deploy/authentication.html" | relative_url }}).
+

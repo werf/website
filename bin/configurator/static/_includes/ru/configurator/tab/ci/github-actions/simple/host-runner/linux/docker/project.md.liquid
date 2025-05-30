@@ -32,4 +32,6 @@
 
   * Для использования GitHub-hosted Runner укажите `ubuntu-latest` в `runs-on`;
 
- * Если вы не используете ghcr в качестве container registry, то проставьте `WERF_REPO`, выполните [werf cr login]({{ "/docs/reference/cli/werf_cr_login.html" | relative_url }}), а также учтите [особенности]({{ "/docs/usage/cleanup/cr_cleanup.html#особенности-работы-с-различными-container-registries" | relative_url }}) вашего container registry при очистке.
+  * Если вы не используете ghcr в качестве container registry, то проставьте `WERF_REPO`, выполните [werf cr login]({{ "/docs/reference/cli/werf_cr_login.html" | relative_url }}), а также учтите [особенности]({{ "/docs/usage/cleanup/cr_cleanup.html#особенности-работы-с-различными-container-registries" | relative_url }}) вашего container registry при очистке;
+
+  * Подробнее о подключении к Kubernetes смотрите в [документации по аутентификации]({{ "/docs/v2/usage/deploy/authentication.html" | relative_url }}).
