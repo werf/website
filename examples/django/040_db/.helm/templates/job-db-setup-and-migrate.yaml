@@ -11,6 +11,8 @@ spec:
   template:
     spec:
       restartPolicy: Never
+      imagePullSecrets:
+      - name: registrysecret
       initContainers:
       - name: waiting-mysql
         image: alpine:3.6

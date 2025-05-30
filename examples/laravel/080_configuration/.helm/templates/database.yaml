@@ -17,7 +17,6 @@ spec:
       containers:
       - name: mysql
         image: mysql:9.1
-        args: ["--mysql-native-password=ON"]
         ports:
         - containerPort: 3306
         envFrom:
