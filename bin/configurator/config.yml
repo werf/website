@@ -199,9 +199,9 @@ combinations:
 #GitHub Actions ci/cd kubernetes
   - tabs:
       - name: "infra"
-        includePath: "/configurator/tab/ci/github-actions/simple/kubernetes-runner/buildah/infra.md.liquid"
+        includePath: "/configurator/tab/ci/github-actions/simple/kubernetes-runner/linux/buildah/infra.md.liquid"
       - name: "project"
-        includePath: "/configurator/tab/ci/github-actions/simple/kubernetes-runner/buildah/project.md.liquid"
+        includePath: "/configurator/tab/ci/github-actions/simple/kubernetes-runner/linux/buildah/project.md.liquid"
     options:
       - name: "usage"
         value: "ci"
