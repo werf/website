@@ -1,0 +1,141 @@
+> **_Важно_**: раздел описывает подготовку инфраструктуры для self-hosted GitHub Runner
+
+### Требования
+
+- GitHub Actions;
+- Кластер Kubernetes;
+- Helm;
+- Хост для запуска GitHub Runner, с установленным:
+  
+  - Bash;
+
+### Включите поддержку непривилегированных пространств имён пользователей (требуется на worker-нодах)
+
+```shell
+sudo sysctl -w kernel.unprivileged_userns_clone=1
+```
+
+### Установка контроллера GitHub Actions Runner (ARC)
+
+Установите Helm-чарт контроллера ARC:
+
+```shell
+helm install arc \
+  --namespace arc-systems \
+  --create-namespace \
+  oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+```
+
+### Настройка значений для раннеров (`values.yaml`)
+
+Создайте файл `values.yaml` со следующим содержимым:
+
+```yaml
+githubConfigUrl: "<https://github.com/<your_enterprise/org/repo>>"
+githubConfigSecret:
+  github_token: <PAT>
+template:
+  spec:
+    serviceAccountName: arc-runner-sa
+    containers:
+      - name: runner
+        image: ghcr.io/actions/actions-runner:latest
+        command: ["/home/runner/run.sh"]
+        env:
+          - name: ACTIONS_RUNNER_CONTAINER_HOOKS
+            value: /home/runner/k8s/index.js
+          - name: ACTIONS_RUNNER_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
+            value: "true"
+          - name: ACTIONS_RUNNER_CONTAINER_HOOK_TEMPLATE
+            value: /home/runner/job-template/content
+        volumeMounts:
+          - name: work
+            mountPath: /home/runner/_work
+          - name: job-template
+            mountPath: /home/runner/job-template
+            readOnly: true
+        resources:
+          requests:
+            cpu: 400m
+            memory: 800Mi
+    volumes:
+      - name: job-template
+        configMap:
+          name: job-template-gha-runner-werf
+      - name: work
+        ephemeral:
+          volumeClaimTemplate:
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              storageClassName: "<your-storageClassName>"
+              resources:
+                requests:
+                  storage: 1Gi
+job:
+  enabled: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+    limits:
+      memory: 2048Mi
+```
+
+### Создание ConfigMap с шаблоном job’а
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: job-template-gha-runner-werf
+  namespace: arc-runners
+data:
+  content: |
+    spec:
+      serviceAccountName: arc-runner-sa
+      securityContext:
+        runAsUser: 1001
+      containers:
+        - name: \$job
+EOF
+```
+
+### Создание ServiceAccount и ClusterRoleBinding
+
+```shell
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: arc-runner-sa
+  namespace: arc-runners
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: arc-runner-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: arc-runner-sa
+    namespace: arc-runners
+EOF
+```
+
+> **Примечание**
+> Для повышения безопасности рекомендуется создать более ограниченную роль (ClusterRole/Role) и использовать её вместо `cluster-admin`.
+
+### Установка набора раннеров
+
+```shell
+helm install arc-runner-set -f values.yaml -n arc-runners \
+  oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+```

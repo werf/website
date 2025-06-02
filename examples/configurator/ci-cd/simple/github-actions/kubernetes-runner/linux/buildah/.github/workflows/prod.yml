@@ -1,0 +1,25 @@
+name: prod
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prod:
+    name: prod
+    runs-on: arc-runner-set
+    container:
+      image: ghcr.io/werf/werf:2-stable-ubuntu
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - run: |
+          . "$(werf ci-env github --as-file)"
+          werf converge
+        env:
+          WERF_ENV: prod
+          WERF_BUILDAH_MODE: auto
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
