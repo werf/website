@@ -25,15 +25,16 @@ helm install arc \
   --create-namespace \
   oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
 ```
+### Установка набора раннеров
 
-### Настройка значений для раннеров (`values.yaml`)
+#### Настройка значений для раннеров (`values.yaml`)
 
 Создайте файл `values.yaml` со следующим содержимым:
 
 ```yaml
-githubConfigUrl: "<https://github.com/<your_enterprise/org/repo>>"
+githubConfigUrl: "https://github.com/myenterprise/myorg/myrepo"
 githubConfigSecret:
-  github_token: <PAT>
+  github_token: "<PAT>"
 template:
   spec:
     serviceAccountName: arc-runner-sa
@@ -85,7 +86,7 @@ job:
       memory: 2048Mi
 ```
 
-### Создание ConfigMap с шаблоном job’а
+#### Создание Kubernetes ресурсов
 
 ```bash
 kubectl apply -f - <<EOF
@@ -104,8 +105,6 @@ data:
         - name: \$job
 EOF
 ```
-
-### Создание ServiceAccount и ClusterRoleBinding
 
 ```shell
 kubectl apply -f - <<EOF
@@ -133,9 +132,11 @@ EOF
 > **Примечание**
 > Для повышения безопасности рекомендуется создать более ограниченную роль (ClusterRole/Role) и использовать её вместо `cluster-admin`.
 
-### Установка набора раннеров
+#### Развертывание
 
 ```shell
-helm install arc-runner-set -f values.yaml -n arc-runners \
+helm install arc-runner-set -f values.yaml \
+  --create-namespace \
+  --namespace arc-runners \
   oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
 ```

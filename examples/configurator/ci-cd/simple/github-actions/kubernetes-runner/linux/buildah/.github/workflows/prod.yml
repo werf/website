@@ -20,6 +20,5 @@ jobs:
           werf converge
         env:
           WERF_ENV: prod
-          WERF_BUILDAH_MODE: auto
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
