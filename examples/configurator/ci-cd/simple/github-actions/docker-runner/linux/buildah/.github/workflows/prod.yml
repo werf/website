@@ -11,9 +11,10 @@ jobs:
     container:
       image: ghcr.io/werf/werf:2-stable-ubuntu
       # if you use fuse, then add the option --device /dev/fuse
-      options: --security-opt "seccomp:unconfined" --security-opt "apparmor:unconfined"
+      options: --security-opt "seccomp:unconfined" --security-opt "apparmor:unconfined" --user 1001
       volumes:
-        - /home/build/.werf
+        - buildah-cache:/home/build1001/.local/share/containers
+        - werf-cache:/home/build1001/.werf
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,6 +31,5 @@ jobs:
           werf converge
         env:
           WERF_ENV: prod
-          WERF_BUILDAH_MODE: auto
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WERF_KUBECONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64 }}
