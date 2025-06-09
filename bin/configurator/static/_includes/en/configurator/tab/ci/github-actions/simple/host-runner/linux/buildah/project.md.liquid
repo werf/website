@@ -32,6 +32,10 @@ Extras:
 
   * To use GitHub-hosted Runner, specify `ubuntu-latest` in `runs-on`;
   
-  * If you do not use ghcr as a container registry, then enter `WERF_REPO`, run [werf cr login]({{ "/docs/reference/cli/werf_cr_login.html" | relative_url }}), and also take into account [features]({{ "/docs/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}) of your container registry when cleaning;
+  * If you're not using GitHub Container Registry as your container registry, follow these steps:
+
+    * Set the `WERF_REPO` environment variable to your container registry address;
+    * Log in to the registry using [werf cr login]({{ "/docs/reference/cli/werf_cr_login.html" | relative_url }});
+    * When performing cleanup, make sure to review [specific features]({{ "/docs/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}) of your registry that may affect cleanup behavior.
 
   * See the [authentication guide]({{ "/docs/v2/usage/deploy/authentication.html" | relative_url }}) for more information on accessing the Kubernetes cluster.
