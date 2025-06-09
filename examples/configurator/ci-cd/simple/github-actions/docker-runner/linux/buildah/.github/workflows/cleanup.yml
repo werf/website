@@ -9,7 +9,10 @@ jobs:
     runs-on: self-hosted
     container:
       image: ghcr.io/werf/werf:2-stable-ubuntu
-      options: --security-opt "seccomp:unconfined" --security-opt "apparmor:unconfined"
+      options: --security-opt "seccomp:unconfined" --security-opt "apparmor:unconfined" --user 1001
+      volumes:
+        - buildah-cache:/home/build1001/.local/share/containers
+        - werf-cache:/home/build1001/.werf
     steps:
       - uses: actions/checkout@v3
       - run: git fetch --prune --unshallow
