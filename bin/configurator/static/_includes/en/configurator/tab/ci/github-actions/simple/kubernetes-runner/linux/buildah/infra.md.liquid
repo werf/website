@@ -13,7 +13,7 @@
 
 ```shell
 sudo sysctl -w kernel.unprivileged_userns_clone=1
-echo 'kernel.unprivileged_userns_clone = 1' | sudo "tee -a /etc/sysctl.conf"
+echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf
 ```
 
 ### Install the GitHub Actions Runner Controller (ARC)
@@ -27,9 +27,54 @@ helm install arc \
   oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
 ```
 
-### Install the runner set
+### Create Kubernetes resources
 
-#### Configure runner values (`values.yaml`)
+```shell
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: job-template-gha-runner-werf
+  namespace: arc-runners
+data:
+  content: |
+    spec:
+      serviceAccountName: arc-runner-sa
+      securityContext:
+        runAsUser: 1001
+      containers:
+        - name: \$job
+EOF
+```
+
+```shell
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: arc-runner-sa
+  namespace: arc-runners
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: arc-runner-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: arc-runner-sa
+    namespace: arc-runners
+EOF
+
+```
+
+> **Note**
+> For greater security, consider creating a more restricted ClusterRole/Role and using it instead of the `cluster-admin` cluster role above.
+
+### Deploy
 
 Create a file `values.yaml` with the following content:
 
@@ -87,55 +132,6 @@ job:
     limits:
       memory: 2048Mi
 ```
-
-#### Create Kubernetes resources
-
-```shell
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: job-template-gha-runner-werf
-  namespace: arc-runners
-data:
-  content: |
-    spec:
-      serviceAccountName: arc-runner-sa
-      securityContext:
-        runAsUser: 1001
-      containers:
-        - name: \$job
-EOF
-```
-
-```shell
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: arc-runner-sa
-  namespace: arc-runners
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: arc-runner-cluster-admin
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-  - kind: ServiceAccount
-    name: arc-runner-sa
-    namespace: arc-runners
-EOF
-
-```
-
-> **Note**
-> For greater security, consider creating a more restricted ClusterRole/Role and using it instead of the `cluster-admin` cluster role above.
-
-#### Deploy
 
 ```shell
 helm install arc-runner-set -f values.yaml \

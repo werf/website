@@ -12,7 +12,7 @@
 ### Включите поддержку непривилегированных пространств имён пользователей (требуется на worker-нодах)
 
 ```shell
-sudo sysctl -w kernel.unprivileged_userns_clone=1
+echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf
 ```
 
 ### Установка контроллера GitHub Actions Runner (ARC)
@@ -25,9 +25,54 @@ helm install arc \
   --create-namespace \
   oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
 ```
-### Установка набора раннеров
 
-#### Настройка значений для раннеров (`values.yaml`)
+### Создание Kubernetes ресурсов
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: job-template-gha-runner-werf
+  namespace: arc-runners
+data:
+  content: |
+    spec:
+      serviceAccountName: arc-runner-sa
+      securityContext:
+        runAsUser: 1001
+      containers:
+        - name: \$job
+EOF
+```
+
+```shell
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: arc-runner-sa
+  namespace: arc-runners
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: arc-runner-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: arc-runner-sa
+    namespace: arc-runners
+EOF
+```
+
+> **Примечание**
+> Для повышения безопасности рекомендуется создать более ограниченную роль (ClusterRole/Role) и использовать её вместо `cluster-admin`.
+
+### Развертывание
 
 Создайте файл `values.yaml` со следующим содержимым:
 
@@ -85,54 +130,6 @@ job:
     limits:
       memory: 2048Mi
 ```
-
-#### Создание Kubernetes ресурсов
-
-```bash
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: job-template-gha-runner-werf
-  namespace: arc-runners
-data:
-  content: |
-    spec:
-      serviceAccountName: arc-runner-sa
-      securityContext:
-        runAsUser: 1001
-      containers:
-        - name: \$job
-EOF
-```
-
-```shell
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: arc-runner-sa
-  namespace: arc-runners
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: arc-runner-cluster-admin
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-  - kind: ServiceAccount
-    name: arc-runner-sa
-    namespace: arc-runners
-EOF
-```
-
-> **Примечание**
-> Для повышения безопасности рекомендуется создать более ограниченную роль (ClusterRole/Role) и использовать её вместо `cluster-admin`.
-
-#### Развертывание
 
 ```shell
 helm install arc-runner-set -f values.yaml \
