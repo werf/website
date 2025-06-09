@@ -12,6 +12,7 @@
 ### Включите поддержку непривилегированных пространств имён пользователей (требуется на worker-нодах)
 
 ```shell
+sudo sysctl -w kernel.unprivileged_userns_clone=1
 echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf
 ```
 
