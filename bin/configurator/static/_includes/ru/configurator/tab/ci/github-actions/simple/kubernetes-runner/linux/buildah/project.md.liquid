@@ -1,0 +1,37 @@
+### Требования
+
+* Self-hosted GitHub runner.
+
+### Настройка проекта GitHub
+
+* [Создайте и сохраните access token](https://docs.github.com/ru/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) для очистки ненужных образов из container registry со следующей конфигурацией:
+
+  * Token name: `werf-images-cleanup`;
+
+  * Scopes: `read:packages` и `delete:packages`.
+
+* В [секреты](https://docs.github.com/ru/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) проекта добавьте следующую переменную:
+
+  * Access token для очистки ненужных образов:
+
+    * Name: `REGISTRY_CLEANUP_TOKEN`;
+
+    * Secret: `<сохранённый "werf-images-cleanup" access token>`.
+
+* Сохраните kubeconfig-файл для доступа к Kubernetes-кластеру [в зашифрованный секрет](https://docs.github.com/ru/actions/security-guides/encrypted-secrets) `KUBECONFIG_BASE64`, предварительно закодировав его в Base64.
+
+### Конфигурация CI/CD проекта
+
+Так может выглядеть репозиторий, использующий werf для сборки и развертывания:
+
+{% tree_file_viewer '/examples/configurator/ci-cd/simple/github-actions/kubernetes-runner/linux/buildah' default_file='.github/workflows/prod.yml' %}
+
+Дополнительно:
+
+  * Если вы не используете GitHub Container Registry в качестве реестра контейнеров, выполните следующие действия:
+
+    * Установите переменную окружения `WERF_REPO` в адрес вашего реестра контейнеров;
+    * Выполните вход в реестр с помощью команды [werf cr login]({{ "/docs/reference/cli/werf_cr_login.html" | relative_url }});
+    * При выполнении очистки обязательно ознакомьтесь с [особенностями работы]({{ "/docs/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }}) выбранного реестра, которые могут повлиять на поведение очистки.
+
+  * Подробнее о подключении к Kubernetes смотрите в [документации по аутентификации]({{ "/docs/v2/usage/deploy/authentication.html" | relative_url }}).
