@@ -29,10 +29,16 @@ Choose the way you will install Kubernetes in your operating system:
 
 ## Testing
 
+Execute the following command to port-forward the NGINX Ingress Controller service:
+
+```shell
+kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
+```
+
 Execute the following command to check if the cluster is up and running:
 
 ```shell
-curl http://werf-guide-app.test/ping
+curl http://werf-guide-app.test:8080/ping
 ```
 
 If it works, the NGINX Ingress Controller will return a 404 error:

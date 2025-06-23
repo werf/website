@@ -34,7 +34,18 @@ werf converge --repo <DOCKER HUB USERNAME>/werf-guide-app
 You should see the following output:
 {% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/025_expected_result.md.liquid %}
 
-Let's check whether our application works:
+Before checking whether our application works, **start a tunnel** to expose the Ingress controller:
+
+```bash
+minikube tunnel
+```
+
+> **NOTE:** `minikube tunnel` is required when your NGINX Ingress Controller service is of type `LoadBalancer`.
+> It creates a network route on your machine so that you can access services as if they had external IP addresses.
+> Make sure to keep the terminal running this command open while you work with the application.
+
+Now, you can check whether the application works:
+
 ```shell
 curl http://werf-guide-app.test/ping
 ```
