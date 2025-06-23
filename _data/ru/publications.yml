@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Что нужно знать про использование werf при развёртывании гибридного приложения: личный опыт"
+    habr_url: "https://habr.com/ru/companies/flant/articles/914060/"
+    img: "/assets/images/publications/ru_100625.png"
+    created: 2025-06-10
+    comment: |
+      <p>Автор статьи — мобильный разработчик, который сам поднял инфраструктуру для стартапа на одной небольшой виртуалке. Вы узнаете, как он выбрал и внедрил werf, какие проблемы решал с помощью SOPS, как организовал хранение и шифрование секретов, и почему GitOps стал для него спасением.</p>
   - title: "Миграция с legacy: как werf упростил переезд на Kubernetes и ускорил CI/CD"
     habr_url: "https://habr.com/ru/companies/flant/articles/910860/"
     img: "/assets/images/publications/ru_210525.png"
