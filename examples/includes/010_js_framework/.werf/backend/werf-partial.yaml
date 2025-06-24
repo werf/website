@@ -1,0 +1,2 @@
+image: backend
+dockerfile: backend.Dockerfile

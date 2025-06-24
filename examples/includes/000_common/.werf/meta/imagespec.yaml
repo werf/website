@@ -1,0 +1,4 @@
+clearHistory: true
+config:
+  labels:
+    example.io/app: typical-app

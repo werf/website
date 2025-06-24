@@ -1,0 +1,15 @@
+project: typical-app
+configVersion: 1
+build:
+  platform:
+    - linux/amd64
+  imageSpec:
+{{ .Files.Get ".werf/meta/imagespec.yaml" | indent 4 }}
+cleanup:
+{{ .Files.Get ".werf/meta/cleanup.yaml" | indent 2 }}
+
+---
+{{ range $path, $content := .Files.Glob "**/werf-partial.yaml" }}
+{{ tpl $content $ }}
+---
+{{ end }}

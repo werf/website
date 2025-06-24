@@ -1,0 +1,6 @@
+image: frontend
+from: nginx:alpine
+git:
+- add: /frontend/index.html
+  to: /usr/share/nginx/html/index.html
+
