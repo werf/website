@@ -1,0 +1,9 @@
+includes:
+  - git: https://github.com/werf/website
+    commit: 6301a5bfcbb04984e558c26cdce74f9ae6ac1c46
+    add: /
+    to: /
+  - git: https://github.com/werf/website
+    commit: 6301a5bfcbb04984e558c26cdce74f9ae6ac1c46
+    add: /
+    to: /
