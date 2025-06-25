@@ -30,6 +30,14 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/015_expected_result.md.liquid %}
 
+Перед тем как получить доступ к приложению, запустите Minikube tunnel, чтобы открыть доступ к Ingress Controller извне:
+
+```shell
+minikube tunnel
+```
+
+Оставьте этот терминал открытым, пока используете приложение. Эта команда создаёт маршрут на вашей машине для доступа к сервису LoadBalancer внутри Minikube.
+
 Откроем в браузере [http://werf-guide-app.test/image](http://werf-guide-app.test/image) и нажмём на кнопку _Get image_. Ожидаемый результат:
 
 <!-- spell-check-ignore -->

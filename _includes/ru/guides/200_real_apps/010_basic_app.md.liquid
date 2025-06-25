@@ -33,7 +33,17 @@ werf converge --repo <ИМЯ ПОЛЬЗОВАТЕЛЯ DOCKER HUB>/werf-guide-app
 
 {% include guides/200_real_apps/010_basic_app/{{ page.framework_id }}/025_expected_result.md.liquid %}
 
-Проверим, действительно ли наше приложение работает:
+Прежде чем проверять, работает ли наше приложение, запустите туннель, чтобы открыть доступ к Ingress Controller:
+
+```shell
+minikube tunnel
+```
+
+> **Примечание:** `minikube tunnel` необходим, если ваш сервис NGINX Ingress Controller имеет тип `LoadBalancer`.
+> Эта команда создаёт маршрут на вашей машине, позволяя обращаться к сервисам так, как если бы у них были внешние IP-адреса.
+> Обязательно оставьте терминал с запущенной командой открытым, пока работаете с приложением.
+
+Теперь можно проверить, работает ли приложение:
 ```shell
 curl http://werf-guide-app.test/ping
 ```

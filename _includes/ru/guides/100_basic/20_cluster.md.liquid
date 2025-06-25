@@ -29,10 +29,16 @@
 
 ## Проверка
 
+Выполните следующую команду, чтобы пробросить порт сервиса NGINX Ingress Controller:
+
+```shell
+kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
+```
+
 Для проверки работоспособности выполните:
 
 ```shell
-curl http://werf-guide-app.test/ping
+curl http://werf-guide-app.test:8080/ping
 ```
 
 Если всё работает как надо, то NGINX Ingress Controller вернёт ошибку 404:
