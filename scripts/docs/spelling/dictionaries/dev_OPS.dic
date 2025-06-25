@@ -1,4 +1,4 @@
-509
+513
 1GB
 2GB
 5XX
@@ -118,6 +118,7 @@ initContainer
 initContainers
 io
 IP
+IPs
 ITNEXT
 javascript
 JPA
@@ -137,6 +138,7 @@ LF
 lifecycle
 linters
 livenessProbe
+LoadBalancer
 macOS
 manifest’s
 matchLabels
@@ -301,6 +303,7 @@ YouTube
 валидация
 версионирование
 версионированной
+виртуалке
 высокодоступных
 г
 гайд
@@ -466,6 +469,7 @@ YouTube
 Синхронизация
 сконвертировать
 скриптовом
+стартапа
 стимулирует
 Столярова
 сущностей
