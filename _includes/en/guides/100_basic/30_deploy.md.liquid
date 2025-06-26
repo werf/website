@@ -62,13 +62,24 @@ TEST SUITE: None
 Running time 62.66 seconds
 ```
 
-Now, if you make a request to the application:
-```shell
+Before making a request to the application, you need to start a tunnel to expose the Ingress controller’s service (of type `LoadBalancer`) to your local machine:
+
+```bash
+minikube tunnel
+```
+
+> **NOTE:** `minikube tunnel` works only with services of type `LoadBalancer`. It creates a network route on your machine that allows access to services inside Minikube as if they had external IPs.
+> Make sure to keep the terminal running this command open while you work with the application.
+
+Now you can send a request to your application using `curl`:
+
+```bash
 curl http://werf-guide-app.test/ping
 ```
 
-... you will get the following response:
-```shell
+If everything is set up correctly, you should receive a response like:
+
+```bash
 pong
 ```
 > Depending on your computer configuration and other factors, it may take some time (up to a minute) for the response to arrive.

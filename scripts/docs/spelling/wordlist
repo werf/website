@@ -117,6 +117,7 @@ initContainer
 initContainers
 io
 IP
+IPs
 ITNEXT
 javascript
 JPA
@@ -136,6 +137,7 @@ LF
 lifecycle
 linters
 livenessProbe
+LoadBalancer
 macOS
 manifest’s
 matchLabels
@@ -300,6 +302,7 @@ YouTube
 валидация
 версионирование
 версионированной
+виртуалке
 высокодоступных
 г
 гайд
@@ -461,10 +464,13 @@ YouTube
 сгенерированы
 сгенерировать
 сгенерируем
+сервисам
+сервисами
 сервисов
 Синхронизация
 сконвертировать
 скриптовом
+стартапа
 стимулирует
 Столярова
 сущностей

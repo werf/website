@@ -30,6 +30,14 @@ You should see the following output:
 
 {% include guides/200_real_apps/030_assets/{{ page.framework_id }}/015_expected_result.md.liquid %}
 
+Before accessing the application, start the Minikube tunnel to expose the Ingress controller externally:
+
+```shell
+minikube tunnel
+```
+
+Keep this terminal running while you use the application. This command creates a network route on your machine to access the LoadBalancer service inside Minikube.
+
 Go to [http://werf-guide-app.test/image](http://werf-guide-app.test/image) in your browser and click on the _Get image_ button. You should see the following output:
 
 <!-- spell-check-ignore -->
