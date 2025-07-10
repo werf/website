@@ -179,10 +179,6 @@ body,
     background-image: url('/assets/images/icons/discussions.svg');
 }
 
-.page__icon_stackoverflow {
-    background-image: url('/assets/images/icons/stackoverflow.svg');
-}
-
 .page__icon_block-title {
   width: 20px;
   height: 20px;
