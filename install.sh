@@ -442,7 +442,7 @@ append_line_to_file() {
   declare file="$2"
 
   create_file "$file"
-
+  echo >> "$file"
   declare append_cmd="tee -a '$file' <<< '$line' 1>/dev/null"
   [[ -w $file ]] || append_cmd="run_as_root '$append_cmd'"
   eval $append_cmd || abort "Can't append line \"$line\" to file \"$file\"."
