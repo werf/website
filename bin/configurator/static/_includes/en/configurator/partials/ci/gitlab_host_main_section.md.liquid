@@ -23,6 +23,42 @@ Follow [official instructions](https://docs.gitlab.com/runner/install/linux-repo
 
 {% if include.buildah == true %}
 {% include configurator/partials/ci/buildah_install.md.liquid %}
+{% offtopic title="Buildah authentication issue" %}
+
+Buildah may ignore Docker's standard authentication settings from `~/.docker/config.json` 
+and attempt to use default login credentials from `/run/containers/0/auth.json`, 
+resulting in the error:
+```bash
+Error: reading JSON file "/run/containers/0/auth.json": no such file or directory
+```
+
+**Solution**:
+
+1. Determine Buildah working directory:
+{% raw %}
+```bash
+RUNROOT=$(buildah info --format '{{.store.RunRoot}}')  # Typically: /run/user/$(id -u)/containers
+```
+{% endraw %}
+
+2. Manually copy Docker authentication settings:
+```bash
+cp ~/.docker/config.json "$RUNROOT/auth.json"
+```
+
+3. Configure GitHub Runner's systemd unit (replace `1000` with actual UID):
+```bash
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000  # Use: id -u <runner-user>
+```
+
+4. Apply changes:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart github-runner.service
+```
+
+{% endofftopic %}
 {% endif %}
 
 ### Installing werf

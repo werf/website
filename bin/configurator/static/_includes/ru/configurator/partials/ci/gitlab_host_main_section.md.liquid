@@ -23,6 +23,43 @@
 
 {% if include.buildah == true %}
 {% include configurator/partials/ci/buildah_install.md.liquid %}
+{% offtopic title="Проблема с аутентификацией Buildah" %}
+
+Buildah может игнорировать стандартные настройки аутентификации Docker из `~/.docker/config.json`  
+и пытаться использовать учетные данные по умолчанию из `/run/containers/0/auth.json`,  
+что приводит к ошибке:
+
+```bash
+Error: reading JSON file "/run/containers/0/auth.json": no such file or directory
+```
+
+**Решение**:
+
+1. Определяем рабочую директорию Buildah:
+{% raw %}
+```bash
+RUNROOT=$(buildah info --format '{{.store.RunRoot}}')  # Обычно: /run/user/$(id -u)/containers
+```
+{% endraw %}
+
+2. Копируем настройки аутентификации Docker вручную:
+```bash
+cp ~/.docker/config.json "$RUNROOT/auth.json"
+```
+
+3. Настраиваем systemd-юнит GitHub Runner (замените `1000` на реальный UID):
+```bash
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000  # Используйте: id -u <пользователь-runner>
+```
+
+4. Применяем изменения:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart github-runner.service
+```
+
+{% endofftopic %}
 {% endif %}
 
 ### Установка werf
