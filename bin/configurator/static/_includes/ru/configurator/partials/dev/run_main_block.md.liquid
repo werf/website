@@ -18,11 +18,11 @@
 Инициализируйте демо-проект на локальной машине:
 
 ```{{include.shell}}
-git clone https://github.com/werf/examples
+git clone https://github.com/werf/website
 {% if include.powershell == true %}
-cp -Recurse -Force examples/local-dev example
+cp -Recurse -Force website/examples/configurator/local-dev example
 {% else %}
-cp -rf examples/local-dev example
+cp -rf website/examples/configurator/local-dev example
 {% endif %}
 cd example
 git init
