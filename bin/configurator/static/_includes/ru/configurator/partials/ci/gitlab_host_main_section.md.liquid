@@ -23,7 +23,7 @@
 
 {% if include.buildah == true %}
 {% include configurator/partials/ci/buildah_install.md.liquid %}
-{% offtopic title="Проблема с аутентификацией Buildah" %}
+{% offtopic title="Возможная ошибка: reading JSON file /run/containers/0/auth.json: no such file or directory" %}
 
 Buildah может игнорировать стандартные настройки аутентификации Docker из `~/.docker/config.json`  
 и пытаться использовать учетные данные по умолчанию из `/run/containers/0/auth.json`,  

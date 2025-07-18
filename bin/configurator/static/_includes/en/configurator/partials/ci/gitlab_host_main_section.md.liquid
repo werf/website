@@ -23,7 +23,7 @@ Follow [official instructions](https://docs.gitlab.com/runner/install/linux-repo
 
 {% if include.buildah == true %}
 {% include configurator/partials/ci/buildah_install.md.liquid %}
-{% offtopic title="Buildah authentication issue" %}
+{% offtopic title="Possible error: reading JSON file /run/containers/0/auth.json: no such file or directory" %}
 
 Buildah may ignore Docker's standard authentication settings from `~/.docker/config.json` 
 and attempt to use default login credentials from `/run/containers/0/auth.json`, 
