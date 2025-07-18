@@ -88,6 +88,7 @@ EOF
 Вот как может выглядеть репозиторий, использующий werf для сборки и развертывания:
 
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/kubernetes-runner/linux/buildah" %}
 
 Дополнительно:
   * Добавьте параметры авторизации для `werf cleanup` в container registry, следуя [инструкции]({{ "/docs/v2/usage/cleanup/cr_cleanup.html#features-of-working-with-different-container-registries" | relative_url }});
