@@ -1,4 +1,4 @@
-515
+519
 1GB
 2GB
 5XX
@@ -15,6 +15,7 @@ apps
 Assumenda
 async
 au
+auth
 autoscaler
 autoscaling
 AWS
@@ -238,6 +239,7 @@ subGIDs
 subUID
 subUIDs
 SVG
+systemd
 targetRef
 Taskfile
 TBH
@@ -253,6 +255,7 @@ Tproger
 trdl
 txt
 Ubuntu
+UID
 uninstall
 uptick
 username
@@ -515,3 +518,4 @@ YouTube
 шаблонизироваться
 штатно
 ы
+юнит
