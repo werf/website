@@ -35,7 +35,6 @@ tasks:
 
   lint:
     desc: 'Run all linters'
-    run: once
     cmds:
       - task: backend:lint:golangci-lint
       - task: configurator:lint
