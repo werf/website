@@ -2,6 +2,21 @@ version: "3"
 
 silent: true
 
+includes:
+  backend: 
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.format_lint.yml
+    dir: ./backend
+    vars:
+      paths: "."
+  configurator:
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.format_lint.yml
+    dir: ./bin/configurator
+    vars:
+      paths: "."
+  deps:
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.deps.yml
+    flatten: true
+
 env: {}
 
 vars:
@@ -13,20 +28,17 @@ tasks:
 
   format:
     desc: 'Run all code formatters. Important vars: "paths".'
+    cmds:
+      - task: backend:format:gci
+      - task: backend:format:gofumpt
+      - task: configurator:format
+
+  lint:
+    desc: 'Run all linters'
     run: once
     cmds:
-      - task: format:gci
-      - task: format:gofumpt
-
-  format:gci:
-    desc: 'Format code with gci. Important vars: "paths".'
-    cmds:
-      - gci write -s Standard -s Default {{.CLI_ARGS}} {{.paths | default "bin/"}}
-
-  format:gofumpt:
-    desc: 'Format code with gofumpt. Important vars: "paths".'
-    cmds:
-      - gofumpt -extra -w {{.CLI_ARGS}} {{.paths | default "bin/"}}
+      - task: backend:lint:golangci-lint
+      - task: configurator:lint
 
  # TODO: specify target framework
   gen:pages:

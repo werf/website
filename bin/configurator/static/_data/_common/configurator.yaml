@@ -2,197 +2,197 @@
 # Change names there when changing names in this file.
 
 groups:
-- name: "usage"
-  title:
-    en: Usage scenario
-    ru: Сценарий использования
-  tooltip:
-    en: |
-      Use werf for CI/CD inside of a CI system or locally for development.
-    ru: |
-      Использовать werf для построения CI/CD в рамках CI-системы или локально для разработки.
-  buttons:
-    - name: "ci"
-      title:
-        en: CI/CD
-        ru: CI/CD
-    - name: "localDev"
-      title:
-        en: Local development
-        ru: Локальная разработка
+  - name: "usage"
+    title:
+      en: Usage scenario
+      ru: Сценарий использования
+    tooltip:
+      en: |
+        Use werf for CI/CD inside of a CI system or locally for development.
+      ru: |
+        Использовать werf для построения CI/CD в рамках CI-системы или локально для разработки.
+    buttons:
+      - name: "ci"
+        title:
+          en: CI/CD
+          ru: CI/CD
+      - name: "localDev"
+        title:
+          en: Local development
+          ru: Локальная разработка
 
-- name: "version"
-  title:
-    en: Version
-    ru: Версия
-  buttons:
-    - name: "2"
-      title:
-        en: "2"
-        ru: "2"
+  - name: "version"
+    title:
+      en: Version
+      ru: Версия
+    buttons:
+      - name: "2"
+        title:
+          en: "2"
+          ru: "2"
 
-- name: "channel"
-  title:
-    en: Stability channel
-    ru: Канал обновлений
-  tooltip:
-    en: |
-      All changes in werf go through all release channels. <a href='/about/release_channels.html' class='installation__release-channels--link'>Learn more</a>
-    ru: |
-      Все изменения в werf проходят через цепочку каналов обновлений. <a href='/about/release_channels.html' class='installation__release-channels--link'>Узнать подробнее</a>
-  buttons:
-    - name: "rockSolid"
-      title:
-        en: "Rock-Solid"
-        ru: "Rock-Solid"
-    - name: "stable"
-      title:
-        en: "Stable"
-        ru: "Stable"
-    - name: "earlyAccess"
-      title:
-        en: "Early-Access"
-        ru: "Early-Access"
-    - name: "beta"
-      title:
-        en: "Beta"
-        ru: "Beta"
-    - name: "alpha"
-      title:
-        en: "Alpha"
-        ru: "Alpha"
+  - name: "channel"
+    title:
+      en: Stability channel
+      ru: Канал обновлений
+    tooltip:
+      en: |
+        All changes in werf go through all release channels. <a href='/about/release_channels.html' class='installation__release-channels--link'>Learn more</a>
+      ru: |
+        Все изменения в werf проходят через цепочку каналов обновлений. <a href='/about/release_channels.html' class='installation__release-channels--link'>Узнать подробнее</a>
+    buttons:
+      - name: "rockSolid"
+        title:
+          en: "Rock-Solid"
+          ru: "Rock-Solid"
+      - name: "stable"
+        title:
+          en: "Stable"
+          ru: "Stable"
+      - name: "earlyAccess"
+        title:
+          en: "Early-Access"
+          ru: "Early-Access"
+      - name: "beta"
+        title:
+          en: "Beta"
+          ru: "Beta"
+      - name: "alpha"
+        title:
+          en: "Alpha"
+          ru: "Alpha"
 
-- name: "buildBackend"
-  title:
-    en: "Image builder"
-    ru: "Сборщик образов"
-  tooltip:
-    en: |
-      Image builder backend variant.
-    ru: |
-      Вариант подсистемы сборщика образов.
-  buttons:
-    - name: "docker"
-      title:
-        en: "Docker"
-        ru: "Docker"
-    - name: "buildah"
-      title:
-        en: "Buildah"
-        ru: "Buildah"
+  - name: "buildBackend"
+    title:
+      en: "Image builder"
+      ru: "Сборщик образов"
+    tooltip:
+      en: |
+        Image builder backend variant.
+      ru: |
+        Вариант подсистемы сборщика образов.
+    buttons:
+      - name: "docker"
+        title:
+          en: "Docker"
+          ru: "Docker"
+      - name: "buildah"
+        title:
+          en: "Buildah"
+          ru: "Buildah"
 
-- name: "ci"
-  title:
-    en: "CI/CD system"
-    ru: "CI/CD-система"
-  buttons:
-    - name: "githubActions"
-      title:
-        en: "GitHub Actions"
-        ru: "GitHub Actions"
-    - name: "gitlabCiCd"
-      title:
-        en: "GitLab CI/CD"
-        ru: "GitLab CI/CD"
-    - name: "otherCiCdSystem"
-      title:
-        en: "Other CI/CD"
-        ru: "Другая CI/CD"
-        page-name:
-          en: "other CI/CD"
-          ru: "другой CI/CD"
-    - name: "argoCdWithGitlabCiCd"
-      title:
-        en: "Argo CD with GitLab CI/CD"
-        ru: "Argo CD с GitLab CI/CD"
+  - name: "ci"
+    title:
+      en: "CI/CD system"
+      ru: "CI/CD-система"
+    buttons:
+      - name: "githubActions"
+        title:
+          en: "GitHub Actions"
+          ru: "GitHub Actions"
+      - name: "gitlabCiCd"
+        title:
+          en: "GitLab CI/CD"
+          ru: "GitLab CI/CD"
+      - name: "otherCiCdSystem"
+        title:
+          en: "Other CI/CD"
+          ru: "Другая CI/CD"
+          page-name:
+            en: "other CI/CD"
+            ru: "другой CI/CD"
+      - name: "argoCdWithGitlabCiCd"
+        title:
+          en: "Argo CD with GitLab CI/CD"
+          ru: "Argo CD с GitLab CI/CD"
 
-- name: "runnerType"
-  title:
-    en: "CI runner type"
-    ru: "Тип CI-раннера"
-  buttons:
-    - name: "hostRunner"
-      title:
-        en: "Host"
-        ru: "Host"
-    - name: "dockerRunner"
-      title:
-        en: "Docker"
-        ru: "Docker"
-    - name: "kubernetesRunner"
-      title:
-        en: "Kubernetes"
-        ru: "Kubernetes"
+  - name: "runnerType"
+    title:
+      en: "CI runner type"
+      ru: "Тип CI-раннера"
+    buttons:
+      - name: "hostRunner"
+        title:
+          en: "Host"
+          ru: "Host"
+      - name: "dockerRunner"
+        title:
+          en: "Docker"
+          ru: "Docker"
+      - name: "kubernetesRunner"
+        title:
+          en: "Kubernetes"
+          ru: "Kubernetes"
 
-- name: "os"
-  title:
-    en: "Operating System"
-    ru: "Операционная система"
-  buttons:
-    - name: "linux"
-      title:
-        en: "Linux"
-        ru: "Linux"
-    - name: "macos"
-      title:
-        en: "macOS"
-        ru: "macOS"
-    - name: "windows"
-      title:
-        en: "Windows"
-        ru: "Windows"
+  - name: "os"
+    title:
+      en: "Operating System"
+      ru: "Операционная система"
+    buttons:
+      - name: "linux"
+        title:
+          en: "Linux"
+          ru: "Linux"
+      - name: "macos"
+        title:
+          en: "macOS"
+          ru: "macOS"
+      - name: "windows"
+        title:
+          en: "Windows"
+          ru: "Windows"
 
-- name: "projectType"
-  title:
-    en: "CI/CD best practices"
-    ru: "Лучшие практики CI/CD"
-  buttons:
-    - name: "simplified"
-      title:
-        en: "No"
-        ru: "Нет"
-    - name: "bestPractice"
-      title:
-        en: "Yes"
-        ru: "Да"
+  - name: "projectType"
+    title:
+      en: "CI/CD best practices"
+      ru: "Лучшие практики CI/CD"
+    buttons:
+      - name: "simplified"
+        title:
+          en: "No"
+          ru: "Нет"
+      - name: "bestPractice"
+        title:
+          en: "Yes"
+          ru: "Да"
 
-- name: "sharedCICD"
-  title:
-    en: "Shared CI/CD"
-    ru: "Общий CI/CD"
-  tooltip:
-    en: |
-      Extract common CI/CD parts to the shared CI/CD repo or keep separate, independent CI/CD for each application.
-    ru: |
-      Выносить ли переиспользуемые части CI/CD в отдельный репозиторий или иметь отдельный, независимый CI/CD для каждого приложения.
-  buttons:
-    - name: "no"
-      title:
-        en: "No"
-        ru: "Нет"
-    - name: "yes"
-      title:
-        en: "Yes"
-        ru: "Да"
+  - name: "sharedCICD"
+    title:
+      en: "Shared CI/CD"
+      ru: "Общий CI/CD"
+    tooltip:
+      en: |
+        Extract common CI/CD parts to the shared CI/CD repo or keep separate, independent CI/CD for each application.
+      ru: |
+        Выносить ли переиспользуемые части CI/CD в отдельный репозиторий или иметь отдельный, независимый CI/CD для каждого приложения.
+    buttons:
+      - name: "no"
+        title:
+          en: "No"
+          ru: "Нет"
+      - name: "yes"
+        title:
+          en: "Yes"
+          ru: "Да"
 
-- name: "repoType"
-  title:
-    en: "Repository type"
-    ru: "Тип репозитория"
-  tooltip:
-    en: |
-      Repository type: either a repository with one/few interdependent applications, or with many applications (monorepo). You might have different repositories with different types, then switch the type to the appropriate one while setting up the particular repository.
-    ru: |
-      Тип репозитория: либо репозиторий с одним/несколькими взаимосвязанными приложениями, либо со множеством приложений (монорепо). Вы можете иметь несколько репозиториев разных типов, в таком случае меняйте тип на соответствующий, когда настраиваете CI/CD для конкретного репозитория.
-  buttons:
-    - name: "application"
-      title:
-        en: "One/few applications"
-        ru: "Одно/несколько приложений"
-    - name: "monorepo"
-      title:
-        en: "Monorepo"
-        ru: "Монорепо"
+  - name: "repoType"
+    title:
+      en: "Repository type"
+      ru: "Тип репозитория"
+    tooltip:
+      en: |
+        Repository type: either a repository with one/few interdependent applications, or with many applications (monorepo). You might have different repositories with different types, then switch the type to the appropriate one while setting up the particular repository.
+      ru: |
+        Тип репозитория: либо репозиторий с одним/несколькими взаимосвязанными приложениями, либо со множеством приложений (монорепо). Вы можете иметь несколько репозиториев разных типов, в таком случае меняйте тип на соответствующий, когда настраиваете CI/CD для конкретного репозитория.
+    buttons:
+      - name: "application"
+        title:
+          en: "One/few applications"
+          ru: "Одно/несколько приложений"
+      - name: "monorepo"
+        title:
+          en: "Monorepo"
+          ru: "Монорепо"
 
 tabs:
   - name: "infra"

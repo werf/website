@@ -14,7 +14,6 @@ type responseWriter struct {
 	http.ResponseWriter
 	status      int
 	wroteHeader bool
-	header      string
 }
 
 func wrapResponseWriter(w http.ResponseWriter) *responseWriter {
@@ -39,7 +38,6 @@ func (rw *responseWriter) WriteHeader(code int) {
 
 // Logs the incoming HTTP request and part of response
 func LoggingMiddleware(next http.Handler) http.Handler {
-
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
