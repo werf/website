@@ -4,12 +4,14 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"net/url"
 	"os"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -529,9 +531,10 @@ func validateURL(url string) (err error) {
 		return nil
 	}
 
-	var resp *http.Response
 	allowedStatusCodes := []int{200, 401}
 	tries := 3
+	redirectHistory := make(map[string]bool)
+
 	client := &http.Client{
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
@@ -550,36 +553,52 @@ func validateURL(url string) (err error) {
 		},
 	}
 
-	for {
-		resp, err = client.Get(url)
-		if err != nil {
-			log.Tracef("Error while getting %v: %v", url, err)
-			break
-		}
-		defer resp.Body.Close()
-		log.Tracef("Validating %v (tries-%v):\nStatus - %v\nHeader - %+v,", url, tries, resp.Status, resp.Header)
-		if err == nil && (resp.StatusCode == 301 || resp.StatusCode == 302) {
-			if len(resp.Header.Get("Location")) > 0 {
-				url = resp.Header.Get("Location")
-			} else {
-				tries = 0
-			}
-			tries--
-		} else {
-			tries = 0
-		}
-		if tries < 1 {
-			break
-		}
+	isAllowed := func(status int) bool {
+		return slices.Contains(allowedStatusCodes, status)
 	}
 
-	if err == nil {
-		place := sort.SearchInts(allowedStatusCodes, resp.StatusCode)
-		if place >= len(allowedStatusCodes) {
-			err = errors.New(fmt.Sprintf("%s is not valid", url))
+	var resp *http.Response
+
+	for tries > 0 {
+		if redirectHistory[url] {
+			return fmt.Errorf("redirect loop detected for %s", url)
 		}
+		redirectHistory[url] = true
+
+		resp, err = client.Get(url)
+		if err != nil {
+			log.Tracef("Error while getting %v: %v (tries left: %d)", url, err, tries-1)
+			tries--
+			if tries == 0 {
+				return err
+			}
+			continue
+		}
+
+		func() {
+			io.Copy(io.Discard, resp.Body)
+			defer resp.Body.Close()
+			log.Tracef("Validating %v (tries-%v):\nStatus - %v\nHeader - %+v", url, tries, resp.Status, resp.Header)
+		}()
+
+		if isAllowed(resp.StatusCode) {
+			return nil
+		}
+
+		if resp.StatusCode == 301 || resp.StatusCode == 302 {
+			if location := resp.Header.Get("Location"); location != "" {
+				url = location
+				tries--
+				if tries == 0 {
+					return fmt.Errorf("too many redirects for %s", url)
+				}
+				continue
+			}
+		}
+		return fmt.Errorf("%s returned invalid status code: %d", url, resp.StatusCode)
 	}
-	return
+
+	return fmt.Errorf("too many redirects for %s", url)
 }
 
 // Get update channel groups in a descending order.
