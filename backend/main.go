@@ -6,10 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"os/signal"
 	"regexp"
 	"strings"
-	"syscall"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -58,7 +56,6 @@ func newRouter() *mux.Router {
 }
 
 func main() {
-	var wait time.Duration
 	logLevel := os.Getenv("LOG_LEVEL")
 	if strings.ToLower(logLevel) == "debug" {
 		log.SetLevel(log.DebugLevel)
@@ -87,37 +84,13 @@ func main() {
 
 	defer graceful.Shutdown(terminationCtx, func(err error, exitCode int) {
 		shutdownCtx := context.WithoutCancel(terminationCtx)
-
-		if wait > 0 {
-			timeoutCtx, cancel := context.WithTimeout(shutdownCtx, wait)
-			defer cancel()
-			shutdownCtx = timeoutCtx
-		}
-
-		if shutdownErr := srv.Shutdown(shutdownCtx); shutdownErr != nil {
-			err = errors.Join(err, fmt.Errorf("server shutdown failed: %w", shutdownErr))
-		}
-
-		if err != nil {
-			log.Errorln("Shutdown errors:", err)
-			os.Exit(exitCode)
-		} else {
-			log.Infoln("Server gracefully stopped")
+		if err = errors.Join(err, srv.Shutdown(shutdownCtx)); err != nil {
+			log.Errorln(err)
 		}
 	})
 
-	go func() {
-		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Errorln("Server error:", err)
-			graceful.Terminate(terminationCtx, err, 1)
-		}
-	}()
-
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-	select {
-	case <-c:
-		graceful.Terminate(terminationCtx, nil, 0)
-	case <-terminationCtx.Done():
+	if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		log.Errorln("Server failed:", err)
+		graceful.Terminate(terminationCtx, err, 1)
 	}
 }
