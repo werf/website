@@ -526,14 +526,13 @@ func URLToVersion(version string) (result string) {
 	return
 }
 
-func validateURL(url string) (err error) {
+func validateURL(url string) error {
 	if strings.ToLower(os.Getenv("URL_VALIDATION")) == "false" {
 		return nil
 	}
 
 	allowedStatusCodes := []int{200, 401}
-	tries := 3
-	redirectHistory := make(map[string]bool)
+	maxRedirects := 10
 
 	client := &http.Client{
 		Transport: &http.Transport{
@@ -551,54 +550,33 @@ func validateURL(url string) (err error) {
 				InsecureSkipVerify: true,
 			},
 		},
-	}
-
-	isAllowed := func(status int) bool {
-		return slices.Contains(allowedStatusCodes, status)
-	}
-
-	var resp *http.Response
-
-	for tries > 0 {
-		if redirectHistory[url] {
-			return fmt.Errorf("redirect loop detected for %s", url)
-		}
-		redirectHistory[url] = true
-
-		resp, err = client.Get(url)
-		if err != nil {
-			log.Tracef("Error while getting %v: %v (tries left: %d)", url, err, tries-1)
-			tries--
-			if tries == 0 {
-				return err
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			if len(via) >= maxRedirects {
+				return fmt.Errorf("stopped after %d redirects", len(via))
 			}
-			continue
-		}
-
-		func() {
-			io.Copy(io.Discard, resp.Body)
-			defer resp.Body.Close()
-			log.Tracef("Validating %v (tries-%v):\nStatus - %v\nHeader - %+v", url, tries, resp.Status, resp.Header)
-		}()
-
-		if isAllowed(resp.StatusCode) {
 			return nil
-		}
+		},
+	}
 
-		if resp.StatusCode == 301 || resp.StatusCode == 302 {
-			if location := resp.Header.Get("Location"); location != "" {
-				url = location
-				tries--
-				if tries == 0 {
-					return fmt.Errorf("too many redirects for %s", url)
-				}
-				continue
-			}
+	resp, err := client.Get(url)
+	if err != nil {
+		if strings.Contains(err.Error(), "stopped after") {
+			return fmt.Errorf("too many redirects for %s", url)
 		}
+		return err
+	}
+	defer func() {
+		io.Copy(io.Discard, resp.Body)
+		resp.Body.Close()
+	}()
+
+	log.Tracef("Validating %v:\nStatus - %v\nHeader - %+v", url, resp.Status, resp.Header)
+
+	if !slices.Contains(allowedStatusCodes, resp.StatusCode) {
 		return fmt.Errorf("%s returned invalid status code: %d", url, resp.StatusCode)
 	}
 
-	return fmt.Errorf("too many redirects for %s", url)
+	return nil
 }
 
 // Get update channel groups in a descending order.
