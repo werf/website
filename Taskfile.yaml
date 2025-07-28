@@ -3,7 +3,7 @@ version: "3"
 silent: true
 
 includes:
-  backend: 
+  backend:
     taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.format_lint.yml
     dir: ./backend
     vars:
@@ -16,7 +16,8 @@ includes:
   deps:
     taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.deps.yml
     flatten: true
-
+  website:
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.format_lint.yml
 env: {}
 
 vars:
@@ -25,21 +26,21 @@ vars:
   framework_template_dir: "_pages/guides/framework_id"
 
 tasks:
-
   format:
     desc: 'Run all code formatters. Important vars: "paths".'
     cmds:
-      - task: backend:format:gci
-      - task: backend:format:gofumpt
+      - task: backend:format
       - task: configurator:format
+      - task: website:format:prettier
 
   lint:
-    desc: 'Run all linters'
+    desc: "Run all linters"
     cmds:
-      - task: backend:lint:golangci-lint
+      - task: backend:lint
       - task: configurator:lint
+      - task: website:lint:prettier
 
- # TODO: specify target framework
+  # TODO: specify target framework
   gen:pages:
     desc: "Generate pages for all existing frameworks using framework_id folder as the source data"
     cmds:
@@ -64,7 +65,7 @@ tasks:
       - |
         # FIXME: this page not available for other frameworks and languages yet
         git checkout pages_ru/guides/rails/200_real_apps/60_cron.md
-        
+
   gen:demo:
     desc: "Generate asciinema werf demos"
     cmds:
