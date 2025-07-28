@@ -82,7 +82,7 @@ func main() {
 	ctx := graceful.WithTermination(context.Background())
 
 	defer graceful.Shutdown(ctx, func(err error, exitCode int) {
-		if err = errors.Join(err, srv.Shutdown(ctx)); err != nil {
+		if err = errors.Join(err, srv.Shutdown(context.Background())); err != nil {
 			log.Errorln(err)
 		}
 	})
