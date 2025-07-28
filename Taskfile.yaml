@@ -16,6 +16,8 @@ includes:
   deps:
     taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.deps.yml
     flatten: true
+    vars:
+      paths: "backend"
   website:
     taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/chore/taskfile/add-taskfile/Taskfile.format_lint.yml
 env: {}
