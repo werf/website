@@ -80,17 +80,14 @@ func main() {
 		IdleTimeout:  60 * time.Second,
 	}
 
-	terminationCtx := graceful.WithTermination(context.Background())
-
-	defer graceful.Shutdown(terminationCtx, func(err error, exitCode int) {
-		shutdownCtx := context.WithoutCancel(terminationCtx)
-		if err = errors.Join(err, srv.Shutdown(shutdownCtx)); err != nil {
+	defer graceful.Shutdown(context.Background(), func(err error, exitCode int) {
+		if err = errors.Join(err, srv.Shutdown(context.Background())); err != nil {
 			log.Errorln(err)
 		}
 	})
 
 	if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Errorln("Server failed:", err)
-		graceful.Terminate(terminationCtx, err, 1)
+		graceful.Terminate(context.Background(), err, 1)
 	}
 }

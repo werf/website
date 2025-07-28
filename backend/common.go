@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -565,11 +564,7 @@ func validateURL(url string) error {
 		}
 		return err
 	}
-	defer func() {
-		io.Copy(io.Discard, resp.Body)
-		resp.Body.Close()
-	}()
-
+	resp.Body.Close()
 	log.Tracef("Validating %v:\nStatus - %v\nHeader - %+v", url, resp.Status, resp.Header)
 
 	if !slices.Contains(allowedStatusCodes, resp.StatusCode) {
