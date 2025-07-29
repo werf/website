@@ -48,28 +48,40 @@ This is how the repository that uses werf for build and deploy might look:
 
 {% if include.type == "docker-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/docker-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/simple/gitlab-ci-cd/docker-runner/linux/buildah" %}
 {% elsif include.type == "host-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/simple/gitlab-ci-cd/host-runner/linux/docker" %}
 {% elsif include.type == "host-linux-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/simple/gitlab-ci-cd/host-runner/linux/buildah" %}
 {% elsif include.type == "kubernetes-linux-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/gitlab-ci-cd/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/simple/gitlab-ci-cd/kubernetes-runner/linux/buildah" %}
 {% elsif include.type == "best-monorepo-linux-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/buildah" %}
 {% elsif include.type == "best-monorepo-linux-docker" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/host-runner/linux/docker" %}
 {% elsif include.type == "best-monorepo-kubernetes" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/kubernetes-runner/linux/buildah" %}
 {% elsif include.type == "best-monorepo-docker" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/docker-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/monorepo/docker-runner/linux/buildah" %}
 {% elsif include.type == "best-application-docker" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/docker-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/docker-runner/linux/buildah" %}
 {% elsif include.type == "best-application-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/host-runner/linux/buildah" %}
 {% elsif include.type == "best-application-host-docker" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/host-runner/linux/docker" %}
 {% elsif include.type == "best-application-kubernetes-buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/kubernetes-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/best-practice/with-per-repo-ci-cd/gitlab-ci-cd/app-repo/kubernetes-runner/linux/buildah" %}
 {% endif %}
 
 Extras:

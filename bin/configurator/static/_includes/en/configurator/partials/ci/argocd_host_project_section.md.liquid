@@ -89,8 +89,10 @@ This is what the repository that uses werf for building and deploying might look
 
 {% if include.type == "docker" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/host-runner/linux/docker' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/host-runner/linux/docker" %}
 {% elsif include.type == "buildah" %}
 {% tree_file_viewer '/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/host-runner/linux/buildah' default_file='.gitlab-ci.yml' %}
+{% include configurator/partials/ci/file_viewer_local_example.md.liquid path="website/examples/configurator/ci-cd/simple/argocd-with-gitlab-ci-cd/host-runner/linux/buildah" %}
 {% endif %}
 
 Extras:
