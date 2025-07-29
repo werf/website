@@ -7,6 +7,16 @@ ___
 
 - Install [werf](http://werf.io/docs/index.html).
 - Install [task](https://taskfile.dev/installation/).
+  - Before using Taskfile, set the environment variable:  
+    ```shell
+    export TASK_X_REMOTE_TASKFILES=1
+    ```
+    (Add this to your shell configuration file, e.g., `.bashrc` or `.zshrc`, for persistence.)
+  - To skip confirmation prompts when running tasks, use the `--yes` flag:  
+    ```shell
+    task --yes taskname
+    ```
+    Useful for automation or when you're sure the task should run without manual confirmation.
 
 ### Local development setup
 
