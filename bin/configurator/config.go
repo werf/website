@@ -119,7 +119,6 @@ func (options configCombinationOptions) GetTitle(lang string) string {
 	if err != nil {
 		log.Fatalf("Failed to open configurator.yaml file: %v", err)
 	}
-	defer file.Close()
 	confData, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Fatalf("Failed to open configurator.yaml file: %v", err)
@@ -129,6 +128,7 @@ func (options configCombinationOptions) GetTitle(lang string) string {
 	if err != nil {
 		log.Fatalf("Failed to unmarshal YAML data: %v", err)
 	}
+	defer file.Close()
 
 	var titles titlesStruct
 	titles.Ru = startPhraseRu
@@ -187,15 +187,6 @@ type configCombinationTab struct {
 	Name        string            `yaml:"name"`
 	IncludePath string            `yaml:"includePath"`
 	Params      map[string]string `yaml:"params,omitempty"`
-}
-
-func (c config) mustGetCombinationTree() optionTreeNode {
-	rootOption, err := c.getCombinationTree()
-	if err != nil {
-		panic(err)
-	}
-
-	return rootOption
 }
 
 type optionTreeNode struct {

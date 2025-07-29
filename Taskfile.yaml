@@ -2,6 +2,24 @@ version: "3"
 
 silent: true
 
+includes:
+  backend:
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/main/Taskfile.format_lint.yml
+    dir: ./backend
+    vars:
+      paths: "."
+  configurator:
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/main/Taskfile.format_lint.yml
+    dir: ./bin/configurator
+    vars:
+      paths: "."
+  deps:
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/main/Taskfile.deps.yml
+    flatten: true
+    vars:
+      paths: "backend"
+  website:
+    taskfile: https://raw.githubusercontent.com/werf/common-ci/refs/heads/main/Taskfile.format_lint.yml
 env: {}
 
 vars:
@@ -10,25 +28,21 @@ vars:
   framework_template_dir: "_pages/guides/framework_id"
 
 tasks:
-
   format:
     desc: 'Run all code formatters. Important vars: "paths".'
-    run: once
     cmds:
-      - task: format:gci
-      - task: format:gofumpt
+      - task: backend:format
+      - task: configurator:format
+      - task: website:format:prettier
 
-  format:gci:
-    desc: 'Format code with gci. Important vars: "paths".'
+  lint:
+    desc: "Run all linters"
     cmds:
-      - gci write -s Standard -s Default {{.CLI_ARGS}} {{.paths | default "bin/"}}
+      - task: backend:lint
+      - task: configurator:lint
+      - task: website:lint:prettier
 
-  format:gofumpt:
-    desc: 'Format code with gofumpt. Important vars: "paths".'
-    cmds:
-      - gofumpt -extra -w {{.CLI_ARGS}} {{.paths | default "bin/"}}
-
- # TODO: specify target framework
+  # TODO: specify target framework
   gen:pages:
     desc: "Generate pages for all existing frameworks using framework_id folder as the source data"
     cmds:
@@ -53,7 +67,7 @@ tasks:
       - |
         # FIXME: this page not available for other frameworks and languages yet
         git checkout pages_ru/guides/rails/200_real_apps/60_cron.md
-        
+
   gen:demo:
     desc: "Generate asciinema werf demos"
     cmds:
