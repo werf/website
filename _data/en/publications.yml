@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Nelm 1.0 released: Helm-chart compatible alternative to Helm 3"
+    medium_url: "https://blog.werf.io/nelm-cli-helm-compatible-alternative-5648b191f0af"
+    img: "/assets/images/publications/en_030425.png"
+    created: 2025-04-03
+    comment: |
+      <p>With its CLI tool released, Nelm is ready to be used for your Kubernetes deployments.</p>
   - title: "werf project turns 9!"
     medium_url: "https://blog.werf.io/werf-cncf-project-9-years-32f0ea7681ef"
     img: "/assets/images/publications/en_230125.png"
