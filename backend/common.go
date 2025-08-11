@@ -10,7 +10,6 @@ import (
 	"net/url"
 	"os"
 	"regexp"
-	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -292,6 +291,7 @@ func (m *versionMenuType) getChannelsFromGroup(releases *ReleasesStatusType, gro
 
 // Get channel and group for specified version
 func getChannelAndGroupFromVersion(releases *ReleasesStatusType, version string) (channel, group string) {
+
 	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)$`)
 	res := re.FindStringSubmatch(version)
 	if res != nil {
@@ -358,6 +358,7 @@ func getVersionFromGroup(releases *ReleasesStatusType, group string) (err error,
 	}
 
 	return errors.New(fmt.Sprintf("Can't get version for %s", group)), ""
+
 }
 
 // Add prefix 'v' to a version if it doesn't have yet
@@ -401,6 +402,7 @@ func getRootReleaseVersion() string {
 }
 
 func getRootRelease() (result string) {
+
 	if len(os.Getenv("ACTIVE_RELEASE")) > 0 {
 		result = os.Getenv("ACTIVE_RELEASE")
 	} else {
@@ -410,9 +412,18 @@ func getRootRelease() (result string) {
 	return
 }
 
+func getPage(filename string) ([]byte, error) {
+	body, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
 // Get the full page URL menu requested for
 // E.g /docs/v1.2.3/reference/build_process.html
 func getCurrentPageURL(r *http.Request) (result string) {
+
 	originalURI, err := url.Parse(r.Header.Get("x-original-uri"))
 	if err != nil {
 		return
@@ -423,6 +434,7 @@ func getCurrentPageURL(r *http.Request) (result string) {
 	} else {
 		return originalURI.Path
 	}
+
 }
 
 // Get page URL menu requested for without a leading version suffix
@@ -466,6 +478,7 @@ func getDocPageURLRelative(r *http.Request, useURI ...bool) (result string) {
 func getVersionURL(r *http.Request) (result string) {
 	URLtoParse := ""
 	originalURI, err := url.Parse(r.Header.Get("x-original-uri"))
+
 	if err != nil {
 		return
 	}
@@ -487,6 +500,29 @@ func getVersionURL(r *http.Request) (result string) {
 	}
 
 	return strings.TrimPrefix(result, "/")
+}
+
+func inspectRequest(r *http.Request) string {
+	var request []string
+
+	url := fmt.Sprintf("%v %v %v", r.Method, r.URL, r.Proto)
+	request = append(request, url)
+	request = append(request, fmt.Sprintf("Host: %v", r.Host))
+	for name, headers := range r.Header {
+		name = strings.ToLower(name)
+		for _, h := range headers {
+			request = append(request, fmt.Sprintf("%v: %v", name, h))
+		}
+	}
+
+	// If this is a POST, add post data
+	if r.Method == "POST" {
+		_ = r.ParseForm()
+		request = append(request, "\n")
+		request = append(request, r.Form.Encode())
+	}
+
+	return strings.Join(request, "\n")
 }
 
 func inspectRequestHTML(r *http.Request) string {
@@ -525,14 +561,14 @@ func URLToVersion(version string) (result string) {
 	return
 }
 
-func validateURL(url string) error {
+func validateURL(URL string) (err error) {
 	if strings.ToLower(os.Getenv("URL_VALIDATION")) == "false" {
 		return nil
 	}
 
+	var resp *http.Response
 	allowedStatusCodes := []int{200, 401}
-	maxRedirects := 10
-
+	tries := 3
 	client := &http.Client{
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
@@ -549,29 +585,33 @@ func validateURL(url string) error {
 				InsecureSkipVerify: true,
 			},
 		},
-		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			if len(via) >= maxRedirects {
-				return fmt.Errorf("stopped after %d redirects", len(via))
+	}
+
+	for {
+		resp, err = client.Get(URL)
+		log.Tracef("Validating %v (tries-%v):\nStatus - %v\nHeader - %+v,", URL, tries, resp.Status, resp.Header)
+		if err == nil && (resp.StatusCode == 301 || resp.StatusCode == 302) {
+			if len(resp.Header.Get("Location")) > 0 {
+				URL = resp.Header.Get("Location")
+			} else {
+				tries = 0
 			}
-			return nil
-		},
-	}
-
-	resp, err := client.Get(url)
-	if err != nil {
-		if strings.Contains(err.Error(), "stopped after") {
-			return fmt.Errorf("too many redirects for %s", url)
+			tries--
+		} else {
+			tries = 0
 		}
-		return err
-	}
-	resp.Body.Close()
-	log.Tracef("Validating %v:\nStatus - %v\nHeader - %+v", url, resp.Status, resp.Header)
-
-	if !slices.Contains(allowedStatusCodes, resp.StatusCode) {
-		return fmt.Errorf("%s returned invalid status code: %d", url, resp.StatusCode)
+		if tries < 1 {
+			break
+		}
 	}
 
-	return nil
+	if err == nil {
+		place := sort.SearchInts(allowedStatusCodes, resp.StatusCode)
+		if place >= len(allowedStatusCodes) {
+			err = errors.New(fmt.Sprintf("%s is not valid", URL))
+		}
+	}
+	return
 }
 
 // Get update channel groups in a descending order.

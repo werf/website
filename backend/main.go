@@ -2,18 +2,16 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"os"
+	"os/signal"
 	"regexp"
 	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
-
-	"github.com/werf/common-go/pkg/graceful"
 )
 
 func newRouter() *mux.Router {
@@ -56,6 +54,7 @@ func newRouter() *mux.Router {
 }
 
 func main() {
+	var wait time.Duration
 	logLevel := os.Getenv("LOG_LEVEL")
 	if strings.ToLower(logLevel) == "debug" {
 		log.SetLevel(log.DebugLevel)
@@ -79,16 +78,23 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 		IdleTimeout:  60 * time.Second,
 	}
-	ctx := graceful.WithTermination(context.Background())
 
-	defer graceful.Shutdown(ctx, func(err error, exitCode int) {
-		if err = errors.Join(err, srv.Shutdown(context.Background())); err != nil {
+	go func() {
+		err := srv.ListenAndServe()
+		if err == http.ErrServerClosed {
+			err = nil
+		}
+		if err != nil {
 			log.Errorln(err)
 		}
-	})
+	}()
 
-	if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-		log.Errorln("Server failed:", err)
-		graceful.Terminate(ctx, err, 1)
-	}
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<-c
+	ctx, cancel := context.WithTimeout(context.Background(), wait)
+	defer cancel()
+	srv.Shutdown(ctx)
+	log.Infoln("Shutting down")
+	os.Exit(0)
 }

@@ -64,7 +64,7 @@ articles:
     img: "/assets/images/publications/ru_140624.png"
     created: 2024-06-14
     comment: |
-      <p>В werf 2.0 и Nelm мы заменили 3-way merge на более современный механизм обновления ресурсов Kubernetes — Server-Side Apply. Он решает все проблемы 3-way merge и гарантирует корректные обновления ресурсов в кластере при развёртывании. В этой статье мы расскажем, какие проблемы испытывают пользователи Helm 3 и как Server-Side Apply помогает их преодолеть.</p>
+      <p>В werf 2.0 и Nelm мы заменили 3-way merge на более современный механизм обновления ресурсов Kubernetes — Server-Side Apply. Он решает все проблемы 3-way merge и гарантирует корректные обновления ресурсов в кластере при развёртывании. В этой статье мы расскажем, какие проблемы испытывают пользователи Helm 3 и как Server-Side Apply помогает их преодолеть.</p>      
   - title: "Вышла werf 2.0: новый движок развёртывания Nelm и 300+ релизов за четыре года"
     habr_url: "https://habr.com/ru/companies/flant/articles/815023/"
     img: "/assets/images/publications/ru_160524.png"

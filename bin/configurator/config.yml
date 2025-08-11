@@ -49,6 +49,7 @@ options:
       - "monorepo"
 
 combinations:
+
   # local
   - tabs:
       - name: "install"
@@ -171,7 +172,7 @@ combinations:
       - name: "repoType"
         value: "application"
 
-  #GitHub Actions ci/cd docker
+#GitHub Actions ci/cd docker
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/github-actions/simple/docker-runner/linux/buildah/infra.md.liquid"
@@ -195,7 +196,7 @@ combinations:
       - name: "repoType"
         value: "application"
 
-  #GitHub Actions ci/cd kubernetes
+#GitHub Actions ci/cd kubernetes
   - tabs:
       - name: "infra"
         includePath: "/configurator/tab/ci/github-actions/simple/kubernetes-runner/linux/buildah/infra.md.liquid"

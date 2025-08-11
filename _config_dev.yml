@@ -1,6 +1,6 @@
 liquid:
-  error_mode: strict
-  strict_filters: true
+  error_mode        : strict
+  strict_filters    : true
 #  TODO: enable when the issue (https://github.com/Shopify/liquid/issues/1034) is solved
 #  strict_variables  : true
 assets:
