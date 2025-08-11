@@ -14,7 +14,6 @@ on:
 
 env:
   WERF_ENV: "production"
-  TASK_X_REMOTE_TASKFILES: "1"
 
 jobs:
   check_broken_links:
@@ -42,7 +41,7 @@ jobs:
       - name: Check links
         run: |
           source "$(werf ci-env github --as-file)"
-          task --yes -o group -p site:check-broken-links
+          task -o group -p site:check-broken-links
         env:
           WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"
 
@@ -71,7 +70,7 @@ jobs:
       - name: Spell check
         run: |
           source "$(werf ci-env github --as-file)"
-          task --yes -o group -p site:run-spell-check:ru
+          task -o group -p site:run-spell-check:ru
         env:
           WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"
 
@@ -100,6 +99,6 @@ jobs:
       - name: Spell check
         run: |
           source "$(werf ci-env github --as-file)"
-          task --yes -o group -p site:run-spell-check:en
+          task -o group -p site:run-spell-check:en
         env:
           WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio"

@@ -236,6 +236,7 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 
 		upath = path.Clean(upath)
 		fileInfo, err := os.Stat(fmt.Sprintf("%v%s", fs, upath))
+
 		if err != nil {
 			if os.IsNotExist(err) {
 				notFoundHandler(w, r)

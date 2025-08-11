@@ -6,7 +6,7 @@
   url: /guides.html
   hot: true
 - title: О проекте
-  url: "#"
+  url: '#'
   folderitems:
     - title: Публикации
       url: /publications.html
