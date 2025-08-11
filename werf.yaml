@@ -162,7 +162,7 @@ git:
       install: '**/*'
 ---
 image: backend
-from: ubuntu:20.04
+from: ubuntu:22.04
 fromCacheVersion: {{ $.CacheVersion }}
 docker:
   WORKDIR: /app
