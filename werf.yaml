@@ -69,7 +69,7 @@ ansible:
       chdir: /artifacts
 ---
 image: configuration_artifacts
-from: golang:1.21
+from: golang:1.22
 fromCacheVersion: {{ $.CacheVersion }}
 git:
   - add: /bin/configurator
@@ -144,7 +144,7 @@ shell:
 {{ end -}}
 
 image: backend-artifact
-from: golang:1.16
+from: golang:1.22
 fromCacheVersion: {{ $.CacheVersion }}
 ansible:
   install:
@@ -162,7 +162,7 @@ git:
       install: '**/*'
 ---
 image: backend
-from: ubuntu:20.04
+from: ubuntu:22.04
 fromCacheVersion: {{ $.CacheVersion }}
 docker:
   WORKDIR: /app
