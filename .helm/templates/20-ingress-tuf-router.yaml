@@ -14,7 +14,11 @@ spec:
   - hosts:
       - {{ $host }}
       - ru.{{ $host }}
+{{- if eq .Values.werf.env "production" }}
     secretName: tls-{{ $host }}
+{{- else }}
+    secretName: ingress-le-tls
+{{- end }}
   rules:
   - host: {{ $host }}
     http:
