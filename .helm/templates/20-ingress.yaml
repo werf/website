@@ -16,7 +16,7 @@ metadata:
 {{- include "rewrites" . | indent 6 }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
   tls:
   - hosts:
       - {{ $host }}
@@ -64,7 +64,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: https://$host/dex-authenticator/sign_in
     nginx.ingress.kubernetes.io/auth-url: https://werfio-dex-authenticator.{{ $.Values.werf.namespace }}.svc.cluster.local/dex-authenticator/auth
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
   tls:
   - hosts:
       - {{ $host }}
@@ -99,7 +99,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: https://$host/dex-authenticator/sign_in
     nginx.ingress.kubernetes.io/auth-url: https://werfio-ru-dex-authenticator.{{ $.Values.werf.namespace }}.svc.cluster.local/dex-authenticator/auth
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
   tls:
   - hosts:
       - {{ $host }}
