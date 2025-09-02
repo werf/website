@@ -15,7 +15,7 @@ Contents of the demo project:
 
 {% tree_file_viewer '/examples/configurator/local-dev' default_file='werf.yaml' %}
 
-Initialize the demo project on the local machine:
+{% offtopic title="Working with sources locally" %}
 
 ```{{include.shell}}
 git clone https://github.com/werf/website
@@ -29,6 +29,8 @@ git init
 git add .
 git commit -m-
 ```
+{% endofftopic %}
+
 {% if include.buildah == true and include.os == "linux" %}
 Activate Buildah builder:
 
