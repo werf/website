@@ -52,7 +52,7 @@ articles:
   - title: "werf 2.0 with Nelm, and what it brings to the cloud native community"
     custom_urls:
       - service_name: "Palark blog"
-        url: "https://blog.palark.com/werf-v2-history-nelm-alternative-to-helm/"
+        url: "https://palark.com/blog/werf-v2-history-nelm-alternative-to-helm/"
       - service_name: "CNCF"
         url: "https://www.cncf.io/blog/2024/06/05/werf-2-0-with-nelm-and-what-it-brings-to-the-cloud-native-community/"
     img: "/assets/images/publications/en_050624.png"
@@ -126,7 +126,7 @@ articles:
   - title: "A brief introduction to werf, CI/CD tool and CNCF project now"
     custom_urls:
       - service_name: "Palark blog"
-        url: "https://blog.palark.com/introduction-to-werf/"
+        url: "https://palark.com/blog/introduction-to-werf/"
     img: "/assets/images/publications/en_090223.png"
     created: 2023-02-09
     comment: |
@@ -174,7 +174,7 @@ articles:
     comment: |
       <p>werf is a CLI Open Source tool for building applications and deploying them to Kubernetes clusters. Version 1.2 features many new changes and improvements. We have been thoroughly testing and refining them as part of the Early-Access version over the last eleven months (since January 2021). Finally, we are pleased to announce that it has been promoted to Stable!</p>
   - title: "Review or dynamic environments in Kubernetes. Theory and practice"
-    blog_url: "https://blog.palark.com/review-environments-in-kubernetes-gitlab-ci/"
+    blog_url: "https://palark.com/blog/review-environments-in-kubernetes-gitlab-ci/"
     img: "/assets/images/publications/en_290921.png"
     created: 2021-09-29
     comment: |
