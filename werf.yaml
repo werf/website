@@ -1,4 +1,4 @@
-{{ $_ := set . "CacheVersion" "20230531" }}
+{{ $_ := set . "CacheVersion" "20251015" }}
 
 configVersion: 1
 project: werf-site
