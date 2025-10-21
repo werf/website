@@ -9,12 +9,16 @@ metadata:
   name: tuf-router
   annotations:
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
   tls:
   - hosts:
       - {{ $host }}
       - ru.{{ $host }}
+{{- if eq .Values.werf.env "production" }}
     secretName: tls-{{ $host }}
+{{- else }}
+    secretName: ingress-le-tls
+{{- end }}
   rules:
   - host: {{ $host }}
     http:
