@@ -1,4 +1,4 @@
-{{ $_ := set . "CacheVersion" "20251015" }}
+{{ $_ := set . "CacheVersion" "20251021" }}
 
 configVersion: 1
 project: werf-site
@@ -26,47 +26,20 @@ shell:
 image: common_artifacts
 from: ubuntu:20.04
 fromCacheVersion: {{ $.CacheVersion }}
-ansible:
-  install:
-  - file:
-      path: "/artifacts"
-      state: directory
-      mode: 0777
-  - name: "releases.json"
-    copy:
-      content: |
-{{ .Files.Get ".werf/artifacts/releases.json" | indent 8 }}
-      dest:  /artifacts/releases.json
-  - name: "Strip escaping sequence from releases.json"
-    shell: |
-      sed -i 's#{% raw %}\ *##; s#{% endraw %}##' /artifacts/releases.json
-    args:
-      executable: /bin/bash
-      warn: false
-  - name: "releases_history.json"
-    copy:
-      content: |
-{{ .Files.Get ".werf/artifacts/releases_history.json" | indent 8 }}
-      dest:  /artifacts/releases_history.json
-  - name: "channels_versions.json"
-    copy:
-      content: |
-{{ .Files.Get ".werf/artifacts/channels_versions.json" | indent 8 }}
-      dest: /artifacts/channels_versions.json
-  - name: "feeds.base64"
-    copy:
-      content: |
-{{ .Files.Get ".werf/artifacts/feeds.tgz.base64" | indent 8 }}
-      dest: /artifacts/feeds.tgz.base64
-  - name: "unpack RSS feeds"
-    shell: |
-      if [ -f feeds.tgz.base64 ] ; then base64 -d feeds.tgz.base64 > feeds.tgz; tar -xzf feeds.tgz  --transform='s/feeds/./' --wildcards '*.xml'; else echo "RSS feeds file feeds.tgz is absent!";  exit 1 ; fi
-      rm feeds.tgz.base64
-      rm feeds.tgz
-    args:
-      executable: /bin/bash
-      warn: false
-      chdir: /artifacts
+git:
+  - add: /.werf/artifacts
+    to: /artifacts
+    excludePaths:
+      - '*.sh'
+      - 'convert'
+      - '*.xml-template'
+shell: 
+  install: 
+    - cd /artifacts
+    - sed -i 's#{% raw %}\ *##; s#{% endraw %}##' /artifacts/releases.json
+    - if [ -f feeds.tgz.base64 ] ; then base64 -d feeds.tgz.base64 > feeds.tgz; tar -xzf feeds.tgz  --transform='s/feeds/./' --wildcards '*.xml'; else echo "RSS feeds file feeds.tgz is absent!";  exit 1 ; fi
+    - rm -f feeds.tgz.base64
+    - rm -f feeds.tgz
 ---
 image: configuration_artifacts
 from: golang:1.22
@@ -146,15 +119,11 @@ shell:
 image: backend-artifact
 from: golang:1.22
 fromCacheVersion: {{ $.CacheVersion }}
-ansible:
+shell:
   install:
-    - name: Build apis
-      shell: |
-        go get -d -v ./
-        go build -ldflags "-w -s" -v -o /go/src/app/server /go/src/app/
-      args:
-        executable: /bin/bash
-        chdir: /go/src/app
+    - cd /go/src/app
+    - go get -d -v ./
+    - go build -ldflags "-w -s" -v -o /go/src/app/server /go/src/app/
 git:
   - add: /backend
     to: /go/src/app
@@ -164,26 +133,23 @@ git:
 image: backend
 from: ubuntu:22.04
 fromCacheVersion: {{ $.CacheVersion }}
-docker:
-  WORKDIR: /app
-ansible:
+shell:
   install:
-    - apt:
-        name: ['git','curl', 'jq', 'vim']
-        state: present
-        update_cache: yes
+    - apt update -y
+    - apt install -y git curl jq vim
 import:
   - image: backend-artifact
     add: /go/src/app/server
     to: /app/server
     before: setup
+imageSpec:
+  config:
+    workingDir: /app
 
 ---
 image: web-backend
 fromImage: backend
 fromCacheVersion: {{ $.CacheVersion }}
-docker:
-  WORKDIR: /app
 import:
 {{- range $lang := list "en" "ru" }}
   - image: doc_{{ $lang }}
@@ -191,20 +157,24 @@ import:
     to: /app/root/{{ $lang }}
     after: setup
 {{ end -}}
+imageSpec:
+  config:
+    workingDir: /app
 ---
 image: tuf-router
 from: fabiocicerchia/nginx-lua:1.21-alpine@sha256:525aa8fd0ac9bf5c7e82cd83b3f8ebf620bedb0d0b1e52955745fd53917eb24c
 fromCacheVersion: {{ $.CacheVersion }}
-ansible:
+git:
+  - add: /.werf
+    to: /etc/nginx
+    excludePaths:
+      - "artifacts"
+      - "nginx-dev.conf"
+    stageDependencies:
+      install: "**/*"
+shell:
   install:
-  - copy:
-      content: |
-{{ .Files.Get ".werf/nginx-tuf-router.conf" | indent 8 }}
-      dest: /etc/nginx/nginx.conf
-  - copy:
-      content: |
-{{ .Files.Get ".werf/tuf-router.lua" | indent 8 }}
-      dest: /etc/nginx/tuf-router.lua
+    - mv /etc/nginx/nginx-tuf-router.conf /etc/nginx/nginx.conf
 ---
 {{- if eq $.Env "test" }}
 image: spell-checker
@@ -228,14 +198,6 @@ git:
     to: /temp/internal
     stageDependencies:
       setup: '**/*'
-docker:
-  ENV:
-    LANG: ru_RU.UTF-8
-    LANGUAGE: ru_RU:ru
-    LC_LANG: ru_RU.UTF-8
-    LC_ALL: ru_RU.UTF-8
-    LC_MESSAGES: ru_RU.UTF-8
-    TZ: Europe/Moscow
 shell:
   beforeInstall:
     - apt -y update && apt -y upgrade
@@ -250,4 +212,13 @@ shell:
     - cp /temp/dictionaries/* /usr/share/hunspell/
     - cp /temp/internal/* /spelling/en
     - cp /temp/internal/* /spelling/ru
+imageSpec:
+  config:
+    env:
+      LANG: ru_RU.UTF-8
+      LANGUAGE: ru_RU:ru
+      LC_LANG: ru_RU.UTF-8
+      LC_ALL: ru_RU.UTF-8
+      LC_MESSAGES: ru_RU.UTF-8
+      TZ: Europe/Moscow
 {{ end -}}
