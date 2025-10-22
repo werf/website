@@ -1,4 +1,4 @@
-{{ $_ := set . "CacheVersion" "20251021" }}
+{{ $_ := set . "CacheVersion" "20251022" }}
 
 configVersion: 1
 project: werf-site
@@ -204,7 +204,7 @@ shell:
 ---
 {{- if eq $.Env "test" }}
 image: spell-checker
-from: ubuntu:22.04
+from: ubuntu:20.04
 fromCacheVersion: {{ $.CacheVersion }}
 import:
   - image: doc_ru
