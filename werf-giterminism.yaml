@@ -8,3 +8,8 @@ config:
       - .werf/artifacts/channels_versions.json
       - .werf/artifacts/feeds.tgz.base64
       - backend/trdl/trdl_channels.yaml
+    allowEnvVariables:
+      - WERFIO_GITHUB_TOKEN
+  stapel:
+    git:
+      allowBranch: true

@@ -22,17 +22,43 @@ shell:
     - cd /app
     - bundle install
 ---
-
-image: common_artifacts
-from: ubuntu:20.04
+image: generate_artifacts
+from: ubuntu:22.04
 fromCacheVersion: {{ $.CacheVersion }}
 git:
   - add: /.werf/artifacts
     to: /artifacts
+  - url: https://github.com/werf/werf.git
+    add: /
+    to: /werf
+    branch: main
+    stageDependencies:
+      setup:
+        - "trdl_channels.yaml"
+shell:
+  install: 
+    - apt update -y
+    - apt install -y curl jq git wget
+    - wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.47.2/yq_linux_amd64
+    - chmod a+x /usr/local/bin/yq
+  setup:
+    - cd /artifacts
+    - WERFIO_GITHUB_TOKEN={{ env "WERFIO_GITHUB_TOKEN" }} ./generate_artifacts.sh
+---
+image: common_artifacts
+from: ubuntu:22.04
+fromCacheVersion: {{ $.CacheVersion }}
+import:
+  - image: generate_artifacts
+    add: /artifacts
+    to: /artifacts
     excludePaths:
-      - '*.sh'
-      - 'convert'
-      - '*.xml-template'
+      - releases_history.json
+      - channels_versions.json
+      - "*.sh"
+      - convert
+      - "*.xml-template"
+    before: install
 shell: 
   install: 
     - cd /artifacts
@@ -178,7 +204,7 @@ shell:
 ---
 {{- if eq $.Env "test" }}
 image: spell-checker
-from: ubuntu:20.04
+from: ubuntu:22.04
 fromCacheVersion: {{ $.CacheVersion }}
 import:
   - image: doc_ru
