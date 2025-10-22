@@ -1,4 +1,4 @@
-{{ $_ := set . "CacheVersion" "20251022" }}
+{{ $_ := set . "CacheVersion" "20251023" }}
 
 configVersion: 1
 project: werf-site
@@ -25,6 +25,8 @@ shell:
 image: generate_artifacts
 from: ubuntu:22.04
 fromCacheVersion: {{ $.CacheVersion }}
+secrets:
+  - env: WERFIO_GITHUB_TOKEN
 git:
   - add: /.werf/artifacts
     to: /artifacts
@@ -43,7 +45,7 @@ shell:
     - chmod a+x /usr/local/bin/yq
   setup:
     - cd /artifacts
-    - WERFIO_GITHUB_TOKEN={{ env "WERFIO_GITHUB_TOKEN" }} ./generate_artifacts.sh
+    - WERFIO_GITHUB_TOKEN=$(cat /run/secrets/WERFIO_GITHUB_TOKEN) ./generate_artifacts.sh
 ---
 image: common_artifacts
 from: ubuntu:22.04
