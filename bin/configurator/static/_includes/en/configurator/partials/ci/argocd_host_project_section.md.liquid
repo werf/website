@@ -2,52 +2,52 @@
 
 1. Apply the following Application CRD to the target cluster to deploy a bundle from the container registry:
 
-```shell
-kubectl create -f - <<EOF
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  annotations:
-    argocd-image-updater.argoproj.io/chart-version: ~ 1.0
-    argocd-image-updater.argoproj.io/pull-secret: pullsecret:myproject-production/myproject-regcred
-  name: myproject
-  namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: myproject-production
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    chart: myproject
-    repoURL: registry.mycompany.org/myproject
-    targetRevision: 1.0.0
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-EOF
-```
+    ```shell
+    kubectl create -f - <<EOF
+    ---
+    apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      annotations:
+        argocd-image-updater.argoproj.io/chart-version: ~ 1.0
+        argocd-image-updater.argoproj.io/pull-secret: pullsecret:myproject-production/myproject-regcred
+      name: myproject
+      namespace: argocd
+      finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: myproject-production
+        server: https://kubernetes.default.svc
+      project: default
+      source:
+        chart: myproject
+        repoURL: registry.mycompany.org/myproject
+        targetRevision: 1.0.0
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+    EOF
+    ```
 
-The value of `argocd-image-updater.argoproj.io/chart-version="~ 1.0"` means that the operator must automatically deploy the chart updated to the latest patch version in the `SEMVER` range `1.0.*`.
+    The value of `argocd-image-updater.argoproj.io/chart-version="~ 1.0"` means that the operator must automatically deploy the chart updated to the latest patch version in the `SEMVER` range `1.0.*`.
 
 2. Create a pull secret to access the project container registry:
 
-```shell
-kubectl create -f - <<EOF
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: myproject-regcred
-  namespace: myproject-production
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: BASE64_DOCKER_CONFIG_JSON
-EOF
-```
+    ```shell
+    kubectl create -f - <<EOF
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: myproject-regcred
+      namespace: myproject-production
+    type: kubernetes.io/dockerconfigjson
+    data:
+      .dockerconfigjson: BASE64_DOCKER_CONFIG_JSON
+    EOF
+    ```
 
 ### Configuring the GitLab project
 
