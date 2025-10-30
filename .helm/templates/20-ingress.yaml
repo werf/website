@@ -120,3 +120,21 @@ spec:
             port:
               name: http
 {{- end }}
+
+{{- if eq .Values.werf.env "production" }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Chart.Name }}-cert
+spec:
+  secretName: tls-{{ $host }}
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-standalone-geo
+  commonName: {{ $host }}
+  dnsNames:
+  - {{ $host }}
+  - ru.{{ $host }}
+  - www.{{ $host }}
+{{- end }}
