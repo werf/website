@@ -619,7 +619,7 @@ figure.highlight {
 }
 
 .docs .details {
-    margin-bottom: 20px;
+    margin: 20px 0;
     background: #F3F7FF;
     border: 2px solid #eef2ff;
     padding: 10px 0;
