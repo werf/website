@@ -131,7 +131,7 @@ spec:
   secretName: tls-{{ $host }}
   issuerRef:
     kind: ClusterIssuer
-    name: letsencrypt-standalone-geo
+    name: letsencrypt
   commonName: {{ $host }}
   dnsNames:
   - {{ $host }}
