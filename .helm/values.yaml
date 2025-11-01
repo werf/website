@@ -9,7 +9,7 @@ host:
 
 ingressClassName:
   _default: "nginx"
-  production: "standalone-geo"
+  production: "nginx"
 
 resources:
   requests:
