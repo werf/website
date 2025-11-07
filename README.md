@@ -1,4 +1,4 @@
-# werf website
+# werf 
 
 This repository contains files required to build the [werf CI/CD tool website](https://werf.io/)
 and run it locally.
