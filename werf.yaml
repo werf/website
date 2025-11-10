@@ -55,8 +55,6 @@ import:
     add: /artifacts
     to: /artifacts
     excludePaths:
-      - releases_history.json
-      - channels_versions.json
       - "*.sh"
       - convert
       - "*.xml-template"
@@ -64,7 +62,7 @@ import:
 shell: 
   install: 
     - cd /artifacts
-    - sed -i 's#{% raw %}\ *##; s#{% endraw %}##' /artifacts/releases.json
+    - sed -i 's/{% raw %}//g; s/{% endraw %}//g' /artifacts/releases.json
     - if [ -f feeds.tgz.base64 ] ; then base64 -d feeds.tgz.base64 > feeds.tgz; tar -xzf feeds.tgz  --transform='s/feeds/./' --wildcards '*.xml'; else echo "RSS feeds file feeds.tgz is absent!";  exit 1 ; fi
     - rm -f feeds.tgz.base64
     - rm -f feeds.tgz
