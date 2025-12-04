@@ -17,6 +17,20 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "How Nelm compares to Helm 4: Current differences and future plans"
+    medium_url: "https://blog.werf.io/nelm-helm-4-comparison-edf0a696f602"
+    img: "/assets/images/publications/en_041225.png"
+    created: 2025-12-04
+    comment: |
+      <p>Nelm is an alternative tool to Helm 4 that supports deploying CRDs, defining deployment order, advanced resource tracking, and much more.</p>
+  - title: "How werf Streamlined the Transition to Kubernetes and Accelerated Our CI/CD"
+    custom_urls:
+      - service_name: "DEV Community"
+        url: "https://dev.to/laplacedaemon/how-werf-streamlined-the-transition-to-kubernetes-and-accelerated-our-cicd-4f19"
+    img: "/assets/images/publications/en_250825.png"
+    created: 2025-08-25
+    comment: |
+      <p>I’m going to share a case study on how we used werf at Seznam.cz to take a load off our migration to Kubernetes.</p>
   - title: "Nelm 1.0 released: Helm-chart compatible alternative to Helm 3"
     medium_url: "https://blog.werf.io/nelm-cli-helm-compatible-alternative-5648b191f0af"
     img: "/assets/images/publications/en_030425.png"
