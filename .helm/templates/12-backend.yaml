@@ -9,6 +9,9 @@ metadata:
 spec:
   minReadySeconds: 5
   revisionHistoryLimit: 5
+  {{- if eq .Values.werf.env "production" }}
+  replicas: 5
+  {{- end }}
   selector:
     matchLabels:
       service: backend
