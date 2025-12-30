@@ -15,6 +15,7 @@ on:
 env:
   WERF_ENV: "production"
   TASK_X_REMOTE_TASKFILES: "1"
+  WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"
 
 jobs:
   check_broken_links:

@@ -42,6 +42,7 @@ export WERF_BUILDAH_MODE=auto
 Run container
 ```{{include.shell}}
 docker run -it --rm \
+  --security-opt seccomp=unconfined \
   -v $HOME/.werf:/home/build/.werf \
   -v $(pwd):/home/build/example -w /home/build/example \
   registry.werf.io/werf/werf:2-stable-ubuntu bash
