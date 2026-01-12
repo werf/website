@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Nelm vs Helm 4: что изменилось с новым релизом Helm и почему Nelm всё ещё лучше"
+    habr_url: "https://habr.com/ru/companies/flant/articles/970498/"
+    img: "/assets/images/publications/ru_271125.png"
+    created: 2025-11-27
+    comment: |
+      <p>Недавно вышел Helm 4, и это отличный повод снова сравнить его с нашей альтернативой — Nelm. В статье смотрим на новые возможности обоих проектов, детально разбираем их отличия и объясняем, что ждёт Nelm дальше.</p>
   - title: "Что нужно знать про использование werf при развёртывании гибридного приложения: личный опыт"
     habr_url: "https://habr.com/ru/companies/flant/articles/914060/"
     img: "/assets/images/publications/ru_100625.png"
