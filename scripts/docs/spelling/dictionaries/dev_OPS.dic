@@ -1,4 +1,4 @@
-519
+520
 1GB
 2GB
 5XX
@@ -55,6 +55,7 @@ configVersion
 contraire
 cr
 CRD
+CRDs
 CRLF
 cron
 CronJob
