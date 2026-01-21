@@ -17,7 +17,7 @@ spec:
 {{- if eq .Values.werf.env "production" }}
     secretName: tls-{{ $host }}
 {{- else }}
-    secretName: ingress-le-tls
+    secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
 {{- end }}
   rules:
   - host: {{ $host }}
@@ -37,7 +37,11 @@ spec:
             name: tuf-router
             port:
               name: http
+{{- if eq .Values.werf.env "production" }}
   - host: ru.{{ $host }}
+{{- else }}
+  - host: ru-{{ $host }}
+{{- end }}
     http:
       paths:
       - path: /targets/
