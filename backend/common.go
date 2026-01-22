@@ -595,7 +595,7 @@ func getGroups() (groups []string) {
 
 func getRootFilesPath(r *http.Request) (result string) {
 	result = "./root/"
-	if strings.HasPrefix(r.Host, "ru.") {
+	if strings.HasPrefix(r.Host, "ru.") || strings.HasPrefix(r.Host, "ru-") {
 		result += "ru"
 	} else {
 		result += "en"

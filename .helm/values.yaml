@@ -3,13 +3,18 @@ priorityClassName:
   production: production-medium
 host:
   production: werf.io
-  stage: werf.stage.flant.com
-  dev: werf.dev.flant.com
-  _default: werf.test.flant.com
+  stage: werf.stage.flant.dev
+  dev: werf.dev.flant.dev
+  _default: werf.test.flant.dev
 
 ingressClassName:
   _default: "nginx"
   production: "standalone-geo"
+
+ingressSecretName:
+  _default: wildcard-dev-flant-dev
+  test: wildcard-test-flant-dev
+  stage: wildcard-stage-flant-dev
 
 resources:
   requests:
