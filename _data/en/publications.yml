@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "10 years of werf: The Cloud Native story we made together"
+    medium_url: "https://blog.werf.io/werf-project-history-10-years-f092486e4224"
+    img: "/assets/images/publications/en_220126.png"
+    created: 2026-01-22
+    comment: |
+      <p>werf’s first commit was on January 22, 2016, and the project is now celebrating its 10th anniversary. To honor its anniversary, we decided to take a look at its key moments, milestones, wins, and future plans.</p>
   - title: "How Nelm compares to Helm 4: Current differences and future plans"
     medium_url: "https://blog.werf.io/nelm-helm-4-comparison-edf0a696f602"
     img: "/assets/images/publications/en_041225.png"
