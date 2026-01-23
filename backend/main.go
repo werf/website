@@ -24,7 +24,7 @@ func newRouter() *mux.Router {
 
 	var ruHostMatch mux.MatcherFunc = func(r *http.Request, rm *mux.RouteMatch) bool {
 		result := false
-		result, _ = regexp.MatchString(`^ru[\.\-](localhost|.*(.+\.flant\.com|werf\.io))$`, r.Host)
+		result, _ = regexp.MatchString(`^ru[\.\-](localhost|.*(\.flant\.dev|werf\.io))$`, r.Host)
 		return result
 	}
 
