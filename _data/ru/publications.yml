@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "10 лет werf: путь, который мы прошли вместе"
+    habr_url: "https://habr.com/ru/companies/flant/articles/986960/"
+    img: "/assets/images/publications/ru_220126.png"
+    created: 2026-01-22
+    comment: |
+      <p>10 лет назад мы запустили проект под названием dapp. Сегодня он известен как werf. За это время — тысячи коммитов, сотни релизов, переход на Go, Helm, CNCF, Nelm… Собрали всю историю в одной статье — от первого Ruby-скрипта до экосистемы Open Source-инструментов.</p>
   - title: "Nelm vs Helm 4: что изменилось с новым релизом Helm и почему Nelm всё ещё лучше"
     habr_url: "https://habr.com/ru/companies/flant/articles/970498/"
     img: "/assets/images/publications/ru_271125.png"
