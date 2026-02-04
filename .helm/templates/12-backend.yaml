@@ -92,14 +92,15 @@ spec:
   selector:
     matchLabels:
       service: backend
-{{- if ne .Values.werf.env "production" }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: trdl-data
 data:
-  # New source
   trdl_channels.yaml: |
-{{ $.Files.Get "trdl_channels-dev.yaml" | indent 4 }}
+{{- if eq .Values.werf.env "production" }}
+{{ .Files.Get "trdl_channels.yaml" | indent 4 }}
+{{- else }}
+{{ .Files.Get "trdl_channels-dev.yaml" | indent 4 }}
 {{- end }}
