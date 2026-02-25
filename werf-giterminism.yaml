@@ -9,3 +9,6 @@ config:
   goTemplateRendering:
     allowUncommittedFiles:
       - .helm/trdl_channels.yaml
+  helm:
+    allowUncommittedFiles:
+      - .helm/trdl_channels.yaml
