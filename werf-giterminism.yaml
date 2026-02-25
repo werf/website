@@ -6,3 +6,6 @@ config:
   secrets:
     allowEnvVariables:
       - WERFIO_GITHUB_TOKEN
+  goTemplateRendering:
+    allowUncommittedFiles:
+      - .helm/trdl_channels.yaml
