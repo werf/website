@@ -26,6 +26,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Checkout werf repo
+        uses: actions/checkout@v4
+        with:
+          repository: werf/werf
+          path: werf
+          fetch-depth: 0
+
+      - name: Inject trdl_channels.yaml
+        run: |
+          cp werf/trdl_channels.yaml .helm/trdl_channels.yaml
+
       - name: Install werf
         uses: werf/actions/install@v2
 
