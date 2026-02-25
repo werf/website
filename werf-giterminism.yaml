@@ -1,15 +1,11 @@
 giterminismConfigVersion: 1
 config:
-  allowUncommitted: true
   stapel:
     git:
       allowBranch: true
   secrets:
     allowEnvVariables:
       - WERFIO_GITHUB_TOKEN
-  goTemplateRendering:
-    allowUncommittedFiles:
-      - .helm/trdl_channels.yaml
-  helm:
-    allowUncommittedFiles:
-      - .helm/trdl_channels.yaml
+helm:
+  allowUncommittedFiles:
+    - .helm/trdl_channels.yaml
