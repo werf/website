@@ -19,9 +19,6 @@ env:
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
   WERF_SET_ACTIVE_RELEASE: "global.active_release=2"
   WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"
-  VAULT_ADDR: "https://seguro.flant.com"
-  VAULT_ROLE: "werf-web"
-  EU_KUBECONFIG_SECRET_PATH: "projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG"
 
 jobs:
   converge-eu:
@@ -51,63 +48,28 @@ jobs:
       - name: Install werf
         uses: werf/actions/install@v2
 
-      - name: Request GitHub OIDC token
-        id: oidc
-        run: |
-          set -euo pipefail
-          oidc_token="$({ curl -fsSL \
-            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=github-access-aud"; } | jq -r '.value')"
+      - name: Import EU kubeconfig from Seguro
+        id: secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://seguro.flant.com
+          path: github
+          role: werf-web
+          method: jwt
+          jwtGithubAudience: github-access-aud
+          exportEnv: true
+          secrets: |
+            projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG kube.config | EU_KUBECONFIG_RAW
 
-          if [[ -z "$oidc_token" || "$oidc_token" == "null" ]]; then
-            echo "Failed to get GitHub OIDC token" >&2
-            exit 1
-          fi
-
-          echo "::add-mask::$oidc_token"
-          echo "token=$oidc_token" >> "$GITHUB_OUTPUT"
-
-      - name: Login to Seguro
-        id: seguro
-        run: |
-          set -euo pipefail
-          vault_token="$({ curl -fsSL \
-            -X POST \
-            -H 'Content-Type: application/json' \
-            "$VAULT_ADDR/v1/auth/github/login" \
-            -d "{\"role\":\"$VAULT_ROLE\",\"jwt\":\"${{ steps.oidc.outputs.token }}\"}"; } | jq -r '.auth.client_token')"
-
-          if [[ -z "$vault_token" || "$vault_token" == "null" ]]; then
-            echo "Failed to get Vault token from Seguro" >&2
-            exit 1
-          fi
-
-          echo "::add-mask::$vault_token"
-          echo "token=$vault_token" >> "$GITHUB_OUTPUT"
-
-      - name: Read EU kubeconfig from Seguro
+      - name: Normalize EU kubeconfig
         id: eu_kubeconfig
         run: |
           set -euo pipefail
 
-          response="$(curl -fsSL -H "X-Vault-Token: ${{ steps.seguro.outputs.token }}" "$VAULT_ADDR/v1/$EU_KUBECONFIG_SECRET_PATH")"
-          field_count="$(printf '%s' "$response" | jq -r '.data.data | keys | length')"
+          secret_value="${EU_KUBECONFIG_RAW:-}"
 
-          if [[ "$field_count" == "0" || "$field_count" == "null" ]]; then
+          if [[ -z "$secret_value" ]]; then
             echo "EU kubeconfig secret is empty" >&2
-            exit 1
-          fi
-
-          if [[ "$field_count" -ne 1 ]]; then
-            echo "Expected exactly one field in EU kubeconfig secret, got: $(printf '%s' "$response" | jq -r '.data.data | keys | join(", ")')" >&2
-            exit 1
-          fi
-
-          secret_key="$(printf '%s' "$response" | jq -r '.data.data | keys[0]')"
-          secret_value="$(printf '%s' "$response" | jq -r --arg k "$secret_key" '.data.data[$k]')"
-
-          if [[ -z "$secret_value" || "$secret_value" == "null" ]]; then
-            echo "EU kubeconfig secret field '$secret_key' is empty" >&2
             exit 1
           fi
 
@@ -118,7 +80,7 @@ jobs:
           fi
 
           echo "::add-mask::$kubeconfig_base64"
-          echo "field=$secret_key" >> "$GITHUB_OUTPUT"
+          echo "field=kube.config" >> "$GITHUB_OUTPUT"
           echo "kubeconfig_base64=$kubeconfig_base64" >> "$GITHUB_OUTPUT"
 
       - name: Check EU cluster access
@@ -202,8 +164,8 @@ jobs:
           - Event: ${{ github.event_name }}
           - Mode: $RUN_MODE
           - Target cluster mode: eu
-          - Seguro role: $VAULT_ROLE
-          - Secret path: $EU_KUBECONFIG_SECRET_PATH
+          - Seguro role: werf-web
+          - Secret path: projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG
           - Secret field used: ${{ steps.eu_kubeconfig.outputs.field }}
           - Helm switch: global.targetCluster=eu
 

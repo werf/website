@@ -14,22 +14,19 @@ on:
       mode:
         description: "Run mode"
         required: true
-        default: preflight
+        default: deploy
         type: choice
         options:
           - preflight
           - deploy
 
 env:
-  RUN_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
+  RUN_MODE: ${{ github.event_name == 'push' && 'deploy' || github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
   WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
   WERF_SET_ACTIVE_RELEASE: "global.active_release=2"
   WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"
-  VAULT_ADDR: "https://seguro.flant.com"
-  VAULT_ROLE: "werf-web"
-  RU_KUBECONFIG_SECRET_PATH: "projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG_RU"
 
 jobs:
   converge-ru:
@@ -59,63 +56,28 @@ jobs:
       - name: Install werf
         uses: werf/actions/install@v2
 
-      - name: Request GitHub OIDC token
-        id: oidc
-        run: |
-          set -euo pipefail
-          oidc_token="$({ curl -fsSL \
-            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=github-access-aud"; } | jq -r '.value')"
+      - name: Import RU kubeconfig from Seguro
+        id: secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://seguro.flant.com
+          path: github
+          role: werf-web
+          method: jwt
+          jwtGithubAudience: github-access-aud
+          exportEnv: true
+          secrets: |
+            projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG_RU kube.config | RU_KUBECONFIG_RAW
 
-          if [[ -z "$oidc_token" || "$oidc_token" == "null" ]]; then
-            echo "Failed to get GitHub OIDC token" >&2
-            exit 1
-          fi
-
-          echo "::add-mask::$oidc_token"
-          echo "token=$oidc_token" >> "$GITHUB_OUTPUT"
-
-      - name: Login to Seguro
-        id: seguro
-        run: |
-          set -euo pipefail
-          vault_token="$({ curl -fsSL \
-            -X POST \
-            -H 'Content-Type: application/json' \
-            "$VAULT_ADDR/v1/auth/github/login" \
-            -d "{\"role\":\"$VAULT_ROLE\",\"jwt\":\"${{ steps.oidc.outputs.token }}\"}"; } | jq -r '.auth.client_token')"
-
-          if [[ -z "$vault_token" || "$vault_token" == "null" ]]; then
-            echo "Failed to get Vault token from Seguro" >&2
-            exit 1
-          fi
-
-          echo "::add-mask::$vault_token"
-          echo "token=$vault_token" >> "$GITHUB_OUTPUT"
-
-      - name: Read RU kubeconfig from Seguro
+      - name: Normalize RU kubeconfig
         id: ru_kubeconfig
         run: |
           set -euo pipefail
 
-          response="$(curl -fsSL -H "X-Vault-Token: ${{ steps.seguro.outputs.token }}" "$VAULT_ADDR/v1/$RU_KUBECONFIG_SECRET_PATH")"
-          field_count="$(printf '%s' "$response" | jq -r '.data.data | keys | length')"
+          secret_value="${RU_KUBECONFIG_RAW:-}"
 
-          if [[ "$field_count" == "0" || "$field_count" == "null" ]]; then
+          if [[ -z "$secret_value" ]]; then
             echo "RU kubeconfig secret is empty" >&2
-            exit 1
-          fi
-
-          if [[ "$field_count" -ne 1 ]]; then
-            echo "Expected exactly one field in RU kubeconfig secret, got: $(printf '%s' "$response" | jq -r '.data.data | keys | join(", ")')" >&2
-            exit 1
-          fi
-
-          secret_key="$(printf '%s' "$response" | jq -r '.data.data | keys[0]')"
-          secret_value="$(printf '%s' "$response" | jq -r --arg k "$secret_key" '.data.data[$k]')"
-
-          if [[ -z "$secret_value" || "$secret_value" == "null" ]]; then
-            echo "RU kubeconfig secret field '$secret_key' is empty" >&2
             exit 1
           fi
 
@@ -126,7 +88,7 @@ jobs:
           fi
 
           echo "::add-mask::$kubeconfig_base64"
-          echo "field=$secret_key" >> "$GITHUB_OUTPUT"
+          echo "field=kube.config" >> "$GITHUB_OUTPUT"
           echo "kubeconfig_base64=$kubeconfig_base64" >> "$GITHUB_OUTPUT"
 
       - name: Check RU cluster access
@@ -174,6 +136,10 @@ jobs:
               echo "Secret github-werfio exists in werfio-production"
             else
               echo "Secret github-werfio is missing in werfio-production"
+              if [[ "$RUN_MODE" == "deploy" ]]; then
+                echo "Deploy mode requires github-werfio to exist in werfio-production" >&2
+                exit 1
+              fi
               echo "This is acceptable for preflight, but deploy will fail until the secret is created."
             fi
 
@@ -195,7 +161,7 @@ jobs:
           grep '^kind:' /tmp/werf-render-ru.yaml | sort | uniq -c | cat
 
       - name: Deploy RU to new cluster
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'deploy' }}
+        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'deploy') }}
         run: |
           . $(werf ci-env github --as-file)
           werf converge --set global.targetCluster=ru
@@ -215,16 +181,17 @@ jobs:
           - Event: ${{ github.event_name }}
           - Mode: $RUN_MODE
           - Target cluster mode: ru
-          - Seguro role: $VAULT_ROLE
-          - Secret path: $RU_KUBECONFIG_SECRET_PATH
+          - Seguro role: werf-web
+          - Secret path: projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG_RU
           - Secret field used: ${{ steps.ru_kubeconfig.outputs.field }}
           - Helm switch: global.targetCluster=ru
 
-          If mode is preflight, no converge was executed.
+          On push to branch `chore/prod-split-ru-eu`, this workflow performs a real RU deploy.
           Missing namespace is allowed if the token can create namespaces.
-          Missing imagePullSecret is reported but does not fail preflight.
+          Missing imagePullSecret is allowed only for preflight and blocks deploy.
           Current old production cluster was not modified by this workflow.
           EOF
+
 
 
 
