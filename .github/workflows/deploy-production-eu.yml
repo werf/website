@@ -1,0 +1,221 @@
+name: Deploy production EU
+
+on:
+  push:
+    branches:
+      - chore/prod-split-ru-eu
+    paths:
+      - '.github/workflows/deploy-production-ru.yml'
+      - '.github/workflows/deploy-production-eu.yml'
+      - '.github/workflows/deploy.yml'
+      - '.helm/**'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: true
+        default: preflight
+        type: choice
+        options:
+          - preflight
+          - deploy
+
+env:
+  RUN_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
+  WERF_ENV: "production"
+  WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
+  WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
+  WERF_SET_ACTIVE_RELEASE: "global.active_release=2"
+  WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"
+  VAULT_ADDR: "https://seguro.flant.com"
+  VAULT_ROLE: "werf-web"
+  EU_KUBECONFIG_SECRET_PATH: "projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG"
+
+jobs:
+  converge-eu:
+    name: Deploy EU to old cluster
+    runs-on: prod-github-runner-0
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout werf repo
+        uses: actions/checkout@v4
+        with:
+          repository: werf/werf
+          path: werf
+          fetch-depth: 0
+
+      - name: Inject trdl_channels.yaml
+        run: |
+          cp werf/trdl_channels.yaml .helm/trdl_channels.yaml
+
+      - name: Install werf
+        uses: werf/actions/install@v2
+
+      - name: Request GitHub OIDC token
+        id: oidc
+        run: |
+          set -euo pipefail
+          oidc_token="$({ curl -fsSL \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=github-access-aud"; } | jq -r '.value')"
+
+          if [[ -z "$oidc_token" || "$oidc_token" == "null" ]]; then
+            echo "Failed to get GitHub OIDC token" >&2
+            exit 1
+          fi
+
+          echo "::add-mask::$oidc_token"
+          echo "token=$oidc_token" >> "$GITHUB_OUTPUT"
+
+      - name: Login to Seguro
+        id: seguro
+        run: |
+          set -euo pipefail
+          vault_token="$({ curl -fsSL \
+            -X POST \
+            -H 'Content-Type: application/json' \
+            "$VAULT_ADDR/v1/auth/github/login" \
+            -d "{\"role\":\"$VAULT_ROLE\",\"jwt\":\"${{ steps.oidc.outputs.token }}\"}"; } | jq -r '.auth.client_token')"
+
+          if [[ -z "$vault_token" || "$vault_token" == "null" ]]; then
+            echo "Failed to get Vault token from Seguro" >&2
+            exit 1
+          fi
+
+          echo "::add-mask::$vault_token"
+          echo "token=$vault_token" >> "$GITHUB_OUTPUT"
+
+      - name: Read EU kubeconfig from Seguro
+        id: eu_kubeconfig
+        run: |
+          set -euo pipefail
+
+          response="$(curl -fsSL -H "X-Vault-Token: ${{ steps.seguro.outputs.token }}" "$VAULT_ADDR/v1/$EU_KUBECONFIG_SECRET_PATH")"
+          field_count="$(printf '%s' "$response" | jq -r '.data.data | keys | length')"
+
+          if [[ "$field_count" == "0" || "$field_count" == "null" ]]; then
+            echo "EU kubeconfig secret is empty" >&2
+            exit 1
+          fi
+
+          if [[ "$field_count" -ne 1 ]]; then
+            echo "Expected exactly one field in EU kubeconfig secret, got: $(printf '%s' "$response" | jq -r '.data.data | keys | join(", ")')" >&2
+            exit 1
+          fi
+
+          secret_key="$(printf '%s' "$response" | jq -r '.data.data | keys[0]')"
+          secret_value="$(printf '%s' "$response" | jq -r --arg k "$secret_key" '.data.data[$k]')"
+
+          if [[ -z "$secret_value" || "$secret_value" == "null" ]]; then
+            echo "EU kubeconfig secret field '$secret_key' is empty" >&2
+            exit 1
+          fi
+
+          if printf '%s' "$secret_value" | base64 -d >/tmp/eu-kubeconfig-decoded 2>/dev/null && grep -q '^apiVersion:' /tmp/eu-kubeconfig-decoded; then
+            kubeconfig_base64="$secret_value"
+          else
+            kubeconfig_base64="$(printf '%s' "$secret_value" | base64 | tr -d '\n')"
+          fi
+
+          echo "::add-mask::$kubeconfig_base64"
+          echo "field=$secret_key" >> "$GITHUB_OUTPUT"
+          echo "kubeconfig_base64=$kubeconfig_base64" >> "$GITHUB_OUTPUT"
+
+      - name: Check EU cluster access
+        env:
+          WERF_KUBE_CONFIG_BASE64: ${{ steps.eu_kubeconfig.outputs.kubeconfig_base64 }}
+        run: |
+          set -euo pipefail
+          . $(werf ci-env github --as-file)
+
+          missing_requirements=0
+
+          echo "== cluster-info =="
+          werf kubectl cluster-info
+
+          echo "== namespace =="
+          if werf kubectl get ns werfio-production >/dev/null 2>&1; then
+            echo "Namespace werfio-production exists"
+          else
+            echo "Namespace werfio-production is missing"
+            missing_requirements=1
+          fi
+
+          echo "== priorityclass =="
+          if werf kubectl get priorityclass production-medium >/dev/null 2>&1; then
+            echo "PriorityClass production-medium exists"
+          else
+            echo "PriorityClass production-medium is missing"
+            missing_requirements=1
+          fi
+
+          echo "== can-i =="
+          werf kubectl auth can-i get pods -n werfio-production
+          werf kubectl auth can-i get ingress -n werfio-production
+          werf kubectl auth can-i create deployment.apps -n werfio-production
+
+          echo "== image pull secret =="
+          if werf kubectl -n werfio-production get secret github-werfio >/dev/null 2>&1; then
+            echo "Secret github-werfio exists in werfio-production"
+          else
+            echo "Secret github-werfio is missing in werfio-production"
+            missing_requirements=1
+          fi
+
+          echo "== existing resources =="
+          werf kubectl -n werfio-production get deploy,svc,ingress,pdb || true
+
+          if [[ "$missing_requirements" -ne 0 ]]; then
+            echo "EU cluster access works, but required bootstrap objects are missing" >&2
+            exit 1
+          fi
+
+      - name: Render EU manifests
+        env:
+          WERF_KUBE_CONFIG_BASE64: ${{ steps.eu_kubeconfig.outputs.kubeconfig_base64 }}
+        run: |
+          set -euo pipefail
+          . $(werf ci-env github --as-file)
+          werf render --dev --env production --without-images --stub-tags --ignore-secret-key --set global.targetCluster=eu >/tmp/werf-render-eu.yaml
+
+          echo "Rendered EU objects summary:"
+          grep '^kind:' /tmp/werf-render-eu.yaml | sort | uniq -c | cat
+
+      - name: Deploy EU to old cluster
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'deploy' }}
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge --set global.targetCluster=eu
+        env:
+          WERF_NAMESPACE: "werfio-production"
+          WERF_RELEASE: "werfio-site-production"
+          WERF_LOG_VERBOSE: "on"
+          WERF_ENV: "production"
+          WERF_KUBE_CONFIG_BASE64: ${{ steps.eu_kubeconfig.outputs.kubeconfig_base64 }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          cat <<EOF >> "$GITHUB_STEP_SUMMARY"
+          ## EU deploy
+
+          - Event: ${{ github.event_name }}
+          - Mode: $RUN_MODE
+          - Target cluster mode: eu
+          - Seguro role: $VAULT_ROLE
+          - Secret path: $EU_KUBECONFIG_SECRET_PATH
+          - Secret field used: ${{ steps.eu_kubeconfig.outputs.field }}
+          - Helm switch: global.targetCluster=eu
+
+          If mode is preflight, no converge was executed.
+          This workflow targets the old cluster and is intended to keep only the EU version there.
+          EOF
+

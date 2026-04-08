@@ -2,6 +2,9 @@
 {{- if  hasPrefix "review" .Values.werf.env }}
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
+{{- $targetCluster := include "targetCluster" . }}
+{{- $ruHost := printf "ru.%s" $host }}
+{{- $wwwHost := printf "www.%s" $host }}
 {{- if eq .Values.werf.env "production" }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -19,19 +22,15 @@ spec:
   ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
   tls:
   - hosts:
+{{- if eq $targetCluster "ru" }}
+      - {{ $ruHost }}
+{{- else }}
       - {{ $host }}
-{{- if eq .Values.werf.env "production" }}
-      - ru.{{ $host }}
-{{- else }}
-      - ru-{{ $host }}
+      - {{ $wwwHost }}
 {{- end }}
-      - www.{{ $host }}
-{{- if eq .Values.werf.env "production" }}
     secretName: tls-{{ $host }}
-{{- else }}
-    secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
-{{- end }}
   rules:
+{{- if eq $targetCluster "eu" }}
   - host: {{ $host }}
     http:
       paths:
@@ -42,11 +41,8 @@ spec:
             name: backend
             port:
               name: http
-{{- if eq .Values.werf.env "production" }}
-  - host: ru.{{ $host }}
 {{- else }}
-  - host: ru-{{ $host }}
-{{- end }}
+  - host: {{ $ruHost }}
     http:
       paths:
       - path: /
@@ -56,6 +52,7 @@ spec:
             name: backend
             port:
               name: http
+{{- end }}
 {{- else }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -76,11 +73,7 @@ spec:
   tls:
   - hosts:
       - {{ $host }}
-{{- if eq .Values.werf.env "production" }}
-    secretName: tls-{{ $host }}
-{{- else }}
     secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
-{{- end }}
   rules:
   - host: {{ $host }}
     http:
@@ -111,17 +104,9 @@ spec:
   tls:
   - hosts:
       - {{ $host }}
-{{- if eq .Values.werf.env "production" }}
-    secretName: tls-{{ $host }}
-{{- else }}
     secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
-{{- end }}
   rules:
-{{- if eq .Values.werf.env "production" }}
-  - host: ru.{{ $host }}
-{{- else }}
   - host: ru-{{ $host }}
-{{- end }}
     http:
       paths:
       - path: /
@@ -133,7 +118,23 @@ spec:
               name: http
 {{- end }}
 
-{{- if eq .Values.werf.env "production" }}
+{{- if and (eq .Values.werf.env "production") (eq $targetCluster "ru") }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Chart.Name }}-cert
+spec:
+  secretName: tls-{{ $host }}
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-standalone-geo
+  commonName: {{ $ruHost }}
+  dnsNames:
+  - {{ $ruHost }}
+{{- end }}
+
+{{- if and (eq .Values.werf.env "production") (eq $targetCluster "eu") }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -147,6 +148,5 @@ spec:
   commonName: {{ $host }}
   dnsNames:
   - {{ $host }}
-  - ru.{{ $host }}
-  - www.{{ $host }}
+  - {{ $wwwHost }}
 {{- end }}

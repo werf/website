@@ -23,6 +23,7 @@ spec:
       imagePullSecrets:
         - name: github-werfio
       priorityClassName: {{ pluck .Values.werf.env .Values.priorityClassName | first | default .Values.priorityClassName._default }}
+{{- include "clusterPlacement" . | indent 6 }}
       containers:
         - name: backend
           command: ["/app/server"]
