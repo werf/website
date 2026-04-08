@@ -1,14 +1,6 @@
 name: Deploy production EU
 
 on:
-  push:
-    branches:
-      - chore/prod-split-ru-eu
-    paths:
-      - '.github/workflows/deploy-production-ru.yml'
-      - '.github/workflows/deploy-production-eu.yml'
-      - '.github/workflows/deploy.yml'
-      - '.helm/**'
   workflow_dispatch:
     inputs:
       mode:

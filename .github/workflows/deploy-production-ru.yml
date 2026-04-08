@@ -136,7 +136,7 @@ jobs:
           set -euo pipefail
           . $(werf ci-env github --as-file)
 
-          missing_requirements=0
+          can_create_namespaces=no
 
           echo "== cluster-info =="
           werf kubectl cluster-info
@@ -147,8 +147,12 @@ jobs:
           else
             echo "Namespace werfio-production is missing"
             echo "Can create namespaces?"
-            werf kubectl auth can-i create namespaces || true
-            missing_requirements=1
+            can_create_namespaces="$(werf kubectl auth can-i create namespaces || true)"
+            echo "$can_create_namespaces"
+            if [[ "$can_create_namespaces" != "yes" ]]; then
+              echo "No permission to create namespaces, RU rollout would fail later" >&2
+              exit 1
+            fi
           fi
 
           echo "== priorityclass =="
@@ -156,7 +160,7 @@ jobs:
             echo "PriorityClass production-medium exists"
           else
             echo "PriorityClass production-medium is missing"
-            missing_requirements=1
+            exit 1
           fi
 
           echo "== can-i =="
@@ -170,18 +174,13 @@ jobs:
               echo "Secret github-werfio exists in werfio-production"
             else
               echo "Secret github-werfio is missing in werfio-production"
-              missing_requirements=1
+              echo "This is acceptable for preflight, but deploy will fail until the secret is created."
             fi
 
             echo "== existing resources =="
             werf kubectl -n werfio-production get deploy,svc,ingress,pdb || true
           else
             echo "Skipping namespace-scoped resource checks because namespace is missing"
-          fi
-
-          if [[ "$missing_requirements" -ne 0 ]]; then
-            echo "RU cluster access works, but required bootstrap objects are missing" >&2
-            exit 1
           fi
 
       - name: Render RU manifests
@@ -222,8 +221,12 @@ jobs:
           - Helm switch: global.targetCluster=ru
 
           If mode is preflight, no converge was executed.
+          Missing namespace is allowed if the token can create namespaces.
+          Missing imagePullSecret is reported but does not fail preflight.
           Current old production cluster was not modified by this workflow.
           EOF
+
+
 
 
 
