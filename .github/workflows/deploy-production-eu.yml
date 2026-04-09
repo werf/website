@@ -59,7 +59,7 @@ jobs:
           jwtGithubAudience: github-access-aud
           exportEnv: true
           secrets: |
-            projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG kube.config | EU_KUBECONFIG_RAW
+            projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG "kube.config" | EU_KUBECONFIG_RAW
 
       - name: Normalize EU kubeconfig
         id: eu_kubeconfig
