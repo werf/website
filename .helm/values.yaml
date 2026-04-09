@@ -1,6 +1,15 @@
 global:
   targetCluster: ""
 
+imagePullSecrets:
+  - github-werfio
+
+productionDeploy:
+  ru:
+    hostOverride: ""
+    tlsEnabled: true
+    certificateEnabled: true
+
 clusters:
   eu:
     placement:

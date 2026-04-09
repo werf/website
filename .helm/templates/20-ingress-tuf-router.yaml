@@ -3,7 +3,11 @@
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
 {{- $targetCluster := include "targetCluster" . }}
+{{- $ruConfig := .Values.productionDeploy.ru }}
 {{- $ruHost := printf "ru.%s" $host }}
+{{- if and (eq .Values.werf.env "production") (eq $targetCluster "ru") }}
+{{- $ruHost = $ruConfig.hostOverride | default $ruHost }}
+{{- end }}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -12,6 +16,7 @@ metadata:
   annotations: {}
 spec:
   ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
+{{- if or (ne .Values.werf.env "production") (ne $targetCluster "ru") $ruConfig.tlsEnabled }}
   tls:
   - hosts:
 {{- if eq .Values.werf.env "production" }}
@@ -25,6 +30,7 @@ spec:
       - {{ $host }}
       - ru-{{ $host }}
     secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
+{{- end }}
 {{- end }}
   rules:
 {{- if or (ne .Values.werf.env "production") (eq $targetCluster "eu") }}

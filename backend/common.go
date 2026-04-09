@@ -525,6 +525,14 @@ func URLToVersion(version string) (result string) {
 	return
 }
 
+func normalizedRequestHost(r *http.Request) string {
+	host := r.Host
+	if parsedHost, _, err := net.SplitHostPort(r.Host); err == nil {
+		host = parsedHost
+	}
+	return host
+}
+
 func validateURL(url string) error {
 	if strings.ToLower(os.Getenv("URL_VALIDATION")) == "false" {
 		return nil
@@ -595,7 +603,8 @@ func getGroups() (groups []string) {
 
 func getRootFilesPath(r *http.Request) (result string) {
 	result = "./root/"
-	if strings.HasPrefix(r.Host, "ru.") || strings.HasPrefix(r.Host, "ru-") {
+	host := normalizedRequestHost(r)
+	if strings.HasPrefix(host, "ru.") || strings.HasPrefix(host, "ru-") {
 		result += "ru"
 	} else {
 		result += "en"

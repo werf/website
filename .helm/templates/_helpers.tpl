@@ -6,6 +6,15 @@ resources:
     memory: {{ pluck .Values.werf.env .Values.resources.requests.memory | first | default .Values.resources.requests.memory._default }}
 {{- end }}
 
+{{- define "imagePullSecrets" }}
+{{- with .Values.imagePullSecrets }}
+imagePullSecrets:
+{{- range . }}
+  - name: {{ . | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+
 {{- define "targetCluster" }}
 {{- if eq .Values.werf.env "production" }}
 {{- $targetCluster := .Values.global.targetCluster | default "" -}}

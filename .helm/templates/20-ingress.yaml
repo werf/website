@@ -3,7 +3,11 @@
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
 {{- $targetCluster := include "targetCluster" . }}
+{{- $ruConfig := .Values.productionDeploy.ru }}
 {{- $ruHost := printf "ru.%s" $host }}
+{{- if and (eq .Values.werf.env "production") (eq $targetCluster "ru") }}
+{{- $ruHost = $ruConfig.hostOverride | default $ruHost }}
+{{- end }}
 {{- $wwwHost := printf "www.%s" $host }}
 {{- if eq .Values.werf.env "production" }}
 ---
@@ -20,6 +24,7 @@ metadata:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
+{{- if or (eq $targetCluster "eu") $ruConfig.tlsEnabled }}
   tls:
   - hosts:
 {{- if eq $targetCluster "ru" }}
@@ -29,6 +34,7 @@ spec:
       - {{ $wwwHost }}
 {{- end }}
     secretName: tls-{{ $host }}
+{{- end }}
   rules:
 {{- if eq $targetCluster "eu" }}
   - host: {{ $host }}
@@ -118,7 +124,7 @@ spec:
               name: http
 {{- end }}
 
-{{- if and (eq .Values.werf.env "production") (eq $targetCluster "ru") }}
+{{- if and (eq .Values.werf.env "production") (eq $targetCluster "ru") $ruConfig.certificateEnabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate

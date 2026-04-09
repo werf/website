@@ -97,10 +97,10 @@ func unknownVersionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	URLToRedirect = fmt.Sprintf("/docs/%v%v", group, pageURLRelative)
-	err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
+	err = validateURL(fmt.Sprintf("https://%s%s", normalizedRequestHost(r), URLToRedirect))
 
 	if err != nil {
-		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
+		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), normalizedRequestHost(r), r.URL.RequestURI())
 		notFoundHandler(w, r)
 	} else {
 		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
@@ -126,11 +126,11 @@ func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
 	err, version = getVersionFromChannelAndGroup(&ReleasesStatus, vars["channel"], vars["group"])
 	if err == nil {
 		URLToRedirect = fmt.Sprintf("/docs/%v%v", VersionToURL(version), pageURLRelative)
-		err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
+		err = validateURL(fmt.Sprintf("https://%s%s", normalizedRequestHost(r), URLToRedirect))
 	}
 
 	if err != nil {
-		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
+		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), normalizedRequestHost(r), r.URL.RequestURI())
 		// URLToRedirect = fmt.Sprintf("/404.html")
 		notFoundHandler(w, r)
 	} else {
