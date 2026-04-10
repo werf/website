@@ -3,7 +3,7 @@
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
 {{- $targetCluster := include "targetCluster" . }}
-{{- $ruHost := printf "ru.%s" $host }}
+{{- $ruHost := pluck .Values.werf.env .Values.ruHost | first | default (printf "ru.%s" $host) }}
 {{- $wwwHost := printf "www.%s" $host }}
 {{- if eq .Values.werf.env "production" }}
 ---

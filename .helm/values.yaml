@@ -25,6 +25,9 @@ host:
   dev: werf.dev.flant.dev
   _default: werf.test.flant.dev
 
+ruHost:
+  production: ru-test.werf.io
+
 ingressClassName:
   _default: "nginx"
   production: "standalone-geo"
