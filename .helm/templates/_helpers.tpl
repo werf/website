@@ -28,6 +28,14 @@ eu
 {{- end }}
 {{- end }}
 
+{{- define "ingressClassName" }}
+{{- pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default -}}
+{{- end }}
+
+{{- define "certificateIssuerName" }}
+{{- pluck .Values.werf.env .Values.certificateIssuerName | first | default .Values.certificateIssuerName._default -}}
+{{- end }}
+
 {{- define "clusterPlacement" }}
 {{- $targetCluster := include "targetCluster" . -}}
 {{- $clusterConfig := get (.Values.clusters | default dict) $targetCluster | default dict -}}

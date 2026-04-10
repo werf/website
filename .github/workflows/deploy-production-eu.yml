@@ -131,17 +131,6 @@ jobs:
             exit 1
           fi
 
-      - name: Render EU manifests
-        env:
-          WERF_KUBE_CONFIG_BASE64: ${{ steps.eu_kubeconfig.outputs.kubeconfig_base64 }}
-        run: |
-          set -euo pipefail
-          . $(werf ci-env github --as-file)
-          werf render --dev --env production --without-images --stub-tags --ignore-secret-key --set global.targetCluster=eu >/tmp/werf-render-eu.yaml
-
-          echo "Rendered EU objects summary:"
-          grep '^kind:' /tmp/werf-render-eu.yaml | sort | uniq -c | cat
-
       - name: Deploy EU to old cluster
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'deploy' }}
         run: |

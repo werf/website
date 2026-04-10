@@ -4,12 +4,6 @@ global:
 imagePullSecrets:
   - github-werfio
 
-productionDeploy:
-  ru:
-    hostOverride: ""
-    tlsEnabled: true
-    certificateEnabled: true
-
 clusters:
   eu:
     placement:
@@ -34,6 +28,10 @@ host:
 ingressClassName:
   _default: "nginx"
   production: "standalone-geo"
+
+certificateIssuerName:
+  _default: letsencrypt
+  production: letsencrypt-standalone-geo
 
 ingressSecretName:
   _default: wildcard-dev-flant-dev

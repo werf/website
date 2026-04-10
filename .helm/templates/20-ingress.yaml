@@ -3,11 +3,7 @@
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
 {{- $targetCluster := include "targetCluster" . }}
-{{- $ruConfig := .Values.productionDeploy.ru }}
 {{- $ruHost := printf "ru.%s" $host }}
-{{- if and (eq .Values.werf.env "production") (eq $targetCluster "ru") }}
-{{- $ruHost = $ruConfig.hostOverride | default $ruHost }}
-{{- end }}
 {{- $wwwHost := printf "www.%s" $host }}
 {{- if eq .Values.werf.env "production" }}
 ---
@@ -23,8 +19,7 @@ metadata:
 {{- include "rewrites" . | indent 6 }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
-  ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
-{{- if or (eq $targetCluster "eu") $ruConfig.tlsEnabled }}
+  ingressClassName: {{ include "ingressClassName" . }}
   tls:
   - hosts:
 {{- if eq $targetCluster "ru" }}
@@ -34,7 +29,6 @@ spec:
       - {{ $wwwHost }}
 {{- end }}
     secretName: tls-{{ $host }}
-{{- end }}
   rules:
 {{- if eq $targetCluster "eu" }}
   - host: {{ $host }}
@@ -75,7 +69,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: https://$host/dex-authenticator/sign_in
     nginx.ingress.kubernetes.io/auth-url: https://werfio-dex-authenticator.{{ $.Values.werf.namespace }}.svc.cluster.local/dex-authenticator/auth
 spec:
-  ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
+  ingressClassName: {{ include "ingressClassName" . }}
   tls:
   - hosts:
       - {{ $host }}
@@ -106,10 +100,10 @@ metadata:
     nginx.ingress.kubernetes.io/auth-signin: https://$host/dex-authenticator/sign_in
     nginx.ingress.kubernetes.io/auth-url: https://werfio-ru-dex-authenticator.{{ $.Values.werf.namespace }}.svc.cluster.local/dex-authenticator/auth
 spec:
-  ingressClassName: {{ pluck .Values.werf.env .Values.ingressClassName | first | default .Values.ingressClassName._default }}
+  ingressClassName: {{ include "ingressClassName" . }}
   tls:
   - hosts:
-      - {{ $host }}
+      - ru-{{ $host }}
     secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
   rules:
   - host: ru-{{ $host }}
@@ -124,7 +118,7 @@ spec:
               name: http
 {{- end }}
 
-{{- if and (eq .Values.werf.env "production") (eq $targetCluster "ru") $ruConfig.certificateEnabled }}
+{{- if eq .Values.werf.env "production" }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -134,25 +128,17 @@ spec:
   secretName: tls-{{ $host }}
   issuerRef:
     kind: ClusterIssuer
-    name: letsencrypt-standalone-geo
+    name: {{ include "certificateIssuerName" . }}
+{{- if eq $targetCluster "ru" }}
   commonName: {{ $ruHost }}
-  dnsNames:
-  - {{ $ruHost }}
-{{- end }}
-
-{{- if and (eq .Values.werf.env "production") (eq $targetCluster "eu") }}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: {{ .Chart.Name }}-cert
-spec:
-  secretName: tls-{{ $host }}
-  issuerRef:
-    kind: ClusterIssuer
-    name: letsencrypt-standalone-geo
+{{- else }}
   commonName: {{ $host }}
+{{- end }}
   dnsNames:
+{{- if eq $targetCluster "ru" }}
+  - {{ $ruHost }}
+{{- else }}
   - {{ $host }}
   - {{ $wwwHost }}
+{{- end }}
 {{- end }}

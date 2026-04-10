@@ -19,11 +19,6 @@ on:
         options:
           - preflight
           - deploy
-      ru_test_host:
-        description: "Temporary RU host for local testing without public DNS"
-        required: true
-        default: ru-test.werf.io
-        type: string
 
 env:
   RUN_MODE: ${{ github.event_name == 'push' && 'deploy' || github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
@@ -32,7 +27,6 @@ env:
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
   WERF_SET_ACTIVE_RELEASE: "global.active_release=2"
   WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"
-  RU_TEST_HOST: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ru_test_host || 'ru-test.werf.io' }}
 
 jobs:
   converge-ru:
@@ -96,30 +90,11 @@ jobs:
           echo "field=kube.config" >> "$GITHUB_OUTPUT"
           echo "kubeconfig_base64=$kubeconfig_base64" >> "$GITHUB_OUTPUT"
 
-      - name: Render RU manifests
-        env:
-          WERF_KUBE_CONFIG_BASE64: ${{ steps.ru_kubeconfig.outputs.kubeconfig_base64 }}
-        run: |
-          set -euo pipefail
-          . $(werf ci-env github --as-file)
-          werf render --dev --env production --without-images --stub-tags --ignore-secret-key \
-            --set global.targetCluster=ru \
-            --set productionDeploy.ru.hostOverride="$RU_TEST_HOST" \
-            --set productionDeploy.ru.tlsEnabled=false \
-            --set productionDeploy.ru.certificateEnabled=false >/tmp/werf-render-ru.yaml
-
-          echo "Rendered RU objects summary:"
-          grep '^kind:' /tmp/werf-render-ru.yaml | sort | uniq -c | cat
-
       - name: Deploy RU to new cluster
         if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'deploy') }}
         run: |
           . $(werf ci-env github --as-file)
-          werf converge \
-            --set global.targetCluster=ru \
-            --set productionDeploy.ru.hostOverride="$RU_TEST_HOST" \
-            --set productionDeploy.ru.tlsEnabled=false \
-            --set productionDeploy.ru.certificateEnabled=false
+          werf converge --set global.targetCluster=ru
         env:
           WERF_NAMESPACE: "werfio-production"
           WERF_RELEASE: "werfio-site-production"
@@ -140,14 +115,14 @@ jobs:
           - Secret path: projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG_RU
           - Secret field used: ${{ steps.ru_kubeconfig.outputs.field }}
           - Helm switch: global.targetCluster=ru
-          - Temporary RU host: $RU_TEST_HOST
-          - TLS for RU test host: disabled
-          - Certificate for RU test host: disabled
 
           On push to branch `chore/prod-split-ru-eu`, this workflow performs a real RU deploy.
-          RU deploy uses a temporary host and does not request a public certificate until DNS cutover.
           Current old production cluster was not modified by this workflow.
           EOF
+
+
+
+
 
 
 
