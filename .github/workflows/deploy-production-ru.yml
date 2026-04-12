@@ -3,25 +3,10 @@ name: Deploy production RU
 on:
   push:
     branches:
-      - chore/prod-split-ru-eu
-    paths:
-      - '.github/workflows/deploy-production-ru.yml'
-      - '.github/workflows/deploy-production-eu.yml'
-      - '.github/workflows/deploy.yml'
-      - '.helm/**'
+      - main
   workflow_dispatch:
-    inputs:
-      mode:
-        description: "Run mode"
-        required: true
-        default: deploy
-        type: choice
-        options:
-          - preflight
-          - deploy
 
 env:
-  RUN_MODE: ${{ github.event_name == 'push' && 'deploy' || github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
   WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
@@ -91,7 +76,6 @@ jobs:
           echo "kubeconfig_base64=$kubeconfig_base64" >> "$GITHUB_OUTPUT"
 
       - name: Deploy RU to new cluster
-        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'deploy') }}
         run: |
           . $(werf ci-env github --as-file)
           werf converge --set global.targetCluster=ru
@@ -109,38 +93,11 @@ jobs:
           ## RU deploy
 
           - Event: ${{ github.event_name }}
-          - Mode: $RUN_MODE
           - Target cluster mode: ru
           - Seguro role: werf-web
           - Secret path: projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG_RU
           - Secret field used: ${{ steps.ru_kubeconfig.outputs.field }}
           - Helm switch: global.targetCluster=ru
 
-          On push to branch `chore/prod-split-ru-eu`, this workflow performs a real RU deploy.
-          Current old production cluster was not modified by this workflow.
+          This workflow deploys RU production on push to main or manual run.
           EOF
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

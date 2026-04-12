@@ -3,25 +3,10 @@ name: Deploy production EU
 on:
   push:
     branches:
-      - chore/prod-split-ru-eu
-    paths:
-      - '.github/workflows/deploy-production-eu.yml'
-      - '.github/workflows/deploy-production-ru.yml'
-      - '.github/workflows/deploy.yml'
-      - '.helm/**'
+      - main
   workflow_dispatch:
-    inputs:
-      mode:
-        description: "Run mode"
-        required: true
-        default: preflight
-        type: choice
-        options:
-          - preflight
-          - deploy
 
 env:
-  RUN_MODE: ${{ github.event_name == 'push' && 'preflight' || github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
   WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
@@ -90,59 +75,8 @@ jobs:
           echo "field=kube.config" >> "$GITHUB_OUTPUT"
           echo "kubeconfig_base64=$kubeconfig_base64" >> "$GITHUB_OUTPUT"
 
-      - name: Check EU cluster access
-        env:
-          WERF_KUBE_CONFIG_BASE64: ${{ steps.eu_kubeconfig.outputs.kubeconfig_base64 }}
+      - name: Deploy EU to old cluster
         run: |
-          set -euo pipefail
-          . $(werf ci-env github --as-file)
-
-          missing_requirements=0
-
-          echo "== cluster-info =="
-          werf kubectl cluster-info
-
-          echo "== namespace =="
-          if werf kubectl get ns werfio-production >/dev/null 2>&1; then
-            echo "Namespace werfio-production exists"
-          else
-            echo "Namespace werfio-production is missing"
-            missing_requirements=1
-          fi
-
-          echo "== priorityclass =="
-          if werf kubectl get priorityclass production-medium >/dev/null 2>&1; then
-            echo "PriorityClass production-medium exists"
-          else
-            echo "PriorityClass production-medium is missing"
-            missing_requirements=1
-          fi
-
-          echo "== can-i =="
-          werf kubectl auth can-i get pods -n werfio-production
-          werf kubectl auth can-i get ingress -n werfio-production
-          werf kubectl auth can-i create deployment.apps -n werfio-production
-
-          echo "== image pull secret =="
-          if werf kubectl -n werfio-production get secret github-werfio >/dev/null 2>&1; then
-            echo "Secret github-werfio exists in werfio-production"
-          else
-            echo "Secret github-werfio is missing in werfio-production"
-            missing_requirements=1
-          fi
-
-          echo "== existing resources =="
-          werf kubectl -n werfio-production get deploy,svc,ingress,pdb || true
-
-          if [[ "$missing_requirements" -ne 0 ]]; then
-            echo "EU cluster access works, but required bootstrap objects are missing" >&2
-            exit 1
-          fi
-
-      - name: Deploy EU to old cluster (temporarily disabled)
-        if: ${{ false }}
-        run: |
-          # Temporarily disabled while validating Seguro/Bob access and cluster preflight only.
           . $(werf ci-env github --as-file)
           werf converge --set global.targetCluster=eu
         env:
@@ -159,14 +93,11 @@ jobs:
           ## EU deploy
 
           - Event: ${{ github.event_name }}
-          - Mode: $RUN_MODE
           - Target cluster mode: eu
           - Seguro role: werf-web
           - Secret path: projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG
           - Secret field used: ${{ steps.eu_kubeconfig.outputs.field }}
           - Helm switch: global.targetCluster=eu
 
-          This workflow currently runs preflight checks only.
-          Real EU converge is temporarily disabled while validating Seguro/Bob access from the branch.
+          This workflow deploys EU production on push to main or manual run.
           EOF
-
