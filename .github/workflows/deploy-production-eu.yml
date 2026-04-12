@@ -1,6 +1,14 @@
 name: Deploy production EU
 
 on:
+  push:
+    branches:
+      - chore/prod-split-ru-eu
+    paths:
+      - '.github/workflows/deploy-production-eu.yml'
+      - '.github/workflows/deploy-production-ru.yml'
+      - '.github/workflows/deploy.yml'
+      - '.helm/**'
   workflow_dispatch:
     inputs:
       mode:
@@ -13,7 +21,7 @@ on:
           - deploy
 
 env:
-  RUN_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
+  RUN_MODE: ${{ github.event_name == 'push' && 'preflight' || github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'preflight' }}
   WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
@@ -131,9 +139,10 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy EU to old cluster
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'deploy' }}
+      - name: Deploy EU to old cluster (temporarily disabled)
+        if: ${{ false }}
         run: |
+          # Temporarily disabled while validating Seguro/Bob access and cluster preflight only.
           . $(werf ci-env github --as-file)
           werf converge --set global.targetCluster=eu
         env:
@@ -157,7 +166,7 @@ jobs:
           - Secret field used: ${{ steps.eu_kubeconfig.outputs.field }}
           - Helm switch: global.targetCluster=eu
 
-          If mode is preflight, no converge was executed.
-          This workflow targets the old cluster and is intended to keep only the EU version there.
+          This workflow currently runs preflight checks only.
+          Real EU converge is temporarily disabled while validating Seguro/Bob access from the branch.
           EOF
 

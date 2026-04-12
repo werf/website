@@ -13,7 +13,7 @@ permalink: guides/index.html
             </a>
             <a href="{{ site.site_urls['ru'] }}" class="landing__button" data-proofer-ignore>
                 {% asset arrow.svg %}
-                <span>ru-test.werf.io</span>
+                <span>ru.werf.io</span>
             </a>
         </div>
         <!-- end-spell-check-ignore -->

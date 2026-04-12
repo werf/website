@@ -2,7 +2,7 @@ output: web
 
 site_title: werf
 site_urls:
-  ru: https://ru-test.werf.io
+  ru: https://ru.werf.io
   en: https://werf.io
 editlink: "https://github.com/werf/website/edit/main"
 canonical_url_prefix: /docs/v2
