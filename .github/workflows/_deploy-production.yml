@@ -1,0 +1,111 @@
+name: Deploy production (internal)
+
+on:
+  workflow_call:
+    inputs:
+      jobName:
+        required: true
+        type: string
+      targetCluster:
+        required: true
+        type: string
+      kubeConfigSecretPath:
+        required: true
+        type: string
+      runner:
+        required: false
+        default: prod-github-runner-0
+        type: string
+
+jobs:
+  converge:
+    name: ${{ inputs.jobName }}
+    runs-on: ${{ inputs.runner }}
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout werf repo
+        uses: actions/checkout@v4
+        with:
+          repository: werf/werf
+          path: werf
+          fetch-depth: 0
+
+      - name: Inject trdl_channels.yaml
+        run: |
+          cp werf/trdl_channels.yaml .helm/trdl_channels.yaml
+
+      - name: Install werf
+        uses: werf/actions/install@v2
+
+      - name: Authenticate in Seguro
+        id: vault
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://seguro.flant.com
+          path: github
+          role: werf-web
+          method: jwt
+          jwtGithubAudience: github-access-aud
+          exportToken: true
+
+      - name: Read and normalize kubeconfig
+        id: kubeconfig
+        run: |
+          set -euo pipefail
+
+          response="$(curl -fsSL -H "X-Vault-Token: $VAULT_TOKEN" "https://seguro.flant.com/v1/${{ inputs.kubeConfigSecretPath }}")"
+          secret_value="$(printf '%s' "$response" | jq -r '.data.data["kube.config"]')"
+
+          if [[ -z "$secret_value" || "$secret_value" == "null" ]]; then
+            echo "Kubeconfig secret is empty" >&2
+            exit 1
+          fi
+
+          if printf '%s' "$secret_value" | base64 -d >/tmp/kubeconfig-decoded 2>/dev/null && grep -q '^apiVersion:' /tmp/kubeconfig-decoded; then
+            kubeconfig_base64="$secret_value"
+          else
+            kubeconfig_base64="$(printf '%s' "$secret_value" | base64 | tr -d '\n')"
+          fi
+
+          echo "::add-mask::$kubeconfig_base64"
+          echo "field=kube.config" >> "$GITHUB_OUTPUT"
+          echo "kubeconfig_base64=$kubeconfig_base64" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy production
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge --set global.targetCluster=${{ inputs.targetCluster }}
+        env:
+          WERF_REPO: ghcr.io/${{ github.repository_owner }}/werfio-guides
+          WERF_STAGES_STORAGE: ghcr.io/werf/werfio-guides-stages
+          WERF_SET_ACTIVE_RELEASE: global.active_release=2
+          WERFIO_GITHUB_TOKEN: ${{ secrets.API_TOKEN }}
+          WERF_NAMESPACE: "werfio-production"
+          WERF_RELEASE: "werfio-site-production"
+          WERF_LOG_VERBOSE: "on"
+          WERF_ENV: "production"
+          WERF_KUBE_CONFIG_BASE64: ${{ steps.kubeconfig.outputs.kubeconfig_base64 }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          cat <<EOF >> "$GITHUB_STEP_SUMMARY"
+          ## ${{ inputs.jobName }}
+
+          - Event: ${{ github.event_name }}
+          - Target cluster mode: ${{ inputs.targetCluster }}
+          - Seguro role: werf-web
+          - Secret path: ${{ inputs.kubeConfigSecretPath }}
+          - Secret field used: ${{ steps.kubeconfig.outputs.field }}
+          - Helm switch: global.targetCluster=${{ inputs.targetCluster }}
+          EOF
+
+

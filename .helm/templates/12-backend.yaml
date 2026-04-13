@@ -20,9 +20,13 @@ spec:
       labels:
         service: backend
     spec:
-      imagePullSecrets:
-        - name: github-werfio
+{{- include "imagePullSecrets" . | indent 6 }}
       priorityClassName: {{ pluck .Values.werf.env .Values.priorityClassName | first | default .Values.priorityClassName._default }}
+{{- with .Values.backend.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- include "clusterPlacement" . | indent 6 }}
       containers:
         - name: backend
           command: ["/app/server"]

@@ -1,3 +1,21 @@
+global:
+  targetCluster: ""
+
+imagePullSecrets:
+  - github-werfio
+
+clusters:
+  eu:
+    placement:
+      nodeSelector: {}
+      tolerations: []
+      affinity: {}
+  ru:
+    placement:
+      nodeSelector: {}
+      tolerations: []
+      affinity: {}
+
 priorityClassName:
   _default: develop
   production: production-medium
@@ -7,9 +25,16 @@ host:
   dev: werf.dev.flant.dev
   _default: werf.test.flant.dev
 
+ruHost:
+  production: ru.werf.io
+
 ingressClassName:
   _default: "nginx"
   production: "standalone-geo"
+
+certificateIssuerName:
+  _default: letsencrypt
+  production: letsencrypt-standalone-geo
 
 ingressSecretName:
   _default: wildcard-dev-flant-dev
@@ -22,3 +47,13 @@ resources:
       _default: 30M
       production: 300M
 
+backend:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                service: backend

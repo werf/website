@@ -17,9 +17,9 @@ spec:
       labels:
         service: tuf-router
     spec:
-      imagePullSecrets:
-        - name: github-werfio
+{{- include "imagePullSecrets" . | indent 6 }}
       priorityClassName: {{ pluck .Values.werf.env .Values.priorityClassName | first | default .Values.priorityClassName._default }}
+{{- include "clusterPlacement" . | indent 6 }}
       containers:
         - name: nginx
           command: ["nginx", "-g", "daemon off;"]
