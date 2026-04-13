@@ -1,0 +1,48 @@
+name: Deploy production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      targetCluster:
+        description: "Target cluster"
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - ru
+          - eu
+
+jobs:
+  deploy-prod-ru:
+    if: ${{ github.event_name == 'push' || github.event.inputs.targetCluster == 'all' || github.event.inputs.targetCluster == 'ru' }}
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    uses: ./.github/workflows/_deploy-production.yml
+    secrets: inherit
+    with:
+      jobName: Deploy RU to new cluster
+      targetCluster: ru
+      runner: prod-github-runner-0
+      kubeConfigSecretPath: projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG_RU
+
+  deploy-prod-eu:
+    if: ${{ github.event_name == 'push' || github.event.inputs.targetCluster == 'all' || github.event.inputs.targetCluster == 'eu' }}
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    uses: ./.github/workflows/_deploy-production.yml
+    secrets: inherit
+    with:
+      jobName: Deploy EU to old cluster
+      targetCluster: eu
+      runner: prod-github-runner-0
+      kubeConfigSecretPath: projects/data/b454e6aa-39f0-45f4-aa7c-a9465ab154cb/KUBE_CONFIG
+
+
