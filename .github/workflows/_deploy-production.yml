@@ -27,12 +27,12 @@ jobs:
       packages: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Checkout werf repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: werf/werf
           path: werf
@@ -47,7 +47,7 @@ jobs:
 
       - name: Authenticate in Seguro
         id: vault
-        uses: hashicorp/vault-action@v2
+        uses: hashicorp/vault-action@v3
         with:
           url: https://seguro.flant.com
           path: github

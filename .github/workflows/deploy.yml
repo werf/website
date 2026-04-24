@@ -19,12 +19,12 @@ jobs:
     runs-on: prod-github-runner-0
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Checkout werf repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: werf/werf
           path: werf
