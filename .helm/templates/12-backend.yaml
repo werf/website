@@ -39,6 +39,8 @@ spec:
           env:
           - name: ACTIVE_RELEASE
             value: {{ .Values.global.active_release | quote }}
+          - name: SUPPORTED_DOCS_MAJOR_VERSIONS
+            value: {{ join "," (pluck .Values.werf.env .Values.docsMajorRoots | first | default .Values.docsMajorRoots._default) | quote }}
           - name: LOG_LEVEL
             value: "info"
 {{- if ne .Values.werf.env "production" }}
@@ -53,13 +55,6 @@ spec:
             httpGet:
               path: /health
               port: 8080
-          volumeMounts:
-            - name: trdl-data
-              mountPath: /app/trdl
-      volumes:
-        - name: trdl-data
-          configMap:
-            name: trdl-data
 ---
 apiVersion: v1
 kind: Service
@@ -96,15 +91,3 @@ spec:
   selector:
     matchLabels:
       service: backend
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: trdl-data
-data:
-  trdl_channels.yaml: |
-{{- if eq .Values.werf.env "production" }}
-{{ .Files.Get "trdl_channels.yaml" | indent 4 }}
-{{- else }}
-{{ .Files.Get "trdl_channels-dev.yaml" | indent 4 }}
-{{- end }}

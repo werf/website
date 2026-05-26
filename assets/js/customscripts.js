@@ -466,7 +466,7 @@ $(document).ready(function () {
 });
 
 function getDocGroupFromURL() {
-  let result = window.location.pathname.match(/^\/docs\/(v\d+\.\d+)/);
+  let result = window.location.pathname.match(/^\/docs\/(latest|v\d+)(?:[\.-][^/]+)?(?:\/|$)/);
   if ( result && result[1] ) {
     return result[1];
   }
@@ -474,13 +474,9 @@ function getDocGroupFromURL() {
 }
 
 function getDocVersionFromURL() {
-  let result = window.location.pathname.match(/\/docs\/(v\d+\.\d+([^/]+)?)\/.*/);
+  let result = window.location.pathname.match(/^\/docs\/(latest|v\d+(?:[\.-][^/]+)*)\/.*/);
   if ( result ) {
-    if  ( result.length > 2 && result[2] ) {
-      return result[1].replace('-plus-','+');
-    } else {
-      return "main";
-    }
+    return result[1].replace('-plus-','+');
   }
   return null;
 }

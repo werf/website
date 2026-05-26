@@ -4,6 +4,15 @@ on:
   pull_request:
     types: [labeled, synchronize]
   workflow_dispatch:
+    inputs:
+      targetEnvironment:
+        description: "Target environment in dev cluster"
+        required: true
+        default: test
+        type: choice
+        options:
+          - test
+          - stage
 
 env:
   WERF_ENV: "production"
@@ -15,7 +24,11 @@ env:
 jobs:
   converge:
     name: Deploy
-    if: contains(github.event.pull_request.labels.*.name, 'test website') || contains(github.event.pull_request.labels.*.name, 'stage website')
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+      (contains(github.event.pull_request.labels.*.name, 'test website') ||
+      contains(github.event.pull_request.labels.*.name, 'stage website')))
     runs-on: prod-github-runner-0
     steps:
       - name: Checkout code
@@ -23,22 +36,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout werf repo
-        uses: actions/checkout@v6
-        with:
-          repository: werf/werf
-          path: werf
-          fetch-depth: 0
-
-      - name: Inject trdl_channels.yaml
-        run: |
-          cp werf/trdl_channels.yaml .helm/trdl_channels.yaml
-
       - name: Install werf
         uses: werf/actions/install@v2
 
       - name: Deploy to test
-        if: contains(github.event.pull_request.labels.*.name, 'test website')
+        if: >-
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.targetEnvironment == 'test') ||
+          (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test website'))
         run: |
           . $(werf ci-env github --as-file)
           werf converge
@@ -51,7 +55,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to stage
-        if: contains(github.event.pull_request.labels.*.name, 'stage website')
+        if: >-
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.targetEnvironment == 'stage') ||
+          (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'stage website'))
         run: |
           . $(werf ci-env github --as-file)
           werf converge

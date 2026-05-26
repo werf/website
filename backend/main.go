@@ -24,16 +24,14 @@ func newRouter() *mux.Router {
 
 	var ruHostMatch mux.MatcherFunc = func(r *http.Request, rm *mux.RouteMatch) bool {
 		result := false
-		result, _ = regexp.MatchString(`^ru[\.\-](localhost|.*(\.flant\.dev|werf\.io))$`, r.Host)
+		result, _ = regexp.MatchString(`^ru[.-](localhost|.*([.]flant[.]dev|werf[.]io))$`, r.Host)
 		return result
 	}
 
 	r.PathPrefix("/status").HandlerFunc(statusHandler)
 	r.PathPrefix("/backend/").HandlerFunc(ssiHandler)
-	r.PathPrefix("/docs/v{group:1.2}-{channel:alpha|beta|ea|stable|rock-solid}").HandlerFunc(groupChannelHandler)
-	r.PathPrefix("/docs/v{version:[0-9]+.[0-9]+.[0-9]+[^/]*}").HandlerFunc(unknownVersionHandler)
-	r.PathPrefix("/docs/v{group:[0-9]+}/").HandlerFunc(groupHandler)
-	r.PathPrefix("/docs/v{group:1.2}/").HandlerFunc(groupHandler)
+	r.PathPrefix(`/docs/v{group:[0-9]+(?:\.[0-9]+)?}-{channel:alpha|beta|ea|stable|rock-solid}/`).HandlerFunc(groupChannelHandler)
+	r.PathPrefix(`/docs/v{legacy:[0-9]+(?:\.[^/]+|-[^/]+)[^/]*}/`).HandlerFunc(legacyDocsVersionHandler)
 	r.PathPrefix("/docs/{group:latest}/").HandlerFunc(groupHandler)
 	r.PathPrefix("/health").HandlerFunc(healthCheckHandler)
 	r.Path("/includes/topnav.html").HandlerFunc(topnavHandler)
