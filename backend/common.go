@@ -112,7 +112,7 @@ func (m *versionMenuType) populateMajorVersionMenu(r *http.Request) (err error) 
 	}
 
 	for _, root := range getSupportedDocsMajorRoots() {
-		if root == canonicalVersion {
+		if root == displayVersion {
 			continue
 		}
 

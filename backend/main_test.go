@@ -101,3 +101,26 @@ func TestVersionMenuDataUsesMajorRoots(t *testing.T) {
 		t.Fatalf("expected menu versions %v, got %v", expectedVersions, gotVersions)
 	}
 }
+
+func TestVersionMenuDataKeepsCanonicalMajorWhenCurrentIsLatest(t *testing.T) {
+	t.Setenv("ACTIVE_RELEASE", "2")
+	t.Setenv("SUPPORTED_DOCS_MAJOR_VERSIONS", "v2,v1")
+
+	req := httptest.NewRequest(http.MethodGet, "/includes/channel-menu-v2.html", nil)
+	req.Header.Set("x-original-uri", "/docs/latest/reference/cli/overview.html")
+
+	menu := versionMenuType{VersionItems: []versionMenuItems{}}
+	if err := menu.getVersionMenuData(req, nil); err != nil {
+		t.Fatalf("unexpected error populating version menu: %v", err)
+	}
+
+	gotVersions := []string{}
+	for _, item := range menu.VersionItems {
+		gotVersions = append(gotVersions, item.Version)
+	}
+
+	expectedVersions := []string{"latest", "v2", "v1"}
+	if !reflect.DeepEqual(gotVersions, expectedVersions) {
+		t.Fatalf("expected menu versions %v, got %v", expectedVersions, gotVersions)
+	}
+}
