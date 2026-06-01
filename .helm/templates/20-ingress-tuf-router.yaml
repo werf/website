@@ -4,30 +4,35 @@
 {{- end }}
 {{- $targetCluster := include "targetCluster" . }}
 {{- $ruHost := pluck .Values.werf.env .Values.ruHost | first | default (printf "ru.%s" $host) }}
+{{- $wwwHost := printf "www.%s" $host }}
+{{- $ingressSecretName := pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tuf-router
+{{- if eq .Values.werf.env "production" }}
+  annotations:
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+{{- else }}
   annotations: {}
+{{- end }}
 spec:
   ingressClassName: {{ include "ingressClassName" . }}
   tls:
   - hosts:
+      - {{ $host }}
 {{- if eq .Values.werf.env "production" }}
+      - {{ $wwwHost }}
 {{- if eq $targetCluster "ru" }}
       - {{ $ruHost }}
-{{- else }}
-      - {{ $host }}
 {{- end }}
-    secretName: tls-{{ $host }}
+    secretName: {{ $ingressSecretName }}
 {{- else }}
-      - {{ $host }}
       - ru-{{ $host }}
-    secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
+    secretName: {{ $ingressSecretName }}
 {{- end }}
   rules:
-{{- if or (ne .Values.werf.env "production") (eq $targetCluster "eu") }}
   - host: {{ $host }}
     http:
       paths:
@@ -45,7 +50,6 @@ spec:
             name: tuf-router
             port:
               name: http
-{{- end }}
 {{- if eq .Values.werf.env "production" }}
 {{- if eq $targetCluster "ru" }}
   - host: {{ $ruHost }}

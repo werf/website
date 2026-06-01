@@ -40,6 +40,7 @@ ingressSecretName:
   _default: wildcard-dev-flant-dev
   test: wildcard-test-flant-dev
   stage: wildcard-stage-flant-dev
+  production: tls-werf-io
 
 resources:
   requests:
