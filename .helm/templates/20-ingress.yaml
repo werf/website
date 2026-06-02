@@ -2,7 +2,6 @@
 {{- if  hasPrefix "review" .Values.werf.env }}
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
-{{- $targetCluster := include "targetCluster" . }}
 {{- $ruHost := pluck .Values.werf.env .Values.ruHost | first | default (printf "ru.%s" $host) }}
 {{- $wwwHost := printf "www.%s" $host }}
 {{- $ingressSecretName := pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
@@ -25,9 +24,7 @@ spec:
   - hosts:
       - {{ $host }}
       - {{ $wwwHost }}
-{{- if eq $targetCluster "ru" }}
       - {{ $ruHost }}
-{{- end }}
     secretName: {{ $ingressSecretName }}
   rules:
   - host: {{ $host }}
@@ -40,7 +37,6 @@ spec:
             name: backend
             port:
               name: http
-{{- if eq $targetCluster "ru" }}
   - host: {{ $ruHost }}
     http:
       paths:
@@ -51,7 +47,6 @@ spec:
             name: backend
             port:
               name: http
-{{- end }}
 {{- else }}
 ---
 apiVersion: networking.k8s.io/v1
