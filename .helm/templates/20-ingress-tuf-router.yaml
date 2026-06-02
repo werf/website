@@ -2,8 +2,8 @@
 {{- if  hasPrefix "review" .Values.werf.env }}
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
-{{- $targetCluster := include "targetCluster" . }}
 {{- $ruHost := pluck .Values.werf.env .Values.ruHost | first | default (printf "ru.%s" $host) }}
+{{- $ingressSecretName := pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -14,20 +14,15 @@ spec:
   ingressClassName: {{ include "ingressClassName" . }}
   tls:
   - hosts:
+      - {{ $host }}
 {{- if eq .Values.werf.env "production" }}
-{{- if eq $targetCluster "ru" }}
       - {{ $ruHost }}
+    secretName: {{ $ingressSecretName }}
 {{- else }}
-      - {{ $host }}
-{{- end }}
-    secretName: tls-{{ $host }}
-{{- else }}
-      - {{ $host }}
       - ru-{{ $host }}
-    secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
+    secretName: {{ $ingressSecretName }}
 {{- end }}
   rules:
-{{- if or (ne .Values.werf.env "production") (eq $targetCluster "eu") }}
   - host: {{ $host }}
     http:
       paths:
@@ -45,9 +40,7 @@ spec:
             name: tuf-router
             port:
               name: http
-{{- end }}
 {{- if eq .Values.werf.env "production" }}
-{{- if eq $targetCluster "ru" }}
   - host: {{ $ruHost }}
     http:
       paths:
@@ -65,7 +58,6 @@ spec:
             name: tuf-router
             port:
               name: http
-{{- end }}
 {{- else }}
   - host: ru-{{ $host }}
     http:

@@ -2,9 +2,9 @@
 {{- if  hasPrefix "review" .Values.werf.env }}
 {{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
 {{- end }}
-{{- $targetCluster := include "targetCluster" . }}
 {{- $ruHost := pluck .Values.werf.env .Values.ruHost | first | default (printf "ru.%s" $host) }}
 {{- $wwwHost := printf "www.%s" $host }}
+{{- $ingressSecretName := pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
 {{- if eq .Values.werf.env "production" }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -22,15 +22,11 @@ spec:
   ingressClassName: {{ include "ingressClassName" . }}
   tls:
   - hosts:
-{{- if eq $targetCluster "ru" }}
-      - {{ $ruHost }}
-{{- else }}
       - {{ $host }}
       - {{ $wwwHost }}
-{{- end }}
-    secretName: tls-{{ $host }}
+      - {{ $ruHost }}
+    secretName: {{ $ingressSecretName }}
   rules:
-{{- if eq $targetCluster "eu" }}
   - host: {{ $host }}
     http:
       paths:
@@ -41,7 +37,6 @@ spec:
             name: backend
             port:
               name: http
-{{- else }}
   - host: {{ $ruHost }}
     http:
       paths:
@@ -52,7 +47,6 @@ spec:
             name: backend
             port:
               name: http
-{{- end }}
 {{- else }}
 ---
 apiVersion: networking.k8s.io/v1
@@ -73,7 +67,7 @@ spec:
   tls:
   - hosts:
       - {{ $host }}
-    secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
+    secretName: {{ $ingressSecretName }}
   rules:
   - host: {{ $host }}
     http:
@@ -104,7 +98,7 @@ spec:
   tls:
   - hosts:
       - ru-{{ $host }}
-    secretName: {{ pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
+    secretName: {{ $ingressSecretName }}
   rules:
   - host: ru-{{ $host }}
     http:
@@ -118,27 +112,3 @@ spec:
               name: http
 {{- end }}
 
-{{- if eq .Values.werf.env "production" }}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: {{ .Chart.Name }}-cert
-spec:
-  secretName: tls-{{ $host }}
-  issuerRef:
-    kind: ClusterIssuer
-    name: {{ include "certificateIssuerName" . }}
-{{- if eq $targetCluster "ru" }}
-  commonName: {{ $ruHost }}
-{{- else }}
-  commonName: {{ $host }}
-{{- end }}
-  dnsNames:
-{{- if eq $targetCluster "ru" }}
-  - {{ $ruHost }}
-{{- else }}
-  - {{ $host }}
-  - {{ $wwwHost }}
-{{- end }}
-{{- end }}

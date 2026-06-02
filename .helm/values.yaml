@@ -32,14 +32,12 @@ ingressClassName:
   _default: "nginx"
   production: "standalone-geo"
 
-certificateIssuerName:
-  _default: letsencrypt
-  production: letsencrypt-standalone-geo
 
 ingressSecretName:
   _default: wildcard-dev-flant-dev
   test: wildcard-test-flant-dev
   stage: wildcard-stage-flant-dev
+  production: tls-werf-io
 
 resources:
   requests:
