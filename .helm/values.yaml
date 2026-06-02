@@ -1,10 +1,15 @@
 global:
   targetCluster: ""
 
-docsMajorRoots:
-  _default:
-    - v2
-    - v1
+docsRouting:
+  currentMajor:
+    _default: v2
+  supportedRoots:
+    _default:
+      - v2
+      - v1
+  latestAliasEnabled:
+    _default: auto
 
 imagePullSecrets:
   - github-werfio

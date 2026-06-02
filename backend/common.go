@@ -9,7 +9,19 @@ import (
 	"strings"
 )
 
-const defaultSupportedDocsMajorRoots = "v2,v1"
+const (
+	currentDocsMajorEnvVar           = "CURRENT_DOCS_MAJOR"
+	supportedDocsMajorVersionsEnvVar = "SUPPORTED_DOCS_MAJOR_VERSIONS"
+	docsLatestAliasEnabledEnvVar     = "DOCS_LATEST_ALIAS_ENABLED"
+	legacyActiveReleaseEnvVar        = "ACTIVE_RELEASE"
+	defaultDocsMajorRoot             = "v1"
+)
+
+type docsRoutingConfig struct {
+	CurrentMajor   string
+	SupportedRoots []string
+	LatestAlias    bool
+}
 
 type ChannelType struct {
 	Name    string `yaml:"name"`
@@ -86,7 +98,7 @@ func (m *versionMenuType) populateMajorVersionMenu(r *http.Request) (err error) 
 
 	canonicalVersion := getCanonicalDocsVersion(requestedVersion)
 	displayVersion := canonicalVersion
-	if requestedVersion == "latest" {
+	if requestedVersion == "latest" && getDocsLatestAliasEnabled() {
 		displayVersion = "latest"
 	}
 	m.CurrentVersion = displayVersion
@@ -103,7 +115,7 @@ func (m *versionMenuType) populateMajorVersionMenu(r *http.Request) (err error) 
 		IsCurrent:  true,
 	})
 
-	if requestedVersion != "latest" {
+	if getDocsLatestAliasEnabled() && requestedVersion != "latest" {
 		m.VersionItems = append(m.VersionItems, versionMenuItems{
 			Version:    "latest",
 			VersionURL: "latest",
@@ -127,12 +139,7 @@ func (m *versionMenuType) populateMajorVersionMenu(r *http.Request) (err error) 
 }
 
 func getCurrentDocsMajorRoot() string {
-	activeRelease := strings.TrimPrefix(strings.ToLower(strings.TrimSpace(getRootRelease())), "v")
-	if activeRelease == "" || activeRelease == "latest" {
-		activeRelease = "2"
-	}
-
-	return fmt.Sprintf("v%s", activeRelease)
+	return getDocsRoutingConfig().CurrentMajor
 }
 
 func getCanonicalDocsVersion(version string) string {
@@ -154,29 +161,31 @@ func getCanonicalDocsVersion(version string) string {
 }
 
 func getSupportedDocsMajorRoots() []string {
-	configuredRoots := os.Getenv("SUPPORTED_DOCS_MAJOR_VERSIONS")
-	if strings.TrimSpace(configuredRoots) == "" {
-		configuredRoots = defaultSupportedDocsMajorRoots
+	return getDocsRoutingConfig().SupportedRoots
+}
+
+func getDocsLatestAliasEnabled() bool {
+	return getDocsRoutingConfig().LatestAlias
+}
+
+func getDocsRoutingConfig() docsRoutingConfig {
+	configuredCurrent := normalizeDocsMajorRoot(os.Getenv(currentDocsMajorEnvVar))
+	configuredRoots := getConfiguredDocsMajorRoots(os.Getenv(supportedDocsMajorVersionsEnvVar))
+
+	currentRoot := configuredCurrent
+	if currentRoot == "" && len(configuredRoots) > 0 {
+		currentRoot = configuredRoots[0]
 	}
-	majorRootPattern := regexp.MustCompile(`^v[0-9]+$`)
+	if currentRoot == "" {
+		currentRoot = normalizeDocsMajorRoot(getRootRelease())
+	}
+	if currentRoot == "" {
+		currentRoot = defaultDocsMajorRoot
+	}
 
-	roots := []string{getCurrentDocsMajorRoot()}
-	seen := map[string]struct{}{roots[0]: {}}
-
-	for _, rawRoot := range strings.FieldsFunc(configuredRoots, func(r rune) bool {
-		return r == ',' || r == ';' || r == ' ' || r == '\n' || r == '\t'
-	}) {
-		root := strings.ToLower(strings.TrimSpace(rawRoot))
-		root = strings.TrimPrefix(root, "/docs/")
-		root = strings.Trim(root, "/")
-		if root == "" || root == "latest" {
-			continue
-		}
-
-		if !majorRootPattern.MatchString(root) {
-			continue
-		}
-
+	roots := []string{currentRoot}
+	seen := map[string]struct{}{currentRoot: {}}
+	for _, root := range configuredRoots {
 		if _, ok := seen[root]; ok {
 			continue
 		}
@@ -185,11 +194,69 @@ func getSupportedDocsMajorRoots() []string {
 		seen[root] = struct{}{}
 	}
 
-	if _, ok := seen["v1"]; !ok {
-		roots = append(roots, "v1")
+	latestAliasEnabled := shouldEnableDocsLatestAlias(os.Getenv(docsLatestAliasEnabledEnvVar), currentRoot, roots)
+
+	return docsRoutingConfig{
+		CurrentMajor:   currentRoot,
+		SupportedRoots: roots,
+		LatestAlias:    latestAliasEnabled,
+	}
+}
+
+func shouldEnableDocsLatestAlias(raw string, currentRoot string, roots []string) bool {
+	if value, ok := parseOptionalBool(raw); ok {
+		return value
+	}
+
+	return !(currentRoot == "v1" && len(roots) == 1 && roots[0] == "v1")
+}
+
+func parseOptionalBool(raw string) (bool, bool) {
+	switch strings.ToLower(strings.TrimSpace(raw)) {
+	case "1", "true", "yes", "on":
+		return true, true
+	case "0", "false", "no", "off":
+		return false, true
+	default:
+		return false, false
+	}
+}
+
+func getConfiguredDocsMajorRoots(configuredRoots string) []string {
+	roots := []string{}
+	seen := map[string]struct{}{}
+	for _, rawRoot := range strings.FieldsFunc(configuredRoots, func(r rune) bool {
+		return r == ',' || r == ';' || r == ' ' || r == '\n' || r == '\t'
+	}) {
+		root := normalizeDocsMajorRoot(rawRoot)
+		if root == "" {
+			continue
+		}
+		if _, ok := seen[root]; ok {
+			continue
+		}
+
+		roots = append(roots, root)
+		seen[root] = struct{}{}
 	}
 
 	return roots
+}
+
+func normalizeDocsMajorRoot(raw string) string {
+	root := strings.ToLower(strings.TrimSpace(raw))
+	root = strings.TrimPrefix(root, "/docs/")
+	root = strings.Trim(root, "/")
+	root = strings.TrimPrefix(root, "v")
+	if root == "" {
+		return ""
+	}
+
+	if matched, _ := regexp.MatchString(`^[0-9]+$`, root); matched {
+		return fmt.Sprintf("v%s", root)
+	}
+
+	return ""
 }
 
 // Gev version from specified group
@@ -223,10 +290,8 @@ func getRootReleaseVersion() string {
 }
 
 func getRootRelease() (result string) {
-	if len(os.Getenv("ACTIVE_RELEASE")) > 0 {
-		result = os.Getenv("ACTIVE_RELEASE")
-	} else {
-		result = "2"
+	if len(os.Getenv(legacyActiveReleaseEnvVar)) > 0 {
+		result = os.Getenv(legacyActiveReleaseEnvVar)
 	}
 
 	return

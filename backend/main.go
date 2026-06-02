@@ -32,7 +32,9 @@ func newRouter() *mux.Router {
 	r.PathPrefix("/backend/").HandlerFunc(ssiHandler)
 	r.PathPrefix(`/docs/v{group:[0-9]+(?:\.[0-9]+)?}-{channel:alpha|beta|ea|stable|rock-solid}/`).HandlerFunc(groupChannelHandler)
 	r.PathPrefix(`/docs/v{legacy:[0-9]+(?:\.[^/]+|-[^/]+)[^/]*}/`).HandlerFunc(legacyDocsVersionHandler)
-	r.PathPrefix("/docs/{group:latest}/").HandlerFunc(groupHandler)
+	if getDocsLatestAliasEnabled() {
+		r.PathPrefix("/docs/{group:latest}/").HandlerFunc(groupHandler)
+	}
 	r.PathPrefix("/health").HandlerFunc(healthCheckHandler)
 	r.Path("/includes/topnav.html").HandlerFunc(topnavHandler)
 	r.Path("/includes/version-menu.html").HandlerFunc(topnavHandler)

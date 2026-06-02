@@ -1,8 +1,19 @@
 # SHOULD BE IN SYNC WITH github.com/werf/werf/docs/.helm/templates/_rewrites.tpl
 {{- define "rewrites" }}
-{{- $currentDocsMajor := printf "v%s" (.Values.global.active_release | default "2") }}
-{{- $docsVersionPattern := "v\\d+(?:\\.\\d+(?:\\.\\d+(?:[^/]+)?)?)?|latest|pr-\\d+" }}
-{{- $docsV2VersionPattern := "v2(?:\\.\\d+(?:\\.\\d+(?:[^/]+)?)?)?|latest|pr-\\d+" }}
+{{- $currentDocsMajor := include "docsCurrentMajor" . }}
+{{- $latestAliasEnabled := include "docsLatestAliasEnabled" . }}
+{{- $supportedDocsRootsPattern := include "docsSupportedRootsPattern" . }}
+{{- $docsActiveVersionPattern := printf "(?:%s|pr-\\d+)" $supportedDocsRootsPattern }}
+{{- $docsCompatibilityVersionPattern := "v\\d+(?:\\.[^/]+)+|v\\d+-(?:alpha|beta|ea|stable|rock-solid)" }}
+{{- $docsVersionPattern := printf "(?:%s|%s)" $docsActiveVersionPattern $docsCompatibilityVersionPattern }}
+{{- if eq $latestAliasEnabled "true" }}
+{{- $docsVersionPattern = printf "(?:latest|%s)" $docsVersionPattern }}
+{{- end }}
+{{- $docsModernStructuredRootsPattern := include "docsModernStructuredRootsPattern" . }}
+{{- $docsModernStructuredVersionPattern := "" }}
+{{- if $docsModernStructuredRootsPattern }}
+{{- $docsModernStructuredVersionPattern = printf "(?:%s|pr-\\d+)" $docsModernStructuredRootsPattern }}
+{{- end }}
 {{- $docsV12VersionPattern := "v1(?:\\.2(?:\\.\\d+(?:[^/]+)?)?)?" }}
 {{- $docsV11VersionPattern := "v1\\.1(?:\\.\\d+(?:[^/]+)?)?" }}
 {{- $docsV1LegacyVersionPattern := "v1(?:\\.[12](?:\\.\\d+(?:[^/]+)?)?)?" }}
@@ -35,27 +46,44 @@ rewrite ^/(?<ver>{{ $docsV11VersionPattern }})/how_to/?$                        
 rewrite ^/(?<ver>{{ $docsV11VersionPattern }})/how_to/(?<tail>.+)                        /docs/$ver/how_to/$tail redirect;
 
 ############################################
-# Temporary versioned redirects
+# Active docs major routing
 ############################################
 
 rewrite ^/docs/?$                                                                             /docs/{{ $currentDocsMajor }}/                                   redirect;
+{{- if eq $latestAliasEnabled "true" }}
 rewrite ^/docs/latest/?$                                                                      /docs/{{ $currentDocsMajor }}/                                   redirect;
 rewrite ^/docs/latest/(?<tail>.+)$                                                           /docs/{{ $currentDocsMajor }}/$tail                              redirect;
-rewrite ^/docs/(?<major>v2)-(?:alpha|beta|ea|stable|rock-solid)/?(?<tail>.*)$               /docs/$major/$tail                                               redirect;
-rewrite ^/docs/(?<major>v[12])(?:\.[^/]+)+/?(?<tail>.*)$                                    /docs/$major/$tail                                               redirect;
-rewrite ^/docs/(?!(?:{{ $docsVersionPattern }})/)(?:.+)                         /docs/{{ $currentDocsMajor }}/                                   redirect;
+{{- else }}
+if ($uri ~ "^/docs/latest(?:/|$)") {
+  return 404;
+}
+{{- end }}
 
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/?$                             /docs/$ver/usage/project_configuration/overview.html            redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/usage/?$                       /docs/$ver/usage/project_configuration/overview.html            redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/usage/project_configuration/?$ /docs/$ver/usage/project_configuration/overview.html            redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/usage/build/?$                 /docs/$ver/usage/build/overview.html                            redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/usage/build/stapel/?$          /docs/$ver/usage/build/stapel/overview.html                     redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/usage/deploy/?$                /docs/$ver/usage/deploy/overview.html                           redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/usage/distribute/?$            /docs/$ver/usage/distribute/overview.html                       redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/usage/cleanup/?$               /docs/$ver/usage/cleanup/cr_cleanup.html                        redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/reference/?$                   /docs/$ver/reference/werf_yaml.html                             redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/reference/cli/?$               /docs/$ver/reference/cli/overview.html                          redirect;
-rewrite ^/docs/(?<ver>{{ $docsV2VersionPattern }})/resources/?$                   /docs/$ver/resources/cheat_sheet.html                           redirect;
+############################################
+# Compatibility aliases -> fixed major roots
+############################################
+
+rewrite ^/docs/(?<major>v[0-9]+)-(?:alpha|beta|ea|stable|rock-solid)/?(?<tail>.*)$          /docs/$major/$tail                                               redirect;
+rewrite ^/docs/(?<major>v[0-9]+)(?:\.[^/]+)+/?(?<tail>.*)$                                   /docs/$major/$tail                                               redirect;
+rewrite ^/docs/(?!(?:{{ $docsActiveVersionPattern }}|{{ $docsCompatibilityVersionPattern }})/)(?:.+) /docs/{{ $currentDocsMajor }}/                         redirect;
+
+############################################
+# Active docs roots with modern IA
+############################################
+
+{{- if $docsModernStructuredVersionPattern }}
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/?$               /docs/$ver/usage/project_configuration/overview.html            redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/usage/?$         /docs/$ver/usage/project_configuration/overview.html            redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/usage/project_configuration/?$ /docs/$ver/usage/project_configuration/overview.html  redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/usage/build/?$   /docs/$ver/usage/build/overview.html                            redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/usage/build/stapel/?$ /docs/$ver/usage/build/stapel/overview.html                 redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/usage/deploy/?$  /docs/$ver/usage/deploy/overview.html                           redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/usage/distribute/?$ /docs/$ver/usage/distribute/overview.html                     redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/usage/cleanup/?$ /docs/$ver/usage/cleanup/cr_cleanup.html                        redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/reference/?$     /docs/$ver/reference/werf_yaml.html                             redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/reference/cli/?$ /docs/$ver/reference/cli/overview.html                          redirect;
+rewrite ^/docs/(?<ver>{{ $docsModernStructuredVersionPattern }})/resources/?$     /docs/$ver/resources/cheat_sheet.html                           redirect;
+{{- end }}
 
 rewrite ^/docs/(?<ver>{{ $docsV12VersionPattern }})/?$                                           /docs/$ver/usage/project_configuration/overview.html            redirect;
 rewrite ^/docs/(?<ver>{{ $docsV12VersionPattern }})/usage/?$                                     /docs/$ver/usage/project_configuration/overview.html            redirect;
@@ -79,7 +107,7 @@ rewrite ^/docs/(?<ver>{{ $docsV11VersionPattern }})/reference/development_and_de
 rewrite ^/docs/(?<ver>{{ $docsV11VersionPattern }})/reference/toolbox/?$                         /docs/$ver/reference/toolbox/slug.html                          redirect;
 
 ############################################
-# Redirects for moved or deleted urls
+# Historical redirects outside docs majors
 ############################################
 
 rewrite ^/installation\.html$                                                                     /getting_started/                                      redirect;

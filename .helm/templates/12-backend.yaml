@@ -37,10 +37,12 @@ spec:
             name: http
             protocol: TCP
           env:
-          - name: ACTIVE_RELEASE
-            value: {{ .Values.global.active_release | quote }}
+          - name: CURRENT_DOCS_MAJOR
+            value: {{ include "docsCurrentMajor" . | quote }}
           - name: SUPPORTED_DOCS_MAJOR_VERSIONS
-            value: {{ join "," (pluck .Values.werf.env .Values.docsMajorRoots | first | default .Values.docsMajorRoots._default) | quote }}
+            value: {{ include "docsSupportedRootsCSV" . | quote }}
+          - name: DOCS_LATEST_ALIAS_ENABLED
+            value: {{ include "docsLatestAliasEnabled" . | quote }}
           - name: LOG_LEVEL
             value: "info"
 {{- if ne .Values.werf.env "production" }}

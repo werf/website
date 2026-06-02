@@ -1,4 +1,10 @@
 version: "3.9"
+
+x-docs-routing-env: &docs-routing-env
+  CURRENT_DOCS_MAJOR: ${CURRENT_DOCS_MAJOR:-}
+  SUPPORTED_DOCS_MAJOR_VERSIONS: ${SUPPORTED_DOCS_MAJOR_VERSIONS:-v2,v1}
+  DOCS_LATEST_ALIAS_ENABLED: ${DOCS_LATEST_ALIAS_ENABLED:-}
+
 services:
   en:
     image: $WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME
@@ -36,8 +42,12 @@ services:
 
   front:
     image: nginx:latest
+    environment:
+      <<: *docs-routing-env
+    command: /bin/sh -ec '/etc/nginx/render-docs-nginx.sh && exec nginx -g "daemon off;"'
     volumes:
-      - ".werf/nginx-dev.conf:/etc/nginx/nginx.conf:ro"
+      - ".werf/nginx-dev.conf:/etc/nginx/templates/nginx.conf.template:ro"
+      - ".werf/render-docs-nginx.sh:/etc/nginx/render-docs-nginx.sh:ro"
     ports:
       - "80:80"
     depends_on:
@@ -47,8 +57,7 @@ services:
   backend:
     image: $WERF_BACKEND_DOCKER_IMAGE_NAME
     environment:
-      ACTIVE_RELEASE: "2"
-      SUPPORTED_DOCS_MAJOR_VERSIONS: "v2,v1"
+      <<: *docs-routing-env
       LOG_LEVEL: info
       URL_VALIDATION: "false"
     command: "/app/server"
