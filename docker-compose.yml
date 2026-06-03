@@ -11,10 +11,19 @@ services:
     working_dir: "/app"
     environment:
       JEKYLL_ENV: "dev"
-    command: bash -c "
-      find /app/ -mindepth 1 -maxdepth 1 -not -name .git -exec chmod -R o+w {} \\; &&
-      chmod -R o+w /tmp/_site/ &&
-      jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml --destination /tmp/_site -P 80 --profile --watch --trace"
+    command:
+      - bash
+      - -ec
+      - |
+        for path in /app/*; do
+          name=$$(basename "$$path")
+          case "$$name" in
+            .git|ai-test|ai-work) continue ;;
+          esac
+          chmod -R o+w "$$path"
+        done
+        chmod -R o+w /tmp/_site/
+        jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_en.yml --destination /tmp/_site -P 80 --profile --watch --trace
     volumes:
       - "./:/app/:cached"
       - "./_site_en_includes:/tmp/_site/includes"
@@ -28,10 +37,19 @@ services:
     working_dir: "/app"
     environment:
       JEKYLL_ENV: "dev"
-    command: bash -c "
-      find /app/ -mindepth 1 -maxdepth 1 -not -name .git -exec chmod -R o+w {} \\; &&
-      chmod -R o+w /tmp/_site/ &&
-      jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml --destination /tmp/_site -P 80 --profile --watch --trace"
+    command:
+      - bash
+      - -ec
+      - |
+        for path in /app/*; do
+          name=$$(basename "$$path")
+          case "$$name" in
+            .git|ai-test|ai-work) continue ;;
+          esac
+          chmod -R o+w "$$path"
+        done
+        chmod -R o+w /tmp/_site/
+        jekyll serve -t --disable-disk-cache --config _config.yml,_config_dev.yml,_config_ru.yml --destination /tmp/_site -P 80 --profile --watch --trace
     volumes:
       - "./:/app/:cached"
       - "./_site_ru_includes:/tmp/_site/includes"
@@ -44,7 +62,12 @@ services:
     image: nginx:latest
     environment:
       <<: *docs-routing-env
-    command: /bin/sh -ec '/etc/nginx/render-docs-nginx.sh && exec nginx -g "daemon off;"'
+    command:
+      - /bin/sh
+      - -ec
+      - |
+        /bin/sh /etc/nginx/render-docs-nginx.sh
+        exec nginx -g "daemon off;"
     volumes:
       - ".werf/nginx-dev.conf:/etc/nginx/templates/nginx.conf.template:ro"
       - ".werf/render-docs-nginx.sh:/etc/nginx/render-docs-nginx.sh:ro"

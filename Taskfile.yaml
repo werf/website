@@ -123,7 +123,7 @@ tasks:
         WERF_JEKYLL_BASE_DOCKER_IMAGE_NAME=nginx:latest \
         WERF_BACKEND_DOCKER_IMAGE_NAME=nginx:latest \
         werf compose down
-        docker network delete werfio-dev
+        docker network rm werfio-dev || true
       - |
         for d in $(ls -1d ./_site* ./.jekyll-cache* ./.jekyll-metadata 2>/dev/null) ; do
           echo "Remove dir $d ..."
