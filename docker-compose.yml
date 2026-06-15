@@ -47,12 +47,13 @@ services:
   backend:
     image: $WERF_BACKEND_DOCKER_IMAGE_NAME
     environment:
-      ACTIVE_RELEASE: "2"
+      CURRENT_DOCS_MAJOR: "v2"
+      SUPPORTED_DOCS_MAJOR_VERSIONS: "v2,v1.2"
+      DOCS_LATEST_ALIAS_ENABLED: "true"
       LOG_LEVEL: info
       URL_VALIDATION: "false"
     command: "/app/server"
     volumes:
-      - ".helm/trdl_channels-dev.yaml:/app/trdl/trdl_channels.yaml:ro"
       - "./_site_en_includes:/app/root/en/includes"
       - "./_site_ru_includes:/app/root/ru/includes"
     depends_on:

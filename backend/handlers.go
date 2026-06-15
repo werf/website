@@ -24,30 +24,22 @@ func ssiHandler(w http.ResponseWriter, r *http.Request) {
 
 // Get some status info
 func statusHandler(w http.ResponseWriter, r *http.Request) {
-	var msg []string
-	status := "ok"
+	_ = r
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
-	err := updateReleasesStatus()
-	if err != nil {
-		msg = append(msg, err.Error())
-		status = "error"
-	}
-
 	_ = json.NewEncoder(w).Encode(
 		ApiStatusResponseType{
-			Status:         status,
-			Msg:            strings.Join(msg, " "),
+			Status:         "ok",
+			Msg:            "",
 			RootVersion:    getRootReleaseVersion(),
 			RootVersionURL: VersionToURL(getRootReleaseVersion()),
-			Multiwerf:      ReleasesStatus.Releases,
+			Multiwerf:      []ReleaseType{},
 		})
 }
 
 // X-Redirect to the stablest documentation version for specific group
 func groupHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
 	rawQuery := r.URL.RawQuery
 	log.Debugln("Use handler - groupHandler")
 	vars := mux.Vars(r)
@@ -58,9 +50,7 @@ func groupHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.Header().Set("X-Accel-Redirect", redirectURL)
 	} else {
-		// Fall back to the version specified in the ACTIVE_RELEASE env, if got the incorrect version.
-		activeRelease := getRootRelease()
-		redirectURL := fmt.Sprintf("/docs/v%s/", activeRelease)
+		redirectURL := fmt.Sprintf("/docs/%s/", getCurrentDocsRoot())
 		if rawQuery != "" {
 			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
 		}
@@ -68,43 +58,26 @@ func groupHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Handler for versions which are not available (there are no ingress for the version and requests go to router)
-// Redirect request to the corresponding group
-func unknownVersionHandler(w http.ResponseWriter, r *http.Request) {
-	var URLToRedirect string
-	var err error
-
-	log.Debugln("Use handler - unknownVersionHandler")
-
-	pageURLRelative := "/"
-
-	_ = updateReleasesStatus()
-
-	vars := mux.Vars(r)
-
-	group := getRootRelease()
-
-	re := regexp.MustCompile(`^([0-9]+\.[0-9]+)\..+$`)
-	res := re.FindStringSubmatch(vars["version"])
-	if res != nil {
-		group = fmt.Sprintf("v%s", res[1])
+func legacyDocsVersionHandler(w http.ResponseWriter, r *http.Request) {
+	log.Debugln("Use handler - legacyDocsVersionHandler")
+	version := ""
+	if res := regexp.MustCompile(`^/docs/([^/]+)/?.*$`).FindStringSubmatch(r.URL.Path); len(res) == 2 {
+		version = res[1]
+	}
+	if version == "" {
+		version = getVersionURL(r)
 	}
 
-	re = regexp.MustCompile(`^/docs/[^/]+(/.+)$`)
-	res = re.FindStringSubmatch(r.URL.RequestURI())
-	if res != nil {
+	pageURLRelative := "/"
+	if res := regexp.MustCompile(`^/docs/[^/]+(/.+)$`).FindStringSubmatch(r.URL.Path); len(res) == 2 {
 		pageURLRelative = res[1]
 	}
 
-	URLToRedirect = fmt.Sprintf("/docs/%v%v", group, pageURLRelative)
-	err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
-
-	if err != nil {
-		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
-		notFoundHandler(w, r)
-	} else {
-		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
+	redirectURL := fmt.Sprintf("/docs/%s%v", VersionToURL(getCanonicalDocsVersion(version)), pageURLRelative)
+	if r.URL.RawQuery != "" {
+		redirectURL = fmt.Sprintf("%s?%s", redirectURL, r.URL.RawQuery)
 	}
+	http.Redirect(w, r, redirectURL, http.StatusFound)
 }
 
 // Handles request to /v<group>-<channel>/. E.g. /v1.2-beta/
@@ -113,7 +86,6 @@ func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debugln("Use handler - groupChannelHandler")
 	pageURLRelative := "/"
 	vars := mux.Vars(r)
-	_ = updateReleasesStatus()
 	var version, URLToRedirect string
 	var err error
 
@@ -124,18 +96,15 @@ func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err, version = getVersionFromChannelAndGroup(&ReleasesStatus, vars["channel"], vars["group"])
-	if err == nil {
+	if err == nil && version != "" {
 		URLToRedirect = fmt.Sprintf("/docs/%v%v", VersionToURL(version), pageURLRelative)
-		err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
 	}
 
 	if err != nil {
-		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
-		// URLToRedirect = fmt.Sprintf("/404.html")
+		log.Errorf("Error resolving docs channel URL: %v", err.Error())
 		notFoundHandler(w, r)
 	} else {
 		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
-		// w.Header().Set("X-Accel-Redirect", URLToRedirect)
 	}
 }
 
@@ -146,8 +115,6 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 // Get HTML content for /includes/topnav.html request
 func topnavHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
-
 	versionMenu := versionMenuType{
 		VersionItems:           []versionMenuItems{},
 		HTMLContent:            "", // not used now
@@ -173,8 +140,6 @@ func topnavHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func groupMenuHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
-
 	versionMenu := versionMenuType{
 		VersionItems:           []versionMenuItems{},
 		HTMLContent:            "", // not used now
@@ -199,8 +164,6 @@ func groupMenuHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func channelMenuHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
-
 	versionMenu := versionMenuType{
 		VersionItems:           []versionMenuItems{},
 		HTMLContent:            "", // not used now
@@ -258,7 +221,6 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	page404File, err := os.Open(getRootFilesPath(r) + "/404.html")
-	defer page404File.Close()
 	if err != nil {
 		// 404.html built-in stub
 		log.Error("404.html file not found")
@@ -272,6 +234,7 @@ Try searching for it or check the URL to see if it looks correct.</p>
 </body></html>`, 404)
 		return
 	}
+	defer page404File.Close()
 	io.Copy(w, page404File)
 	// w.Header().Set("X-Accel-Redirect", fmt.Sprintf("/404.html"))
 }
