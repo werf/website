@@ -31,17 +31,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout werf repo
-        uses: actions/checkout@v6
-        with:
-          repository: werf/werf
-          path: werf
-          fetch-depth: 0
-
-      - name: Inject trdl_channels.yaml
-        run: |
-          cp werf/trdl_channels.yaml .helm/trdl_channels.yaml
-
       - name: Install werf
         uses: werf/actions/install@v2
 
@@ -86,7 +75,6 @@ jobs:
         env:
           WERF_REPO: ghcr.io/${{ github.repository_owner }}/werfio-guides
           WERF_STAGES_STORAGE: ghcr.io/werf/werfio-guides-stages
-          WERF_SET_ACTIVE_RELEASE: global.active_release=2
           WERFIO_GITHUB_TOKEN: ${{ secrets.API_TOKEN }}
           WERF_NAMESPACE: "werfio-production"
           WERF_RELEASE: "werfio-site-production"
