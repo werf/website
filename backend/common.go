@@ -144,7 +144,7 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 			Group:      strings.TrimPrefix(root, "v"),
 			Channel:    "",
 			Version:    root,
-			VersionURL: root,
+			VersionURL: VersionToURL(root),
 			IsCurrent:  false,
 		})
 	}
@@ -177,7 +177,7 @@ func (m *versionMenuType) getGroupMenuData(r *http.Request, releases *ReleasesSt
 			Group:      strings.TrimPrefix(root, "v"),
 			Channel:    "",
 			Version:    root,
-			VersionURL: root,
+			VersionURL: VersionToURL(root),
 			IsCurrent:  false,
 		})
 	}
@@ -218,7 +218,7 @@ func getVersionFromGroup(releases *ReleasesStatusType, group string) (err error,
 
 // Add prefix 'v' to a version if it doesn't have yet
 func normalizeVersion(version string) string {
-	if strings.HasPrefix(version, "v") || version == "latest" {
+	if strings.HasPrefix(version, "v") || version == "latest" || strings.HasPrefix(version, "pr-") {
 		return version
 	} else {
 		return fmt.Sprintf("v%s", version)
