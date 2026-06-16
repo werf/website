@@ -46,8 +46,8 @@ func TestLegacyDocsVersionHandler(t *testing.T) {
 	}{
 		{name: "legacy v2 patch", path: "/docs/v2.3.0/usage/", wantStatus: http.StatusFound, wantLoc: "/docs/v2/usage/"},
 		{name: "legacy v1.2 patch", path: "/docs/v1.2.9-plus-fix1/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v1.2/reference/"},
-		{name: "legacy v2 channel", path: "/docs/v2-stable/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v2/reference/"},
-		{name: "legacy v1.2 channel", path: "/docs/v1.2-beta/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v1.2/reference/"},
+		{name: "legacy v2 alias", path: "/docs/v2-stable/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v2/reference/"},
+		{name: "legacy v1.2 alias", path: "/docs/v1.2-beta/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v1.2/reference/"},
 	}
 
 	for _, tc := range cases {

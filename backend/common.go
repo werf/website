@@ -9,33 +9,17 @@ import (
 	"strings"
 )
 
-type ChannelType struct {
-	Name    string `yaml:"name"`
-	Version string `yaml:"version"`
-}
-
-type ReleaseType struct {
-	Group    string        `yaml:"name"`
-	Channels []ChannelType `yaml:"channels"`
-}
-
-type ReleasesStatusType struct {
-	Releases []ReleaseType `yaml:"groups"`
-}
-
 type ApiStatusResponseType struct {
-	Status         string        `json:"status"`
-	Msg            string        `json:"msg"`
-	RootVersion    string        `json:"rootVersion"`
-	RootVersionURL string        `json:"rootVersionURL"`
-	Multiwerf      []ReleaseType `json:"multiwerf"`
+	Status         string   `json:"status"`
+	Msg            string   `json:"msg"`
+	RootVersion    string   `json:"rootVersion"`
+	RootVersionURL string   `json:"rootVersionURL"`
+	Multiwerf      []string `json:"multiwerf"`
 }
 
 type versionMenuType struct {
 	VersionItems           []versionMenuItems
 	HTMLContent            string
-	CurrentGroup           string
-	CurrentChannel         string
 	CurrentVersion         string
 	AbsoluteVersion        string // Contains explicit version, used for getting git link to source file
 	CurrentVersionURL      string
@@ -45,14 +29,10 @@ type versionMenuType struct {
 }
 
 type versionMenuItems struct {
-	Group      string
-	Channel    string
 	Version    string
 	VersionURL string // Base URL for corresponding version without a leading /, e.g. 'v1.2.3-plus-fix6'.
 	IsCurrent  bool
 }
-
-var ReleasesStatus ReleasesStatusType
 
 const (
 	defaultCurrentDocsRoot    = "v2"
@@ -61,30 +41,11 @@ const (
 	latestDocsAliasEnabledEnv = "DOCS_LATEST_ALIAS_ENABLED"
 )
 
-var legacyChannelPattern = regexp.MustCompile(`^v(2|1\.2)-(alpha|beta|ea|stable|rock-solid)$`)
+var legacyVersionAliasPattern = regexp.MustCompile(`^v(2|1\.2)-(alpha|beta|ea|stable|rock-solid)$`)
 
-func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *ReleasesStatusType) (err error) {
-	err = nil
-	_ = releases
-
-	m.CurrentPageURLRelative = getDocPageURLRelative(r)
-	m.CurrentPageURL = getCurrentPageURL(r)
-	m.CurrentVersion = getCanonicalDocsVersion(getVersionURL(r))
-	m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-	m.CurrentGroup = strings.TrimPrefix(m.CurrentVersion, "v")
-
-	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Group:      m.CurrentGroup,
-		Channel:    m.CurrentChannel,
-		Version:    m.CurrentVersion,
-		VersionURL: m.CurrentVersionURL,
-		IsCurrent:  true,
-	})
-
-	if isLatestAliasEnabled() {
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      "",
-			Channel:    "",
+func appendVersionItems(items []versionMenuItems, currentVersion string, includeLatest bool) []versionMenuItems {
+	if includeLatest && currentVersion != "latest" {
+		items = append(items, versionMenuItems{
 			Version:    "latest",
 			VersionURL: "latest",
 			IsCurrent:  false,
@@ -92,24 +53,40 @@ func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *Releases
 	}
 
 	for _, root := range getSupportedDocsRoots() {
-		if root == m.CurrentVersion {
+		if root == currentVersion {
 			continue
 		}
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      strings.TrimPrefix(root, "v"),
-			Channel:    "",
+		items = append(items, versionMenuItems{
 			Version:    root,
-			VersionURL: root,
+			VersionURL: VersionToURL(root),
 			IsCurrent:  false,
 		})
 	}
 
+	return items
+}
+
+func (m *versionMenuType) getLegacyVersionMenuData(r *http.Request) (err error) {
+	err = nil
+
+	m.CurrentPageURLRelative = getDocPageURLRelative(r)
+	m.CurrentPageURL = getCurrentPageURL(r)
+	m.CurrentVersion = getCanonicalDocsVersion(getVersionURL(r))
+	m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
+
+	m.VersionItems = append(m.VersionItems, versionMenuItems{
+		Version:    m.CurrentVersion,
+		VersionURL: m.CurrentVersionURL,
+		IsCurrent:  true,
+	})
+
+	m.VersionItems = appendVersionItems(m.VersionItems, m.CurrentVersion, isLatestAliasEnabled())
+
 	return
 }
 
-func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *ReleasesStatusType) (err error) {
+func (m *versionMenuType) getVersionMenuData(r *http.Request) (err error) {
 	err = nil
-	_ = releases
 
 	m.CurrentPageURLRelative = getDocPageURLRelative(r)
 	m.CurrentPageURL = getCurrentPageURL(r)
@@ -119,42 +96,18 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *Releases
 	m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", m.CurrentVersionURL)
 
 	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Group:      m.CurrentGroup,
-		Channel:    m.CurrentChannel,
 		Version:    m.CurrentVersion,
 		VersionURL: m.CurrentVersionURL,
 		IsCurrent:  true,
 	})
 
-	if isLatestAliasEnabled() {
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      "",
-			Channel:    "",
-			Version:    "latest",
-			VersionURL: "latest",
-			IsCurrent:  false,
-		})
-	}
-
-	for _, root := range getSupportedDocsRoots() {
-		if root == m.CurrentVersion {
-			continue
-		}
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      strings.TrimPrefix(root, "v"),
-			Channel:    "",
-			Version:    root,
-			VersionURL: VersionToURL(root),
-			IsCurrent:  false,
-		})
-	}
+	m.VersionItems = appendVersionItems(m.VersionItems, m.CurrentVersion, isLatestAliasEnabled())
 
 	return
 }
 
-func (m *versionMenuType) getGroupMenuData(r *http.Request, releases *ReleasesStatusType) (err error) {
+func (m *versionMenuType) getRootVersionMenuData(r *http.Request) (err error) {
 	err = nil
-	_ = releases
 
 	m.CurrentPageURLRelative = getDocPageURLRelative(r)
 	m.CurrentPageURL = getCurrentPageURL(r)
@@ -162,56 +115,30 @@ func (m *versionMenuType) getGroupMenuData(r *http.Request, releases *ReleasesSt
 	m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
 
 	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Group:      strings.TrimPrefix(m.CurrentVersion, "v"),
-		Channel:    "",
 		Version:    m.CurrentVersion,
 		VersionURL: m.CurrentVersionURL,
 		IsCurrent:  true,
 	})
 
-	for _, root := range getSupportedDocsRoots() {
-		if root == m.CurrentVersion {
-			continue
-		}
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      strings.TrimPrefix(root, "v"),
-			Channel:    "",
-			Version:    root,
-			VersionURL: VersionToURL(root),
-			IsCurrent:  false,
-		})
-	}
+	m.VersionItems = appendVersionItems(m.VersionItems, m.CurrentVersion, false)
 
 	return
 }
 
-// Get channel and group for specified version
-func getChannelAndGroupFromVersion(releases *ReleasesStatusType, version string) (channel, group string) {
-	_ = releases
-	v := getCanonicalDocsVersion(version)
-	if v == "latest" {
-		return "", "latest"
-	}
-	return "", strings.TrimPrefix(v, "v")
+// Resolve version alias from legacy path like /docs/v2-stable/.
+func resolveLegacyVersionAlias(track, major string) (err error, version string) {
+	return nil, getCanonicalDocsVersion(fmt.Sprintf("v%s-%s", strings.TrimPrefix(major, "v"), track))
 }
 
-// Get version for specified group and channel
-func getVersionFromChannelAndGroup(releases *ReleasesStatusType, channel, group string) (err error, version string) {
-	_ = releases
-	return nil, getCanonicalDocsVersion(fmt.Sprintf("v%s-%s", strings.TrimPrefix(group, "v"), channel))
-}
-
-// Gev version from specified group
-// E.g. get v1.2.3+fix6 from v1.2
-func getVersionFromGroup(releases *ReleasesStatusType, group string) (err error, version string) {
-	_ = releases
-	candidate := group
+// Resolve docs version from root alias.
+func resolveRootVersionAlias(alias string) (err error, version string) {
+	candidate := alias
 	if candidate != "latest" && !strings.HasPrefix(candidate, "v") {
 		candidate = "v" + candidate
 	}
 	canonical := getCanonicalDocsVersion(candidate)
 	if canonical == getCurrentDocsRoot() && candidate != canonical && candidate != "latest" {
-		return fmt.Errorf("unsupported docs group: %s", group), ""
+		return fmt.Errorf("unsupported docs version alias: %s", alias), ""
 	}
 	return nil, canonical
 }
@@ -295,7 +222,7 @@ func getCanonicalDocsVersion(raw string) string {
 	if strings.HasPrefix(v, "pr-") {
 		return v
 	}
-	if legacyChannelPattern.MatchString(v) {
+	if legacyVersionAliasPattern.MatchString(v) {
 		parts := strings.SplitN(v[1:], "-", 2)
 		if len(parts) == 2 {
 			return getCanonicalDocsVersion("v" + parts[0])
@@ -438,12 +365,4 @@ func getRootFilesPath(r *http.Request) (result string) {
 		result += "en"
 	}
 	return
-}
-
-func updateReleasesStatus() error {
-	return nil
-}
-
-func updateReleasesStatusTRDL() error {
-	return nil
 }

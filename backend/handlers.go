@@ -34,16 +34,16 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 			Msg:            "",
 			RootVersion:    getRootReleaseVersion(),
 			RootVersionURL: VersionToURL(getRootReleaseVersion()),
-			Multiwerf:      []ReleaseType{},
+			Multiwerf:      []string{},
 		})
 }
 
-// X-Redirect to the stablest documentation version for specific group
-func groupHandler(w http.ResponseWriter, r *http.Request) {
+// X-Redirect to the default root documentation version.
+func rootVersionAliasHandler(w http.ResponseWriter, r *http.Request) {
 	rawQuery := r.URL.RawQuery
-	log.Debugln("Use handler - groupHandler")
+	log.Debugln("Use handler - rootVersionAliasHandler")
 	vars := mux.Vars(r)
-	if err, version := getVersionFromGroup(&ReleasesStatus, vars["group"]); err == nil {
+	if err, version := resolveRootVersionAlias(vars["alias"]); err == nil {
 		redirectURL := fmt.Sprintf("/docs/%v%v", VersionToURL(version), getDocPageURLRelative(r, true))
 		if rawQuery != "" {
 			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
@@ -80,10 +80,9 @@ func legacyDocsVersionHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, redirectURL, http.StatusFound)
 }
 
-// Handles request to /v<group>-<channel>/. E.g. /v1.2-beta/
-// Temporarily redirect to specific version
-func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debugln("Use handler - groupChannelHandler")
+// Handles legacy request aliases like /docs/v1.2-beta/.
+func legacyVersionAliasHandler(w http.ResponseWriter, r *http.Request) {
+	log.Debugln("Use handler - legacyVersionAliasHandler")
 	pageURLRelative := "/"
 	vars := mux.Vars(r)
 	var version, URLToRedirect string
@@ -95,13 +94,13 @@ func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
 		pageURLRelative = res[1]
 	}
 
-	err, version = getVersionFromChannelAndGroup(&ReleasesStatus, vars["channel"], vars["group"])
+	err, version = resolveLegacyVersionAlias(vars["track"], vars["major"])
 	if err == nil && version != "" {
 		URLToRedirect = fmt.Sprintf("/docs/%v%v", VersionToURL(version), pageURLRelative)
 	}
 
 	if err != nil {
-		log.Errorf("Error resolving docs channel URL: %v", err.Error())
+		log.Errorf("Error resolving docs version alias: %v", err.Error())
 		notFoundHandler(w, r)
 	} else {
 		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
@@ -118,8 +117,6 @@ func topnavHandler(w http.ResponseWriter, r *http.Request) {
 	versionMenu := versionMenuType{
 		VersionItems:           []versionMenuItems{},
 		HTMLContent:            "", // not used now
-		CurrentGroup:           "", // not used now
-		CurrentChannel:         "",
 		CurrentVersion:         "",
 		CurrentVersionURL:      "",
 		CurrentPageURLRelative: "",
@@ -127,7 +124,7 @@ func topnavHandler(w http.ResponseWriter, r *http.Request) {
 		AbsoluteVersion:        "",
 	}
 
-	_ = versionMenu.getVersionMenuData(r, &ReleasesStatus)
+	_ = versionMenu.getVersionMenuData(r)
 
 	tplPath := getRootFilesPath(r) + r.URL.Path
 	tpl := template.Must(template.ParseFiles(tplPath))
@@ -139,19 +136,17 @@ func topnavHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func groupMenuHandler(w http.ResponseWriter, r *http.Request) {
+func rootVersionMenuHandler(w http.ResponseWriter, r *http.Request) {
 	versionMenu := versionMenuType{
 		VersionItems:           []versionMenuItems{},
 		HTMLContent:            "", // not used now
-		CurrentGroup:           "", // not used now
-		CurrentChannel:         "",
 		CurrentVersion:         "",
 		CurrentVersionURL:      "",
 		CurrentPageURLRelative: "",
 		MenuDocumentationLink:  "",
 	}
 
-	_ = versionMenu.getGroupMenuData(r, &ReleasesStatus)
+	_ = versionMenu.getRootVersionMenuData(r)
 
 	tplPath := getRootFilesPath(r) + r.RequestURI
 	tpl := template.Must(template.ParseFiles(tplPath))
@@ -163,19 +158,17 @@ func groupMenuHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func channelMenuHandler(w http.ResponseWriter, r *http.Request) {
+func legacyAliasMenuHandler(w http.ResponseWriter, r *http.Request) {
 	versionMenu := versionMenuType{
 		VersionItems:           []versionMenuItems{},
 		HTMLContent:            "", // not used now
-		CurrentGroup:           "", // not used now
-		CurrentChannel:         "",
 		CurrentVersion:         "",
 		CurrentVersionURL:      "",
 		CurrentPageURLRelative: "",
 		MenuDocumentationLink:  "",
 	}
 
-	_ = versionMenu.getChannelMenuData(r, &ReleasesStatus)
+	_ = versionMenu.getLegacyVersionMenuData(r)
 
 	tplPath := getRootFilesPath(r) + r.RequestURI
 	tpl := template.Must(template.ParseFiles(tplPath))

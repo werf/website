@@ -12,7 +12,7 @@
                     <span class="submenu-item-dot{{ if eq $prevVersion .Version }} submenu-item-dot_special{{ end }}"></span>
                     <span class="submenu-item-release">main</span>
                     {{- else }}
-                    <span class="submenu-item-channel"> {{ .Group }}-{{ .Channel }}</span>
+                    <span class="submenu-item-channel">version</span>
                     <span class="submenu-item-dot{{ if eq $prevVersion .Version }} submenu-item-dot_special{{ end }}"></span>
                     <span class="submenu-item-release">{{ .Version }}</span>
                    {{- end }}
