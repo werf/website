@@ -145,11 +145,11 @@ func resolveRootVersionAlias(alias string) (err error, version string) {
 
 // Add prefix 'v' to a version if it doesn't have yet
 func normalizeVersion(version string) string {
-	if strings.HasPrefix(version, "v") || version == "latest" || strings.HasPrefix(version, "pr-") {
-		return version
-	} else {
-		return fmt.Sprintf("v%s", version)
+	v := strings.TrimSpace(version)
+	if strings.HasPrefix(v, "v") || v == "latest" || strings.HasPrefix(v, "pr-") {
+		return v
 	}
+	return fmt.Sprintf("v%s", v)
 }
 
 func getRootReleaseVersion() string {
