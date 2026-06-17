@@ -41,8 +41,6 @@ const (
 	latestDocsAliasEnabledEnv = "DOCS_LATEST_ALIAS_ENABLED"
 )
 
-var legacyVersionAliasPattern = regexp.MustCompile(`^v(2|1\.2)-(alpha|beta|ea|stable|rock-solid)$`)
-
 func appendVersionItems(items []versionMenuItems, currentVersion string, includeLatest bool) []versionMenuItems {
 	if includeLatest && currentVersion != "latest" {
 		items = append(items, versionMenuItems{
@@ -66,25 +64,6 @@ func appendVersionItems(items []versionMenuItems, currentVersion string, include
 	return items
 }
 
-func (m *versionMenuType) getLegacyVersionMenuData(r *http.Request) (err error) {
-	err = nil
-
-	m.CurrentPageURLRelative = getDocPageURLRelative(r)
-	m.CurrentPageURL = getCurrentPageURL(r)
-	m.CurrentVersion = getCanonicalDocsVersion(getVersionURL(r))
-	m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-
-	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Version:    m.CurrentVersion,
-		VersionURL: m.CurrentVersionURL,
-		IsCurrent:  true,
-	})
-
-	m.VersionItems = appendVersionItems(m.VersionItems, m.CurrentVersion, isLatestAliasEnabled())
-
-	return
-}
-
 func (m *versionMenuType) getVersionMenuData(r *http.Request) (err error) {
 	err = nil
 
@@ -104,30 +83,6 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request) (err error) {
 	m.VersionItems = appendVersionItems(m.VersionItems, m.CurrentVersion, isLatestAliasEnabled())
 
 	return
-}
-
-func (m *versionMenuType) getRootVersionMenuData(r *http.Request) (err error) {
-	err = nil
-
-	m.CurrentPageURLRelative = getDocPageURLRelative(r)
-	m.CurrentPageURL = getCurrentPageURL(r)
-	m.CurrentVersion = getCanonicalDocsVersion(getVersionURL(r))
-	m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-
-	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Version:    m.CurrentVersion,
-		VersionURL: m.CurrentVersionURL,
-		IsCurrent:  true,
-	})
-
-	m.VersionItems = appendVersionItems(m.VersionItems, m.CurrentVersion, false)
-
-	return
-}
-
-// Resolve version alias from legacy path like /docs/v2-stable/.
-func resolveLegacyVersionAlias(track, major string) (err error, version string) {
-	return nil, getCanonicalDocsVersion(fmt.Sprintf("v%s-%s", strings.TrimPrefix(major, "v"), track))
 }
 
 // Resolve docs version from root alias.
@@ -221,12 +176,6 @@ func getCanonicalDocsVersion(raw string) string {
 	}
 	if strings.HasPrefix(v, "pr-") {
 		return v
-	}
-	if legacyVersionAliasPattern.MatchString(v) {
-		parts := strings.SplitN(v[1:], "-", 2)
-		if len(parts) == 2 {
-			return getCanonicalDocsVersion("v" + parts[0])
-		}
 	}
 	if strings.HasPrefix(v, "v1.2") {
 		return "v1.2"

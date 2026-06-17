@@ -30,18 +30,12 @@ func newRouter() *mux.Router {
 
 	r.PathPrefix("/status").HandlerFunc(statusHandler)
 	r.PathPrefix("/backend/").HandlerFunc(ssiHandler)
-	r.PathPrefix("/docs/v{major:2|1\\.2}-{track:alpha|beta|ea|stable|rock-solid}/").HandlerFunc(legacyVersionAliasHandler)
-	r.PathPrefix("/docs/v{legacy:(?:2|1\\.2)(?:\\.[^/]+|-[^/]+)[^/]*/}").HandlerFunc(legacyDocsVersionHandler)
 	if isLatestAliasEnabled() {
 		r.PathPrefix("/docs/{alias:latest}/").HandlerFunc(rootVersionAliasHandler)
 	}
 	r.PathPrefix("/health").HandlerFunc(healthCheckHandler)
 	r.Path("/includes/topnav.html").HandlerFunc(topnavHandler)
 	r.Path("/includes/version-menu.html").HandlerFunc(topnavHandler)
-	r.Path("/includes/group-menu.html").HandlerFunc(rootVersionMenuHandler)
-	r.Path("/includes/group-menu-v2.html").HandlerFunc(rootVersionMenuHandler)
-	r.Path("/includes/channel-menu.html").HandlerFunc(legacyAliasMenuHandler)
-	r.Path("/includes/channel-menu-v2.html").HandlerFunc(legacyAliasMenuHandler)
 	r.Path("/404.html").HandlerFunc(notFoundHandler)
 	// Ru static
 	r.MatcherFunc(ruHostMatch).Handler(serveFilesHandler(staticFileDirectoryRu))

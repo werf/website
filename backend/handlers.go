@@ -9,7 +9,6 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -58,55 +57,6 @@ func rootVersionAliasHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func legacyDocsVersionHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debugln("Use handler - legacyDocsVersionHandler")
-	version := ""
-	if res := regexp.MustCompile(`^/docs/([^/]+)/?.*$`).FindStringSubmatch(r.URL.Path); len(res) == 2 {
-		version = res[1]
-	}
-	if version == "" {
-		version = getVersionURL(r)
-	}
-
-	pageURLRelative := "/"
-	if res := regexp.MustCompile(`^/docs/[^/]+(/.+)$`).FindStringSubmatch(r.URL.Path); len(res) == 2 {
-		pageURLRelative = res[1]
-	}
-
-	redirectURL := fmt.Sprintf("/docs/%s%v", VersionToURL(getCanonicalDocsVersion(version)), pageURLRelative)
-	if r.URL.RawQuery != "" {
-		redirectURL = fmt.Sprintf("%s?%s", redirectURL, r.URL.RawQuery)
-	}
-	http.Redirect(w, r, redirectURL, http.StatusFound)
-}
-
-// Handles legacy request aliases like /docs/v1.2-beta/.
-func legacyVersionAliasHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debugln("Use handler - legacyVersionAliasHandler")
-	pageURLRelative := "/"
-	vars := mux.Vars(r)
-	var version, URLToRedirect string
-	var err error
-
-	re := regexp.MustCompile(`^/docs/[^/]+(/.+)$`)
-	res := re.FindStringSubmatch(r.URL.RequestURI())
-	if res != nil {
-		pageURLRelative = res[1]
-	}
-
-	err, version = resolveLegacyVersionAlias(vars["track"], vars["major"])
-	if err == nil && version != "" {
-		URLToRedirect = fmt.Sprintf("/docs/%v%v", VersionToURL(version), pageURLRelative)
-	}
-
-	if err != nil {
-		log.Errorf("Error resolving docs version alias: %v", err.Error())
-		notFoundHandler(w, r)
-	} else {
-		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
-	}
-}
-
 // Healthcheck handler
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
@@ -127,50 +77,6 @@ func topnavHandler(w http.ResponseWriter, r *http.Request) {
 	_ = versionMenu.getVersionMenuData(r)
 
 	tplPath := getRootFilesPath(r) + r.URL.Path
-	tpl := template.Must(template.ParseFiles(tplPath))
-	err := tpl.Execute(w, versionMenu)
-	if err != nil {
-		// Log error or maybe make some magic?
-		log.Errorf("Internal Server Error (template error), %v ", err.Error())
-		http.Error(w, "Internal Server Error (template error)", 500)
-	}
-}
-
-func rootVersionMenuHandler(w http.ResponseWriter, r *http.Request) {
-	versionMenu := versionMenuType{
-		VersionItems:           []versionMenuItems{},
-		HTMLContent:            "", // not used now
-		CurrentVersion:         "",
-		CurrentVersionURL:      "",
-		CurrentPageURLRelative: "",
-		MenuDocumentationLink:  "",
-	}
-
-	_ = versionMenu.getRootVersionMenuData(r)
-
-	tplPath := getRootFilesPath(r) + r.RequestURI
-	tpl := template.Must(template.ParseFiles(tplPath))
-	err := tpl.Execute(w, versionMenu)
-	if err != nil {
-		// Log error or maybe make some magic?
-		log.Errorf("Internal Server Error (template error), %v ", err.Error())
-		http.Error(w, "Internal Server Error (template error)", 500)
-	}
-}
-
-func legacyAliasMenuHandler(w http.ResponseWriter, r *http.Request) {
-	versionMenu := versionMenuType{
-		VersionItems:           []versionMenuItems{},
-		HTMLContent:            "", // not used now
-		CurrentVersion:         "",
-		CurrentVersionURL:      "",
-		CurrentPageURLRelative: "",
-		MenuDocumentationLink:  "",
-	}
-
-	_ = versionMenu.getLegacyVersionMenuData(r)
-
-	tplPath := getRootFilesPath(r) + r.RequestURI
 	tpl := template.Must(template.ParseFiles(tplPath))
 	err := tpl.Execute(w, versionMenu)
 	if err != nil {
