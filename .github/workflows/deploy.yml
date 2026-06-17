@@ -14,7 +14,7 @@ env:
 jobs:
   converge:
     name: Deploy
-    if: contains(github.event.pull_request.labels.*.name, 'test website') || contains(github.event.pull_request.labels.*.name, 'stage website')
+    if: contains(github.event.pull_request.labels.*.name, 'test website')
     runs-on: prod-github-runner-0
     steps:
       - name: Checkout code
@@ -35,19 +35,6 @@ jobs:
           WERF_RELEASE: "werfio-site-test"
           WERF_LOG_VERBOSE: "on"
           WERF_ENV: "test"
-          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Deploy to stage
-        if: contains(github.event.pull_request.labels.*.name, 'stage website')
-        run: |
-          . $(werf ci-env github --as-file)
-          werf converge
-        env:
-          WERF_NAMESPACE: "werfio-stage"
-          WERF_RELEASE: "werfio-site-stage"
-          WERF_LOG_VERBOSE: "on"
-          WERF_ENV: "stage"
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

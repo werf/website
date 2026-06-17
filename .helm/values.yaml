@@ -21,12 +21,8 @@ priorityClassName:
   production: production-medium
 host:
   production: werf.io
-  stage: werf.stage.flant.dev
-  dev: werf.dev.flant.dev
+  test: werf.test.flant.dev
   _default: werf.test.flant.dev
-
-ruHost:
-  production: ru.werf.io
 
 ingressClassName:
   _default: "nginx"
@@ -36,11 +32,14 @@ ingressClassName:
 ingressSecretName:
   _default: wildcard-dev-flant-dev
   test: wildcard-test-flant-dev
-  stage: wildcard-stage-flant-dev
   production: tls-werf-io
 
 resources:
   requests:
+    memory:
+      _default: 30M
+      production: 300M
+  limits:
     memory:
       _default: 30M
       production: 300M
