@@ -6,7 +6,6 @@ on:
   workflow_dispatch:
 
 env:
-  WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
   WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"

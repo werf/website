@@ -11,9 +11,11 @@
 
 * {{include.shell}};
 * Git version 2.18.0 or above;
-{% if not (include.os == "macos" or (include.os == "win" and include.buildah == true)) %}
+{% unless include.os == "macos" %}
+{% unless include.os == "win" and include.buildah == true %}
 * GPG{{include.gpg_ending}}
-{% endif %}
+{% endunless %}
+{% endunless %}
 {% if include.docker == true %}
 
 * [Docker Engine](https://docs.docker.com/engine/install/).

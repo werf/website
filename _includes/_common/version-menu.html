@@ -8,25 +8,27 @@
 {{- else if eq $CurrentVersion "v2" }}
 {{ $CurrentLabel = "v2" }}
 {{- end }}
-{{- $VersionItems := slice
-(dict "Version" "main" "VersionURL" "latest")
-(dict "Version" "v2" "VersionURL" "v2")
-(dict "Version" "v1.2" "VersionURL" "v1.2")
-}}
 <li id="doc-versions-menu" class="submenu-parent" style="display: none">
     <a data-proofer-ignore href="#">
         {{ $CurrentLabel }}
     </a>
     <div class="submenu-container">
         <ul class="submenu">
-            {{- range $VersionItems }}
             <li class="submenu-item">
-                <a data-proofer-ignore class="submenu-item-link"
-                    href="/docs/{{ .VersionURL }}{{ $CurrentPageURLRelative }}">
-                    <span class="submenu-item-channel">{{ .Version }}</span>
+                <a data-proofer-ignore class="submenu-item-link" href="/docs/latest{{ $CurrentPageURLRelative }}">
+                    <span class="submenu-item-channel">main</span>
                 </a>
             </li>
-            {{- end }}
+            <li class="submenu-item">
+                <a data-proofer-ignore class="submenu-item-link" href="/docs/v2{{ $CurrentPageURLRelative }}">
+                    <span class="submenu-item-channel">v2</span>
+                </a>
+            </li>
+            <li class="submenu-item">
+                <a data-proofer-ignore class="submenu-item-link" href="/docs/v1.2{{ $CurrentPageURLRelative }}">
+                    <span class="submenu-item-channel">v1.2</span>
+                </a>
+            </li>
         </ul>
     </div>
 </li>
