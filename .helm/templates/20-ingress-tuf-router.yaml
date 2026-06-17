@@ -37,7 +37,7 @@ spec:
             port:
               name: http
 {{- if eq .Values.werf.env "production" }}
-  - host: {{ $ruHost }}
+  - host: ru.{{ $host }}
     http:
       paths:
       - path: /targets/
