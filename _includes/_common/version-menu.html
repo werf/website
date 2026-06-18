@@ -1,8 +1,8 @@
-{%- raw %}
+<span class="breadcrumbs_versions">{% if page.lang == "ru" %}Версия{% else %}Version{% endif %}: </span>{%- raw %}
 {{ $CurrentPageURL := .CurrentPageURL }}
 {{ $CurrentPageURLRelative := .CurrentPageURLRelative }}
 {{ $CurrentVersion := .CurrentVersion }}
-{{ $CurrentLabel := "main" }}
+{{ $CurrentLabel := "latest" }}
 {{- if eq $CurrentVersion "v1.2" }}
 {{ $CurrentLabel = "v1.2" }}
 {{- else if eq $CurrentVersion "v2" }}
@@ -10,14 +10,13 @@
 {{- end }}
 <li id="doc-versions-menu" class="submenu-parent">
     <a data-proofer-ignore href="#">
-        <span class="breadcrumbs_versions">{% if page.lang == "ru" %}Версия{% else %}Version{% endif %}: </span>{{
-        $CurrentLabel }}
+        {{ $CurrentLabel }}
     </a>
     <div class="submenu-container">
         <ul class="submenu">
             <li class="submenu-item">
                 <a data-proofer-ignore class="submenu-item-link" href="/docs/latest{{ $CurrentPageURLRelative }}">
-                    <span class="submenu-item-channel">main</span>
+                    <span class="submenu-item-channel">latest</span>
                 </a>
             </li>
             <li class="submenu-item">
@@ -33,4 +32,4 @@
         </ul>
     </div>
 </li>
-{% endraw %}w %}
+{% endraw %}
