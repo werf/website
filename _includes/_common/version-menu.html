@@ -8,9 +8,10 @@
 {{- else if eq $CurrentVersion "v2" }}
 {{ $CurrentLabel = "v2" }}
 {{- end }}
-<li id="doc-versions-menu" class="submenu-parent" style="display: none">
+<li id="doc-versions-menu" class="submenu-parent">
     <a data-proofer-ignore href="#">
-        {{ $CurrentLabel }}
+        <span class="breadcrumbs_versions">{% if page.lang == "ru" %}Версия{% else %}Version{% endif %}: </span>{{
+        $CurrentLabel }}
     </a>
     <div class="submenu-container">
         <ul class="submenu">
@@ -32,4 +33,4 @@
         </ul>
     </div>
 </li>
-{% endraw %}
+{% endraw %}w %}
