@@ -1,33 +1,20 @@
 <span class="breadcrumbs_versions">{% if page.lang == "ru" %}Версия{% else %}Version{% endif %}: </span>
 {%- raw %}
-{{ $CurrentPageURL := .CurrentPageURL }}
 {{ $CurrentPageURLRelative := .CurrentPageURLRelative }}
-{{ $CurrentVersion := .CurrentVersion }}
-{{ $CurrentLabel := "latest" }}
-{{- if eq $CurrentVersion "v1.2" }}
-{{ $CurrentLabel = "v1.2" }}
-{{- else if eq $CurrentVersion "v2" }}
-{{ $CurrentLabel = "v2" }}
-{{- end }}
 <a data-proofer-ignore href="#">
-    {{ $CurrentLabel }}</a>
+    {{ .CurrentVersion }}</a>
 <div class="submenu-container">
     <ul class="submenu">
+        {{- range .VersionItems }}
+        {{- if not .IsCurrent }}
         <li class="submenu-item">
-            <a data-proofer-ignore class="submenu-item-link" href="/docs/latest{{ $CurrentPageURLRelative }}">
-                <span class="submenu-item-channel">latest</span>
+            <a data-proofer-ignore class="submenu-item-link"
+                href="/docs/{{ .VersionURL }}{{ $CurrentPageURLRelative }}">
+                <span class="submenu-item-channel">{{ .Version }}</span>
             </a>
         </li>
-        <li class="submenu-item">
-            <a data-proofer-ignore class="submenu-item-link" href="/docs/v2{{ $CurrentPageURLRelative }}">
-                <span class="submenu-item-channel">v2</span>
-            </a>
-        </li>
-        <li class="submenu-item">
-            <a data-proofer-ignore class="submenu-item-link" href="/docs/v1.2{{ $CurrentPageURLRelative }}">
-                <span class="submenu-item-channel">v1.2</span>
-            </a>
-        </li>
+        {{- end }}
+        {{- end }}
     </ul>
 </div>
 {% endraw %}
