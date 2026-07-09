@@ -173,12 +173,19 @@ func getCanonicalDocsVersion(raw string) string {
 	if strings.HasPrefix(v, "pr-") {
 		return v
 	}
-	if strings.HasPrefix(v, "v1.2") {
-		return "v1.2"
+
+	matchedRoot := ""
+	for _, root := range getSupportedDocsRoots() {
+		if v == root || strings.HasPrefix(v, root+".") || strings.HasPrefix(v, root+"-") {
+			if len(root) > len(matchedRoot) {
+				matchedRoot = root
+			}
+		}
 	}
-	if strings.HasPrefix(v, "v2") {
-		return "v2"
+	if matchedRoot != "" {
+		return matchedRoot
 	}
+
 	return getCurrentDocsRoot()
 }
 

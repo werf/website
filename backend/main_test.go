@@ -7,24 +7,28 @@ import (
 )
 
 func TestGetCanonicalDocsVersion(t *testing.T) {
-	t.Setenv(currentDocsRootEnv, "v2")
-	t.Setenv(supportedDocsRootsEnv, "v2,v1.2")
-
 	cases := []struct {
-		name string
-		in   string
-		want string
+		name           string
+		currentRoot    string
+		supportedRoots string
+		in             string
+		want           string
 	}{
-		{name: "empty", in: "", want: "v2"},
-		{name: "latest", in: "latest", want: "v2"},
-		{name: "pr", in: "pr-123", want: "pr-123"},
-		{name: "v2 patch", in: "v2.10.3", want: "v2"},
-		{name: "v1.2 patch", in: "v1.2.4-plus-fix1", want: "v1.2"},
-		{name: "v1.1 fallback", in: "v1.1.9", want: "v2"},
+		{name: "empty", currentRoot: "v2", supportedRoots: "v2,v1.2", in: "", want: "v2"},
+		{name: "latest", currentRoot: "v2", supportedRoots: "v2,v1.2", in: "latest", want: "v2"},
+		{name: "pr", currentRoot: "v2", supportedRoots: "v2,v1.2", in: "pr-123", want: "pr-123"},
+		{name: "v2 patch", currentRoot: "v2", supportedRoots: "v2,v1.2", in: "v2.10.3", want: "v2"},
+		{name: "v1.2 patch", currentRoot: "v2", supportedRoots: "v2,v1.2", in: "v1.2.4-plus-fix1", want: "v1.2"},
+		{name: "v3 patch from supported roots", currentRoot: "v2", supportedRoots: "v2,v1.2,v3", in: "v3.1.4", want: "v3"},
+		{name: "v3 root from supported roots", currentRoot: "v2", supportedRoots: "v2,v1.2,v3", in: "v3", want: "v3"},
+		{name: "unknown version fallback", currentRoot: "v2", supportedRoots: "v2,v1.2,v3", in: "v9.1", want: "v2"},
+		{name: "prefer longest root match", currentRoot: "v1", supportedRoots: "v1,v1.2,v2", in: "v1.2.5", want: "v1.2"},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Setenv(currentDocsRootEnv, tc.currentRoot)
+			t.Setenv(supportedDocsRootsEnv, tc.supportedRoots)
 			if got := getCanonicalDocsVersion(tc.in); got != tc.want {
 				t.Fatalf("unexpected canonical version: got %q want %q", got, tc.want)
 			}
