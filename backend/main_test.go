@@ -32,40 +32,41 @@ func TestGetCanonicalDocsVersion(t *testing.T) {
 	}
 }
 
-func TestLegacyDocsVersionHandler(t *testing.T) {
+func TestResolveRootVersionAlias(t *testing.T) {
 	t.Setenv(currentDocsRootEnv, "v2")
-	t.Setenv(supportedDocsRootsEnv, "v2,v1.2")
 
-	r := newRouter()
-
-	cases := []struct {
-		name       string
-		path       string
-		wantStatus int
-		wantLoc    string
-	}{
-		{name: "legacy v2 patch", path: "/docs/v2.3.0/usage/", wantStatus: http.StatusFound, wantLoc: "/docs/v2/usage/"},
-		{name: "legacy v1.2 patch", path: "/docs/v1.2.9-plus-fix1/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v1.2/reference/"},
-		{name: "legacy v2 alias", path: "/docs/v2-stable/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v2/reference/"},
-		{name: "legacy v1.2 alias", path: "/docs/v1.2-beta/reference/", wantStatus: http.StatusFound, wantLoc: "/docs/v1.2/reference/"},
+	err, version := resolveRootVersionAlias("latest")
+	if err != nil {
+		t.Fatalf("unexpected error for latest alias: %v", err)
+	}
+	if version != "v2" {
+		t.Fatalf("unexpected version for latest alias: got %q want %q", version, "v2")
 	}
 
-	for _, tc := range cases {
-		t.Run(tc.name, func(t *testing.T) {
-			req, err := http.NewRequest(http.MethodGet, tc.path, nil)
-			if err != nil {
-				t.Fatal(err)
-			}
-			rec := httptest.NewRecorder()
-			r.ServeHTTP(rec, req)
+	err, _ = resolveRootVersionAlias("v2")
+	if err == nil {
+		t.Fatal("expected unsupported alias error for canonical version")
+	}
+}
 
-			if rec.Code != tc.wantStatus {
-				t.Fatalf("unexpected status: got %d want %d", rec.Code, tc.wantStatus)
-			}
-			if rec.Header().Get("Location") != tc.wantLoc {
-				t.Fatalf("unexpected location: got %q want %q", rec.Header().Get("Location"), tc.wantLoc)
-			}
-		})
+func TestLatestAliasHandler(t *testing.T) {
+	t.Setenv(currentDocsRootEnv, "v2")
+	t.Setenv(supportedDocsRootsEnv, "v2,v1.2")
+	t.Setenv(latestDocsAliasEnabledEnv, "true")
+
+	r := newRouter()
+	req, err := http.NewRequest(http.MethodGet, "/docs/latest/reference/", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rec := httptest.NewRecorder()
+	r.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("unexpected status: got %d want %d", rec.Code, http.StatusOK)
+	}
+	if rec.Header().Get("X-Accel-Redirect") != "/docs/v2/" {
+		t.Fatalf("unexpected redirect target: got %q want %q", rec.Header().Get("X-Accel-Redirect"), "/docs/v2/")
 	}
 }
 
