@@ -85,17 +85,13 @@ func (m *versionMenuType) getVersionMenuData(r *http.Request) (err error) {
 	return
 }
 
-// Resolve docs version from root alias.
+// Resolve docs version from the only supported docs alias.
 func resolveRootVersionAlias(alias string) (err error, version string) {
-	candidate := alias
-	if candidate != "latest" && !strings.HasPrefix(candidate, "v") {
-		candidate = "v" + candidate
-	}
-	canonical := getCanonicalDocsVersion(candidate)
-	if canonical == getCurrentDocsRoot() && candidate != canonical && candidate != "latest" {
+	if alias != "latest" {
 		return fmt.Errorf("unsupported docs version alias: %s", alias), ""
 	}
-	return nil, canonical
+
+	return nil, getCurrentDocsRoot()
 }
 
 // Add prefix 'v' to a version if it doesn't have yet
