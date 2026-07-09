@@ -297,11 +297,6 @@ func URLToVersion(version string) (result string) {
 	return
 }
 
-func validateURL(url string) error {
-	_ = url
-	return nil
-}
-
 func getRootFilesPath(r *http.Request) (result string) {
 	result = "./root/"
 	if strings.HasPrefix(r.Host, "ru.") || strings.HasPrefix(r.Host, "ru-") {
