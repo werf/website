@@ -483,14 +483,6 @@ function getDocGroupFromURL() {
   return null;
 }
 
-function getDocVersionFromURL() {
-  let result = window.location.pathname.match(/\/docs\/(latest|pr-[^/]+|v2(?:\.[^/]+)?|v1\.2(?:\.[^/]+)?)(?:\/.*)?$/);
-  if (result) {
-    return result[1].replace('-plus-', '+');
-  }
-  return null;
-}
-
 function getDocVersionFromPage() {
   let result = $("#versionNumber").text();
   if (!result) {
