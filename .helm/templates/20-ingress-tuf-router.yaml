@@ -1,8 +1,4 @@
 {{- $host := pluck .Values.werf.env .Values.host | first | default .Values.host._default  }}
-{{- if  hasPrefix "review" .Values.werf.env }}
-{{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
-{{- end }}
-{{- $ruHost := pluck .Values.werf.env .Values.ruHost | first | default (printf "ru.%s" $host) }}
 {{- $ingressSecretName := pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
 
 apiVersion: networking.k8s.io/v1
@@ -16,7 +12,7 @@ spec:
   - hosts:
       - {{ $host }}
 {{- if eq .Values.werf.env "production" }}
-      - {{ $ruHost }}
+      - ru.{{ $host }}
     secretName: {{ $ingressSecretName }}
 {{- else }}
       - ru-{{ $host }}
@@ -41,7 +37,7 @@ spec:
             port:
               name: http
 {{- if eq .Values.werf.env "production" }}
-  - host: {{ $ruHost }}
+  - host: ru.{{ $host }}
     http:
       paths:
       - path: /targets/

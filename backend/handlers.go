@@ -9,7 +9,6 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -24,118 +23,37 @@ func ssiHandler(w http.ResponseWriter, r *http.Request) {
 
 // Get some status info
 func statusHandler(w http.ResponseWriter, r *http.Request) {
-	var msg []string
-	status := "ok"
+	_ = r
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
-	err := updateReleasesStatus()
-	if err != nil {
-		msg = append(msg, err.Error())
-		status = "error"
-	}
-
 	_ = json.NewEncoder(w).Encode(
 		ApiStatusResponseType{
-			Status:         status,
-			Msg:            strings.Join(msg, " "),
+			Status:         "ok",
+			Msg:            "",
 			RootVersion:    getRootReleaseVersion(),
 			RootVersionURL: VersionToURL(getRootReleaseVersion()),
-			Multiwerf:      ReleasesStatus.Releases,
+			Multiwerf:      []string{},
 		})
 }
 
-// X-Redirect to the stablest documentation version for specific group
-func groupHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
+// X-Redirect to the default root documentation version.
+func rootVersionAliasHandler(w http.ResponseWriter, r *http.Request) {
 	rawQuery := r.URL.RawQuery
-	log.Debugln("Use handler - groupHandler")
+	log.Debugln("Use handler - rootVersionAliasHandler")
 	vars := mux.Vars(r)
-	if err, version := getVersionFromGroup(&ReleasesStatus, vars["group"]); err == nil {
+	if err, version := resolveRootVersionAlias(vars["alias"]); err == nil {
 		redirectURL := fmt.Sprintf("/docs/%v%v", VersionToURL(version), getDocPageURLRelative(r, true))
 		if rawQuery != "" {
 			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
 		}
 		w.Header().Set("X-Accel-Redirect", redirectURL)
 	} else {
-		// Fall back to the version specified in the ACTIVE_RELEASE env, if got the incorrect version.
-		activeRelease := getRootRelease()
-		redirectURL := fmt.Sprintf("/docs/v%s/", activeRelease)
+		redirectURL := fmt.Sprintf("/docs/%s/", getCurrentDocsRoot())
 		if rawQuery != "" {
 			redirectURL = fmt.Sprintf("%s?%s", redirectURL, rawQuery)
 		}
 		http.Redirect(w, r, redirectURL, 302)
-	}
-}
-
-// Handler for versions which are not available (there are no ingress for the version and requests go to router)
-// Redirect request to the corresponding group
-func unknownVersionHandler(w http.ResponseWriter, r *http.Request) {
-	var URLToRedirect string
-	var err error
-
-	log.Debugln("Use handler - unknownVersionHandler")
-
-	pageURLRelative := "/"
-
-	_ = updateReleasesStatus()
-
-	vars := mux.Vars(r)
-
-	group := getRootRelease()
-
-	re := regexp.MustCompile(`^([0-9]+\.[0-9]+)\..+$`)
-	res := re.FindStringSubmatch(vars["version"])
-	if res != nil {
-		group = fmt.Sprintf("v%s", res[1])
-	}
-
-	re = regexp.MustCompile(`^/docs/[^/]+(/.+)$`)
-	res = re.FindStringSubmatch(r.URL.RequestURI())
-	if res != nil {
-		pageURLRelative = res[1]
-	}
-
-	URLToRedirect = fmt.Sprintf("/docs/%v%v", group, pageURLRelative)
-	err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
-
-	if err != nil {
-		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
-		notFoundHandler(w, r)
-	} else {
-		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
-	}
-}
-
-// Handles request to /v<group>-<channel>/. E.g. /v1.2-beta/
-// Temporarily redirect to specific version
-func groupChannelHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debugln("Use handler - groupChannelHandler")
-	pageURLRelative := "/"
-	vars := mux.Vars(r)
-	_ = updateReleasesStatus()
-	var version, URLToRedirect string
-	var err error
-
-	re := regexp.MustCompile(`^/docs/[^/]+(/.+)$`)
-	res := re.FindStringSubmatch(r.URL.RequestURI())
-	if res != nil {
-		pageURLRelative = res[1]
-	}
-
-	err, version = getVersionFromChannelAndGroup(&ReleasesStatus, vars["channel"], vars["group"])
-	if err == nil {
-		URLToRedirect = fmt.Sprintf("/docs/%v%v", VersionToURL(version), pageURLRelative)
-		err = validateURL(fmt.Sprintf("https://%s%s", r.Host, URLToRedirect))
-	}
-
-	if err != nil {
-		log.Errorf("Error validating URL: %v, (original was https://%s/%v)", err.Error(), r.Host, r.URL.RequestURI())
-		// URLToRedirect = fmt.Sprintf("/404.html")
-		notFoundHandler(w, r)
-	} else {
-		http.Redirect(w, r, fmt.Sprintf("%s", URLToRedirect), 302)
-		// w.Header().Set("X-Accel-Redirect", URLToRedirect)
 	}
 }
 
@@ -146,13 +64,9 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 // Get HTML content for /includes/topnav.html request
 func topnavHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
-
 	versionMenu := versionMenuType{
 		VersionItems:           []versionMenuItems{},
 		HTMLContent:            "", // not used now
-		CurrentGroup:           "", // not used now
-		CurrentChannel:         "",
 		CurrentVersion:         "",
 		CurrentVersionURL:      "",
 		CurrentPageURLRelative: "",
@@ -160,61 +74,9 @@ func topnavHandler(w http.ResponseWriter, r *http.Request) {
 		AbsoluteVersion:        "",
 	}
 
-	_ = versionMenu.getVersionMenuData(r, &ReleasesStatus)
+	_ = versionMenu.getVersionMenuData(r)
 
 	tplPath := getRootFilesPath(r) + r.URL.Path
-	tpl := template.Must(template.ParseFiles(tplPath))
-	err := tpl.Execute(w, versionMenu)
-	if err != nil {
-		// Log error or maybe make some magic?
-		log.Errorf("Internal Server Error (template error), %v ", err.Error())
-		http.Error(w, "Internal Server Error (template error)", 500)
-	}
-}
-
-func groupMenuHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
-
-	versionMenu := versionMenuType{
-		VersionItems:           []versionMenuItems{},
-		HTMLContent:            "", // not used now
-		CurrentGroup:           "", // not used now
-		CurrentChannel:         "",
-		CurrentVersion:         "",
-		CurrentVersionURL:      "",
-		CurrentPageURLRelative: "",
-		MenuDocumentationLink:  "",
-	}
-
-	_ = versionMenu.getGroupMenuData(r, &ReleasesStatus)
-
-	tplPath := getRootFilesPath(r) + r.RequestURI
-	tpl := template.Must(template.ParseFiles(tplPath))
-	err := tpl.Execute(w, versionMenu)
-	if err != nil {
-		// Log error or maybe make some magic?
-		log.Errorf("Internal Server Error (template error), %v ", err.Error())
-		http.Error(w, "Internal Server Error (template error)", 500)
-	}
-}
-
-func channelMenuHandler(w http.ResponseWriter, r *http.Request) {
-	_ = updateReleasesStatus()
-
-	versionMenu := versionMenuType{
-		VersionItems:           []versionMenuItems{},
-		HTMLContent:            "", // not used now
-		CurrentGroup:           "", // not used now
-		CurrentChannel:         "",
-		CurrentVersion:         "",
-		CurrentVersionURL:      "",
-		CurrentPageURLRelative: "",
-		MenuDocumentationLink:  "",
-	}
-
-	_ = versionMenu.getChannelMenuData(r, &ReleasesStatus)
-
-	tplPath := getRootFilesPath(r) + r.RequestURI
 	tpl := template.Must(template.ParseFiles(tplPath))
 	err := tpl.Execute(w, versionMenu)
 	if err != nil {
@@ -258,7 +120,6 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	page404File, err := os.Open(getRootFilesPath(r) + "/404.html")
-	defer page404File.Close()
 	if err != nil {
 		// 404.html built-in stub
 		log.Error("404.html file not found")
@@ -272,6 +133,7 @@ Try searching for it or check the URL to see if it looks correct.</p>
 </body></html>`, 404)
 		return
 	}
+	defer page404File.Close()
 	io.Copy(w, page404File)
 	// w.Header().Set("X-Accel-Redirect", fmt.Sprintf("/404.html"))
 }

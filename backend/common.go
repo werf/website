@@ -1,52 +1,25 @@
 package main
 
 import (
-	"crypto/tls"
-	"errors"
 	"fmt"
-	"io/ioutil"
-	"net"
 	"net/http"
 	"net/url"
 	"os"
 	"regexp"
-	"slices"
-	"sort"
-	"strconv"
 	"strings"
-	"time"
-
-	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
 )
 
-type ChannelType struct {
-	Name    string `yaml:"name"`
-	Version string `yaml:"version"`
-}
-
-type ReleaseType struct {
-	Group    string        `yaml:"name"`
-	Channels []ChannelType `yaml:"channels"`
-}
-
-type ReleasesStatusType struct {
-	Releases []ReleaseType `yaml:"groups"`
-}
-
 type ApiStatusResponseType struct {
-	Status         string        `json:"status"`
-	Msg            string        `json:"msg"`
-	RootVersion    string        `json:"rootVersion"`
-	RootVersionURL string        `json:"rootVersionURL"`
-	Multiwerf      []ReleaseType `json:"multiwerf"`
+	Status         string   `json:"status"`
+	Msg            string   `json:"msg"`
+	RootVersion    string   `json:"rootVersion"`
+	RootVersionURL string   `json:"rootVersionURL"`
+	Multiwerf      []string `json:"multiwerf"`
 }
 
 type versionMenuType struct {
 	VersionItems           []versionMenuItems
 	HTMLContent            string
-	CurrentGroup           string
-	CurrentChannel         string
 	CurrentVersion         string
 	AbsoluteVersion        string // Contains explicit version, used for getting git link to source file
 	CurrentVersionURL      string
@@ -56,358 +29,164 @@ type versionMenuType struct {
 }
 
 type versionMenuItems struct {
-	Group      string
-	Channel    string
 	Version    string
 	VersionURL string // Base URL for corresponding version without a leading /, e.g. 'v1.2.3-plus-fix6'.
 	IsCurrent  bool
 }
 
-var ReleasesStatus ReleasesStatusType
+const (
+	defaultCurrentDocsRoot    = "v2"
+	currentDocsRootEnv        = "CURRENT_DOCS_MAJOR"
+	supportedDocsRootsEnv     = "SUPPORTED_DOCS_MAJOR_VERSIONS"
+	latestDocsAliasEnabledEnv = "DOCS_LATEST_ALIAS_ENABLED"
+)
 
-var channelsListReverseStability = []string{"rock-solid", "stable", "ea", "beta", "alpha"}
-
-func (m *versionMenuType) getChannelMenuData(r *http.Request, releases *ReleasesStatusType) (err error) {
-	err = nil
-
-	m.CurrentPageURLRelative = getDocPageURLRelative(r)
-	m.CurrentPageURL = getCurrentPageURL(r)
-	m.CurrentVersionURL = getVersionURL(r)
-
-	if isGroupChannelURL, _ := regexp.MatchString("v[0-9]+.[0-9]+-(alpha|beta|ea|stable|rock-solid)", m.CurrentVersionURL); isGroupChannelURL {
-		items := strings.Split(m.CurrentVersionURL, "-")
-		if len(items) == 2 {
-			m.CurrentGroup = strings.TrimPrefix(items[0], "v")
-			m.CurrentChannel = items[1]
-			_, m.CurrentVersion = getVersionFromChannelAndGroup(releases, m.CurrentChannel, m.CurrentGroup)
-			m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-		}
-	}
-
-	m.CurrentVersion = URLToVersion(m.CurrentVersionURL)
-
-	if m.CurrentVersion == "latest" {
-		m.CurrentGroup = "latest"
-		m.CurrentChannel = "latest"
-	}
-
-	if m.CurrentVersion == fmt.Sprintf("v%s", getRootRelease()) {
-		m.CurrentVersion = getRootRelease()
-		m.CurrentGroup = getRootRelease()
-	}
-
-	if m.CurrentVersion == "" {
-		m.CurrentVersion = getRootRelease()
-		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-	}
-
-	// Try to find current channel from URL
-	if m.CurrentChannel == "" || m.CurrentGroup == "" {
-		m.CurrentChannel, m.CurrentGroup = getChannelAndGroupFromVersion(releases, m.CurrentVersion)
-	}
-
-	// Add the first menu item (current version)
-	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Group:      m.CurrentGroup,
-		Channel:    m.CurrentChannel,
-		Version:    m.CurrentVersion,
-		VersionURL: m.CurrentVersionURL,
-		IsCurrent:  true,
-	})
-
-	// Add item for the "latest" version
-	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Group:      "",
-		Channel:    "",
-		Version:    "latest",
-		VersionURL: "latest",
-		IsCurrent:  false,
-	})
-
-	// Add other items
-	for _, group := range getGroups() {
-		// TODO error handling
-		_ = m.getChannelsFromGroup(&ReleasesStatus, group)
-	}
-
-	return
-}
-
-func (m *versionMenuType) getVersionMenuData(r *http.Request, releases *ReleasesStatusType) (err error) {
-	err = nil
-
-	m.CurrentPageURLRelative = getDocPageURLRelative(r)
-	m.CurrentPageURL = getCurrentPageURL(r)
-	m.CurrentVersionURL = getVersionURL(r)
-	m.CurrentVersion = URLToVersion(m.CurrentVersionURL)
-
-	if m.CurrentVersion == "" {
-		m.CurrentVersion = fmt.Sprintf("v%s", getRootRelease())
-		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-	}
-
-	re := regexp.MustCompile(`^v([0-9]+(?:\.[0-9]+)?)(\..+)?$`)
-	res := re.FindStringSubmatch(m.CurrentVersion)
-	if res == nil {
-		m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
-		m.AbsoluteVersion = m.CurrentVersion
-	} else {
-		if res[2] != "" {
-			// Version is not a group (MAJ.MIN), but the patch version
-			// The old behavior (e.g., link to v2  for the v2.0.1 version)
-			// m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(res[1]))
-			// The new behavior (link to v2.0.1 for the v2.0.1 version)
-			m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
-			m.AbsoluteVersion = fmt.Sprintf("%s", m.CurrentVersion)
-		} else {
-			// Version is a group
-			m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", VersionToURL(m.CurrentVersion))
-			err, m.AbsoluteVersion = getVersionFromGroup(&ReleasesStatus, res[1])
-			if err != nil {
-				log.Debugln(fmt.Sprintf("getVersionMenuData: error determine absolute version for %s (got %s)", m.CurrentVersion, m.AbsoluteVersion))
-			}
-		}
-	}
-
-	// m.MenuDocumentationLink = fmt.Sprintf("/docs/v%s/", VersionToURL(getRootRelease()))
-	// if m.CurrentChannel == "" && m.CurrentGroup == "" {
-	//	m.MenuDocumentationLink = fmt.Sprintf("/docs/%v/", VersionToURL(m.CurrentVersion))
-	// } else if  m.CurrentChannel == "" && m.CurrentGroup != "" {
-	//	m.MenuDocumentationLink = fmt.Sprintf("/docs/v%v/", m.CurrentGroup)
-	// } else {
-	//	m.MenuDocumentationLink = fmt.Sprintf("/docs/v%v-%v/", m.CurrentGroup, m.CurrentChannel)
-	// }
-
-	// Add the first menu item
-	m.VersionItems = append(m.VersionItems, versionMenuItems{
-		Group:      m.CurrentGroup,
-		Channel:    m.CurrentChannel,
-		Version:    m.CurrentVersion,
-		VersionURL: m.CurrentVersionURL,
-		IsCurrent:  true,
-	})
-
-	// for _, releaseItem_ := range releases.Releases {
-	//	if releaseItem_.Group == m.CurrentGroup {
-	//		for _, channelItem_ := range releaseItem_.Channels {
-	//			if channelItem_.Name == m.CurrentChannel {
-	//				m.VersionItems = append(m.VersionItems, versionMenuItems{
-	//					Group:      m.CurrentGroup,
-	//					Channel:    m.CurrentChannel,
-	//					Version:    channelItem_.Version,
-	//					VersionURL: VersionToURL(channelItem_.Version),
-	//					IsCurrent:  true,
-	//				})
-	//			}
-	//		}
-	//	}
-	// }
-
-	// Add other items
-	for _, group := range getGroups() {
-		// TODO error handling
-		_ = m.getChannelsFromGroup(&ReleasesStatus, group)
-	}
-
-	return
-}
-
-func (m *versionMenuType) getGroupMenuData(r *http.Request, releases *ReleasesStatusType) (err error) {
-	err = nil
-
-	m.CurrentPageURLRelative = getDocPageURLRelative(r)
-	m.CurrentPageURL = getCurrentPageURL(r)
-	m.CurrentVersionURL = getVersionURL(r)
-	m.CurrentVersion = URLToVersion(m.CurrentVersionURL)
-
-	if m.CurrentVersion == "" {
-		m.CurrentVersion = fmt.Sprintf("v%s", getRootRelease())
-		m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
-	}
-
-	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)(\..+)?$`)
-	res := re.FindStringSubmatch(m.CurrentVersion)
-	if res != nil {
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      res[1],
-			Channel:    "",
-			Version:    m.CurrentVersion,
-			VersionURL: m.CurrentVersionURL,
-			IsCurrent:  true,
-		})
-	} else {
-		// Version is not a group (MAJ.MIN), but the patch version
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      "",
-			Channel:    "",
-			Version:    m.CurrentVersion,
-			VersionURL: m.CurrentVersionURL,
-			IsCurrent:  true,
-		})
-	}
-
-	// Add other items
-	for _, group := range getGroups() {
-		// TODO error handling
-		if group == "1.0" || group == "1.1" {
-			continue
-		}
-		m.VersionItems = append(m.VersionItems, versionMenuItems{
-			Group:      group,
-			Channel:    "",
-			Version:    "",
-			VersionURL: "",
+func appendVersionItems(items []versionMenuItems, currentVersion string, includeLatest bool) []versionMenuItems {
+	if includeLatest && currentVersion != "latest" {
+		items = append(items, versionMenuItems{
+			Version:    "latest",
+			VersionURL: "latest",
 			IsCurrent:  false,
 		})
 	}
 
+	for _, root := range getSupportedDocsRoots() {
+		if root == currentVersion {
+			continue
+		}
+		items = append(items, versionMenuItems{
+			Version:    root,
+			VersionURL: VersionToURL(root),
+			IsCurrent:  false,
+		})
+	}
+
+	return items
+}
+
+func (m *versionMenuType) getVersionMenuData(r *http.Request) (err error) {
+	err = nil
+
+	m.CurrentPageURLRelative = getDocPageURLRelative(r)
+	m.CurrentPageURL = getCurrentPageURL(r)
+	m.CurrentVersion = getCanonicalDocsVersion(getVersionURL(r))
+	m.CurrentVersionURL = VersionToURL(m.CurrentVersion)
+	m.AbsoluteVersion = m.CurrentVersion
+	m.MenuDocumentationLink = fmt.Sprintf("/docs/%s/", m.CurrentVersionURL)
+
+	m.VersionItems = append(m.VersionItems, versionMenuItems{
+		Version:    m.CurrentVersion,
+		VersionURL: m.CurrentVersionURL,
+		IsCurrent:  true,
+	})
+
+	m.VersionItems = appendVersionItems(m.VersionItems, m.CurrentVersion, isLatestAliasEnabled())
+
 	return
 }
 
-// Get channels and corresponding versions for the specified
-// group according to the reverse order of stability
-func (m *versionMenuType) getChannelsFromGroup(releases *ReleasesStatusType, group string) (err error) {
-	if group == "1.0" || group == "1.1" {
-		return
-	}
-	for _, item := range releases.Releases {
-		if item.Group == group {
-			for _, channel := range channelsListReverseStability {
-				for _, channelItem := range item.Channels {
-					if channelItem.Name == channel {
-						m.VersionItems = append(m.VersionItems, versionMenuItems{
-							Group:      group,
-							Channel:    channelItem.Name,
-							Version:    channelItem.Version,
-							VersionURL: VersionToURL(channelItem.Version),
-							IsCurrent:  false,
-						})
-					}
-				}
-			}
-		}
-	}
-	return
-}
-
-// Get channel and group for specified version
-func getChannelAndGroupFromVersion(releases *ReleasesStatusType, version string) (channel, group string) {
-	re := regexp.MustCompile(`^v([0-9]+\.[0-9]+)$`)
-	res := re.FindStringSubmatch(version)
-	if res != nil {
-		return "", res[1]
+// Resolve docs version from the only supported docs alias.
+func resolveRootVersionAlias(alias string) (err error, version string) {
+	if alias != "latest" {
+		return fmt.Errorf("unsupported docs version alias: %s", alias), ""
 	}
 
-	for _, group := range getGroups() {
-		for _, channel := range channelsListReverseStability {
-			for _, releaseItem := range releases.Releases {
-				if releaseItem.Group == group {
-					for _, channelItem := range releaseItem.Channels {
-						if channelItem.Name == channel {
-							if channelItem.Version == version {
-								return channel, group
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return
-}
-
-// Get version for specified group and channel
-func getVersionFromChannelAndGroup(releases *ReleasesStatusType, channel, group string) (err error, version string) {
-	for _, releaseItem := range releases.Releases {
-		if releaseItem.Group == group {
-			for _, channelItem := range releaseItem.Channels {
-				if channelItem.Name == channel {
-					return nil, normalizeVersion(channelItem.Version)
-				}
-			}
-		}
-	}
-	return errors.New(fmt.Sprintf("no matching version for group %s, channel %s", group, channel)), ""
-}
-
-// Gev version from specified group
-// E.g. get v1.2.3+fix6 from v1.2
-func getVersionFromGroup(releases *ReleasesStatusType, group string) (err error, version string) {
-	if group == "latest" || group == getRootRelease() {
-		return nil, "latest"
-	}
-	if len(releases.Releases) > 0 {
-		for _, ReleaseGroup := range releases.Releases {
-			if ReleaseGroup.Group == group {
-				releaseVersions := make(map[string]string)
-				for _, channel := range ReleaseGroup.Channels {
-					releaseVersions[channel.Name] = channel.Version
-				}
-
-				if _, ok := releaseVersions["stable"]; ok {
-					return nil, normalizeVersion(releaseVersions["stable"])
-				} else if _, ok := releaseVersions["ea"]; ok {
-					return nil, normalizeVersion(releaseVersions["ea"])
-				} else if _, ok := releaseVersions["beta"]; ok {
-					return nil, normalizeVersion(releaseVersions["beta"])
-				} else if _, ok := releaseVersions["alpha"]; ok {
-					return nil, (releaseVersions["alpha"])
-				}
-			}
-		}
-	}
-
-	return errors.New(fmt.Sprintf("Can't get version for %s", group)), ""
+	return nil, getCurrentDocsRoot()
 }
 
 // Add prefix 'v' to a version if it doesn't have yet
 func normalizeVersion(version string) string {
-	if strings.HasPrefix(version, "v") || version == "latest" {
-		return version
-	} else {
-		return fmt.Sprintf("v%s", version)
+	v := strings.TrimSpace(version)
+	if strings.HasPrefix(v, "v") || v == "latest" || strings.HasPrefix(v, "pr-") {
+		return v
 	}
+	return fmt.Sprintf("v%s", v)
 }
 
 func getRootReleaseVersion() string {
-	activeRelease := getRootRelease()
-	if activeRelease == "latest" {
-		return activeRelease
-	}
-
-	_ = updateReleasesStatus()
-
-	if len(ReleasesStatus.Releases) > 0 {
-		for _, ReleaseGroup := range ReleasesStatus.Releases {
-			if ReleaseGroup.Group == activeRelease {
-				releaseVersions := make(map[string]string)
-				for _, channel := range ReleaseGroup.Channels {
-					releaseVersions[channel.Name] = channel.Version
-				}
-
-				if _, ok := releaseVersions["stable"]; ok {
-					return releaseVersions["stable"]
-				} else if _, ok := releaseVersions["ea"]; ok {
-					return releaseVersions["ea"]
-				} else if _, ok := releaseVersions["beta"]; ok {
-					return releaseVersions["beta"]
-				} else if _, ok := releaseVersions["alpha"]; ok {
-					return releaseVersions["alpha"]
-				}
-			}
-		}
-	}
-	return "unknown"
+	return getCurrentDocsRoot()
 }
 
 func getRootRelease() (result string) {
-	if len(os.Getenv("ACTIVE_RELEASE")) > 0 {
-		result = os.Getenv("ACTIVE_RELEASE")
-	} else {
-		result = "2"
+	return strings.TrimPrefix(getCurrentDocsRoot(), "v")
+}
+
+func isLatestAliasEnabled() bool {
+	v := strings.TrimSpace(strings.ToLower(os.Getenv(latestDocsAliasEnabledEnv)))
+	if v == "" {
+		return true
+	}
+	return v == "1" || v == "true" || v == "yes" || v == "on"
+}
+
+func getCurrentDocsRoot() string {
+	candidate := normalizeDocsRoot(os.Getenv(currentDocsRootEnv))
+	if candidate != "" {
+		return candidate
+	}
+	return defaultCurrentDocsRoot
+}
+
+func getSupportedDocsRoots() []string {
+	raw := strings.Split(strings.TrimSpace(os.Getenv(supportedDocsRootsEnv)), ",")
+	roots := make([]string, 0, len(raw)+1)
+	seen := map[string]struct{}{}
+
+	add := func(v string) {
+		if v == "" {
+			return
+		}
+		if _, ok := seen[v]; ok {
+			return
+		}
+		seen[v] = struct{}{}
+		roots = append(roots, v)
 	}
 
-	return
+	add(getCurrentDocsRoot())
+	for _, item := range raw {
+		add(normalizeDocsRoot(item))
+	}
+
+	return roots
+}
+
+func normalizeDocsRoot(raw string) string {
+	v := strings.TrimSpace(raw)
+	if v == "" {
+		return ""
+	}
+	if !strings.HasPrefix(v, "v") {
+		v = "v" + v
+	}
+	if matched, _ := regexp.MatchString(`^v[0-9]+(?:\.[0-9]+)?$`, v); !matched {
+		return ""
+	}
+	return v
+}
+
+func getCanonicalDocsVersion(raw string) string {
+	v := strings.TrimSpace(URLToVersion(raw))
+	if v == "" || v == "latest" {
+		return getCurrentDocsRoot()
+	}
+	if strings.HasPrefix(v, "pr-") {
+		return v
+	}
+
+	matchedRoot := ""
+	for _, root := range getSupportedDocsRoots() {
+		if v == root || strings.HasPrefix(v, root+".") || strings.HasPrefix(v, root+"-") {
+			if len(root) > len(matchedRoot) {
+				matchedRoot = root
+			}
+		}
+	}
+	if matchedRoot != "" {
+		return matchedRoot
+	}
+
+	return getCurrentDocsRoot()
 }
 
 // Get the full page URL menu requested for
@@ -525,74 +304,6 @@ func URLToVersion(version string) (result string) {
 	return
 }
 
-func validateURL(url string) error {
-	if strings.ToLower(os.Getenv("URL_VALIDATION")) == "false" {
-		return nil
-	}
-
-	allowedStatusCodes := []int{200, 401}
-	maxRedirects := 10
-
-	client := &http.Client{
-		Transport: &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
-			DialContext: (&net.Dialer{
-				Timeout:   10 * time.Second,
-				KeepAlive: 10 * time.Second,
-			}).DialContext,
-			ForceAttemptHTTP2:     true,
-			MaxIdleConns:          100,
-			IdleConnTimeout:       10 * time.Second,
-			TLSHandshakeTimeout:   10 * time.Second,
-			ExpectContinueTimeout: 1 * time.Second,
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true,
-			},
-		},
-		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			if len(via) >= maxRedirects {
-				return fmt.Errorf("stopped after %d redirects", len(via))
-			}
-			return nil
-		},
-	}
-
-	resp, err := client.Get(url)
-	if err != nil {
-		if strings.Contains(err.Error(), "stopped after") {
-			return fmt.Errorf("too many redirects for %s", url)
-		}
-		return err
-	}
-	resp.Body.Close()
-	log.Tracef("Validating %v:\nStatus - %v\nHeader - %+v", url, resp.Status, resp.Header)
-
-	if !slices.Contains(allowedStatusCodes, resp.StatusCode) {
-		return fmt.Errorf("%s returned invalid status code: %d", url, resp.StatusCode)
-	}
-
-	return nil
-}
-
-// Get update channel groups in a descending order.
-func getGroups() (groups []string) {
-	for _, item := range ReleasesStatus.Releases {
-		groups = append(groups, item.Group)
-	}
-	sort.Slice(groups, func(i, j int) bool {
-		var i_, j_ float64
-		var err error
-		if i_, err = strconv.ParseFloat(groups[i], 32); err != nil {
-			i_ = 0
-		}
-		if j_, err = strconv.ParseFloat(groups[j], 32); err != nil {
-			j_ = 0
-		}
-		return i_ > j_
-	})
-	return
-}
-
 func getRootFilesPath(r *http.Request) (result string) {
 	result = "./root/"
 	if strings.HasPrefix(r.Host, "ru.") || strings.HasPrefix(r.Host, "ru-") {
@@ -601,23 +312,4 @@ func getRootFilesPath(r *http.Request) (result string) {
 		result += "en"
 	}
 	return
-}
-
-func updateReleasesStatus() error {
-	err := updateReleasesStatusTRDL()
-	return err
-}
-
-func updateReleasesStatusTRDL() error {
-	data, err := ioutil.ReadFile("trdl/trdl_channels.yaml")
-	if err != nil {
-		log.Errorf("Can't open trdl_channels.yaml (%e)", err)
-		return err
-	}
-	err = yaml.Unmarshal(data, &ReleasesStatus)
-	if err != nil {
-		log.Errorf("Can't unmarshall trdl_channels.yaml (%e)", err)
-		return err
-	}
-	return err
 }

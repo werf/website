@@ -30,18 +30,12 @@ func newRouter() *mux.Router {
 
 	r.PathPrefix("/status").HandlerFunc(statusHandler)
 	r.PathPrefix("/backend/").HandlerFunc(ssiHandler)
-	r.PathPrefix("/docs/v{group:1.2}-{channel:alpha|beta|ea|stable|rock-solid}").HandlerFunc(groupChannelHandler)
-	r.PathPrefix("/docs/v{version:[0-9]+.[0-9]+.[0-9]+[^/]*}").HandlerFunc(unknownVersionHandler)
-	r.PathPrefix("/docs/v{group:[0-9]+}/").HandlerFunc(groupHandler)
-	r.PathPrefix("/docs/v{group:1.2}/").HandlerFunc(groupHandler)
-	r.PathPrefix("/docs/{group:latest}/").HandlerFunc(groupHandler)
+	if isLatestAliasEnabled() {
+		r.PathPrefix("/docs/{alias:latest}/").HandlerFunc(rootVersionAliasHandler)
+	}
 	r.PathPrefix("/health").HandlerFunc(healthCheckHandler)
 	r.Path("/includes/topnav.html").HandlerFunc(topnavHandler)
 	r.Path("/includes/version-menu.html").HandlerFunc(topnavHandler)
-	r.Path("/includes/group-menu.html").HandlerFunc(groupMenuHandler)
-	r.Path("/includes/group-menu-v2.html").HandlerFunc(groupMenuHandler)
-	r.Path("/includes/channel-menu.html").HandlerFunc(channelMenuHandler)
-	r.Path("/includes/channel-menu-v2.html").HandlerFunc(channelMenuHandler)
 	r.Path("/404.html").HandlerFunc(notFoundHandler)
 	// Ru static
 	r.MatcherFunc(ruHostMatch).Handler(serveFilesHandler(staticFileDirectoryRu))

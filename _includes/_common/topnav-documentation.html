@@ -77,7 +77,6 @@
                 {% raw %}
                 {{ $CurrentPageURL := .CurrentPageURL }}
                 {{ $CurrentPageURLRelative := .CurrentPageURLRelative }}
-                {{- if and .CurrentGroup .CurrentChannel }}{{ $CurrentPageURL = printf "v%s-%s%s" .CurrentGroup .CurrentChannel $CurrentPageURL }}{{ end }}
                 {% endraw %}
                 <li class="header__menu-item header__menu-item_parent submenu-parent">
                     <a href="#">

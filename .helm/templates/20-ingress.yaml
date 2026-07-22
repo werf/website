@@ -1,8 +1,4 @@
 {{- $host := pluck .Values.werf.env .Values.host | first | default .Values.host._default  }}
-{{- if  hasPrefix "review" .Values.werf.env }}
-{{- $host = ( printf "%s.%s" .Values.werf.env (pluck "dev" .Values.host | first | default .Values.host._default ) | lower ) }}
-{{- end }}
-{{- $ruHost := pluck .Values.werf.env .Values.ruHost | first | default (printf "ru.%s" $host) }}
 {{- $wwwHost := printf "www.%s" $host }}
 {{- $ingressSecretName := pluck .Values.werf.env .Values.ingressSecretName | first | default .Values.ingressSecretName._default }}
 {{- if eq .Values.werf.env "production" }}
@@ -24,7 +20,7 @@ spec:
   - hosts:
       - {{ $host }}
       - {{ $wwwHost }}
-      - {{ $ruHost }}
+      - ru.{{ $host }}
     secretName: {{ $ingressSecretName }}
   rules:
   - host: {{ $host }}
@@ -37,7 +33,7 @@ spec:
             name: backend
             port:
               name: http
-  - host: {{ $ruHost }}
+  - host: ru.{{ $host }}
     http:
       paths:
       - path: /
@@ -91,7 +87,7 @@ metadata:
       ssi_silent_errors on;
 {{- include "rewrites" . | indent 6 }}
     nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User,X-Auth-Request-Email
-    nginx.ingress.kubernetes.io/auth-signin: https://$host/dex-authenticator/sign_in
+    nginx.ingress.kubernetes.io/auth-signin: https://ru-{{ $host }}/dex-authenticator/sign_in
     nginx.ingress.kubernetes.io/auth-url: https://werfio-ru-dex-authenticator.{{ $.Values.werf.namespace }}.svc.cluster.local/dex-authenticator/auth
 spec:
   ingressClassName: {{ include "ingressClassName" . }}

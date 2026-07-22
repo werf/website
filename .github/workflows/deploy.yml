@@ -6,33 +6,20 @@ on:
   workflow_dispatch:
 
 env:
-  WERF_ENV: "production"
   WERF_REPO: "ghcr.io/${{ github.repository_owner }}/werfio-guides"
   WERF_STAGES_STORAGE: "ghcr.io/werf/werfio-guides-stages"
-  WERF_SET_ACTIVE_RELEASE: "global.active_release=2"
   WERFIO_GITHUB_TOKEN: "${{ secrets.API_TOKEN }}"
 
 jobs:
   converge:
     name: Deploy
-    if: contains(github.event.pull_request.labels.*.name, 'test website') || contains(github.event.pull_request.labels.*.name, 'stage website')
+    if: contains(github.event.pull_request.labels.*.name, 'test website')
     runs-on: prod-github-runner-0
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-
-      - name: Checkout werf repo
-        uses: actions/checkout@v6
-        with:
-          repository: werf/werf
-          path: werf
-          fetch-depth: 0
-
-      - name: Inject trdl_channels.yaml
-        run: |
-          cp werf/trdl_channels.yaml .helm/trdl_channels.yaml
 
       - name: Install werf
         uses: werf/actions/install@v2
@@ -47,19 +34,6 @@ jobs:
           WERF_RELEASE: "werfio-site-test"
           WERF_LOG_VERBOSE: "on"
           WERF_ENV: "test"
-          WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Deploy to stage
-        if: contains(github.event.pull_request.labels.*.name, 'stage website')
-        run: |
-          . $(werf ci-env github --as-file)
-          werf converge
-        env:
-          WERF_NAMESPACE: "werfio-stage"
-          WERF_RELEASE: "werfio-site-stage"
-          WERF_LOG_VERBOSE: "on"
-          WERF_ENV: "stage"
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBECONFIG_BASE64_DEV }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
