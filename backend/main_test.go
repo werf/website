@@ -59,18 +59,35 @@ func TestLatestAliasHandler(t *testing.T) {
 	t.Setenv(latestDocsAliasEnabledEnv, "true")
 
 	r := newRouter()
+
 	req, err := http.NewRequest(http.MethodGet, "/docs/latest/reference/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
+	req.RequestURI = "/docs/latest/reference/"
 	rec := httptest.NewRecorder()
 	r.ServeHTTP(rec, req)
 
 	if rec.Code != http.StatusOK {
 		t.Fatalf("unexpected status: got %d want %d", rec.Code, http.StatusOK)
 	}
-	if rec.Header().Get("X-Accel-Redirect") != "/docs/v2/" {
-		t.Fatalf("unexpected redirect target: got %q want %q", rec.Header().Get("X-Accel-Redirect"), "/docs/v2/")
+	if got := rec.Header().Get("X-Accel-Redirect"); got != "/docs/v2/reference/" {
+		t.Fatalf("unexpected redirect target: got %q want %q", got, "/docs/v2/reference/")
+	}
+
+	reqQuery, err := http.NewRequest(http.MethodGet, "/docs/latest/reference/?foo=bar", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	reqQuery.RequestURI = "/docs/latest/reference/?foo=bar"
+	recQuery := httptest.NewRecorder()
+	r.ServeHTTP(recQuery, reqQuery)
+
+	if recQuery.Code != http.StatusOK {
+		t.Fatalf("unexpected status: got %d want %d", recQuery.Code, http.StatusOK)
+	}
+	if got := recQuery.Header().Get("X-Accel-Redirect"); got != "/docs/v2/reference/?foo=bar" {
+		t.Fatalf("unexpected redirect target: got %q want %q", got, "/docs/v2/reference/?foo=bar")
 	}
 }
 
