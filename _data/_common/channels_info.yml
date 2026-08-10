@@ -1,4 +1,13 @@
 channels:
+  - name: dev
+    stability: -1
+    title: Dev
+    description:
+      en: These are development releases. They can bring new features, be unstable and contain breaking changes. We do not guarantee backward compatibility between <b>Dev</b> releases and do not recommend using them in production.
+      ru: Версии этого канала обновлений предназначены для разработки: они могут содержать новые возможности, быть нестабильными и ломать обратную совместимость. Мы не гарантируем обратную совместимость между версиями канала обновлений <b>Dev</b> и не рекомендуем использовать их в production.
+    tooltip:
+      en: Development release channel
+      ru: Канал обновлений для разработки
   - name: alpha
     stability: 0
     title: Alpha
