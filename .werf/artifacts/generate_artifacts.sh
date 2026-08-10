@@ -46,7 +46,7 @@ echo -n "Creating feeds files: "
 rm -rf feeds 2>/dev/null
 mkdir -p feeds feeds/pages_en feeds/pages_ru
 for group in $(cat $HISTORY_JSON | jq -r '.history| unique_by(.group) | .[].group' | xargs); do
-  for channel in alpha beta ea stable rock-solid; do
+  for channel in dev alpha beta ea stable rock-solid; do
     sed "s/##GROUP##/${group}/" feed-group-channel.xml-template | sed "s/##CHANNEL##/${channel}/" > feeds/pages_en/feed-${group}-${channel}.xml
     sed "s/##GROUP##/${group}/" feed-group-channel-ru.xml-template | sed "s/##CHANNEL##/${channel}/" > feeds/pages_ru/feed-${group}-${channel}.xml
   done
