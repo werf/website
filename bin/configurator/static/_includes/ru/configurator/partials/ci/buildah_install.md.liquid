@@ -31,6 +31,8 @@
     Избегайте коллизий с другими диапазонами, если они имеются. Изменение файлов может потребовать перезагрузки. Подробнее в `man subuid` и `man subgid`.
 
 * (Для Linux 5.12 и ниже) Установите пакет, предоставляющий программу `fuse-overlayfs`.
+
+* (Для werf 3 и новее) Установите пакеты, предоставляющие бинарные файлы `netavark` и `pasta` (обычно это пакеты `netavark` и `passt`). werf ищет `netavark` только в каталогах вспомогательных бинарных файлов Podman (например, `/usr/lib/podman` или `/usr/libexec/podman`); дистрибутивные пакеты устанавливают его туда. Если в вашем дистрибутиве нет пакета netavark, поместите [бинарный файл из релиза](https://github.com/containers/netavark/releases) в `/usr/local/lib/podman/`.
   {% if include.type == "github" %}
 
 * Убедитесь, что путь `/home/github-runner/.local/share/containers` создан, и пользователь `github-runner` имеет доступ на чтение и запись.

@@ -653,7 +653,23 @@ setup_buildah() {
   fi
 
   is_command_exists buildah || install_buildah "$user"
-    
+
+  local netavark_found="no"
+  local netavark_dir
+  for netavark_dir in /usr/local/libexec/podman /usr/local/lib/podman /usr/libexec/podman /usr/lib/podman; do
+    if [[ -x "$netavark_dir/netavark" ]]; then
+      netavark_found="yes"
+      break
+    fi
+  done
+  if [[ $netavark_found == "no" ]]; then
+    install_package "netavark" ||
+      log::warn "Failed to install netavark. werf 3 and later requires the netavark binary in a Podman helper binaries directory (e.g. /usr/lib/podman). Place a release binary from https://github.com/containers/netavark/releases in /usr/local/lib/podman/ manually."
+  fi
+
+  is_command_exists pasta || install_package "passt" ||
+    log::warn "Failed to install passt. werf 3 and later requires the pasta binary for rootless mode."
+
   if is_command_exists sysctl; then
   # Check if kernel.unprivileged_userns_clone exists
     if ! [ -z "$(sysctl -ne kernel.unprivileged_userns_clone)" ]; then

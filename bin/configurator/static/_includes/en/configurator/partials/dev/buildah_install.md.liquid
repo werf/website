@@ -28,6 +28,8 @@
 
 * (For Linux 5.12 and below) Install the package that provides the `fuse-overlayfs` utility.
 
+* (For werf 3 and later) Install the packages providing the `netavark` and `pasta` binaries (usually `netavark` and `passt`). werf looks for `netavark` only in the Podman helper binaries directories (e.g. `/usr/lib/podman` or `/usr/libexec/podman`); distribution packages install it there. If your distribution has no netavark package, place a [release binary](https://github.com/containers/netavark/releases) in `/usr/local/lib/podman/`.
+
 * Make sure that the `/home/<current user>/.local/share/containers` path has been created and the current user has read and write access to it.
 
 * The `sysctl -ne kernel.unprivileged_userns_clone` command should NOT return `0`, otherwise run `echo 'kernel.unprivileged_userns_clone = 1' | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`.
