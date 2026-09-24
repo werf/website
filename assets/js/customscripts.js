@@ -467,18 +467,15 @@ $(document).ready(function () {
 });
 
 function getDocGroupFromURL() {
-  let result = window.location.pathname.match(/^\/docs\/(latest|pr-[^/]+|v2(?:\.[^/]+)?|v1\.2(?:\.[^/]+)?)(?:\/|$)/);
+  let result = window.location.pathname.match(/^\/docs\/(latest|pr-[^/]+|v3(?:\.[^/]+)?|v2(?:\.[^/]+)?|v1\.2(?:\.[^/]+)?)(?:\/|$)/);
   if (result && result[1]) {
-    if (result[1] === 'latest') {
-      return 'v2';
-    }
-    if (result[1].indexOf('pr-') === 0) {
-      return 'v2';
-    }
     if (result[1].indexOf('v1.2') === 0) {
       return 'v1.2';
     }
-    return 'v2';
+    if (result[1].indexOf('v2') === 0) {
+      return 'v2';
+    }
+    return 'v3';
   }
   return null;
 }

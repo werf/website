@@ -45,7 +45,7 @@ resources:
       production: 300M
 
 docs:
-  currentRoot: v2
+  currentRoot: v3
   supportedRoots:
     - v3
     - v2
