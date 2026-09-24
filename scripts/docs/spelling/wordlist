@@ -158,6 +158,7 @@ MySQL’s
 namespace
 namespaces
 Nelm
+netavark
 nginx
 NGINX’s
 Node.js
@@ -175,6 +176,7 @@ plugin
 PNG
 PodAntiAffinity
 PodDisruptionBudget
+Podman
 PostgreSQL
 PowerShell
 pre
