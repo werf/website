@@ -8,6 +8,9 @@ User-agent: *
 Disallow: *.js
 Disallow: *?*
 Allow: /
+Allow: /docs/v3
+Disallow: /docs/v3-
+Disallow: /docs/v3.
 Allow: /docs/v2
 Disallow: /docs/v2-
 Disallow: /docs/v2.
