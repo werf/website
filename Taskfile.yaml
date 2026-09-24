@@ -153,6 +153,12 @@ tasks:
       - |
         ./scripts/docs/check_broken_links.sh en
 
+  site:check-docs-roots:
+    desc: "Check that docs roots, the latest alias and doc group detection agree with the current docs root."
+    cmds:
+      - |
+        ./scripts/docs/check_docs_roots.sh
+
   site:run-spell-check:
     desc: "Run spell check for all pages."
     deps:
