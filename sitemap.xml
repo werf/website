@@ -8,6 +8,9 @@ search: exclude
 
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <sitemap>
+      <loc>{{ site.url }}/docs/v3/sitemap.xml</loc>
+   </sitemap>
+   <sitemap>
       <loc>{{ site.url }}/docs/v2/sitemap.xml</loc>
    </sitemap>
    <sitemap>
