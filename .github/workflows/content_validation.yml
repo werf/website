@@ -38,7 +38,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install werf
-        uses: werf/actions/install@v2
+        uses: werf/trdl/actions/setup-app@v0.13.0
+        with:
+          preset: werf
+          group: "3"
+          channel: dev
+          force: false
 
       - name: Check links
         run: |
@@ -52,7 +57,12 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Install werf
-        uses: werf/actions/install@v2
+        uses: werf/trdl/actions/setup-app@v0.13.0
+        with:
+          preset: werf
+          group: "3"
+          channel: dev
+          force: false
 
       - name: Checkout code
         uses: actions/checkout@v6
@@ -81,7 +91,12 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Install werf
-        uses: werf/actions/install@v2
+        uses: werf/trdl/actions/setup-app@v0.13.0
+        with:
+          preset: werf
+          group: "3"
+          channel: dev
+          force: false
 
       - name: Checkout code
         uses: actions/checkout@v6
