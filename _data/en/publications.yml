@@ -17,6 +17,12 @@ articles:
   #  created: ISO format date, yyyy-mm-dd
   #  comment: COMMENT
 
+  - title: "Werf: The Smarter Way to Build and Deploy Containerized Apps"
+    youtube_url: "https://www.youtube.com/watch?v=yM5HFbfqEiA"
+    img: "/assets/images/publications/en_071026.jpg"
+    created: 2026-10-07
+    comment: |
+      <p>In this video, we explore Werf, a powerful open-source CI/CD tool designed to make software delivery to Kubernetes efficient, consistent, and predictable.</p>
   - title: "10 years of werf: The Cloud Native story we made together"
     medium_url: "https://blog.werf.io/werf-project-history-10-years-f092486e4224"
     img: "/assets/images/publications/en_220126.png"
