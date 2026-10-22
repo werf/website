@@ -92,7 +92,7 @@ spec:
         controlledValues: RequestsAndLimits
 ```
 
-We will not go into detail about this manifest’s parameters: [this article](https://povilasv.me/vertical-pod-autoscaling-the-definitive-guide/) provides a detailed description of the features and aspects of VPA. In short, we specify the VPA target (`targetRef`) and select the update policy. Additionally, we specify the upper and lower limits for the resources VPA can use. The primary focus is on the `updateMode` field. In “Recreate” or “Auto” mode, VPA will recreate Pods with all consequences (until an above-mentioned patch for in-place Pod resource parameters update becomes available). Since we don’t want it, we use the “Off” mode:
+We will not go into detail about this manifest’s parameters: [the VPA documentation](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#readme) provides a detailed description of the features and aspects of VPA. In short, we specify the VPA target (`targetRef`) and select the update policy. Additionally, we specify the upper and lower limits for the resources VPA can use. The primary focus is on the `updateMode` field. In “Recreate” or “Auto” mode, VPA will recreate Pods with all consequences (until an above-mentioned patch for in-place Pod resource parameters update becomes available). Since we don’t want it, we use the “Off” mode:
 
 ```yaml
 apiVersion: autoscaling.k8s.io/v1

@@ -42,7 +42,7 @@ jobs:
         with:
           preset: werf
           group: "3"
-          channel: dev
+          channel: alpha
           force: false
 
       - name: Check links
@@ -61,7 +61,7 @@ jobs:
         with:
           preset: werf
           group: "3"
-          channel: dev
+          channel: alpha
           force: false
 
       - name: Checkout code
@@ -95,7 +95,7 @@ jobs:
         with:
           preset: werf
           group: "3"
-          channel: dev
+          channel: alpha
           force: false
 
       - name: Checkout code

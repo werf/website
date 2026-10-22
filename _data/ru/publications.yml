@@ -442,7 +442,7 @@ articles:
     created: 2017-08-23
     img: "/images/publications/ru_230817.jpg"
     comment: |
-      <p>Эта статья — ознакомительное руководство по сборке Docker-образов приложений с помощью нашей Open Source-утилиты <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp">werf (dapp)</a> <i>(подробнее о ней читайте в <a target="_blank" rel="noopener nofollow" href="https://habrahabr.ru/company/flant/blog/333682/">анонсе</a>)</i>. На примере двух простых приложений (с одним образом) рассмотрим, как могут быть задействованы некоторые из основных возможностей dapp и какой результат они дают.</p>
+      <p>Эта статья — ознакомительное руководство по сборке Docker-образов приложений с помощью нашей Open Source-утилиты <a target="_blank" rel="noopener nofollow" href="https://github.com/flant/dapp">werf (dapp)</a> <i>(подробнее о ней читайте в <a target="_blank" rel="noopener nofollow" href="https://habr.com/ru/companies/flant/articles/333682/">анонсе</a>)</i>. На примере двух простых приложений (с одним образом) рассмотрим, как могут быть задействованы некоторые из основных возможностей dapp и какой результат они дают.</p>
 
   - title: "Официально представляем werf (dapp) — DevOps-утилиту для сопровождения CI/CD"
     habr_url: "https://habr.com/company/flant/blog/333682/"
