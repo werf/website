@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"html/template"
 	"io"
@@ -10,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"syscall"
 
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
@@ -99,10 +101,15 @@ func serveFilesHandler(fs http.FileSystem) http.Handler {
 		upath = path.Clean(upath)
 		fileInfo, err := os.Stat(fmt.Sprintf("%v%s", fs, upath))
 		if err != nil {
-			if os.IsNotExist(err) {
+			// A path below a regular file (ENOTDIR, e.g. /index.html/foo) or with an
+			// overlong component (ENAMETOOLONG) cannot exist, so treat it as not found.
+			if os.IsNotExist(err) || errors.Is(err, syscall.ENOTDIR) || errors.Is(err, syscall.ENAMETOOLONG) {
 				notFoundHandler(w, r)
 				return
 			}
+			// Let http.FileServer report any other error (e.g. 403 on permission denied).
+			fsh.ServeHTTP(w, r)
+			return
 		}
 
 		if fileInfo.IsDir() {
