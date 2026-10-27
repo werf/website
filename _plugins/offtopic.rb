@@ -16,7 +16,7 @@ module Jekyll
           Utils.validate_params(@unnamed_params, @named_params, {
             named: [
               { name: "title" },
-              { name: "compact", regex: /^(true)|(false)$/ }
+              { name: "compact", regex: /\A(true|false)\z/ }
             ]
           })
 
@@ -24,9 +24,7 @@ module Jekyll
             @named_params["title"] = "Подробности"
           end
 
-          unless @named_params.key?("compact")
-            @named_params["compact"] = false
-          end
+          @named_params["compact"] = @named_params["compact"] == "true"
 
           site_config = context.registers[:site].config
           rendered_content = Jekyll::Converters::Markdown::KramdownParser.new(site_config).convert(content)

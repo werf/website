@@ -40,7 +40,7 @@ module Jekyll
     private
 
     def validate_unnamed_params(unnamed, scheme)
-      if unnamed == [] or !scheme.key?("unnamed")
+      unless scheme.key?(:unnamed)
         return
       end
 
@@ -52,20 +52,20 @@ module Jekyll
         raise ArgumentError.new("Too few unnamed parameters. Expected #{scheme[:unnamed].length}, got #{unnamed.length}")
       end
 
-      unnamed.each do |param|
+      unnamed.each_with_index do |param, index|
         if param == ""
           raise ArgumentError.new("Cannot have empty unnamed parameters")
         end
 
-        scheme_param = scheme[:unnamed][unnamed.index(param)]
+        scheme_param = scheme[:unnamed][index]
         if scheme_param[:regex] and !scheme_param[:regex].match?(param)
-          raise ArgumentError.new("Invalid unnamed parameter \"#{param}\", must match #{param[:regex]}")
+          raise ArgumentError.new("Invalid unnamed parameter \"#{param}\", must match #{scheme_param[:regex].inspect}")
         end
       end
     end
 
     def validate_named_params(named, scheme)
-      if named == {} or !scheme.key?("named")
+      unless scheme.key?(:named)
         return
       end
 
