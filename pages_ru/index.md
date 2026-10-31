@@ -20,7 +20,7 @@ sidebar: none
                 <div class="intro-banner__links-github">
                     <span class="page__icon page__icon_github-white intro-banner__github-icon"></span>
                     <a href="https://github.com/werf/werf" class="intro-banner__github-counter">
-                        <span class="intro-banner__github-counter-num"><span class="gh_counter">3600</span></span>
+                        <span class="intro-banner__github-counter-num"><span class="gh_counter">4700</span></span>
                     </a>
                 </div>
                 <div class="intro-banner__link-cncf">
