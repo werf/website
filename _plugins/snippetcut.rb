@@ -17,13 +17,11 @@ module Jekyll
             named: [
               { name: "name", required: true },
               { name: "url", required: true },
-              { name: "limited", regex: /^(true)|(false)$/ },
+              { name: "limited", regex: /\A(true|false)\z/ },
             ]
           })
 
-          unless @named_params.key?("limited")
-            @named_params["limited"] = false
-          end
+          @named_params["limited"] = @named_params["limited"] == "true"
 
           content = super
           site_config = context.registers[:site].config
