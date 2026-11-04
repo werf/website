@@ -3,6 +3,9 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -110,5 +113,37 @@ func TestStaticFileServer(t *testing.T) {
 
 	if expectedContentType != contentType {
 		t.Errorf("Wrong content type, expected %s, got %s", expectedContentType, contentType)
+	}
+}
+
+func TestServeFilesHandler(t *testing.T) {
+	root := t.TempDir()
+	if err := os.WriteFile(filepath.Join(root, "page.html"), []byte("<html>page</html>"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	h := serveFilesHandler(http.Dir(root))
+
+	cases := []struct {
+		name string
+		path string
+		want int
+	}{
+		{name: "existing file", path: "/page.html", want: http.StatusOK},
+		{name: "missing file", path: "/missing.html", want: http.StatusNotFound},
+		{name: "path below a regular file", path: "/page.html/foo", want: http.StatusNotFound},
+		{name: "overlong path component", path: "/" + strings.Repeat("a", 300), want: http.StatusNotFound},
+		{name: "directory without index", path: "/", want: http.StatusNotFound},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			rec := httptest.NewRecorder()
+			h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, tc.path, nil))
+
+			if rec.Code != tc.want {
+				t.Fatalf("unexpected status for %s: got %d want %d", tc.path, rec.Code, tc.want)
+			}
+		})
 	}
 }
