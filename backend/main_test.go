@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func TestGetCanonicalDocsVersion(t *testing.T) {
@@ -143,6 +147,70 @@ func TestServeFilesHandler(t *testing.T) {
 
 			if rec.Code != tc.want {
 				t.Fatalf("unexpected status for %s: got %d want %d", tc.path, rec.Code, tc.want)
+			}
+		})
+	}
+}
+
+func TestLoggingMiddlewareLogsResponseStatus(t *testing.T) {
+	var logs bytes.Buffer
+	prevOut := log.StandardLogger().Out
+	log.SetOutput(&logs)
+	t.Cleanup(func() { log.SetOutput(prevOut) })
+
+	cases := []struct {
+		name    string
+		handler http.HandlerFunc
+		want    int
+	}{
+		{
+			name:    "no body and no explicit status",
+			handler: func(w http.ResponseWriter, r *http.Request) {},
+			want:    http.StatusOK,
+		},
+		{
+			name: "body without explicit status",
+			handler: func(w http.ResponseWriter, r *http.Request) {
+				_, _ = w.Write([]byte("ok"))
+			},
+			want: http.StatusOK,
+		},
+		{
+			name: "explicit status",
+			handler: func(w http.ResponseWriter, r *http.Request) {
+				w.WriteHeader(http.StatusNotFound)
+				_, _ = w.Write([]byte("not found"))
+			},
+			want: http.StatusNotFound,
+		},
+		{
+			name: "status set after body is ignored",
+			handler: func(w http.ResponseWriter, r *http.Request) {
+				_, _ = w.Write([]byte("ok"))
+				w.WriteHeader(http.StatusInternalServerError)
+			},
+			want: http.StatusOK,
+		},
+		{
+			name: "panic",
+			handler: func(w http.ResponseWriter, r *http.Request) {
+				panic("boom")
+			},
+			want: http.StatusInternalServerError,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			logs.Reset()
+			rec := httptest.NewRecorder()
+			LoggingMiddleware(tc.handler).ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/page.html", nil))
+
+			if rec.Code != tc.want {
+				t.Fatalf("unexpected response status: got %d want %d", rec.Code, tc.want)
+			}
+			if want := fmt.Sprintf(" GET /page.html %d ", tc.want); !strings.Contains(logs.String(), want) {
+				t.Fatalf("access log entry does not contain %q:\n%s", want, logs.String())
 			}
 		})
 	}

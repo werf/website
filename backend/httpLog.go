@@ -17,7 +17,8 @@ type responseWriter struct {
 }
 
 func wrapResponseWriter(w http.ResponseWriter) *responseWriter {
-	return &responseWriter{ResponseWriter: w}
+	// net/http answers 200 when a handler never calls WriteHeader.
+	return &responseWriter{ResponseWriter: w, status: http.StatusOK}
 }
 
 func (rw *responseWriter) Status() int {
@@ -36,20 +37,28 @@ func (rw *responseWriter) WriteHeader(code int) {
 	return
 }
 
+func (rw *responseWriter) Write(b []byte) (int, error) {
+	// The first Write implicitly sends a 200 status, so later WriteHeader calls are no-ops.
+	rw.wroteHeader = true
+
+	return rw.ResponseWriter.Write(b)
+}
+
 // Logs the incoming HTTP request and part of response
 func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if err := recover(); err != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-				log.Errorf("recover panic: %v, %v", err, string(debug.Stack()))
-			}
-		}()
-
 		start := time.Now()
 		wrapped := wrapResponseWriter(w)
+
+		defer func() {
+			if err := recover(); err != nil {
+				wrapped.WriteHeader(http.StatusInternalServerError)
+				log.Errorf("recover panic: %v, %v", err, string(debug.Stack()))
+			}
+			logHTTPReq(wrapped, r, start)
+		}()
+
 		next.ServeHTTP(wrapped, r)
-		logHTTPReq(wrapped, r, start)
 	})
 }
 
