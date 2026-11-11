@@ -29,7 +29,6 @@ func newRouter() *mux.Router {
 	}
 
 	r.PathPrefix("/status").HandlerFunc(statusHandler)
-	r.PathPrefix("/backend/").HandlerFunc(ssiHandler)
 	if isLatestAliasEnabled() {
 		r.PathPrefix("/docs/{alias:latest}/").HandlerFunc(rootVersionAliasHandler)
 	}

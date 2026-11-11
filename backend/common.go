@@ -268,30 +268,6 @@ func getVersionURL(r *http.Request) (result string) {
 	return strings.TrimPrefix(result, "/")
 }
 
-func inspectRequestHTML(r *http.Request) string {
-	var request []string
-
-	request = append(request, "<p>")
-	url := fmt.Sprintf("<b>%v</b> %v %v", r.Method, r.URL, r.Proto)
-	request = append(request, url)
-	request = append(request, fmt.Sprintf("<b>Host:</b> %v", r.Host))
-	for name, headers := range r.Header {
-		name = strings.ToLower(name)
-		for _, h := range headers {
-			request = append(request, fmt.Sprintf("<b>%v:</b> %v", name, h))
-		}
-	}
-
-	// If this is a POST, add post data
-	if r.Method == "POST" {
-		_ = r.ParseForm()
-		request = append(request, r.Form.Encode())
-	}
-
-	request = append(request, "</p>")
-	return strings.Join(request, "<br />")
-}
-
 func VersionToURL(version string) string {
 	result := strings.ReplaceAll(version, "+", "-plus-")
 	result = strings.ReplaceAll(result, "_", "-u-")
