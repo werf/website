@@ -17,12 +17,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// Deprecated
-func ssiHandler(w http.ResponseWriter, r *http.Request) {
-	_, _ = fmt.Fprintf(w, "<p>SSI handler (%s).</p>", r.URL.Path[1:])
-	_, _ = fmt.Fprintf(w, inspectRequestHTML(r))
-}
-
 // Get some status info
 func statusHandler(w http.ResponseWriter, r *http.Request) {
 	_ = r

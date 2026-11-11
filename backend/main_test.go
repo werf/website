@@ -116,6 +116,23 @@ func TestStaticFileServer(t *testing.T) {
 	}
 }
 
+func TestBackendPathIsNotReflected(t *testing.T) {
+	r := newRouter()
+
+	req := httptest.NewRequest(http.MethodGet, "/backend/%3Cscript%3Ealert(1)%3C%2Fscript%3E", nil)
+	req.Header.Set("X-Test", "<img src=x onerror=alert(2)>")
+	rec := httptest.NewRecorder()
+	r.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusNotFound {
+		t.Fatalf("unexpected status: got %d want %d", rec.Code, http.StatusNotFound)
+	}
+	body := rec.Body.String()
+	if strings.Contains(body, "alert(1)") || strings.Contains(body, "onerror=alert(2)") {
+		t.Fatalf("request data reflected in response body: %s", body)
+	}
+}
+
 func TestServeFilesHandler(t *testing.T) {
 	root := t.TempDir()
 	if err := os.WriteFile(filepath.Join(root, "page.html"), []byte("<html>page</html>"), 0o644); err != nil {
