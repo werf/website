@@ -159,6 +159,12 @@ tasks:
       - |
         ./scripts/docs/check_docs_roots.sh
 
+  site:check-report-typo:
+    desc: "Check the pre-filled GitHub issue built by the Ctrl+Enter typo report."
+    cmds:
+      - |
+        node scripts/docs/check_report_typo.js
+
   site:run-spell-check:
     desc: "Run spell check for all pages."
     deps:
