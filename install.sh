@@ -75,7 +75,9 @@ main() {
 
   setup_buildah "$OPT_SETUP_BUILDAH" "$OPT_USER"
 
-  [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "no" ]] && ensure_cmds_available gpg
+  if [[ "$OPT_VERIFY_TRDL_SIGNATURE" == "yes" ]] && ! is_command_exists gpg; then
+    abort '"gpg" required to verify the trdl binary signature but not available. Install it or pass --no-verify-trdl-signature to skip the verification.'
+  fi
 
   declare arch
   arch="$(get_arch)" || abort "Failure getting system architecture."
@@ -316,7 +318,7 @@ install_trdl() {
   declare trdl_tuf_repo="$3"
   declare trdl_gpg_pubkey_url="$4"
   declare trdl_version="$5"
-  declare skip_signature_verification="$6"
+  declare verify_signature="$6"
   declare user="$7"
 
   is_trdl_installed_and_up_to_date "$trdl_version" && log::info "Skipping trdl installation: already installed in \"$HOME/bin/\"." && return 0
@@ -328,11 +330,10 @@ install_trdl() {
   tmp_dir="$(run_as_user "$user" "mktemp -d")" || abort "Can't create temporary directory."
 
   run_as_user "$user" "$(download ${trdl_tuf_repo}/targets/releases/${trdl_version}/${os}-${arch}/bin/trdl $tmp_dir/trdl)"
-  run_as_user "$user" "$(download ${trdl_tuf_repo}/targets/signatures/${trdl_version}/${os}-${arch}/bin/trdl.sig $tmp_dir/trdl.sig)"
 
-
-  if [[ $skip_signature_verification == "no" ]]; then
+  if [[ $verify_signature == "yes" ]]; then
     log::info "Verifying trdl binary signatures."
+    run_as_user "$user" "$(download ${trdl_tuf_repo}/targets/signatures/${trdl_version}/${os}-${arch}/bin/trdl.sig $tmp_dir/trdl.sig)"
     run_as_user "$user" "$(download $trdl_gpg_pubkey_url $tmp_dir/trdl.pub)"
     run_as_user "$user" "gpg -q --import <$tmp_dir/trdl.pub" || abort "Can't import trdl public gpg key."
     run_as_user "$user" "gpg -q --verify $tmp_dir/trdl.sig $tmp_dir/trdl" || abort "Can't verify trdl binary with a gpg signature."
