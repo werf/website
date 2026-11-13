@@ -692,8 +692,8 @@ setup_buildah() {
     fi
 
     # Check the sysctl value: user.max_user_namespaces
-    USER_NAMESPACES_SETTING="$(sysctl -n user.max_user_namespaces)"
-    if [[ "$USER_NAMESPACES_SETTING" < "15000" ]]; then
+    USER_NAMESPACES_SETTING="$(sysctl -ne user.max_user_namespaces)"
+    if [[ "$USER_NAMESPACES_SETTING" =~ ^[0-9]+$ ]] && (( 10#$USER_NAMESPACES_SETTING < 15000 )); then
       echo 'user.max_user_namespaces = 15000' | run_as_root "tee -a /etc/sysctl.conf"
       run_as_root "sysctl -w user.max_user_namespaces=15000"
       log::info "Updated user.max_user_namespaces value"
