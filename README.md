@@ -42,6 +42,9 @@ Any fixes, improvements, and feedback are much appreciated!
 Please propose your ideas using issues and PRs in this repo. If you're interested
 in running werf website locally, please refer to [DEVELOPMENT.md](DEVELOPMENT.md).
 
+Found a typo or an error on the website? Select the text and press Ctrl+Enter
+(Cmd+Enter on macOS) to open a pre-filled issue in this repo.
+
 Feel free to reach us in [this Telegram chat](https://t.me/werf_io) if you have
 any questions. _(There is a Russian-speaking [Telegram chat](https://t.me/werf_ru)
 as well.)_

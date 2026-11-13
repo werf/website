@@ -1225,6 +1225,14 @@ body,
   line-height: 19px;
 }
 
+.footer__report {
+  font-size: 14px;
+  line-height: 19px;
+  text-align: center;
+  color: #AAB4C2;
+  margin-top: 53px;
+}
+
 .footer__text {
   font-size: 14px;
   line-height: 19px;
@@ -1235,6 +1243,10 @@ body,
 
 .footer__text a {
   color: #AAB4C2;
+}
+
+.footer__report + .footer__text {
+  margin-top: 16px;
 }
 
 .footer__gen {

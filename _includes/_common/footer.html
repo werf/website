@@ -27,6 +27,15 @@
                 {%- endif %}
             </div>
         </div>
+        {%- if include.report_typo %}
+            <div class="footer__report" data-report-typo="{{ site.issuelink }}">
+            {%- if page.lang == "ru" %}
+                Нашли опечатку или ошибку? Выделите текст и нажмите Ctrl+Enter.
+            {%- else %}
+                Found a typo or an error? Select the text and press Ctrl+Enter.
+            {%- endif %}
+            </div>
+        {%- endif %}
         {%- if page.lang == "ru" %}
             <div class="footer__text">
                 У The Linux Foundation® (TLF) есть зарегистрированные товарные знаки и организация использует их. Список товарных знаков TLF см. в
