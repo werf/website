@@ -1249,6 +1249,17 @@ body,
   margin-top: 16px;
 }
 
+/* The Ctrl+Enter shortcut is not available on touch devices. */
+@media (hover: none) {
+  .footer__report {
+    display: none;
+  }
+
+  .footer__report + .footer__text {
+    margin-top: 53px;
+  }
+}
+
 .footer__gen {
   font-size: 14px;
   font-weight: normal;

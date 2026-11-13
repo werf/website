@@ -71,6 +71,16 @@ const cases = [
     "a".repeat(1500),
     reportBody("```", "a".repeat(1000) + "…"),
   ],
+  [
+    "truncation does not split a character outside the BMP",
+    "a".repeat(999) + "😀" + "b".repeat(10),
+    reportBody("```", "a".repeat(999) + "😀…"),
+  ],
+  [
+    "trailing whitespace is dropped before the ellipsis",
+    "a".repeat(998) + "  " + "b".repeat(10),
+    reportBody("```", "a".repeat(998) + "…"),
+  ],
 ];
 
 for (const [name, selection, want] of cases) {

@@ -6,8 +6,11 @@ function getTypoReportURL(issueURL, location, selection) {
   var maxSelectionLength = 1000;
   var text = selection.replace(/\r\n?/g, '\n').trim();
 
-  if (text.length > maxSelectionLength) {
-    text = text.substring(0, maxSelectionLength) + '…';
+  // Truncate by code points, so that a character outside the BMP (e.g., an emoji) is never cut in half:
+  // a lone surrogate makes encodeURIComponent() throw.
+  var chars = Array.from(text);
+  if (chars.length > maxSelectionLength) {
+    text = chars.slice(0, maxSelectionLength).join('').trimEnd() + '…';
   }
 
   // Put the text into a fenced code block to keep it as is: no Markdown rendering, mentions or issue references.
