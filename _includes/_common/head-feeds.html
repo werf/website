@@ -1,0 +1,15 @@
+{%- comment %}RSS feeds autodiscovery. The per-channel feeds are listed only on pages with release_channel_feeds: true.{% endcomment %}
+<link rel="alternate" type="application/rss+xml" title="{{ site.data.common.i18n["rss-all-channels"][page.lang] }}" href="/feed.xml" />
+{%- if page.release_channel_feeds %}
+  {%- assign feed_history = site.data.common.releases_history.history %}
+  {%- assign feed_groups = feed_history | map: "group" | uniq | sort | reverse %}
+  {%- assign feed_channels = site.data.common.channels_info.channels | sort: "stability" | reverse %}
+  {%- for group in feed_groups %}
+    {%- for channel in feed_channels %}
+      {%- assign channel_activity = feed_history | where: "group", group | where: "name", channel.name | size %}
+      {%- if channel_activity > 0 %}
+<link rel="alternate" type="application/rss+xml" title="{{ site.data.common.i18n["rss-release-channel"][page.lang] }} {{ group }}/{{ channel.title }}" href="/feed-{{ group }}-{{ channel.name }}.xml" />
+      {%- endif %}
+    {%- endfor %}
+  {%- endfor %}
+{%- endif %}

@@ -7,6 +7,8 @@
 <link data-proofer-ignore rel="alternate" hreflang="en" href="{{ site.site_urls.en }}{{ page.url | relative_url }}" />
 {% endif -%}
 
+{% include common/head-feeds.html %}
+
 {% comment %}title generation{% endcomment -%}
 {%- assign page_url_parts = page.url | split: '/' -%}
 {%- assign max_ind = page_url_parts.size | minus: 2 -%}
