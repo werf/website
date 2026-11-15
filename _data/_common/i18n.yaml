@@ -17,3 +17,11 @@ all-channels:
 there-are-no-versions-on-the-channel-yet:
   en: There are no versions on the channel yet, but they will appear soon.
   ru: На канале пока нет версий, но обязательно скоро появятся.
+
+rss-all-channels:
+  en: werf update events
+  ru: Обновления werf
+
+rss-release-channel:
+  en: werf release channel
+  ru: Канал обновлений werf
