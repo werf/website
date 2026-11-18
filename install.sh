@@ -804,8 +804,7 @@ install_buildah(){
       install_package "buildah uidmap"
       ;;
     *CentOS*|*Red\ Hat*|*Fedora*)
-      run_as_root "yum groupinstall -y 'Development Tools'"
-      install_package "curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl autoconf"
+      install_package "buildah shadow-utils"
       ;;
     *SUSE*|*openSUSE*)
       install_package "buildah shadow"
