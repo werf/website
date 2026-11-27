@@ -117,8 +117,10 @@ getoptions_config() {
     "Add \"$HOME/bin\" to \$PATH for trdl? Default: $OPT_DEFAULT_SETUP_BIN_PATH"
   flag OPT_AUTOACTIVATE_WERF -a --{no-}autoactivate-werf -- \
     "Enable werf autoactivation? Default: $OPT_DEFAULT_AUTOACTIVATE_WERF"
-  flag OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES --{no-}install-werf-system-depedencies -- \
+  flag OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES --{no-}install-werf-system-dependencies -- \
     "Install system dependencies for werf? Default: $OPT_DEFAULT_INSTALL_WERF_SYSTEM_DEPENDENCIES"
+  # Misspelled name of the option above, kept for backward compatibility.
+  flag OPT_INSTALL_WERF_SYSTEM_DEPENDENCIES --{no-}install-werf-system-depedencies hidden:true
   flag OPT_SETUP_BUILDAH --{no-}setup-buildah -- \
     "Install and set up Buildah backend? Default: $OPT_DEFAULT_SETUP_BUILDAH"
   
