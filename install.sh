@@ -843,13 +843,16 @@ get_free_range() {
 
   local used_ranges
   if [[ -s /etc/subuid || -s /etc/subgid ]]; then
-    used_ranges=$(awk -F: '{print $2 ":" $3}' /etc/subuid /etc/subgid 2>/dev/null | sort -n)
+    # Skip blank and malformed lines: an empty start would be treated as 0.
+    used_ranges=$(awk -F: '$2 ~ /^[0-9]+$/ && $3 ~ /^[0-9]+$/ {print $2 ":" $3}' /etc/subuid /etc/subgid 2>/dev/null | sort -n)
   else
     echo "$start:$range_size"
     return 0
   fi
 
   while read -r range; do
+    [[ -z $range ]] && continue
+
     local range_start range_size_in_use
     range_start=$(echo "$range" | cut -d: -f1)
     range_size_in_use=$(echo "$range" | cut -d: -f2)
@@ -859,7 +862,10 @@ get_free_range() {
       echo "$start:$range_size"
       return 0
     fi
-    start=$((range_end + 1))
+    # A range can lie inside a previous one, so never move the start backwards.
+    if ((range_end + 1 > start)); then
+      start=$((range_end + 1))
+    fi
   done <<< "$used_ranges"
 
   echo "$start:$range_size"
