@@ -165,6 +165,12 @@ tasks:
       - |
         node scripts/docs/check_report_typo.js
 
+  site:check-changelog-url:
+    desc: "Check the Changelog page URL that keeps the selected release and release channel tabs."
+    cmds:
+      - |
+        node scripts/docs/check_changelog_url.js
+
   site:run-spell-check:
     desc: "Run spell check for all pages."
     deps:

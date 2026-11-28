@@ -1,5 +1,6 @@
 {%- asset changelog.css %}
 {%- asset releases.css %}
+{%- asset changelog.js %}
 
 {%- assign releases = site.data.common.releases.releases %}
 {%- assign groups = site.data.common.releases_history.history | map: "group" | uniq | sort | reverse %}
@@ -18,7 +19,7 @@
 
     <div class="tabs tabs_simple_condensed">
       {%- for group in groups %}
-      <a href="javascript:void(0)" class="tabs__btn tabs__group__btn{% if group == groups[0] %} active{% endif %}" onclick="openTab(event, 'tabs__group__btn', 'tabs__group__content', 'group-{{group}}')">{{group}}</a>
+      <a href="javascript:void(0)" class="tabs__btn tabs__group__btn{% if group == groups[0] %} active{% endif %}" data-changelog-version="{{group}}" onclick="openTab(event, 'tabs__group__btn', 'tabs__group__content', 'group-{{group}}')">{{group}}</a>
       {%- endfor %}
     </div>
 
@@ -35,7 +36,7 @@
             {%- if channel_activity < 1 %}
               {%- continue %}
             {%- endif %}
-            <a href="javascript:void(0)" class="tabs__btn tabs__{{group}}__channel__btn{% if channel_activity > 0 and not_activated and channel != channels_sorted_reverse[0] %} active{% endif %}" onclick="openTab(event, 'tabs__{{group}}__channel__btn', 'tabs__{{group}}__channel__content', 'id-{{group}}-{{channel.name}}')">{{channel.title}}</a>
+            <a href="javascript:void(0)" class="tabs__btn tabs__{{group}}__channel__btn{% if channel_activity > 0 and not_activated and channel != channels_sorted_reverse[0] %} active{% endif %}" data-changelog-version="{{group}}" data-changelog-channel="{{channel.name}}" onclick="openTab(event, 'tabs__{{group}}__channel__btn', 'tabs__{{group}}__channel__content', 'id-{{group}}-{{channel.name}}')">{{channel.title}}</a>
             {%- if channel_activity > 0 and not_activated and channel != channels_sorted_reverse[0] %}
             {%- assign not_activated = false %}
             {% endif %}
