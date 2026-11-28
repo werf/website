@@ -17,7 +17,7 @@ sitemap_include: false
 		<description>werf version changes events on the release channel {{ group }} {{ channel }}.</description>
 		<sy:updatePeriod>daily</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-		<link>{{ site.url }}/about/changelog.html</link>
+		<link>{{ site.url }}/about/changelog.html?version={{ group }}&amp;channel={{ channel }}</link>
 		<atom:link href="{{ site.url }}/feed-##GROUP##-##CHANNEL##.xml" rel="self" type="application/rss+xml" />
 		{%- assign feed_items = site.feed_items | default: 50 %}
 		{%- for event in group_events limit:feed_items %}
